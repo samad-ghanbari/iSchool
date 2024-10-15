@@ -1,3 +1,9 @@
+# developer:    Samad Ghanbari
+# Email:        ghanbari.Samad@gmail.com
+# Qt Version:   Qt 6.8.0
+# Postgresql:   16.4
+
+
 cmake_minimum_required(VERSION 3.16)
 
 project(iSchool VERSION 0.1 LANGUAGES CXX)
@@ -17,7 +23,20 @@ qt_add_qml_module(appiSchool
     VERSION 1.0
     QML_FILES
         Main.qml
+        SOURCES backend/Backend.cpp backend/Backend.h
+        SOURCES lib/database/dbman.cpp lib/database/dbman.h
+        SOURCES lib/version.h
+        RESOURCES assets.qrc
 )
+
+# database support
+find_package(Qt6 REQUIRED COMPONENTS Sql)
+target_link_libraries(appiSchool PRIVATE Qt6::Sql)
+
+# printsupport
+find_package(Qt6 REQUIRED COMPONENTS PrintSupport)
+
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
