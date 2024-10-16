@@ -6,7 +6,7 @@ Page {
 
     Image {
         id: backgroundNoConnId
-        source: "qrc:/Assets/images/logo/logo512.png"
+        source: "qrc:/assets/images/logo/logo512.png"
         anchors.fill: parent;
     }
 
@@ -22,7 +22,7 @@ Page {
 
         Image {
             id: backimageId
-            source: "qrc:/Assets/images/login/maintenance.png"
+            source: "qrc:/assets/images/login/maintenance.png"
             opacity: 1
             width: 256
             height: width

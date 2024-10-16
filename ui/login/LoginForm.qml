@@ -35,7 +35,7 @@ Page {
 
     Image {
         id: backimageId
-        source: "qrc:/Assets/images/background/back1.jpg"
+        source: "qrc:/assets/images/background/back1.jpg"
         anchors.fill: parent
         opacity: 1
     }
@@ -85,7 +85,7 @@ Page {
 
             Image {
                 id: loginImageId
-                source: "qrc:/Assets/images/logo/logo64.png"
+                source: "qrc:/assets/images/logo/logo64.png"
                 width: 64
                 height: 64
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -124,7 +124,7 @@ Page {
                 width : parent.width
                 font.family: yekanFont.font.family
                 placeholderText: "رمز‌عبور"
-                echoMode: "Password"
+                echoMode: TextField.Password
                 KeyNavigation.tab: loginBtnId
             }
 
@@ -146,7 +146,7 @@ Page {
 
                     onClicked:
                     {
-                        loginBtnClicked();
+                        appLoginForm.loginBtnClicked();
                     }
 
                     hoverEnabled: true

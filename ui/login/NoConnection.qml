@@ -2,12 +2,12 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls.Basic
 
-Window {
+Page {
     id: appNoConnWindow
 
     Image {
         id: backgroundNoConnId
-        source: "qrc:/Assets/images/logo/logo512.png"
+        source: ":/assets/images/logo/logo512.png"
         anchors.fill: parent;
     }
 
@@ -23,7 +23,7 @@ Window {
 
         Image {
             id: backimageId
-            source: "qrc:/Assets/images/login/disconnection.png"
+            source: ":/images/login/disconnection.png"
             opacity: 1
             width: 256
             height: width
