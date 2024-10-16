@@ -24,40 +24,58 @@ qt_policy(SET QTP0004 NEW)
 qt_add_qml_module(appiSchool
     URI iSchool
     VERSION 1.0
+    RESOURCE_PREFIX "/"
     SOURCES
         backend/Backend.cpp backend/Backend.h
         lib/database/dbman.cpp lib/database/dbman.h
         lib/version.h
 
+    RESOURCES assets.qrc
     RESOURCES qmldir
-    #RESOURCES assets.qrc
-    RESOURCES assets/images/logo/logo512.png
 
-        #background
-        # assets/images/background/back1.jpg
-        # assets/images/background/back2.jpg
-        # assets/images/background/back3.jpg
-        # assets/images/background/back4.jpg
-        # assets/images/background/back5.jpg
-        # #logo
-        # assets/images/logo/logo64.png
-        # assets/images/logo/logo128.png
-        # assets/images/logo/logo512.png
-        # assets/images/logo/logo1024.png
+    QML_FILES
+    # LOGIN
+        ui/login/LoginWindow.qml
+        ui/login/InitialLogin.qml
+        ui/login/LoginForm.qml
+        ui/login/NewRelease.qml
+        ui/login/NoConnection.qml
+        ui/login/OnMaintenance.qml
+)
 
+qt_add_resources(appiSchool "assets"
+    PREFIX "/"
+
+    FILES assets/font/yekan.ttf
+    FILES  qmldir
+    #BACKGROUND
+    FILES
+        assets/images/background/back1.jpg
+        assets/images/background/back2.jpg
+        assets/images/background/back3.jpg
+        assets/images/background/back4.jpg
+        assets/images/background/back5.jpg
+    #LOGO
+    FILES
+        assets/images/logo/logo64.png
+        assets/images/logo/logo128.png
+        assets/images/logo/logo512.png
+        assets/images/logo/logo1024.png
+    #LOGIN
+    FILES
+        assets/images/login/disconnection.png
 
 
 
 )
 
-qt_target_qml_sources(appiSchool
-    QML_FILES     ui/login/LoginWindow.qml
-    QML_FILES     ui/login/InitialLogin.qml
-    QML_FILES     ui/login/LoginForm.qml
-    QML_FILES     ui/login/NewRelease.qml
-    QML_FILES     ui/login/NoConnection.qml
-    QML_FILES     ui/login/OnMaintenance.qml
-)
+# qt_target_qml_sources(appiSchool
+#     PREFIX "/"
+#     #QML_FILES     ui/login/LoginWindow.qml
+
+# )
+
+
 
 # database support
 find_package(Qt6 REQUIRED COMPONENTS Sql)

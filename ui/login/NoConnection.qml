@@ -5,9 +5,11 @@ import QtQuick.Controls.Basic
 Page {
     id: appNoConnWindow
 
+    FontLoader { id: yekanFont; source: "qrc:/assets/font/yekan.ttf" }
+
     Image {
         id: backgroundNoConnId
-        source: ":/assets/images/logo/logo512.png"
+        source: "qrc:/assets/images/logo/logo512.png"
         anchors.fill: parent;
     }
 
@@ -23,7 +25,7 @@ Page {
 
         Image {
             id: backimageId
-            source: ":/images/login/disconnection.png"
+            source: "qrc:/assets/images/login/disconnection.png"
             opacity: 1
             width: 256
             height: width

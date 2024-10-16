@@ -4,6 +4,8 @@ import QtQuick.Controls.Basic
 Page {
     id: onMaintenanceWindowId
 
+    FontLoader { id: yekanFont; source: "qrc:/assets/font/yekan.ttf" }
+
     Image {
         id: backgroundNoConnId
         source: "qrc:/assets/images/logo/logo512.png"

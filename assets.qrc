@@ -1,18 +1,4 @@
 <RCC>
     <qresource prefix="/">
-        <file>assets/images/background/back1.jpg</file>
-        <file>assets/images/background/back2.jpg</file>
-        <file>assets/images/background/back3.jpg</file>
-        <file>assets/images/background/back4.jpg</file>
-        <file>assets/images/background/back5.jpg</file>
-        <file>assets/icon/logo64.ico</file>
-        <file>assets/icon/logo128.ico</file>
-        <file>assets/images/login/disconnection.png</file>
-        <file>assets/images/login/maintenance.png</file>
-        <file>assets/images/login/release.png</file>
-        <file>assets/images/logo/logo64.png</file>
-        <file>assets/images/logo/logo128.png</file>
-        <file>assets/images/logo/logo512.png</file>
-        <file>assets/images/logo/logo1024.png</file>
     </qresource>
 </RCC>

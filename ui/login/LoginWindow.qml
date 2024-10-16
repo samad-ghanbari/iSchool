@@ -13,7 +13,7 @@ Window {
     //flags: Qt.WindowSystemMenuHint | ~Qt.WindowCloseButtonHint;
 
 
-    // FontLoader { id: yekanFont; source: "assets/font/yekan.ttf" }
+     FontLoader { id: yekanFont; source: "qrc:/assets/font/yekan.ttf" }
 
     InitialLogin{}
 
