@@ -50,8 +50,11 @@ public slots:
     bool deleteBranch(int id);
     bool insertBranch(QJsonObject branchObj);
 
-    //STEPS
-    QByteArray getStepsJson(QList<int> branches);
+    //STUDY STEPS
+    QByteArray getStudyStepsByteArray(QList<int> branches);
+    QJsonArray getStudySteps(QList<int> branches);
+    QJsonArray getStudyStepsById(QList<int> steps);
+    QJsonArray getStudyStepsById(QList<int> branches, QList<int> steps);
     QJsonArray getBranchStepsJson(int branchId);
     QByteArray getStepsJsonById(QList<int> steps);
     bool insertStep(QJsonObject step);
@@ -59,8 +62,11 @@ public slots:
     bool updateStep(QJsonObject step);
     QJsonObject getStepJson(int stepId);
 
-    //BASES
-    QByteArray getBasisJson(QList<int> steps);
+    //STUDY BASES
+    QByteArray getStudyBasesByteArray(QList<int> branches);
+    QJsonArray getStudyBases(QList<int> branches);
+    QJsonArray getStudyBasesById(QList<int> bases);
+    QJsonArray getStudyBasesById(QList<int>  branches, QList<int> bases);
     QByteArray getBasisJsonById(QList<int> basis);
     QJsonObject getBasisById(int id);
     QJsonArray getStepBasis(int stepId);

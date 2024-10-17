@@ -1,81 +1,49 @@
 
-// //access
-function updateAccessBranch() {
-    var jsondata = dbMan.getBranchesJson();
-    jsondata = JSON.parse(jsondata);
+function updateBranches() {
+    branchesModel.clear();
+    var jsondata = dbMan.getBranches();
     for(var obj of jsondata)
-        accessBranchModel.append({ id: obj.id, city: obj.city, branch_name: obj.branch_name, address: obj.address, description: obj.description})
-
-
-    //update
-    updateAccessStep();
-    updatePermissionBranch();
-
+        branchesModel.append({ Id: obj.id, City: obj.city, Branch_name: obj.branch_name, Branch_address: obj.branch_address});
 }
 
-function updateAccessStep() {
-
+//read studyStep
+function updateReadStudyStep() {
+    readStepModel.clear();
+    writeStepModel.clear();
     // should get steps of enabled branch
-    var jsondata = dbMan.getStepsJson(accessBranch);
-    jsondata = JSON.parse(jsondata);
+    var jsondata = dbMan.getStudySteps(selectedBranches);
     for(var obj of jsondata)
-        accessStepModel.append({ id: obj.id, branch_id: obj.branch_id, step_name: obj.step_name, branch_name: obj.branch_name})
-
-
-    //update
-    updateAccessBasis();
-    updatePermissionStep();
+        readStepModel.append({ Id: obj.id, Branch_id: obj.branch_id, Step_name: obj.step_name, Branch_name: obj.branch_name});
 }
 
-function updateAccessBasis() {
-
-    var jsondata = dbMan.getBasisJson(accessStep);
-    jsondata = JSON.parse(jsondata);
+//read study base
+function updateReadStudyBase() {
+    readBaseModel.clear();
+    writeBaseModel.clear();
+    var jsondata = dbMan.getStudyBases(selectedBranches);
     for(var obj of jsondata)
-        accessBasisModel.append({ id: obj.id, step_id: obj.step_id, basis_name: obj.basis_name, step_name: obj.step_name, branch_name: obj.branch_name })
-
-    updatePermissionBasis();
+        readBaseModel.append({ Id: obj.id, Branch_id: obj.branch_id, Study_base: obj.study_base, City: obj.city, Branch_name: obj.branch_name });
 }
 
-function updateAccessAppModule() {
-    accessappModuleModel.clear();
+//write
+function updateWriteStepModel()
+{
+    writeStepModel.clear();
     // should get steps of enabled branch
-    var jsondata = dbMan.getAppModulesJson();
-    jsondata = JSON.parse(jsondata);
+    var jsondata = dbMan.getStudyStepsById(selectedBranches, selectedSteps);
     for(var obj of jsondata)
-        accessappModuleModel.append({ id: obj.id, module_name: obj.module_name, description: obj.description})
+        writeStepModel.append({ Id: obj.id, Branch_id: obj.branch_id, Step_name: obj.step_name, Branch_name: obj.branch_name});
 }
 
-
-//Permissions
-
-function updatePermissionBranch()
+function updateWriteBaseModel()
 {
-    permissionBranchModel.clear();
-    var jsondata = dbMan.getBranchesJsonById(accessBranch);
-    jsondata = JSON.parse(jsondata);
-
+    writeBaseModel.clear();
+    var jsondata = dbMan.getStudyBasesById(selectedBranches, selectedBases);
     for(var obj of jsondata)
-        permissionBranchModel.append({ id: obj.id, city: obj.city, branch_name: obj.branch_name, address: obj.address, description: obj.description});
+        writeBaseModel.append({ Id: obj.id, Branch_id: obj.branch_id, Study_base: obj.study_base, City: obj.city, Branch_name: obj.branch_name });
 }
 
-function updatePermissionStep()
-{
-    permissionStepModel.clear();
-    var jsondata = dbMan.getStepsJsonById(accessStep);
-    jsondata = JSON.parse(jsondata);
-    for(var obj of jsondata)
-        permissionStepModel.append({ id: obj.id, branch_id: obj.branch_id, step_name: obj.step_name, branch_name: obj.branch_name})
-}
 
-function updatePermissionBasis()
-{
-    permissionBasisModel.clear();
-    var jsondata = dbMan.getBasisJsonById(accessBasis);
-    jsondata = JSON.parse(jsondata);
-    for(var obj of jsondata)
-        permissionBasisModel.append({ id: obj.id, step_id: obj.step_id, basis_name: obj.basis_name, step_name: obj.step_name, branch_name: obj.branch_name })
-}
 
 
 // check entries

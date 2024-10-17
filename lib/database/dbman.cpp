@@ -459,7 +459,7 @@ QJsonObject DbMan::getBranchJson(int id)
 {
     QJsonObject branch;
 
-    query->prepare("SELECT  city, branch_name, address, description FROM main.branches WHERE id=?");
+    query->prepare("SELECT  city, branch_name, branch_address FROM main.branches WHERE id=?");
     query->bindValue(0, id);
     if(query->exec())
     {
@@ -480,7 +480,7 @@ QJsonArray DbMan::getBranches()
 {
     QJsonArray array;
 
-    query->prepare("SELECT id, city, branch_name, address, description 	FROM main.branches ORDER BY id;");
+    query->prepare("SELECT id, city, branch_name, branch_address	FROM main.branches ORDER BY id;");
     if(query->exec())
     {
         QJsonObject obj;
@@ -490,8 +490,7 @@ QJsonArray DbMan::getBranches()
             obj["id"] = query->value(0).toInt();
             obj["city"] = query->value(1).toString();
             obj["branch_name"] = query->value(2).toString();
-            obj["address"] = query->value(3).toString();
-            obj["description"] = query->value(4).toString();
+            obj["branch_address"] = query->value(3).toString();
             array.append(obj);
         }
     }
@@ -507,7 +506,7 @@ QByteArray DbMan::getBranchesJsonById(QList<int> branches)
         branchList.append(QString::number(branches.at(i)));
 
     QString numberList = branchList.join(",");
-    QString queryString = "SELECT id, city, branch_name, address, description FROM main.branches WHERE id IN("+numberList+") ORDER BY id;";
+    QString queryString = "SELECT id, city, branch_name, branch_address FROM main.branches WHERE id IN("+numberList+") ORDER BY id;";
 
     query->prepare(queryString);
     if(query->exec())
@@ -519,8 +518,7 @@ QByteArray DbMan::getBranchesJsonById(QList<int> branches)
             obj["id"] = query->value(0).toInt();
             obj["city"] = query->value(1).toString();
             obj["branch_name"] = query->value(2).toString();
-            obj["address"] = query->value(3).toString();
-            obj["description"] = query->value(4).toString();
+            obj["branch_address"] = query->value(3).toString();
             array.append(obj);
         }
     }
@@ -534,8 +532,7 @@ bool DbMan::updateBranch(QJsonObject branch)
     int id = branch.value("id").toInt();
     QString name = branch.value("branch_name").toString();
     QString city = branch.value("city").toString();
-    QString desc = branch.value("description").toString();
-    QString address = branch.value("address").toString();
+    QString address = branch.value("branch_address").toString();
 
     bool ID, NAME, CITY, ADDRESS;
     ID = (id >= 0)? true : false;
@@ -549,11 +546,10 @@ bool DbMan::updateBranch(QJsonObject branch)
         return false;
     }
 
-    query->prepare("UPDATE main.branches 	SET  city=:city, branch_name=:name, address=:address, description=:description	WHERE id=:id;");
+    query->prepare("UPDATE main.branches 	SET  city=:city, branch_name=:name, branch_address=:address	WHERE id=:id;");
     query->bindValue(":city", city);
     query->bindValue(":name", name);
     query->bindValue(":address", address);
-    query->bindValue(":description", desc);
 
     query->bindValue(":id", id);
 
@@ -589,8 +585,7 @@ bool DbMan::insertBranch(QJsonObject branchObj)
     // city name desc address
     QString city = branchObj.value("city").toString();
     QString name = branchObj.value("branch_name").toString();
-    QString desc = branchObj.value("description").toString();
-    QString address = branchObj.value("address").toString();
+    QString address = branchObj.value("branch_address").toString();
 
     bool CITY, NAME, ADDRESS;
     CITY = (city.isEmpty())? false : true;
@@ -603,11 +598,10 @@ bool DbMan::insertBranch(QJsonObject branchObj)
         return false;
     }
 
-    query->prepare("INSERT INTO main.branches(city, branch_name, address, description) VALUES (:city, :branch_name, :address, :description);");
+    query->prepare("INSERT INTO main.branches(city, branch_name, branch_address) VALUES (:city, :branch_name, :address);");
     query->bindValue(":city", city);
     query->bindValue(":branch_name", name);
     query->bindValue(":address", address);
-    query->bindValue(":description", desc);
 
     if(query->exec())
         return true;
@@ -618,11 +612,10 @@ bool DbMan::insertBranch(QJsonObject branchObj)
     }
 }
 
-
 // STEP
 
 
-QByteArray DbMan::getStepsJson(QList<int> branches)
+QByteArray DbMan::getStudyStepsByteArray(QList<int> branches)
 {
     QJsonArray array;
     QStringList branchList;
@@ -649,6 +642,100 @@ QByteArray DbMan::getStepsJson(QList<int> branches)
     }
     QJsonDocument doc(array);
     return doc.toJson();
+}
+
+QJsonArray DbMan::getStudySteps(QList<int> branches)
+{
+    QJsonArray array;
+    QStringList branchList;
+    for(int i =0; i < branches.length(); i++)
+        branchList.append(QString::number(branches.at(i)));
+
+    QString numberList = branchList.join(",");
+
+    QString queryString = "SELECT s.id, s.branch_id, s.step_name, b.branch_name FROM main.steps s LEFT JOIN main.branches b on (s.branch_id=b.id) WHERE s.branch_id IN("+ numberList +") ORDER BY b.id, s.id;";
+
+    query->prepare(queryString);
+    if(query->exec())
+    {
+        QJsonObject obj;
+        while(query->next())
+        {
+            obj.empty();
+            obj["id"] = query->value(0).toInt();
+            obj["branch_id"] = query->value(1).toInt();
+            obj["step_name"] = query->value(2).toString();
+            obj["branch_name"] = query->value(3).toString();
+            array.append(obj);
+        }
+    }
+
+    return array;
+}
+
+QJsonArray DbMan::getStudyStepsById(QList<int> steps)
+{
+    QJsonArray array;
+    QStringList stepList;
+    for(int i =0; i < steps.length(); i++)
+        stepList.append(QString::number(steps.at(i)));
+
+    QString numberList = stepList.join(",");
+
+    QString queryString = "SELECT s.id, s.branch_id, s.step_name, b.branch_name FROM main.steps s LEFT JOIN main.branches b on (s.branch_id=b.id) WHERE s.id IN("+ numberList +") ORDER BY b.id, s.id;";
+
+    query->prepare(queryString);
+    if(query->exec())
+    {
+        QJsonObject obj;
+        while(query->next())
+        {
+            obj.empty();
+            obj["id"] = query->value(0).toInt();
+            obj["branch_id"] = query->value(1).toInt();
+            obj["step_name"] = query->value(2).toString();
+            obj["branch_name"] = query->value(3).toString();
+            array.append(obj);
+        }
+    }
+
+    return array;
+}
+
+QJsonArray DbMan::getStudyStepsById(QList<int> branches, QList<int> steps)
+{
+    QJsonArray array;
+
+    //branches
+    QStringList branchList;
+    for(int i =0; i < branches.length(); i++)
+        branchList.append(QString::number(branches.at(i)));
+    QString numberListBranch = branchList.join(",");
+
+    //steps
+    QStringList stepList;
+    for(int i =0; i < steps.length(); i++)
+        stepList.append(QString::number(steps.at(i)));
+    QString numberListStep = stepList.join(",");
+
+    QString queryString = "SELECT s.id, s.branch_id, s.step_name, b.branch_name FROM main.steps s LEFT JOIN main.branches b on (s.branch_id=b.id) WHERE s.id IN("+ numberListStep +") AND s.branch_id IN("+ numberListBranch +")  ORDER BY b.id, s.id;";
+
+    query->prepare(queryString);
+    if(query->exec())
+    {
+        QJsonObject obj;
+        while(query->next())
+        {
+            obj.empty();
+            obj["id"] = query->value(0).toInt();
+            obj["branch_id"] = query->value(1).toInt();
+            obj["step_name"] = query->value(2).toString();
+            obj["branch_name"] = query->value(3).toString();
+            array.append(obj);
+        }
+    }
+
+    return array;
 }
 
 QJsonArray DbMan::getBranchStepsJson(int branchId)
@@ -803,16 +890,16 @@ QJsonObject DbMan::getStepJson(int stepId)
 //BASES
 
 
-QByteArray DbMan::getBasisJson(QList<int> steps)
+QByteArray DbMan::getStudyBasesByteArray(QList<int> branches)
 {
     QJsonArray array;
-    QStringList stepsList;
-    for(int i =0; i < steps.length(); i++)
-        stepsList.append(QString::number(steps.at(i)));
+    QStringList branchesList;
+    for(int i =0; i < branches.length(); i++)
+        branchesList.append(QString::number(branches.at(i)));
 
-    QString numberList = stepsList.join(",");
+    QString numberList = branchesList.join(",");
 
-    QString queryString = "SELECT b.id, b.step_id, b.basis_name, s.step_name, br.branch_name FROM main.basis b LEFT JOIN main.steps s on (b.step_id=s.id) LEFT JOIN main.branches br on (s.branch_id=br.id) WHERE branch_id IN("+ numberList +") ORDER BY br.id, s.id, b.id;";
+    QString queryString = "SELECT b.id, b.branch_id,  b.study_base, br.branch_name FROM main.study_bases b  LEFT JOIN main.branches br on (b.branch_id=br.id) WHERE branch_id IN("+ numberList +")  ORDER BY br.id, b.id;";
 
     query->prepare(queryString);
     if(query->exec())
@@ -822,15 +909,107 @@ QByteArray DbMan::getBasisJson(QList<int> steps)
         {
             obj.empty();
             obj["id"] = query->value(0).toInt();
-            obj["step_id"] = query->value(1).toInt();
-            obj["basis_name"] = query->value(2).toString();
-            obj["step_name"] = query->value(3).toString();
-            obj["branch_name"] = query->value(4).toString();
+            obj["branch_id"] = query->value(1).toInt();
+            obj["study_base"] = query->value(2).toString();
+            obj["branch_name"] = query->value(3).toString();
             array.append(obj);
         }
     }
     QJsonDocument doc(array);
     return doc.toJson();
+}
+
+QJsonArray DbMan::getStudyBases(QList<int> branches)
+{
+    QJsonArray array;
+    QStringList branchesList;
+    for(int i =0; i < branches.length(); i++)
+        branchesList.append(QString::number(branches.at(i)));
+
+    QString numberList = branchesList.join(",");
+
+    QString queryString = "SELECT b.id, b.branch_id,  b.study_base,br.city, br.branch_name FROM main.study_bases b  LEFT JOIN main.branches br on (b.branch_id=br.id) WHERE branch_id IN("+ numberList +")  ORDER BY br.id, b.id;";
+
+    query->prepare(queryString);
+    if(query->exec())
+    {
+        QJsonObject obj;
+        while(query->next())
+        {
+            obj.empty();
+            obj["id"] = query->value(0).toInt();
+            obj["branch_id"] = query->value(1).toInt();
+            obj["study_base"] = query->value(2).toString();
+            obj["city"] = query->value(3).toString();
+            obj["branch_name"] = query->value(4).toString();
+            array.append(obj);
+        }
+    }
+    return array;
+}
+
+QJsonArray DbMan::getStudyBasesById(QList<int> bases)
+{
+    QJsonArray array;
+    QStringList basesList;
+    for(int i =0; i < bases.length(); i++)
+        basesList.append(QString::number(bases.at(i)));
+
+    QString numberList = basesList.join(",");
+
+    QString queryString = "SELECT b.id, b.branch_id,  b.study_base,br.city, br.branch_name FROM main.study_bases b  LEFT JOIN main.branches br on (b.branch_id=br.id) WHERE b.id IN("+ numberList +")  ORDER BY br.id, b.id;";
+
+    query->prepare(queryString);
+    if(query->exec())
+    {
+        QJsonObject obj;
+        while(query->next())
+        {
+            obj.empty();
+            obj["id"] = query->value(0).toInt();
+            obj["branch_id"] = query->value(1).toInt();
+            obj["study_base"] = query->value(2).toString();
+            obj["city"] = query->value(3).toString();
+            obj["branch_name"] = query->value(4).toString();
+            array.append(obj);
+        }
+    }
+    return array;
+}
+
+QJsonArray DbMan::getStudyBasesById(QList<int> branches, QList<int> bases)
+{
+    QJsonArray array;
+    //branches
+    QStringList branchList;
+    for(int i =0; i < branches.length(); i++)
+        branchList.append(QString::number(branches.at(i)));
+    QString numberListBranch = branchList.join(",");
+
+    QStringList basesList;
+    for(int i =0; i < bases.length(); i++)
+        basesList.append(QString::number(bases.at(i)));
+
+    QString numberList = basesList.join(",");
+
+    QString queryString = "SELECT b.id, b.branch_id,  b.study_base,br.city, br.branch_name FROM main.study_bases b  LEFT JOIN main.branches br on (b.branch_id=br.id) WHERE b.id IN("+ numberList +") AND  b.branch_id IN("+ numberListBranch +")  ORDER BY br.id, b.id;";
+
+    query->prepare(queryString);
+    if(query->exec())
+    {
+        QJsonObject obj;
+        while(query->next())
+        {
+            obj.empty();
+            obj["id"] = query->value(0).toInt();
+            obj["branch_id"] = query->value(1).toInt();
+            obj["study_base"] = query->value(2).toString();
+            obj["city"] = query->value(3).toString();
+            obj["branch_name"] = query->value(4).toString();
+            array.append(obj);
+        }
+    }
+    return array;
 }
 
 QByteArray DbMan::getBasisJsonById(QList<int> basis)
