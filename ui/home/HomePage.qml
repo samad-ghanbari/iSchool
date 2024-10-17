@@ -5,13 +5,13 @@ Page {
     id: homePageId
     background: Image {
         id: bgHomePage
-        source: "qrc:/Assets/images/background/back3.jpg"
+        source: "qrc:/assets/images/background/back3.jpg"
         anchors.fill: parent
     }
 
     Image {
         id: logoHomePage
-        source: "qrc:/Assets/images/logo/logo1024.png"
+        source: "qrc:/assets/images/logo/logo1024.png"
         anchors.centerIn: parent
         height: parent.height/2
         width: height
@@ -31,7 +31,7 @@ Page {
         width: parent.width
         text: dbMan.getUserName() + " عزیز به سامانه روشنگران خوش آمدید"
         anchors.bottom: parent.bottom
-        font.family: yekanFont.font.family
+        font.family: "B Yekan"
         font.pixelSize: 16
         font.bold: true
         color: "black"

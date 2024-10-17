@@ -1,12 +1,2 @@
 module appiSchool
 
-InitialLogin    1.0   InitialLogin.qml
-LoginForm       1.0   LoginForm.qml
-LoginWindow     1.0   LoginWindow.qml
-NewRelease      1.0   NewRelease.qml
-NoConnection    1.0   NoConnection.qml
-OnMaintenance   1.0   OnMaintenance.qml
-
-
-
-

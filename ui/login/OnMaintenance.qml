@@ -40,7 +40,7 @@ Page {
             id: noConnectionId
             text: qsTr("دیتابیس در حال بروزرسانی می‌باشد")
             font.pixelSize: 36
-            font.family: yekanFont.font.family
+            font.family: "B Yekan"
             anchors.horizontalCenter: parent.horizontalCenter
             color: "#FFF"
             anchors.top: backimageId.bottom

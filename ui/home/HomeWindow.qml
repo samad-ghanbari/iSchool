@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
-import QtQuick.Layouts
 
 ApplicationWindow {
 
@@ -16,9 +15,7 @@ ApplicationWindow {
     LayoutMirroring.childrenInherit: true
     //flags: Qt.WindowSystemMenuHint | ~Qt.WindowCloseButtonHint;
 
-    FontLoader { id: yekanFont; source: "qrc:/Assets/font/yekan.ttf" }
-
-    menuBar: MenubarModule{id: menubarId;}
+    menuBar: MenubarModule{ id: menubarId; }
     header : ToolbarModule{id:toolbarId; }
 
     StackView {

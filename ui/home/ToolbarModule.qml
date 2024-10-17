@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "./../user"
+//import "./../user"
 //import "./../branch"
 //import "./../step"
 //import "./../base"
@@ -82,25 +82,25 @@ ToolBar {
         ToolButton {
             id: menuHomeId
             text: "صفحه‌اصلی"
-            font.family: yekanFont.font.family
+            font.family: "B Yekan"
             font.pixelSize: 16
             onClicked:
             {
                 homeStackViewId.pop(null);
             }
-            icon.source: "qrc:/Assets/images/home2.png"
+            icon.source: "qrc:/assets/images/home2.png"
             icon.width: 32
             icon.height: 32
             hoverEnabled: true
-            onHoveredChanged: menuHoverAction(menuHomeId)
+            onHoveredChanged: toolbarId.menuHoverAction(menuHomeId)
         }
 
         ToolButton {
             id: menuPeriodId
             text: "سال‌های ‌تحصیلی"
-            font.family: yekanFont.font.family
+            font.family: "B Yekan"
             font.pixelSize: 16
-            icon.source: "qrc:/Assets/images/date.png"
+            icon.source: "qrc:/assets/images/date.png"
             icon.width: 32
             icon.height: 32
             onClicked:
@@ -111,73 +111,73 @@ ToolBar {
                 //homeStackViewId.push(studyPeriodComponent, {objectName: "studyPeriodON"})
             }
             hoverEnabled: true
-            onHoveredChanged: menuHoverAction(menuPeriodId)
+            onHoveredChanged: toolbarId.menuHoverAction(menuPeriodId)
         }
 
 
         ToolButton {
             id: menuCourseId
             text: "درس‌ها"
-            font.family: yekanFont.font.family
+            font.family: "B Yekan"
             font.pixelSize: 16
-            icon.source: "qrc:/Assets/images/course.png"
+            icon.source: "qrc:/assets/images/course.png"
             icon.width: 32
             icon.height: 32
             onClicked: console.log("567")
             hoverEnabled: true
-            onHoveredChanged: menuHoverAction(menuCourseId)
+            onHoveredChanged: toolbarId.menuHoverAction(menuCourseId)
         }
 
         ToolButton {
             id: menuTeacherId
             text: "دبیران"
-            font.family: yekanFont.font.family
+            font.family: "B Yekan"
             font.pixelSize: 16
-            icon.source: "qrc:/Assets/images/teacher.png"
+            icon.source: "qrc:/assets/images/teacher.png"
             icon.width: 32
             icon.height: 32
             onClicked: console.log("567")
             hoverEnabled: true
-            onHoveredChanged: menuHoverAction(menuTeacherId)
+            onHoveredChanged: toolbarId.menuHoverAction(menuTeacherId)
         }
 
         ToolButton {
             id: menuStudentId
             text: "دانش‌آموزان"
-            font.family: yekanFont.font.family
+            font.family: "B Yekan"
             font.pixelSize: 16
-            icon.source: "qrc:/Assets/images/student.png"
+            icon.source: "qrc:/assets/images/student.png"
             icon.width: 32
             icon.height: 32
             onClicked: console.log("567")
             hoverEnabled: true
-            onHoveredChanged: menuHoverAction(menuStudentId)
+            onHoveredChanged: toolbarId.menuHoverAction(menuStudentId)
         }
 
         ToolButton {
             id: menuEvalId
             text: "ارزیابی‌ها"
-            font.family: yekanFont.font.family
+            font.family: "B Yekan"
             font.pixelSize: 16
-            icon.source: "qrc:/Assets/images/evaluation.png"
+            icon.source: "qrc:/assets/images/evaluation.png"
             icon.width: 32
             icon.height: 32
             onClicked: console.log("567")
             hoverEnabled: true
-            onHoveredChanged: menuHoverAction(menuEvalId)
+            onHoveredChanged: toolbarId.menuHoverAction(menuEvalId)
         }
 
         ToolButton {
             id: menuRepId
             text: "گزارشات"
-            font.family: yekanFont.font.family
+            font.family: "B Yekan"
             font.pixelSize: 16
-            icon.source: "qrc:/Assets/images/report.png"
+            icon.source: "qrc:/assets/images/report.png"
             icon.width: 32
             icon.height: 32
             onClicked: console.log("567")
             hoverEnabled: true
-            onHoveredChanged: menuHoverAction(menuEvalId)
+            onHoveredChanged: toolbarId.menuHoverAction(menuEvalId)
         }
 
         Item{Layout.fillWidth: true;}
@@ -201,11 +201,11 @@ ToolBar {
     }
 
 
-    Component
-    {
-        id: listUserPageComponent
-        ListUser{}
-    }
+    // Component
+    // {
+    //     id: listUserPageComponent
+    //     ListUser{}
+    // }
     // Component
     // {
     //     id: branchesComponent

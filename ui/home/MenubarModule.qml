@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-import "./../user"
+//import "./../user"
 //import "./../branch"
 //import "./../step"
 //import "./../base"
@@ -12,7 +12,7 @@ MenuBar {
     id: menubarId;
     property alias menuSettingTBId: menuSettingTBId
     property bool toolbarView: true
-    font.family: yekanFont.font.family
+    font.family: "B Yekan"
     font.pixelSize: 16
 
     Connections
@@ -20,22 +20,22 @@ MenuBar {
         target: toolbarId
         function onToolBarShow()
         {
-            menuSettingTBId.text="حذف نوار‌ابزار";
-            toolbarView=true
+            menubarId.menuSettingTBId.text="حذف نوار‌ابزار";
+            menubarId.toolbarView=true
             toolbarId.visible=true;
         }
 
         function onToolBarHide()
         {
-            menuSettingTBId.text="نمایش نوار‌ابزار";
-            toolbarView=false
+            menubarId.menuSettingTBId.text="نمایش نوار‌ابزار";
+            menubarId.toolbarView=false
             toolbarId.visible=false;
         }
     }
 
     Menu {
         title: "مدرسه"
-        font.family: yekanFont.font.family
+        font.family: "B Yekan"
         font.pixelSize: 16
         Action {
             text: "شعبه‌ها";
@@ -47,7 +47,7 @@ MenuBar {
                 //homeStackViewId.push(branchesComponent, {objectName: "branchesON"});
             }
 
-            icon.source: "qrc:/Assets/images/branch.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/branch.png"; icon.width: 24;icon.height:24;
         }
         MenuSeparator { }
         Action {
@@ -60,7 +60,7 @@ MenuBar {
                 //homeStackViewId.push(stepsComponent, {objectName: "stepsON"});
             }
 
-            icon.source: "qrc:/Assets/images/school.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/school.png"; icon.width: 24;icon.height:24;
         }
         MenuSeparator { }
         Action {
@@ -73,7 +73,7 @@ MenuBar {
                 //homeStackViewId.push(baseComponent, {objectName: "baseON"});
             }
 
-            icon.source: "qrc:/Assets/images/school2.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/school2.png"; icon.width: 24;icon.height:24;
         }
         MenuSeparator { }
         Action {
@@ -86,39 +86,39 @@ MenuBar {
                 //homeStackViewId.push(studyPeriodComponent, {objectName: "studyPeriodON"});
             }
 
-            icon.source: "qrc:/Assets/images/date.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/date.png"; icon.width: 24;icon.height:24;
         }
         MenuSeparator { }
-        Action { text: "کلاس‌ها"; onTriggered: console.log("users");icon.source: "qrc:/Assets/images/classroom.png"; icon.width: 24;icon.height:24; }
+        Action { text: "کلاس‌ها"; onTriggered: console.log("users");icon.source: "qrc:/assets/images/classroom.png"; icon.width: 24;icon.height:24; }
         MenuSeparator { }
-        Action { text: "درس‌ها"; onTriggered: console.log("users");icon.source: "qrc:/Assets/images/course.png"; icon.width: 24;icon.height:24; }
+        Action { text: "درس‌ها"; onTriggered: console.log("users");icon.source: "qrc:/assets/images/course.png"; icon.width: 24;icon.height:24; }
     }
 
     Menu {
         title: "دبیران"
-        font.family: yekanFont.font.family
+        font.family: "B Yekan"
         font.pixelSize: 16
-        Action { text: "دبیران"; onTriggered: console.log("new user");icon.source: "qrc:/Assets/images/teacher.png"; icon.width: 24;icon.height:24; }
+        Action { text: "دبیران"; onTriggered: console.log("new user");icon.source: "qrc:/assets/images/teacher.png"; icon.width: 24;icon.height:24; }
     }
 
     Menu {
         title: "دانش‌آموزان"
-        font.family: yekanFont.font.family
+        font.family: "B Yekan"
         font.pixelSize: 16
-        Action { text: "دانش‌آموزان"; onTriggered: console.log("new user");icon.source: "qrc:/Assets/images/student.png"; icon.width: 24;icon.height:24; }
+        Action { text: "دانش‌آموزان"; onTriggered: console.log("new user");icon.source: "qrc:/assets/images/student.png"; icon.width: 24;icon.height:24; }
     }
 
     Menu {
         title: "ارزیابی‌ها"
-        font.family: yekanFont.font.family
+        font.family: "B Yekan"
         font.pixelSize: 16
-        Action { text: "ارزیابی‌ها"; onTriggered: console.log("new user");icon.source: "qrc:/Assets/images/evaluation.png"; icon.width: 24;icon.height:24; }
+        Action { text: "ارزیابی‌ها"; onTriggered: console.log("new user");icon.source: "qrc:/assets/images/evaluation.png"; icon.width: 24;icon.height:24; }
     }
 
     Menu {
         id: menuReportId
         title: "گزارشات"
-        font.family: yekanFont.font.family
+        font.family: "B Yekan"
         font.pixelSize: 16
         Action {
             text: "گزارش آماری";
@@ -129,18 +129,18 @@ MenuBar {
 
                 homeStackViewId.push(listUserPageComponent,{objectName: "listUserON"});
             }
-            icon.source: "qrc:/Assets/images/report.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/report.png"; icon.width: 24;icon.height:24;
         }
     }
 
     Menu {
         id: menuSettingId
         title: "تنظیمات کاربر"
-        font.family: yekanFont.font.family
+        font.family: "B Yekan"
         font.pixelSize: 16
         Action {
             id:menuSettingTBId;
-            icon.source: "qrc:/Assets/images/toolbox.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/toolbox.png"; icon.width: 24;icon.height:24;
             text: "حذف نوار‌ابزار";
             onTriggered:
                 if(toolbarView)
@@ -160,7 +160,7 @@ MenuBar {
         Action {
             text: "پروفایل کاربر";
             onTriggered: console.log("profile")
-            icon.source: "qrc:/Assets/images/user.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/user.png"; icon.width: 24;icon.height:24;
         }
 
     }
@@ -168,7 +168,7 @@ MenuBar {
     Menu {
         id: menuAdminSettingId
         title: "تنظیمات سامانه"
-        font.family: yekanFont.font.family
+        font.family: "B Yekan"
         font.pixelSize: 16
 
         Action {
@@ -180,14 +180,14 @@ MenuBar {
 
                 homeStackViewId.push(listUserPageComponent,{objectName: "listUserON"});
             }
-            icon.source: "qrc:/Assets/images/users.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/users.png"; icon.width: 24;icon.height:24;
         }
     }
 
     Menu {
         id: menuLogId
         title: "لاگ کاربران"
-        font.family: yekanFont.font.family
+        font.family: "B Yekan"
         font.pixelSize: 16
 
         Action {
@@ -199,15 +199,15 @@ MenuBar {
 
                 homeStackViewId.push(listUserPageComponent,{objectName: "listUserON"});
             }
-            icon.source: "qrc:/Assets/images/log.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/log.png"; icon.width: 24;icon.height:24;
         }
     }
 
-    Component
-    {
-        id: listUserPageComponent
-        ListUser{}
-    }
+    // Component
+    // {
+    //     id: listUserPageComponent
+    //     ListUser{}
+    // }
 
     // Component
     // {

@@ -89,7 +89,6 @@ Page {
                 width: 64
                 height: 64
                 anchors.horizontalCenter: parent.horizontalCenter
-                //anchors.top: parent.top
             }
 
             Item{height:10;width:parent.width}
@@ -102,7 +101,7 @@ Page {
                 color: "#FFF"
                 font.bold: true
                 font.pixelSize: 20
-                font.family: yekanFont.font.family
+                font.family: "B Yekan"
                 horizontalAlignment:  Text.AlignHCenter
             }
 
@@ -112,7 +111,7 @@ Page {
                 height: 50
                 width : parent.width
                 placeholderText: "کد‌ملی"
-                font.family: yekanFont.font.family
+                font.family: "B Yekan"
                 KeyNavigation.tab: passwordField
                 focus: true
             }
@@ -122,7 +121,7 @@ Page {
                 id: passwordField
                 height: 50
                 width : parent.width
-                font.family: yekanFont.font.family
+                font.family: "B Yekan"
                 placeholderText: "رمز‌عبور"
                 echoMode: TextField.Password
                 KeyNavigation.tab: loginBtnId
@@ -137,7 +136,7 @@ Page {
                 Button {
                     id: loginBtnId
                     text: "ورود به سامانه"
-                    font.family: yekanFont.font.family
+                    font.family: "B Yekan"
                     font.pixelSize: 14
                     height: 50
                     width : parent.width/2
@@ -154,7 +153,7 @@ Page {
                 Button {
                     id: closeBtnId
                     text: "خروج"
-                    font.family: yekanFont.font.family
+                    font.family: "B Yekan"
                     font.pixelSize: 14
                     height: 50
                     width : parent.width/2
@@ -180,7 +179,7 @@ Page {
                 id: incorrectUserPassTxt
                 text: ""
                 color:"mediumvioletred"
-                font.family: yekanFont.font.family
+                font.family: "B Yekan"
                 font.pixelSize: 16
                 anchors.horizontalCenter: parent.horizontalCenter
                 ScaleAnimator on scale {
