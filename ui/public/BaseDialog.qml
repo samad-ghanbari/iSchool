@@ -4,6 +4,7 @@ import QtQuick.Layouts
 
 Dialog
 {
+    id : publicDialogBox
     property string dialogTitle
     property string dialogText
     property bool dialogSuccess : false // false : warning
@@ -23,16 +24,16 @@ Dialog
     modal: true
     anchors.centerIn: parent;
     //standardButtons: Dialog.Ok
-    title: dialogTitle
+    title: publicDialogBox.dialogTitle
 
-    onAccepted: acceptAction();
-    onRejected: rejectAction();
+    onAccepted: publicDialogBox.acceptAction();
+    onRejected: publicDialogBox.rejectAction();
 
     header: Rectangle{
         width: parent.width;
         height: 50;
-        color: (dialogSuccess)? "forestgreen" : "crimson";
-        Text{ text:dialogTitle; anchors.centerIn: parent; color: "white";font.bold:true; font.family: yekanFont.font.family; font.pixelSize: 16}
+        color: (publicDialogBox.dialogSuccess)? "forestgreen" : "crimson";
+        Text{ text: publicDialogBox.dialogTitle; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
     }
 
     contentItem:
@@ -48,19 +49,19 @@ Dialog
             id: dialogContent
             Layout.preferredWidth: parent.width
             horizontalAlignment: Text.AlignLeft
-            text: dialogText
-            font.family: yekanFont.font.family
+            text: publicDialogBox.dialogText
+            font.family: "B Yekan"
             font.pixelSize: 16
-            color: (dialogSuccess)? "forestgreen" : "crimson";
+            color: (publicDialogBox.dialogSuccess)? "forestgreen" : "crimson";
         }
         TextField
         {
             id: dialogTextField
-            font.family: yekanFont.font.family
+            font.family: "B Yekan"
             font.bold: true
             Layout.preferredWidth: parent.width
             Layout.preferredHeight: 40
-            visible: textFieldVisible
+            visible: publicDialogBox.textFieldVisible
         }
 
         Item{Layout.preferredHeight:  20;  Layout.preferredWidth: baseDialogCLId.width;}
@@ -77,10 +78,10 @@ Dialog
                 text: "انصراف"
                 Layout.preferredHeight:  40
                 Layout.preferredWidth:  100
-                font.family: yekanFont.font.family
+                font.family: "B Yekan"
                 font.pixelSize: 14
-                visible: rejectVisible
-                onClicked: reject();
+                visible: publicDialogBox.rejectVisible
+                onClicked: publicDialogBox.reject();
                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "crimson"}
             }
             Button
@@ -88,10 +89,10 @@ Dialog
                 text: "تایید"
                 Layout.preferredHeight:  40
                 Layout.preferredWidth:  100
-                font.family: yekanFont.font.family
+                font.family: "B Yekan"
                 font.pixelSize: 14
-                visible: acceptVisible
-                onClicked: accept();
+                visible: publicDialogBox.acceptVisible
+                onClicked: publicDialogBox.accept();
                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
             }
             Item{Layout.fillWidth: true}

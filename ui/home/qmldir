@@ -1,9 +1,8 @@
-module appiSchool
 
-HomeWindow      1.0   HomeWindow.qml
-HomwPage        1.0   HomwPage.qml
-MenubarModule   1.0   MenubarModule.qml
-ToolbarModule   1.0   ToolbarModule.qml
+HomeWindow        HomeWindow.qml
+HomePage          HomePage.qml
+MenubarModule     MenubarModule.qml
+ToolbarModule     ToolbarModule.qml
 
 
 

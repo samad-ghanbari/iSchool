@@ -269,6 +269,39 @@ QByteArray DbMan::getUsersByteArray()
     return doc.toJson();
 }
 
+QJsonArray DbMan::filterUsers(QJsonObject userFilter)
+{
+    QJsonArray array;
+
+
+    query->prepare("SELECT id, name, lastname, nat_id, job_position, enabled, admin, gender FROM main.users WHERE name like :name AND lastname like :lastname AND nat_id like :nat_id AND job_position like :job_position ORDER BY admin DESC, lastname DESC;");
+    query->bindValue(":name", QString("%%1%").arg(userFilter.value("name").toString()));
+    query->bindValue(":lastname",  QString("%%1%").arg(userFilter.value("lastname").toString()));
+    query->bindValue(":nat_id", QString("%%1%").arg(userFilter.value("nat_id").toString()));
+    query->bindValue(":job_position", QString("%%1%").arg(userFilter.value("job_position").toString()));
+
+    if(query->exec())
+    {
+        QJsonObject obj;
+        while (query->next())
+        {
+            obj.empty();
+            obj["id"] = query->value(0).toInt();
+            obj["name"] = query->value(1).toString();
+            obj["lastname"] = query->value(2).toString();
+            obj["nat_id"] = query->value(3).toString();
+            obj["job_position"] = query->value(4).toString();
+            obj["enabled"] = query->value(5).toBool();
+            obj["admin"] = query->value(6).toBool();
+            obj["gender"] = query->value(7).toString();
+
+            array.append(obj);
+        }
+    }
+
+    return array;
+}
+
 bool DbMan::updateUser(QJsonObject user)
 {
     // name lastname natid password email position telephone enabled admin accessBranch accessStep accessBasis permissionBranch permissionStep permissionBasis

@@ -1,11 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-//import "./../user"
-//import "./../branch"
-//import "./../step"
-//import "./../base"
-//import "./../studyPeriod"
+import "./../user/" as UserModule
 
 // menuBar: MenubarModule{}
 MenuBar {
@@ -143,16 +139,16 @@ MenuBar {
             icon.source: "qrc:/assets/images/toolbox.png"; icon.width: 24;icon.height:24;
             text: "حذف نوار‌ابزار";
             onTriggered:
-                if(toolbarView)
+                if(menubarId.toolbarView)
                 {
                     menuSettingTBId.text="نمایش نوار‌ابزار";
-                    toolbarView=false
+                    menubarId.toolbarView=false
                     toolbarId.visible=false;
                 }
                 else
                 {
-                    menuSettingTBId.text="حذف نوار‌ابزار";
-                    toolbarView=true
+                    menubarId.menuSettingTBId.text="حذف نوار‌ابزار";
+                    menubarId.toolbarView=true
                     toolbarId.visible=true;
 
                 }
@@ -194,20 +190,16 @@ MenuBar {
             text: "مشاهده لاگ‌ها";
             onTriggered:
             {
-                if(homeStackViewId.currentItem.objectName === "listUserON")
-                    homeStackViewId.pop();
-
-                homeStackViewId.push(listUserPageComponent,{objectName: "listUserON"});
             }
             icon.source: "qrc:/assets/images/log.png"; icon.width: 24;icon.height:24;
         }
     }
 
-    // Component
-    // {
-    //     id: listUserPageComponent
-    //     ListUser{}
-    // }
+    Component
+    {
+        id: listUserPageComponent
+        UserModule.ListUser{}
+    }
 
     // Component
     // {

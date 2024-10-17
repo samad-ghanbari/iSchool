@@ -40,13 +40,22 @@ qt_add_qml_module(appiSchool
         ui/login/NewRelease.qml
         ui/login/NoConnection.qml
         ui/login/OnMaintenance.qml
+    #PUBLIC
+        ui/public/BaseDialog.qml
     #HOME
         ui/home/HomeWindow.qml
         ui/home/HomePage.qml
         ui/home/MenubarModule.qml
         ui/home/ToolbarModule.qml
-
     #USER
+        ui/user/ListUser.qml
+        ui/user/ListUser.js
+        ui/user/UsersListWidget.qml
+        ui/user/NewUser.qml
+        ui/user/NewUserJS.js
+
+
+
     #BRANCH
     #STUDY STEP
     #STUDY PERIOD
@@ -62,6 +71,8 @@ qt_add_resources(appiSchool "assets"
         assets/font/yekan.ttf
         qmldir
         ui/login/qmldir
+        ui/home/qmldir
+        ui/user/qmldir
 
     #BACKGROUND
     FILES

@@ -28,6 +28,7 @@ public slots:
     QString getUserName();
     bool insertUser(QJsonObject user);
     QByteArray getUsersByteArray();
+    QJsonArray filterUsers(QJsonObject userFilter);
     bool updateUser(QJsonObject user);
     bool deleteUser(int userId);
     bool verifyUserPassword(QString password);
