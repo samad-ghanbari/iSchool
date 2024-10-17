@@ -5,8 +5,6 @@ import QtQuick.Controls.Basic
 Page {
     id: appNoConnWindow
 
-    FontLoader { id: yekanFont; source: "qrc:/assets/font/yekan.ttf" }
-
     Image {
         id: backgroundNoConnId
         source: "qrc:/assets/images/logo/logo512.png"
@@ -41,7 +39,7 @@ Page {
             id: noConnectionId
             text: qsTr("ارتباط با دیتابیس با خطا مواجه شد")
             font.pixelSize: 36
-            font.family: yekanFont.font.family
+            font.family: "B Yekan"
             anchors.horizontalCenter: parent.horizontalCenter
             color: "#FFF"
             anchors.top: backimageId.bottom
@@ -50,7 +48,7 @@ Page {
             id: noConnectionDbId
             text: qsTr("ارتباط با دیتابیس را بررسی نمایید")
             font.pixelSize: 24
-            font.family: yekanFont.font.family
+            font.family:  "B Yekan"
             anchors.horizontalCenter: parent.horizontalCenter
             color: "#800"
             anchors.top: noConnectionId.bottom

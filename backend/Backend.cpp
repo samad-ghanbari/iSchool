@@ -1,13 +1,17 @@
 #include "Backend.h"
 #include "lib/database/dbman.h"
 #include <QJsonObject>
+#include <QFontDatabase>
+
+#include <QDebug>
 
 Backend::Backend(QGuiApplication &app, QObject *parent)
     : QObject{parent}, dbMan(nullptr)
 {
     dbMan = new DbMan(this);
 
-    QQmlApplicationEngine engine;
+    QFontDatabase::addApplicationFont(":/assets/font/yekan.ttf");
+    // B Yekan
 
     QObject::connect(
         &engine,
