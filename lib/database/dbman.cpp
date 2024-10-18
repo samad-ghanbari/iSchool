@@ -162,36 +162,22 @@ QString DbMan::getUserName()
 
 bool DbMan::insertUser(QJsonObject user)
 {
-    // name lastname gender natid password job_position telephone permissions enabled admin
+    // name lastname gender nat_id password passwordConfirm job_position telephone enabled admin permissions
 
     QString name = user.value("name").toString();
     QString lastname = user.value("lastname").toString();
+    QString gender = user.value("gender").toString();
     QString nat_id = user.value("nat_id").toString();
     QString password = user.value("password").toString();
-    QString email = user.value("email").toString();
     QString job_position = user.value("job_position").toString();
     QString telephone = user.value("telephone").toString();
     bool enabled = user.value("enabled").toBool();
     bool admin = user.value("admin").toBool();
-    QString gender = user.value("gender").toString();
-    QJsonArray accessBranchArray = user.value("accessBranch").toArray();
-    QJsonArray accessStepArray = user.value("accessStep").toArray();
-    QJsonArray accessBasisArray = user.value("accessBasis").toArray();
-    QJsonArray permBranchArray = user.value("permissionBranch").toArray();
-    QJsonArray permStepArray = user.value("permissionStep").toArray();
-    QJsonArray permBasisArray = user.value("permissionBasis").toArray();
 
-    QJsonObject access, write_permission;
-    access["branch"] = accessBranchArray;
-    access["step"] = accessStepArray;
-    access["basis"] = accessBasisArray;
+    QJsonObject perm = user.value("permissions").toObject();
 
-    write_permission["branch"] = permBranchArray;
-    write_permission["step"] = permStepArray;
-    write_permission["basis"] = permBasisArray;
+    QString permissions =  QString::fromUtf8(QJsonDocument(perm).toJson()); //QJsonDocument::Compact
 
-    QString Access =  QString::fromUtf8(QJsonDocument(access).toJson()); //QJsonDocument::Compact
-    QString Permission =  QString::fromUtf8(QJsonDocument(write_permission).toJson());
 
     //check
     bool NAME, LASTNAME, NATID, PASS, JOB_POS, EN, ADMIN;
@@ -212,25 +198,20 @@ bool DbMan::insertUser(QJsonObject user)
 
     if(admin)
     {
-        Access = "{}";
-        Permission = "{}";
+        permissions = "{}";
     }
-    //QString queryString = "INSERT INTO main.users(name, lastname, nat_id, password, email, job_position, telephone, access, write_permission, enabled, admin) VALUES (%1, %2, %3, %4, %5, %6, %7, %8, %9, %10, %11);";
-    //queryString = queryString.arg(name,lastname, natid, password, email, job_position,telephone, Access, Permission, QString::number(enabled), QString::number(admin));
-    //qDebug() << queryString;
-    query->prepare("INSERT INTO main.users(name, lastname, nat_id, password, email, job_position, telephone, access, write_permission, enabled, admin, gender) VALUES (:name, :lastname, :natid, :password, :email, :job_position, :telephone, :access, :permission, :enabled, :admin, :gender);");
+
+    query->prepare("INSERT INTO main.users(name, lastname, gender, nat_id, password, job_position, telephone, permissions, enabled, admin) VALUES (:name, :lastname, :gender, :natid, :password, :job_position, :telephone, :permissions, :enabled, :admin);");
     query->bindValue(":name", name, QSql::In);
     query->bindValue(":lastname", lastname, QSql::In);
+    query->bindValue(":gender", gender, QSql::In);
     query->bindValue(":natid", nat_id, QSql::In);
     query->bindValue(":password", password, QSql::In);
-    query->bindValue(":email", email, QSql::In);
     query->bindValue(":job_position", job_position, QSql::In);
     query->bindValue(":telephone", telephone, QSql::In);
-    query->bindValue(":access", Access, QSql::In);
-    query->bindValue(":permission", Permission, QSql::In);
+    query->bindValue(":permissions", permissions, QSql::In);
     query->bindValue(":enabled", enabled, QSql::In);
     query->bindValue(":admin", admin, QSql::In);
-    query->bindValue(":gender", gender, QSql::In);
 
     if(query->exec())
         return true;
@@ -304,36 +285,20 @@ QJsonArray DbMan::filterUsers(QJsonObject userFilter)
 
 bool DbMan::updateUser(QJsonObject user)
 {
-    // name lastname natid password email position telephone enabled admin accessBranch accessStep accessBasis permissionBranch permissionStep permissionBasis
+    //  name lastname gender nat_id job_position telephone enabled admin permissions
 
     int id = user.value("id").toInt();
     QString name = user.value("name").toString();
     QString lastname = user.value("lastname").toString();
+    QString gender = user.value("gender").toString();
     QString nat_id = user.value("nat_id").toString();
-    QString email = user.value("email").toString();
     QString job_position = user.value("job_position").toString();
     QString telephone = user.value("telephone").toString();
     bool enabled = user.value("enabled").toBool();
     bool admin = user.value("admin").toBool();
-    QString gender = user.value("gender").toString();
-    QJsonArray accessBranchArray = user.value("accessBranch").toArray();
-    QJsonArray accessStepArray = user.value("accessStep").toArray();
-    QJsonArray accessBasisArray = user.value("accessBasis").toArray();
-    QJsonArray permBranchArray = user.value("permissionBranch").toArray();
-    QJsonArray permStepArray = user.value("permissionStep").toArray();
-    QJsonArray permBasisArray = user.value("permissionBasis").toArray();
+    QJsonObject perm = user.value("permissions").toObject();
 
-    QJsonObject access, write_permission;
-    access["branch"] = accessBranchArray;
-    access["step"] = accessStepArray;
-    access["basis"] = accessBasisArray;
-
-    write_permission["branch"] = permBranchArray;
-    write_permission["step"] = permStepArray;
-    write_permission["basis"] = permBasisArray;
-
-    QString Access =  QString::fromUtf8(QJsonDocument(access).toJson()); //QJsonDocument::Compact
-    QString Permission =  QString::fromUtf8(QJsonDocument(write_permission).toJson());
+    QString permissions =  QString::fromUtf8(QJsonDocument(perm).toJson()); //QJsonDocument::Compact
 
     //check
     bool NAME, LASTNAME, NATID, PASS, JOB_POS, EN, ADMIN;
@@ -351,23 +316,21 @@ bool DbMan::updateUser(QJsonObject user)
 
     if(admin)
     {
-        Access = "{}";
-        Permission = "{}";
+        permissions = "{}";
     }
 
 
-    query->prepare("UPDATE main.users SET  name=:name, lastname=:lastname, nat_id=:nat_id,  email=:email, job_position=:job_position, telephone=:telephone, access=:access, write_permission=:write_permission, enabled=:enabled, admin=:admin, gender=:gender WHERE id=:id;");
+    query->prepare("UPDATE main.users SET  name=:name, lastname=:lastname, gender=:gender, nat_id=:nat_id,  job_position=:job_position, telephone=:telephone, permissions=:permissions, enabled=:enabled, admin=:admin WHERE id=:id;");
     query->bindValue(":name", name, QSql::In);
     query->bindValue(":lastname", lastname, QSql::In);
+    query->bindValue(":gender", gender, QSql::In);
     query->bindValue(":nat_id", nat_id, QSql::In);
-    query->bindValue(":email", email, QSql::In);
     query->bindValue(":job_position", job_position, QSql::In);
     query->bindValue(":telephone", telephone, QSql::In);
-    query->bindValue(":access", Access, QSql::In);
-    query->bindValue(":write_permission", Permission, QSql::In);
+    query->bindValue(":permissions", permissions, QSql::In);
     query->bindValue(":enabled", enabled, QSql::In);
     query->bindValue(":admin", admin, QSql::In);
-    query->bindValue(":gender", gender, QSql::In);
+
     query->bindValue(":id", id, QSql::In);
 
     if(query->exec())
@@ -429,6 +392,9 @@ bool DbMan::changeUserPassword(int id, QString password)
         return false;
 }
 
+
+
+// LOG
 void DbMan::insertLog(QString Target, QString Action, QString ActionDetail)
 {
     int UserId = user.value("id").toInt();

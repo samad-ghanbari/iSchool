@@ -11,12 +11,12 @@ import "NewUserJS.js" as UserMethods
 Page {
     id: addNewUserPageId
     property var selectedBranches:[]
-    property var readStudyStep:[]
+    property var readStep:[]
     property var readStudyBase:[]
 
     property var selectedSteps:[]
     property var selectedBases:[]
-    property var writeStudyStep:[]
+    property var writeStep:[]
     property var writeStudyBase:[]
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
@@ -418,12 +418,10 @@ Page {
                                                     addNewUserPageId.selectedBranches.splice(index, 1);
                                                 }
 
-                                                UserMethods.updateReadStudyStep();
+                                                UserMethods.updateReadStep();
                                                 UserMethods.updateReadStudyBase();
                                                 UserMethods.updateWriteStepModel();
                                                 UserMethods.updateWriteBaseModel();
-
-                                                console.log(addNewUserPageId.selectedBranches)
                                             }
                                         }
                                     }
@@ -456,21 +454,21 @@ Page {
                                         Switch{
                                             required property var model
                                             text: model.Branch_name +" - "+ model.Step_name
-                                            checked: (addNewUserPageId.readStudyStep.indexOf(model.Id) > -1)? true : false;
+                                            checked: (addNewUserPageId.readStep.indexOf(model.Id) > -1)? true : false;
                                             font.family: "B Yekan"
                                             font.pixelSize: 14
                                             onToggled:
                                             {
-                                                var index = addNewUserPageId.readStudyStep.indexOf(model.Id);
+                                                var index = addNewUserPageId.readStep.indexOf(model.Id);
                                                 if(checked)
                                                 {
                                                     if(index < 0)
-                                                    addNewUserPageId.readStudyStep.push(model.Id);
+                                                    addNewUserPageId.readStep.push(model.Id);
                                                 }
                                                 else
                                                 {
                                                     if(index > -1)
-                                                    addNewUserPageId.readStudyStep.splice(index, 1);
+                                                    addNewUserPageId.readStep.splice(index, 1);
                                                 }
 
                                                 // write steps
@@ -486,7 +484,7 @@ Page {
                                                         addNewUserPageId.selectedSteps.splice(index, 1);
                                                 }
 
-                                                UserMethods.updateReadStudyStep();
+                                                UserMethods.updateReadStep();
                                                 UserMethods.updateWriteStepModel();
 
                                             }
@@ -588,21 +586,21 @@ Page {
                                         Switch{
                                             required property var model
                                             text: model.Branch_name +" - "+ model.Step_name
-                                            checked: (addNewUserPageId.writeStudyStep.indexOf(model.Id) > -1)? true : false;
+                                            checked: (addNewUserPageId.writeStep.indexOf(model.Id) > -1)? true : false;
                                             font.family: "B Yekan"
                                             font.pixelSize: 14
                                             onToggled:
                                             {
-                                                var index = addNewUserPageId.writeStudyStep.indexOf(model.Id);
+                                                var index = addNewUserPageId.writeStep.indexOf(model.Id);
                                                 if(checked)
                                                 {
                                                     if(index < 0)
-                                                    addNewUserPageId.writeStudyStep.push(model.Id);
+                                                    addNewUserPageId.writeStep.push(model.Id);
                                                 }
                                                 else
                                                 {
                                                     if(index > -1)
-                                                    addNewUserPageId.writeStudyStep.splice(index, 1);
+                                                    addNewUserPageId.writeStep.splice(index, 1);
                                                 }
 
                                             }
@@ -681,13 +679,16 @@ Page {
                                     user["job_position"] = newUserPositionId.text
                                     user["telephone"] = newUserTelId.text;
 
-                                    user["accessBranch"] = addNewUserPageId.accessBranch;
-                                    user["accessStep"] = addNewUserPageId.accessStep;
-                                    user["accessBasis"] = addNewUserPageId.accessBasis;
+                                    var permission = {"read":{}, "write":{}}
+                                    var rs = addNewUserPageId.readStep;
+                                    var rsb = addNewUserPageId.readStudyBase;
+                                    var ws = addNewUserPageId.writeStep;
+                                    var wsb = addNewUserPageId.writeStudyBase;
 
-                                    user["permissionBranch"] = addNewUserPageId.permissionBranch;
-                                    user["permissionStep"] = addNewUserPageId.permissionStep;
-                                    user["permissionBasis"] = addNewUserPageId.permissionBasis;
+                                    permission["read"]  = {"step": rs, "study_base": rsb};
+                                    permission["write"] = {"step": ws, "study_base": wsb};
+
+                                    user["permissions"] = permission;
 
                                     user["enabled"] = newUserEnabledId.checked
                                     user["admin"] = newUserAdminId.checked
@@ -706,7 +707,7 @@ Page {
                                         newUserInfoDialogId.dialogSuccess = true
                                         newUserInfoDialogId.dialogTitle = "عملیات موفق"
                                         newUserInfoDialogId.dialogText = "کاربر جدید با موفقیت به دیتابیس افزوده شد"
-                                        appWindowId.newUserSignal();
+                                        userListPage.updateUserListModel();
                                         newUserInfoDialogId.acceptAction = function(){newUserInfoDialogId.close(); homeStackViewId.pop();}
                                         newUserInfoDialogId.open();
 

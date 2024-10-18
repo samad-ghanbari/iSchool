@@ -7,7 +7,7 @@ function updateBranches() {
 }
 
 //read studyStep
-function updateReadStudyStep() {
+function updateReadStep() {
     readStepModel.clear();
     writeStepModel.clear();
     // should get steps of enabled branch
@@ -50,7 +50,7 @@ function updateWriteBaseModel()
 function checkFormEntries(user)
 {
 
-    // name lastname natid password email position telephone enabled admin accessBranch accessStep accessBasis permissionBranch permissionStep permissionBasis
+    // name lastname gender nat_id password passwordConfirm job_position telephone enabled admin permissions
 
     if(!user["name"])
     {
@@ -129,39 +129,7 @@ function checkFormEntries(user)
         return false;
     }
 
-    if(user["email"])
-    {
-        if(!user["email"].includes("@"))
-        {
-            newUserNameId.placeholderText="پست الکترونیکی نامعتبر است"
-            newUserNameId.placeholderTextColor = "red"
-            newUserNameId.focus = true;
 
-            newUserInfoDialogId.dialogTitle = "خطا"
-            newUserInfoDialogId.dialogText = "پست الکترونیکی نامعتبر است"
-            newUserInfoDialogId.dialogSuccess = false
-
-            return false;
-
-        }
-
-        if(!user["email"].includes("."))
-        {
-            newUserNameId.placeholderText="پست الکترونیکی نامعتبر است"
-            newUserNameId.placeholderTextColor = "red"
-            newUserNameId.focus = true;
-
-            newUserInfoDialogId.dialogTitle = "خطا"
-            newUserInfoDialogId.dialogText = "پست الکترونیکی نامعتبر است"
-            newUserInfoDialogId.dialogSuccess = false
-
-            return false;
-        }
-
-
-
-        return true;
-    }
 
     return true;
 }
