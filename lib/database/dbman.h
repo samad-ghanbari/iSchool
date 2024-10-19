@@ -21,9 +21,9 @@ public slots:
     bool newRelease();
     QString getLastError();
     bool userAuthenticate(QString natid, QString password);
-    QJsonObject getUserJson();
+    QJsonObject getUser();
+    QJsonObject getUser(int userId);
     QByteArray getUserByteArray();
-    QJsonObject getUserJson(int userId);
     QByteArray getUserByteArray(int userId);
     QString getUserName();
     bool insertUser(QJsonObject user);
@@ -50,11 +50,11 @@ public slots:
     bool deleteBranch(int id);
     bool insertBranch(QJsonObject branchObj);
 
-    //STUDY STEPS
-    QByteArray getStudyStepsByteArray(QList<int> branches);
-    QJsonArray getStudySteps(QList<int> branches);
-    QJsonArray getStudyStepsById(QList<int> steps);
-    QJsonArray getStudyStepsById(QList<int> branches, QList<int> steps);
+    //STEPS
+    QByteArray getStepsByteArray(QList<int> branches);
+    QJsonArray getSteps(QList<int> branches);
+    QJsonArray getStepsById(QList<int> steps);
+    QJsonArray getStepsById(QList<int> branches, QList<int> steps);
     QJsonArray getBranchStepsJson(int branchId);
     QByteArray getStepsJsonById(QList<int> steps);
     bool insertStep(QJsonObject step);

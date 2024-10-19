@@ -91,14 +91,16 @@ Rectangle {
         hoverEnabled: true
         onHoveredChanged: (containsMouse)? parent.opacity=1 : parent.opacity=0.8
         onClicked: {
-            //homeStackViewId.push(userComponent, {userId: userId});
+            homeStackViewId.push(userComponent, {userId: userWidget.userId, objectName: "userON"});
         }
     }
 
-    // Component
-    // {
-    //     id: userComponent
-    //     User{}
-    // }
+    Component
+    {
+        id: userComponent
+        User{
+            //userWidget: userWidget
+        }
+    }
 
 }

@@ -53,6 +53,9 @@ qt_add_qml_module(appiSchool
         ui/user/UsersListWidget.qml
         ui/user/NewUser.qml
         ui/user/NewUserJS.js
+        ui/user/User.qml
+        ui/user/User.js
+        ui/user/ChangePassDialogBox.qml
 
 
 

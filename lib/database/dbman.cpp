@@ -112,7 +112,7 @@ bool DbMan::userAuthenticate(QString natid, QString password)
     return ok;
 }
 
-QJsonObject DbMan::getUserJson()
+QJsonObject DbMan::getUser()
 {
     return user;
 }
@@ -123,10 +123,10 @@ QByteArray DbMan::getUserByteArray()
     return doc.toJson();
 }
 
-QJsonObject DbMan::getUserJson(int userId)
+QJsonObject DbMan::getUser(int userId)
 {
     QJsonObject USER;
-    query->prepare("SELECT id, name, lastname, gender, nat_id, password, job_position, telephone, permissions, enabled, admin FROM main.users WHERE id=?;");
+    query->prepare("SELECT id, name, lastname, gender, nat_id, job_position, telephone, permissions, enabled, admin FROM main.users WHERE id=?;");
     query->bindValue(0, userId);
     if(query->exec())
     {
@@ -137,11 +137,11 @@ QJsonObject DbMan::getUserJson(int userId)
             USER["lastname"] = query->value(2).toString();
             USER["gender"] = query->value(3).toString();
             USER["nat_id"] = query->value(4).toString();
-            USER["job_position"] = query->value(6).toString();
-            USER["telephone"] = query->value(7).toString();
-            USER["permissions"] = QJsonDocument::fromJson(query->value(8).toByteArray()).object();
-            USER["enabled"] = query->value(10).toBool();
-            USER["admin"] = query->value(11).toBool();
+            USER["job_position"] = query->value(5).toString();
+            USER["telephone"] = query->value(6).toString();
+            USER["permissions"] = QJsonDocument::fromJson(query->value(7).toByteArray()).object();
+            USER["enabled"] = query->value(8).toBool();
+            USER["admin"] = query->value(9).toBool();
         }
     }
 
@@ -150,7 +150,7 @@ QJsonObject DbMan::getUserJson(int userId)
 
 QByteArray DbMan::getUserByteArray(int userId)
 {
-    QJsonObject USER = this->getUserJson(userId);
+    QJsonObject USER = this->getUser(userId);
     QJsonDocument doc(USER);
     return doc.toJson();
 }
@@ -581,7 +581,7 @@ bool DbMan::insertBranch(QJsonObject branchObj)
 // STEP
 
 
-QByteArray DbMan::getStudyStepsByteArray(QList<int> branches)
+QByteArray DbMan::getStepsByteArray(QList<int> branches)
 {
     QJsonArray array;
     QStringList branchList;
@@ -610,7 +610,7 @@ QByteArray DbMan::getStudyStepsByteArray(QList<int> branches)
     return doc.toJson();
 }
 
-QJsonArray DbMan::getStudySteps(QList<int> branches)
+QJsonArray DbMan::getSteps(QList<int> branches)
 {
     QJsonArray array;
     QStringList branchList;
@@ -639,7 +639,7 @@ QJsonArray DbMan::getStudySteps(QList<int> branches)
     return array;
 }
 
-QJsonArray DbMan::getStudyStepsById(QList<int> steps)
+QJsonArray DbMan::getStepsById(QList<int> steps)
 {
     QJsonArray array;
     QStringList stepList;
@@ -648,7 +648,7 @@ QJsonArray DbMan::getStudyStepsById(QList<int> steps)
 
     QString numberList = stepList.join(",");
 
-    QString queryString = "SELECT s.id, s.branch_id, s.step_name, b.branch_name FROM main.steps s LEFT JOIN main.branches b on (s.branch_id=b.id) WHERE s.id IN("+ numberList +") ORDER BY b.id, s.id;";
+    QString queryString = "SELECT s.id, s.branch_id, s.step_name, b.city, b.branch_name FROM main.steps s LEFT JOIN main.branches b on (s.branch_id=b.id) WHERE s.id IN("+ numberList +") ORDER BY b.id, s.id;";
 
     query->prepare(queryString);
     if(query->exec())
@@ -660,7 +660,8 @@ QJsonArray DbMan::getStudyStepsById(QList<int> steps)
             obj["id"] = query->value(0).toInt();
             obj["branch_id"] = query->value(1).toInt();
             obj["step_name"] = query->value(2).toString();
-            obj["branch_name"] = query->value(3).toString();
+            obj["city"] = query->value(3).toString();
+            obj["branch_name"] = query->value(4).toString();
             array.append(obj);
         }
     }
@@ -668,7 +669,7 @@ QJsonArray DbMan::getStudyStepsById(QList<int> steps)
     return array;
 }
 
-QJsonArray DbMan::getStudyStepsById(QList<int> branches, QList<int> steps)
+QJsonArray DbMan::getStepsById(QList<int> branches, QList<int> steps)
 {
     QJsonArray array;
 
