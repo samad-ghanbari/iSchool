@@ -2,6 +2,7 @@
 #define DBMAN_H
 
 #include <QObject>
+//#include <QtQml/qqml.h>
 #include <QSqlQuery>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -9,6 +10,9 @@
 class DbMan : public QObject
 {
     Q_OBJECT
+    // QML_SINGLETON
+    // QML_ELEMENT
+
 public:
     explicit DbMan(QObject *parent = nullptr);
 

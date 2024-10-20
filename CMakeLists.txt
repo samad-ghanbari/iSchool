@@ -18,7 +18,6 @@ qt_add_executable(appiSchool
     main.cpp
 )
 
-
 qt_policy(SET QTP0004 NEW)
 
 qt_add_qml_module(appiSchool
@@ -26,8 +25,10 @@ qt_add_qml_module(appiSchool
     VERSION 1.0
     RESOURCE_PREFIX "/"
     SOURCES
-        backend/Backend.cpp backend/Backend.h
-        lib/database/dbman.cpp lib/database/dbman.h
+        backend/Backend.h
+        backend/Backend.cpp
+        lib/database/dbman.h
+        lib/database/dbman.cpp
         lib/version.h
 
     RESOURCES assets.qrc
@@ -57,6 +58,10 @@ qt_add_qml_module(appiSchool
         ui/user/User.js
         ui/user/ChangePassDialogBox.qml
 
+        ui/user/UserDelete.qml
+        ui/user/UserModify.qml
+        ui/user/UserModify.js
+
 
 
     #BRANCH
@@ -66,6 +71,8 @@ qt_add_qml_module(appiSchool
     #REPORT
 
 )
+
+
 
 qt_add_resources(appiSchool "assets"
     PREFIX "/"
@@ -151,11 +158,19 @@ qt_add_resources(appiSchool "assets"
 
 # )
 
-
+# qt_add_qml_module(appDbManModule
+#     URI dbman
+#     VERSION 1.0
+#     SOURCES
+#         lib/database/dbman.h
+#         lib/database/dbman.cpp
+# )
 
 # database support
 find_package(Qt6 REQUIRED COMPONENTS Sql)
 target_link_libraries(appiSchool PRIVATE Qt6::Sql)
+#target_link_libraries(appDbManModule PRIVATE Qt6::Sql)
+
 
 # printsupport
 find_package(Qt6 REQUIRED COMPONENTS PrintSupport)

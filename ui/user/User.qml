@@ -96,6 +96,54 @@ Page {
                             rowSpacing: 20
                             columnSpacing: 10
 
+                            RowLayout
+                            {
+                                Layout.columnSpan: 2
+                                Layout.preferredHeight: 64
+
+                                Button
+                                {
+                                    background: Item{}
+                                    icon.source: "qrc:/assets/images/edit.png"
+                                    icon.width: 64
+                                    icon.height: 64
+                                    opacity: 0.5
+                                    onClicked: homeStackViewId.push(userModifyComponent, {user: user})
+                                    hoverEnabled: true
+                                    onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                                }
+                                Button
+                                {
+                                    background: Item{}
+                                    icon.source: "qrc:/assets/images/key1.png"
+                                    icon.width: 64
+                                    icon.height: 64
+                                    opacity: 0.5
+                                    onClicked:
+                                    {
+                                        changePasswordInitialDialog.textFieldValue = ""
+                                        changePasswordInitialDialog.open();
+                                    }
+                                    hoverEnabled: true
+                                    onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                                }
+                                Item
+                                {
+                                    Layout.fillWidth: true
+                                }
+                                Button
+                                {
+                                    background: Item{}
+                                    icon.source: "qrc:/assets/images/trash.png"
+                                    icon.width: 64
+                                    icon.height: 64
+                                    opacity: 0.5
+                                    onClicked: homeStackViewId.push(userDeleteComponent, {user: user})
+                                    hoverEnabled: true
+                                    onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                                }
+                            }
+
                             //admin
                             Rectangle
                             {
@@ -317,7 +365,7 @@ Page {
                                     Layout.minimumHeight: 100
                                     model: ListModel{id: readStepModel;}
                                     delegate:
-                                        Rectangle
+                                    Rectangle
                                     {
                                         required property var model;
                                         width: userReadStepLV.width;
@@ -357,7 +405,7 @@ Page {
                                     Layout.minimumHeight: 100
                                     model: ListModel{id: readStudyBaseModel;}
                                     delegate:
-                                        Rectangle
+                                    Rectangle
                                     {
                                         required property var model;
                                         width: userReadStudyBaseLV.width;
@@ -417,7 +465,7 @@ Page {
                                     Layout.minimumHeight: 100
                                     model: ListModel{id: writeStepModel;}
                                     delegate:
-                                        Rectangle
+                                    Rectangle
                                     {
                                         required property var model;
                                         width: userWriteStepLV.width;
@@ -457,7 +505,7 @@ Page {
                                     Layout.minimumHeight: 100
                                     model: ListModel{id: writeStudyBaseModel;}
                                     delegate:
-                                        Rectangle
+                                    Rectangle
                                     {
                                         required property var model;
                                         width: userWriteStudyBaseLV.width;
@@ -561,24 +609,16 @@ Page {
     }
 
 
-    // Component
-    // {
-    //     id: userModifyComponent
-    //     UserModify{}
-    // }
+    Component
+    {
+        id: userModifyComponent
+        UserModify{}
+    }
 
-    // Component
-    // {
-    //     id: userDeleteComponent
-    //     UserDelete{}
-    // }
-
-    // Component
-    // {
-    //     id: changePasswordComponent
-    //     ChangePassword{}
-    // }
-
-
+    Component
+    {
+        id: userDeleteComponent
+        UserDelete{}
+    }
 }
 

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "./../public"
+import "./../public" as DialogBox
 
 Page {
     id: userDeletePage;
@@ -10,16 +10,22 @@ Page {
     property var user;
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
-    ColumnLayout
-    {
+    Item{
         anchors.fill: parent
-        RowLayout
+        anchors.margins: 5
+
+        GridLayout
         {
-            width: parent.width
+            id: userGridLayout
+            anchors.fill: parent
+            columns: 2
+
             Button
             {
+                Layout.preferredHeight: 64
+                Layout.preferredWidth: 64
                 background: Item{}
-                icon.source: "qrc:/Assets/images/arrow-right.png"
+                icon.source: "qrc:/assets/images/arrow-right.png"
                 icon.width: 64
                 icon.height: 64
                 opacity: 0.5
@@ -27,309 +33,272 @@ Page {
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
             }
-            Item
-            {
-                Layout.fillWidth: true
-            }
-
             Text {
-                text: user["name"] + " " + user["lastname"]
-                Layout.alignment: Qt.AlignHCenter
-                font.family: yekanFont.font.family
+                text: userDeletePage.user["name"] + " " + userDeletePage.user["lastname"]
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+                font.family: "B Yekan"
                 font.pixelSize: 24
                 font.bold: true
                 color: "mediumvioletred"
-                style: Text.Outline
-                styleColor: "white"
             }
 
-            Item
+            ScrollView
             {
+                Layout.columnSpan: 2
+                Layout.fillHeight: true
                 Layout.fillWidth: true
-            }
-        }
-        ScrollView
-        {
-            id: userDelSV
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
-            background: Rectangle{width: parent.width; height: parent.height; color: "lavenderblush";}
+                contentHeight : userListGW.implicitHeight
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
-            PaddedRectangle
-            {
-                id: userBox
-                color:"white"
-                width:  (userDelSV.width < 700)? userDelSV.width : 700
-                anchors.horizontalCenter: parent.horizontalCenter
-                implicitHeight: userManColId.height
-                padding: -10
-                radius: 10
-
-                ColumnLayout
+                Rectangle
                 {
-                    id: userManColId
-                    width: parent.width
 
-                    Text
-                    {
-                        text: "حذف کاربر"
-                        font.family: yekanFont.font.family
-                        font.pixelSize: 24
-                        font.bold: true
-                        color: "crimson"
-                        Layout.preferredWidth: parent.width
-                        Layout.preferredHeight: 50
-                        horizontalAlignment: Qt.AlignHCenter
-                        verticalAlignment: Qt.AlignVCenter
-                    }
-
-                    RowLayout
-                    {
-                        width: parent.width
-                        Item
-                        {
-                            Layout.fillWidth: true
-                        }
-                        Button
-                        {
-                            background: Item{}
-                            icon.source: "qrc:/Assets/images/trash3.png"
-                            icon.width: 64
-                            icon.height: 64
-                            opacity: 0.5
-                            onClicked: userDelDialog.open();
-                            hoverEnabled: true
-                            onHoveredChanged:
-                            {
-                                if(hovered)
-                                {
-                                     this.opacity = 1
-                                     this.scale = 1.1
-                                }
-                                else
-                                {
-                                    this.opacity = 0.8
-                                    this.scale = 1
-                                }
-                            }
-                        }
-                        Item
-                        {
-                            Layout.fillWidth: true
-                        }
-                    }
-                    //id, name, lastname, nat_id, password, email, job_position, telephone, access, write_permission, enabled, admin, gender
-                    GridLayout
-                    {
-                        id: userBasicsId
-                        columns: 2
-                        rows: 9
-                        rowSpacing: 20
-                        columnSpacing: 10
-                        width: userBox.width
-
-                        //admin
-                        Rectangle
-                        {
-                            Layout.columnSpan: 2
-                            Layout.preferredHeight: 50
-                            Layout.fillWidth: true
-                            color: "mediumvioletred"
-                            visible: (user["admin"])? true : false;
-                            Text {
-                                anchors.fill: parent
-                                text: "ادمین سامانه"
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Qt.AlignHCenter
-                                font.family: yekanFont.font.family
-                                font.pixelSize: 24
-                                font.bold: true
-                                color: "white"
-                            }
-                        }
-
-                        Text {
-                            text: "نام‌کاربر "
-                            Layout.minimumWidth: 150
-                            Layout.maximumWidth: 150
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "royalblue"
-                        }
-                        Text
-                        {
-                            id: userNameId
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            text: user["name"]
-                        }
-
-                        Text {
-                            text: "نام‌خانوادگی"
-                            Layout.minimumWidth: 150
-                            Layout.maximumWidth: 150
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "royalblue"
-                        }
-                        Text
-                        {
-                            id: userLastNameId
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            text: user["lastname"]
-                        }
-
-                        Text {
-                            text: "کدملی"
-                            Layout.minimumWidth: 150
-                            Layout.maximumWidth: 150
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "royalblue"
-                        }
-                        Text
-                        {
-                            id: userNatidId
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            text: user["nat_id"]
-                        }
-
-                        Text {
-                            text: "جنسیت"
-                            Layout.minimumWidth: 150
-                            Layout.maximumWidth: 150
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "royalblue"
-                        }
-                        Text {
-                            id: userGenderId
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            text: user["gender"]
-                        }
-
-                        Text {
-                            text: "پست الکترونیکی"
-                            Layout.minimumWidth: 150
-                            Layout.maximumWidth: 150
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "royalblue"
-                        }
-                        Text
-                        {
-                            id: userEmailId
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            text: user["email"]
-                        }
-
-                        Text {
-                            text: "سمت‌شغلی"
-                            Layout.minimumWidth: 150
-                            Layout.maximumWidth: 150
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "royalblue"
-                        }
-                        Text
-                        {
-                            id: userPositionId
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            text: user["job_position"]
-                        }
-
-                        Text {
-                            text: "شماره‌تماس"
-                            Layout.minimumWidth: 150
-                            Layout.maximumWidth: 150
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "royalblue"
-                        }
-                        Text
-                        {
-                            id: userTelId
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Qt.AlignLeft
-                            font.family: yekanFont.font.family
-                            font.pixelSize: 16
-                            text: user["telephone"]
-                        }
-
-                    }
+                    height: parent.height
+                    width: (parent.width > 700)? 700 : parent.width;
+                    color: "white"
+                    radius: 5
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     Item
                     {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
+                        id: centerBoxRec
+                        anchors.fill: parent
+                        anchors.margins : 5
+
+                        GridLayout
+                        {
+                            id: userListGW
+                            width : centerBoxRec.width
+                            //height : centerBoxRec.height
+                            columns: 2
+                            rowSpacing: 20
+                            columnSpacing: 10
+
+                            Text
+                            {
+                                Layout.columnSpan: 2
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                text: "حذف کاربر"
+                                font.family: "B Yekan"
+                                font.pixelSize: 24
+                                font.bold: true
+                                color: "crimson"
+                                horizontalAlignment: Qt.AlignHCenter
+                                verticalAlignment: Qt.AlignVCenter
+                            }
+
+                            Button
+                            {
+                                Layout.columnSpan: 2
+                                Layout.preferredWidth: 64
+                                Layout.preferredHeight: 64
+                                Layout.alignment: Qt.AlignHCenter
+                                background: Item{}
+                                icon.source: "qrc:/assets/images/trash3.png"
+                                icon.width: 64
+                                icon.height: 64
+                                opacity: 0.5
+                                onClicked: userDelDialog.open();
+                                hoverEnabled: true
+                                onHoveredChanged:
+                                {
+                                    if(hovered)
+                                    {
+                                        this.opacity = 1
+                                        this.scale = 1.1
+                                    }
+                                    else
+                                    {
+                                        this.opacity = 0.8
+                                        this.scale = 1
+                                    }
+                                }
+                            }
+
+
+
+                            //admin
+                            Rectangle
+                            {
+                                Layout.columnSpan: 2
+                                Layout.preferredHeight: 50
+                                Layout.fillWidth: true
+                                color: "mediumvioletred"
+                                visible: (userDeletePage.user["admin"])? true : false;
+                                Text {
+                                    anchors.fill: parent
+                                    text: "ادمین سامانه"
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Qt.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 24
+                                    font.bold: true
+                                    color: "white"
+                                }
+                            }
+
+                            Text {
+                                text: "نام‌کاربر "
+                                Layout.minimumWidth: 150
+                                Layout.maximumWidth: 150
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "royalblue"
+                            }
+                            Text
+                            {
+                                id: userNameId
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                text: userDeletePage.user["name"]
+                            }
+
+                            Text {
+                                text: "نام‌خانوادگی"
+                                Layout.minimumWidth: 150
+                                Layout.maximumWidth: 150
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "royalblue"
+                            }
+                            Text
+                            {
+                                id: userLastNameId
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                text: userDeletePage.user["lastname"]
+                            }
+
+                            Text {
+                                text: "کدملی"
+                                Layout.minimumWidth: 150
+                                Layout.maximumWidth: 150
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "royalblue"
+                            }
+                            Text
+                            {
+                                id: userNatidId
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                text: userDeletePage.user["nat_id"]
+                            }
+
+                            Text {
+                                text: "جنسیت"
+                                Layout.minimumWidth: 150
+                                Layout.maximumWidth: 150
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "royalblue"
+                            }
+                            Text {
+                                id: userGenderId
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                text: userDeletePage.user["gender"]
+                            }
+
+                            Text {
+                                text: "سمت ‌شغلی"
+                                Layout.minimumWidth: 150
+                                Layout.maximumWidth: 150
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "royalblue"
+                            }
+                            Text
+                            {
+                                id: userPositionId
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                text: userDeletePage.user["job_position"]
+                            }
+
+                            Text {
+                                text: "شماره‌تماس"
+                                Layout.minimumWidth: 150
+                                Layout.maximumWidth: 150
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "royalblue"
+                            }
+                            Text
+                            {
+                                id: userTelId
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                text: userDeletePage.user["telephone"]
+                            }
+
+                        }
+
+                        Item
+                        {
+                            Layout.columnSpan: 2
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                        }
                     }
                 }
             }
         }
+
     }
 
-    BaseDialog
+    DialogBox.BaseDialog
     {
         id: userDelDialog
         dialogTitle:  "حذف کاربر"
@@ -338,14 +307,14 @@ Page {
         rejectVisible: true
 
         acceptAction: function(){
-            if(dbMan.deleteUser(user["id"]))
+            if(dbMan.deleteUser(userDeletePage.user["id"]))
                 userSuccessDelDialog.open();
             else
                 userErrorDelDialog.open();
         }
     }
 
-    BaseDialog
+    DialogBox.BaseDialog
     {
         id: userSuccessDelDialog
         dialogTitle:  "حذف کاربر"
@@ -359,7 +328,7 @@ Page {
         }
     }
 
-    BaseDialog
+    DialogBox.BaseDialog
     {
         id: userErrorDelDialog
         dialogTitle:  "حذف کاربر"
@@ -368,5 +337,3 @@ Page {
         dialogSuccess: false
     }
 }
-
-
