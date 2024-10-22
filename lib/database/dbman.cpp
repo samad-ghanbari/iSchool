@@ -493,6 +493,42 @@ QByteArray DbMan::getBranchesJsonById(QList<int> branches)
     return doc.toJson();
 }
 
+QList<int> DbMan::getUserBranch(int userId)
+{
+    QList<int> branchIds;
+
+    query->prepare("SELECT permissions	FROM main.users WHERE  id=?;");
+    query->bindValue(0, userId);
+    if(query->exec())
+    {
+        if(query->next())
+        {
+            QJsonObject perm = QJsonDocument::fromJson(query->value(0).toByteArray()).object();
+            QJsonArray steps = perm.value("read").toObject().value("step").toArray();
+            QJsonArray studyBase = perm.value("read").toObject().value("study_base").toArray();
+
+            QList<int> stepList, baseList;
+            for(int i=0; i<steps.size(); i++)
+                stepList << steps[i].toInt();
+            for(int i=0; i<studyBase.size(); i++)
+                baseList << studyBase[i].toInt();
+
+            QList<int> stepBranch = getStepsBranch(stepList);
+            QList<int> baseBranch = getStudyBaseBranch(baseList);
+
+            for(int i = 0; i<stepBranch.size(); i++)
+                if(!branchIds.contains(stepBranch[i]))
+                    branchIds << stepBranch[i];
+
+            for(int i = 0; i<baseBranch.size(); i++)
+                if(!branchIds.contains(baseBranch[i]))
+                    branchIds << baseBranch[i];
+        }
+    }
+
+    return branchIds;
+}
+
 bool DbMan::updateBranch(QJsonObject branch)
 {
     int id = branch.value("id").toInt();
@@ -705,6 +741,25 @@ QJsonArray DbMan::getStepsById(QList<int> branches, QList<int> steps)
     return array;
 }
 
+QList<int> DbMan::getStepsBranch(QList<int> stepsId)
+{
+    QList<int> array;
+    QStringList strList;
+    for (int i = 0; i < stepsId.size(); ++i)
+        strList << QString::number(stepsId[i]);
+    QString cond = strList.join(',');
+    QString queryString = "SELECT  branch_id FROM main.steps WHERE id IN(" + cond + ");";
+    query->prepare(queryString);
+    if(query->exec())
+        while(query->next())
+        {
+            array << query->value(0).toInt();
+        }
+
+
+    return array;
+}
+
 QJsonArray DbMan::getBranchStepsJson(int branchId)
 {
     QJsonArray array;
@@ -884,6 +939,25 @@ QByteArray DbMan::getStudyBasesByteArray(QList<int> branches)
     }
     QJsonDocument doc(array);
     return doc.toJson();
+}
+
+QList<int> DbMan::getStudyBaseBranch(QList<int> baseId)
+{
+    QList<int> array;
+    QStringList strList;
+    for (int i = 0; i < baseId.size(); ++i)
+        strList << QString::number(baseId[i]);
+    QString cond = strList.join(',');
+    QString queryString = "SELECT  branch_id FROM main.study_base WHERE id IN(" + cond + ");";
+    query->prepare(queryString);
+    if(query->exec())
+        while(query->next())
+        {
+            array << query->value(0).toInt();
+        }
+
+
+    return array;
 }
 
 QJsonArray DbMan::getStudyBases(QList<int> branches)

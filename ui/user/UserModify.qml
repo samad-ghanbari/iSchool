@@ -11,15 +11,17 @@ import "UserModify.js" as UserMethods
 Page {
     id: userModifyPageId
     property var user;
+    property var readPerm  : userModifyPageId.user["permissions"]["read"];
+    property var writePerm : userModifyPageId.user["permissions"]["write"];
 
-    property var selectedBranches:[]
-    property var readStep:[]
-    property var readStudyBase:[]
+    property var selectedBranches: dbMan.getUserBranch(userModifyPageId.user["id"]);
+    property var readStep: userModifyPageId.readPerm["step"];
+    property var readStudyBase:userModifyPageId.readPerm["study_base"];
 
-    property var selectedSteps:[]
-    property var selectedBases:[]
-    property var writeStep:[]
-    property var writeStudyBase:[]
+    property var selectedSteps:userModifyPageId.readPerm["step"];
+    property var selectedBases:userModifyPageId.readPerm["study_base"];
+    property var writeStep: userModifyPageId.writePerm["step"];
+    property var writeStudyBase:userModifyPageId.writePerm["study_base"];
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
     Item{
@@ -126,6 +128,7 @@ Page {
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 placeholderText: "نام‌کاربر"
+                                text: userModifyPageId.user["name"]
 
                             }
 
@@ -148,6 +151,7 @@ Page {
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 placeholderText: "نام خانوادگی"
+                                text: userModifyPageId.user["lastname"]
                             }
 
                             Text {
@@ -168,6 +172,7 @@ Page {
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 Layout.preferredHeight: 50
+                                Component.onCompleted: updateUserGenderId.currentIndex = find(userModifyPageId.user["gender"])
                             }
 
                             Text {
@@ -189,6 +194,7 @@ Page {
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 placeholderText: "کد ملی کاربر"
+                                text: userModifyPageId.user["nat_id"]
                             }
 
                             Text {
@@ -210,6 +216,7 @@ Page {
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 placeholderText: "پست کاربر"
+                                text: userModifyPageId.user["job_position"]
                             }
 
                             Text {
@@ -231,6 +238,7 @@ Page {
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 placeholderText: "شماره تماس"
+                                text: userModifyPageId.user["telephone"]
                             }
 
                             //enabled
@@ -248,7 +256,7 @@ Page {
                             Switch
                             {
                                 id: updateUserEnabledId
-                                checked: true
+                                checked: (userModifyPageId.user["enabled"])? true : false
                             }
 
                             //admin
@@ -266,7 +274,7 @@ Page {
                             Switch
                             {
                                 id: updateUserAdminId
-                                checked: false
+                                checked:  (userModifyPageId.user["admin"])? true : false
                                 onCheckedChanged:
                                 {
                                     updateUserAccPermId.visible=(checked)? false : true;
@@ -275,7 +283,7 @@ Page {
                             }
                             Text {
                                 id: adminWarningMessage
-                                visible: false
+                                visible:  (userModifyPageId.user["admin"])? true : false
                                 text: "هشدار! کاربر ادمین، دسترسی کامل به مدیریت سامانه دارد"
                                 Layout.columnSpan: 2
                                 Layout.alignment: Qt.AlignLeft
@@ -343,7 +351,7 @@ Page {
                                 {
                                     spacing: 20
                                     Layout.columnSpan: 2
-                                    //flow: Flow.TopToBottom
+                                    flow: Flow.TopToBottom
 
                                     Repeater
                                     {
@@ -403,6 +411,7 @@ Page {
                                 {
                                     spacing: 20
                                     Layout.columnSpan: 2
+                                    flow: Flow.TopToBottom
 
                                     Repeater
                                     {
@@ -448,6 +457,11 @@ Page {
                                             }
                                         }
                                     }
+
+                                    Component.onCompleted:
+                                    {
+                                        UserMethods.updateReadStep()
+                                    }
                                 }
 
                                 // read study base
@@ -465,6 +479,7 @@ Page {
                                 {
                                     spacing: 20
                                     Layout.columnSpan: 2
+                                    flow: Flow.TopToBottom
 
                                     Repeater
                                     {
@@ -511,7 +526,13 @@ Page {
                                             }
                                         }
                                     }
+
+                                    Component.onCompleted:
+                                    {
+                                        UserMethods.updateReadStudyBase()
+                                    }
                                 }
+
 
                                 Rectangle
                                 {
@@ -535,6 +556,7 @@ Page {
                                 {
                                     spacing: 20
                                     Layout.columnSpan: 2
+                                    flow: Flow.TopToBottom
 
                                     Repeater
                                     {
@@ -564,6 +586,11 @@ Page {
                                             }
                                         }
                                     }
+
+                                    Component.onCompleted:
+                                    {
+                                        UserMethods.updateWriteStepModel()
+                                    }
                                 }
 
                                 //write study base
@@ -580,6 +607,7 @@ Page {
                                 {
                                     spacing: 20
                                     Layout.columnSpan: 2
+                                    flow: Flow.TopToBottom
 
                                     Repeater
                                     {
@@ -609,6 +637,11 @@ Page {
 
                                             }
                                         }
+                                    }
+
+                                    Component.onCompleted:
+                                    {
+                                        UserMethods.updateWriteStepModel()
                                     }
                                 }
 

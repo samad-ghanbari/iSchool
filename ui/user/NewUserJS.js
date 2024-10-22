@@ -11,7 +11,7 @@ function updateReadStep() {
     readStepModel.clear();
     writeStepModel.clear();
     // should get steps of enabled branch
-    var jsondata = dbMan.getStudySteps(selectedBranches);
+    var jsondata = dbMan.getSteps(selectedBranches);
     for(var obj of jsondata)
         readStepModel.append({ Id: obj.id, Branch_id: obj.branch_id, Step_name: obj.step_name, Branch_name: obj.branch_name});
 }
@@ -30,7 +30,7 @@ function updateWriteStepModel()
 {
     writeStepModel.clear();
     // should get steps of enabled branch
-    var jsondata = dbMan.getStudyStepsById(selectedBranches, selectedSteps);
+    var jsondata = dbMan.getStepsById(selectedBranches, selectedSteps);
     for(var obj of jsondata)
         writeStepModel.append({ Id: obj.id, Branch_id: obj.branch_id, Step_name: obj.step_name, Branch_name: obj.branch_name});
 }
