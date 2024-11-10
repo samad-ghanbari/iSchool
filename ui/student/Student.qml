@@ -92,7 +92,7 @@ Page {
                                 onClicked: studentPage.appStackView.push(modifyComponent)
                                 hoverEnabled: true
                                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-                                NumberAnimation on rotation { duration: 400; from: 0; to:360; easing.type: Easing.Linear }
+                                NumberAnimation on scale { duration: 400; from: 0; to:1; easing.type: Easing.Linear }
                             }
                             Item
                             {
@@ -108,7 +108,7 @@ Page {
                                 onClicked:studentPage.appStackView.push(deleteComponent)
                                 hoverEnabled: true
                                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-                                NumberAnimation on rotation { duration: 400; from: 0; to:360; easing.type: Easing.Linear }
+                                NumberAnimation on scale { duration: 400; from: 0; to:1; easing.type: Easing.Linear }
                             }
                         }
 

@@ -204,19 +204,20 @@ Page {
                         }
 
 
-                        ListView
+                        GridView
                         {
-                            id: courseEvalLV
+                            id: courseEvalGV
                             Layout.columnSpan: 2
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             Layout.margins: 10
                             flickableDirection: Flickable.AutoFlickDirection
                             clip: true
-                            spacing: 5
+                            cellWidth: 410
+                            cellHeight:310
                             model: ListModel{id: courseEvalModel}
                             highlight: Item{}
-                            delegate: lvDelegate
+                            delegate: gvDelegate
                             Component.onCompleted: Methods.updateCourseEvalModel(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
                         }
                     }
@@ -230,80 +231,137 @@ Page {
     //delegate
     Component
     {
-        id: lvDelegate
+        id: gvDelegate
         Rectangle
         {
             id: recDelt
-            width: courseEvalLV.width
-            implicitHeight: 50
+            width: 400
+            height: 300
             required property var model;
             //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_name, e.eval_time, e.course_id, e.max_grade
 
             color: (recDelt.model.index % 2 == 0)? "whitesmoke": "snow";
-            RowLayout
+            Rectangle
             {
-                width: recDelt.width
-                height: recDelt.height
-                uniformCellSizes: true;
-
+                id: evalNameRect
+                width: parent.width
+                height: 50
+                color: "slategray"
+                anchors.top : recDelt.top
                 Text
                 {
-                    Layout.preferredHeight: parent.height
+                    anchors.fill: parent
                     verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignLeft
+                    horizontalAlignment: Text.AlignHCenter
+                    color: "white"
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
                     text: recDelt.model.Eval_name
+                    elide: Text.ElideLeft
                 }
+            }
 
+            Rectangle
+            {
+                id: evalTimeRect
+                width: parent.width
+                height: 50
+                color: "transparent"
+                anchors.top : evalNameRect.bottom
                 Text
                 {
-                    //Layout.fillWidth: true
-                    Layout.preferredHeight: parent.height
+                    anchors.fill: parent
                     verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignLeft
+                    horizontalAlignment: Text.AlignHCenter
+                    color: "slategray"
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
                     text: recDelt.model.Eval_time
-                }
-
-                Text
-                {
-                    Layout.preferredHeight: parent.height
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignLeft
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    font.bold: true
-                    text: recDelt.model.Student_grade
-                }
-
-                Text
-                {
-                    Layout.preferredHeight: parent.height
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignLeft
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    font.bold: true
-                    text: recDelt.model.Normalised_grade
-                }
-
-                Text
-                {
-                    Layout.preferredHeight: parent.height
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignLeft
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    font.bold: true
-                    text: recDelt.model.Max_grade
+                    elide: Text.ElideLeft
                 }
             }
 
 
+            Rectangle
+            {
+                id: studentGradeRect
+                width: parent.width
+                height: 50
+                color: "transparent"
+                anchors.top : evalTimeRect.bottom
+                Text
+                {
+                    id: studentGradeText
+                    anchors.fill: parent
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    color: "slategray"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: "نمره دریافتی: " + recDelt.model.Student_grade
+                    elide: Text.ElideLeft
+                }
+            }
+
+            Rectangle
+            {
+                id: normGradeRect
+                width: parent.width
+                height: 50
+                color: "transparent"
+                visible: (recDelt.model.Normalised_grade > 0)? true : false
+                anchors.top : studentGradeRect.bottom
+                Text
+                {
+                    anchors.fill: parent
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    color: "slategray"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: "نمره با اعمال نمودار: " + recDelt.model.Normalised_grade
+                    elide: Text.ElideLeft
+                }
+            }
+
+            Rectangle
+            {
+                id: maxGradeRect
+                width: parent.width
+                height: 50
+                color: "transparent"
+                anchors.top : normGradeRect.bottom
+                Text
+                {
+                    anchors.fill: parent
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    color: "slategray"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: "بیشترین نمره: " + recDelt.model.Max_grade
+                    elide: Text.ElideLeft
+                }
+            }
+
+            MouseArea
+            {
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered:{
+                    evalNameRect.color= "mediumvioletred"
+                    studentGradeText.color = "mediumvioletred"
+                }
+                onExited: {
+                    evalNameRect.color=  "slategray"
+                    studentGradeText.color = "slategray"
+                }
+            }
         }
     }
 }
