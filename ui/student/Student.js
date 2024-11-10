@@ -187,3 +187,29 @@ function updateCourseCB(student_id, step_id, base_id, period_id)
     }
 
 }
+
+
+
+// course eval
+function updateCourseEvalModel(student_id, course_id)
+{
+    courseEvalModel.clear();
+    var jsondata = dbMan.getStudentCourseEvals(student_id, course_id);
+    //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_name, e.eval_time, e.course_id, e.max_grade
+    for(var obj of jsondata)
+    {
+        courseEvalModel.append({
+                                      Id: obj.id,
+                                      Student_id: obj.student_id,
+                                      Eval_id: obj.eval_id,
+                                      Student_grade: obj.student_grade,
+                                      Normalised_grade: obj.normalised_grade,
+                                      Eval_name: obj.eval_name,
+                                      Eval_time: obj.eval_time,
+                                      Course_id: obj.course_id,
+                                      Max_grade: obj.max_grade
+                                  });
+
+
+    }
+}

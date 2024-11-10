@@ -5,7 +5,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 //import "./../public" as DialogBox
-//import "Student.js" as Methods
+import "Student.js" as Methods
 
 Page {
     id: studentCourseEvalPage
@@ -204,11 +204,106 @@ Page {
                         }
 
 
+                        ListView
+                        {
+                            id: courseEvalLV
+                            Layout.columnSpan: 2
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                            Layout.margins: 10
+                            flickableDirection: Flickable.AutoFlickDirection
+                            clip: true
+                            spacing: 5
+                            model: ListModel{id: courseEvalModel}
+                            highlight: Item{}
+                            delegate: lvDelegate
+                            Component.onCompleted: Methods.updateCourseEvalModel(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
+                        }
                     }
 
                 }
             }
         }
 
+    }
+
+    //delegate
+    Component
+    {
+        id: lvDelegate
+        Rectangle
+        {
+            id: recDelt
+            width: courseEvalLV.width
+            implicitHeight: 50
+            required property var model;
+            //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_name, e.eval_time, e.course_id, e.max_grade
+
+            color: (recDelt.model.index % 2 == 0)? "whitesmoke": "snow";
+            RowLayout
+            {
+                width: recDelt.width
+                height: recDelt.height
+                uniformCellSizes: true;
+
+                Text
+                {
+                    Layout.preferredHeight: parent.height
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: recDelt.model.Eval_name
+                }
+
+                Text
+                {
+                    //Layout.fillWidth: true
+                    Layout.preferredHeight: parent.height
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: recDelt.model.Eval_time
+                }
+
+                Text
+                {
+                    Layout.preferredHeight: parent.height
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: recDelt.model.Student_grade
+                }
+
+                Text
+                {
+                    Layout.preferredHeight: parent.height
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: recDelt.model.Normalised_grade
+                }
+
+                Text
+                {
+                    Layout.preferredHeight: parent.height
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: recDelt.model.Max_grade
+                }
+            }
+
+
+        }
     }
 }
