@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import "./../public" as DialogBox
 import "Student.js" as Methods
 
 Page {
@@ -55,66 +56,72 @@ Page {
 
 
         //student info
-
-        Image
+        Rectangle
         {
             Layout.columnSpan: 2
-            Layout.preferredWidth: 128
-            Layout.preferredHeight: 128
-            Layout.alignment: Qt.AlignHCenter
-            source: (studentCoursesPage.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
-        }
+            Layout.fillWidth: true
+            implicitHeight: 200
+            RowLayout
+            {
+                anchors.fill: parent
+                Image
+                {
+                    Layout.preferredWidth: 128
+                    Layout.preferredHeight: 128
+                    Layout.alignment: Qt.AlignLeft
+                    source: (studentCoursesPage.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
+                }
+                Column{
+                    Layout.fillWidth: true
+                    Text {
+                        text: studentCoursesPage.student["name"] + " " + studentCoursesPage.student["lastname"]
+                        height: 50
+                        width: parent.width
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "royalblue"
+                    }
 
-        Text {
-            Layout.columnSpan: 2
-            text: studentCoursesPage.student["name"] + " " + studentCoursesPage.student["lastname"]
-            Layout.fillWidth: true
-            Layout.preferredHeight: 50
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            font.family: "B Yekan"
-            font.pixelSize: 16
-            font.bold: true
-            color: "royalblue"
-        }
-
-        Text {
-            Layout.columnSpan: 2
-            text: "نام پدر" + " : " + studentCoursesPage.student["fathername"]
-            Layout.fillWidth: true
-            Layout.preferredHeight: 50
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            font.family: "B Yekan"
-            font.pixelSize: 16
-            font.bold: true
-            color: "royalblue"
-        }
-// branch step
-        Text {
-            Layout.columnSpan: 2
-            text: "شعبه " + " : " + studentCoursesPage.model.City + " - " + studentCoursesPage.model.Branch_name + " - " + studentCoursesPage.model.Step_name
-            Layout.fillWidth: true
-            Layout.preferredHeight: 50
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            font.family: "B Yekan"
-            font.pixelSize: 16
-            font.bold: true
-            color: "royalblue"
-        }
-// base period
-        Text {
-            Layout.columnSpan: 2
-            text:  studentCoursesPage.model.Study_base + " - " + studentCoursesPage.model.Study_period
-            Layout.fillWidth: true
-            Layout.preferredHeight: 50
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            font.family: "B Yekan"
-            font.pixelSize: 16
-            font.bold: true
-            color: "royalblue"
+                    Text {
+                        text: "نام پدر" + " : " + studentCoursesPage.student["fathername"]
+                        height: 50
+                        width: parent.width
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "royalblue"
+                    }
+            // branch step
+                    Text {
+                        text: "شعبه " + " : " + studentCoursesPage.model.City + " - " + studentCoursesPage.model.Branch_name + " - " + studentCoursesPage.model.Step_name + " - " + studentCoursesPage.model.Study_base
+                        height: 50
+                        width: parent.width
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "royalblue"
+                    }
+            // base period
+                    Text {
+                        text:  studentCoursesPage.model.Study_period
+                        height: 50
+                        width: parent.width
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 20
+                        font.bold: true
+                        color: "darkcyan"
+                    }
+                }
+            }
         }
 
 
@@ -128,22 +135,57 @@ Page {
             Layout.bottomMargin: 10
         }
 
-        // add course base+step
-        Button
+        Item
         {
             Layout.columnSpan: 2
             Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            Layout.alignment: Qt.AlignRight
-            background: Item{}
-            icon.source: "qrc:/assets/images/add.png"
-            icon.width: 64
-            icon.height: 64
-            opacity: 0.5
-            onClicked: studentCoursesPage.appStackView.push(insertStudentCourse)
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+            Layout.fillWidth: true
+
+            Button
+            {
+
+                width: 64
+                height: 64
+                anchors.left: parent.left
+                background: Item{}
+                icon.source: "qrc:/assets/images/add.png"
+                icon.width: 64
+                icon.height: 64
+                opacity: 0.5
+                onClicked: studentCoursesPage.appStackView.push(insertStudentCourse)
+                hoverEnabled: true
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+            }
+            Button
+            {
+
+                width: 64
+                height: 64
+                anchors.right: parent.right
+                background: Item{}
+                icon.source: "qrc:/assets/images/refresh.png"
+                icon.width: 64
+                icon.height: 64
+                opacity: 0.5
+                onClicked:
+                {
+                    if(Methods.updateBaseCourses(studentCoursesPage.model.Id)) //registerId
+                    {
+                        infoDialogId.dialogSuccess = true;
+                        infoDialogId.dialogTitle = "عملیات موفق";
+                        infoDialogId.dialogText = "بروزرسانی دروس پایه دانش‌آموز با موفقیت انجام شد.";
+                        infoDialogId.open();
+                    }
+                    else
+                    {
+                        infoDialogId.open();
+                    }
+                }
+                hoverEnabled: true
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+            }
         }
+
 
         GridView
         {
@@ -154,8 +196,8 @@ Page {
             Layout.margins: 10
             flickableDirection: Flickable.AutoFlickDirection
             clip: true
-            cellWidth: 300
-            cellHeight: 250
+            cellWidth: 320
+            cellHeight: 220
             model: ListModel{id: scModel}
             highlight: Item{}
             delegate: gvDelegate
@@ -190,8 +232,8 @@ Page {
         {
             id: recDelt
             required property var model;
-            height: 110
-            width: studentCourseGV.width
+            height: 200
+            width: 300
             checkable: true
             checked: recDelt.swipe.complete
             onCheckedChanged: { if(!recDelt.checked) recDelt.swipe.close();}
@@ -203,6 +245,9 @@ Page {
             contentItem: Rectangle
             {
                 color: (recDelt.highlighted)? "snow" : "whitesmoke";
+
+                Rectangle{height: 2; width: parent.width; anchors.bottom: parent.bottom; color: (studentCoursesPage.model.Study_base_id > -1)? "darkcyan" : "mediumvioletred"; }
+
 
                 Column
                 {
@@ -226,7 +271,7 @@ Page {
                         text: "مدرس " + recDelt.model.Teacher
                         padding: 0
                         font.family: "B Yekan"
-                        font.pixelSize: (recDelt.highlighted)? 20 :16
+                        font.pixelSize: 16
                         font.bold: (recDelt.highlighted)? true : false
                         color: (recDelt.model.Passed)? "mediumvioletred":"dodgerblue"
                         horizontalAlignment: Label.AlignHCenter
@@ -238,7 +283,7 @@ Page {
                         text: "کلاس " + recDelt.model.Class_name
                         padding: 0
                         font.family: "B Yekan"
-                        font.pixelSize: (recDelt.highlighted)? 20 :16
+                        font.pixelSize: 16
                         font.bold: (recDelt.highlighted)? true : false
                         color: (recDelt.model.Passed)? "mediumvioletred":"dodgerblue"
                         horizontalAlignment: Label.AlignHCenter
@@ -246,8 +291,6 @@ Page {
                         height: 50
                         elide: Text.ElideRight
                     }
-
-                    Rectangle{width: 400; height:5; color: (recDelt.highlighted)? "mediumvioletred" : "whitesmoke"; anchors.horizontalCenter: parent.horizontalCenter }
                 }
             }
 
@@ -292,9 +335,23 @@ Page {
     Component
     {
         id: insertStudentCourse
-        Item
+        StudentCourseInsert
         {
+            onPopStackViewSignal: studentCoursesPage.appStackView.pop();
+            onInsertedSignal: Methods.updateStudentCourses(studentCoursesPage.model.Id);
+
+            student: studentCoursesPage.student
+            registerModel: studentCoursesPage.model
+
         }
     }
 
+    //dialog
+    DialogBox.BaseDialog
+    {
+        id: infoDialogId
+        dialogTitle: "خطا"
+        dialogText: "بروزرسانی دیتابیس با خطا مواجه شد."
+        dialogSuccess: false
+    }
 }

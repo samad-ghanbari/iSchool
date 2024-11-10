@@ -140,7 +140,8 @@ qt_add_qml_module(appiSchool
     #STUDENT EVALS
         ui/student_evals/StudentsEvals.qml
         ui/student_evals/StudentsEvals.js
-        QML_FILES ui/student/StudentCourses.qml
+        ui/student/StudentCourses.qml
+        ui/student/StudentCourseInsert.qml
 
 
     #REPORT
@@ -184,6 +185,7 @@ qt_add_resources(appiSchool "assets"
         assets/images/home1.png
         assets/images/home2.png
         assets/images/toolbox.png
+        assets/images/refresh.png
 
     #LOGO
     FILES

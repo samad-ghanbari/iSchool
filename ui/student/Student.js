@@ -137,7 +137,7 @@ function updateStudentCourses(registerId)
 
     // 0sc.id, sc.student_id, sc.course_id
     // 3co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
-    // 9t.name, t.lastname, cl.class_name
+    // 9t.teacher, cl.class_name
 
     scModel.clear();
     var jsondata = dbMan.getStudentCourses(registerId);
@@ -153,9 +153,37 @@ function updateStudentCourses(registerId)
                                       Study_base_id: obj.study_base_id,
                                       Teacher_id: obj.teacher_id,
                                       Study_period_id: obj.study_period_id,
-                                      Teacher: obj.name + " " + obj.lastname,
+                                      Teacher: obj.teacher,
                                       Class_name: obj.class_name
 
                                   });
     }
+}
+
+
+function updateBaseCourses(registerId)
+{
+
+    //update database
+    if(dbMan.updateStudentBaseCourses(registerId))
+    {
+        // update model
+        updateStudentCourses(registerId);
+        return true;
+    }
+    else
+        return false;
+}
+
+
+function updateCourseCB(student_id, step_id, base_id, period_id)
+{
+    courseCBModel.clear();
+    var jsondata = dbMan.getStudentLeftCourses(student_id, step_id, base_id, period_id);
+     // co.id, co.course_name, cl.class_name, t.name, t.lastname
+    for(var obj of jsondata)
+    {
+            courseCBModel.append({value: obj.id,  text: obj.course_name + " (" + obj.teacher + ") " })
+    }
+
 }
