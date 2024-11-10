@@ -142,6 +142,7 @@ qt_add_qml_module(appiSchool
         ui/student_evals/StudentsEvals.js
         ui/student/StudentCourses.qml
         ui/student/StudentCourseInsert.qml
+        ui/student/StudentCourseDelete.qml
 
 
     #REPORT

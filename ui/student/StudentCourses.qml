@@ -298,33 +298,46 @@ Page {
             onPressed: { studentCourseGV.currentIndex = model.index; studentCourseGV.closeSwipeHandler();}
             highlighted: (model.index === studentCourseGV.currentIndex)? true: false;
 
-            swipe.right: Row{
-                width: 150
-                height: 100
+            swipe.right:
+            Rectangle{
+                width: 75
+                height: 200
+                color: "whitesmoke"
                 anchors.left: parent.left
 
-                Button
-                {
-                    height: 100
-                    width: 75
-                    background: Rectangle{id:trashBtnBg; color: "crimson"}
-                    hoverEnabled: true
-                    onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
-                    text: "حذف"
-                    font.bold: true
-                    font.family: "B Yekan"
-                    font.pixelSize: 14
-                    palette.buttonText:  "white"
-                    icon.source: "qrc:/assets/images/trash.png"
-                    icon.width: 32
-                    icon.height: 32
-                    display: AbstractButton.TextUnderIcon
-                    SwipeDelegate.onClicked:
-                    {
-                        if(recDelt.swipe.complete)
-                            recDelt.swipe.close();
+                Column{
+                    anchors.fill: parent
 
-                        //studentCoursesPage.appStackView.push(deleteComponent, {regId: recDelt.model.Id, regStep: recDelt.model.Step_name, regBase: recDelt.model.Study_base, regPeriod: recDelt.model.Study_period });
+                    Button
+                    {
+                        height: 75
+                        width: 75
+                        background: Rectangle{id:trashBtnBg; color: "crimson"}
+                        hoverEnabled: true
+                        onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
+                        text: "حذف"
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 14
+                        palette.buttonText:  "white"
+                        icon.source: "qrc:/assets/images/trash.png"
+                        icon.width: 32
+                        icon.height: 32
+                        display: AbstractButton.TextUnderIcon
+                        SwipeDelegate.onClicked:
+                        {
+                            if(recDelt.swipe.complete)
+                                recDelt.swipe.close();
+                            // 0sc.id, sc.student_id, sc.course_id
+                            // 3co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
+                            // 9t.name, t.lastname, cl.class_name
+                            studentCoursesPage.appStackView.push(deleteComponent, {
+                                                                     student_course_id: recDelt.model.Id,
+                                                                     course_name: recDelt.model.Course_name,
+                                                                     class_name: recDelt.model.Class_name,
+                                                                     teacher: recDelt.model.Teacher
+                                                                 });
+                        }
                     }
                 }
             }
@@ -343,6 +356,20 @@ Page {
             student: studentCoursesPage.student
             registerModel: studentCoursesPage.model
 
+        }
+    }
+
+    // delete student course
+    Component
+    {
+        id: deleteComponent
+        StudentCourseDelete
+        {
+            onPopStackViewSignal: studentCoursesPage.appStackView.pop();
+            onDeletedSignal: Methods.updateStudentCourses(studentCoursesPage.model.Id);
+
+            student: studentCoursesPage.student
+            registerModel: studentCoursesPage.model
         }
     }
 
