@@ -16,7 +16,6 @@ Page {
     required property string course_name;
     required property string class_name;
     required property string teacher;
-
     required property int student_course_id;
 
     signal popStackViewSignal();

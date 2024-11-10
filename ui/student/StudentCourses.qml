@@ -339,6 +339,35 @@ Page {
                                                                  });
                         }
                     }
+
+                    Button
+                    {
+                        height: 75
+                        width: 75
+                        background: Rectangle{id:evalBtnBg; color: "dodgerblue"}
+                        hoverEnabled: true
+                        onHoveredChanged: evalBtnBg.color=(hovered)? Qt.darker("dodgerblue", 1.1):"dodgerblue"
+                        text: "ارزیابی"
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 14
+                        palette.buttonText:  "white"
+                        icon.source: "qrc:/assets/images/evaluation.png"
+                        icon.width: 32
+                        icon.height: 32
+                        display: AbstractButton.TextUnderIcon
+                        SwipeDelegate.onClicked:
+                        {
+                            if(recDelt.swipe.complete)
+                                recDelt.swipe.close();
+                            // 0sc.id, sc.student_id, sc.course_id
+                            // 3co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
+                            // 9t.name, t.lastname, cl.class_name
+                            studentCoursesPage.appStackView.push(evalComponent, {
+                                                                     studentCourseModel: recDelt.model
+                                                                 });
+                        }
+                    }
                 }
             }
         }
@@ -381,4 +410,20 @@ Page {
         dialogText: "بروزرسانی دیتابیس با خطا مواجه شد."
         dialogSuccess: false
     }
+
+
+    //eval
+    Component
+    {
+        id: evalComponent
+        StudentCourseEval
+        {
+            onPopStackViewSignal: studentCoursesPage.appStackView.pop();
+
+            student: studentCoursesPage.student
+            registerModel: studentCoursesPage.model
+        }
+    }
+
+
 }
