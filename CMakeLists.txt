@@ -188,6 +188,7 @@ qt_add_resources(appiSchool "assets"
         assets/images/home2.png
         assets/images/toolbox.png
         assets/images/refresh.png
+        assets/images/info.png
 
     #LOGO
     FILES

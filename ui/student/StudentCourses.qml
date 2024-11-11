@@ -158,7 +158,7 @@ Page {
             }
             Button
             {
-
+                id: refreshBtn
                 width: 64
                 height: 64
                 anchors.right: parent.right
@@ -180,6 +180,25 @@ Page {
                     {
                         infoDialogId.open();
                     }
+                }
+                hoverEnabled: true
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+            }
+            Button
+            {
+
+                width: 64
+                height: 64
+                anchors.right: refreshBtn.left
+                background: Item{}
+                icon.source: "qrc:/assets/images/info.png"
+                icon.width: 64
+                icon.height: 64
+                opacity: 0.5
+                onClicked:
+                {
+                    studentCourseInfoDrawer.open();
+                    studentCourseInfoDrawer.statCalulation();
                 }
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -249,6 +268,26 @@ Page {
                 Rectangle{height: 2; width: parent.width; anchors.bottom: parent.bottom; color: (studentCoursesPage.model.Study_base_id > -1)? "darkcyan" : "mediumvioletred"; }
 
 
+
+                //coefficient
+                Rectangle
+                {
+                    width: 30
+                    height: 30
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    color: (recDelt.highlighted)? "darkcyan" : "gray";
+                    Text
+                    {
+                        anchors.centerIn: parent
+                        text: recDelt.model.Coefficient
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "white"
+                    }
+                }
+
                 Column
                 {
                     id: recDeltCol
@@ -261,7 +300,7 @@ Page {
                         font.family: "B Yekan"
                         font.pixelSize: (recDelt.highlighted)? 20 :16
                         font.bold: (recDelt.highlighted)? true : false
-                        color: (recDelt.highlighted)? "royalblue":"black"
+                        color: (recDelt.highlighted)? "darkcyan":"black"
                         horizontalAlignment: Label.AlignHCenter
                         width: parent.width
                         height: 50
@@ -426,4 +465,36 @@ Page {
     }
 
 
+    // info drawer
+    Drawer
+    {
+        id: studentCourseInfoDrawer
+        modal: true
+        height: parent.height
+        width: 300
+        dragMargin: 0
+        property var studentStat : {}
+        // courses: {riazi :{ coefiicient:2 , mean: 15 , normalised: 18}, ... }
+        // average : {coefficient: 32, average: 14 , normalised: 18}
+
+        function statCalulation()
+        {
+            studentCourseInfoDrawer.studentStat = dbMan.getStudentStat(studentCoursesPage.model.Id); // register id
+        }
+
+        ScrollView
+        {
+            id: studentCourseInfoSV
+            anchors.fill: parent
+
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+
+            ColumnLayout
+            {
+                width: studentCourseInfoSV.width
+
+            }
+        }
+    }
 }

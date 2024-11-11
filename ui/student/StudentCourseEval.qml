@@ -18,7 +18,7 @@ Page {
 
     required property var studentCourseModel;
     // 0sc.id, sc.student_id, sc.course_id
-    // 3co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
+    // 3co.course_name, co.coefficient, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
     // 9t.name, t.lastname, cl.class_name
 
     signal popStackViewSignal();
@@ -192,6 +192,23 @@ Page {
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "white"
+                            }
+
+                            Rectangle
+                            {
+                                width: 50;
+                                height: parent.height;
+                                anchors.right: parent.right
+                                color: "indianred"
+                                Text
+                                {
+                                    anchors.centerIn: parent
+                                    text: studentCourseEvalPage.studentCourseModel.Coefficient
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 24
+                                    font.bold: true
+                                    color: "white"
+                                }
                             }
                         }
 

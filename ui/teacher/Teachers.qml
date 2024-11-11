@@ -265,6 +265,7 @@ Page {
         modal: true
         height: parent.height
         width: 300
+        dragMargin: 0
 
         ScrollView
         {
