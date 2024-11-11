@@ -18,6 +18,7 @@ Page {
     required property int base_id;
     required property int teacher_id;
     required property int class_id;
+    required property int coefficient
 
 
     required property string branch;
@@ -229,6 +230,30 @@ Page {
 
                             }
 
+                            //Course coef
+                            Text {
+                                text: "ضریب درس"
+                                Layout.minimumWidth: 150
+                                Layout.maximumWidth: 150
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "black"
+                            }
+                            TextField
+                            {
+                                id: courseCoefTF
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                placeholderText: "ضریب درس"
+                                text: updatePage.coefficient
+                                validator: IntValidator{bottom: 0; top: 20;}
+                            }
+
                             //class
                             Text {
                                 text: "کلاس درس"
@@ -311,6 +336,7 @@ Page {
                                 var course = {};
                                 course["id"] = updatePage.course_id;
                                 course["course_name"] = courseNameTF.text
+                                course["coefficient"] = parseInt(courseCoefTF.text)
                                 course["teacher_id"] = teacherCB.currentValue
                                 course["class_id"] = classCB.currentValue
 

@@ -397,11 +397,28 @@ Page {
 
             contentItem: Rectangle
             {
-
-
                 color: (recDel.highlighted)? "snow" : "whitesmoke";
                 border.width: (recDel.highlighted)? 2 : 1;
                 border.color: (recDel.highlighted)? "mediumvioletred" : "gray";
+
+                //coefficient
+                Rectangle
+                {
+                    width: 30
+                    height: 30
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    color: (recDel.highlighted)? "mediumvioletred" : "gray";
+                    Text
+                    {
+                        anchors.centerIn: parent
+                        text: recDel.model.Coefficient
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "white"
+                    }
+                }
 
                 Column
                 {
@@ -481,7 +498,13 @@ Page {
                         if(recDel.swipe.complete)
                             recDel.swipe.close();
 
-                        coursesPage.appStackView.push(deleteComponent, { course_id: recDel.model.Id, course_name: recDel.model.Course_name, teacher: recDel.model.Teacher, class_name: recDel.model.Class_name });
+                        coursesPage.appStackView.push(deleteComponent, {
+                                                          course_id: recDel.model.Id,
+                                                          course_name: recDel.model.Course_name,
+                                                          coefficient: recDel.model.Coefficient,
+                                                          teacher: recDel.model.Teacher,
+                                                          class_name: recDel.model.Class_name
+                                                      });
 
                     }
                 }
@@ -508,7 +531,13 @@ Page {
                         if(recDel.swipe.complete)
                             recDel.swipe.close();
 
-                        coursesPage.appStackView.push(updateComponent, { course_id: recDel.model.Id, course_name: recDel.model.Course_name, teacher_id: recDel.model.Teacher_id, class_id: recDel.model.Class_id });
+                        coursesPage.appStackView.push(updateComponent, {
+                                                          course_id: recDel.model.Id,
+                                                          course_name: recDel.model.Course_name,
+                                                          coefficient: recDel.model.Coefficient,
+                                                          teacher_id: recDel.model.Teacher_id,
+                                                          class_id: recDel.model.Class_id
+                                                      });
                     }
                 }
             }
@@ -534,11 +563,28 @@ Page {
 
             contentItem: Rectangle
             {
-
-
                 color: (recDel.highlighted)? "snow" : "whitesmoke";
                 border.width: (recDel.highlighted)? 2 : 1;
                 border.color: (recDel.highlighted)? "mediumvioletred" : "gray";
+
+                //coefficient
+                Rectangle
+                {
+                    width: 30
+                    height: 30
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    color: (recDel.highlighted)? "mediumvioletred" : "gray";
+                    Text
+                    {
+                        anchors.centerIn: parent
+                        text: recDel.model.Coefficient
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "white"
+                    }
+                }
 
                 Column
                 {
@@ -617,7 +663,13 @@ Page {
                         if(recDel.swipe.complete)
                             recDel.swipe.close();
 
-                        coursesPage.appStackView.push(deleteComponent, { course_id: recDel.model.Id, course_name: recDel.model.Course_name, teacher: recDel.model.Teacher, class_name: recDel.model.Class_name });
+                        coursesPage.appStackView.push(deleteComponent, {
+                                                          course_id: recDel.model.Id,
+                                                          course_name: recDel.model.Course_name,
+                                                          coefficient: recDel.model.Coefficient,
+                                                          teacher: recDel.model.Teacher,
+                                                          class_name: recDel.model.Class_name
+                                                      });
                     }
                 }
 
@@ -637,7 +689,13 @@ Page {
                         if(recDel.swipe.complete)
                             recDel.swipe.close();
 
-                        coursesPage.appStackView.push(updateComponent, { course_id: recDel.model.Id, course_name: recDel.model.Course_name, teacher_id: recDel.model.Teacher_id, class_id: recDel.model.Class_id });
+                        coursesPage.appStackView.push(updateComponent, {
+                                                          course_id: recDel.model.Id,
+                                                          course_name: recDel.model.Course_name,
+                                                          coefficient: recDel.model.Coefficient,
+                                                          teacher_id: recDel.model.Teacher_id,
+                                                          class_id: recDel.model.Class_id
+                                                      });
                     }
                 }
             }

@@ -18,6 +18,7 @@ Page {
     required property string base;
     required property string period;
     required property string course_name;
+    required property int coefficient;
     required property string teacher;
     required property string class_name;
 
@@ -225,6 +226,31 @@ Page {
                                 font.pixelSize: 18
                                 font.bold: true
                                 color: "royalblue"
+                            }
+
+                            //Course coef
+                            Text {
+                                text: "ضریب درس"
+                                Layout.minimumWidth: 150
+                                Layout.maximumWidth: 150
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "black"
+                            }
+                            Text
+                            {
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 18
+                                font.bold: true
+                                color: "royalblue"
+                                text: deletePage.coefficient
                             }
 
                             //class
