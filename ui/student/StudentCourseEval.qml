@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-//import "./../public" as DialogBox
+import "./../public" as DialogBox
 import "Student.js" as Methods
 
 Page {
@@ -203,6 +203,45 @@ Page {
                             color: "snow"
                         }
 
+                        Item
+                        {
+                            Layout.columnSpan: 2
+                            Layout.preferredHeight: 64
+                            Layout.fillWidth: true
+
+                            Button
+                            {
+
+                                width: 64
+                                height: 64
+                                anchors.right: parent.right
+                                background: Item{}
+                                icon.source: "qrc:/assets/images/refresh.png"
+                                icon.width: 64
+                                icon.height: 64
+                                opacity: 0.5
+                                onClicked:
+                                {
+                                    var student_id = studentCourseEvalPage.student.id
+                                    var course_id = studentCourseEvalPage.studentCourseModel.Course_id;
+                                    if(dbMan.updateStudentCourseEvals(student_id, course_id))
+                                    {
+                                        infoDialogId.dialogSuccess = true;
+                                        infoDialogId.dialogTitle = "عملیات موفق";
+                                        infoDialogId.dialogText = "بروزرسانی ارزیابی‌ها با موفقیت انجام شد.";
+                                        infoDialogId.open();
+                                        Methods.updateCourseEvalModel(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
+                                    }
+                                    else
+                                    {
+                                        infoDialogId.open();
+                                    }
+                                }
+                                hoverEnabled: true
+                                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                            }
+                        }
+
 
                         GridView
                         {
@@ -240,7 +279,16 @@ Page {
             required property var model;
             //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_name, e.eval_time, e.course_id, e.max_grade
 
-            color: (recDelt.model.index % 2 == 0)? "whitesmoke": "snow";
+            color:{
+                if(recDelt.model.Student_grade == -1)
+                    return "gold";
+
+                if(recDelt.model.index % 2 == 0)
+                    return "whitesmoke"
+                else
+                    return "snow";
+            }
+
             Rectangle
             {
                 id: evalNameRect
@@ -283,6 +331,26 @@ Page {
                 }
             }
 
+            Rectangle
+            {
+                id: maxGradeRect
+                width: parent.width
+                height: 50
+                color: "transparent"
+                anchors.top : evalTimeRect.bottom
+                Text
+                {
+                    anchors.fill: parent
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    color: "slategray"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: "بیشترین نمره: " + recDelt.model.Max_grade
+                    elide: Text.ElideLeft
+                }
+            }
 
             Rectangle
             {
@@ -290,7 +358,8 @@ Page {
                 width: parent.width
                 height: 50
                 color: "transparent"
-                anchors.top : evalTimeRect.bottom
+                anchors.top : maxGradeRect.bottom
+                visible: (recDelt.model.Student_grade > -1)? true : false
                 Text
                 {
                     id: studentGradeText
@@ -312,7 +381,7 @@ Page {
                 width: parent.width
                 height: 50
                 color: "transparent"
-                visible: (recDelt.model.Normalised_grade > 0)? true : false
+                visible: (recDelt.model.Normalised_grade > -1)? true : false
                 anchors.top : studentGradeRect.bottom
                 Text
                 {
@@ -324,27 +393,6 @@ Page {
                     font.pixelSize: 16
                     font.bold: true
                     text: "نمره با اعمال نمودار: " + recDelt.model.Normalised_grade
-                    elide: Text.ElideLeft
-                }
-            }
-
-            Rectangle
-            {
-                id: maxGradeRect
-                width: parent.width
-                height: 50
-                color: "transparent"
-                anchors.top : normGradeRect.bottom
-                Text
-                {
-                    anchors.fill: parent
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    color: "slategray"
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    font.bold: true
-                    text: "بیشترین نمره: " + recDelt.model.Max_grade
                     elide: Text.ElideLeft
                 }
             }
@@ -361,7 +409,187 @@ Page {
                     evalNameRect.color=  "slategray"
                     studentGradeText.color = "slategray"
                 }
+
+                onDoubleClicked:
+                {
+                    var eval_name = recDelt.model.Eval_name;
+                    var student_grade = recDelt.model.Student_grade
+                    var student = studentCourseEvalPage.student["name"] + " " + studentCourseEvalPage.student["lastname"];
+                    var course = studentCourseEvalPage.studentCourseModel.Course_name
+
+                    setStudentgradeDialog.studentVar = student
+                    setStudentgradeDialog.evalnameVar = eval_name
+                    setStudentgradeDialog.gradeVar = student_grade
+                    setStudentgradeDialog.courseVar = course
+                    setStudentgradeDialog.studentEvalId = recDelt.model.Id
+
+                    setStudentgradeDialog.open();
+                }
             }
         }
     }
+
+    //dialog
+    DialogBox.BaseDialog
+    {
+        id: infoDialogId
+        dialogTitle: "خطا"
+        dialogText: "بروزرسانی ارزیابی‌ها با خطا مواجه شد."
+        dialogSuccess: false
+    }
+
+
+    // set student grade
+    Dialog
+    {
+        id: setStudentgradeDialog
+        property string studentVar;
+        property string evalnameVar;
+        property int gradeVar;
+        property string courseVar;
+
+        property int studentEvalId;
+
+        closePolicy:Popup.NoAutoClose
+        modal: true
+        dim: true
+        anchors.centerIn: parent;
+        width: (parent.width > 500)? 500 : parent.width
+        height: 300
+        title: ""
+        header: Rectangle{
+            width: parent.width;
+            height: 50;
+            color: "mediumvioletred"
+            Text{ text: "ثبت نمره دانش‌آموز"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+        }
+
+        contentItem:
+        Rectangle
+        {
+            color: "transparent"
+            Text
+            {
+                id: studentInfoText
+                width: parent.width
+                height: 50
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                color: "darkmagenta"
+                font.family: "B Yekan"
+                font.pixelSize: 20
+                font.bold: true
+                text: setStudentgradeDialog.studentVar
+                elide: Text.ElideLeft
+            }
+            Text
+            {
+                id: courseText
+                width: parent.width
+                height: 50
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                anchors.top : studentInfoText.bottom
+                color: "slategray"
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                font.bold: true
+                text: setStudentgradeDialog.courseVar + " (" + setStudentgradeDialog.evalnameVar + ")"
+                elide: Text.ElideLeft
+            }
+
+            RowLayout
+            {
+                width: parent.width
+                height: 50
+                anchors.top : courseText.bottom
+
+                Text
+                {
+                    Layout.preferredWidth: 100
+                    Layout.preferredHeight: 50
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    color: "black"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: "نمره دریافتی"
+                    elide: Text.ElideLeft
+                }
+                TextField
+                {
+                    id: gradeTF
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 50
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    color: "black"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: (setStudentgradeDialog.gradeVar > -1)? setStudentgradeDialog.gradeVar : "";
+                    validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
+                }
+            }
+        }
+
+        footer:
+        Item{
+            width: parent.width;
+            height: 50
+            RowLayout
+            {
+                Button{
+                    text: "انصراف"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    onClicked: setStudentgradeDialog.close();
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
+                }
+                Button
+                {
+                    text: "تایید"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    onClicked:
+                    {
+                        var grade = gradeTF.text
+                        grade = parseFloat(grade);
+                        if(gradeTF.text == "")
+                        grade = -1;
+
+                        // set grade
+                        if(dbMan.setStudentCourseEvalGrade(setStudentgradeDialog.studentEvalId, grade))
+                        {
+                            setStudentgradeDialog.close();
+                            infoDialogId.dialogSuccess = true;
+                            infoDialogId.dialogTitle = "عملیات موفق";
+                            infoDialogId.dialogText = "نمره دانش‌آموز با موفقیت ثبت شد.";
+                            infoDialogId.open();
+                            Methods.updateCourseEvalModel(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
+
+                        }
+                        else
+                        {
+                            setStudentgradeDialog.close();
+                            infoDialogId.dialogSuccess = false;
+                            infoDialogId.dialogTitle = "خطا";
+                            infoDialogId.dialogText = "ثبت نمره دانش‌آموز با خطا مواجه شد.";
+                            infoDialogId.open();
+                        }
+
+                    }
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                }
+                Item{Layout.fillWidth: true}
+            }
+        }
+
+    }
+
 }
