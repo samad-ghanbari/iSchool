@@ -18,7 +18,7 @@ Page {
     required property string base;
     required property string period;
     required property string course_name;
-    required property int coefficient;
+    required property int course_coefficient;
     required property string teacher;
     required property string class_name;
 
@@ -250,7 +250,7 @@ Page {
                                 font.pixelSize: 18
                                 font.bold: true
                                 color: "royalblue"
-                                text: deletePage.coefficient
+                                text: deletePage.course_coefficient
                             }
 
                             //class

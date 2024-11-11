@@ -324,7 +324,7 @@ Page {
                                 course["period_id"] = insertPage.period_id
 
                                 course["course_name"] = courseNameTF.text
-                                course["coefficient"] = parseInt(courseCoefTF.text)
+                                course["course_coefficient"] = parseInt(courseCoefTF.text)
                                 course["teacher_id"] = teacherCB.currentValue
                                 course["class_id"] = classCB.currentValue
 

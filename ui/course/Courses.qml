@@ -412,7 +412,7 @@ Page {
                     Text
                     {
                         anchors.centerIn: parent
-                        text: recDel.model.Coefficient
+                        text: recDel.model.Course_coefficient
                         font.family: "B Yekan"
                         font.pixelSize: 18
                         font.bold: true
@@ -501,7 +501,7 @@ Page {
                         coursesPage.appStackView.push(deleteComponent, {
                                                           course_id: recDel.model.Id,
                                                           course_name: recDel.model.Course_name,
-                                                          coefficient: recDel.model.Coefficient,
+                                                          course_coefficient: recDel.model.Course_coefficient,
                                                           teacher: recDel.model.Teacher,
                                                           class_name: recDel.model.Class_name
                                                       });
@@ -534,7 +534,7 @@ Page {
                         coursesPage.appStackView.push(updateComponent, {
                                                           course_id: recDel.model.Id,
                                                           course_name: recDel.model.Course_name,
-                                                          coefficient: recDel.model.Coefficient,
+                                                          course_coefficient: recDel.model.Course_coefficient,
                                                           teacher_id: recDel.model.Teacher_id,
                                                           class_id: recDel.model.Class_id
                                                       });
@@ -578,7 +578,7 @@ Page {
                     Text
                     {
                         anchors.centerIn: parent
-                        text: recDel.model.Coefficient
+                        text: recDel.model.Course_coefficient
                         font.family: "B Yekan"
                         font.pixelSize: 18
                         font.bold: true
@@ -666,7 +666,7 @@ Page {
                         coursesPage.appStackView.push(deleteComponent, {
                                                           course_id: recDel.model.Id,
                                                           course_name: recDel.model.Course_name,
-                                                          coefficient: recDel.model.Coefficient,
+                                                          course_coefficient: recDel.model.Course_coefficient,
                                                           teacher: recDel.model.Teacher,
                                                           class_name: recDel.model.Class_name
                                                       });
@@ -692,7 +692,7 @@ Page {
                         coursesPage.appStackView.push(updateComponent, {
                                                           course_id: recDel.model.Id,
                                                           course_name: recDel.model.Course_name,
-                                                          coefficient: recDel.model.Coefficient,
+                                                          course_coefficient: recDel.model.Course_coefficient,
                                                           teacher_id: recDel.model.Teacher_id,
                                                           class_id: recDel.model.Class_id
                                                       });

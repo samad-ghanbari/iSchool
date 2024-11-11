@@ -136,7 +136,7 @@ function updateStudentCourses(registerId)
 {
 
     // 0sc.id, sc.student_id, sc.course_id
-    // 3co.course_name, co.coefficient,  co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
+    // 3co.course_name, co.course_coefficient,  co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
     // 9t.teacher, cl.class_name
 
     scModel.clear();
@@ -148,7 +148,7 @@ function updateStudentCourses(registerId)
                                       Student_id: obj.student_id,
                                       Course_id: obj.course_id,
                                       Course_name: obj.course_name,
-                                      Coefficient: obj.coefficient,
+                                      Course_coefficient: obj.course_coefficient,
                                       Class_id: obj.class_id,
                                       Step_id: obj.step_id,
                                       Study_base_id: obj.study_base_id,

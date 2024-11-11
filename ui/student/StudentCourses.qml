@@ -280,7 +280,7 @@ Page {
                     Text
                     {
                         anchors.centerIn: parent
-                        text: recDelt.model.Coefficient
+                        text: recDelt.model.Course_coefficient
                         font.family: "B Yekan"
                         font.pixelSize: 18
                         font.bold: true
@@ -474,8 +474,8 @@ Page {
         width: 300
         dragMargin: 0
         property var studentStat : {}
-        // courses: {riazi :{ coefiicient:2 , mean: 15 , normalised: 18}, ... }
-        // average : {coefficient: 32, average: 14 , normalised: 18}
+        // courses: {riazi :{ course_coefiicient:2 , mean: 15 , normalised: 18}, ... }
+        // average : {course_coefficient: 32, average: 14 , normalised: 18}
 
         function statCalulation()
         {

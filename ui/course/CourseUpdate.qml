@@ -18,7 +18,7 @@ Page {
     required property int base_id;
     required property int teacher_id;
     required property int class_id;
-    required property int coefficient
+    required property int course_coefficient
 
 
     required property string branch;
@@ -250,7 +250,7 @@ Page {
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 placeholderText: "ضریب درس"
-                                text: updatePage.coefficient
+                                text: updatePage.course_coefficient
                                 validator: IntValidator{bottom: 0; top: 20;}
                             }
 
@@ -336,7 +336,7 @@ Page {
                                 var course = {};
                                 course["id"] = updatePage.course_id;
                                 course["course_name"] = courseNameTF.text
-                                course["coefficient"] = parseInt(courseCoefTF.text)
+                                course["course_coefficient"] = parseInt(courseCoefTF.text)
                                 course["teacher_id"] = teacherCB.currentValue
                                 course["class_id"] = classCB.currentValue
 

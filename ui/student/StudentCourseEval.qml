@@ -18,7 +18,7 @@ Page {
 
     required property var studentCourseModel;
     // 0sc.id, sc.student_id, sc.course_id
-    // 3co.course_name, co.coefficient, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
+    // 3co.course_name, co.course_coefficient, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
     // 9t.name, t.lastname, cl.class_name
 
     signal popStackViewSignal();
@@ -203,7 +203,7 @@ Page {
                                 Text
                                 {
                                     anchors.centerIn: parent
-                                    text: studentCourseEvalPage.studentCourseModel.Coefficient
+                                    text: studentCourseEvalPage.studentCourseModel.Course_coefficient
                                     font.family: "B Yekan"
                                     font.pixelSize: 24
                                     font.bold: true
