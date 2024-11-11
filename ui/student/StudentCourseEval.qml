@@ -23,8 +23,11 @@ Page {
 
     signal popStackViewSignal();
 
-
     property bool isFemale : (studentCourseEvalPage.student.gender === "خانم")? true : false;
+
+    property real studentCourseMean : dbMan.getStudentCourseMean(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
+    property real studentCourseNormalisedMean : dbMan.getStudentCourseNormalisedMean(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
+
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -84,15 +87,13 @@ Page {
                     anchors.margins: 10
                     implicitHeight: parent.height
 
-                    GridLayout
+                    ColumnLayout
                     {
                         anchors.fill: parent
-                        columns:2
 
                         //student info
                         Rectangle
                         {
-                            Layout.columnSpan: 2
                             Layout.fillWidth: true
                             implicitHeight: 200
                             RowLayout
@@ -161,7 +162,6 @@ Page {
                         // course info
                         Rectangle
                         {
-                            Layout.columnSpan: 2
                             Layout.fillWidth: true
                             implicitHeight: 120
                             color: "olivedrab"
@@ -195,58 +195,115 @@ Page {
                             }
                         }
 
+                        //refresh
+                        //course mean
                         Rectangle
                         {
-                            Layout.columnSpan: 2
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            color: "snow"
-                        }
-
-                        Item
-                        {
-                            Layout.columnSpan: 2
+                            Layout.fillWidth: true;
                             Layout.preferredHeight: 64
-                            Layout.fillWidth: true
+                            Layout.margins:0
+                            color:"transparent"
 
-                            Button
+                            RowLayout
                             {
-
-                                width: 64
-                                height: 64
-                                anchors.right: parent.right
-                                background: Item{}
-                                icon.source: "qrc:/assets/images/refresh.png"
-                                icon.width: 64
-                                icon.height: 64
-                                opacity: 0.5
-                                onClicked:
+                                width: parent.width
+                                height: parent.height
+                                //student grade mean
+                                Rectangle
                                 {
-                                    var student_id = studentCourseEvalPage.student.id
-                                    var course_id = studentCourseEvalPage.studentCourseModel.Course_id;
-                                    if(dbMan.updateStudentCourseEvals(student_id, course_id))
-                                    {
-                                        infoDialogId.dialogSuccess = true;
-                                        infoDialogId.dialogTitle = "عملیات موفق";
-                                        infoDialogId.dialogText = "بروزرسانی ارزیابی‌ها با موفقیت انجام شد.";
-                                        infoDialogId.open();
-                                        Methods.updateCourseEvalModel(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
-                                    }
-                                    else
-                                    {
-                                        infoDialogId.open();
+                                    Layout.fillWidth: true
+                                    Layout.fillHeight: true
+                                    color:"transparent"
+                                    visible: (studentCourseEvalPage.studentCourseMean > -1)? true : false;
+                                    Rectangle{
+                                        width: (parent.width > 300)? 300 : parent.width
+                                        height: parent.height
+                                        color: "goldenrod"
+                                        radius : 50
+                                        anchors.centerIn: parent
+                                        Text
+                                        {
+                                            anchors.fill: parent
+                                            verticalAlignment: Text.AlignVCenter
+                                            horizontalAlignment: Text.AlignHCenter
+                                            font.family: "B Yekan"
+                                            font.pixelSize: 14
+                                            font.bold: true
+                                            color: "white"
+                                            textFormat: Text.RichText
+
+                                            text:(parent.width > 200)? "میانگین نمرات درس: " + "<font size=\"16\">"+ studentCourseEvalPage.studentCourseMean + "</font>" : "<font size=\"16\">" + studentCourseEvalPage.studentCourseMean  + "</font>"
+                                        }
                                     }
                                 }
-                                hoverEnabled: true
-                                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                                // student normalised grade mean
+                                Rectangle
+                                {
+                                    Layout.fillHeight: true
+                                    Layout.fillWidth: true
+                                    color:"transparent"
+                                    visible: (studentCourseEvalPage.studentCourseNormalisedMean > -1)? true : false;
+                                    Rectangle{
+                                        width: (parent.width > 300)? 300 : parent.width
+                                        height: parent.height
+                                        color: "palevioletred"
+                                        radius : 50
+                                        anchors.centerIn: parent
+                                        Text
+                                        {
+                                            anchors.fill: parent
+                                            verticalAlignment: Text.AlignVCenter
+                                            horizontalAlignment: Text.AlignHCenter
+                                            font.family: "B Yekan"
+                                            font.pixelSize: 14
+                                            font.bold: true
+                                            color: "white"
+                                            textFormat: Text.RichText
+                                            text: (parent.width > 200)? "میانگین نمرات با نمودار: " + "<font size=\"16\">"+ studentCourseEvalPage.studentCourseNormalisedMean + "</font>" : "<font size=\"16\">"+ studentCourseEvalPage.studentCourseNormalisedMean + "</font>";
+                                        }
+                                    }
+                                }
+
+                                Button
+                                {
+
+                                    Layout.preferredWidth: 64
+                                    Layout.preferredHeight: 64
+                                    Layout.alignment: Qt.AlignRight
+                                    background: Item{}
+                                    icon.source: "qrc:/assets/images/refresh.png"
+                                    icon.width: 64
+                                    icon.height: 64
+                                    opacity: 0.5
+                                    onClicked:
+                                    {
+                                        var student_id = studentCourseEvalPage.student.id
+                                        var course_id = studentCourseEvalPage.studentCourseModel.Course_id;
+                                        if(dbMan.updateStudentCourseEvals(student_id, course_id))
+                                        {
+                                            infoDialogId.dialogSuccess = true;
+                                            infoDialogId.dialogTitle = "عملیات موفق";
+                                            infoDialogId.dialogText = "بروزرسانی ارزیابی‌ها با موفقیت انجام شد.";
+                                            infoDialogId.open();
+                                            Methods.updateCourseEvalModel(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
+                                        }
+                                        else
+                                        {
+                                            infoDialogId.open();
+                                        }
+                                    }
+                                    hoverEnabled: true
+                                    onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                                }
+
                             }
                         }
+
 
 
                         GridView
                         {
                             id: courseEvalGV
-                            Layout.columnSpan: 2
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             Layout.margins: 10
@@ -281,7 +338,7 @@ Page {
 
             color:{
                 if(recDelt.model.Student_grade == -1)
-                    return "gold";
+                    return "khaki";
 
                 if(recDelt.model.index % 2 == 0)
                     return "whitesmoke"
@@ -572,6 +629,9 @@ Page {
                             infoDialogId.dialogText = "نمره دانش‌آموز با موفقیت ثبت شد.";
                             infoDialogId.open();
                             Methods.updateCourseEvalModel(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
+
+                            studentCourseEvalPage.studentCourseMean = dbMan.getStudentCourseMean(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
+                            studentCourseEvalPage.studentCourseNormalisedMean = dbMan.getStudentCourseNormalisedMean(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
 
                         }
                         else
