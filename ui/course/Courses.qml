@@ -404,6 +404,7 @@ Page {
                 //coefficient
                 Rectangle
                 {
+                    id: cBaseCoefLabel
                     width: 30
                     height: 30
                     anchors.top: parent.top
@@ -413,6 +414,23 @@ Page {
                     {
                         anchors.centerIn: parent
                         text: recDel.model.Course_coefficient
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "white"
+                    }
+                }
+                Rectangle
+                {
+                    width: 30
+                    height: 30
+                    anchors.top: cBaseCoefLabel.bottom
+                    anchors.right: parent.right
+                    color: (recDel.highlighted)? "darkmagenta" : "gray";
+                    Text
+                    {
+                        anchors.centerIn: parent
+                        text:  recDel.model.Test_coefficient
                         font.family: "B Yekan"
                         font.pixelSize: 18
                         font.bold: true
@@ -502,6 +520,7 @@ Page {
                                                           course_id: recDel.model.Id,
                                                           course_name: recDel.model.Course_name,
                                                           course_coefficient: recDel.model.Course_coefficient,
+                                                          test_coefficient: recDel.model.Test_coefficient,
                                                           teacher: recDel.model.Teacher,
                                                           class_name: recDel.model.Class_name
                                                       });
@@ -569,9 +588,10 @@ Page {
                 border.width: (recDel.highlighted)? 2 : 1;
                 border.color: (recDel.highlighted)? "mediumvioletred" : "gray";
 
-                //coefficient
+                //coefficient course-test
                 Rectangle
                 {
+                    id:cStepCoefLabel
                     width: 30
                     height: 30
                     anchors.top: parent.top
@@ -581,6 +601,23 @@ Page {
                     {
                         anchors.centerIn: parent
                         text: recDel.model.Course_coefficient
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "white"
+                    }
+                }
+                Rectangle
+                {
+                    width: 30
+                    height: 30
+                    anchors.top: cStepCoefLabel.bottom
+                    anchors.right: parent.right
+                    color: (recDel.highlighted)? "darkmagenta" : "gray";
+                    Text
+                    {
+                        anchors.centerIn: parent
+                        text:  recDel.model.Test_coefficient
                         font.family: "B Yekan"
                         font.pixelSize: 18
                         font.bold: true
@@ -669,6 +706,7 @@ Page {
                                                           course_id: recDel.model.Id,
                                                           course_name: recDel.model.Course_name,
                                                           course_coefficient: recDel.model.Course_coefficient,
+                                                          test_coefficient: recDel.model.Test_coefficient,
                                                           teacher: recDel.model.Teacher,
                                                           class_name: recDel.model.Class_name
                                                       });

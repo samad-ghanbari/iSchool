@@ -19,6 +19,7 @@ Page {
     required property string period;
     required property string course_name;
     required property int course_coefficient;
+    required property int test_coefficient;
     required property string teacher;
     required property string class_name;
 
@@ -253,6 +254,30 @@ Page {
                                 text: deletePage.course_coefficient
                             }
 
+                            //Course coef
+                            Text {
+                                text: "ضریب تست"
+                                Layout.minimumWidth: 150
+                                Layout.maximumWidth: 150
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "black"
+                            }
+                            Text
+                            {
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 18
+                                font.bold: true
+                                color: "royalblue"
+                                text: deletePage.test_coefficient
+                            }
                             //class
                             Text {
                                 text: "کلاس درس"
