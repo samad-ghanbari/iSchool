@@ -98,6 +98,7 @@ function updateCourse(stepId, baseId, periodId)
                                             Course_coefficient: obj.course_coefficient,
                                             Test_coefficient: obj.test_coefficient,
                                             Shared_coefficient: obj.shared_coefficient,
+                                            Final_weight: obj.final_weight,
                                             Class_name: obj.class_name,
                                             Branch_id: obj.branch_id,
                                             Step_name: obj.step_name,
@@ -112,7 +113,7 @@ function updateCourse(stepId, baseId, periodId)
     if(stepId > -1)
     {
         var jsondata = dbMan.getStepCourses(stepId, periodId);
-        // co.id, co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id, co.course_coefficient,
+        // co.id, co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id, co.course_coefficient, co.final_weight,
         // cl.class_name, st.branch_id, st.step_name, sb.study_base, sp.study_period, t.name, t.lastname
         for(var obj of jsondata)
         {
@@ -127,6 +128,7 @@ function updateCourse(stepId, baseId, periodId)
                                             Course_coefficient: obj.course_coefficient,
                                             Test_coefficient: obj.test_coefficient,
                                             Shared_coefficient: obj.shared_coefficient,
+                                            Final_weight: obj.final_weight,
                                             Class_name: obj.class_name,
                                             Branch_id: obj.branch_id,
                                             Step_name: obj.step_name,

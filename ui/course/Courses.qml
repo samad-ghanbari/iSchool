@@ -556,6 +556,7 @@ Page {
                                                           course_coefficient: recDel.model.Course_coefficient,
                                                           test_coefficient: recDel.model.Test_coefficient,
                                                           shared_coefficient: recDel.model.Shared_coefficient,
+                                                          final_weight:  recDel.model.Final_weight,
                                                           teacher_id: recDel.model.Teacher_id,
                                                           class_id: recDel.model.Class_id
                                                       });
@@ -707,6 +708,8 @@ Page {
                                                           course_name: recDel.model.Course_name,
                                                           course_coefficient: recDel.model.Course_coefficient,
                                                           test_coefficient: recDel.model.Test_coefficient,
+                                                          shared_coefficient: recDel.model.Shared_coefficient,
+                                                          final_weight:  recDel.model.Final_weight,
                                                           teacher: recDel.model.Teacher,
                                                           class_name: recDel.model.Class_name
                                                       });
@@ -734,6 +737,7 @@ Page {
                                                           course_name: recDel.model.Course_name,
                                                           course_coefficient: recDel.model.Course_coefficient,
                                                           test_coefficient: recDel.model.Test_coefficient,
+                                                          final_weight:  recDel.model.Final_weight,
                                                           teacher_id: recDel.model.Teacher_id,
                                                           class_id: recDel.model.Class_id
                                                       });

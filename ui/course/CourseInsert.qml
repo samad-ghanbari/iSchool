@@ -269,6 +269,30 @@ Page {
                         valueRole: "value"
                         Component.onCompleted: Methods.updateTeacherCB(insertPage.branch_id);
                     }
+
+                    //final weight
+                    Text {
+                        text: "وزن ارزیابی نهایی"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    TextField
+                    {
+                        id: finalWeightTF
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        placeholderText: "وزن ارزیابی نهایی"
+                        validator: RegularExpressionValidator{regularExpression:  /^-?\d*\.?\d+$/; }
+                    }
+
                     //Course coef
                     Text {
                         text: "ضریب درس"
@@ -460,6 +484,7 @@ Page {
                             course["test_coefficient"] = parseInt(testCoefTF.text)
                             course["teacher_id"] = teacherCB.currentValue
                             course["class_id"] = classCB.currentValue
+                            course["final_weight"] = parseFloat(finalWeightTF.text)
 
                             course["shared_coefficient"] = { "course": insertPage.courseSharedCoef, "test": insertPage.testSharedCoef };
 
