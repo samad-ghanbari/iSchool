@@ -108,24 +108,24 @@ function updateStudentRegs(branchId, studentId)
     for(var obj of jsondata)
     {
         regsModel.append({
-                                      Id: obj.id,
-                                      Student_id: obj.student_id,
-                                      Step_id: obj.step_id,
-                                      Study_base_id: obj.study_base_id,
-                                      Study_period_id: obj.study_period_id,
-                                      Branch_id: obj.branch_id,
-                                      City: obj.city,
-                                      Branch_name: obj.branch_name,
-                                      Name: obj.name,
-                                      Lastname: obj.lastname,
-                                      Fathername: obj.fathername,
-                                      Gender: obj.gender,
-                                      Enabled: obj.enabled,
-                                      Step_name: obj.step_name,
-                                      Study_base: obj.study_base,
-                                      Study_period: obj.study_period,
-                                      Passed: obj.passed
-                                  });
+                             Id: obj.id,
+                             Student_id: obj.student_id,
+                             Step_id: obj.step_id,
+                             Study_base_id: obj.study_base_id,
+                             Study_period_id: obj.study_period_id,
+                             Branch_id: obj.branch_id,
+                             City: obj.city,
+                             Branch_name: obj.branch_name,
+                             Name: obj.name,
+                             Lastname: obj.lastname,
+                             Fathername: obj.fathername,
+                             Gender: obj.gender,
+                             Enabled: obj.enabled,
+                             Step_name: obj.step_name,
+                             Study_base: obj.study_base,
+                             Study_period: obj.study_period,
+                             Passed: obj.passed
+                         });
     }
 
 }
@@ -144,20 +144,21 @@ function updateStudentCourses(registerId)
     for(var obj of jsondata)
     {
         scModel.append({
-                                      Id: obj.id,
-                                      Student_id: obj.student_id,
-                                      Course_id: obj.course_id,
-                                      Course_name: obj.course_name,
-                                      Course_coefficient: obj.course_coefficient,
-                                      Class_id: obj.class_id,
-                                      Step_id: obj.step_id,
-                                      Study_base_id: obj.study_base_id,
-                                      Teacher_id: obj.teacher_id,
-                                      Study_period_id: obj.study_period_id,
-                                      Teacher: obj.teacher,
-                                      Class_name: obj.class_name
+                           Id: obj.id,
+                           Student_id: obj.student_id,
+                           Course_id: obj.course_id,
+                           Course_name: obj.course_name,
+                           Course_coefficient: obj.course_coefficient,
+                           Test_coefficient: obj.test_coefficient,
+                           Class_id: obj.class_id,
+                           Step_id: obj.step_id,
+                           Study_base_id: obj.study_base_id,
+                           Teacher_id: obj.teacher_id,
+                           Study_period_id: obj.study_period_id,
+                           Teacher: obj.teacher,
+                           Class_name: obj.class_name
 
-                                  });
+                       });
     }
 }
 
@@ -181,10 +182,10 @@ function updateCourseCB(student_id, step_id, base_id, period_id)
 {
     courseCBModel.clear();
     var jsondata = dbMan.getStudentLeftCourses(student_id, step_id, base_id, period_id);
-     // co.id, co.course_name, cl.class_name, t.name, t.lastname
+    // co.id, co.course_name, cl.class_name, t.name, t.lastname
     for(var obj of jsondata)
     {
-            courseCBModel.append({value: obj.id,  text: obj.course_name + " (" + obj.teacher + ") " })
+        courseCBModel.append({value: obj.id,  text: obj.course_name + " (" + obj.teacher + ") " })
     }
 
 }
@@ -200,16 +201,16 @@ function updateCourseEvalModel(student_id, course_id)
     for(var obj of jsondata)
     {
         courseEvalModel.append({
-                                      Id: obj.id,
-                                      Student_id: obj.student_id,
-                                      Eval_id: obj.eval_id,
-                                      Student_grade: obj.student_grade,
-                                      Normalised_grade: obj.normalised_grade,
-                                      Eval_name: obj.eval_name,
-                                      Eval_time: obj.eval_time,
-                                      Course_id: obj.course_id,
-                                      Max_grade: obj.max_grade
-                                  });
+                                   Id: obj.id,
+                                   Student_id: obj.student_id,
+                                   Eval_id: obj.eval_id,
+                                   Student_grade: obj.student_grade,
+                                   Normalised_grade: obj.normalised_grade,
+                                   Eval_name: obj.eval_name,
+                                   Eval_time: obj.eval_time,
+                                   Course_id: obj.course_id,
+                                   Max_grade: obj.max_grade
+                               });
 
 
     }

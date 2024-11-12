@@ -66,32 +66,7 @@ Page {
                     Rectangle{implicitWidth: 100;implicitHeight: 200; color: "red"; border.width: 4}
                     Rectangle{Layout.fillWidth: true; implicitHeight: 100; color: "red"; border.width: 4}
 
-                    Rectangle{implicitWidth: 100;implicitHeight: 200; color: "red"; border.width: 4}
-                    Rectangle{Layout.fillWidth: true; implicitHeight: 200; color: "red"; border.width: 4}
 
-                    Rectangle{implicitWidth: 100;implicitHeight: 200; color: "red"; border.width: 4}
-                    Rectangle{Layout.fillWidth: true; implicitHeight: 100; color: "red"; border.width: 4}
-
-                    Rectangle{implicitWidth: 100;implicitHeight: 100; color: "red"; border.width: 4}
-                    Rectangle{Layout.fillWidth: true; implicitHeight: 100; color: "red"; border.width: 4}
-
-                    Rectangle{implicitWidth: 100;implicitHeight: 200; color: "red"; border.width: 4}
-                    Rectangle{Layout.fillWidth: true; implicitHeight: 100; color: "red"; border.width: 4}
-
-                    Rectangle{implicitWidth: 100;implicitHeight: 200; color: "red"; border.width: 4}
-                    Rectangle{Layout.fillWidth: true; implicitHeight: 100; color: "red"; border.width: 4}
-
-                    Rectangle{implicitWidth: 100;implicitHeight: 200; color: "red"; border.width: 4}
-                    Rectangle{Layout.fillWidth: true; implicitHeight: 100; color: "red"; border.width: 4}
-
-                    Rectangle{implicitWidth: 100;implicitHeight: 200; color: "red"; border.width: 4}
-                    Rectangle{Layout.fillWidth: true; implicitHeight: 100; color: "red"; border.width: 4}
-
-                    Rectangle{implicitWidth: 100;implicitHeight: 200; color: "red"; border.width: 4}
-                    Rectangle{Layout.fillWidth: true; implicitHeight: 100; color: "red"; border.width: 4}
-
-                    Rectangle{implicitWidth: 100;implicitHeight: 200; color: "red"; border.width: 4}
-                    Rectangle{Layout.fillWidth: true; implicitHeight: 100; color: "red"; border.width: 4}
                 }
             }
         }

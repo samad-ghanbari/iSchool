@@ -265,22 +265,44 @@ Page {
             {
                 color: (recDelt.highlighted)? "snow" : "whitesmoke";
 
-                Rectangle{height: 2; width: parent.width; anchors.bottom: parent.bottom; color: (studentCoursesPage.model.Study_base_id > -1)? "darkcyan" : "mediumvioletred"; }
-
+                Rectangle{
+                    height: 5;
+                    width: parent.width;
+                    anchors.bottom: parent.bottom;
+                    color: (recDelt.model.Study_base_id > -1)? "mediumvioletred" : "goldenrod";
+                }
 
 
                 //coefficient
                 Rectangle
                 {
+                    id: cBaseCoefLabel
                     width: 30
                     height: 30
                     anchors.top: parent.top
                     anchors.right: parent.right
-                    color: (recDelt.highlighted)? "darkcyan" : "gray";
+                    color: (recDelt.highlighted)? "mediumvioletred" : "gray";
                     Text
                     {
                         anchors.centerIn: parent
                         text: recDelt.model.Course_coefficient
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "white"
+                    }
+                }
+                Rectangle
+                {
+                    width: 30
+                    height: 30
+                    anchors.top: cBaseCoefLabel.bottom
+                    anchors.right: parent.right
+                    color: (recDelt.highlighted)? "darkmagenta" : "gray";
+                    Text
+                    {
+                        anchors.centerIn: parent
+                        text:  recDelt.model.Test_coefficient
                         font.family: "B Yekan"
                         font.pixelSize: 18
                         font.bold: true

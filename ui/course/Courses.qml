@@ -683,21 +683,21 @@ Page {
             highlighted: (model.index === stepCoursesGV.currentIndex)? true: false;
 
             swipe.right: Column{
-                width: 75
+                width: 48
                 height: 250
                 anchors.left: parent.left
 
                 Button
                 {
-                    height: 75
-                    width: 75
+                    height: 48
+                    width: 48
                     background: Item{}
                     hoverEnabled: true
                     opacity: 0.5
                     onHoveredChanged: (hovered)? this.opacity=1 : this.opacity=0.5
                     icon.source: "qrc:/assets/images/trash.png"
-                    icon.width: 64
-                    icon.height: 64
+                    icon.width: 48
+                    icon.height: 48
                     SwipeDelegate.onClicked:
                     {
                         if(recDel.swipe.complete)
@@ -708,8 +708,8 @@ Page {
                                                           course_name: recDel.model.Course_name,
                                                           course_coefficient: recDel.model.Course_coefficient,
                                                           test_coefficient: recDel.model.Test_coefficient,
-                                                          shared_coefficient: recDel.model.Shared_coefficient,
-                                                          final_weight:  recDel.model.Final_weight,
+                                                          //shared_coefficient: recDel.model.Shared_coefficient,
+                                                          //final_weight:  recDel.model.Final_weight,
                                                           teacher: recDel.model.Teacher,
                                                           class_name: recDel.model.Class_name
                                                       });
@@ -718,15 +718,15 @@ Page {
 
                 Button
                 {
-                    height: 75
-                    width: 75
+                    height: 48
+                    width: 48
                     background: Item{}// Rectangle{id:trashBtnBg; color: "crimson"}
                     hoverEnabled: true
                     opacity: 0.5
                     onHoveredChanged: (hovered)? this.opacity=1 : this.opacity=0.5
                     icon.source: "qrc:/assets/images/edit.png"
-                    icon.width: 64
-                    icon.height: 64
+                    icon.width: 48
+                    icon.height: 48
                     SwipeDelegate.onClicked:
                     {
                         if(recDel.swipe.complete)
@@ -737,6 +737,7 @@ Page {
                                                           course_name: recDel.model.Course_name,
                                                           course_coefficient: recDel.model.Course_coefficient,
                                                           test_coefficient: recDel.model.Test_coefficient,
+                                                          shared_coefficient: recDel.model.Shared_coefficient,
                                                           final_weight:  recDel.model.Final_weight,
                                                           teacher_id: recDel.model.Teacher_id,
                                                           class_id: recDel.model.Class_id

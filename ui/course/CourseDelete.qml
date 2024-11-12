@@ -1,4 +1,5 @@
 pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -7,7 +8,6 @@ import "./../public" as DialogBox
 
 Page {
     id: deletePage
-
     signal popStackSignal();
     signal deletedSignal();
 
@@ -23,9 +23,8 @@ Page {
     required property string teacher;
     required property string class_name;
 
-
-
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
+
 
     GridLayout
     {
@@ -59,6 +58,7 @@ Page {
             styleColor: "white"
         }
 
+
         ScrollView
         {
             Layout.columnSpan: 2
@@ -69,298 +69,285 @@ Page {
 
             Rectangle
             {
-                id: centerBoxId
-                color:"snow"
-                width:  (parent.width < 700)? parent.width : 700
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.margins: 10
-                implicitHeight: parent.height
+                width: (parent.width > 700)? 700 : parent.width
+                implicitHeight : centerBox.implicitHeight + 40
+                anchors.horizontalCenter : parent.horizontalCenter
+                color: "snow"
 
-                radius: 10
-                Item {
+                GridLayout
+                {
+                    id: centerBox
                     anchors.fill: parent
-                    anchors.margins: 10
+                    anchors.margins: 20
+                    columns: 2
 
-                    ColumnLayout
+                    Image
                     {
-                        width: parent.width
-
-                        GridLayout
-                        {
-                            columns: 2
-                            rowSpacing: 20
-                            columnSpacing: 10
-                            Layout.preferredWidth:  parent.width
-
-                            Image
-                            {
-                                Layout.columnSpan: 2
-                                Layout.preferredWidth: 128
-                                Layout.preferredHeight: 128
-                                Layout.alignment: Qt.AlignHCenter
-                                source:  "qrc:/assets/images/course.png"
-                            }
-
-                            //branch
-                            Text {
-                                text: "شعبه"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text {
-                                text: deletePage.branch
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                            }
-
-                            //step
-                            Text {
-                                text: "دوره"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text {
-                                text: deletePage.step
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                            }
-
-                            //base
-                            Text {
-                                text: "پایه تحصیلی"
-                                visible: (deletePage.base === "")? false : true;
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text {
-                                text:  deletePage.base
-                                visible: (deletePage.base === "")? false : true;
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                            }
-
-                            //period
-                            Text {
-                                text: "سال تحصیلی"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text {
-                                text:  deletePage.period
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                            }
-
-                            //Course name
-                            Text {
-                                text: "نام درس"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text
-                            {
-                                id: courseNameTF
-                                text:  deletePage.course_name
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                            }
-
-                            //Course coef
-                            Text {
-                                text: "ضریب درس"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text
-                            {
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                                text: deletePage.course_coefficient
-                            }
-
-                            //Course coef
-                            Text {
-                                text: "ضریب تست"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text
-                            {
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                                text: deletePage.test_coefficient
-                            }
-                            //class
-                            Text {
-                                text: "کلاس درس"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text
-                            {
-                                id: classNameTF
-                                text:  deletePage.class_name
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                            }
-
-                            // teacher
-                            Text {
-                                text: "مدرس"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text
-                            {
-                                id: teacherTF
-                                text:  deletePage.teacher
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                        }
-
-
-                        Item
-                        {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                        }
-
-                        Button
-                        {
-                            text: "تایید"
-                            Layout.preferredWidth: 200
-                            Layout.preferredHeight: 50
-                            Layout.alignment: Qt.AlignHCenter
-                            font.family: "B Yekan"
-                            font.pixelSize: 16
-                            Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
-                            onClicked: courseDelDialog.open();
-                        }
-
-                        Item
-                        {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                        }
+                        Layout.columnSpan: 2
+                        Layout.preferredWidth: 128
+                        Layout.preferredHeight: 128
+                        Layout.alignment: Qt.AlignHCenter
+                        source:  "qrc:/assets/images/course.png"
                     }
+
+                    //branch
+                    Text {
+                        text: "شعبه"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text: deletePage.branch
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+
+                    //step
+                    Text {
+                        text: "دوره"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text: deletePage.step
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+                    //base
+                    Text {
+                        text: "پایه تحصیلی"
+                        visible: (deletePage.base === "")? false : true;
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text:  deletePage.base
+                        visible: (deletePage.base === "")? false : true;
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+                    //period
+                    Text {
+                        text: "سال تحصیلی"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text:  deletePage.period
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+                    //Course name
+                    Text {
+                        text: "نام درس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text
+                    {
+                        id: courseNameTF
+                        text:  deletePage.course_name
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+                    //Course coef
+                    Text {
+                        text: "ضریب درس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                        text: deletePage.course_coefficient
+                    }
+                    //Course coef
+                    Text {
+                        text: "ضریب تست"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                        text: deletePage.test_coefficient
+                    }
+                    //class
+                    Text {
+                        text: "کلاس درس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text
+                    {
+                        id: classNameTF
+                        text:  deletePage.class_name
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+
+                    // teacher
+                    Text {
+                        text: "مدرس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text
+                    {
+                        id: teacherTF
+                        text:  deletePage.teacher
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+
+                    Item
+                    {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                    }
+
+                    Button
+                    {
+                        Layout.columnSpan: 2
+                        text: "تایید"
+                        Layout.preferredWidth: 200
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignHCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
+                        onClicked: courseDelDialog.open();
+                    }
+
+                    Item
+                    {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                    }
+
                 }
             }
         }
-    }
 
+
+
+    }
     DialogBox.BaseDialog
     {
         id: courseDelDialog

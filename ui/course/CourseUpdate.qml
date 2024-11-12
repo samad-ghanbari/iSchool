@@ -35,7 +35,7 @@ Page {
     property var courseSharedCoef : shared_coefficient["course"]
     property var testSharedCoef : shared_coefficient["test"]
 
-    property var existsCourses : dbMan.getAllCoursesMinimised(updatePage.step_id, updatePage.base_id, updatePage.period_id);// id course_name array of objects
+    property var existsCourses : dbMan.getAllCoursesMinimised(updatePage.step_id, updatePage.base_id, updatePage.period_id, updatePage.course_id );// id course_name array of objects
 
 
     background: Rectangle{anchors.fill: parent; color: "mintcream"}
@@ -376,7 +376,7 @@ Page {
                             font.pixelSize: 16
                             font.bold: true
                             color: "white"
-                            text:"ضرایب مشترک دروس"
+                            text:"ضریب مشترک دروس"
                         }
                     }
                     // get all course in this period
@@ -435,7 +435,7 @@ Page {
                             font.pixelSize: 16
                             font.bold: true
                             color: "white"
-                            text:"ضرایب مشترک تست"
+                            text:"ضریب مشترک تست"
                         }
                     }
 

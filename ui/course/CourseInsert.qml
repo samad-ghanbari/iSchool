@@ -353,7 +353,7 @@ Page {
                             font.pixelSize: 16
                             font.bold: true
                             color: "white"
-                            text:"ضرایب مشترک دروس"
+                            text:"ضریب مشترک دروس"
                         }
                     }
                     // get all course in this period
@@ -411,7 +411,7 @@ Page {
                             font.pixelSize: 16
                             font.bold: true
                             color: "white"
-                            text:"ضرایب مشترک تست"
+                            text:"ضریب مشترک تست"
                         }
                     }
 
