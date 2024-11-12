@@ -11,7 +11,10 @@ Page {
     required property int eval_id;
     required property string eval_name;
     required property string eval_time;
-    required property double max_grade;
+    required property double max_value;
+    required property bool percentage;
+    required property bool final_eval;
+    required property string semester;
 
 
     required property string branch
@@ -257,7 +260,7 @@ Page {
                         text: deletePage.eval_time
                     }
 
-                    //max grade
+                    //max value
                     Text {
                         text: "بالاترین نمره"
                         Layout.minimumWidth: 150
@@ -279,7 +282,79 @@ Page {
                         horizontalAlignment: Text.AlignLeft
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        text: deletePage.max_grade
+                        text: deletePage.max_value
+                    }
+
+
+                    //percentage
+                    Text {
+                        text: "براساس درصد"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Switch
+                    {
+                        id: percentageSW
+                        enabled: false
+                        Layout.preferredWidth: 100
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignLeft
+                        checked: deletePage.percentage
+                    }
+
+                    //percentage
+                    Text {
+                        text: "آزمون نهایی"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Switch
+                    {
+                        id: finalSW
+                        enabled: false
+                        Layout.preferredWidth: 100
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignLeft
+                        checked: deletePage.final_eval
+                    }
+
+                    //max value
+                    Text {
+                        text: "نیمسال"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text
+                    {
+                        id: semesterTF
+                        text: deletePage.semester
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
                     }
 
                     Item

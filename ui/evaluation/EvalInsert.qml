@@ -56,9 +56,6 @@ Page {
             styleColor: "white"
         }
 
-
-
-
         ScrollView
         {
             Layout.columnSpan: 2
@@ -199,7 +196,7 @@ Page {
                         color: "white"
                         text: insertPage.course_name + " ( " +  insertPage.teacher + " ) "
                         font.family: "B Yekan"
-                        font.pixelSize: 16
+                        font.pixelSize: 18
                         font.bold: true
                     }
 
@@ -225,7 +222,7 @@ Page {
                         horizontalAlignment: Text.AlignLeft
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        placeholderText: "نام ارزیابی"
+                        placeholderText: "مستمر ۱"
                     }
 
                     //eval time
@@ -250,7 +247,7 @@ Page {
                         horizontalAlignment: Text.AlignLeft
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        placeholderText: "زمان ارزیابی"
+                        placeholderText: "1403/08/10"
                         validator: RegularExpressionValidator
                         {
                             regularExpression: /^\d{4}\/\d{2}\/\d{2}$/
@@ -258,7 +255,7 @@ Page {
                         }
                     }
 
-                    //max grade
+                    //max value
                     Text {
                         text: "بالاترین نمره"
                         Layout.minimumWidth: 150
@@ -273,14 +270,86 @@ Page {
                     }
                     TextField
                     {
-                        id: maxGradeTF
+                        id: maxValueTF
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         font.family: "B Yekan"
                         font.pixelSize: 16
+                        placeholderText: "مقدار عددی مانند ۲۰"
                         validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
                             regularExpression: /^-?\d*\.?\d+$/
                         }
+                    }
+
+                    //percentage
+                    Text {
+                        text: "براساس درصد"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Switch
+                    {
+                        id: percentageSW
+                        Layout.preferredWidth: 100
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignLeft
+                        checked: false
+                        onCheckedChanged: {
+                            if(checked)
+                                maxValueTF.text = 100
+                        }
+                    }
+
+                    //percentage
+                    Text {
+                        text: "آزمون نهایی"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Switch
+                    {
+                        id: finalSW
+                        Layout.preferredWidth: 100
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignLeft
+                        checked: false
+                    }
+
+                    //max value
+                    Text {
+                        text: "نیمسال"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    TextField
+                    {
+                        id: semesterTF
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        placeholderText: "اول یا دوم"
                     }
 
                     Item
@@ -307,7 +376,10 @@ Page {
                             Eval["eval_name"] = evalNameTF.text
                             Eval["eval_time"] = evaltimeTF.text
 
-                            Eval["max_grade"] = parseFloat(maxGradeTF.text)
+                            Eval["max_value"] = parseFloat(maxValueTF.text)
+                            Eval["percentage"] = percentageSW.checked
+                            Eval["final_eval"] = finalSW.checked
+                            Eval["semester"] = semesterTF.text
 
 
                             if(dbMan.evalInsert(Eval))

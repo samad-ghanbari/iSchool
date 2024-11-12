@@ -495,21 +495,21 @@ Page {
             highlighted: (model.index === baseCoursesGV.currentIndex)? true: false;
 
             swipe.right:Column{
-                width: 75
+                width: 48
                 height: 250
                 anchors.left: parent.left
 
                 Button
                 {
-                    height: 75
-                    width: 75
+                    height: 48
+                    width: 48
                     background:Item{}
                     hoverEnabled: true
                     opacity: 0.5
                     onHoveredChanged: (hovered)? this.opacity=1 : this.opacity=0.5
                     icon.source: "qrc:/assets/images/trash.png"
-                    icon.width: 64
-                    icon.height: 64
+                    icon.width: 48
+                    icon.height: 48
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
@@ -530,8 +530,8 @@ Page {
 
                 Button
                 {
-                    height: 75
-                    width: 75
+                    height: 48
+                    width: 48
                     background: Item{} //Rectangle{id:editBtnBg; color: "crimson"}
                     hoverEnabled: true
                     opacity: 0.5
@@ -542,8 +542,8 @@ Page {
                     //font.pixelSize: 14
                     //palette.buttonText:  "white"
                     icon.source: "qrc:/assets/images/edit.png"
-                    icon.width: 64
-                    icon.height: 64
+                    icon.width: 48
+                    icon.height: 48
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {

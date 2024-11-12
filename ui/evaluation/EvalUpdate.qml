@@ -12,7 +12,10 @@ Page {
     required property int eval_id;
     required property string eval_name;
     required property string eval_time;
-    required property double max_grade;
+    required property double max_value;
+    required property bool percentage;
+    required property bool final_eval;
+    required property string semester;
 
     required property string branch
     required property string step
@@ -62,10 +65,7 @@ Page {
             styleColor: "white"
         }
 
-
-
-
-        ScrollView
+       ScrollView
         {
             Layout.columnSpan: 2
             Layout.fillWidth: true
@@ -257,7 +257,7 @@ Page {
                         horizontalAlignment: Text.AlignLeft
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        placeholderText: "زمان ارزیابی"
+                        placeholderText: "1403/08/10"
                         validator: RegularExpressionValidator
                         {
                             regularExpression: /^\d{4}\/\d{2}\/\d{2}$/
@@ -266,7 +266,7 @@ Page {
                         text: updatePage.eval_time
                     }
 
-                    //max grade
+                    //max value
                     Text {
                         text: "بالاترین نمره"
                         Layout.minimumWidth: 150
@@ -281,16 +281,91 @@ Page {
                     }
                     TextField
                     {
-                        id: maxGradeTF
+                        id: maxValueTF
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         font.family: "B Yekan"
                         font.pixelSize: 16
+                        placeholderText: "مقدار عددی مانند ۲۰"
                         validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
                             regularExpression: /^-?\d*\.?\d+$/
                         }
-                        text: updatePage.max_grade
+                        text: updatePage.max_value
                     }
+
+
+                    //percentage
+                    Text {
+                        text: "براساس درصد"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Switch
+                    {
+                        id: percentageSW
+                        Layout.preferredWidth: 100
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignLeft
+                        checked: updatePage.percentage
+                        onCheckedChanged: {
+                            if(checked)
+                                maxValueTF.text = 100
+                        }
+                    }
+
+                    //final
+                    Text {
+                        text: "آزمون نهایی"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Switch
+                    {
+                        id: finalSW
+                        Layout.preferredWidth: 100
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignLeft
+                        checked: updatePage.final_eval
+                    }
+
+                    // semester
+                    Text {
+                        text: "نیمسال"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    TextField
+                    {
+                        id: semesterTF
+                        text: updatePage.semester
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        placeholderText: "اول یا دوم"
+                    }
+
 
                     Item
                     {
@@ -311,13 +386,17 @@ Page {
                         Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                         onClicked:
                         {
+
                             var Eval = {};
                             Eval["id"] = updatePage.eval_id;
                             Eval["course_id"] = updatePage.course_id
                             Eval["eval_name"] = evalNameTF.text
                             Eval["eval_time"] = evaltimeTF.text
 
-                            Eval["max_grade"] = parseFloat(maxGradeTF.text)
+                            Eval["max_value"] = parseFloat(maxValueTF.text)
+                            Eval["percentage"] = percentageSW.checked
+                            Eval["final_eval"] = finalSW.checked
+                            Eval["semester"] = semesterTF.text
 
 
                             if(dbMan.evalUpdate(Eval))

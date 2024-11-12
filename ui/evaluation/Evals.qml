@@ -55,8 +55,6 @@ Page {
         }
 
 
-
-
         ScrollView
         {
             Layout.columnSpan: 2
@@ -77,6 +75,8 @@ Page {
                     id: centerBox
                     anchors.fill: parent
                     anchors.margins: 20
+                    rowSpacing: 20
+                    columnSpacing: 20
                     columns: 2
 
                     // branch
@@ -157,7 +157,7 @@ Page {
                         Layout.margins: 20
                         flickableDirection: Flickable.AutoFlickDirection
                         cellWidth: 320
-                        cellHeight: 220 // 20 spacing
+                        cellHeight: 270 // 20 spacing
                         clip: true
                         model: ListModel{id: evalsModel}
                         highlight: Item{}
@@ -212,6 +212,36 @@ Page {
                 color: (recDel.highlighted)? "snow" : "whitesmoke";
                 border.width: (recDel.highlighted)? 2 : 1;
                 border.color: (recDel.highlighted)? "mediumvioletred" : "gray";
+
+                Text
+                {
+                    text: "\u2739"
+                    font.family: "B Yekan"
+                    font.pixelSize: 36
+                    color: "orange"
+                    anchors.top: parent.top
+                    anchors.left : parent.left
+
+                    visible: (recDel.model.Final_eval)? true : false;
+                }
+
+                Rectangle
+                {
+                    width: 70
+                    height: 30
+                    anchors.top: parent.top
+                    anchors.right : parent.right
+                    color: "mediumvioletred"
+                    Text
+                    {
+                        anchors.centerIn: parent
+                        color: "white"
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        text: (recDel.model.Percentage)? "%"+ recDel.model.Max_value : recDel.model.Max_value
+                    }
+                }
 
                 Column
                 {
@@ -270,50 +300,68 @@ Page {
             highlighted: (model.index === evalsGV.currentIndex)? true: false;
 
             swipe.right:Column{
-                width: 75
+                width: 48
                 height: 250
                 anchors.left: parent.left
 
                 Button
                 {
-                    height: 75
-                    width: 75
+                    height: 48
+                    width: 48
                     background:Item{}
                     hoverEnabled: true
                     opacity: 0.5
                     onHoveredChanged: (hovered)? this.opacity=1 : this.opacity=0.5
                     icon.source: "qrc:/assets/images/trash.png"
-                    icon.width: 64
-                    icon.height: 64
+                    icon.width: 48
+                    icon.height: 48
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
                         if(recDel.swipe.complete)
                             recDel.swipe.close();
 
-                        evalsPage.appStackView.push(deleteComponent, { eval_id: recDel.model.Id, eval_name: recDel.model.Eval_name, eval_time: recDel.model.Eval_time, max_value: recDel.model.Max_value });
+                        evalsPage.appStackView.push(deleteComponent, {
+                                                        eval_id: recDel.model.Id,
+                                                        eval_name: recDel.model.Eval_name,
+                                                        eval_time: recDel.model.Eval_time,
+                                                        max_value: recDel.model.Max_value,
+                                                        max_value: recDel.model.Max_value,
+                                                        percentage: recDel.model.Percentage,
+                                                        final_eval: recDel.model.Final_eval,
+                                                        semester: recDel.model.Semester,
+                                                    });
 
                     }
                 }
 
                 Button
                 {
-                    height: 75
-                    width: 75
+                    height: 48
+                    width: 48
                     background: Item{}
                     hoverEnabled: true
                     opacity: 0.5
                     onHoveredChanged:(hovered)? this.opacity=1 : this.opacity=0.5
                     icon.source: "qrc:/assets/images/edit.png"
-                    icon.width: 64
-                    icon.height: 64
+                    icon.width: 48
+                    icon.height: 48
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
                         if(recDel.swipe.complete)
                             recDel.swipe.close();
 
-                        evalsPage.appStackView.push(updateComponent,  { eval_id: recDel.model.Id, eval_name: recDel.model.Eval_name, eval_time: recDel.model.Eval_time, max_value: recDel.model.Max_value });
+                        evalsPage.appStackView.push(updateComponent,  {
+                                                        eval_id: recDel.model.Id,
+                                                        eval_name: recDel.model.Eval_name,
+                                                        eval_time: recDel.model.Eval_time,
+                                                        max_value: recDel.model.Max_value,
+                                                        percentage: recDel.model.Percentage,
+                                                        final_eval: recDel.model.Final_eval,
+                                                        semester: recDel.model.Semester,
+
+                                                    });
                     }
                 }
             }

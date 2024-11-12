@@ -280,7 +280,7 @@ Page {
                         Layout.margins: 20
                         flickableDirection: Flickable.AutoFlickDirection
                         cellWidth: 320
-                        cellHeight: 220 // 20 spacing
+                        cellHeight: 270 // 20 spacing
                         clip: true
                         model: ListModel{id: coursesModel}
                         highlight: Item{}
