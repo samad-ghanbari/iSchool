@@ -165,3 +165,4 @@ function updateTeacherCB(branchId)
         teacherModel.append({value: obj.id,  text: temp })
     }
 }
+
