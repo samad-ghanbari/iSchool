@@ -16,9 +16,13 @@ Page {
 
     required property int branch_id;
     required property int base_id;
+    required property int step_id;
+    required property int period_id;
     required property int teacher_id;
     required property int class_id;
     required property int course_coefficient
+    required property int test_coefficient
+    required property var shared_coefficient
 
 
     required property string branch;
@@ -27,8 +31,14 @@ Page {
     required property string period;
     required property string course_name;
 
+    property var courseSharedCoef : shared_coefficient["course"]
+    property var testSharedCoef : shared_coefficient["test"]
+
+    property var existsCourses : dbMan.getAllCoursesMinimised(updatePage.step_id, updatePage.base_id, updatePage.period_id);// id course_name array of objects
+
 
     background: Rectangle{anchors.fill: parent; color: "mintcream"}
+
 
     GridLayout
     {
@@ -62,6 +72,7 @@ Page {
             styleColor: "white"
         }
 
+
         ScrollView
         {
             Layout.columnSpan: 2
@@ -72,294 +83,433 @@ Page {
 
             Rectangle
             {
-                id: centerBoxId
-                color:"snow"
-                width:  (parent.width < 700)? parent.width : 700
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.margins: 10
-                implicitHeight: parent.height
+                width: (parent.width > 700)? 700 : parent.width
+                implicitHeight : centerBox.implicitHeight + 40
+                anchors.horizontalCenter : parent.horizontalCenter
+                color: "snow"
 
-                radius: 10
-                Item {
+                GridLayout
+                {
+                    id: centerBox
                     anchors.fill: parent
-                    anchors.margins: 10
+                    anchors.margins: 20
+                    columns: 2
 
-                    ColumnLayout
+                    Image
                     {
-                        width: parent.width
+                        Layout.columnSpan: 2
+                        Layout.preferredWidth: 128
+                        Layout.preferredHeight: 128
+                        Layout.alignment: Qt.AlignHCenter
+                        source:  "qrc:/assets/images/course.png"
+                    }
 
-                        GridLayout
+                    //branch
+                    Text {
+                        text: "شعبه"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text: updatePage.branch
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+
+                    //step
+                    Text {
+                        text: "دوره"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text: updatePage.step
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+
+                    //base
+                    Text {
+                        text: "پایه تحصیلی"
+                        visible: (updatePage.base_id > 0)? true : false;
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text:  updatePage.base
+                        visible: (updatePage.base_id > 0)? true : false;
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+                    //period
+                    Text {
+                        text: "سال تحصیلی"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text:  updatePage.period
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+
+                    //Course name
+                    Text {
+                        text: "نام درس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    TextField
+                    {
+                        id: courseNameTF
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        placeholderText: "نام درس"
+                        text: updatePage.course_name
+
+                    }
+
+                    //class
+                    Text {
+                        text: "کلاس درس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    ComboBox
+                    {
+                        id: classCB
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        editable: false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        model: ListModel{id: classModel;}
+                        textRole: "text"
+                        valueRole: "value"
+                        Component.onCompleted:
                         {
-                            columns: 2
-                            rowSpacing: 20
-                            columnSpacing: 10
-                            Layout.preferredWidth:  parent.width
-
-                            Image
-                            {
-                                Layout.columnSpan: 2
-                                Layout.preferredWidth: 128
-                                Layout.preferredHeight: 128
-                                Layout.alignment: Qt.AlignHCenter
-                                source:  "qrc:/assets/images/course.png"
-                            }
-
-                            //branch
-                            Text {
-                                text: "شعبه"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text {
-                                text: updatePage.branch
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                            }
-
-                            //step
-                            Text {
-                                text: "دوره"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text {
-                                text: updatePage.step
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                            }
-
-                            //base
-                            Text {
-                                text: "پایه تحصیلی"
-                                visible: (updatePage.base_id > 0)? true : false;
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text {
-                                text:  updatePage.base
-                                visible: (updatePage.base_id > 0)? true : false;
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                            }
-
-                            //period
-                            Text {
-                                text: "سال تحصیلی"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            Text {
-                                text:  updatePage.period
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
-                                font.pixelSize: 18
-                                font.bold: true
-                                color: "royalblue"
-                            }
-
-                            //Course name
-                            Text {
-                                text: "نام درس"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            TextField
-                            {
-                                id: courseNameTF
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                placeholderText: "نام درس"
-                                text: updatePage.course_name
-
-                            }
-
-                            //Course coef
-                            Text {
-                                text: "ضریب درس"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            TextField
-                            {
-                                id: courseCoefTF
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                placeholderText: "ضریب درس"
-                                text: updatePage.course_coefficient
-                                validator: IntValidator{bottom: 0; top: 20;}
-                            }
-
-                            //class
-                            Text {
-                                text: "کلاس درس"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            ComboBox
-                            {
-                                id: classCB
-                                Layout.preferredHeight:  50
-                                Layout.fillWidth: true
-                                editable: false
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                model: ListModel{id: classModel;}
-                                textRole: "text"
-                                valueRole: "value"
-                                Component.onCompleted:
-                                {
-                                    Methods.updateClassCB(updatePage.branch_id);
-                                    classCB.currentIndex = classCB.indexOfValue(updatePage.class_id);
-                                }
-                            }
-
-                            // teacher
-                            Text {
-                                text: "مدرس"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "black"
-                            }
-                            ComboBox
-                            {
-                                id: teacherCB
-                                Layout.preferredHeight:  50
-                                Layout.fillWidth: true
-                                editable: false
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                model: ListModel{id: teacherModel;}
-                                textRole: "text"
-                                valueRole: "value"
-                                Component.onCompleted:
-                                {
-                                    Methods.updateTeacherCB(updatePage.branch_id);
-                                    teacherCB.currentIndex = teacherCB.indexOfValue(updatePage.teacher_id);
-                                }
-                            }
-                        }
-
-
-                        Item
-                        {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                        }
-
-                        Button
-                        {
-                            text: "تایید"
-                            Layout.preferredWidth: 200
-                            Layout.preferredHeight: 50
-                            Layout.alignment: Qt.AlignHCenter
-                            font.family: "B Yekan"
-                            font.pixelSize: 16
-                            Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
-                            onClicked:
-                            {
-                                var course = {};
-                                course["id"] = updatePage.course_id;
-                                course["course_name"] = courseNameTF.text
-                                course["course_coefficient"] = parseInt(courseCoefTF.text)
-                                course["teacher_id"] = teacherCB.currentValue
-                                course["class_id"] = classCB.currentValue
-
-
-                                if(dbMan.courseUpdate(course))
-                                    successDialogId.open();
-                                else
-                                {
-                                    var errorString = dbMan.getLastError();
-                                    infoDialogId.dialogText = errorString
-                                    infoDialogId.width = parent.width
-                                    infoDialogId.height = 500
-                                    infoDialogId.open();
-                                }
-                            }
-                        }
-
-                        Item
-                        {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
+                            Methods.updateClassCB(updatePage.branch_id);
+                            classCB.currentIndex = classCB.indexOfValue(updatePage.class_id);
                         }
                     }
+
+                    // teacher
+                    Text {
+                        text: "مدرس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    ComboBox
+                    {
+                        id: teacherCB
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        editable: false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        model: ListModel{id: teacherModel;}
+                        textRole: "text"
+                        valueRole: "value"
+                        Component.onCompleted:
+                        {
+                            Methods.updateTeacherCB(updatePage.branch_id);
+                            teacherCB.currentIndex = teacherCB.indexOfValue(updatePage.teacher_id);
+                        }
+                    }
+
+                    //Course coef
+                    Text {
+                        text: "ضریب درس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    TextField
+                    {
+                        id: courseCoefTF
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        placeholderText: "ضریب درس"
+                        text: updatePage.course_coefficient
+                        validator: IntValidator{bottom: 0; top: 20;}
+                    }
+
+                    //test coefficient
+                    Text {
+                        text: "ضریب تست"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    TextField
+                    {
+                        id: testCoefTF
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        placeholderText: "ضریب تست"
+                        text: updatePage.test_coefficient
+                        validator: RegularExpressionValidator{regularExpression: /^[0-9]*$/; }
+                    }
+
+                    //course shared coefficient
+                    Rectangle
+                    {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        color: "darkmagenta"
+                        Text
+                        {
+                            anchors.centerIn: parent
+                            font.family: "B Yekan"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "white"
+                            text:"ضرایب مشترک دروس"
+                        }
+                    }
+                    // get all course in this period
+                    ListView
+                    {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        implicitHeight: 300
+                        clip: true
+                        model: ListModel{id: courseCoefModel;}
+                        delegate:
+                            Switch{
+                                required property var model
+                                checked: (updatePage.courseSharedCoef.indexOf(model.Id) > -1)? true : false;
+                                height: 50;
+                                width: parent.width
+                                text:  model.Course_name
+                                font.family: "B Yekan"
+                                font.pixelSize: 14
+                                onToggled:
+                                {
+                                    var index = updatePage.courseSharedCoef.indexOf(model.Id);
+
+                                    if(checked)
+                                    {
+                                        //push step
+                                        if(index < 0)
+                                        updatePage.courseSharedCoef.push(model.Id);
+                                    }
+                                    else
+                                    {
+                                        if(index > -1)
+                                        updatePage.courseSharedCoef.splice(index, 1);
+                                    }
+                                }
+                            }
+
+                        Component.onCompleted:{
+                            for(var obj of updatePage.existsCourses)
+                                    courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name });
+
+                        }
+                    }
+
+                    //test shared coefficient
+                    Rectangle
+                    {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        color: "darkmagenta"
+                        Text
+                        {
+                            anchors.centerIn: parent
+                            font.family: "B Yekan"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "white"
+                            text:"ضرایب مشترک تست"
+                        }
+                    }
+
+                    ListView
+                    {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        implicitHeight: 300
+                        clip: true
+                        model: ListModel{id: testCoefModel;}
+                        delegate:
+                            Switch{
+                                required property var model
+                                checked: (updatePage.testSharedCoef.indexOf(model.Id) > -1)? true : false;
+                                height: 50;
+                                width: parent.width
+                                text:  model.Course_name
+                                font.family: "B Yekan"
+                                font.pixelSize: 14
+                                onToggled:
+                                {
+                                    var index = updatePage.testSharedCoef.indexOf(model.Id);
+
+                                    if(checked)
+                                    {
+                                        //push step
+                                        if(index < 0)
+                                        updatePage.testSharedCoef.push(model.Id);
+                                    }
+                                    else
+                                    {
+                                        if(index > -1)
+                                        updatePage.testSharedCoef.splice(index, 1);
+                                    }
+                                }
+                            }
+
+                        Component.onCompleted:{
+                            for(var obj of updatePage.existsCourses)
+                                    testCoefModel.append({ Id: obj.id, Course_name: obj.course_name });
+                        }
+                    }
+
+                    Item
+                    {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                    }
+
+                    Button
+                    {
+                        Layout.columnSpan: 2
+                        text: "تایید"
+                        Layout.preferredWidth: 200
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignHCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                        onClicked:
+                        {
+                            var course = {};
+
+                            course["id"] = updatePage.course_id;
+                            course["course_name"] = courseNameTF.text
+                            course["course_coefficient"] = parseInt(courseCoefTF.text)
+                            course["test_coefficient"] = parseInt(testCoefTF.text)
+                            course["teacher_id"] = teacherCB.currentValue
+                            course["class_id"] = classCB.currentValue
+
+                            course["shared_coefficient"] = { "course": updatePage.courseSharedCoef, "test": updatePage.testSharedCoef };
+
+                            if(dbMan.courseUpdate(course))
+                                successDialogId.open();
+                            else
+                            {
+                                var errorString = dbMan.getLastError();
+                                infoDialogId.dialogText = errorString
+                                infoDialogId.width = parent.width
+                                infoDialogId.height = 500
+                                infoDialogId.open();
+                            }
+                        }
+                    }
+
+                    Item
+                    {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                    }
+
+
+
+
+
+
+
                 }
             }
         }

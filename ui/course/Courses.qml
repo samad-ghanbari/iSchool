@@ -535,6 +535,8 @@ Page {
                                                           course_id: recDel.model.Id,
                                                           course_name: recDel.model.Course_name,
                                                           course_coefficient: recDel.model.Course_coefficient,
+                                                          test_coefficient: recDel.model.Test_coefficient,
+                                                          shared_coefficient: recDel.model.Shared_coefficient,
                                                           teacher_id: recDel.model.Teacher_id,
                                                           class_id: recDel.model.Class_id
                                                       });
@@ -693,6 +695,7 @@ Page {
                                                           course_id: recDel.model.Id,
                                                           course_name: recDel.model.Course_name,
                                                           course_coefficient: recDel.model.Course_coefficient,
+                                                          test_coefficient: recDel.model.Test_coefficient,
                                                           teacher_id: recDel.model.Teacher_id,
                                                           class_id: recDel.model.Class_id
                                                       });
@@ -750,6 +753,8 @@ Page {
 
             branch_id: branchCB.currentValue
             base_id: baseCB.currentValue
+            step_id: stepCB.currentValue
+            period_id: periodCB.currentValue
 
             branch: branchCB.currentText
             step: stepCB.currentText
