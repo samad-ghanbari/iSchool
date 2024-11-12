@@ -45,7 +45,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "ارزیابی‌های درس"
+            text: "ارزیابی‌های درسی"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -188,7 +188,7 @@ Page {
     Component
     {
         id: evalsDelegate
-        // e.id, e.eval_name, e.eval_time, e.course_id, e.max_grade
+        // e.id, e.eval_name, e.eval_time, e.course_id, e.max_value
         // co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id,
         // cl.class_name, t.name, t.lastname
 
@@ -291,7 +291,7 @@ Page {
                         if(recDel.swipe.complete)
                             recDel.swipe.close();
 
-                        evalsPage.appStackView.push(deleteComponent, { eval_id: recDel.model.Id, eval_name: recDel.model.Eval_name, eval_time: recDel.model.Eval_time, max_grade: recDel.model.Max_grade });
+                        evalsPage.appStackView.push(deleteComponent, { eval_id: recDel.model.Id, eval_name: recDel.model.Eval_name, eval_time: recDel.model.Eval_time, max_value: recDel.model.Max_value });
 
                     }
                 }
@@ -313,7 +313,7 @@ Page {
                         if(recDel.swipe.complete)
                             recDel.swipe.close();
 
-                        evalsPage.appStackView.push(updateComponent,  { eval_id: recDel.model.Id, eval_name: recDel.model.Eval_name, eval_time: recDel.model.Eval_time, max_grade: recDel.model.Max_grade });
+                        evalsPage.appStackView.push(updateComponent,  { eval_id: recDel.model.Id, eval_name: recDel.model.Eval_name, eval_time: recDel.model.Eval_time, max_value: recDel.model.Max_value });
                     }
                 }
             }

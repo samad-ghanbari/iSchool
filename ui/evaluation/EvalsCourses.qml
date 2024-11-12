@@ -256,6 +256,21 @@ Page {
                     }
 
 
+                    Label
+                    {
+                        Layout.columnSpan: 2
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        text:"لطفا درس مورد نظر خود را انتخاب نمایید."
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        color: "mediumvioletred"
+                        font.bold: true
+                        visible: (coursesModel.count > 0)? true : false
+                        horizontalAlignment: Label.AlignHCenter
+                        verticalAlignment: Label.AlignVCenter
+                    }
+
                     GridView
                     {
                         id: coursesGV
@@ -376,7 +391,7 @@ Page {
 
                 }
 
-                onClicked:
+                onDoubleClicked:
                 {
                     evalsCoursesPage.appStackView.push(evalsComponent, {course_id: recDel.model.Id, course_name: recDel.model.Course_name, class_name: recDel.model.Class_name, teacher: recDel.model.Teacher });
                 }

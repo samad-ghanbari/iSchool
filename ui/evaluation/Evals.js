@@ -105,7 +105,7 @@ function updateEvals(courseId)
     var jsondata = dbMan.getCourseEvals(courseId);
     for(var obj of jsondata)
     {
-        // e.id, e.eval_name, e.eval_time, e.course_id, e.max_grade
+        // e.id, e.eval_name, e.eval_time, e.course_id, e.max_value, percentage, final_eval, semester
         // co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id,
         // cl.class_name, t.name, t.lastname
         evalsModel.append({
@@ -113,7 +113,10 @@ function updateEvals(courseId)
                               Eval_name: obj.eval_name,
                               Eval_time: obj.eval_time,
                               Course_id: obj.course_id,
-                              Max_grade: obj.max_grade,
+                              Max_value: obj.max_value,
+                              Percentage: obj.percentage,
+                              Final_eval: obj.final_eval,
+                              Semester: obj.semester,
                               Course_name: obj.course_name,
                               Class_id: obj.class_id,
                               Step_id: obj.step_id,
