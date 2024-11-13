@@ -18,7 +18,7 @@ Page {
 
     required property var studentCourseModel;
     // 0sc.id, sc.student_id, sc.course_id
-    // 3co.course_name, co.course_coefficient, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
+    // 3co.course_name, co.course_coefficient, co.test_coefficient, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
     // 9t.name, t.lastname, cl.class_name
 
     signal popStackViewSignal();
@@ -194,22 +194,39 @@ Page {
                                 color: "white"
                             }
 
-                            Rectangle
+                            //coefficient
+                            Label
                             {
-                                width: 50;
-                                height: parent.height;
+                                id: courseCoefLbl
+                                width: 30
+                                height: 60
+                                anchors.top: parent.top
                                 anchors.right: parent.right
-                                color: "indianred"
-                                Text
-                                {
-                                    anchors.centerIn: parent
-                                    text: studentCourseEvalPage.studentCourseModel.Course_coefficient
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 24
-                                    font.bold: true
-                                    color: "white"
-                                }
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                text: studentCourseEvalPage.studentCourseModel.Course_coefficient
+                                color: "white"
+                                background: Rectangle{anchors.fill: parent; color:"mediumvioletred"}
                             }
+                            Label
+                            {
+                                width: 30
+                                height: 60
+                                anchors.top: courseCoefLbl.bottom
+                                anchors.right: parent.right
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                text: studentCourseEvalPage.studentCourseModel.Test_coefficient
+                                color: "white"
+                                background: Rectangle{anchors.fill: parent; color:"darkmagenta"}
+                            }
+
                         }
 
                         //refresh
@@ -351,7 +368,7 @@ Page {
             width: 400
             height: 300
             required property var model;
-            //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_name, e.eval_time, e.course_id, e.max_grade
+            //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_name, e.eval_time, e.course_id, e.max_value
 
             color:{
                 if(recDelt.model.Student_grade == -1)
@@ -381,6 +398,21 @@ Page {
                     font.bold: true
                     text: recDelt.model.Eval_name
                     elide: Text.ElideLeft
+                }
+                // final mark
+                Text
+                {
+                    text: "\u2739"
+                    font.family: "B Yekan"
+                    font.pixelSize: 48
+                    verticalAlignment: Text.AlignVCenter
+                    height:50
+                    width: 50
+                    color: "orange"
+                    anchors.top: parent.top
+                    anchors.left : parent.left
+
+                    visible: (recDelt.model.Final_eval)? true : false;
                 }
             }
 
@@ -414,6 +446,7 @@ Page {
                 anchors.top : evalTimeRect.bottom
                 Text
                 {
+
                     anchors.fill: parent
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
@@ -421,7 +454,7 @@ Page {
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
-                    text: "بیشترین نمره: " + recDelt.model.Max_grade
+                    text: (recDelt.model.Percentage)? "بیشترین نمره: " + recDelt.model.Max_value +"%" : "بیشترین نمره: " +recDelt.model.Max_value;
                     elide: Text.ElideLeft
                 }
             }
@@ -470,6 +503,8 @@ Page {
                     elide: Text.ElideLeft
                 }
             }
+
+
 
             MouseArea
             {

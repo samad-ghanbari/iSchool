@@ -82,6 +82,8 @@ function updateCourses(stepId, baseId, periodId)
         coursesModel.append({
                                 Id: obj.id,
                                 Course_name: obj.course_name,
+                                Course_coefficient: obj.course_coefficient,
+                                Test_coefficient: obj.test_coefficient,
                                 Class_id: obj.class_id,
                                 Step_id: obj.step_id,
                                 Study_base_id: obj.study_base_id,
@@ -117,6 +119,7 @@ function updateEvals(courseId)
                               Percentage: obj.percentage,
                               Final_eval: obj.final_eval,
                               Semester: obj.semester,
+                              Report_included: obj.report_included,
                               Course_name: obj.course_name,
                               Class_id: obj.class_id,
                               Step_id: obj.step_id,

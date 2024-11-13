@@ -352,6 +352,29 @@ Page {
                         placeholderText: "اول یا دوم"
                     }
 
+                    //report included
+                    Text {
+                        text: "تاثیر در ارزیابی"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Switch
+                    {
+                        id: includedSW
+                        Layout.preferredWidth: 100
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignLeft
+                        checked: true
+
+                    }
+
                     Item
                     {
                         Layout.fillWidth: true
@@ -380,6 +403,7 @@ Page {
                             Eval["percentage"] = percentageSW.checked
                             Eval["final_eval"] = finalSW.checked
                             Eval["semester"] = semesterTF.text
+                            Eval["report_included"] = includedSW.checked
 
 
                             if(dbMan.evalInsert(Eval))

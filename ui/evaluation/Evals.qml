@@ -16,6 +16,9 @@ Page {
     required property string course_name
     required property string teacher
     required property string class_name
+    required property real course_coefficient
+    required property real test_coefficient
+
 
     required property int    course_id
 
@@ -130,6 +133,37 @@ Page {
                         font.family: "B Yekan"
                         font.pixelSize: 20
                         font.bold: true
+                        Label
+                        {
+                            id: courseCoefLbl
+                            width: 30
+                            height: 40
+                            anchors.top: parent.top
+                            anchors.right: parent.right
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                            font.family: "B Yekan"
+                            font.pixelSize: 16
+                            font.bold: true
+                            text: evalsPage.course_coefficient
+                            color: "white"
+                            background: Rectangle{anchors.fill: parent; color:"mediumvioletred"}
+                        }
+                        Label
+                        {
+                            width: 30
+                            height: 40
+                            anchors.top: courseCoefLbl.bottom
+                            anchors.right: parent.right
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                            font.family: "B Yekan"
+                            font.pixelSize: 16
+                            font.bold: true
+                            text: evalsPage.test_coefficient
+                            color: "white"
+                            background: Rectangle{anchors.fill: parent; color:"darkmagenta"}
+                        }
                     }
 
                     Button
@@ -213,16 +247,24 @@ Page {
                 border.width: (recDel.highlighted)? 2 : 1;
                 border.color: (recDel.highlighted)? "mediumvioletred" : "gray";
 
-                Text
+                Image
                 {
-                    text: "\u2739"
-                    font.family: "B Yekan"
-                    font.pixelSize: 36
-                    color: "orange"
+                    source: "qrc:/assets/images/certified48.png"
+                    width: 48
+                    height: 48
                     anchors.top: parent.top
                     anchors.left : parent.left
 
                     visible: (recDel.model.Final_eval)? true : false;
+                }
+                Image
+                {
+                    source: "qrc:/assets/images/stop48.png"
+                    width: 48
+                    height: 48
+                    anchors.top: parent.top
+                    anchors.left : parent.left
+                    visible: (recDel.model.Report_included)? false : true;
                 }
 
                 Rectangle
@@ -329,7 +371,7 @@ Page {
                                                         max_value: recDel.model.Max_value,
                                                         percentage: recDel.model.Percentage,
                                                         final_eval: recDel.model.Final_eval,
-                                                        semester: recDel.model.Semester,
+                                                        semester: recDel.model.Semester
                                                     });
 
                     }
@@ -360,7 +402,7 @@ Page {
                                                         percentage: recDel.model.Percentage,
                                                         final_eval: recDel.model.Final_eval,
                                                         semester: recDel.model.Semester,
-
+                                                        report_included: recDel.model.Report_included
                                                     });
                     }
                 }

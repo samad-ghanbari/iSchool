@@ -197,7 +197,7 @@ function updateCourseEvalModel(student_id, course_id)
 {
     courseEvalModel.clear();
     var jsondata = dbMan.getStudentCourseEvals(student_id, course_id);
-    //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_name, e.eval_time, e.course_id, e.max_grade
+    //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_name, e.eval_time, e.course_id, e.max_value
     for(var obj of jsondata)
     {
         courseEvalModel.append({
@@ -209,7 +209,10 @@ function updateCourseEvalModel(student_id, course_id)
                                    Eval_name: obj.eval_name,
                                    Eval_time: obj.eval_time,
                                    Course_id: obj.course_id,
-                                   Max_grade: obj.max_grade
+                                   Max_value: obj.max_value,
+                                   Percentage: obj.percentage,
+                                   Final_eval: obj.final_eval,
+                                   Semester: obj.semester
                                });
 
 

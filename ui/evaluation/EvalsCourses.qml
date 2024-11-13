@@ -393,7 +393,14 @@ Page {
 
                 onDoubleClicked:
                 {
-                    evalsCoursesPage.appStackView.push(evalsComponent, {course_id: recDel.model.Id, course_name: recDel.model.Course_name, class_name: recDel.model.Class_name, teacher: recDel.model.Teacher });
+                    evalsCoursesPage.appStackView.push(evalsComponent, {
+                                                           course_id: recDel.model.Id,
+                                                           course_name: recDel.model.Course_name,
+                                                           course_coefficient: recDel.model.Course_coefficient,
+                                                           test_coefficient: recDel.model.Test_coefficient,
+                                                           class_name: recDel.model.Class_name,
+                                                           teacher: recDel.model.Teacher
+                                                       });
                 }
             }
         }
