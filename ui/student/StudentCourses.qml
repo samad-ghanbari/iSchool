@@ -23,8 +23,8 @@ Page {
 
     GridLayout
     {
+        columns: 2
         anchors.fill: parent
-        columns:2
 
         Button
         {
@@ -42,7 +42,6 @@ Page {
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
-            Layout.alignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "انتخاب دروس دانش‌آموز"
@@ -55,188 +54,212 @@ Page {
         }
 
 
-        //student info
-        Rectangle
+        ScrollView
         {
             Layout.columnSpan: 2
             Layout.fillWidth: true
-            implicitHeight: 200
-            RowLayout
-            {
-                anchors.fill: parent
-                Image
-                {
-                    Layout.preferredWidth: 128
-                    Layout.preferredHeight: 128
-                    Layout.alignment: Qt.AlignLeft
-                    source: (studentCoursesPage.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
-                }
-                Column{
-                    Layout.fillWidth: true
-                    Text {
-                        text: studentCoursesPage.student["name"] + " " + studentCoursesPage.student["lastname"]
-                        height: 50
-                        width: parent.width
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "royalblue"
-                    }
-
-                    Text {
-                        text: "نام پدر" + " : " + studentCoursesPage.student["fathername"]
-                        height: 50
-                        width: parent.width
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "royalblue"
-                    }
-            // branch step
-                    Text {
-                        text: "شعبه " + " : " + studentCoursesPage.model.City + " - " + studentCoursesPage.model.Branch_name + " - " + studentCoursesPage.model.Step_name + " - " + studentCoursesPage.model.Study_base
-                        height: 50
-                        width: parent.width
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "royalblue"
-                    }
-            // base period
-                    Text {
-                        text:  studentCoursesPage.model.Study_period
-                        height: 50
-                        width: parent.width
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 20
-                        font.bold: true
-                        color: "darkcyan"
-                    }
-                }
-            }
-        }
-
-
-        Rectangle
-        {
-            Layout.columnSpan: 2
-            Layout.fillWidth: true
-            Layout.preferredHeight: 4
-            color: "skyblue"
-            Layout.topMargin: 10
-            Layout.bottomMargin: 10
-        }
-
-        Item
-        {
-            Layout.columnSpan: 2
-            Layout.preferredHeight: 64
-            Layout.fillWidth: true
-
-            Button
-            {
-
-                width: 64
-                height: 64
-                anchors.left: parent.left
-                background: Item{}
-                icon.source: "qrc:/assets/images/add.png"
-                icon.width: 64
-                icon.height: 64
-                opacity: 0.5
-                onClicked: studentCoursesPage.appStackView.push(insertStudentCourse)
-                hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-            }
-            Button
-            {
-                id: refreshBtn
-                width: 64
-                height: 64
-                anchors.right: parent.right
-                background: Item{}
-                icon.source: "qrc:/assets/images/refresh.png"
-                icon.width: 64
-                icon.height: 64
-                opacity: 0.5
-                onClicked:
-                {
-                    if(Methods.updateBaseCourses(studentCoursesPage.model.Id)) //registerId
-                    {
-                        infoDialogId.dialogSuccess = true;
-                        infoDialogId.dialogTitle = "عملیات موفق";
-                        infoDialogId.dialogText = "بروزرسانی دروس پایه دانش‌آموز با موفقیت انجام شد.";
-                        infoDialogId.open();
-                    }
-                    else
-                    {
-                        infoDialogId.open();
-                    }
-                }
-                hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-            }
-            Button
-            {
-
-                width: 64
-                height: 64
-                anchors.right: refreshBtn.left
-                background: Item{}
-                icon.source: "qrc:/assets/images/info.png"
-                icon.width: 64
-                icon.height: 64
-                opacity: 0.5
-                onClicked:
-                {
-                    studentCourseInfoDrawer.open();
-                    studentCourseInfoDrawer.statCalulation();
-                }
-                hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-            }
-        }
-
-
-        GridView
-        {
-            id: studentCourseGV
-            Layout.columnSpan: 2
             Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.margins: 10
-            flickableDirection: Flickable.AutoFlickDirection
-            clip: true
-            cellWidth: 320
-            cellHeight: 220
-            model: ListModel{id: scModel}
-            highlight: Item{}
-            delegate: gvDelegate
-            Component.onCompleted: Methods.updateStudentCourses(studentCoursesPage.model.Id);
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
-            function closeSwipeHandler()
+            Rectangle
             {
-                for (var i = 0; i <= studentCourseGV.count; i++)
+                width: parent.width
+                implicitHeight : centerBox.implicitHeight + 40
+                anchors.horizontalCenter : parent.horizontalCenter
+                color: "snow"
+
+                GridLayout
                 {
-                    var item = studentCourseGV.contentItem.children[i];
-                    if(item.swipe)
+                    id: centerBox
+                    anchors.fill: parent
+                    anchors.margins: 20
+                    columns: 2
+
+                    //student info
+                    Rectangle
                     {
-                        item.swipe.close();
-                        item.checked = false;
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        implicitHeight: 200
+                        RowLayout
+                        {
+                            anchors.fill: parent
+                            Image
+                            {
+                                Layout.preferredWidth: 128
+                                Layout.preferredHeight: 128
+                                Layout.alignment: Qt.AlignLeft
+                                source: (studentCoursesPage.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
+                            }
+                            Column{
+                                Layout.fillWidth: true
+                                Text {
+                                    text: studentCoursesPage.student["name"] + " " + studentCoursesPage.student["lastname"]
+                                    height: 50
+                                    width: parent.width
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+
+                                Text {
+                                    text: "نام پدر" + " : " + studentCoursesPage.student["fathername"]
+                                    height: 50
+                                    width: parent.width
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                // branch step
+                                Text {
+                                    text: "شعبه " + " : " + studentCoursesPage.model.City + " - " + studentCoursesPage.model.Branch_name + " - " + studentCoursesPage.model.Step_name + " - " + studentCoursesPage.model.Study_base
+                                    height: 50
+                                    width: parent.width
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                // base period
+                                Text {
+                                    text:  studentCoursesPage.model.Study_period
+                                    height: 50
+                                    width: parent.width
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 20
+                                    font.bold: true
+                                    color: "darkcyan"
+                                }
+                            }
+                        }
                     }
+
+                    Rectangle
+                    {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 4
+                        color: "skyblue"
+                        Layout.topMargin: 10
+                        Layout.bottomMargin: 10
+                    }
+
+                    Item
+                    {
+                        Layout.columnSpan: 2
+                        Layout.preferredHeight: 64
+                        Layout.fillWidth: true
+
+                        Button
+                        {
+
+                            width: 64
+                            height: 64
+                            anchors.left: parent.left
+                            background: Item{}
+                            icon.source: "qrc:/assets/images/add.png"
+                            icon.width: 64
+                            icon.height: 64
+                            opacity: 0.5
+                            onClicked: studentCoursesPage.appStackView.push(insertStudentCourse)
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        }
+                        Button
+                        {
+                            id: refreshBtn
+                            width: 64
+                            height: 64
+                            anchors.right: parent.right
+                            background: Item{}
+                            icon.source: "qrc:/assets/images/refresh.png"
+                            icon.width: 64
+                            icon.height: 64
+                            opacity: 0.5
+                            onClicked:
+                            {
+                                if(Methods.updateBaseCourses(studentCoursesPage.model.Id)) //registerId
+                                {
+                                    infoDialogId.dialogSuccess = true;
+                                    infoDialogId.dialogTitle = "عملیات موفق";
+                                    infoDialogId.dialogText = "بروزرسانی دروس پایه دانش‌آموز با موفقیت انجام شد.";
+                                    infoDialogId.open();
+                                }
+                                else
+                                {
+                                    infoDialogId.open();
+                                }
+                            }
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        }
+                        Button
+                        {
+
+                            width: 64
+                            height: 64
+                            anchors.right: refreshBtn.left
+                            background: Item{}
+                            icon.source: "qrc:/assets/images/info.png"
+                            icon.width: 64
+                            icon.height: 64
+                            opacity: 0.5
+                            onClicked:
+                            {
+                                studentCourseInfoDrawer.open();
+                                studentCourseInfoDrawer.statCalulation();
+                            }
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        }
+                    }
+
+                    GridView
+                    {
+                        id: studentCourseGV
+                        Layout.columnSpan: 2
+                        Layout.fillHeight: true
+                        implicitHeight: 400
+                        Layout.fillWidth: true
+                        Layout.margins: 10
+                        flickableDirection: Flickable.AutoFlickDirection
+                        clip: true
+                        cellWidth: 320
+                        cellHeight: 220
+                        model: ListModel{id: scModel}
+                        highlight: Item{}
+                        delegate: gvDelegate
+                        Component.onCompleted: Methods.updateStudentCourses(studentCoursesPage.model.Id);
+
+                        function closeSwipeHandler()
+                        {
+                            for (var i = 0; i <= studentCourseGV.count; i++)
+                            {
+                                var item = studentCourseGV.contentItem.children[i];
+                                if(item.swipe)
+                                {
+                                    item.swipe.close();
+                                    item.checked = false;
+                                }
+                            }
+                        }
+
+                    }
+
                 }
             }
-
         }
-
     }
 
     // swipe delegate
@@ -388,7 +411,7 @@ Page {
                         SwipeDelegate.onClicked:
                         {
                             if(recDelt.swipe.complete)
-                                recDelt.swipe.close();
+                            recDelt.swipe.close();
                             // 0sc.id, sc.student_id, sc.course_id
                             // 3co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
                             // 9t.name, t.lastname, cl.class_name
@@ -420,7 +443,7 @@ Page {
                         SwipeDelegate.onClicked:
                         {
                             if(recDelt.swipe.complete)
-                                recDelt.swipe.close();
+                            recDelt.swipe.close();
                             // 0sc.id, sc.student_id, sc.course_id
                             // 3co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
                             // 9t.name, t.lastname, cl.class_name
@@ -433,6 +456,7 @@ Page {
             }
         }
     }
+
 
     // insert student course
     Component

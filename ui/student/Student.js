@@ -212,7 +212,8 @@ function updateCourseEvalModel(student_id, course_id)
                                    Max_value: obj.max_value,
                                    Percentage: obj.percentage,
                                    Final_eval: obj.final_eval,
-                                   Semester: obj.semester
+                                   Semester: obj.semester,
+                                   Report_included: obj.report_included
                                });
 
 

@@ -192,6 +192,7 @@ qt_add_resources(appiSchool "assets"
         assets/images/stop.png
         assets/images/stop48.png
         assets/images/reject.png
+        assets/images/reject48.png
         assets/images/star.png
         assets/images/certified.png
         assets/images/certified48.png
