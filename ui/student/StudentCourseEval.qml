@@ -346,7 +346,7 @@ Page {
 
             color:{
                 if(recDelt.model.Student_grade == -1)
-                    return "khaki";
+                    return "lavenderblush";
 
                 if(recDelt.model.index % 2 == 0)
                     return "whitesmoke"
@@ -514,6 +514,7 @@ Page {
                 onDoubleClicked:
                 {
                     var eval_name = recDelt.model.Eval_name;
+
                     var student_grade = recDelt.model.Student_grade
                     var student = studentCourseEvalPage.student["name"] + " " + studentCourseEvalPage.student["lastname"];
                     var course = studentCourseEvalPage.studentCourseModel.Course_name
@@ -667,6 +668,7 @@ Page {
                         if(dbMan.setStudentCourseEvalGrade(setStudentgradeDialog.studentEvalId, grade))
                         {
                             setStudentgradeDialog.close();
+                            setStudentgradeDialog.gradeVar = -1;
                             infoDialogId.dialogSuccess = true;
                             infoDialogId.dialogTitle = "عملیات موفق";
                             infoDialogId.dialogText = "نمره دانش‌آموز با موفقیت ثبت شد.";
@@ -677,6 +679,7 @@ Page {
                         else
                         {
                             setStudentgradeDialog.close();
+                            setStudentgradeDialog.gradeVar = -1;
                             infoDialogId.dialogSuccess = false;
                             infoDialogId.dialogTitle = "خطا";
                             infoDialogId.dialogText = "ثبت نمره دانش‌آموز با خطا مواجه شد.";
@@ -805,11 +808,13 @@ Page {
                             horizontalAlignment: Label.AlignLeft
                             verticalAlignment: Label.AlignVCenter
                         }
+
                         Label
                         {
+                            visible: (courseContinousBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: (courseContinousBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["continous"] : studentCourseStatDrawer.studentCourseNormStat["continous"];
+                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentCourseStat["continous"];
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -819,10 +824,9 @@ Page {
                         }
                         Label
                         {
-                            visible: (courseContinousBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentCourseStat["continous"];
+                            text: (courseContinousBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["continous"] : studentCourseStatDrawer.studentCourseNormStat["continous"];
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -858,18 +862,7 @@ Page {
                             horizontalAlignment: Label.AlignLeft
                             verticalAlignment: Label.AlignVCenter
                         }
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: (courseFinalBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["final"]:studentCourseStatDrawer.studentCourseNormStat["final"];
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
-                        }
+
                         Label
                         {
                              visible: (courseFinalBox.normFlag)? true : false
@@ -883,6 +876,20 @@ Page {
                             horizontalAlignment: Label.AlignHCenter
                             verticalAlignment: Label.AlignVCenter
                         }
+
+                        Label
+                        {
+                            width: parent.width
+                            height: 40
+                            text: (courseFinalBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["final"]:studentCourseStatDrawer.studentCourseNormStat["final"];
+                            font.family:"B Yekan"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "teal"
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+
                     }
                 }
 
@@ -912,11 +919,13 @@ Page {
                             horizontalAlignment: Label.AlignLeft
                             verticalAlignment: Label.AlignVCenter
                         }
+
                         Label
                         {
+                            visible: (courseSemesterBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: (courseSemesterBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["semester"] : studentCourseStatDrawer.studentCourseNormStat["semester"];
+                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentCourseStat["semester"];
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -926,10 +935,9 @@ Page {
                         }
                         Label
                         {
-                            visible: (courseSemesterBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentCourseStat["semester"];
+                            text: (courseSemesterBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["semester"] : studentCourseStatDrawer.studentCourseNormStat["semester"];
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -975,7 +983,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " میانگین تست: "
+                            text: " میانگین تست مستمر: "
                             font.family:"B Yekan"
                             font.pixelSize: 18
                             font.bold: true
@@ -983,11 +991,13 @@ Page {
                             horizontalAlignment: Label.AlignLeft
                             verticalAlignment: Label.AlignVCenter
                         }
+
                         Label
                         {
+                            visible: (testContinousBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: (testContinousBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["continous"] +"%" : studentCourseStatDrawer.studentTestNormStat["continous"] +"%";
+                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["continous"] +"%";
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -997,10 +1007,9 @@ Page {
                         }
                         Label
                         {
-                            visible: (testContinousBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["continous"] +"%";
+                            text: (testContinousBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["continous"] +"%" : studentCourseStatDrawer.studentTestNormStat["continous"] +"%";
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -1037,11 +1046,13 @@ Page {
                             horizontalAlignment: Label.AlignLeft
                             verticalAlignment: Label.AlignVCenter
                         }
+
                         Label
                         {
+                             visible: (testFinalBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: (testFinalBox.normFlag)?  " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["final"] +"%" : studentCourseStatDrawer.studentTestNormStat["final"] +"%";
+                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["final"] +"%";
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -1051,10 +1062,9 @@ Page {
                         }
                         Label
                         {
-                             visible: (testFinalBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["final"] +"%";
+                            text: (testFinalBox.normFlag)?  " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["final"] +"%" : studentCourseStatDrawer.studentTestNormStat["final"] +"%";
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -1091,11 +1101,13 @@ Page {
                             horizontalAlignment: Label.AlignLeft
                             verticalAlignment: Label.AlignVCenter
                         }
+
                         Label
                         {
+                            visible: (testSemesterBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: (testSemesterBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["semester"] +"%" : studentCourseStatDrawer.studentTestNormStat["semester"] +"%";
+                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["semester"] +"%";
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -1105,10 +1117,9 @@ Page {
                         }
                         Label
                         {
-                            visible: (testSemesterBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["semester"] +"%";
+                            text: (testSemesterBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["semester"] +"%" : studentCourseStatDrawer.studentTestNormStat["semester"] +"%";
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
