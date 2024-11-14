@@ -813,7 +813,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " میانگین مستمر: "
+                            text: " مستمر: "
                             font.family:"B Yekan"
                             font.pixelSize: 18
                             font.bold: true
@@ -867,7 +867,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " میانگین نهایی: "
+                            text: " پایانی: "
                             font.family:"B Yekan"
                             font.pixelSize: 18
                             font.bold: true
@@ -924,7 +924,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " میانگین نیمسال: "
+                            text: " نیمسال: "
                             font.family:"B Yekan"
                             font.pixelSize: 18
                             font.bold: true
@@ -996,7 +996,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " میانگین تست مستمر: "
+                            text: " تست مستمر: "
                             font.family:"B Yekan"
                             font.pixelSize: 18
                             font.bold: true
@@ -1051,7 +1051,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " میانگین تست نهایی: "
+                            text: " تست پایانی: "
                             font.family:"B Yekan"
                             font.pixelSize: 18
                             font.bold: true
@@ -1106,7 +1106,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " میانگین تست نیمسال: "
+                            text: " تست نیمسال: "
                             font.family:"B Yekan"
                             font.pixelSize: 18
                             font.bold: true

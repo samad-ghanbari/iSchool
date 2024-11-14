@@ -711,7 +711,7 @@ Page {
                     color: "indigo"
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
-                    text: "مستمر"
+                    text: "مستمر: "
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
@@ -756,7 +756,7 @@ Page {
                     color: "indigo"
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
-                    text: "نهایی"
+                    text: "پایانی: "
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
@@ -800,7 +800,7 @@ Page {
                     color: "indigo"
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
-                    text: "نیمسال"
+                    text: "نیمسال: "
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
