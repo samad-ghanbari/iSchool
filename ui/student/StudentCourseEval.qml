@@ -373,27 +373,7 @@ Page {
                     text: recDelt.model.Eval_name
                     elide: Text.ElideLeft
                 }
-                // final
-                Image
-                {
-                    source: "qrc:/assets/images/certified48.png"
-                    width: 48
-                    height: 48
-                    anchors.top: parent.top
-                    anchors.left : parent.left
 
-                    visible: (recDelt.model.Final_eval)? true : false;
-                }
-                // not report included
-                Image
-                {
-                    source: "qrc:/assets/images/stop48.png"
-                    width: 48
-                    height: 48
-                    anchors.top: parent.top
-                    anchors.left : parent.left
-                    visible: (recDelt.model.Report_included)? false : true;
-                }
             }
 
             Rectangle
@@ -444,7 +424,7 @@ Page {
                 id: studentGradeRect
                 width: parent.width
                 height: 50
-                color: "transparent"
+                color: "mintcream"
                 anchors.top : maxGradeRect.bottom
                 visible: (recDelt.model.Student_grade > -1)? true : false
                 Text
@@ -467,11 +447,12 @@ Page {
                 id: normGradeRect
                 width: parent.width
                 height: 50
-                color: "transparent"
+                color: "honeydew"
                 visible: (recDelt.model.Normalised_grade > -1)? true : false
                 anchors.top : studentGradeRect.bottom
                 Text
                 {
+                    id: studentNormGradeText
                     anchors.fill: parent
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
@@ -485,6 +466,35 @@ Page {
             }
 
 
+            Row{
+                width: parent.width;
+                height: 32
+                anchors.bottom: parent.bottom
+                // final
+                Image
+                {
+                    source: "qrc:/assets/images/certified32.png"
+                    width: 32
+                    height: 32
+                    visible: (recDelt.model.Final_eval)? true : false;
+                }
+                // not report included
+                Image
+                {
+                    source: "qrc:/assets/images/stop32.png"
+                    width: 32
+                    height: 32
+                    visible: (recDelt.model.Report_included)? false : true;
+                }
+                Image
+                {
+                    source: "qrc:/assets/images/check32.png"
+                    width: 32
+                    height: 32
+                    visible: (recDelt.model.Percentage)? true : false;
+                }
+
+            }
 
             MouseArea
             {
@@ -493,10 +503,12 @@ Page {
                 onEntered:{
                     evalNameRect.color= "mediumvioletred"
                     studentGradeText.color = "mediumvioletred"
+                    studentNormGradeText.color = "mediumvioletred"
                 }
                 onExited: {
                     evalNameRect.color=  "slategray"
                     studentGradeText.color = "slategray"
+                    studentNormGradeText.color = "slategray"
                 }
 
                 onDoubleClicked:
@@ -661,9 +673,6 @@ Page {
                             infoDialogId.open();
                             Methods.updateCourseEvalModel(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
 
-                            studentCourseEvalPage.studentCourseMean = dbMan.getStudentCourseMean(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
-                            studentCourseEvalPage.studentCourseNormalisedMean = dbMan.getStudentCourseNormalisedMean(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
-
                         }
                         else
                         {
@@ -701,6 +710,13 @@ Page {
 
         function statCalulation()
         {
+            var student_id = studentCourseEvalPage.student.id;
+            var course_id = studentCourseEvalPage.studentCourseModel.Course_id
+
+            studentCourseStat = dbMan.getStudentCourseStat(student_id, course_id, false);
+            studentCourseNormStat = dbMan.getStudentCourseStat(student_id, course_id, true);
+            studentTestStat = dbMan.getStudentTestStat(student_id, course_id, false);
+            studentTestNormStat = dbMan.getStudentTestStat(student_id, course_id, true);
         }
 
         ScrollView
@@ -767,9 +783,12 @@ Page {
                 // mostamar
                 Rectangle
                 {
+                    id: courseContinousBox
+                    property bool normFlag: (studentCourseStatDrawer.studentCourseStat.continous == studentCourseStatDrawer.studentCourseNormStat.continous)? false  : true;
                     width: parent.width
                     height: 120
                     color: "ghostwhite"
+                    visible: (studentCourseStatDrawer.studentCourseStat["continous"] > -1)? true : false;
                     Column
                     {
                         width: parent.width
@@ -790,7 +809,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["continous"];
+                            text: (courseContinousBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["continous"] : studentCourseStatDrawer.studentCourseNormStat["continous"];
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -800,6 +819,7 @@ Page {
                         }
                         Label
                         {
+                            visible: (courseContinousBox.normFlag)? true : false
                             width: parent.width
                             height: 40
                             text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentCourseStat["continous"];
@@ -816,9 +836,12 @@ Page {
                 //final
                 Rectangle
                 {
+                    id: courseFinalBox
+                    property bool normFlag: (studentCourseStatDrawer.studentCourseStat.final == studentCourseStatDrawer.studentCourseNormStat.final)? false  : true;
                     width: parent.width
                     height: 120
                     color: "ghostwhite"
+                    visible: (studentCourseStatDrawer.studentCourseStat["final"] > -1)? true : false;
                     Column
                     {
                         width: parent.width
@@ -839,7 +862,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["final"];
+                            text: (courseFinalBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["final"]:studentCourseStatDrawer.studentCourseNormStat["final"];
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -849,6 +872,7 @@ Page {
                         }
                         Label
                         {
+                             visible: (courseFinalBox.normFlag)? true : false
                             width: parent.width
                             height: 40
                             text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentCourseStat["final"];
@@ -865,9 +889,13 @@ Page {
                 //semester
                 Rectangle
                 {
+                    id: courseSemesterBox
+                    property bool normFlag: (studentCourseStatDrawer.studentCourseStat.semester == studentCourseStatDrawer.studentCourseNormStat.semester)? false  : true;
+
                     width: parent.width
                     height: 120
                     color: "ghostwhite"
+                    visible: (studentCourseStatDrawer.studentCourseStat["semester"] > -1)? true : false;
                     Column
                     {
                         width: parent.width
@@ -888,7 +916,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["semester"];
+                            text: (courseSemesterBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["semester"] : studentCourseStatDrawer.studentCourseNormStat["semester"];
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -898,6 +926,7 @@ Page {
                         }
                         Label
                         {
+                            visible: (courseSemesterBox.normFlag)? true : false
                             width: parent.width
                             height: 40
                             text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentCourseStat["semester"];
@@ -923,6 +952,8 @@ Page {
                     color: "white"
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
+
+                    visible: ((studentCourseStatDrawer.studentTestStat["continous"] > -1) || (studentCourseStatDrawer.studentTestStat["final"] > -1))? true : false;
                 }
 
 
@@ -930,9 +961,12 @@ Page {
                 // mostamar
                 Rectangle
                 {
+                    id: testContinousBox
+                    property bool normFlag: (studentCourseStatDrawer.studentTestStat.continous == studentCourseStatDrawer.studentTestNormStat.continous)? false  : true;
                     width: parent.width
                     height: 120
                     color: "ghostwhite"
+                    visible: (studentCourseStatDrawer.studentTestStat["continous"] > -1)? true : false;
                     Column
                     {
                         width: parent.width
@@ -953,7 +987,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["continous"];
+                            text: (testContinousBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["continous"] +"%" : studentCourseStatDrawer.studentTestNormStat["continous"] +"%";
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -963,9 +997,10 @@ Page {
                         }
                         Label
                         {
+                            visible: (testContinousBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["continous"];
+                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["continous"] +"%";
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -979,9 +1014,13 @@ Page {
                 //final
                 Rectangle
                 {
+                    id: testFinalBox
+                    property bool normFlag: (studentCourseStatDrawer.studentTestStat.final == studentCourseStatDrawer.studentTestNormStat.final)? false  : true;
+
                     width: parent.width
                     height: 120
                     color: "ghostwhite"
+                    visible: (studentCourseStatDrawer.studentTestStat["final"] > -1)? true : false;
                     Column
                     {
                         width: parent.width
@@ -1002,7 +1041,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["final"];
+                            text: (testFinalBox.normFlag)?  " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["final"] +"%" : studentCourseStatDrawer.studentTestNormStat["final"] +"%";
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -1012,9 +1051,10 @@ Page {
                         }
                         Label
                         {
+                             visible: (testFinalBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["final"];
+                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["final"] +"%";
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -1028,9 +1068,13 @@ Page {
                 //semester
                 Rectangle
                 {
+                    id: testSemesterBox
+                    property bool normFlag: (studentCourseStatDrawer.studentTestStat.semester == studentCourseStatDrawer.studentTestNormStat.semester)? false  : true;
+
                     width: parent.width
                     height: 120
                     color: "ghostwhite"
+                    visible: (studentCourseStatDrawer.studentTestStat["semester"] > -1)? true : false;
                     Column
                     {
                         width: parent.width
@@ -1051,7 +1095,7 @@ Page {
                         {
                             width: parent.width
                             height: 40
-                            text: " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["semester"];
+                            text: (testSemesterBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["semester"] +"%" : studentCourseStatDrawer.studentTestNormStat["semester"] +"%";
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true
@@ -1061,9 +1105,10 @@ Page {
                         }
                         Label
                         {
+                            visible: (testSemesterBox.normFlag)? true : false
                             width: parent.width
                             height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["semester"];
+                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["semester"] +"%";
                             font.family:"B Yekan"
                             font.pixelSize: 16
                             font.bold: true

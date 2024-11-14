@@ -525,7 +525,6 @@ Page {
 
         function statCalulation()
         {
-            studentCourseInfoDrawer.studentStat = dbMan.getStudentStat(studentCoursesPage.model.Id); // register id
         }
 
         ScrollView

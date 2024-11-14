@@ -247,25 +247,6 @@ Page {
                 border.width: (recDel.highlighted)? 2 : 1;
                 border.color: (recDel.highlighted)? "mediumvioletred" : "gray";
 
-                Image
-                {
-                    source: "qrc:/assets/images/certified48.png"
-                    width: 48
-                    height: 48
-                    anchors.top: parent.top
-                    anchors.left : parent.left
-
-                    visible: (recDel.model.Final_eval)? true : false;
-                }
-                Image
-                {
-                    source: "qrc:/assets/images/stop48.png"
-                    width: 48
-                    height: 48
-                    anchors.top: parent.top
-                    anchors.left : parent.left
-                    visible: (recDel.model.Report_included)? false : true;
-                }
 
                 Rectangle
                 {
@@ -334,6 +315,36 @@ Page {
                         height: 50
                         elide: Text.ElideRight
                     }
+                }
+
+                Row{
+                    width: parent.width;
+                    height: 32
+                    anchors.bottom: parent.bottom
+                    // final
+                    Image
+                    {
+                        source: "qrc:/assets/images/certified32.png"
+                        width: 32
+                        height: 32
+                        visible: (recDel.model.Final_eval)? true : false;
+                    }
+                    // not report included
+                    Image
+                    {
+                        source: "qrc:/assets/images/stop32.png"
+                        width: 32
+                        height: 32
+                        visible: (recDel.model.Report_included)? false : true;
+                    }
+                    Image
+                    {
+                        source: "qrc:/assets/images/check32.png"
+                        width: 32
+                        height: 32
+                        visible: (recDel.model.Percentage)? true : false;
+                    }
+
                 }
             }
 

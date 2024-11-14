@@ -190,12 +190,14 @@ qt_add_resources(appiSchool "assets"
         assets/images/refresh.png
         assets/images/info.png
         assets/images/stop.png
-        assets/images/stop48.png
+        assets/images/stop32.png
         assets/images/reject.png
-        assets/images/reject48.png
+        assets/images/reject32.png
         assets/images/star.png
         assets/images/certified.png
-        assets/images/certified48.png
+        assets/images/certified32.png
+        assets/images/check.png
+        assets/images/check32.png
 
     #LOGO
     FILES

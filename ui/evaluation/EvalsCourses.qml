@@ -391,7 +391,7 @@ Page {
 
                 }
 
-                onDoubleClicked:
+                onClicked:
                 {
                     evalsCoursesPage.appStackView.push(evalsComponent, {
                                                            course_id: recDel.model.Id,
