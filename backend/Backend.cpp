@@ -3,7 +3,6 @@
 #include <QJsonObject>
 #include <QFontDatabase>
 
-
 Backend::Backend(QGuiApplication &app, QObject *parent)
     : QObject{parent}, dbMan(nullptr)
 {

@@ -517,7 +517,7 @@ Page {
         id: studentCourseInfoDrawer
         modal: true
         height: parent.height
-        width: 410 //(studentCoursesPage.width/2 > 500)? 500 : studentCoursesPage.width/2;
+        width: 400 //(studentCoursesPage.width/2 > 500)? 500 : studentCoursesPage.width/2;
 
         dragMargin: 0
         property var studentStat : {}
@@ -539,7 +539,7 @@ Page {
             Column
             {
                 width: studentCourseInfoSV.width
-                spacing: 20
+                spacing: 10
                 Image
                 {
                     width: 128
@@ -575,6 +575,270 @@ Page {
                     verticalAlignment: Label.AlignVCenter
                 }
 
+                Row
+                {
+                    width: parent.width
+                    height: 40
+                    Label
+                    {
+                        width: parent.width/2
+                        height: 40
+                        text: "مجموع ضرایب: " + dbMan.getStudentPeriodUnit(studentCoursesPage.model.Id, false);
+                        font.family:"B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "white"
+                        background: Rectangle{color:"darkslategray"}
+                        horizontalAlignment: Label.AlignHCenter
+                        verticalAlignment: Label.AlignVCenter
+                    }
+                    Label
+                    {
+                        width: parent.width/2
+                        background: Rectangle{color:"darkslategray"}
+                        height: 40
+                        text: "مجموع ضرایب تست: " + dbMan.getStudentPeriodUnit(studentCoursesPage.model.Id, true);
+                        font.family:"B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "white"
+                        horizontalAlignment: Label.AlignHCenter
+                        verticalAlignment: Label.AlignVCenter
+                    }
+                }
+
+                // course avg stat
+                Rectangle
+                {
+                    width: parent.width
+                    height: 120
+                    color: "floralwhite"
+                    anchors.margins: 0
+                    GridLayout
+                    {
+                        anchors.fill: parent;
+                        columns: 3
+                        rowSpacing:0
+                        columnSpacing: 0
+
+                        //title
+                        Label
+                        {
+                            Layout.columnSpan: 3
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 40
+                            text: "معدل"
+                            font.family:"B Yekan"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"lavenderblush"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+
+                        //types
+                        Label
+                        {
+                            Layout.preferredWidth: parent.width/3
+                            Layout.preferredHeight: 30
+                            text: "مستمر"
+                            font.family:"B Yekan"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"floralwhite"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+                        Label
+                        {
+                            Layout.preferredWidth: parent.width/3
+                            Layout.preferredHeight: 30
+                            text: "پایانی"
+                            font.family:"B Yekan"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"floralwhite"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+                        Label
+                        {
+                            Layout.preferredWidth: parent.width/3
+                            Layout.preferredHeight: 30
+                            text: "نیمسال"
+                            font.family:"B Yekan"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"floralwhite"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+
+                        //avg
+                        Label
+                        {
+                            Layout.preferredWidth: parent.width/3
+                            Layout.preferredHeight: 30
+                            text: "1"
+                            font.family:"B Yekan"
+                            font.pixelSize: 20
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"floralwhite"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+                        Label
+                        {
+                            Layout.preferredWidth: parent.width/3
+                            Layout.preferredHeight: 30
+                            text: "2"
+                            font.family:"B Yekan"
+                            font.pixelSize: 20
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"floralwhite"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+                        Label
+                        {
+                            Layout.preferredWidth: parent.width/3
+                            Layout.preferredHeight: 30
+                            text: "3"
+                            font.family:"B Yekan"
+                            font.pixelSize: 20
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"floralwhite"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+
+
+                    }
+                }
+
+                // test avg stat
+                Rectangle
+                {
+                    width: parent.width
+                    height: 120
+                    color: "floralwhite"
+                    anchors.margins: 0
+                    GridLayout
+                    {
+                        anchors.fill: parent;
+                        columns: 3
+                        rowSpacing:0
+                        columnSpacing: 0
+
+                        //title
+                        Label
+                        {
+                            Layout.columnSpan: 3
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 40
+                            text: "تست"
+                            font.family:"B Yekan"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"lavenderblush"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+
+                        //types
+                        Label
+                        {
+                            Layout.preferredWidth: parent.width/3
+                            Layout.preferredHeight: 30
+                            text: "مستمر"
+                            font.family:"B Yekan"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"floralwhite"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+                        Label
+                        {
+                            Layout.preferredWidth: parent.width/3
+                            Layout.preferredHeight: 30
+                            text: "پایانی"
+                            font.family:"B Yekan"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"floralwhite"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+                        Label
+                        {
+                            Layout.preferredWidth: parent.width/3
+                            Layout.preferredHeight: 30
+                            text: "نیمسال"
+                            font.family:"B Yekan"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"floralwhite"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+
+                        //avg
+                        Label
+                        {
+                            Layout.preferredWidth: parent.width/3
+                            Layout.preferredHeight: 30
+                            text: "1"
+                            font.family:"B Yekan"
+                            font.pixelSize: 20
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"floralwhite"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+                        Label
+                        {
+                            Layout.preferredWidth: parent.width/3
+                            Layout.preferredHeight: 30
+                            text: "2"
+                            font.family:"B Yekan"
+                            font.pixelSize: 20
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"floralwhite"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+                        Label
+                        {
+                            Layout.preferredWidth: parent.width/3
+                            Layout.preferredHeight: 30
+                            text: "3"
+                            font.family:"B Yekan"
+                            font.pixelSize: 20
+                            font.bold: true
+                            color: "darkslategray"
+                            background: Rectangle{color:"floralwhite"}
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                        }
+
+
+                    }
+                }
+
                 GridView
                 {
                     id: studentStatGV
@@ -582,7 +846,7 @@ Page {
                     implicitHeight: studentCourseInfoDrawer.height
                     flickableDirection: Flickable.AutoFlickDirection
                     clip: true
-                    cellWidth: 410
+                    cellWidth: 400
                     cellHeight: 270
                     model: ListModel{id: studentStatModel}
                     highlight: Item{}
@@ -670,17 +934,18 @@ Page {
                 {
                     Layout.preferredHeight: 60
                     Layout.preferredWidth: 100
+                    Rectangle{color: "snow"; anchors.fill: parent}
                 }
                 Label
                 {
                     // course
                     Layout.preferredHeight: 60
                     Layout.preferredWidth: 150
-                    //background:Rectangle{color: "indigo"}
                     color: "indigo"
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: "آزمون درس"
+                    background:Rectangle{color: "snow"}
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
@@ -691,8 +956,8 @@ Page {
                     Layout.preferredHeight: 60
                     Layout.fillWidth: true
                     Layout.columnSpan: 2
-                    //background:Rectangle{color: "indigo"}
                     color: "indigo"
+                    background:Rectangle{color: "snow"}
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: "آزمون تست"
@@ -707,7 +972,7 @@ Page {
                     Layout.preferredHeight: 40
                     Layout.preferredWidth: 100
                     Layout.maximumWidth: 100
-                    background:Rectangle{color: "ghostwhite"}
+                    background:Rectangle{color: "snow"}
                     color: "indigo"
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
@@ -721,7 +986,7 @@ Page {
                 {
                     Layout.preferredHeight: 40
                     Layout.preferredWidth: 150
-                    background:Rectangle{color: "ghostwhite"}
+                    background:Rectangle{color: "snow"}
                     color: "indigo"
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
@@ -736,7 +1001,7 @@ Page {
                     Layout.columnSpan: 2
                     Layout.preferredHeight: 40
                     Layout.fillWidth: true
-                    background:Rectangle{color: "ghostwhite"}
+                    background:Rectangle{color: "snow"}
                     color: "indigo"
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
@@ -752,7 +1017,7 @@ Page {
                     Layout.preferredHeight: 40
                     Layout.preferredWidth: 100
                     Layout.maximumWidth: 100
-                    background:Rectangle{color: "whitesmoke"}
+                    background:Rectangle{color: "snow"}
                     color: "indigo"
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
@@ -766,7 +1031,7 @@ Page {
                 {
                     Layout.preferredHeight: 40
                     Layout.preferredWidth: 150
-                    background:Rectangle{color: "whitesmoke"}
+                    background:Rectangle{color: "snow"}
                     color: "indigo"
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
@@ -781,7 +1046,7 @@ Page {
                     Layout.columnSpan: 2
                     Layout.preferredHeight: 40
                     Layout.fillWidth: true
-                    background:Rectangle{color: "whitesmoke"}
+                    background:Rectangle{color: "snow"}
                     color: "indigo"
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
