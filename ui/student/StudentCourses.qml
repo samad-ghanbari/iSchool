@@ -517,28 +517,323 @@ Page {
         id: studentCourseInfoDrawer
         modal: true
         height: parent.height
-        width: 300
+        width: 410 //(studentCoursesPage.width/2 > 500)? 500 : studentCoursesPage.width/2;
+
         dragMargin: 0
         property var studentStat : {}
-        // courses: {riazi :{ course_coefiicient:2 , mean: 15 , normalised: 18}, ... }
-        // average : {course_coefficient: 32, average: 14 , normalised: 18}
 
         function statCalulation()
         {
+            Methods.updateStudentStatModel(studentCoursesPage.model.Id);
         }
 
         ScrollView
         {
             id: studentCourseInfoSV
             anchors.fill: parent
+            anchors.horizontalCenter: parent.horizontalCenter;
 
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
-            ColumnLayout
+            Column
             {
                 width: studentCourseInfoSV.width
+                spacing: 20
+                Image
+                {
+                    width: 128
+                    height: 128
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    source: "qrc:/assets/images/report.png"
 
+                }
+
+                Label
+                {
+                    width: parent.width
+                    height: 20
+                    text: studentCoursesPage.student["name"] + " " + studentCoursesPage.student["lastname"]
+                    font.family:"B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    color: "darkmagenta"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                }
+
+                Label
+                {
+                    width: parent.width
+                    height: 20
+                    text: "ارزیابی دروس"
+                    font.family:"B Yekan"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                }
+
+                GridView
+                {
+                    id: studentStatGV
+                    width: parent.width
+                    implicitHeight: studentCourseInfoDrawer.height
+                    flickableDirection: Flickable.AutoFlickDirection
+                    clip: true
+                    cellWidth: 410
+                    cellHeight: 270
+                    model: ListModel{id: studentStatModel}
+                    highlight: Item{}
+                    delegate: studentStatDelegate
+                }
+
+
+            }
+        }
+    }
+
+    Component
+    {
+        id: studentStatDelegate
+        Rectangle
+        {
+            id: recDelg
+            required property var model;
+            // obects of
+            // Course_name Course_coefficient  Test_coefficient
+            // Course_continous Test_continous
+            // Course_final Test_final
+            // Course_semester test_semester
+            width: 400;
+            height: 240
+            color: "floralwhite"
+            GridLayout
+            {
+                anchors.fill: parent
+                columns: 4
+                rowSpacing:0
+                columnSpacing: 0
+                // course coef
+                Label
+                {
+                    // course name
+                    Layout.columnSpan: 3
+                    Layout.preferredHeight: 60
+                    Layout.fillWidth: true
+                    background:Rectangle{ color: (recDelg.model.Base_course)? "mediumvioletred" : "goldenrod";}
+                    color: "white"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    text: recDelg.model.Course_name
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+                Column
+                {
+                    //coefficient
+                    Layout.preferredHeight: 60
+                    Layout.preferredWidth: 30
+                    Layout.maximumWidth: 30
+                    Label
+                    {
+                        width: 30
+                        height: 30
+                        background:Rectangle{ color: "mediumvioletred" }
+                        color: "white"
+                        horizontalAlignment: Label.AlignHCenter
+                        verticalAlignment: Label.AlignVCenter
+                        text: recDelg.model.Course_coefficient
+                        font.family: "B Yekan"
+                        font.pixelSize: 14
+                        font.bold: true
+                    }
+                    Label
+                    {
+                        width: 30
+                        height: 30
+                        background:Rectangle{ color: "darkmagenta" }
+                        color: "white"
+                        horizontalAlignment: Label.AlignHCenter
+                        verticalAlignment: Label.AlignVCenter
+                        text: recDelg.model.Test_coefficient
+                        font.family: "B Yekan"
+                        font.pixelSize: 14
+                        font.bold: true
+                    }
+                }
+
+                // title course test
+                Item
+                {
+                    Layout.preferredHeight: 60
+                    Layout.preferredWidth: 100
+                }
+                Label
+                {
+                    // course
+                    Layout.preferredHeight: 60
+                    Layout.preferredWidth: 150
+                    //background:Rectangle{color: "indigo"}
+                    color: "indigo"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    text: "آزمون درس"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+                Label
+                {
+                    // test
+                    Layout.preferredHeight: 60
+                    Layout.fillWidth: true
+                    Layout.columnSpan: 2
+                    //background:Rectangle{color: "indigo"}
+                    color: "indigo"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    text: "آزمون تست"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+
+                // mostamer course test
+                Label
+                {
+                    Layout.preferredHeight: 40
+                    Layout.preferredWidth: 100
+                    Layout.maximumWidth: 100
+                    background:Rectangle{color: "ghostwhite"}
+                    color: "indigo"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    text: "مستمر"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+                // course
+                Label
+                {
+                    Layout.preferredHeight: 40
+                    Layout.preferredWidth: 150
+                    background:Rectangle{color: "ghostwhite"}
+                    color: "indigo"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    text: (recDelg.model.Course_continous > 0)? recDelg.model.Course_continous : "-"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+                //  test
+                Label
+                {
+                    Layout.columnSpan: 2
+                    Layout.preferredHeight: 40
+                    Layout.fillWidth: true
+                    background:Rectangle{color: "ghostwhite"}
+                    color: "indigo"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    text: (recDelg.model.Test_continous > 0)? recDelg.model.Test_continous + " % " : "-"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+
+                // final course test
+                Label
+                {
+                    Layout.preferredHeight: 40
+                    Layout.preferredWidth: 100
+                    Layout.maximumWidth: 100
+                    background:Rectangle{color: "whitesmoke"}
+                    color: "indigo"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    text: "نهایی"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+                // course
+                Label
+                {
+                    Layout.preferredHeight: 40
+                    Layout.preferredWidth: 150
+                    background:Rectangle{color: "whitesmoke"}
+                    color: "indigo"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    text: (recDelg.model.Course_final > 0)? recDelg.model.Course_final : "-"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+                //  test
+                Label
+                {
+                    Layout.columnSpan: 2
+                    Layout.preferredHeight: 40
+                    Layout.fillWidth: true
+                    background:Rectangle{color: "whitesmoke"}
+                    color: "indigo"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    text: (recDelg.model.Test_final > 0)? recDelg.model.Test_final + " % "  : "-"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+                // semester course test
+                Label
+                {
+                    Layout.preferredHeight: 40
+                    Layout.preferredWidth: 100
+                    Layout.maximumWidth: 100
+                    background:Rectangle{color: "snow"}
+                    color: "indigo"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    text: "نیمسال"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+                // course
+                Label
+                {
+                    Layout.preferredHeight: 40
+                    Layout.preferredWidth: 150
+                    background:Rectangle{color: "snow"}
+                    color: "indigo"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    text: (recDelg.model.Course_semester > 0)? recDelg.model.Course_semester : "-"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+                //  test
+                Label
+                {
+                    Layout.columnSpan: 2
+                    Layout.preferredHeight: 40
+                    Layout.fillWidth: true
+                    background:Rectangle{color: "snow"}
+                    color: "indigo"
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    text: (recDelg.model.Test_semester > 0)? recDelg.model.Test_semester + " % "  : "-"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
             }
         }
     }

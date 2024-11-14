@@ -219,3 +219,49 @@ function updateCourseEvalModel(student_id, course_id)
 
     }
 }
+
+
+//staudent stat
+function updateStudentStatModel(registerId)
+{
+/*
+{
+        Course_name : "ریاضی",
+        Course_coefficient: 3,
+        Test_coefficient: 2,
+
+        Course_continous: 15,
+        Test_continous: 16,
+
+        Course_final: 17,
+        Test_final: 18,
+
+        Course_semester: 19,
+        Test_semester: 20
+
+}
+*/
+
+    studentStatModel.clear();
+    var jsondata = dbMan.getUserPeriodStat(registerId);
+    for(var obj of jsondata)
+    {
+        studentStatModel.append({
+                                    ID : obj.ID,
+                                    Course_name : obj.Course_name,
+                                    Course_coefficient: obj.Course_coefficient,
+                                    Test_coefficient: obj.Test_coefficient,
+                                    Base_course: obj.Base_course,
+
+                                    Course_continous: obj.Course_continous,
+                                    Test_continous: obj.Test_continous,
+
+                                    Course_final: obj.Course_final,
+                                    Test_final: obj.Test_final,
+
+                                    Course_semester: obj.Course_semester,
+                                    Test_semester: obj.Test_semester
+
+                                });
+    }
+}

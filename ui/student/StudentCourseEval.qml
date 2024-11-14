@@ -312,7 +312,7 @@ Page {
                         id: courseEvalGV
                         Layout.columnSpan: 2
                         Layout.fillHeight: true
-                        implicitHeight: 400
+                        implicitHeight: 700
                         Layout.fillWidth: true
                         Layout.margins: 10
                         flickableDirection: Flickable.AutoFlickDirection
@@ -513,15 +513,18 @@ Page {
 
                 onDoubleClicked:
                 {
-                    var eval_name = recDelt.model.Eval_name;
+                    gradeTF.text = ""
 
+                    var eval_name = recDelt.model.Eval_name;
                     var student_grade = recDelt.model.Student_grade
+                    var max_grade = recDelt.model.Max_value
                     var student = studentCourseEvalPage.student["name"] + " " + studentCourseEvalPage.student["lastname"];
                     var course = studentCourseEvalPage.studentCourseModel.Course_name
 
                     setStudentgradeDialog.studentVar = student
                     setStudentgradeDialog.evalnameVar = eval_name
                     setStudentgradeDialog.gradeVar = student_grade
+                    setStudentgradeDialog.maxVar = max_grade
                     setStudentgradeDialog.courseVar = course
                     setStudentgradeDialog.studentEvalId = recDelt.model.Id
 
@@ -546,7 +549,9 @@ Page {
         id: setStudentgradeDialog
         property string studentVar;
         property string evalnameVar;
-        property int gradeVar;
+        property real gradeVar;
+        property real maxVar;
+
         property string courseVar;
 
         property int studentEvalId;
@@ -629,6 +634,7 @@ Page {
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
+                    placeholderText: "بزرگترین مقدار معتبر " + setStudentgradeDialog.maxVar
                     text: (setStudentgradeDialog.gradeVar > -1)? setStudentgradeDialog.gradeVar : "";
                     validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
                 }
@@ -647,7 +653,7 @@ Page {
                     Layout.preferredWidth:  100
                     font.family: "B Yekan"
                     font.pixelSize: 14
-                    onClicked: setStudentgradeDialog.close();
+                    onClicked: { setStudentgradeDialog.gradeVar = -1; setStudentgradeDialog.close(); }
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
                 }
                 Button
@@ -664,11 +670,18 @@ Page {
                         if(gradeTF.text == "")
                         grade = -1;
 
+                        if(grade > setStudentgradeDialog.maxVar)
+                        {
+                            infoDialogId.dialogText = "مقدار وارد شده از سقف نمره ارزیابی بزرگتر است.";
+                            infoDialogId.open();
+                            return;
+                        }
+
                         // set grade
                         if(dbMan.setStudentCourseEvalGrade(setStudentgradeDialog.studentEvalId, grade))
                         {
-                            setStudentgradeDialog.close();
                             setStudentgradeDialog.gradeVar = -1;
+                            setStudentgradeDialog.close();
                             infoDialogId.dialogSuccess = true;
                             infoDialogId.dialogTitle = "عملیات موفق";
                             infoDialogId.dialogText = "نمره دانش‌آموز با موفقیت ثبت شد.";
@@ -678,8 +691,8 @@ Page {
                         }
                         else
                         {
-                            setStudentgradeDialog.close();
                             setStudentgradeDialog.gradeVar = -1;
+                            setStudentgradeDialog.close();
                             infoDialogId.dialogSuccess = false;
                             infoDialogId.dialogTitle = "خطا";
                             infoDialogId.dialogText = "ثبت نمره دانش‌آموز با خطا مواجه شد.";
