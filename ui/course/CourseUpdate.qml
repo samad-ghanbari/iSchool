@@ -258,6 +258,27 @@ Page {
                             Methods.updateClassCB(updatePage.branch_id);
                             classCB.currentIndex = classCB.indexOfValue(updatePage.class_id);
                         }
+
+                        onActivated:
+                        {
+                            courseCoefModel.clear();
+                            testCoefModel.clear();
+
+                            var classId = classCB.currentValue;
+
+                            for(var obj of updatePage.existsCourses)
+                            {
+                                if(obj.class_id == classId)
+                                    courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name, Class_id: obj.class_id, Class_name: obj.class_name });
+                            }
+
+
+                            for(var obj of updatePage.existsCourses)
+                            {
+                                if(obj.class_id == classId)
+                                    testCoefModel.append({ Id: obj.id, Course_name: obj.course_name , Class_id: obj.class_id, Class_name: obj.class_name});
+                            }
+                        }
                     }
 
                     // teacher
@@ -382,6 +403,7 @@ Page {
                     // get all course in this period
                     ListView
                     {
+                        id: courseCoefLV
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
                         implicitHeight: 300
@@ -392,8 +414,8 @@ Page {
                                 required property var model
                                 checked: (updatePage.courseSharedCoef.indexOf(model.Id) > -1)? true : false;
                                 height: 50;
-                                width: parent.width
-                                text:  model.Course_name
+                                width: courseCoefLV.width
+                                text:  model.Course_name + " ( " + model.Class_name + " ) ";
                                 font.family: "B Yekan"
                                 font.pixelSize: 14
                                 onToggled:
@@ -412,13 +434,18 @@ Page {
                                         updatePage.courseSharedCoef.splice(index, 1);
                                     }
                                 }
-                            }
-
-                        Component.onCompleted:{
-                            for(var obj of updatePage.existsCourses)
-                                    courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name });
 
                         }
+
+                        Component.onCompleted:{
+
+                            for(var obj of updatePage.existsCourses)
+                            {
+                                if(obj.class_id == updatePage.class_id)
+                                    courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name , Class_id: obj.class_id, Class_name: obj.class_name});
+                            }
+                        }
+
                     }
 
                     //test shared coefficient
@@ -441,6 +468,7 @@ Page {
 
                     ListView
                     {
+                        id: testCoefLV
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
                         implicitHeight: 300
@@ -451,8 +479,8 @@ Page {
                                 required property var model
                                 checked: (updatePage.testSharedCoef.indexOf(model.Id) > -1)? true : false;
                                 height: 50;
-                                width: parent.width
-                                text:  model.Course_name
+                                width: testCoefLV.width
+                                text:  model.Course_name + " ( " + model.Class_name + " ) ";
                                 font.family: "B Yekan"
                                 font.pixelSize: 14
                                 onToggled:
@@ -474,8 +502,13 @@ Page {
                             }
 
                         Component.onCompleted:{
+                            var classId = classCB.currentValue;
+
                             for(var obj of updatePage.existsCourses)
-                                    testCoefModel.append({ Id: obj.id, Course_name: obj.course_name });
+                            {
+                                if(obj.class_id == updatePage.class_id)
+                                    testCoefModel.append({ Id: obj.id, Course_name: obj.course_name , Class_id: obj.class_id, Class_name: obj.class_name});
+                            }
                         }
                     }
 

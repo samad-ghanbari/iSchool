@@ -275,6 +275,37 @@ Page {
                         }
                     }
 
+                    // class
+                    Label
+                    {
+                        Layout.preferredHeight:  50
+                        Layout.preferredWidth: 200
+                        text:"کلاس درس"
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        horizontalAlignment: Label.AlignLeft
+                        verticalAlignment: Label.AlignVCenter
+                    }
+                    ComboBox
+                    {
+                        id: classCB
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: 300
+                        Layout.alignment: Qt.AlignHCenter
+                        editable: false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        model: ListModel{id: classModel;}
+                        textRole: "text"
+                        valueRole: "value"
+                        Component.onCompleted: Methods.updateClassCB(registerPage.student.branch_id);
+                    }
+
+
+
+
                     Button
                     {
                         Layout.columnSpan: 2
@@ -312,6 +343,7 @@ Page {
             reg["step_id"] = stepCB.currentValue;
             reg["study_base_id"] = baseCB.currentValue;
             reg["study_period_id"] = periodCB.currentValue;
+            reg["class_id"] = classCB.currentValue
 
             if(dbMan.registerStudent(reg))
                 successDialogId.open();

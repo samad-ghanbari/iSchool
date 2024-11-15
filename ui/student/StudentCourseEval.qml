@@ -513,13 +513,14 @@ Page {
 
                 onDoubleClicked:
                 {
-                    gradeTF.text = ""
+
 
                     var eval_name = recDelt.model.Eval_name;
                     var student_grade = recDelt.model.Student_grade
                     var max_grade = recDelt.model.Max_value
                     var student = studentCourseEvalPage.student["name"] + " " + studentCourseEvalPage.student["lastname"];
                     var course = studentCourseEvalPage.studentCourseModel.Course_name
+                    gradeTF.text = (student_grade > -1)? student_grade : ""
 
                     setStudentgradeDialog.studentVar = student
                     setStudentgradeDialog.evalnameVar = eval_name

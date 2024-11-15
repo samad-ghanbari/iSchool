@@ -163,11 +163,11 @@ function updateStudentCourses(registerId)
 }
 
 
-function updateBaseCourses(registerId)
+function updateBaseCourses(registerId, classId)
 {
 
     //update database
-    if(dbMan.updateStudentBaseCourses(registerId))
+    if(dbMan.updateStudentBaseCourses(registerId, classId))
     {
         // update model
         updateStudentCourses(registerId);
@@ -185,11 +185,25 @@ function updateCourseCB(student_id, step_id, base_id, period_id)
     // co.id, co.course_name, cl.class_name, t.name, t.lastname
     for(var obj of jsondata)
     {
-        courseCBModel.append({value: obj.id,  text: obj.course_name + " (" + obj.teacher + ") " })
+        courseCBModel.append({value: obj.id,  text: obj.course_name + " (" + obj.teacher + "- " + obj.class_name + ") " })
     }
 
 }
 
+
+function updateClassCB(branchId)
+{
+    classModel.clear();
+
+    var jsondata = dbMan.getBranchClasses(branchId);
+    //id, branch_id, class_name, class_desc, sort_priority
+    var temp;
+    for(var obj of jsondata)
+    {
+        temp = obj.class_name + " - "+ obj.class_desc;
+        classModel.append({value: obj.id,  text: temp })
+    }
+}
 
 
 // course eval
