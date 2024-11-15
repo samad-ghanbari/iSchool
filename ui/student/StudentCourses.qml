@@ -525,6 +525,24 @@ Page {
         function statCalulation()
         {
             Methods.updateStudentStatModel(studentCoursesPage.model.Id);
+
+            var avg = dbMan.getAvg(studentCoursesPage.model.Id);
+            var avgCon = avg.continous;
+            var avgFinal = avg.final;
+            var avgSem = avg.semester;
+
+            var tavg = dbMan.getTestAvg(studentCoursesPage.model.Id);
+            var avgTCon = tavg.continous;
+            var avgTFinal = tavg.final;
+            var avgTSem = tavg.semester;
+
+            avgConLbl.text = (avgCon > -1)? avgCon : "-";
+            avgFinalLbl.text = (avgFinal > -1)? avgFinal : "-";
+            avgSemLbl.text = (avgSem > -1)? avgSem : "-";
+
+            avgTConLbl.text = (avgTCon > -1)? avgTCon + " % " : "-";
+            avgTFinalLbl.text =  (avgTFinal > -1)? avgTFinal + " % " : "-";
+            avgTSemLbl.text = (avgTSem > -1)? avgTSem + " % " : "-";
         }
 
         ScrollView
@@ -681,9 +699,9 @@ Page {
                         //avg
                         Label
                         {
+                            id: avgConLbl
                             Layout.preferredWidth: parent.width/3
                             Layout.preferredHeight: 30
-                            text: "1"
                             font.family:"B Yekan"
                             font.pixelSize: 20
                             font.bold: true
@@ -694,9 +712,9 @@ Page {
                         }
                         Label
                         {
+                            id: avgFinalLbl
                             Layout.preferredWidth: parent.width/3
                             Layout.preferredHeight: 30
-                            text: "2"
                             font.family:"B Yekan"
                             font.pixelSize: 20
                             font.bold: true
@@ -707,9 +725,9 @@ Page {
                         }
                         Label
                         {
+                            id: avgSemLbl
                             Layout.preferredWidth: parent.width/3
                             Layout.preferredHeight: 30
-                            text: "3"
                             font.family:"B Yekan"
                             font.pixelSize: 20
                             font.bold: true
@@ -797,9 +815,9 @@ Page {
                         //avg
                         Label
                         {
+                            id: avgTConLbl
                             Layout.preferredWidth: parent.width/3
                             Layout.preferredHeight: 30
-                            text: "1"
                             font.family:"B Yekan"
                             font.pixelSize: 20
                             font.bold: true
@@ -810,9 +828,9 @@ Page {
                         }
                         Label
                         {
+                            id: avgTFinalLbl
                             Layout.preferredWidth: parent.width/3
                             Layout.preferredHeight: 30
-                            text: "2"
                             font.family:"B Yekan"
                             font.pixelSize: 20
                             font.bold: true
@@ -823,9 +841,9 @@ Page {
                         }
                         Label
                         {
+                            id: avgTSemLbl
                             Layout.preferredWidth: parent.width/3
                             Layout.preferredHeight: 30
-                            text: "3"
                             font.family:"B Yekan"
                             font.pixelSize: 20
                             font.bold: true
