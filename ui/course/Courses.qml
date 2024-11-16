@@ -377,10 +377,8 @@ Page {
     Component
     {
         id: baseDelegate
-        // co.id, co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id,
-        // cl.class_name, st.branch_id, st.step_name, sb.study_base, sp.study_period, t.teacher
-
-        // Course_name  Class_name  Teacher
+        // co.id, co.course_name, co.step_id, co.study_base_id, co.study_period_id, co.course_coefficient,
+        // co.test_coefficient,  co.shared_coefficient, co.final_weight, st.branch_id, st.step_name, sb.study_base, sp.study_period
 
         SwipeDelegate
         {
@@ -464,29 +462,7 @@ Page {
                         height: 50
                         elide: Text.ElideRight
                     }
-                    Label {
-                        text: "مدرس: " + recDel.model.Teacher
-                        padding: 0
-                        font.family: "B Yekan"
-                        font.pixelSize: (recDel.highlighted)? 20 :16
-                        font.bold: (recDel.highlighted)? true : false
-                        horizontalAlignment: Label.AlignHCenter
-                        width: parent.width
-                        height: 50
-                        elide: Text.ElideRight
-                    }
 
-                    Label {
-                        text: "کلاس: " + recDel.model.Class_name
-                        padding: 0
-                        font.family: "B Yekan"
-                        font.pixelSize: (recDel.highlighted)? 20 :16
-                        font.bold: (recDel.highlighted)? true : false
-                        horizontalAlignment: Label.AlignHCenter
-                        width: parent.width
-                        height: 50
-                        elide: Text.ElideRight
-                    }
                 }
             }
 
@@ -652,29 +628,7 @@ Page {
                         height: 50
                         elide: Text.ElideRight
                     }
-                    Label {
-                        text: "مدرس: " + recDel.model.Teacher
-                        padding: 0
-                        font.family: "B Yekan"
-                        font.pixelSize: (recDel.highlighted)? 20 :16
-                        font.bold: (recDel.highlighted)? true : false
-                        horizontalAlignment: Label.AlignHCenter
-                        width: parent.width
-                        height: 50
-                        elide: Text.ElideRight
-                    }
 
-                    Label {
-                        text: "کلاس: " + recDel.model.Class_name
-                        padding: 0
-                        font.family: "B Yekan"
-                        font.pixelSize: (recDel.highlighted)? 20 :16
-                        font.bold: (recDel.highlighted)? true : false
-                        horizontalAlignment: Label.AlignHCenter
-                        width: parent.width
-                        height: 50
-                        elide: Text.ElideRight
-                    }
                 }
             }
 
@@ -710,8 +664,6 @@ Page {
                                                           test_coefficient: recDel.model.Test_coefficient,
                                                           //shared_coefficient: recDel.model.Shared_coefficient,
                                                           //final_weight:  recDel.model.Final_weight,
-                                                          teacher: recDel.model.Teacher,
-                                                          class_name: recDel.model.Class_name
                                                       });
                     }
                 }
@@ -739,8 +691,6 @@ Page {
                                                           test_coefficient: recDel.model.Test_coefficient,
                                                           shared_coefficient: recDel.model.Shared_coefficient,
                                                           final_weight:  recDel.model.Final_weight,
-                                                          teacher_id: recDel.model.Teacher_id,
-                                                          class_id: recDel.model.Class_id
                                                       });
                     }
                 }

@@ -264,40 +264,40 @@ Page {
                                 checked: (userModifyPageId.user["enabled"])? true : false
                             }
 
-                            //admin
-                            Text {
-                                text: "ادمین سامانه"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "crimson"
-                            }
-                            Switch
-                            {
-                                id: updateUserAdminId
-                                checked:  (userModifyPageId.user["admin"])? true : false
-                                onCheckedChanged:
-                                {
-                                    //updateUserAccPermId.visible=(checked)? false : true;
-                                    adminWarningMessage.visible=(checked)? true : false;
-                                }
-                            }
-                            Text {
-                                id: adminWarningMessage
-                                visible:  (userModifyPageId.user["admin"])? true : false
-                                text: "هشدار! کاربر ادمین، دسترسی کامل به مدیریت سامانه دارد"
-                                Layout.columnSpan: 2
-                                Layout.alignment: Qt.AlignLeft
-                                font.family: "B Yekan"
-                                Layout.topMargin: -10
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "orange"
-                            }
+                            // //admin
+                            // Text {
+                            //     text: "ادمین سامانه"
+                            //     Layout.minimumWidth: 150
+                            //     Layout.maximumWidth: 150
+                            //     Layout.preferredHeight: 50
+                            //     verticalAlignment: Text.AlignVCenter
+                            //     font.family: "B Yekan"
+                            //     font.pixelSize: 16
+                            //     font.bold: true
+                            //     color: "crimson"
+                            // }
+                            // Switch
+                            // {
+                            //     id: updateUserAdminId
+                            //     checked:  (userModifyPageId.user["admin"])? true : false
+                            //     onCheckedChanged:
+                            //     {
+                            //         //updateUserAccPermId.visible=(checked)? false : true;
+                            //         adminWarningMessage.visible=(checked)? true : false;
+                            //     }
+                            // }
+                            // Text {
+                            //     id: adminWarningMessage
+                            //     visible:  (userModifyPageId.user["admin"])? true : false
+                            //     text: "هشدار! کاربر ادمین، دسترسی کامل به مدیریت سامانه دارد"
+                            //     Layout.columnSpan: 2
+                            //     Layout.alignment: Qt.AlignLeft
+                            //     font.family: "B Yekan"
+                            //     Layout.topMargin: -10
+                            //     font.pixelSize: 16
+                            //     font.bold: true
+                            //     color: "orange"
+                            // }
 
                             //PERMISSION
                             GridLayout
@@ -684,7 +684,6 @@ Page {
                                     user["permissions"] = permission;
 
                                     user["enabled"] = updateUserEnabledId.checked
-                                    user["admin"] = updateUserAdminId.checked
                                     user["gender"] = updateUserGenderId.currentText
 
                                     var check = true

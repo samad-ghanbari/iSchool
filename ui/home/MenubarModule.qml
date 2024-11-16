@@ -25,6 +25,8 @@ MenuBar {
     required property StackView appStackView;
     required property ToolbarModule toolbarId;
 
+    property bool admin : dbMan.isUserAdmin();
+
     Connections
     {
         target: menubarId.toolbarId
@@ -231,9 +233,11 @@ MenuBar {
         title: "تنظیمات سامانه"
         font.family: "B Yekan"
         font.pixelSize: 16
+        visible: menubarId.admin
 
         Action {
             text: "لیست کاربران";
+            enabled: menubarId.admin
             onTriggered:
             {
                 if(menubarId.appStackView.currentItem.objectName === "listUserON")
