@@ -44,6 +44,7 @@ function updateStudentsModel(branch_id, period_id)
                                 Gender: obj.gender,
                                 Birthday: obj.birthday,
                                 Enabled: obj.enabled,
+                                Photo: obj.photo,
                                 City: obj.city,
                                 BranchName: obj.branch_name
                             });
@@ -67,6 +68,7 @@ function filterStudents(students)
                                 Gender: obj.gender,
                                 Birthday: obj.birthday,
                                 Enabled: obj.enabled,
+                                Photo: obj.photo,
                                 City: obj.city,
                                 BranchName: obj.branch_name
                             });
@@ -138,6 +140,7 @@ function updateStudentRegs(branchId, studentId)
                              Fathername: obj.fathername,
                              Gender: obj.gender,
                              Enabled: obj.enabled,
+                             Photo: obj.photo,
                              Step_name: obj.step_name,
                              Study_base: obj.study_base,
                              Study_period: obj.study_period,

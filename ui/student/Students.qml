@@ -223,7 +223,17 @@ Page {
                     anchors.fill: parent
 
                     Image {
-                        source: (studentWidget.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
+                        source:{
+                            if(studentWidget.model.Photo == "")
+                            {
+                                if(studentWidget.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
+                            }
+                            else
+                            {
+                                return "file://"+studentWidget.model.Photo;
+                            }
+
+                        }
                         Layout.preferredWidth: 128
                         Layout.preferredHeight: 128
                         Layout.alignment: Qt.AlignHCenter

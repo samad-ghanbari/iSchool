@@ -16,6 +16,8 @@ Page {
     property string gender: model.gender
     property string birthday: model.birthday
     property bool enabled: model.enabled
+    property string photo: model.photo
+    property bool isFemale : (deletePage.model.gender === "خانم")? true : false;
 
     signal deletedSignal();
     signal popStackSignal();
@@ -93,6 +95,26 @@ Page {
                                 rowSpacing: 20
                                 columnSpacing: 10
                                 Layout.preferredWidth:  parent.width
+
+                                Image {
+                                    //source: "qrc:/assets/images/edit.png"
+                                    source:{
+                                        if(deletePage.photo == "")
+                                        {
+                                            if(deletePage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
+                                        }
+                                        else
+                                        {
+                                            return "file://"+deletePage.photo;
+                                        }
+                                    }
+                                    Layout.alignment: Qt.AlignHCenter
+                                    Layout.preferredHeight:  64
+                                    Layout.preferredWidth:  64
+                                    Layout.margins: 20
+                                    Layout.columnSpan: 2
+                                    NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
+                                }
 
                                 Text {
                                     Layout.columnSpan: 2

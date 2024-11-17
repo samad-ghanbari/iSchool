@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
 
 import "./../public" as DialogBox
 
@@ -80,7 +81,18 @@ Page {
                             id: periodInsertCL
                             width: parent.width
                             Image {
-                                source: "qrc:/assets/images/edit.png"
+                                id: userPhoto
+                                //source: "qrc:/assets/images/edit.png"
+                                source:{
+                                    if(updatePage.model.photo == "")
+                                    {
+                                        if(updatePage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
+                                    }
+                                    else
+                                    {
+                                        return "file://"+updatePage.model.photo;
+                                    }
+                                }
                                 Layout.alignment: Qt.AlignHCenter
                                 Layout.preferredHeight:  64
                                 Layout.preferredWidth:  64
@@ -204,6 +216,28 @@ Page {
                                     Component.onCompleted: genderCB.currentIndex = find(updatePage.model.gender)
                                 }
 
+                                //photo
+                                Button{
+                                    text: "تصویر"
+                                    Layout.minimumWidth: 100
+                                    Layout.maximumWidth: 100
+                                    Layout.preferredHeight: 40
+                                    palette.text: "royalblue"
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    onClicked: photoBrows.open();
+                                }
+                                Text
+                                {
+                                    id: photoPath
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    elide: Text.ElideLeft
+                                }
+
                                 //birthday
                                 Text {
                                     text: "تاریخ تولد"
@@ -274,6 +308,7 @@ Page {
                                     student["gender"] = genderCB.currentText
                                     student["birthday"] = birthdayTF.text
                                     student["enabled"] = enabledSW.checked
+                                    student["photo_path"] = photoPath.text
 
 
                                     if(dbMan.studentUpdate(student))
@@ -302,6 +337,19 @@ Page {
         }
 
     }
+
+    FileDialog {
+        id: photoBrows
+        title: "انتخاب تصویر"
+        currentFolder: "file:///home/samad/"
+        //  currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["Images (*.png *.jpg)"]
+        onAccepted:{
+            userPhoto.source = selectedFile
+            photoPath.text = selectedFile;
+        }
+        onRejected: photoBrows.close();
+        }
 
     DialogBox.BaseDialog
     {

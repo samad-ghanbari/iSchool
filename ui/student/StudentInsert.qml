@@ -219,6 +219,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
+                                    elide: Text.ElideLeft
                                 }
 
                                 //birthday
@@ -329,7 +330,8 @@ Page {
     FileDialog {
         id: photoBrows
         title: "انتخاب تصویر"
-        //folder: shortcuts.home
+        currentFolder: "file:///home/samad/"
+        //  currentFolder: "C:/Users/YourUsername/Documents"
         nameFilters: ["Images (*.png *.jpg)"]
         onAccepted: photoPath.text = selectedFile;
         onRejected: photoBrows.close();
