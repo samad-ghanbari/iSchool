@@ -43,195 +43,6 @@ Page {
             styleColor: "white"
         }
 
-        // branch
-        Rectangle
-        {
-            Layout.columnSpan: 2
-            Layout.preferredHeight: 40
-            Layout.fillWidth: true
-            Layout.maximumWidth: 400
-            Layout.alignment: Qt.AlignHCenter
-            Layout.margins: 10
-            color: "transparent"
-
-            RowLayout
-            {
-                anchors.fill: parent
-
-                Label
-                {
-                    Layout.preferredHeight:  50
-                    Layout.preferredWidth: 120
-                    text:"شعبه"
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    font.bold: true
-                    horizontalAlignment: Label.AlignLeft
-                    verticalAlignment: Label.AlignVCenter
-                }
-                ComboBox
-                {
-                    id: branchCB
-                    Layout.preferredHeight:  50
-                    Layout.fillWidth: true
-                    editable: false
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    model: ListModel{id: branchCBoxModel}
-                    textRole: "text"
-                    valueRole: "value"
-                    Component.onCompleted:
-                    {
-                        Methods.updateBranchCB();
-                        branchCB.currentIndex = -1
-                    }
-
-                    onActivated: Methods.updateStepCB(branchCB.currentValue)
-                }
-            }
-
-        }
-
-        // step
-        Rectangle
-        {
-            Layout.columnSpan: 2
-            Layout.preferredHeight: 40
-            Layout.fillWidth: true
-            Layout.maximumWidth: 400
-            Layout.alignment: Qt.AlignHCenter
-            Layout.margins: 10
-            color: "transparent"
-            RowLayout
-            {
-                anchors.fill: parent
-                Label
-                {
-                    Layout.preferredHeight:  50
-                    Layout.preferredWidth: 120
-                    text:"دوره"
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    font.bold: true
-                    horizontalAlignment: Label.AlignLeft
-                    verticalAlignment: Label.AlignVCenter
-                }
-                ComboBox
-                {
-                    id: stepCB
-                    Layout.preferredHeight:  50
-                    Layout.fillWidth: true
-                    editable: false
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    model: ListModel{id: stepCBoxModel}
-                    textRole: "text"
-                    valueRole: "value"
-                    Component.onCompleted: stepCB.currentIndex = -1
-
-                    onActivated: Methods.updateBaseCB(branchCB.currentValue)
-                }
-            }
-        }
-
-        // base
-        Rectangle
-        {
-            Layout.columnSpan: 2
-            Layout.preferredHeight: 40
-            Layout.fillWidth: true
-            Layout.maximumWidth: 400
-            Layout.alignment: Qt.AlignHCenter
-            Layout.margins: 10
-            color: "transparent"
-            RowLayout
-            {
-                anchors.fill: parent
-                Label
-                {
-                    Layout.preferredHeight:  50
-                    Layout.preferredWidth: 120
-                    text:"پایه‌تحصیلی"
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    font.bold: true
-                    horizontalAlignment: Label.AlignLeft
-                    verticalAlignment: Label.AlignVCenter
-                }
-                ComboBox
-                {
-                    id: baseCB
-                    Layout.preferredHeight:  50
-                    Layout.fillWidth: true
-                    editable: false
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    model: ListModel{id: baseCBoxModel}
-                    textRole: "text"
-                    valueRole: "value"
-                    Component.onCompleted:
-                    {
-                        baseCB.currentIndex = -1
-                    }
-
-                    onActivated: Methods.updatePeriodCB(branchCB.currentValue);
-                }
-            }
-        }
-
-        // period
-        Rectangle
-        {
-            Layout.columnSpan: 2
-            Layout.preferredHeight: 40
-            Layout.fillWidth: true
-            Layout.maximumWidth: 400
-            Layout.alignment: Qt.AlignHCenter
-            Layout.margins: 10
-            color: "transparent"
-            RowLayout
-            {
-                anchors.fill: parent
-                Label
-                {
-                    Layout.preferredHeight:  50
-                    Layout.preferredWidth: 120
-                    text:"سال‌تحصیلی"
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    font.bold: true
-                    horizontalAlignment: Label.AlignLeft
-                    verticalAlignment: Label.AlignVCenter
-                }
-                ComboBox
-                {
-                    id: periodCB
-                    Layout.preferredHeight:  50
-                    Layout.fillWidth: true
-                    editable: false
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    model: ListModel{id: periodCBoxModel}
-                    textRole: "text"
-                    valueRole: "value"
-                    Component.onCompleted: stepCB.currentIndex = -1
-
-                    onActivated: Methods.updateCourse(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue);
-                }
-            }
-        }
-
-        Rectangle
-        {
-            Layout.columnSpan: 2
-            Layout.fillWidth: true
-            Layout.preferredHeight: 4
-            color: "skyblue"
-            Layout.topMargin: 10
-            Layout.bottomMargin: 10
-        }
-
-
         ScrollView
         {
             Layout.columnSpan: 2
@@ -253,6 +64,196 @@ Page {
                     anchors.fill: parent
                     anchors.margins: 20
                     columns: 2
+
+                    // branch
+                    Rectangle
+                    {
+                        Layout.columnSpan: 2
+                        Layout.preferredHeight: 40
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: 400
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.margins: 10
+                        color: "transparent"
+
+                        RowLayout
+                        {
+                            anchors.fill: parent
+
+                            Label
+                            {
+                                Layout.preferredHeight:  50
+                                Layout.preferredWidth: 120
+                                text:"شعبه"
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                            }
+                            ComboBox
+                            {
+                                id: branchCB
+                                Layout.preferredHeight:  50
+                                Layout.fillWidth: true
+                                editable: false
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                model: ListModel{id: branchCBoxModel}
+                                textRole: "text"
+                                valueRole: "value"
+                                Component.onCompleted:
+                                {
+                                    Methods.updateBranchCB();
+                                    branchCB.currentIndex = -1
+                                }
+
+                                onActivated: Methods.updateStepCB(branchCB.currentValue)
+                            }
+                        }
+
+                    }
+
+                    // step
+                    Rectangle
+                    {
+                        Layout.columnSpan: 2
+                        Layout.preferredHeight: 40
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: 400
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.margins: 10
+                        color: "transparent"
+                        RowLayout
+                        {
+                            anchors.fill: parent
+                            Label
+                            {
+                                Layout.preferredHeight:  50
+                                Layout.preferredWidth: 120
+                                text:"دوره"
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                            }
+                            ComboBox
+                            {
+                                id: stepCB
+                                Layout.preferredHeight:  50
+                                Layout.fillWidth: true
+                                editable: false
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                model: ListModel{id: stepCBoxModel}
+                                textRole: "text"
+                                valueRole: "value"
+                                Component.onCompleted: stepCB.currentIndex = -1
+
+                                onActivated: Methods.updateBaseCB(branchCB.currentValue)
+                            }
+                        }
+                    }
+
+                    // base
+                    Rectangle
+                    {
+                        Layout.columnSpan: 2
+                        Layout.preferredHeight: 40
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: 400
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.margins: 10
+                        color: "transparent"
+                        RowLayout
+                        {
+                            anchors.fill: parent
+                            Label
+                            {
+                                Layout.preferredHeight:  50
+                                Layout.preferredWidth: 120
+                                text:"پایه‌تحصیلی"
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                            }
+                            ComboBox
+                            {
+                                id: baseCB
+                                Layout.preferredHeight:  50
+                                Layout.fillWidth: true
+                                editable: false
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                model: ListModel{id: baseCBoxModel}
+                                textRole: "text"
+                                valueRole: "value"
+                                Component.onCompleted:
+                                {
+                                    baseCB.currentIndex = -1
+                                }
+
+                                onActivated: Methods.updatePeriodCB(branchCB.currentValue);
+                            }
+                        }
+                    }
+
+                    // period
+                    Rectangle
+                    {
+                        Layout.columnSpan: 2
+                        Layout.preferredHeight: 40
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: 400
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.margins: 10
+                        color: "transparent"
+                        RowLayout
+                        {
+                            anchors.fill: parent
+                            Label
+                            {
+                                Layout.preferredHeight:  50
+                                Layout.preferredWidth: 120
+                                text:"سال‌تحصیلی"
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                            }
+                            ComboBox
+                            {
+                                id: periodCB
+                                Layout.preferredHeight:  50
+                                Layout.fillWidth: true
+                                editable: false
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                model: ListModel{id: periodCBoxModel}
+                                textRole: "text"
+                                valueRole: "value"
+                                Component.onCompleted: stepCB.currentIndex = -1
+
+                                onActivated: Methods.updateCourse(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue);
+                            }
+                        }
+                    }
+
+                    Rectangle
+                    {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 4
+                        color: "skyblue"
+                        Layout.topMargin: 10
+                        Layout.bottomMargin: 10
+                    }
+
+
 
                     Button
                     {
@@ -288,16 +289,17 @@ Page {
                         visible : (baseCB.currentValue > 0)? true : false;
                     }
 
-                    ListView
+                    GridView
                     {
-                        id: baseCoursesLV
+                        id: baseCoursesGV
                         Layout.columnSpan: 2
-                        implicitHeight: baseCoursesModel.count*120;
+                        implicitHeight: 600;
                         Layout.fillWidth: true
-                        Layout.margins: 10
+                        Layout.margins: 20
                         flickableDirection: Flickable.AutoFlickDirection
+                        cellWidth: 320  // 20 spacing
+                        cellHeight: 270
                         clip: true
-                        spacing: 5
                         model: ListModel{id: baseCoursesModel}
                         visible : (baseCB.currentValue > 0)? true : false;
                         highlight: Item{}
@@ -305,9 +307,9 @@ Page {
 
                         function closeSwipeHandler()
                         {
-                            for (var i = 0; i <= baseCoursesLV.count; i++)
+                            for (var i = 0; i <= baseCoursesGV.count; i++)
                             {
-                                var item = baseCoursesLV.contentItem.children[i];
+                                var item = baseCoursesGV.contentItem.children[i];
                                 if(item.swipe)
                                 {
                                     item.swipe.close();
@@ -336,16 +338,17 @@ Page {
                         styleColor: "white"
                         visible : (stepCB.currentValue > -1)? true : false;
                     }
-                    ListView
+                    GridView
                     {
-                        id: stepCoursesLV
+                        id: stepCoursesGV
                         Layout.columnSpan: 2
-                        implicitHeight: stepCoursesModel.count*120;
+                        implicitHeight: 600;
                         Layout.fillWidth: true
                         Layout.margins: 10
                         flickableDirection: Flickable.AutoFlickDirection
                         clip: true
-                        spacing: 5
+                        cellWidth: 300
+                        cellHeight: 250
                         model: ListModel{id: stepCoursesModel}
                         visible : (stepCB.currentValue > -1)? true : false;
                         highlight: Item{}
@@ -353,9 +356,9 @@ Page {
 
                         function closeSwipeHandler()
                         {
-                            for (var i = 0; i <= stepCoursesLV.count; i++)
+                            for (var i = 0; i <= stepCoursesGV.count; i++)
                             {
-                                var item = stepCoursesLV.contentItem.children[i];
+                                var item = stepCoursesGV.contentItem.children[i];
                                 if(item.swipe)
                                 {
                                     item.swipe.close();
@@ -374,12 +377,15 @@ Page {
     Component
     {
         id: baseDelegate
+        // co.id, co.course_name, co.step_id, co.study_base_id, co.study_period_id, co.course_coefficient,
+        // co.test_coefficient,  co.shared_coefficient, co.final_weight, st.branch_id, st.step_name, sb.study_base, sp.study_period
+
         SwipeDelegate
         {
             id: recDel
             required property var model;
-            height: 110
-            width: baseCoursesLV.width
+            height: 250
+            width: 300
             checkable: true
             checked: recDel.swipe.complete
             onCheckedChanged: { if(!recDel.checked) recDel.swipe.close();}
@@ -389,12 +395,46 @@ Page {
 
             contentItem: Rectangle
             {
-                // co.id, co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id,
-                // cl.class_name, st.branch_id, st.step_name, sb.study_base, sp.study_period, t.teacher
-
-                // Course_name  Class_name  Teacher
-
                 color: (recDel.highlighted)? "snow" : "whitesmoke";
+                border.width: (recDel.highlighted)? 2 : 1;
+                border.color: (recDel.highlighted)? "mediumvioletred" : "gray";
+
+                //coefficient
+                Rectangle
+                {
+                    id: cBaseCoefLabel
+                    width: 30
+                    height: 30
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    color: (recDel.highlighted)? "mediumvioletred" : "gray";
+                    Text
+                    {
+                        anchors.centerIn: parent
+                        text: recDel.model.Course_coefficient
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "white"
+                    }
+                }
+                Rectangle
+                {
+                    width: 30
+                    height: 30
+                    anchors.top: cBaseCoefLabel.bottom
+                    anchors.right: parent.right
+                    color: (recDel.highlighted)? "darkmagenta" : "gray";
+                    Text
+                    {
+                        anchors.centerIn: parent
+                        text:  recDel.model.Test_coefficient
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "white"
+                    }
+                }
 
                 Column
                 {
@@ -402,6 +442,14 @@ Page {
                     anchors.fill: parent
 
                     spacing: 0
+                    Image
+                    {
+                        width: 64
+                        height: 64
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        source:  "qrc:/assets/images/course.png"
+                    }
+
                     Label {
                         text: recDel.model.Course_name
                         padding: 0
@@ -414,59 +462,85 @@ Page {
                         height: 50
                         elide: Text.ElideRight
                     }
-                    Label {
-                        text: recDel.model.Class_name + " - " + recDel.model.Teacher
-                        padding: 0
-                        font.family: "B Yekan"
-                        font.pixelSize: (recDel.highlighted)? 20 :16
-                        font.bold: (recDel.highlighted)? true : false
-                        horizontalAlignment: Label.AlignHCenter
-                        width: parent.width
-                        height: 50
-                        elide: Text.ElideRight
-                    }
 
-                    Rectangle{width: 400; height:5; color: (recDel.highlighted)? "mediumvioletred" : "whitesmoke"; anchors.horizontalCenter: parent.horizontalCenter }
                 }
             }
 
             onClicked: {recDel.swipe.close();}
-            onPressed: { baseCoursesLV.currentIndex = model.index; baseCoursesLV.closeSwipeHandler();}
-            highlighted: (model.index === baseCoursesLV.currentIndex)? true: false;
+            onPressed: { baseCoursesGV.currentIndex = model.index; baseCoursesGV.closeSwipeHandler();}
+            highlighted: (model.index === baseCoursesGV.currentIndex)? true: false;
 
-            swipe.right: Row{
-                width: 75
-                height: 100
+            swipe.right:Column{
+                width: 48
+                height: 250
                 anchors.left: parent.left
 
                 Button
                 {
-                    height: 100
-                    width: 75
-                    background: Rectangle{id:trashBtnBg; color: "crimson"}
+                    height: 48
+                    width: 48
+                    background:Item{}
                     hoverEnabled: true
-                    onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
-                    text: "حذف"
-                    font.bold: true
-                    font.family: "B Yekan"
-                    font.pixelSize: 14
-                    palette.buttonText:  "white"
+                    opacity: 0.5
+                    onHoveredChanged: (hovered)? this.opacity=1 : this.opacity=0.5
                     icon.source: "qrc:/assets/images/trash.png"
-                    icon.width: 32
-                    icon.height: 32
+                    icon.width: 48
+                    icon.height: 48
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
                         if(recDel.swipe.complete)
                             recDel.swipe.close();
 
-                        //coursesPage.appStackView.push(deleteComponent, {regId: recDel.model.Id, regStep: recDel.model.Step_name, regBase: recDel.model.Study_base, regPeriod: recDel.model.Study_period });
+                        coursesPage.appStackView.push(deleteComponent, {
+                                                          course_id: recDel.model.Id,
+                                                          course_name: recDel.model.Course_name,
+                                                          course_coefficient: recDel.model.Course_coefficient,
+                                                          test_coefficient: recDel.model.Test_coefficient,
+                                                          teacher: recDel.model.Teacher,
+                                                          class_name: recDel.model.Class_name
+                                                      });
+
+                    }
+                }
+
+                Button
+                {
+                    height: 48
+                    width: 48
+                    background: Item{} //Rectangle{id:editBtnBg; color: "crimson"}
+                    hoverEnabled: true
+                    opacity: 0.5
+                    onHoveredChanged:(hovered)? this.opacity=1 : this.opacity=0.5
+                    //text: "ویرایش"
+                    //font.bold: true
+                    //font.family: "B Yekan"
+                    //font.pixelSize: 14
+                    //palette.buttonText:  "white"
+                    icon.source: "qrc:/assets/images/edit.png"
+                    icon.width: 48
+                    icon.height: 48
+                    display: AbstractButton.TextUnderIcon
+                    SwipeDelegate.onClicked:
+                    {
+                        if(recDel.swipe.complete)
+                            recDel.swipe.close();
+
+                        coursesPage.appStackView.push(updateComponent, {
+                                                          course_id: recDel.model.Id,
+                                                          course_name: recDel.model.Course_name,
+                                                          course_coefficient: recDel.model.Course_coefficient,
+                                                          test_coefficient: recDel.model.Test_coefficient,
+                                                          shared_coefficient: recDel.model.Shared_coefficient,
+                                                          final_weight:  recDel.model.Final_weight,
+                                                          teacher_id: recDel.model.Teacher_id,
+                                                          class_id: recDel.model.Class_id
+                                                      });
                     }
                 }
             }
         }
     }
-
 
     //delegate step courses
     Component
@@ -476,8 +550,8 @@ Page {
         {
             id: recDel
             required property var model;
-            height: 110
-            width: stepCoursesLV.width
+            height: 250
+            width: 300
             checkable: true
             checked: recDel.swipe.complete
             onCheckedChanged: { if(!recDel.checked) recDel.swipe.close();}
@@ -487,12 +561,46 @@ Page {
 
             contentItem: Rectangle
             {
-                // co.id, co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id,
-                // cl.class_name, st.branch_id, st.step_name, sb.study_base, sp.study_period, t.teacher
-
-                // Course_name  Class_name  Teacher
-
                 color: (recDel.highlighted)? "snow" : "whitesmoke";
+                border.width: (recDel.highlighted)? 2 : 1;
+                border.color: (recDel.highlighted)? "mediumvioletred" : "gray";
+
+                //coefficient course-test
+                Rectangle
+                {
+                    id:cStepCoefLabel
+                    width: 30
+                    height: 30
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    color: (recDel.highlighted)? "mediumvioletred" : "gray";
+                    Text
+                    {
+                        anchors.centerIn: parent
+                        text: recDel.model.Course_coefficient
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "white"
+                    }
+                }
+                Rectangle
+                {
+                    width: 30
+                    height: 30
+                    anchors.top: cStepCoefLabel.bottom
+                    anchors.right: parent.right
+                    color: (recDel.highlighted)? "darkmagenta" : "gray";
+                    Text
+                    {
+                        anchors.centerIn: parent
+                        text:  recDel.model.Test_coefficient
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "white"
+                    }
+                }
 
                 Column
                 {
@@ -500,6 +608,14 @@ Page {
                     anchors.fill: parent
 
                     spacing: 0
+                    Image
+                    {
+                        width: 64
+                        height: 64
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        source:  "qrc:/assets/images/course.png"
+                    }
+
                     Label {
                         text: recDel.model.Course_name
                         padding: 0
@@ -512,60 +628,77 @@ Page {
                         height: 50
                         elide: Text.ElideRight
                     }
-                    Label {
-                        text: recDel.model.Class_name + " - " + recDel.model.Teacher
-                        padding: 0
-                        font.family: "B Yekan"
-                        font.pixelSize: (recDel.highlighted)? 20 :16
-                        font.bold: (recDel.highlighted)? true : false
-                        horizontalAlignment: Label.AlignHCenter
-                        width: parent.width
-                        height: 50
-                        elide: Text.ElideRight
-                    }
 
-                    Rectangle{width: 400; height:5; color: (recDel.highlighted)? "mediumvioletred" : "whitesmoke"; anchors.horizontalCenter: parent.horizontalCenter }
                 }
             }
 
             onClicked: {recDel.swipe.close();}
-            onPressed: { stepCoursesLV.currentIndex = model.index; stepCoursesLV.closeSwipeHandler();}
-            highlighted: (model.index === stepCoursesLV.currentIndex)? true: false;
+            onPressed: { stepCoursesGV.currentIndex = model.index; stepCoursesGV.closeSwipeHandler();}
+            highlighted: (model.index === stepCoursesGV.currentIndex)? true: false;
 
-            swipe.right: Row{
-                width: 75
-                height: 100
+            swipe.right: Column{
+                width: 48
+                height: 250
                 anchors.left: parent.left
 
                 Button
                 {
-                    height: 100
-                    width: 75
-                    background: Rectangle{id:trashBtnBg; color: "crimson"}
+                    height: 48
+                    width: 48
+                    background: Item{}
                     hoverEnabled: true
-                    onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
-                    text: "حذف"
-                    font.bold: true
-                    font.family: "B Yekan"
-                    font.pixelSize: 14
-                    palette.buttonText:  "white"
+                    opacity: 0.5
+                    onHoveredChanged: (hovered)? this.opacity=1 : this.opacity=0.5
                     icon.source: "qrc:/assets/images/trash.png"
-                    icon.width: 32
-                    icon.height: 32
-                    display: AbstractButton.TextUnderIcon
+                    icon.width: 48
+                    icon.height: 48
                     SwipeDelegate.onClicked:
                     {
                         if(recDel.swipe.complete)
                             recDel.swipe.close();
 
-                        //coursesPage.appStackView.push(deleteComponent, {regId: recDel.model.Id, regStep: recDel.model.Step_name, regBase: recDel.model.Study_base, regPeriod: recDel.model.Study_period });
+                        coursesPage.appStackView.push(deleteComponent, {
+                                                          course_id: recDel.model.Id,
+                                                          course_name: recDel.model.Course_name,
+                                                          course_coefficient: recDel.model.Course_coefficient,
+                                                          test_coefficient: recDel.model.Test_coefficient,
+                                                          //shared_coefficient: recDel.model.Shared_coefficient,
+                                                          //final_weight:  recDel.model.Final_weight,
+                                                      });
+                    }
+                }
 
+                Button
+                {
+                    height: 48
+                    width: 48
+                    background: Item{}// Rectangle{id:trashBtnBg; color: "crimson"}
+                    hoverEnabled: true
+                    opacity: 0.5
+                    onHoveredChanged: (hovered)? this.opacity=1 : this.opacity=0.5
+                    icon.source: "qrc:/assets/images/edit.png"
+                    icon.width: 48
+                    icon.height: 48
+                    SwipeDelegate.onClicked:
+                    {
+                        if(recDel.swipe.complete)
+                            recDel.swipe.close();
+
+                        coursesPage.appStackView.push(updateComponent, {
+                                                          course_id: recDel.model.Id,
+                                                          course_name: recDel.model.Course_name,
+                                                          course_coefficient: recDel.model.Course_coefficient,
+                                                          test_coefficient: recDel.model.Test_coefficient,
+                                                          shared_coefficient: recDel.model.Shared_coefficient,
+                                                          final_weight:  recDel.model.Final_weight,
+                                                      });
                     }
                 }
             }
         }
     }
 
+    // insert
     Component
     {
         id: insertCourseComponent
@@ -586,4 +719,40 @@ Page {
         }
     }
 
+    // delete
+    Component
+    {
+        id: deleteComponent
+        CourseDelete
+        {
+            onPopStackSignal : coursesPage.appStackView.pop();
+            onDeletedSignal : Methods.updateCourse(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue);
+
+            branch: branchCB.currentText
+            step: stepCB.currentText
+            base: baseCB.currentText
+            period: periodCB.currentText
+
+        }
+    }
+    //update
+    Component
+    {
+        id: updateComponent
+        CourseUpdate
+        {
+            onPopStackSignal : coursesPage.appStackView.pop();
+            onUpdatedSignal : Methods.updateCourse(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue);
+
+            branch_id: branchCB.currentValue
+            base_id: baseCB.currentValue
+            step_id: stepCB.currentValue
+            period_id: periodCB.currentValue
+
+            branch: branchCB.currentText
+            step: stepCB.currentText
+            base: baseCB.currentText
+            period: periodCB.currentText
+        }
+    }
 }

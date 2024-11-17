@@ -18,8 +18,6 @@ Page {
     required property int base_id;
     required property int step_id;
     required property int period_id;
-    required property int teacher_id;
-    required property int class_id;
     required property int course_coefficient
     required property int test_coefficient
     required property var shared_coefficient
@@ -230,86 +228,6 @@ Page {
 
                     }
 
-                    //class
-                    Text {
-                        text: "کلاس درس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    ComboBox
-                    {
-                        id: classCB
-                        Layout.preferredHeight:  50
-                        Layout.fillWidth: true
-                        editable: false
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        model: ListModel{id: classModel;}
-                        textRole: "text"
-                        valueRole: "value"
-                        Component.onCompleted:
-                        {
-                            Methods.updateClassCB(updatePage.branch_id);
-                            classCB.currentIndex = classCB.indexOfValue(updatePage.class_id);
-                        }
-
-                        onActivated:
-                        {
-                            courseCoefModel.clear();
-                            testCoefModel.clear();
-
-                            var classId = classCB.currentValue;
-
-                            for(var obj of updatePage.existsCourses)
-                            {
-                                if(obj.class_id == classId)
-                                    courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name, Class_id: obj.class_id, Class_name: obj.class_name });
-                            }
-
-
-                            for(var obj of updatePage.existsCourses)
-                            {
-                                if(obj.class_id == classId)
-                                    testCoefModel.append({ Id: obj.id, Course_name: obj.course_name , Class_id: obj.class_id, Class_name: obj.class_name});
-                            }
-                        }
-                    }
-
-                    // teacher
-                    Text {
-                        text: "مدرس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    ComboBox
-                    {
-                        id: teacherCB
-                        Layout.preferredHeight:  50
-                        Layout.fillWidth: true
-                        editable: false
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        model: ListModel{id: teacherModel;}
-                        textRole: "text"
-                        valueRole: "value"
-                        Component.onCompleted:
-                        {
-                            Methods.updateTeacherCB(updatePage.branch_id);
-                            teacherCB.currentIndex = teacherCB.indexOfValue(updatePage.teacher_id);
-                        }
-                    }
 
                     //final weight
                     Text {
@@ -415,7 +333,7 @@ Page {
                                 checked: (updatePage.courseSharedCoef.indexOf(model.Id) > -1)? true : false;
                                 height: 50;
                                 width: courseCoefLV.width
-                                text:  model.Course_name + " ( " + model.Class_name + " ) ";
+                                text:  model.Course_name;
                                 font.family: "B Yekan"
                                 font.pixelSize: 14
                                 onToggled:
@@ -441,8 +359,7 @@ Page {
 
                             for(var obj of updatePage.existsCourses)
                             {
-                                if(obj.class_id == updatePage.class_id)
-                                    courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name , Class_id: obj.class_id, Class_name: obj.class_name});
+                               courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name});
                             }
                         }
 
@@ -480,7 +397,7 @@ Page {
                                 checked: (updatePage.testSharedCoef.indexOf(model.Id) > -1)? true : false;
                                 height: 50;
                                 width: testCoefLV.width
-                                text:  model.Course_name + " ( " + model.Class_name + " ) ";
+                                text:  model.Course_name;
                                 font.family: "B Yekan"
                                 font.pixelSize: 14
                                 onToggled:
@@ -502,12 +419,10 @@ Page {
                             }
 
                         Component.onCompleted:{
-                            var classId = classCB.currentValue;
 
                             for(var obj of updatePage.existsCourses)
                             {
-                                if(obj.class_id == updatePage.class_id)
-                                    testCoefModel.append({ Id: obj.id, Course_name: obj.course_name , Class_id: obj.class_id, Class_name: obj.class_name});
+                                    testCoefModel.append({ Id: obj.id, Course_name: obj.course_name });
                             }
                         }
                     }
@@ -537,8 +452,6 @@ Page {
                             course["course_name"] = courseNameTF.text
                             course["course_coefficient"] = parseInt(courseCoefTF.text)
                             course["test_coefficient"] = parseInt(testCoefTF.text)
-                            course["teacher_id"] = teacherCB.currentValue
-                            course["class_id"] = classCB.currentValue
                             course["final_weight"] = parseFloat(finalWeightTF.text)
 
                             course["shared_coefficient"] = { "course": updatePage.courseSharedCoef, "test": updatePage.testSharedCoef };

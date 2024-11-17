@@ -30,6 +30,7 @@ qt_add_qml_module(appiSchool
         lib/database/dbman.h
         lib/database/dbman.cpp
         lib/version.h
+        #lib/imageProvider.h
 
     RESOURCES assets.qrc
 
@@ -263,7 +264,6 @@ target_link_libraries(appiSchool PRIVATE Qt6::Sql)
 
 # printsupport
 find_package(Qt6 REQUIRED COMPONENTS PrintSupport)
-
 
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

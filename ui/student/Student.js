@@ -2,6 +2,7 @@ function updateBranchCB()
 {
     branchCBoxModel.clear();
     studentModel.clear();
+    periodCBoxModel.clear();
     var jsondata = dbMan.getBranches();
     //id, city, branch_name, address
     var temp;
@@ -12,10 +13,25 @@ function updateBranchCB()
     }
 }
 
-function studentsUpdate(branchId)
+function updatePeriodCB(branch_id)
+{
+    periodCBoxModel.clear();
+    studentModel.clear();
+    var jsondata = dbMan.getBranchPeriods(branch_id);
+    var temp;
+    periodCBoxModel.append({value: -1,  text: "-" })
+    for(var obj of jsondata)
+    {
+        //sp.id, sp.branch_id, sp.study_period, sp.passed, b.city, b.branch_name, b.branch_address
+        temp = obj.study_period;
+        periodCBoxModel.append({value: obj.id,  text: temp })
+    }
+}
+
+function updateStudentsModel(branch_id, period_id)
 {
     studentModel.clear();
-    var jsondata = dbMan.getBranchStudents(branchId);
+    var jsondata = dbMan.getBranchPeriodStudents(branch_id, period_id);
     //s.id, s.branch_id, s.name, s.lastname, s.fathername, s.gender, s.birthday, s.enabled, b.city, b.branch_name
     for(var obj of jsondata)
     {
@@ -33,6 +49,7 @@ function studentsUpdate(branchId)
                             });
     }
 }
+
 
 function filterStudents(students)
 {

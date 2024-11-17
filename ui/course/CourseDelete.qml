@@ -20,8 +20,7 @@ Page {
     required property string course_name;
     required property int course_coefficient;
     required property int test_coefficient;
-    required property string teacher;
-    required property string class_name;
+
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
@@ -262,57 +261,7 @@ Page {
                         color: "royalblue"
                         text: deletePage.test_coefficient
                     }
-                    //class
-                    Text {
-                        text: "کلاس درس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
-                    {
-                        id: classNameTF
-                        text:  deletePage.class_name
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "royalblue"
-                    }
 
-                    // teacher
-                    Text {
-                        text: "مدرس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
-                    {
-                        id: teacherTF
-                        text:  deletePage.teacher
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "royalblue"
-                    }
 
                     Item
                     {

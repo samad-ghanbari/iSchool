@@ -130,7 +130,8 @@ Page {
                                 Layout.preferredWidth: 128
                                 Layout.preferredHeight: 128
                                 Layout.alignment: Qt.AlignHCenter
-                                source: (studentPage.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
+                                source: studentPage.student.photo
+                                //source: (studentPage.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
                             }
 
                             Text {

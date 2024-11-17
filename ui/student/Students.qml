@@ -56,7 +56,7 @@ Page {
                 id: branchLbl
                 Layout.preferredHeight:  50
                 Layout.preferredWidth: 100
-                text:" انتخاب شعبه"
+                text:" انتخاب شعبه: "
                 font.family: "B Yekan"
                 font.pixelSize: 16
                 font.bold: true
@@ -81,9 +81,49 @@ Page {
                     branchCB.currentIndex = -1
                 }
 
-                onActivated: Methods.studentsUpdate(branchCB.currentValue);
+                onActivated: Methods.updatePeriodCB(branchCB.currentValue);
+
             }
         }
+        RowLayout{
+            Layout.columnSpan: 2
+            Layout.preferredHeight:  50
+            Layout.preferredWidth: periodLbl.width + periodCB.width
+            Layout.alignment: Qt.AlignHCenter
+
+            Label
+            {
+                id: periodLbl
+                Layout.preferredHeight:  50
+                Layout.preferredWidth: 100
+                text:"سال تحصیلی: "
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                font.bold: true
+                horizontalAlignment: Label.AlignLeft
+                verticalAlignment: Label.AlignVCenter
+            }
+            ComboBox
+            {
+                id: periodCB
+                Layout.preferredHeight:  50
+                Layout.fillWidth: true
+                Layout.maximumWidth: 400
+                editable: false
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                model: ListModel{id: periodCBoxModel}
+                textRole: "text"
+                valueRole: "value"
+                Component.onCompleted:
+                {
+                    periodCB.currentIndex = -1
+                }
+
+                onActivated: Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue);
+            }
+        }
+
 
         Rectangle
         {
@@ -241,8 +281,7 @@ Page {
             onPopStackSignal: studentsPage.appStackView.pop();
             onInsertedSignal:
             {
-                var branchId = branchCB.currentValue;
-                Methods.studentsUpdate(branchId);
+                Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue);
             }
         }
     }
@@ -253,8 +292,8 @@ Page {
         {
             appStackView: studentsPage.appStackView
             branchText: branchCB.currentText
-            onDeletedSignal: Methods.studentsUpdate(branchCB.currentValue)
-            onUpdatedSignal: Methods.studentsUpdate(branchCB.currentValue)
+            onDeletedSignal: Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue)
+            onUpdatedSignal: Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue)
         }
     }
 

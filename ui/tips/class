@@ -1,0 +1,135 @@
+                    //class
+                    Text {
+                        text: "کلاس درس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    ComboBox
+                    {
+                        id: classCB
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        editable: false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        model: ListModel{id: classModel;}
+                        textRole: "text"
+                        valueRole: "value"
+                        Component.onCompleted: Methods.updateClassCB(insertPage.branch_id);
+
+                        onActivated:
+                        {
+                            courseCoefModel.clear();
+                            testCoefModel.clear();
+
+                            var classId = classCB.currentValue;
+                            for(var obj of insertPage.existsCourses)
+                            {
+                                if(obj.class_id == classId)
+                                    courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name, Class_id: obj.class_id, Class_name: obj.class_name });
+                            }
+
+
+                            for(var obj of insertPage.existsCourses)
+                            {
+                                if(obj.class_id == classId)
+                                    testCoefModel.append({ Id: obj.id, Course_name: obj.course_name , Class_id: obj.class_id, Class_name: obj.class_name});
+                            }
+                        }
+                    }
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+function updateClassCB(branchId)
+{
+    classModel.clear();
+
+    var jsondata = dbMan.getBranchClasses(branchId);
+    //id, branch_id, class_name, class_desc, sort_priority
+    var temp;
+    for(var obj of jsondata)
+    {
+        temp = obj.class_name + " - "+ obj.class_desc;
+        classModel.append({value: obj.id,  text: temp })
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+------------------------
+                    //class
+                    Text {
+                        text: "کلاس درس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    ComboBox
+                    {
+                        id: classCB
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        editable: false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        model: ListModel{id: classModel;}
+                        textRole: "text"
+                        valueRole: "value"
+                        Component.onCompleted:
+                        {
+                            Methods.updateClassCB(updatePage.branch_id);
+                            classCB.currentIndex = classCB.indexOfValue(updatePage.class_id);
+                        }
+
+                        onActivated:
+                        {
+                            courseCoefModel.clear();
+                            testCoefModel.clear();
+
+                            var classId = classCB.currentValue;
+
+                            for(var obj of updatePage.existsCourses)
+                            {
+                                if(obj.class_id == classId)
+                                    courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name, Class_id: obj.class_id, Class_name: obj.class_name });
+                            }
+
+
+                            for(var obj of updatePage.existsCourses)
+                            {
+                                if(obj.class_id == classId)
+                                    testCoefModel.append({ Id: obj.id, Course_name: obj.course_name , Class_id: obj.class_id, Class_name: obj.class_name});
+                            }
+                        }
+                    }
+
+

@@ -1,0 +1,85 @@
+
+                    // teacher
+                    Text {
+                        text: "مدرس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    ComboBox
+                    {
+                        id: teacherCB
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        editable: false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        model: ListModel{id: teacherModel;}
+                        textRole: "text"
+                        valueRole: "value"
+                        Component.onCompleted: Methods.updateTeacherCB(insertPage.branch_id);
+                    }
+                    
+                    
+                    
+                    
+
+function updateTeacherCB(branchId)
+{
+    teacherModel.clear();
+
+    var jsondata = dbMan.getBranchTeachers(branchId);
+    //t.id, t.branch_id, t.name, t.lastname, t.gender, t.study_degree, t.study_field, t.telephone, t.enabled, b.city, b.branch_name
+
+    var temp;
+    for(var obj of jsondata)
+    {
+        temp = obj.name + " - "+ obj.lastname + " - " +obj.study_field;
+        teacherModel.append({value: obj.id,  text: temp })
+    }
+}
+
+
+
+
+
+
+---------------------------
+                    // teacher
+                    Text {
+                        text: "مدرس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    ComboBox
+                    {
+                        id: teacherCB
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        editable: false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        model: ListModel{id: teacherModel;}
+                        textRole: "text"
+                        valueRole: "value"
+                        Component.onCompleted:
+                        {
+                            Methods.updateTeacherCB(updatePage.branch_id);
+                            teacherCB.currentIndex = teacherCB.indexOfValue(updatePage.teacher_id);
+                        }
+                    }
+                    
+                    
+                    
+

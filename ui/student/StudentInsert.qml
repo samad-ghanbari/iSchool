@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Dialogs
 import QtQuick.Controls
 import QtQuick.Layouts
 
@@ -199,6 +200,27 @@ Page {
                                     //valueRole: "value"
                                 }
 
+                                //photo
+                                Button{
+                                    text: "تصویر"
+                                    Layout.minimumWidth: 100
+                                    Layout.maximumWidth: 100
+                                    Layout.preferredHeight: 40
+                                    palette.text: "royalblue"
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    onClicked: photoBrows.open();
+                                }
+                                Text
+                                {
+                                    id: photoPath
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                }
+
                                 //birthday
                                 Text {
                                     text: "تاریخ تولد"
@@ -218,7 +240,12 @@ Page {
                                     Layout.preferredHeight: 50
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    placeholderText: "تاریخ تولد"
+                                    placeholderText: "1380/01/01"
+                                    validator: RegularExpressionValidator
+                                    {
+                                        regularExpression: /^\d{4}\/\d{2}\/\d{2}$/
+                                        // Regex pattern to match date in yyyy/MM/dd format
+                                    }
                                 }
                                 //enabled
                                 Text {
@@ -269,7 +296,7 @@ Page {
                                     student["gender"] = genderCB.currentText
                                     student["birthday"] = birthdayTF.text
                                     student["enabled"] = enabledSW.checked
-
+                                    student["photo_path"] = photoPath.text;
 
                                     if(dbMan.studentInsert(student))
                                         successDialogId.open();
@@ -297,6 +324,16 @@ Page {
         }
 
     }
+
+
+    FileDialog {
+        id: photoBrows
+        title: "انتخاب تصویر"
+        //folder: shortcuts.home
+        nameFilters: ["Images (*.png *.jpg)"]
+        onAccepted: photoPath.text = selectedFile;
+        onRejected: photoBrows.close();
+        }
 
     DialogBox.BaseDialog
     {
