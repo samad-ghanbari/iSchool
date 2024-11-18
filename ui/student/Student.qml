@@ -139,7 +139,6 @@ Page {
                                     {
                                         return "file://"+studentPage.student.photo;
                                     }
-
                                 }
                             }
 

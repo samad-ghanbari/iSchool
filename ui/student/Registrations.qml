@@ -69,7 +69,16 @@ Page {
             Layout.preferredWidth: 128
             Layout.preferredHeight: 128
             Layout.alignment: Qt.AlignHCenter
-            source: (registersPage.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
+            source:{
+                if(registersPage.student.photo == "")
+                {
+                    if(registersPage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
+                }
+                else
+                {
+                    return "file://"+registersPage.student.photo;
+                }
+            }
         }
 
         Text {
@@ -160,17 +169,15 @@ Page {
     Component
     {
         id: registerDelegate
-        // r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id,
-        // s.branch_id, br.city, br.branch_name, s.name, s.lastname, s.fathername, s.gender, s.enabled
-
-        // st.step_name, sb.study_base, sp.study_period, sp.passed
+        //0r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id, s.branch_id
+      // 6br.city, br.branch_name, st.step_name, sb.study_base, sp.study_period, sp.passed, cl.class_name
 
         SwipeDelegate
         {
             id: regRecDel
             required property var model;
-            height: 110
-            width: registersLV.width
+            height: 160
+            width: 300
             checkable: true
             checked: regRecDel.swipe.complete
             onCheckedChanged: { if(!regRecDel.checked) regRecDel.swipe.close();}
@@ -214,6 +221,18 @@ Page {
                         elide: Text.ElideRight
                     }
 
+                    Label {
+                        text: regRecDel.model.Class_name
+                        padding: 0
+                        font.family: "B Yekan"
+                        font.pixelSize: (regRecDel.highlighted)? 20 :16
+                        font.bold: (regRecDel.highlighted)? true : false
+                        color: (regRecDel.model.Passed)? "mediumvioletred":"dodgerblue"
+                        horizontalAlignment: Label.AlignHCenter
+                        width: parent.width
+                        height: 50
+                        elide: Text.ElideRight
+                    }
                     Rectangle{width: 400; height:5; color: (regRecDel.highlighted)? "mediumvioletred" : "whitesmoke"; anchors.horizontalCenter: parent.horizontalCenter }
                 }
             }

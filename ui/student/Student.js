@@ -118,9 +118,8 @@ function updatePeiodCB(branchId)
 
 function updateStudentRegs(branchId, studentId)
 {
-    // r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id,
-    // s.branch_id, br.city, br.branch_name, s.name, s.lastname, s.fathername, s.gender, s.enabled
-    // st.step_name, sb.study_base, sp.study_period, sp.passed
+    //0r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id, s.branch_id
+  // 6br.city, br.branch_name, st.step_name, sb.study_base, sp.study_period, sp.passed, cl.class_name
 
     regsModel.clear();
     var jsondata = dbMan.getRegisterations(branchId, studentId);
@@ -135,16 +134,11 @@ function updateStudentRegs(branchId, studentId)
                              Branch_id: obj.branch_id,
                              City: obj.city,
                              Branch_name: obj.branch_name,
-                             Name: obj.name,
-                             Lastname: obj.lastname,
-                             Fathername: obj.fathername,
-                             Gender: obj.gender,
-                             Enabled: obj.enabled,
-                             Photo: obj.photo,
                              Step_name: obj.step_name,
                              Study_base: obj.study_base,
                              Study_period: obj.study_period,
-                             Passed: obj.passed
+                             Passed: obj.passed,
+                             Class_name: obj.class_name
                          });
     }
 

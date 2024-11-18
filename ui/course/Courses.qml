@@ -88,7 +88,7 @@ Page {
                                 {
                                     Layout.preferredHeight:  50
                                     Layout.preferredWidth: 80
-                                    text:"شعبه"
+                                    text:"شعبه:"
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true
@@ -131,7 +131,7 @@ Page {
                                 {
                                     Layout.preferredHeight:  50
                                     Layout.preferredWidth: 80
-                                    text:"دوره"
+                                    text:"دوره:"
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true
@@ -168,8 +168,8 @@ Page {
                                 Label
                                 {
                                     Layout.preferredHeight:  50
-                                    Layout.preferredWidth: 80
-                                    text:"پایه‌تحصیلی"
+                                    Layout.preferredWidth: 100
+                                    text:"پایه تحصیلی:"
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true
@@ -209,8 +209,8 @@ Page {
                                 Label
                                 {
                                     Layout.preferredHeight:  50
-                                    Layout.preferredWidth: 80
-                                    text:"سال‌تحصیلی"
+                                    Layout.preferredWidth: 100
+                                    text:"سال تحصیلی:"
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true

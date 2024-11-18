@@ -79,7 +79,16 @@ Page {
                         Layout.preferredWidth: 128
                         Layout.preferredHeight: 128
                         Layout.alignment: Qt.AlignHCenter
-                        source: (registerPage.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
+                        source:{
+                            if(registerPage.student.photo == "")
+                            {
+                                if(registerPage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
+                            }
+                            else
+                            {
+                                return "file://"+registerPage.student.photo;
+                            }
+                        }
                     }
 
                     Text {
