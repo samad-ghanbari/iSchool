@@ -12,6 +12,7 @@ Page {
     property string className;
     property string classDesc;
     property int sortPriority;
+    property string periodText;
 
     signal classUpdatedSignal();
     signal popStackSignal();
@@ -102,6 +103,18 @@ Page {
                                 Text {
                                     Layout.columnSpan: 2
                                     text: "شعبه " + updateClassPage.branchText
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text: "سال تحصیلی" + updateClassPage.periodText
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter

@@ -7,8 +7,13 @@ import "./../public" as DialogBox
 Page {
     id: insertClassPage
 
-    property int branchId;
-    property string branchText
+    property int branch_id;
+    property int step_id;
+    property int base_id;
+    property int period_id;
+    property string branch_text
+    property string step_text
+    property string period_text
 
     signal classInsertedSignal();
     signal popStackSignal();
@@ -99,7 +104,19 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "شعبه " + insertClassPage.branchText
+                                    text: "شعبه " + insertClassPage.branch_text + " " + insertClassPage.step_text
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text: "سال تحصیلی " + insertClassPage.period_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -173,7 +190,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    value: dbMan.getClassMaxSortPriority(insertClassPage.branchId) + 1;
+                                    value: dbMan.getClassMaxSortPriority(insertClassPage.periodId) + 1;
                                 }
                             }
 
@@ -195,7 +212,9 @@ Page {
                                 onClicked:
                                 {
                                     var classObj = {};
-                                    classObj["branch_id"] = insertClassPage.branchId;
+                                    classObj["step_id"] = insertClassPage.period_id;
+                                    classObj["base_id"] = insertClassPage.period_id;
+                                    classObj["period_id"] = insertClassPage.period_id;
                                     classObj["class_name"] = classNameTF.text;
                                     classObj["class_desc"] = classDescTF.text;
                                     classObj["sort_priority"] = classSortSB.value;

@@ -5,18 +5,19 @@ import QtQuick.Layouts
 import "./../public" as DialogBox
 
 Page {
-    id: deleteClassPage
+    id: insertClassDetailPage
 
-    property int classId;
-    property string branchText;
-    property string className;
-    property string classDesc;
-    property string periodText;
+    required property int class_id;
+    required property int branch_id;
+    required property int period_id;
+    required property string branchText
+    required property string periodText
+    required property string class_name
 
-    signal classDeletedSignal();
+    signal classInsertedSignal();
     signal popStackSignal();
 
-    background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
+    background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
     GridLayout
     {
@@ -32,7 +33,7 @@ Page {
             icon.width: 64
             icon.height: 64
             opacity: 0.5
-            onClicked: deleteClassPage.popStackSignal(); //deleteClassPage.appStackView.pop();
+            onClicked: insertClassDetailPage.popStackSignal(); //insertClassDetailPage.appStackView.pop();
             hoverEnabled: true
             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
         }
@@ -41,7 +42,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "حذف کلاس"
+            text: "افزودن اطلاعات کلاس"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -55,7 +56,7 @@ Page {
             Layout.columnSpan: 2
             Layout.fillHeight: true
             Layout.fillWidth: true
-            color: "lavenderblush"
+            color: "honeydew"
 
             ScrollView
             {
@@ -82,6 +83,14 @@ Page {
                         {
                             id: periodInsertCL
                             width: parent.width
+                            Image {
+                                source: "qrc:/assets/images/add.png"
+                                Layout.alignment: Qt.AlignHCenter
+                                Layout.preferredHeight:  64
+                                Layout.preferredWidth:  64
+                                Layout.margins: 20
+                                NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
+                            }
 
                             GridLayout
                             {
@@ -94,7 +103,31 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "شعبه " + deleteClassPage.branchText
+                                    text: "شعبه " + insertClassDetailPage.branchText
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text: "سال تحصیلی " + insertClassDetailPage.periodText
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text: "کلاس " + insertClassDetailPage.class_name
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -105,76 +138,45 @@ Page {
                                     color: "royalblue"
                                 }
 
-
                                 Text {
-                                    text: "نام کلاس"
+                                    text: "درس"
                                     Layout.minimumWidth: 150
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
                                 }
-                                Text
+                                ComboBox
                                 {
-                                    id: classNameTF
+                                    id: courseCB
+                                    Layout.preferredHeight:  50
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
+                                    editable: false
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    text: deleteClassPage.className
+                                    model: ListModel{id: courseCBoxModel}
+                                    textRole: "text"
+                                    valueRole: "value"
+                                    Component.onCompleted:
+                                    {
+                                        Methods.updateCourseCB(insertClassDetailPage.branch_id, insertClassDetailPage.period_id);
+                                        courseCB.currentIndex = -1
+                                    }
                                 }
 
                                 Text {
-                                    text: "توضیحات کلاس"
+                                    text: "دبیر "
                                     Layout.minimumWidth: 150
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
-                                }
-                                Text
-                                {
-                                    id: classDescTF
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    text: deleteClassPage.classDesc
-                                }
-
-                                Text {
-                                    text: "سال تحصیلی"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text
-                                {
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    text: deleteClassPage.periodText
                                 }
 
                             }
@@ -187,29 +189,44 @@ Page {
 
                             Button
                             {
-                                background: Item{}
-                                icon.source: "qrc:/assets/images/trash3.png"
-                                icon.width: 64
-                                icon.height: 64
-                                Layout.preferredHeight: 64
-                                Layout.preferredWidth: 64
-                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                opacity: 0.5
-                                onClicked: classDelDialog.open();
-                                hoverEnabled: true
-                                onHoveredChanged:
+                                text: "تایید"
+                                Layout.preferredWidth: 200
+                                Layout.preferredHeight: 50
+                                Layout.alignment: Qt.AlignHCenter
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                                onClicked:
                                 {
-                                    if(hovered)
+                                    var cdObj = {};
+                                    cdObj["class_id"] = insertClassDetailPage.class_id;
+                                    cdObj["course_id"] = classNameTF.text;
+                                    cdObj["teacher_id"] = classDescTF.text;
+
+
+                                    if(dbMan.classInsert(cdObj))
                                     {
-                                        this.opacity = 1
-                                        this.scale = 1.1
+                                        classSuccessDialogId.open();
+                                        insertClassDetailPage.classInsertedSignal();
+
                                     }
                                     else
                                     {
-                                        this.opacity = 0.8
-                                        this.scale = 1
+                                        var errorString = dbMan.getLastError();
+                                        classInfoDialogId.dialogText = errorString
+                                        classInfoDialogId.width = parent.width
+                                        classInfoDialogId.height = 500
+                                        classInfoDialogId.dialogSuccess = false
+
+                                        classInfoDialogId.open();
                                     }
                                 }
+                            }
+
+                            Item
+                            {
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
                             }
                         }
                     }
@@ -221,25 +238,9 @@ Page {
 
     DialogBox.BaseDialog
     {
-        id: classDelDialog
-        dialogTitle:  "حذف کلاس"
-        dialogText: "آیا از حذف کلاس از سامانه مطمئن می‌باشید؟"
-        acceptVisible: true
-        rejectVisible: true
-
-        onDialogAccepted: function(){
-            if(dbMan.classDelete(deleteClassPage.classId))
-                classSuccessDialogId.open();
-
-            else
-                classInfoDialogId.open();
-        }
-    }
-    DialogBox.BaseDialog
-    {
         id: classInfoDialogId
         dialogTitle: "خطا"
-        dialogText: "حذف کلاس جدید با خطا مواجه شد."
+        dialogText: "افزودن کلاس جدید با خطا مواجه شد."
         dialogSuccess: false
     }
 
@@ -247,11 +248,10 @@ Page {
     {
         id: classSuccessDialogId
         dialogTitle: "عملیات موفق"
-        dialogText: "حذف کلاس با موفقیت انجام شد."
+        dialogText: "کلاس جدید با موفقیت افزوده شد."
         dialogSuccess: true
         onDialogAccepted: {
-            deleteClassPage.popStackSignal();
-            deleteClassPage.classDeletedSignal();
+            insertClassDetailPage.popStackSignal();
         }
 
     }
