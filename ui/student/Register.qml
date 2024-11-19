@@ -92,7 +92,7 @@ Page {
                     }
 
                     Text {
-                        text: "نام دانش‌آموز "
+                        text: "دانش آموز"
                         Layout.minimumWidth: 200
                         Layout.maximumWidth: 200
                         Layout.preferredHeight: 50
@@ -105,35 +105,13 @@ Page {
                     Text
                     {
                         id: nameId
-                        text: registerPage.student["name"]
+                        text: registerPage.student["name"] + " " + registerPage.student["lastname"]
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
 
-                    }
-
-                    Text {
-                        text: "نام خانوادگی"
-                        Layout.minimumWidth: 200
-                        Layout.maximumWidth: 200
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "royalblue"
-                    }
-                    Text
-                    {
-                        id: lastnameId
-                        text: registerPage.student["lastname"]
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
                     }
 
                     Text {
@@ -208,6 +186,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         Layout.maximumWidth: 400
+                        Layout.alignment: Qt.AlignLeft
                         editable: false
                         font.family: "B Yekan"
                         font.pixelSize: 16
@@ -239,6 +218,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         Layout.maximumWidth: 400
+                        Layout.alignment: Qt.AlignLeft
                         editable: false
                         font.family: "B Yekan"
                         font.pixelSize: 16
@@ -270,6 +250,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         Layout.maximumWidth: 400
+                        Layout.alignment: Qt.AlignLeft
                         editable: false
                         font.family: "B Yekan"
                         font.pixelSize: 16
@@ -301,8 +282,8 @@ Page {
                         id: classCB
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
-                        Layout.maximumWidth: 300
-                        Layout.alignment: Qt.AlignHCenter
+                        Layout.maximumWidth: 400
+                        Layout.alignment: Qt.AlignLeft
                         editable: false
                         font.family: "B Yekan"
                         font.pixelSize: 16

@@ -117,16 +117,17 @@ Page {
             Layout.bottomMargin: 10
         }
 
-        ListView
+        GridView
         {
-            id: registersLV
+            id: registersGV
             Layout.columnSpan: 3
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.margins: 10
             flickableDirection: Flickable.AutoFlickDirection
             clip: true
-            spacing: 5
+            cellWidth: 310
+            cellHeight: 170
             model: ListModel{id: regsModel}
             highlight: Item{}
             delegate: registerDelegate
@@ -138,9 +139,9 @@ Page {
 
             function closeSwipeHandler()
             {
-                for (var i = 0; i <= registersLV.count; i++)
+                for (var i = 0; i <= registersGV.count; i++)
                 {
-                    var item = registersLV.contentItem.children[i];
+                    var item = registersGV.contentItem.children[i];
                     if(item.swipe)
                     {
                         item.swipe.close();
@@ -222,7 +223,7 @@ Page {
                     }
 
                     Label {
-                        text: regRecDel.model.Class_name
+                        text: "کلاس " + regRecDel.model.Class_name
                         padding: 0
                         font.family: "B Yekan"
                         font.pixelSize: (regRecDel.highlighted)? 20 :16
@@ -238,18 +239,18 @@ Page {
             }
 
             onClicked: {regRecDel.swipe.close();}
-            onPressed: { registersLV.currentIndex = model.index; registersLV.closeSwipeHandler();}
-            highlighted: (model.index === registersLV.currentIndex)? true: false;
+            onPressed: { registersGV.currentIndex = model.index; registersGV.closeSwipeHandler();}
+            highlighted: (model.index === registersGV.currentIndex)? true: false;
 
-            swipe.right: Row{
-                width: 150
-                height: 100
+            swipe.right: Column{
+                width: 80
+                height: 160
                 anchors.left: parent.left
 
                 Button
                 {
-                    height: 100
-                    width: 75
+                    height: 80
+                    width: 80
                     background: Rectangle{id:trashBtnBg; color: "crimson"}
                     hoverEnabled: true
                     onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
@@ -267,13 +268,20 @@ Page {
                         if(regRecDel.swipe.complete)
                             regRecDel.swipe.close();
 
-                        registersPage.appStackView.push(deleteComponent, {regId: regRecDel.model.Id, regStep: regRecDel.model.Step_name, regBase: regRecDel.model.Study_base, regPeriod: regRecDel.model.Study_period });
+                        registersPage.appStackView.push(deleteComponent, {
+                                                            regId: regRecDel.model.Id,
+                                                            regStep: regRecDel.model.Step_name,
+                                                            regBase: regRecDel.model.Study_base,
+                                                            regPeriod: regRecDel.model.Study_period,
+                                                            regClass: regRecDel.model.Class_name
+
+                                                        });
                     }
                 }
                 Button
                 {
-                    height: 100
-                    width: 75
+                    height: 80
+                    width: 80
                     background: Rectangle{id:courseBtnBg; color: "darkcyan"}
                     hoverEnabled: true
                     onHoveredChanged: courseBtnBg.color=(hovered)? Qt.darker("darkcyan", 1.1):"darkcyan"

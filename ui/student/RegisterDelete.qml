@@ -12,6 +12,7 @@ Page {
     required property string regStep;
     required property string regBase;
     required property string regPeriod;
+    required property string regClass;
 
     signal deletedSignal();
     signal popStackSignal();
@@ -83,11 +84,20 @@ Page {
                         Layout.preferredWidth: 128
                         Layout.preferredHeight: 128
                         Layout.alignment: Qt.AlignHCenter
-                        source: (deletePage.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
+                        source: {
+                            if(deletePage.student.photo == "")
+                            {
+                                if(deletePage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
+                            }
+                            else
+                            {
+                                return "file://"+deletePage.student.photo;
+                            }
+                        }
                     }
 
                     Text {
-                        text: "نام دانش‌آموز "
+                        text: "دانش‌آموز"
                         Layout.minimumWidth: 200
                         Layout.maximumWidth: 200
                         Layout.preferredHeight: 50
@@ -100,37 +110,13 @@ Page {
                     Text
                     {
                         id: nameId
-                        text: deletePage.student["name"]
+                        text: deletePage.student["name"] + " " + deletePage.student["lastname"]
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        font.bold: true
 
-                    }
-
-                    Text {
-                        text: "نام خانوادگی"
-                        Layout.minimumWidth: 200
-                        Layout.maximumWidth: 200
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "royalblue"
-                    }
-                    Text
-                    {
-                        id: lastnameId
-                        text: deletePage.student["lastname"]
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
                     }
 
                     Text {
@@ -153,7 +139,6 @@ Page {
                         verticalAlignment: Text.AlignVCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        font.bold: true
                     }
 
                     Rectangle
@@ -171,6 +156,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 200
                         text:"شعبه"
+                        color: "royalblue"
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
@@ -184,7 +170,6 @@ Page {
                         text: deletePage.student.city + " - " + deletePage.student.branch_name
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        font.bold: true
                         horizontalAlignment: Label.AlignLeft
                         verticalAlignment: Label.AlignVCenter
                     }
@@ -194,6 +179,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 200
                         text:"دوره"
+                        color: "royalblue"
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
@@ -208,7 +194,6 @@ Page {
                         Layout.maximumWidth: 400
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        font.bold: true
                         text: deletePage.regStep
                         horizontalAlignment: Label.AlignLeft
                         verticalAlignment: Label.AlignVCenter
@@ -220,6 +205,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 200
                         text:"پایه تحصیلی"
+                        color: "royalblue"
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
@@ -234,7 +220,6 @@ Page {
                         Layout.maximumWidth: 400
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        font.bold: true
                         text: deletePage.regBase
                         horizontalAlignment: Label.AlignLeft
                         verticalAlignment: Label.AlignVCenter
@@ -246,6 +231,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 200
                         text:"سال تحصیلی"
+                        color: "royalblue"
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
@@ -260,10 +246,34 @@ Page {
                         Layout.maximumWidth: 400
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        font.bold: true
                         horizontalAlignment: Label.AlignLeft
                         verticalAlignment: Label.AlignVCenter
                         text: deletePage.regPeriod
+                    }
+
+                    // class
+                    Label
+                    {
+                        Layout.preferredHeight:  50
+                        Layout.preferredWidth: 200
+                        text:"کلاس "
+                        color: "royalblue"
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        horizontalAlignment: Label.AlignLeft
+                        verticalAlignment: Label.AlignVCenter
+                    }
+                    Label
+                    {
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: 400
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        horizontalAlignment: Label.AlignLeft
+                        verticalAlignment: Label.AlignVCenter
+                        text: deletePage.regClass
                     }
 
                     Button
