@@ -43,7 +43,7 @@ function updateBaseCB(branchId)
 
     var jsondata = dbMan.getBranchStudyBases(branchId);
     //sb.id, sb.branch_id, sb.study_base, b.city, b.branch_name
-    baseCBoxModel.append({value: 0,  text: " - " });
+    //baseCBoxModel.append({value: 0,  text: " - " });
 
     var temp;
     for(var obj of jsondata)
@@ -113,7 +113,35 @@ function updateClassDetailModel(class_id)
     }
 }
 
-function updateCourseCB()
+function updateCourseCB(step_id, base_id, period_id)
 {
+    courseCBoxModel.clear();
+    var jsondata = dbMan.getAllCourses(step_id, base_id, period_id);
+    //
+    for(var obj of jsondata)
+    {
+        //co.id, co.course_name, co.step_id, co.study_base_id, co.study_period_id, co.course_coefficient, co.test_coefficient,  co.shared_coefficient,  co.final_weight,
+        //st.branch_id, st.step_name, sb.study_base, sp.study_period
 
+        courseCBoxModel.append({
+                              value: obj.id,
+                              text: obj.course_name,
+                          })
+    }
+}
+
+function updateTeacherCB(branch_id)
+{
+    teacherCBoxModel.clear();
+    var jsondata = dbMan.getBranchTeachers(branch_id);
+    //
+    for(var obj of jsondata)
+    {
+        // /t.id, t.branch_id, t.name, t.lastname, t.gender, t.study_degree, t.study_field, t.telephone, t.enabled, b.city, b.branch_name
+
+        teacherCBoxModel.append({
+                              value: obj.id,
+                              text: obj.name + " " + obj.lastname + " ("+ obj.study_field + ") ",
+                          })
+    }
 }

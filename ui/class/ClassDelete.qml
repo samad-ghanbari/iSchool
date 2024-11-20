@@ -7,13 +7,15 @@ import "./../public" as DialogBox
 Page {
     id: deleteClassPage
 
-    property int classId;
-    property string branchText;
-    property string className;
-    property string classDesc;
-    property string periodText;
+    property int class_id;
+    property string branch_text;
+    property string step_text;
+    property string base_text;
+    property string period_text;
+    property string class_name;
+    property string class_desc;
 
-    signal classDeletedSignal();
+    signal deletedSignal();
     signal popStackSignal();
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
@@ -83,6 +85,15 @@ Page {
                             id: periodInsertCL
                             width: parent.width
 
+                            Image {
+                                source: "qrc:/assets/images/trash.png"
+                                Layout.alignment: Qt.AlignHCenter
+                                Layout.preferredHeight:  64
+                                Layout.preferredWidth:  64
+                                Layout.margins: 20
+                                NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
+                            }
+
                             GridLayout
                             {
                                 id: classInsertGL
@@ -94,7 +105,31 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "شعبه " + deleteClassPage.branchText
+                                    text: "شعبه " + deleteClassPage.branch_text
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text: deleteClassPage.step_text + " - " + deleteClassPage.base_text
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text:  deleteClassPage.period_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -127,7 +162,7 @@ Page {
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    text: deleteClassPage.className
+                                    text: deleteClassPage.class_name
                                 }
 
                                 Text {
@@ -151,30 +186,7 @@ Page {
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    text: deleteClassPage.classDesc
-                                }
-
-                                Text {
-                                    text: "سال تحصیلی"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text
-                                {
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    text: deleteClassPage.periodText
+                                    text: deleteClassPage.class_desc
                                 }
 
                             }
@@ -187,29 +199,15 @@ Page {
 
                             Button
                             {
-                                background: Item{}
-                                icon.source: "qrc:/assets/images/trash3.png"
-                                icon.width: 64
-                                icon.height: 64
-                                Layout.preferredHeight: 64
-                                Layout.preferredWidth: 64
-                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                opacity: 0.5
+                                text: "حذف"
+                                Layout.preferredWidth: 200
+                                Layout.preferredHeight: 50
+                                Layout.alignment: Qt.AlignHCenter
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
                                 onClicked: classDelDialog.open();
-                                hoverEnabled: true
-                                onHoveredChanged:
-                                {
-                                    if(hovered)
-                                    {
-                                        this.opacity = 1
-                                        this.scale = 1.1
-                                    }
-                                    else
-                                    {
-                                        this.opacity = 0.8
-                                        this.scale = 1
-                                    }
-                                }
+
                             }
                         }
                     }
@@ -228,7 +226,7 @@ Page {
         rejectVisible: true
 
         onDialogAccepted: function(){
-            if(dbMan.classDelete(deleteClassPage.classId))
+            if(dbMan.classDelete(deleteClassPage.class_id))
                 classSuccessDialogId.open();
 
             else
@@ -251,7 +249,7 @@ Page {
         dialogSuccess: true
         onDialogAccepted: {
             deleteClassPage.popStackSignal();
-            deleteClassPage.classDeletedSignal();
+            deleteClassPage.deletedSignal();
         }
 
     }

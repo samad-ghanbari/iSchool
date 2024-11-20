@@ -7,12 +7,12 @@ import "./../public" as DialogBox
 Page {
     id: insertClassPage
 
-    property int branch_id;
     property int step_id;
     property int base_id;
     property int period_id;
     property string branch_text
     property string step_text
+    property string base_text
     property string period_text
 
     signal classInsertedSignal();
@@ -104,7 +104,7 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "شعبه " + insertClassPage.branch_text + " " + insertClassPage.step_text
+                                    text: "شعبه " + insertClassPage.branch_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -116,7 +116,19 @@ Page {
                                 }
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "سال تحصیلی " + insertClassPage.period_text
+                                    text: insertClassPage.step_text + " - " + insertClassPage.base_text
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text: insertClassPage.period_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -190,7 +202,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    value: dbMan.getClassMaxSortPriority(insertClassPage.periodId) + 1;
+                                    value: dbMan.getClassMaxSortPriority(insertClassPage.step_id, insertClassPage.base_id,insertClassPage.period_id,) + 1;
                                 }
                             }
 
@@ -212,9 +224,9 @@ Page {
                                 onClicked:
                                 {
                                     var classObj = {};
-                                    classObj["step_id"] = insertClassPage.period_id;
-                                    classObj["base_id"] = insertClassPage.period_id;
-                                    classObj["period_id"] = insertClassPage.period_id;
+                                    classObj["step_id"] = insertClassPage.step_id;
+                                    classObj["study_base_id"] = insertClassPage.base_id;
+                                    classObj["study_period_id"] = insertClassPage.period_id;
                                     classObj["class_name"] = classNameTF.text;
                                     classObj["class_desc"] = classDescTF.text;
                                     classObj["sort_priority"] = classSortSB.value;

@@ -3,18 +3,24 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "./../public" as DialogBox
+import "Class.js" as Methods
 
 Page {
     id: insertClassDetailPage
 
-    required property int class_id;
     required property int branch_id;
+    required property int step_id;
+    required property int base_id;
     required property int period_id;
-    required property string branchText
-    required property string periodText
+    required property int class_id;
+    required property string branch_text
+    required property string step_text
+    required property string base_text
+    required property string period_text
     required property string class_name
+    required property string class_desc
 
-    signal classInsertedSignal();
+    signal insertedSignal();
     signal popStackSignal();
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
@@ -103,7 +109,7 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "شعبه " + insertClassDetailPage.branchText
+                                    text: "شعبه " + insertClassDetailPage.branch_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -115,7 +121,20 @@ Page {
                                 }
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "سال تحصیلی " + insertClassDetailPage.periodText
+                                    text:  insertClassDetailPage.step_text + " - " + insertClassDetailPage.base_text
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    elide: Text.ElideRight
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text:  insertClassDetailPage.period_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -127,9 +146,10 @@ Page {
                                 }
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "کلاس " + insertClassDetailPage.class_name
+                                    text: "کلاس " + insertClassDetailPage.class_name + " - " + insertClassDetailPage.class_desc
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
+                                    elide: Text.ElideRight
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
@@ -139,7 +159,7 @@ Page {
                                 }
 
                                 Text {
-                                    text: "درس"
+                                    text: "عنوان درس"
                                     Layout.minimumWidth: 150
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
@@ -162,7 +182,7 @@ Page {
                                     valueRole: "value"
                                     Component.onCompleted:
                                     {
-                                        Methods.updateCourseCB(insertClassDetailPage.branch_id, insertClassDetailPage.period_id);
+                                        Methods.updateCourseCB(insertClassDetailPage.step_id, insertClassDetailPage.base_id, insertClassDetailPage.period_id);
                                         courseCB.currentIndex = -1
                                     }
                                 }
@@ -177,6 +197,23 @@ Page {
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
+                                }
+                                ComboBox
+                                {
+                                    id: teacherCB
+                                    Layout.preferredHeight:  50
+                                    Layout.fillWidth: true
+                                    editable: false
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    model: ListModel{id: teacherCBoxModel}
+                                    textRole: "text"
+                                    valueRole: "value"
+                                    Component.onCompleted:
+                                    {
+                                        Methods.updateTeacherCB(insertClassDetailPage.branch_id);
+                                        teacherCB.currentIndex = -1
+                                    }
                                 }
 
                             }
@@ -200,14 +237,14 @@ Page {
                                 {
                                     var cdObj = {};
                                     cdObj["class_id"] = insertClassDetailPage.class_id;
-                                    cdObj["course_id"] = classNameTF.text;
-                                    cdObj["teacher_id"] = classDescTF.text;
+                                    cdObj["course_id"] = courseCB.currentValue
+                                    cdObj["teacher_id"] = teacherCB.currentValue;
 
 
-                                    if(dbMan.classInsert(cdObj))
+                                    if(dbMan.classDetailInsert(cdObj))
                                     {
                                         classSuccessDialogId.open();
-                                        insertClassDetailPage.classInsertedSignal();
+                                        insertClassDetailPage.insertedSignal();
 
                                     }
                                     else
@@ -240,7 +277,7 @@ Page {
     {
         id: classInfoDialogId
         dialogTitle: "خطا"
-        dialogText: "افزودن کلاس جدید با خطا مواجه شد."
+        dialogText: "افزودن اطلاعات کلاس با خطا مواجه شد."
         dialogSuccess: false
     }
 
@@ -248,7 +285,7 @@ Page {
     {
         id: classSuccessDialogId
         dialogTitle: "عملیات موفق"
-        dialogText: "کلاس جدید با موفقیت افزوده شد."
+        dialogText: "اطلاعات کلاس با موفقیت اضافه شد."
         dialogSuccess: true
         onDialogAccepted: {
             insertClassDetailPage.popStackSignal();

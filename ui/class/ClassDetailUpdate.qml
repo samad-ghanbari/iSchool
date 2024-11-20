@@ -3,20 +3,29 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "./../public" as DialogBox
+import "Class.js" as Methods
 
 Page {
-    id: updateClassPage
+    id: updatePage
 
-    property int class_id;
-    property string branch_text
-    property string step_text
-    property string base_text
-    property string period_text
-    property string class_name;
-    property string class_desc;
-    property int sort_priority;
+    required property int branch_id;
+    required property int step_id;
+    required property int base_id;
+    required property int period_id;
+    required property int class_id;
+    required property int class_detail_id;
+    required property int course_id;
+    required property int teacher_id;
+    required property string branch_text
+    required property string step_text
+    required property string base_text
+    required property string period_text
+    required property string class_name
+    required property string class_desc
 
-    signal classUpdatedSignal();
+
+
+    signal updatedSignal();
     signal popStackSignal();
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
@@ -35,7 +44,7 @@ Page {
             icon.width: 64
             icon.height: 64
             opacity: 0.5
-            onClicked: updateClassPage.popStackSignal();
+            onClicked: updatePage.popStackSignal(); //updatePage.appStackView.pop();
             hoverEnabled: true
             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
         }
@@ -44,7 +53,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "ویرایش کلاس"
+            text: "ویرایش اطلاعات کلاس"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -96,6 +105,7 @@ Page {
 
                             GridLayout
                             {
+                                id: classInsertGL
                                 columns: 2
                                 rows: 5
                                 rowSpacing: 20
@@ -104,7 +114,7 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "شعبه " + updateClassPage.branch_text
+                                    text: "شعبه " + updatePage.branch_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -116,7 +126,20 @@ Page {
                                 }
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: updateClassPage.step_text + " - " + updateClassPage.base_text
+                                    text:  updatePage.step_text + " - " + updatePage.base_text
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    elide: Text.ElideRight
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text: updatePage.period_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -128,9 +151,10 @@ Page {
                                 }
                                 Text {
                                     Layout.columnSpan: 2
-                                    text:  updateClassPage.period_text
+                                    text: "کلاس " + updatePage.class_name + " - " + updatePage.class_desc
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
+                                    elide: Text.ElideRight
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
@@ -139,9 +163,8 @@ Page {
                                     color: "royalblue"
                                 }
 
-
                                 Text {
-                                    text: "نام کلاس"
+                                    text: "عنوان درس"
                                     Layout.minimumWidth: 150
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
@@ -151,19 +174,26 @@ Page {
                                     font.bold: true
                                     color: "royalblue"
                                 }
-                                TextField
+                                ComboBox
                                 {
-                                    id: classNameTF
+                                    id: courseCB
+                                    Layout.preferredHeight:  50
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
+                                    editable: false
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    placeholderText: "نام کلاس"
-                                    text: updateClassPage.class_name
+                                    model: ListModel{id: courseCBoxModel}
+                                    textRole: "text"
+                                    valueRole: "value"
+                                    Component.onCompleted:
+                                    {
+                                        Methods.updateCourseCB(updatePage.step_id, updatePage.base_id, updatePage.period_id);
+                                        courseCB.currentIndex = courseCB.indexOfValue(updatePage.course_id)
+                                    }
                                 }
 
                                 Text {
-                                    text: "توضیحات کلاس"
+                                    text: "دبیر "
                                     Layout.minimumWidth: 150
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
@@ -173,38 +203,24 @@ Page {
                                     font.bold: true
                                     color: "royalblue"
                                 }
-                                TextField
+                                ComboBox
                                 {
-                                    id: classDescTF
+                                    id: teacherCB
+                                    Layout.preferredHeight:  50
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
+                                    editable: false
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    placeholderText: "موقعیت کلاس"
-                                    text: updateClassPage.class_desc
+                                    model: ListModel{id: teacherCBoxModel}
+                                    textRole: "text"
+                                    valueRole: "value"
+                                    Component.onCompleted:
+                                    {
+                                        Methods.updateTeacherCB(updatePage.branch_id);
+                                        teacherCB.currentIndex = teacherCB.indexOfValue(updatePage.teacher_id)
+                                    }
                                 }
 
-                                Text {
-                                    text: "اولویت نمایش"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                SpinBox
-                                {
-                                    id: classSortSB
-                                    Layout.fillWidth: true
-                                    Layout.maximumWidth: 100
-                                    Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    value: updateClassPage.sort_priority
-                                }
                             }
 
                             Item
@@ -224,26 +240,27 @@ Page {
                                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                                 onClicked:
                                 {
-                                    var classObj = {};
-                                    classObj["id"] = updateClassPage.class_id;
-                                    classObj["class_name"] = classNameTF.text;
-                                    classObj["class_desc"] = classDescTF.text;
-                                    classObj["sort_priority"] = classSortSB.value;
+                                    var cdObj = {};
+                                    cdObj["id"] = updatePage.class_detail_id;
+                                    cdObj["course_id"] = courseCB.currentValue
+                                    cdObj["teacher_id"] = teacherCB.currentValue;
 
 
-                                    if(dbMan.classUpdate(classObj))
+                                    if(dbMan.classDetailUpdate(cdObj))
                                     {
-                                        classSuccessDialogId.open();
+                                        successDialogId.open();
+                                        updatePage.updatedSignal();
+
                                     }
                                     else
                                     {
                                         var errorString = dbMan.getLastError();
-                                        classInfoDialogId.dialogText = errorString
-                                        classInfoDialogId.width = parent.width
-                                        classInfoDialogId.height = 500
-                                        classInfoDialogId.dialogSuccess = false
+                                        infoDialogId.dialogText = errorString
+                                        infoDialogId.width = parent.width
+                                        infoDialogId.height = 500
+                                        infoDialogId.dialogSuccess = false
 
-                                        classInfoDialogId.open();
+                                        infoDialogId.open();
                                     }
                                 }
                             }
@@ -263,7 +280,7 @@ Page {
 
     DialogBox.BaseDialog
     {
-        id: classInfoDialogId
+        id: infoDialogId
         dialogTitle: "خطا"
         dialogText: "ویرایش اطلاعات کلاس با خطا مواجه شد."
         dialogSuccess: false
@@ -271,13 +288,13 @@ Page {
 
     DialogBox.BaseDialog
     {
-        id: classSuccessDialogId
+        id: successDialogId
         dialogTitle: "عملیات موفق"
         dialogText: "ویرایش اطلاعات کلاس با موفقیت صورت گرفت."
         dialogSuccess: true
         onDialogAccepted: {
-            updateClassPage.popStackSignal();
-            updateClassPage.classUpdatedSignal();
+            updatePage.popStackSignal();
+            updatePage.updatedSignal();
 
         }
 

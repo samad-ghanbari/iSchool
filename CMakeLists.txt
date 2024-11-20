@@ -103,6 +103,8 @@ qt_add_qml_module(appiSchool
         ui/class/ClassUpdate.qml
         ui/class/ClassDetail.qml
         ui/class/ClassDetailInsert.qml
+        ui/class/ClassDetailDelete.qml
+        ui/class/ClassDetailUpdate.qml
 
     # TEACHER
         ui/teacher/Teachers.qml
@@ -147,8 +149,6 @@ qt_add_qml_module(appiSchool
         ui/student/StudentCourseInsert.qml
         ui/student/StudentCourseDelete.qml
         ui/student/StudentCourseEval.qml
-
-
 
     #REPORT
 

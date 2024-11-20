@@ -66,7 +66,7 @@ Page {
                     Label
                     {
                         Layout.preferredHeight:  50
-                        Layout.preferredWidth: 80
+                        Layout.preferredWidth: 100
                         text:"شعبه:"
                         font.family: "B Yekan"
                         font.pixelSize: 16
@@ -109,7 +109,7 @@ Page {
                     Label
                     {
                         Layout.preferredHeight:  50
-                        Layout.preferredWidth: 80
+                        Layout.preferredWidth: 100
                         text:"دوره:"
                         font.family: "B Yekan"
                         font.pixelSize: 16
@@ -231,7 +231,7 @@ Page {
                     Layout.preferredWidth: 64
                     Layout.alignment: Qt.AlignRight
                     background: Item{}
-                    visible: (branchCB.currentIndex >=0)? true : false;
+                    visible: (periodCB.currentIndex >=0)? true : false;
                     icon.source: "qrc:/assets/images/add.png"
                     icon.width: 64
                     icon.height: 64
@@ -278,23 +278,6 @@ Page {
         }
     }
 
-
-    //Insert
-    Component
-    {
-        id: classInsertComponent
-        ClassInsert{
-            onPopStackSignal: classPage.appStackView.pop();
-            onClassInsertedSignal: Methods.updateClassModel(periodCB.currentValue);
-            step_id: stepCB.currentValue
-            base_id: baseCB.currentValue
-            period_id: periodCB.currentValue
-            period_id : branchCB.curr;
-            branch_text: branchCB.currentText;
-            step_text: stepCB.currentText
-            period_text: periodCB.currentText;
-        }
-    }
 
     // swipe delegate
     Component
@@ -367,9 +350,9 @@ Page {
                 {
                     height: 32
                     width: 32
-                    background:  Rectangle{id:detailBtnBg; color: "palegreen"}
+                    //background:  Rectangle{id:detailBtnBg; color: "palegreen"}
                     hoverEnabled: true
-                    onHoveredChanged: detailBtnBg.color=(hovered)? Qt.darker("palegreen", 1.1):"palegreen"
+                    //onHoveredChanged: detailBtnBg.color=(hovered)? Qt.darker("palegreen", 1.1):"palegreen"
                     //text: "جزئیات"
                     font.bold: true
                     font.family: "B Yekan"
@@ -386,9 +369,6 @@ Page {
 
                         classPage.appStackView.push(classDetailComponent, {
                                                         class_id: classRecDel.model.Id,
-                                                        step_id: classRecDel.model.Step_id,
-                                                        base_id: classRecDel.model.Study_base_id,
-                                                        period_id: classRecDel.model.Study_period_id,
                                                         class_name: classRecDel.model.Class_name,
                                                         class_desc: classRecDel.model.Class_desc,
                                                     });
@@ -400,9 +380,9 @@ Page {
                 {
                     height: 32
                     width: 32
-                    background:  Rectangle{id:editBtnBg; color: "royalblue"}
+                    //background:  Rectangle{id:editBtnBg; color: "royalblue"}
                     hoverEnabled: true
-                    onHoveredChanged: editBtnBg.color=(hovered)? Qt.darker("royalblue", 1.1):"royalblue"
+                    //onHoveredChanged: editBtnBg.color=(hovered)? Qt.darker("royalblue", 1.1):"royalblue"
                     //text: "ویرایش"
                     font.bold: true
                     font.family: "B Yekan"
@@ -418,12 +398,12 @@ Page {
                             classRecDel.swipe.close();
 
                         classPage.appStackView.push(updateClassComponent, {
-                                                        classId: classRecDel.model.Id,
-                                                        className: classRecDel.model.ClassName,
-                                                        classDesc: classRecDel.model.ClassDesc,
-                                                        sortPriority: classRecDel.model.SortPriority,
-                                                        branchText: branchCB.currentText,
-                                                        periodText : periodCB.currentText
+                                                        class_id: classRecDel.model.Id,
+                                                        class_name: classRecDel.model.Class_name,
+                                                        class_desc: classRecDel.model.Class_desc,
+                                                        sort_priority: classRecDel.model.Sort_priority,
+                                                        branch_text: branchCB.currentText,
+                                                        period_text : periodCB.currentText
                                                     });
 
                     }
@@ -433,9 +413,9 @@ Page {
                 {
                     height: 32
                     width: 32
-                    background: Rectangle{id:trashBtnBg; color: "crimson"}
+                    //background: Rectangle{id:trashBtnBg; color: "crimson"}
                     hoverEnabled: true
-                    onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
+                    //onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
                     //text: "حذف"
                     font.bold: true
                     font.family: "B Yekan"
@@ -451,17 +431,36 @@ Page {
                             classRecDel.swipe.close();
 
                         classPage.appStackView.push(deleteClassComponent, {
-                                                        classId: classRecDel.model.Id,
-                                                        className: classRecDel.model.ClassName,
-                                                        classDesc: classRecDel.model.ClassDesc,
-                                                        branchText: branchCB.currentText,
-                                                        periodText : periodCB.currentText
+                                                        class_id: classRecDel.model.Id,
+                                                        class_name: classRecDel.model.Class_name,
+                                                        class_desc: classRecDel.model.Class_desc,
+                                                        branch_text: branchCB.currentText,
+                                                        period_text : periodCB.currentText
                                                     });
                     }
                 }
             }
 
 
+        }
+    }
+
+    //Insert
+    Component
+    {
+        id: classInsertComponent
+        ClassInsert{
+            onPopStackSignal: classPage.appStackView.pop();
+            onClassInsertedSignal: Methods.updateClassModel(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue)
+
+            step_id: stepCB.currentValue
+            base_id: baseCB.currentValue
+            period_id: periodCB.currentValue
+
+            branch_text: branchCB.currentText;
+            step_text: stepCB.currentText
+            base_text: baseCB.currentText
+            period_text: periodCB.currentText;
         }
     }
 
@@ -472,7 +471,12 @@ Page {
         ClassUpdate
         {
             onPopStackSignal: classPage.appStackView.pop();
-            onClassUpdatedSignal : Methods.updateClassModel(periodCB.currentValue);
+            onClassUpdatedSignal : Methods.updateClassModel(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue)
+
+            branch_text: branchCB.currentText;
+            step_text: stepCB.currentText
+            base_text : baseCB.currentText;
+            period_text: periodCB.currentText;
         }
     }
 
@@ -483,10 +487,16 @@ Page {
         ClassDetail
         {
             appStackView : classPage.appStackView;
-            branchId: branchCB.currentValue;
-            branchText: branchCB.currentText;
-            periodId: periodCB.currentValue;
-            periodText : periodCB.currentText;
+
+            branch_id: branchCB.currentValue
+            step_id: stepCB.currentValue;
+            base_id: baseCB.currentValue;
+            period_id: periodCB.currentValue;
+
+            branch_text: branchCB.currentText;
+            step_text: stepCB.currentText
+            base_text : baseCB.currentText;
+            period_text: periodCB.currentText;
         }
     }
 
@@ -497,7 +507,12 @@ Page {
         ClassDelete
         {
             onPopStackSignal: classPage.appStackView.pop();
-            onClassDeletedSignal : Methods.updateClassModel(periodCB.currentValue);
+            onDeletedSignal : Methods.updateClassModel(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue);
+
+            branch_text: branchCB.currentText;
+            step_text: stepCB.currentText
+            base_text : baseCB.currentText;
+            period_text: periodCB.currentText
         }
     }
 
