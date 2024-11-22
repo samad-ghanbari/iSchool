@@ -169,15 +169,9 @@ Page {
                             icon.height: 64
                             opacity: 0.5
                             onClicked:{
-                                var courses = dbMan.getClassLeftCourses(classDetailPage.class_id, classDetailPage.step_id, classDetailPage.base_id, classDetailPage.period_id);
-                                for(var c of courses)
-                                {
-                                    teacherSelectionDialog._course_name = c.course_name;
-                                    teacherSelectionDialog._course_id = c.id;
-                                    teacherSelectionDialog.open();
-                                }
-
-                                teacherSelectionDialog.close();
+                               var courses = dbMan.getClassLeftCourses(classDetailPage.class_id, classDetailPage.step_id, classDetailPage.base_id, classDetailPage.period_id);
+                               teacherSelectionDialog.courses = courses;
+                               teacherSelectionDialog.open();
                             }
 
                             hoverEnabled: true
@@ -435,8 +429,8 @@ Page {
     Dialog
     {
         id:teacherSelectionDialog
-        property string _course_name;
-        property int _course_id
+        property var courses;
+
         width: (parent.width > 400)? 400 : parent.width
         height: 200
         modal: true
@@ -467,7 +461,7 @@ Page {
                 id: dialogContent
                 Layout.preferredWidth: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                text: "عنوان درس: " + teacherSelectionDialog._course_name;
+                text: "عنوان درس: " //+ teacherSelectionDialog._course_name;
                 font.family: "B Yekan"
                 font.pixelSize: 16
                 color:  "forestgreen" ;
@@ -528,6 +522,80 @@ Page {
                     font.pixelSize: 14
                     enabled : (teacherCB.currentValue > -1)? true : false;
                     onClicked: {
+
+
+                    }
+
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                }
+                Item{Layout.fillWidth: true}
+            }
+        }
+    }
+
+    Drawer
+    {
+        id: classCoursesRefreshDrawer
+        property var courses;
+        modal: true
+        height: parent.height
+        width: 300 //(parent.width > 300)? 300 : parent.width;
+        dragMargin: 0
+
+        ScrollView
+        {
+            id: classCoursesSV
+            anchors.fill: parent
+
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+
+            ColumnLayout
+            {
+                width: classCoursesSV.width
+
+                Rectangle
+                {
+                    Layout.preferredWidth: parent.width
+                    Layout.preferredHeight: 110
+                    color: "lightgray"
+
+                    Image {
+                        id: classCourseImage
+                        source: "qrc:/assets/images/search.png"
+                        width: 64
+                        height: 64
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                    Text {
+                        width: parent.width
+                        height: 40
+                        anchors.top: classCourseImage.bottom
+                        horizontalAlignment: Qt.AlignHCenter
+                        anchors.topMargin: 10
+                        text: "جستجوی کاربران"
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        Layout.alignment: Qt.AlignHCenter
+                        font.bold: true
+                        color:"royalblue"
+                    }
+                }
+
+
+
+                // button
+
+                Button
+                {
+                    text: "بروزرسانی"
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    Layout.preferredHeight: 40
+                    Layout.preferredWidth: 100
+                    Layout.alignment: Qt.AlignHCenter
+
+                    onClicked: {
                         var _class_id = classDetailPage.class_id
                         var _teacher_id = teacherCB.currentValue;
                         var _course_id = teacherSelectionDialog._course_id;
@@ -542,14 +610,11 @@ Page {
                             errorDialogId.dialogText = "بروزرسانی درس " + teacherSelectionDialog._course_name + " با خطا مواجه شد."
                             errorDialogId.close();
                         }
-
                     }
 
-                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                    Rectangle{width: parent.width; height: 4; color:"royalblue"; anchors.bottom: parent.bottom}
                 }
-                Item{Layout.fillWidth: true}
             }
         }
     }
-
 }
