@@ -170,10 +170,10 @@ Page {
                             opacity: 0.5
                             onClicked:{
                                 var courses = dbMan.getClassLeftCourses(classDetailPage.class_id, classDetailPage.step_id, classDetailPage.base_id, classDetailPage.period_id);
-                                for(var c in courses)
+                                for(var c of courses)
                                 {
                                     teacherSelectionDialog._course_name = c.course_name;
-                                    teacherSelectionDialog._course_id = c.course_id;
+                                    teacherSelectionDialog._course_id = c.id;
                                     teacherSelectionDialog.open();
                                 }
 

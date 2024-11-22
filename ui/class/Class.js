@@ -116,7 +116,7 @@ function updateClassDetailModel(class_id)
 function updateCourseCB(step_id, base_id, period_id)
 {
     courseCBoxModel.clear();
-    var jsondata = dbMan.getAllCourses(step_id, base_id, period_id);
+    var jsondata = dbMan.getBaseCourses(step_id, base_id, period_id);
     //
     for(var obj of jsondata)
     {
