@@ -145,3 +145,20 @@ function updateTeacherCB(branch_id)
                           })
     }
 }
+
+function getTeacherModel(branch_id)
+{
+    var jsondata = dbMan.getBranchTeachers(branch_id);
+    var model = [];
+    //
+    for(var obj of jsondata)
+    {
+        // /t.id, t.branch_id, t.name, t.lastname, t.gender, t.study_degree, t.study_field, t.telephone, t.enabled, b.city, b.branch_name
+
+        model.push({
+                              value: obj.id,
+                              text: obj.name + " " + obj.lastname + " ("+ obj.study_field + ") ",
+                          });
+    }
+    return model;
+}

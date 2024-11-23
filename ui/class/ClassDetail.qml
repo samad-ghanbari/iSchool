@@ -169,9 +169,18 @@ Page {
                             icon.height: 64
                             opacity: 0.5
                             onClicked:{
-                               var courses = dbMan.getClassLeftCourses(classDetailPage.class_id, classDetailPage.step_id, classDetailPage.base_id, classDetailPage.period_id);
-                               teacherSelectionDialog.courses = courses;
-                               teacherSelectionDialog.open();
+                                var courses = dbMan.getClassLeftCourses(classDetailPage.class_id, classDetailPage.step_id, classDetailPage.base_id, classDetailPage.period_id);
+                                if(courses.length > 0)
+                                {
+                                    classCoursesRefreshDrawer.courses = courses;
+                                    classCoursesRefreshDrawer.open();
+                                }
+                                else
+                                {
+                                    infoDialog.dialogTitle = "بروزرسانی";
+                                    infoDialog.dialogText = "اطلاعات کلاس بروز می‌باشد.";
+                                    infoDialog.open();
+                                }
                             }
 
                             hoverEnabled: true
@@ -304,14 +313,14 @@ Page {
                     SwipeDelegate.onClicked:
                     {
                         if(recDelg.swipe.complete)
-                            recDelg.swipe.close();
+                        recDelg.swipe.close();
 
                         classDetailPage.appStackView.push(updateClassDetailComponent, {
-                                                        class_detail_id: recDelg.model.Id,
-                                                        class_id: recDelg.model.Class_id,
-                                                        course_id: recDelg.model.Course_id,
-                                                        teacher_id: recDelg.model.Teacher_id
-                                                    });
+                                                              class_detail_id: recDelg.model.Id,
+                                                              class_id: recDelg.model.Class_id,
+                                                              course_id: recDelg.model.Course_id,
+                                                              teacher_id: recDelg.model.Teacher_id
+                                                          });
 
                     }
                 }
@@ -332,7 +341,7 @@ Page {
                     SwipeDelegate.onClicked:
                     {
                         if(recDelg.swipe.complete)
-                            recDelg.swipe.close();
+                        recDelg.swipe.close();
 
                         classDetailPage.appStackView.push(deleteClassDetailComponent, {
                                                               class_detail_id: recDelg.model.Id,
@@ -419,124 +428,19 @@ Page {
 
     DialogBox.BaseDialog
     {
-        id: errorDialogId
+        id: infoDialog
         dialogTitle: "خطا در بروزرسانی اطلاعات"
         dialogText: "بروزرسانی اطلاعات کلاس با خطا مواجه شد."
         dialogSuccess: false
-        onDialogRejected: teacherSelectionDialog.close();
-    }
-
-    Dialog
-    {
-        id:teacherSelectionDialog
-        property var courses;
-
-        width: (parent.width > 400)? 400 : parent.width
-        height: 200
-        modal: true
-        closePolicy:Popup.NoAutoClose
-        dim: true
-        anchors.centerIn: parent;
-        //standardButtons: Dialog.Ok
-        title: "بروزرسانی کلاس"
-
-
-        header: Rectangle{
-            width: parent.width;
-            height: 50;
-            color:  "forestgreen"
-            Text{ text: "انتخاب مدرس"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
-        }
-
-        contentItem:
-            ColumnLayout
-        {
-            id: baseDialogCLId
-            width: parent.width
-            height: Qt.binding(function(){ return (dialogContent.height + 100);})
-
-            Item{Layout.preferredHeight:  10; Layout.preferredWidth: baseDialogCLId.width;}
-
-            Text {
-                id: dialogContent
-                Layout.preferredWidth: parent.width
-                horizontalAlignment: Text.AlignHCenter
-                text: "عنوان درس: " //+ teacherSelectionDialog._course_name;
-                font.family: "B Yekan"
-                font.pixelSize: 16
-                color:  "forestgreen" ;
-            }
-            RowLayout
-            {
-                Text {
-                    text: "مدرس: "
-                    Layout.minimumWidth: 150
-                    Layout.maximumWidth: 150
-                    Layout.preferredHeight: 50
-                    verticalAlignment: Text.AlignVCenter
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    font.bold: true
-                    color: "royalblue"
-                }
-                ComboBox
-                {
-                    id: teacherCB
-                    Layout.preferredHeight:  50
-                    Layout.fillWidth: true
-                    editable: false
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    model: ListModel{id: teacherCBoxModel}
-                    textRole: "text"
-                    valueRole: "value"
-                    Component.onCompleted:
-                    {
-                        Methods.updateTeacherCB(classDetailPage.branch_id);
-                    }
-                }
-            }
-        }
-
-        footer:
-            Item{
-            width: parent.width;
-            height: 50
-            RowLayout
-            {
-                Button{
-                    text: "انصراف"
-                    Layout.preferredHeight:  40
-                    Layout.preferredWidth:  100
-                    font.family: "B Yekan"
-                    font.pixelSize: 14
-                    onClicked: teacherSelectionDialog.close();
-                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "crimson"}
-                }
-                Button
-                {
-                    text: "تایید"
-                    Layout.preferredHeight:  40
-                    Layout.preferredWidth:  100
-                    font.family: "B Yekan"
-                    font.pixelSize: 14
-                    enabled : (teacherCB.currentValue > -1)? true : false;
-                    onClicked: {
-
-
-                    }
-
-                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
-                }
-                Item{Layout.fillWidth: true}
-            }
-        }
     }
 
     Drawer
     {
         id: classCoursesRefreshDrawer
-        property var courses;
+        property var courses; // id, course_name
+        property var teachers;// id, teacher_id
+
+        property var teachersModel: Methods.getTeacherModel(classDetailPage.branch_id)
         modal: true
         height: parent.height
         width: 300 //(parent.width > 300)? 300 : parent.width;
@@ -546,6 +450,7 @@ Page {
         {
             id: classCoursesSV
             anchors.fill: parent
+            anchors.margins: 5
 
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             ScrollBar.vertical.policy: ScrollBar.AlwaysOff
@@ -562,7 +467,7 @@ Page {
 
                     Image {
                         id: classCourseImage
-                        source: "qrc:/assets/images/search.png"
+                        source: "qrc:/assets/images/refresh.png"
                         width: 64
                         height: 64
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -573,7 +478,7 @@ Page {
                         anchors.top: classCourseImage.bottom
                         horizontalAlignment: Qt.AlignHCenter
                         anchors.topMargin: 10
-                        text: "جستجوی کاربران"
+                        text: "بروزرسانی اطلاعات کلاس"
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         Layout.alignment: Qt.AlignHCenter
@@ -583,9 +488,51 @@ Page {
                 }
 
 
+                Repeater
+                {
+                    Layout.fillWidth: true
+                    model: classCoursesRefreshDrawer.courses
+                    delegate:Column
+                    {
+                        id: teacherDelg
+                        required property var model
+                        anchors.topMargin: 10
+                        anchors.bottomMargin: 10
+                        width: parent.width
 
+                        Text {
+                            text: "دبیر " + teacherDelg.model["course_name"]
+                            width: parent.width
+                            height: 50
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "B Yekan"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "royalblue"
+                        }
+                        ComboBox
+                        {
+                            id: teacherCB
+                            height:  50
+                            width: parent.width
+                            editable: false
+                            font.family: "B Yekan"
+                            font.pixelSize: 16
+                            model: classCoursesRefreshDrawer.teachersModel
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted: teacherCB.currentIndex = -1
+
+                            onActivated: {
+                                classCoursesRefreshDrawer.teachers[ teacherDelg.model["id"]] = teacherCB.currentValue
+                            }
+                        }
+                    }
+
+                }
+
+                Item{Layout.fillWidth: true; Layout.preferredHeight: 20;}
                 // button
-
                 Button
                 {
                     text: "بروزرسانی"
@@ -596,20 +543,19 @@ Page {
                     Layout.alignment: Qt.AlignHCenter
 
                     onClicked: {
-                        var _class_id = classDetailPage.class_id
-                        var _teacher_id = teacherCB.currentValue;
-                        var _course_id = teacherSelectionDialog._course_id;
 
-                        var obj = {}
-                        obj["class_id"] = _class_id;
-                        obj["course_id"] = _course_id
-                        obj["teacher_id"] = _teacher_id;
+                        console.log(classCoursesRefreshDrawer.teachers);
 
-                        if(!dbMan.classDetailInsert(obj))
-                        {
-                            errorDialogId.dialogText = "بروزرسانی درس " + teacherSelectionDialog._course_name + " با خطا مواجه شد."
-                            errorDialogId.close();
-                        }
+                        // var obj = {}
+                        // obj["class_id"] = _class_id;
+                        // obj["course_id"] = _course_id
+                        // obj["teacher_id"] = _teacher_id;
+
+                        // if(!dbMan.classDetailInsert(obj))
+                        // {
+                        //     infoDialog.dialogText = "بروزرسانی درس " + teacherSelectionDialog._course_name + " با خطا مواجه شد."
+                        //     infoDialog.close();
+                        // }
                     }
 
                     Rectangle{width: parent.width; height: 4; color:"royalblue"; anchors.bottom: parent.bottom}
