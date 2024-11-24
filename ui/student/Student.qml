@@ -337,6 +337,7 @@ Page {
         {
             student: studentPage.student
             appStackView: studentPage.appStackView;
+            onRegisterUpdateSignal: studentPage.updatedSignal();
         }
     }
 

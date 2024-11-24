@@ -173,12 +173,14 @@ Page {
                                 if(courses.length > 0)
                                 {
                                     classCoursesRefreshDrawer.courses = courses;
+                                    classCoursesRefreshDrawer.courseTeacher = [];
                                     classCoursesRefreshDrawer.open();
                                 }
                                 else
                                 {
                                     infoDialog.dialogTitle = "بروزرسانی";
                                     infoDialog.dialogText = "اطلاعات کلاس بروز می‌باشد.";
+                                    infoDialog.dialogSuccess = true;
                                     infoDialog.open();
                                 }
                             }
@@ -438,7 +440,7 @@ Page {
     {
         id: classCoursesRefreshDrawer
         property var courses; // id, course_name
-        property var teachers;// id, teacher_id
+        property var courseTeacher: []; // course_id teacher_id
 
         property var teachersModel: Methods.getTeacherModel(classDetailPage.branch_id)
         modal: true
@@ -487,7 +489,6 @@ Page {
                     }
                 }
 
-
                 Repeater
                 {
                     Layout.fillWidth: true
@@ -524,7 +525,7 @@ Page {
                             Component.onCompleted: teacherCB.currentIndex = -1
 
                             onActivated: {
-                                classCoursesRefreshDrawer.teachers[ teacherDelg.model["id"]] = teacherCB.currentValue
+                                classCoursesRefreshDrawer.courseTeacher.push({course_id: teacherDelg.model["id"] , course_name: teacherDelg.model["course_name"],  teacher_id : teacherCB.currentValue } );
                             }
                         }
                     }
@@ -544,18 +545,24 @@ Page {
 
                     onClicked: {
 
-                        console.log(classCoursesRefreshDrawer.teachers);
+                        var _class_id = classDetailPage.class_id;
 
-                        // var obj = {}
-                        // obj["class_id"] = _class_id;
-                        // obj["course_id"] = _course_id
-                        // obj["teacher_id"] = _teacher_id;
+                        for (var i of classCoursesRefreshDrawer.courseTeacher)
+                        {
+                            var obj = {}
+                            obj["class_id"] = _class_id;
+                            obj["course_id"] = i.course_id
+                            obj["teacher_id"] = i.teacher_id;
 
-                        // if(!dbMan.classDetailInsert(obj))
-                        // {
-                        //     infoDialog.dialogText = "بروزرسانی درس " + teacherSelectionDialog._course_name + " با خطا مواجه شد."
-                        //     infoDialog.close();
-                        // }
+                            if(!dbMan.classDetailInsert(obj))
+                            {
+                                infoDialog.dialogText = "بروزرسانی درس " + i._course_name + " با خطا مواجه شد."
+                                infoDialog.close();
+                            }
+                        }
+
+                        Methods.updateClassDetailModel(_class_id);
+                        classCoursesRefreshDrawer.close();
                     }
 
                     Rectangle{width: parent.width; height: 4; color:"royalblue"; anchors.bottom: parent.bottom}

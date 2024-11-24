@@ -263,6 +263,8 @@ Page {
                         {
                             Methods.updatePeiodCB(registerPage.student.branch_id);
                         }
+
+                        onActivated : Methods.updateClassCB(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue);
                     }
 
                     // class
@@ -290,7 +292,6 @@ Page {
                         model: ListModel{id: classModel;}
                         textRole: "text"
                         valueRole: "value"
-                        Component.onCompleted: Methods.updateClassCB(registerPage.student.branch_id);
                     }
 
 
@@ -308,6 +309,7 @@ Page {
                         font.pixelSize: 16
                         font.bold: true
                         text: "ثبت نام"
+                        enabled: (classCB.currentValue > -1 )? true : false
                         onClicked: confirmDialogId.open();
                         Rectangle{width: parent.width;  height: 4; color:"skyblue"; anchors.bottom: parent.bottom;}
                     }

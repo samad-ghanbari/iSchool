@@ -13,6 +13,8 @@ Page {
     required property var student;
     property bool isFemale : (registersPage.student.gender === "خانم")? true : false;
 
+    signal registerUpdateSignal();
+
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
     GridLayout
@@ -162,7 +164,11 @@ Page {
         {
             student: registersPage.student
             onPopStackSignal: registersPage.appStackView.pop();
-            onNewRegisterSignal: Methods.updateStudentRegs(registersPage.student.branch_id, registersPage.student.id);
+            onNewRegisterSignal:
+            {
+                Methods.updateStudentRegs(registersPage.student.branch_id, registersPage.student.id);
+                registersPage.registerUpdateSignal();
+            }
         }
     }
 
@@ -315,7 +321,11 @@ Page {
         {
             student: registersPage.student
             onPopStackSignal: registersPage.appStackView.pop();
-            onDeletedSignal : Methods.updateStudentRegs(registersPage.student.branch_id, registersPage.student.id);
+            onDeletedSignal :
+            {
+                Methods.updateStudentRegs(registersPage.student.branch_id, registersPage.student.id);
+                registersPage.registerUpdateSignal();
+            }
         }
     }
 

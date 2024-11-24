@@ -205,11 +205,11 @@ function updateCourseCB(student_id, step_id, base_id, period_id)
 }
 
 
-function updateClassCB(branchId)
+function updateClassCB(step_id, base_id, period_id)
 {
     classModel.clear();
 
-    var jsondata = dbMan.getBranchClasses(branchId);
+    var jsondata = dbMan.getClasses(step_id, base_id, period_id);
     //id, branch_id, class_name, class_desc, sort_priority
     var temp;
     for(var obj of jsondata)

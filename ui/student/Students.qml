@@ -295,6 +295,8 @@ Page {
             }
         }
     }
+
+    //student component
     Component
     {
         id: studentComponent
