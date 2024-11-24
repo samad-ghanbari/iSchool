@@ -44,7 +44,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "انتخاب دروس دانش‌آموز"
+            text: "دروس دانش‌آموز"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -189,7 +189,17 @@ Page {
                             opacity: 0.5
                             onClicked:
                             {
-                                refreshCourseDialog.open();
+                                if(Methods.updateStudentBaseCourses(studentCoursesPage.model.Id)) //registerId
+                                {
+                                    infoDialogId.dialogSuccess = true;
+                                    infoDialogId.dialogTitle = "عملیات موفق";
+                                    infoDialogId.dialogText = "بروزرسانی دروس پایه دانش‌آموز با موفقیت انجام شد.";
+                                    infoDialogId.open();
+                                }
+                                else
+                                {
+                                    infoDialogId.open();
+                                }
                             }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -252,111 +262,6 @@ Page {
         }
     }
 
-    //refresh dialog ask class
-    Dialog
-    {
-        id: refreshCourseDialog
-        width: (parent.width > 400)? 400 : parent.width
-        height: 300
-        modal: true
-        dim: true
-        anchors.centerIn: parent;
-        closePolicy:Popup.NoAutoClose
-
-        header: Rectangle{
-            width: parent.width;
-            height: 50;
-            color: "seagreen"
-            Text{ text: "انتخاب کلاس"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
-        }
-
-        contentItem:
-            ColumnLayout
-        {
-            id: baseDialogCLId
-            width: parent.width
-            height: Qt.binding(function(){ return (dialogContent.height + 100);})
-
-            Item{Layout.preferredHeight:  10; Layout.preferredWidth: baseDialogCLId.width;}
-
-            Text {
-                id: dialogContent
-                Layout.preferredWidth: parent.width
-                horizontalAlignment: Text.AlignLeft
-                text: "لطفا کلاس مورد نظر خود را انتخاب نمایید."
-                font.family: "B Yekan"
-                font.pixelSize: 16
-                color: "midnightblue";
-            }
-            ComboBox
-            {
-                id: classCB
-                Layout.preferredHeight:  50
-                Layout.fillWidth: true
-                Layout.maximumWidth: 300
-                Layout.alignment: Qt.AlignHCenter
-                editable: false
-                font.family: "B Yekan"
-                font.pixelSize: 16
-                model: ListModel{id: classModel;}
-                textRole: "text"
-                valueRole: "value"
-                Component.onCompleted: Methods.updateClassCB(studentCoursesPage.model.Branch_id);
-            }
-
-
-            Item{Layout.preferredHeight:  20;  Layout.preferredWidth: baseDialogCLId.width;}
-        }
-
-        footer:
-            Item{
-            width: parent.width;
-            height: 50
-            RowLayout
-            {
-                Button{
-                    text: "انصراف"
-                    Layout.preferredHeight:  40
-                    Layout.preferredWidth:  100
-                    font.family: "B Yekan"
-                    font.pixelSize: 14
-                    visible: true
-                    onClicked: refreshCourseDialog.close()
-                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "crimson"}
-                }
-                Button
-                {
-                    text: "تایید"
-                    Layout.preferredHeight:  40
-                    Layout.preferredWidth:  100
-                    font.family: "B Yekan"
-                    font.pixelSize: 14
-                    visible: true
-                    onClicked:
-                    {
-                        var classId = classCB.currentValue;
-                        refreshCourseDialog.close();
-                        if(Methods.updateBaseCourses(studentCoursesPage.model.Id, classId)) //registerId
-                        {
-                            infoDialogId.dialogSuccess = true;
-                            infoDialogId.dialogTitle = "عملیات موفق";
-                            infoDialogId.dialogText = "بروزرسانی دروس پایه دانش‌آموز با موفقیت انجام شد.";
-                            infoDialogId.open();
-                        }
-                        else
-                        {
-                            infoDialogId.open();
-                        }
-                    }
-
-                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
-                }
-                Item{Layout.fillWidth: true}
-            }
-        }
-
-
-    }
 
     // swipe delegate
     Component

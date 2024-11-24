@@ -177,11 +177,11 @@ function updateStudentCourses(registerId)
 }
 
 
-function updateBaseCourses(registerId, classId)
+function updateStudentBaseCourses(registerId)
 {
 
     //update database
-    if(dbMan.updateStudentBaseCourses(registerId, classId))
+    if(dbMan.updateStudentBaseCourses(registerId))
     {
         // update model
         updateStudentCourses(registerId);
