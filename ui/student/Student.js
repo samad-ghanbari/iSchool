@@ -153,8 +153,8 @@ function updateStudentCourses(registerId)
     for(var obj of jsondata)
     {
         // 0sc.id, 1sc.student_id, 2sc.register_id, 3sc.course_id, 4sc.teacher_id,
-        // 5co.course_name, 6.course_coefficient, 7.test_coefficient, 8.shared_coefficient, 9.final_weight,
-        // 10.teacher
+        // 5co.course_name, 6.study_base_id, 7.course_coefficient, 8.test_coefficient, 9.shared_coefficient, 10.final_weight,
+        // 11.teacher
 
         scModel.append({
                            Id: obj.id,
@@ -163,6 +163,7 @@ function updateStudentCourses(registerId)
                            Course_id: obj.course_id,
                            Teacher_id: obj.teacher_id,
                            Course_name: obj.course_name,
+                           Study_base_id: obj.study_base_id,
                            Course_coefficient: obj.course_coefficient,
                            Test_coefficient: obj.test_coefficient,
                            Shared_coefficient: obj.shared_coefficient,
