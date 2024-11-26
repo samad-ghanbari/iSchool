@@ -8,7 +8,7 @@ import "./../public" as DialogBox
 import "Student.js" as Methods
 
 Page {
-    id: studentCourseInsertPage
+    id: insertPage
 
     required property var student;
     required property var registerModel;
@@ -19,7 +19,7 @@ Page {
     signal popStackViewSignal();
     signal insertedSignal();
 
-    property bool isFemale : (studentCourseInsertPage.student.gender === "خانم")? true : false;
+    property bool isFemale : (insertPage.student.gender === "خانم")? true : false;
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -37,7 +37,7 @@ Page {
             icon.width: 64
             icon.height: 64
             opacity: 0.5
-            onClicked: studentCourseInsertPage.popStackViewSignal();
+            onClicked: insertPage.popStackViewSignal();
             hoverEnabled: true
             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
         }
@@ -62,21 +62,31 @@ Page {
         {
             Layout.columnSpan: 2
             Layout.fillWidth: true
-            implicitHeight: 200
+            implicitHeight: 250
             RowLayout
             {
                 anchors.fill: parent
+                spacing: 10
                 Image
                 {
                     Layout.preferredWidth: 128
                     Layout.preferredHeight: 128
                     Layout.alignment: Qt.AlignLeft
-                    source: (studentCourseInsertPage.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
+                    source:{
+                        if(insertPage.student.photo == "")
+                        {
+                            if(insertPage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
+                        }
+                        else
+                        {
+                            return "file://"+insertPage.student.photo;
+                        }
+                    }
                 }
                 Column{
                     Layout.fillWidth: true
                     Text {
-                        text: studentCourseInsertPage.student["name"] + " " + studentCourseInsertPage.student["lastname"]
+                        text: insertPage.student["name"] + " " + insertPage.student["lastname"]
                         height: 50
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
@@ -88,7 +98,7 @@ Page {
                     }
 
                     Text {
-                        text: "نام پدر" + " : " + studentCourseInsertPage.student["fathername"]
+                        text: "نام پدر" + " : " + insertPage.student["fathername"]
                         height: 50
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
@@ -98,9 +108,9 @@ Page {
                         font.bold: true
                         color: "royalblue"
                     }
-            // branch step
+                    // branch step
                     Text {
-                        text: "شعبه " + " : " + studentCourseInsertPage.registerModel.City + " - " + studentCourseInsertPage.registerModel.Branch_name + " - " + studentCourseInsertPage.registerModel.Step_name + " - " + studentCourseInsertPage.registerModel.Study_base
+                        text: "شعبه " + " : " + insertPage.registerModel.City + " - " + insertPage.registerModel.Branch_name + " - " + insertPage.registerModel.Step_name + " - " + insertPage.registerModel.Study_base
                         height: 50
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
@@ -110,17 +120,28 @@ Page {
                         font.bold: true
                         color: "royalblue"
                     }
-            // base period
+                    // class
                     Text {
-                        text:  studentCourseInsertPage.registerModel.Study_period
+                        text: "کلاس " + " : " + insertPage.registerModel.Class_name
                         height: 50
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
                         font.family: "B Yekan"
-                        font.pixelSize: 20
+                        font.pixelSize: 16
                         font.bold: true
-                        color: "darkcyan"
+                        color: "royalblue"
+                    }
+                    Text {
+                        text: "سال تحصیلی " + " : " + insertPage.registerModel.Study_period
+                        height: 50
+                        width: parent.width
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "royalblue"
                     }
                 }
             }
@@ -215,12 +236,11 @@ Page {
                                     Component.onCompleted: courseTypeCB.currentIndex = -1
                                     onActivated:
                                     {
-                                        var student_id = studentCourseInsertPage.student.id;
-                                        var step_id = studentCourseInsertPage.registerModel.Step_id;
-                                        var base_id = (courseTypeCB.currentValue == 1)? courseTypeCB.currentValue : -1;
-                                        var period_id = studentCourseInsertPage.registerModel.Study_period_id;
+                                        var student_id = insertPage.student.id;
+                                        var register_id = insertPage.registerModel.Id;
+                                        var base_course = (courseTypeCB.currentValue == 1)? true : false;
 
-                                        Methods.updateCourseCB(student_id, step_id, base_id, period_id);
+                                        Methods.updateCourseCB(register_id, base_course);
                                         courseCB.currentIndex - 1;
                                         confirmBtn.enabled = false
 
@@ -251,9 +271,43 @@ Page {
                                     model: ListModel{id: courseCBModel;}
                                     valueRole: "value"
                                     textRole: "text"
-                                    onActivated: confirmBtn.enabled = true
+                                    onActivated: {
+                                        teacherCB.currentIndex = -1
+                                        confirmBtn.enabled = false
+                                    }
                                 }
 
+                                //teacher
+                                //course
+                                Text {
+                                    text: "دبیر"
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                ComboBox
+                                {
+                                    id: teacherCB
+                                    Layout.preferredHeight:  50
+                                    Layout.fillWidth: true
+                                    editable: false
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    model: ListModel{id: teacherCBoxModel;}
+                                    valueRole: "value"
+                                    textRole: "text"
+                                    Component.onCompleted:
+                                    {
+                                        var branch_id = insertPage.registerModel.Branch_id;
+                                        Methods.updateTeacherCB(branch_id);
+                                    }
+                                    onActivated: confirmBtn.enabled = true
+                                }
 
                             }
 
@@ -277,10 +331,12 @@ Page {
                                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                                 onClicked:
                                 {
-                                    var student_id = studentCourseInsertPage.student.id
+                                    var student_id = insertPage.student.id;
+                                    var register_id = insertPage.registerModel.Id;
                                     var course_id = courseCB.currentValue;
+                                    var teacher_id = teacherCB.currentValue;
 
-                                    if(dbMan.insertStudentCourse(student_id, course_id))
+                                    if(dbMan.insertStudentCourse(student_id, register_id, course_id, teacher_id))
                                         successDialogId.open();
                                     else
                                     {
@@ -325,8 +381,8 @@ Page {
         onDialogAccepted:
         {
             successDialogId.close();
-            studentCourseInsertPage.insertedSignal();
-            studentCourseInsertPage.popStackViewSignal();
+            insertPage.insertedSignal();
+            insertPage.popStackViewSignal();
         }
     }
 }

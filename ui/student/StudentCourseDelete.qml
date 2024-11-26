@@ -5,7 +5,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "./../public" as DialogBox
-import "Student.js" as Methods
+//import "Student.js" as Methods
 
 Page {
     id: studentCourseDeletePage
@@ -14,7 +14,6 @@ Page {
     required property var registerModel;
 
     required property string course_name;
-    required property string class_name;
     required property string teacher;
     required property int student_course_id;
 
@@ -233,7 +232,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    text: studentCourseDeletePage.class_name
+                                    text: studentCourseDeletePage.registerModel.Class_name
 
                                 }
 

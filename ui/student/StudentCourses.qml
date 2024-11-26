@@ -81,16 +81,26 @@ Page {
                     {
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
-                        implicitHeight: 200
+                        implicitHeight: 250
                         RowLayout
                         {
                             anchors.fill: parent
+                            spacing: 10
                             Image
                             {
                                 Layout.preferredWidth: 128
                                 Layout.preferredHeight: 128
                                 Layout.alignment: Qt.AlignLeft
-                                source: (studentCoursesPage.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
+                                source:{
+                                    if(studentCoursesPage.student.photo == "")
+                                    {
+                                        if(studentCoursesPage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
+                                    }
+                                    else
+                                    {
+                                        return "file://"+studentCoursesPage.student.photo;
+                                    }
+                                }
                             }
                             Column{
                                 Layout.fillWidth: true
@@ -129,17 +139,28 @@ Page {
                                     font.bold: true
                                     color: "royalblue"
                                 }
-                                // base period
+                                // class
                                 Text {
-                                    text:  studentCoursesPage.model.Study_period
+                                    text: "کلاس " + " : " + studentCoursesPage.model.Class_name
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
-                                    font.pixelSize: 20
+                                    font.pixelSize: 16
                                     font.bold: true
-                                    color: "darkcyan"
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    text: "سال تحصیلی " + " : " + studentCoursesPage.model.Study_period
+                                    height: 50
+                                    width: parent.width
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    color: "royalblue"
                                 }
                             }
                         }
@@ -189,17 +210,19 @@ Page {
                             opacity: 0.5
                             onClicked:
                             {
-                                if(Methods.updateStudentBaseCourses(studentCoursesPage.model.Id)) //registerId
+                                var register_id = studentCoursesPage.model.Id
+                                //update database
+                                if(dbMan.updateStudentBaseCourses(register_id))
                                 {
+                                    // update model
+                                    Methods.updateStudentCourses(register_id);
                                     infoDialogId.dialogSuccess = true;
                                     infoDialogId.dialogTitle = "عملیات موفق";
                                     infoDialogId.dialogText = "بروزرسانی دروس پایه دانش‌آموز با موفقیت انجام شد.";
                                     infoDialogId.open();
                                 }
                                 else
-                                {
                                     infoDialogId.open();
-                                }
                             }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -236,7 +259,7 @@ Page {
                         flickableDirection: Flickable.AutoFlickDirection
                         clip: true
                         cellWidth: 320
-                        cellHeight: 220
+                        cellHeight: 200
                         model: ListModel{id: scModel}
                         highlight: Item{}
                         delegate: gvDelegate
@@ -267,15 +290,15 @@ Page {
     Component
     {
         id: gvDelegate
-        // 0sc.id, sc.student_id, sc.course_id
-        // 3co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
-        // 9t.name, t.lastname, cl.class_name
+        // 0sc.id, 1sc.student_id, 2sc.register_id, 3sc.course_id, 4sc.teacher_id,
+        // 5co.course_name, 6.course_coefficient, 7.test_coefficient, 8.shared_coefficient, 9.final_weight,
+        // 10.teacher
 
         SwipeDelegate
         {
             id: recDelt
             required property var model;
-            height: 200
+            height: 180
             width: 300
             checkable: true
             checked: recDelt.swipe.complete
@@ -364,18 +387,7 @@ Page {
                         height: 50
                         elide: Text.ElideRight
                     }
-                    Label {
-                        text: "کلاس " + recDelt.model.Class_name
-                        padding: 0
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: (recDelt.highlighted)? true : false
-                        color: (recDelt.model.Passed)? "mediumvioletred":"dodgerblue"
-                        horizontalAlignment: Label.AlignHCenter
-                        width: parent.width
-                        height: 50
-                        elide: Text.ElideRight
-                    }
+
                 }
             }
 
@@ -419,7 +431,6 @@ Page {
                             studentCoursesPage.appStackView.push(deleteComponent, {
                                                                      student_course_id: recDelt.model.Id,
                                                                      course_name: recDelt.model.Course_name,
-                                                                     class_name: recDelt.model.Class_name,
                                                                      teacher: recDelt.model.Teacher
                                                                  });
                         }
