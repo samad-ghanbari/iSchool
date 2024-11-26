@@ -244,6 +244,18 @@ Page {
                                         courseCB.currentIndex - 1;
                                         confirmBtn.enabled = false
 
+                                        // teacher visibility
+                                        if(base_course)
+                                        {
+                                            teacherLabel.visible = false;
+                                            teacherCB.visible = false;
+                                        }
+                                        else
+                                        {
+                                            teacherLabel.visible = true;
+                                            teacherCB.visible = true;
+                                        }
+
                                     }
                                 }
 
@@ -272,14 +284,15 @@ Page {
                                     valueRole: "value"
                                     textRole: "text"
                                     onActivated: {
-                                        teacherCB.currentIndex = -1
-                                        confirmBtn.enabled = false
+                                        teacherCB.currentIndex = -1;
+                                        confirmBtn.enabled = (courseTypeCB.currentValue == 1)? true : false;
+
                                     }
                                 }
 
                                 //teacher
-                                //course
                                 Text {
+                                    id: teacherLabel
                                     text: "دبیر"
                                     Layout.minimumWidth: 150
                                     Layout.maximumWidth: 150
@@ -335,9 +348,11 @@ Page {
                                     var register_id = insertPage.registerModel.Id;
                                     var course_id = courseCB.currentValue;
                                     var teacher_id = teacherCB.currentValue;
+                                    var base_course = (courseTypeCB.currentValue == 1)? true : false;
+                                    if(base_course) teacher_id = -1;
 
                                     if(dbMan.insertStudentCourse(student_id, register_id, course_id, teacher_id))
-                                        successDialogId.open();
+                                    successDialogId.open();
                                     else
                                     {
                                         var errorString = dbMan.getLastError();

@@ -87,7 +87,7 @@ Page {
                                 Label
                                 {
                                     Layout.preferredHeight:  50
-                                    Layout.preferredWidth: 80
+                                    Layout.preferredWidth: 100
                                     text:"شعبه:"
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
@@ -130,7 +130,7 @@ Page {
                                 Label
                                 {
                                     Layout.preferredHeight:  50
-                                    Layout.preferredWidth: 80
+                                    Layout.preferredWidth: 100
                                     text:"دوره:"
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
@@ -300,7 +300,7 @@ Page {
                             }
                         }
                     }
-               }
+                }
             }
         }
     }
@@ -408,14 +408,14 @@ Page {
                         if(recDel.model.Study_base_id > -1)
                         {
                             if(recDel.highlighted)
-                                return "purple";
+                            return "purple";
                             else return  "gray";
                         }
                         else
                         {
                             if(recDel.highlighted)
-                                return "deeppink";
-                            else return  "gray";
+                            return "deeppink";
+                            else return  "midnightblue";
                         }
                     }
                     Text
@@ -454,15 +454,13 @@ Page {
                     SwipeDelegate.onClicked:
                     {
                         if(recDel.swipe.complete)
-                            recDel.swipe.close();
+                        recDel.swipe.close();
 
                         coursesPage.appStackView.push(deleteComponent, {
                                                           course_id: recDel.model.Id,
                                                           course_name: recDel.model.Course_name,
                                                           course_coefficient: recDel.model.Course_coefficient,
                                                           test_coefficient: recDel.model.Test_coefficient,
-                                                          teacher: recDel.model.Teacher,
-                                                          class_name: recDel.model.Class_name
                                                       });
 
                     }
@@ -488,7 +486,7 @@ Page {
                     SwipeDelegate.onClicked:
                     {
                         if(recDel.swipe.complete)
-                            recDel.swipe.close();
+                        recDel.swipe.close();
 
                         coursesPage.appStackView.push(updateComponent, {
                                                           course_id: recDel.model.Id,
