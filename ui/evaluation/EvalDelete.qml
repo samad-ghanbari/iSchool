@@ -8,22 +8,20 @@ import "./../public" as DialogBox
 Page {
     id: deletePage
 
-    required property int eval_id;
-    required property string eval_name;
-    required property string eval_time;
-    required property double max_value;
-    required property bool percentage;
-    required property bool final_eval;
-    required property string semester;
-
-
     required property string branch
     required property string step
     required property string base
     required property string period
+
     required property string course_name
-    required property string teacher
-    required property string class_name
+    required property string eval_cat;
+    required property int eval_id;
+    required property string eval_time;
+    required property double max_grade;
+    required property bool test_flag;
+    required property bool final_flag;
+    required property bool included;
+
 
     signal popStackSignal();
     signal deletedSignal();
@@ -99,120 +97,54 @@ Page {
 
                     // branch
                     Text {
-                        text: "شعبه"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
+                        text: "شعبه" + " " + deletePage.branch
+                        Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
                     }
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        text: deletePage.branch
-                    }
-                    //step
+
+                    //step base
                     Text {
-                        text: "دوره"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
-                    {
+                        text: {
+                            if(deletePage.base.indexOf("پایه") == -1)
+                            return deletePage.step + " - پایه " + deletePage.base;
+                            else
+                            return deletePage.step + " - " + deletePage.base;
+                        }
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        text: deletePage.step
-                    }
-
-                    //base
-                    Text {
-                        text: "پایه تحصیلی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                        visible: (deletePage.base == "")? false : true
-                    }
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        text: deletePage.base
-                        visible: (deletePage.base == "")? false : true
-                    }
-
-                    //base
-                    Text {
-                        text: "سال تحصیلی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        text: deletePage.period
-                    }
-
-
-                    Label
-                    {
-                        background: Rectangle{anchors.fill: parent; color:"mediumvioletred"}
                         Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 80
-                        horizontalAlignment: Label.AlignHCenter
-                        verticalAlignment: Label.AlignVCenter
-                        color: "white"
-                        text: deletePage.course_name + " ( " +  deletePage.teacher + " ) "
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "B Yekan"
-                        font.pixelSize: 20
+                        font.pixelSize: 16
                         font.bold: true
+                        color: "black"
                     }
 
-                    //eval name
+
+                   //period
                     Text {
-                        text: "نام ارزیابی"
+                        text: "سال تحصیلی" + " " + deletePage.period
+                        Layout.fillWidth: true
+                        Layout.columnSpan: 2
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+
+                    // eval cat
+                    Text {
+                        text: "دسته ارزیابی"
                         Layout.minimumWidth: 150
                         Layout.maximumWidth: 150
                         Layout.preferredHeight: 50
@@ -225,17 +157,41 @@ Page {
                     }
                     Text
                     {
-                        id: evalNameTF
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        text: deletePage.eval_name
+                        text: deletePage.eval_cat
                     }
 
-                    //eval time
+                    //course
+                     Text {
+                         text: "عنوان درس"
+                         Layout.minimumWidth: 150
+                         Layout.maximumWidth: 150
+                         Layout.preferredHeight: 50
+                         verticalAlignment: Text.AlignVCenter
+                         horizontalAlignment: Text.AlignLeft
+                         font.family: "B Yekan"
+                         font.pixelSize: 16
+                         font.bold: true
+                         color: "black"
+                     }
+                     Text
+                     {
+                         Layout.fillWidth: true
+                         Layout.preferredHeight: 50
+                         verticalAlignment: Text.AlignVCenter
+                         horizontalAlignment: Text.AlignLeft
+                         font.family: "B Yekan"
+                         font.pixelSize: 16
+                         text: deletePage.course_name
+                     }
+
+
+                   //eval time
                     Text {
                         text: "زمان ارزیابی"
                         Layout.minimumWidth: 150
@@ -260,7 +216,7 @@ Page {
                         text: deletePage.eval_time
                     }
 
-                    //max value
+                    //max grade
                     Text {
                         text: "بالاترین نمره"
                         Layout.minimumWidth: 150
@@ -282,13 +238,13 @@ Page {
                         horizontalAlignment: Text.AlignLeft
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        text: deletePage.max_value
+                        text: deletePage.max_grade
                     }
 
 
-                    //percentage
+                    //test
                     Text {
-                        text: "براساس درصد"
+                        text: "آزمون تستی"
                         Layout.minimumWidth: 150
                         Layout.maximumWidth: 150
                         Layout.preferredHeight: 50
@@ -301,15 +257,14 @@ Page {
                     }
                     Switch
                     {
-                        id: percentageSW
                         enabled: false
                         Layout.preferredWidth: 100
                         Layout.preferredHeight: 50
                         Layout.alignment: Qt.AlignLeft
-                        checked: deletePage.percentage
+                        checked: deletePage.test_flag
                     }
 
-                    //percentage
+                    //final
                     Text {
                         text: "آزمون نهایی"
                         Layout.minimumWidth: 150
@@ -324,37 +279,11 @@ Page {
                     }
                     Switch
                     {
-                        id: finalSW
                         enabled: false
                         Layout.preferredWidth: 100
                         Layout.preferredHeight: 50
                         Layout.alignment: Qt.AlignLeft
-                        checked: deletePage.final_eval
-                    }
-
-                    //max value
-                    Text {
-                        text: "نیمسال"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
-                    {
-                        id: semesterTF
-                        text: deletePage.semester
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
+                        checked: deletePage.final_flag
                     }
 
                     Item

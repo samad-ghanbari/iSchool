@@ -1,3 +1,5 @@
+
+// eval cats
 function updateBranchCB()
 {
     branchCBoxModel.clear();
@@ -5,7 +7,7 @@ function updateBranchCB()
     baseCBoxModel.clear();
     periodCBoxModel.clear();
 
-    coursesModel.clear();
+    evalCatsModel.clear();
 
     var jsondata = dbMan.getBranches();
     //id, city, branch_name, address
@@ -23,7 +25,7 @@ function updateStepCB(branchId)
     baseCB.currentIndex = -1
     periodCB.currentIndex = -1
 
-    coursesModel.clear();
+    evalCatsModel.clear();
 
     var jsondata = dbMan.getBranchStepsJson(branchId);
     //s.id, s.branch_id, s.step_name, b.city, b.branch_name
@@ -39,7 +41,7 @@ function updateBaseCB(branchId)
     baseCBoxModel.clear();
     periodCB.currentIndex = -1
 
-    coursesModel.clear();
+    evalCatsModel.clear();
 
     var jsondata = dbMan.getBranchStudyBases(branchId);
     //sb.id, sb.branch_id, sb.study_base, b.city, b.branch_name
@@ -57,7 +59,7 @@ function updatePeriodCB(branchId)
 {
     periodCBoxModel.clear();
 
-    coursesModel.clear();
+    evalCatsModel.clear();
 
     var jsondata = dbMan.getBranchPeriods(branchId);
     //sp.id, sp.branch_id, sp.study_period, sp.passed, b.city, b.branch_name, b.branch_address
@@ -69,66 +71,67 @@ function updatePeriodCB(branchId)
     }
 }
 
-function updateCourses(stepId, baseId, periodId)
+function updateEvalCatsModel(stepId, baseId, periodId)
 {
-    coursesModel.clear();
+    evalCatsModel.clear();
 
-    var jsondata = dbMan.getAllCourses(stepId, baseId, periodId); // base course an dstep course
-    // co.id, co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id,
-    // cl.class_name, st.branch_id, st.step_name, sb.study_base, sp.study_period, teacher
+    var jsondata = dbMan.getEvalCats(stepId, baseId, periodId);
 
     for(var obj of jsondata)
     {
-        coursesModel.append({
+        //id, eval_cat, step_id, study_base_id, study_period_id, test_flag, final_flag
+        evalCatsModel.append({
                                 Id: obj.id,
-                                Course_name: obj.course_name,
-                                Course_coefficient: obj.course_coefficient,
-                                Test_coefficient: obj.test_coefficient,
-                                Class_id: obj.class_id,
+                                Eval_cat: obj.eval_cat,
                                 Step_id: obj.step_id,
                                 Study_base_id: obj.study_base_id,
-                                Teacher_id: obj.teacher_id,
                                 Study_period_id: obj.study_period_id,
-                                Class_name: obj.class_name,
-                                Branch_id: obj.branch_id,
-                                Step_name: obj.step_name,
-                                Study_base: obj.study_base,
-                                Study_period: obj.study_period,
-                                Teacher: obj.teacher
+                                Test_flag: obj.test_flag,
+                                Final_flag: obj.final_flag,
+                                Sort_priority: obj.sort_priority
                             });
     }
 }
 
-//insert course
 
-function updateEvals(courseId)
+
+// evals
+function updateEvals(eval_cat_id)
 {
     evalsModel.clear();
-    var jsondata = dbMan.getCourseEvals(courseId);
+    var jsondata = dbMan.getCatEvals(eval_cat_id);
     for(var obj of jsondata)
     {
-        // e.id, e.eval_name, e.eval_time, e.course_id, e.max_value, percentage, final_eval, semester
-        // co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id,
-        // cl.class_name, t.name, t.lastname
+        // e.id, e.eval_cat_id, e.course_id, e.eval_time, e.max_grade, e.included,
+        // co.course_name, co.course_coefficient, co.test_coefficient, co.shared_coefficient, co.final_weight
+
         evalsModel.append({
                               Id: obj.id,
-                              Eval_name: obj.eval_name,
-                              Eval_time: obj.eval_time,
+                              Eval_cat_id: obj.eval_cat_id,
                               Course_id: obj.course_id,
-                              Max_value: obj.max_value,
-                              Percentage: obj.percentage,
-                              Final_eval: obj.final_eval,
-                              Semester: obj.semester,
-                              Report_included: obj.report_included,
+                              Eval_time: obj.eval_time,
+                              Max_grade: obj.max_grade,
+                              Included: obj.included,
                               Course_name: obj.course_name,
-                              Class_id: obj.class_id,
-                              Step_id: obj.step_id,
-                              Study_base_id: obj.study_base_id,
-                              Teacher_id: obj.teacher_id,
-                              Study_period_id: obj.study_period_id,
-                              Class_name: obj.class_name,
-                              Teacher: obj.teacher
-
+                              Course_coefficient: obj.course_coefficient,
+                              Test_coefficient: obj.test_coefficient,
+                              Shared_coefficient: obj.shared_coefficient,
+                              Final_weight: obj.final_weight,
                           });
+    }
+}
+
+
+function updateCourseCB(step_id, base_id, period_id)
+{
+    courseCBoxModel.clear();
+    var jsondata = dbMan.getCourses(step_id, base_id, period_id);
+    //
+    for(var obj of jsondata)
+    {
+        courseCBoxModel.append({
+                              value: obj.id,
+                              text: obj.course_name,
+                          })
     }
 }

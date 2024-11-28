@@ -4,29 +4,30 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "./../public" as DialogBox
+import "Evals.js" as Methods
 
 Page {
     id: updatePage
-
-
-    required property int eval_id;
-    required property string eval_name;
-    required property string eval_time;
-    required property double max_value;
-    required property bool percentage;
-    required property bool final_eval;
-    required property string semester;
-    required property bool report_included;
 
     required property string branch
     required property string step
     required property string base
     required property string period
-    required property string course_name
-    required property string teacher
-    required property string class_name
 
+    required property int    step_id;
+    required property int    base_id;
+    required property int    period_id;
+
+    required property string course_name
+    required property string eval_cat;
     required property int    course_id
+    required property int eval_id;
+    required property string eval_time;
+    required property double max_grade;
+    required property bool test_flag;
+    required property bool final_flag;
+    required property bool included;
+
 
     signal popStackSignal();
     signal updatedSignal();
@@ -99,120 +100,55 @@ Page {
 
                     // branch
                     Text {
-                        text: "شعبه"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
+                        text: "شعبه" + " " + updatePage.branch
+                        Layout.fillWidth: true
+                        Layout.columnSpan: 2
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
                     }
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        text: updatePage.branch
-                    }
+
                     //step
                     Text {
-                        text: "دوره"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
-                    {
+                        text: {
+                            if(updatePage.base.indexOf("پایه") == -1)
+                            return updatePage.step + " - پایه " + updatePage.base;
+                            else
+                            return updatePage.step + " - " + updatePage.base;
+                        }
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        text: updatePage.step
-                    }
-
-                    //base
-                    Text {
-                        text: "پایه تحصیلی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                        visible: (updatePage.base == "")? false : true
-                    }
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        text: updatePage.base
-                        visible: (updatePage.base == "")? false : true
-                    }
-
-                    //base
-                    Text {
-                        text: "سال تحصیلی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        text: updatePage.period
-                    }
-
-
-                    Label
-                    {
-                        background: Rectangle{anchors.fill: parent; color:"royalblue"}
                         Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 80
-                        horizontalAlignment: Label.AlignHCenter
-                        verticalAlignment: Label.AlignVCenter
-                        color: "white"
-                        text: updatePage.course_name + " ( " +  updatePage.teacher + " ) "
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
                         font.family: "B Yekan"
-                        font.pixelSize: 20
+                        font.pixelSize: 16
                         font.bold: true
+                        color: "black"
                     }
 
-                    //eval name
+
+                    //period
                     Text {
-                        text: "نام ارزیابی"
+                        text: "سال تحصیلی" + " " + updatePage.period
+                        Layout.fillWidth: true
+                        Layout.columnSpan: 2
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+
+
+                    Text {
+                        text: "عنوان درس"
                         Layout.minimumWidth: 150
                         Layout.maximumWidth: 150
                         Layout.preferredHeight: 50
@@ -223,18 +159,20 @@ Page {
                         font.bold: true
                         color: "black"
                     }
-                    TextField
+                    ComboBox
                     {
-                        id: evalNameTF
+                        id: courseCB
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        placeholderText: "نام ارزیابی"
-                        text: updatePage.eval_name
+                        model:ListModel { id: courseCBoxModel; }
+                        Component.onCompleted:{
+                            Methods.updateCourseCB(updatePage.step_id, updatePage.base_id, updatePage.period_id);
+                            courseCB.currentIndex = courseCB.indexOfValue(updatePage.course_id)
+                        }
                     }
+
 
                     //eval time
                     Text {
@@ -267,7 +205,7 @@ Page {
                         text: updatePage.eval_time
                     }
 
-                    //max value
+                    //max grade
                     Text {
                         text: "بالاترین نمره"
                         Layout.minimumWidth: 150
@@ -282,7 +220,7 @@ Page {
                     }
                     TextField
                     {
-                        id: maxValueTF
+                        id: maxGradeTF
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         font.family: "B Yekan"
@@ -291,84 +229,12 @@ Page {
                         validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
                             regularExpression: /^-?\d*\.?\d+$/
                         }
-                        text: updatePage.max_value
+                        text: updatePage.max_grade
                     }
 
 
-                    //percentage
-                    Text {
-                        text: "براساس درصد"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Switch
-                    {
-                        id: percentageSW
-                        Layout.preferredWidth: 100
-                        Layout.preferredHeight: 50
-                        Layout.alignment: Qt.AlignLeft
-                        checked: updatePage.percentage
-                        onCheckedChanged: {
-                            if(checked)
-                                maxValueTF.text = 100
-                        }
-                    }
 
-                    //final
-                    Text {
-                        text: "آزمون نهایی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Switch
-                    {
-                        id: finalSW
-                        Layout.preferredWidth: 100
-                        Layout.preferredHeight: 50
-                        Layout.alignment: Qt.AlignLeft
-                        checked: updatePage.final_eval
-                    }
-
-                    // semester
-                    Text {
-                        text: "نیمسال"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    TextField
-                    {
-                        id: semesterTF
-                        text: updatePage.semester
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        placeholderText: "اول یا دوم"
-                    }
-
-
-                    //report includfed
+                    //report included
                     Text {
                         text: "تاثیر در ارزیابی"
                         Layout.minimumWidth: 150
@@ -387,7 +253,7 @@ Page {
                         Layout.preferredWidth: 100
                         Layout.preferredHeight: 50
                         Layout.alignment: Qt.AlignLeft
-                        checked: updatePage.report_included
+                        checked: updatePage.included
 
                     }
 
@@ -413,15 +279,10 @@ Page {
 
                             var Eval = {};
                             Eval["id"] = updatePage.eval_id;
-                            Eval["course_id"] = updatePage.course_id
-                            Eval["eval_name"] = evalNameTF.text
+                            Eval["course_id"] =courseCB.currentValue
                             Eval["eval_time"] = evaltimeTF.text
-
-                            Eval["max_value"] = parseFloat(maxValueTF.text)
-                            Eval["percentage"] = percentageSW.checked
-                            Eval["final_eval"] = finalSW.checked
-                            Eval["semester"] = semesterTF.text
-                            Eval["report_included"] = includedSW.checked
+                            Eval["max_grade"] = parseFloat(maxGradeTF.text)
+                            Eval["included"] = includedSW.checked
 
 
                             if(dbMan.evalUpdate(Eval))

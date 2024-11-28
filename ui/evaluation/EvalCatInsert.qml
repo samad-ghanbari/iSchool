@@ -13,18 +13,12 @@ Page {
     required property string base
     required property string period
 
-    required property int step_id
-    required property int base_id
-    required property int period_id
-
-    required property string eval_cat
-    required property int eval_cat_id
-    required property bool test_flag
-    required property bool final_flag
+    required property int    step_id
+    required property int    base_id
+    required property int    period_id
 
     signal popStackSignal();
     signal insertedSignal();
-
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -51,7 +45,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "ثبت ارزیابی جدید"
+            text: "ثبت دسته ارزیابی جدید"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -88,26 +82,27 @@ Page {
                         Layout.preferredWidth: 128
                         Layout.preferredHeight: 128
                         Layout.alignment: Qt.AlignHCenter
-                        source:  "qrc:/assets/images/evaluation.png"
+                        source:  "qrc:/assets/images/evalcat.png"
                     }
 
                     // branch
                     Text {
-                        text: "شعبه" + " " + insertPage.branch
+                        text: "شعبه: " + insertPage.branch
                         Layout.fillWidth: true
                         Layout.columnSpan: 2
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
+                        elide: Text.ElideRight
                     }
 
-                    // step base
+                    //step base
                     Text {
-                        text: {
+                        text:{
                             if(insertPage.base.indexOf("پایه") == -1)
                             return insertPage.step + " - پایه " + insertPage.base;
                             else
@@ -116,58 +111,33 @@ Page {
                         Layout.fillWidth: true
                         Layout.columnSpan: 2
                         Layout.preferredHeight: 50
+                        elide: Text.ElideRight
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
                     }
 
-                    // period
+                    //period
                     Text {
-                        text: "سال تحصیلی" + " " + insertPage.period
-                        Layout.fillWidth: true
+                        text: "سال تحصیلی: " + insertPage.period
                         Layout.columnSpan: 2
                         Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-
-                    //
-                    Text {
-                        text: "درس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    ComboBox
-                    {
-                        id: courseCB
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 50
+                        elide: Text.ElideRight
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        model:ListModel { id: courseCBoxModel; }
-                        Component.onCompleted: Methods.updateCourseCB(insertPage.step_id, insertPage.base_id, insertPage.period_id);
+                        font.bold: true
+                        color: "black"
                     }
 
-
-
-
-                    // eval time
+                    //eval cat
                     Text {
-                        text: "زمان ارزیابی"
+                        text: "نام دسته ارزیابی"
                         Layout.minimumWidth: 150
                         Layout.maximumWidth: 150
                         Layout.preferredHeight: 50
@@ -180,50 +150,20 @@ Page {
                     }
                     TextField
                     {
-                        id: evaltimeTF
+                        id: evalCatTF
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
                         font.family: "B Yekan"
                         font.pixelSize: 16
-                        placeholderText: "1403/08/10"
-                        validator: RegularExpressionValidator
-                        {
-                            regularExpression: /^\d{4}\/\d{2}\/\d{2}$/
-                            // Regex pattern to match date in yyyy/MM/dd format
-                        }
+                        placeholderText: "آزمون نهایی نیمسال اول"
                     }
 
-                    //max value
-                    Text {
-                        text: "بالاترین نمره"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    TextField
-                    {
-                        id: maxGradeTF
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "B Yekan"
-                        font.pixelSize: 16
-                        placeholderText: "مقدار عددی مانند ۲۰"
-                        validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
-                            regularExpression: /^-?\d*\.?\d+$/
-                        }
-                    }
 
-                    //report included
+                    //test exam
                     Text {
-                        text: "تاثیر در ارزیابی"
+                        text: "آزمون تستی"
                         Layout.minimumWidth: 150
                         Layout.maximumWidth: 150
                         Layout.preferredHeight: 50
@@ -236,12 +176,55 @@ Page {
                     }
                     Switch
                     {
-                        id: includedSW
+                        id: testSW
                         Layout.preferredWidth: 100
                         Layout.preferredHeight: 50
                         Layout.alignment: Qt.AlignLeft
-                        checked: true
+                        checked: false
+                    }
 
+                    //final exam
+                    Text {
+                        text: "آزمون نهایی"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Switch
+                    {
+                        id: finalSW
+                        Layout.preferredWidth: 100
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignLeft
+                        checked: false
+                    }
+
+                    // sort priority
+                    Text {
+                        text: "اولویت نمایش"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    SpinBox
+                    {
+                        id: sortSB
+                        Layout.preferredWidth: 100
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignLeft
+                        value: 1
                     }
 
                     Item
@@ -260,25 +243,24 @@ Page {
                         Layout.alignment: Qt.AlignHCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
+                        enabled : (evalCatTF.text == "")? false : true;
                         Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
-                        enabled: {
-                            if( (courseCB.currentValue > -1) && (evaltimeTF.text !== "") && (maxGradeTF.text !== "") )
-                            return true;
-                            else
-                            return false;
-                        }
                         onClicked:
                         {
                             var Eval = {};
-                            Eval["eval_cat_id"] = insertPage.eval_cat_id
-                            Eval["course_id"] = courseCB.currentValue
-                            Eval["eval_time"] = evaltimeTF.text
+                            Eval["step_id"] = insertPage.step_id
+                            Eval["base_id"] = insertPage.base_id
+                            Eval["period_id"] = insertPage.period_id
 
-                            Eval["max_grade"] = parseFloat(maxGradeTF.text)
-                            Eval["included"] = includedSW.checked
+                            Eval["eval_cat"] = evalCatTF.text
+                            Eval["test_flag"] = testSW.checked
+                            Eval["final_flag"] = finalSW.checked
 
-                            if(dbMan.evalInsert(Eval))
-                                successDialogId.open();
+                            Eval["sort_priority"] = sortSB.value
+
+
+                            if(dbMan.evalCatInsert(Eval))
+                            successDialogId.open();
                             else
                             {
                                 var errorString = dbMan.getLastError();
@@ -307,7 +289,7 @@ Page {
     {
         id: infoDialogId
         dialogTitle: "خطا"
-        dialogText: "افزودن ارزیابی جدید با خطا مواجه شد."
+        dialogText: "افزودن دسته ارزیابی جدید با خطا مواجه شد."
         dialogSuccess: false
     }
 
@@ -315,7 +297,7 @@ Page {
     {
         id: successDialogId
         dialogTitle: "عملیات موفق"
-        dialogText: "ارزیابی جدید با موفقیت افزوده شد."
+        dialogText: "دسته ارزیابی جدید با موفقیت افزوده شد."
         dialogSuccess: true
         onDialogAccepted: function(){
             successDialogId.close();

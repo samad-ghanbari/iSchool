@@ -354,10 +354,10 @@ Page {
                     hoverEnabled: true
                     //onHoveredChanged: detailBtnBg.color=(hovered)? Qt.darker("palegreen", 1.1):"palegreen"
                     //text: "جزئیات"
-                    font.bold: true
-                    font.family: "B Yekan"
-                    font.pixelSize: 14
-                    palette.buttonText:  "white"
+                    //font.bold: true
+                    //font.family: "B Yekan"
+                    //font.pixelSize: 14
+                    //palette.buttonText:  "white"
                     icon.source: "qrc:/assets/images/info.png"
                     icon.width: 32
                     icon.height: 32
@@ -384,10 +384,10 @@ Page {
                     hoverEnabled: true
                     //onHoveredChanged: editBtnBg.color=(hovered)? Qt.darker("royalblue", 1.1):"royalblue"
                     //text: "ویرایش"
-                    font.bold: true
-                    font.family: "B Yekan"
-                    font.pixelSize: 14
-                    palette.buttonText:  "white"
+                    //font.bold: true
+                    //font.family: "B Yekan"
+                    //font.pixelSize: 14
+                    //palette.buttonText:  "white"
                     icon.source: "qrc:/assets/images/edit.png"
                     icon.width: 32
                     icon.height: 32

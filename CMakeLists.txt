@@ -129,12 +129,16 @@ qt_add_qml_module(appiSchool
         ui/course/Courses.qml
         ui/course/Course.js
         ui/course/CourseInsert.qml
-        ui/course/Courses0.qml
         ui/course/CourseUpdate.qml
         ui/course/CourseDelete.qml
 
 
     #EVALUATION
+        ui/evaluation/EvalCats.qml
+        ui/evaluation/EvalCatInsert.qml
+        ui/evaluation/EvalCatDelete.qml
+        ui/evaluation/EvalCatUpdate.qml
+
         ui/evaluation/EvalsCourses.qml
         ui/evaluation/Evals.js
         ui/evaluation/Evals.qml
@@ -149,6 +153,9 @@ qt_add_qml_module(appiSchool
         ui/student/StudentCourseInsert.qml
         ui/student/StudentCourseDelete.qml
         ui/student/StudentCourseEval.qml
+
+
+
 
     #REPORT
 
@@ -238,6 +245,7 @@ qt_add_resources(appiSchool "assets"
         assets/images/classroom.png
     #EVALUATION
         assets/images/evaluation.png
+        assets/images/evalcat.png
     #LOG
         assets/images/log.png
     #REPORT

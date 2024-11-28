@@ -265,7 +265,7 @@ ToolBar {
     Component
     {
         id: evalsComponent
-        EvalModule.EvalsCourses{appStackView: toolbarId.appStackView;}
+        EvalModule.EvalCats{appStackView: toolbarId.appStackView;}
     }
 
 
