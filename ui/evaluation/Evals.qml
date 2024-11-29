@@ -15,6 +15,10 @@ Page {
     required property string base
     required property string period
 
+    required property int step_id;
+    required property int base_id;
+    required property int period_id;
+
     required property string eval_cat
     required property int eval_cat_id
     required property bool test_flag
@@ -115,10 +119,10 @@ Page {
                         Layout.fillWidth: true
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
-                        color: "mediumvioletred"
+                        color: "royalblue"
                         text:"سال تحصیلی " + evalsPage.period
                         font.family: "B Yekan"
-                        font.pixelSize: 20
+                        font.pixelSize: 16
                         font.bold: true
                     }
 
@@ -246,12 +250,24 @@ Page {
                     spacing: 0
                     Image
                     {
-                        width: 64
-                        height: 64
+                        width: 32
+                        height: 32
                         anchors.horizontalCenter: parent.horizontalCenter
                         source:  "qrc:/assets/images/evaluation.png"
                     }
 
+                    Label {
+                        text: evalsPage.eval_cat
+                        padding: 0
+                        font.family: "B Yekan"
+                        font.pixelSize: (recDel.highlighted)? 18 :16
+                        font.bold: (recDel.highlighted)? true : false
+                        color: (recDel.highlighted)? "royalblue":"black"
+                        horizontalAlignment: Label.AlignHCenter
+                        width: parent.width
+                        height: 50
+                        elide: Text.ElideRight
+                    }
                     Label {
                         text: recDel.model.Course_name
                         padding: 0
@@ -277,7 +293,12 @@ Page {
                         elide: Text.ElideRight
                     }
                     Label {
-                        text: "نمره آزمون " +  (evalsPage.test_flag)? "%"+ recDel.model.Max_grade : recDel.model.Max_grade
+                        text:{
+                            if(evalsPage.test_flag)
+                            return "نمره آزمون " +  recDel.model.Max_grade + "%";
+                            else
+                            return "نمره آزمون " +  recDel.model.Max_grade;
+                        }
                         padding: 0
                         font.family: "B Yekan"
                         font.pixelSize: 16
@@ -287,21 +308,20 @@ Page {
                         height: 50
                         elide: Text.ElideRight
                     }
-                    Row
+
+                }
+                Row
+                {
+                    anchors.bottom: parent.bottom
+                    width: parent.width
+                    height: 32
+                    Image
                     {
-                        anchors.bottom: parent.bottom
-                        width: parent.width
+                        source: "qrc:/assets/images/stop32.png"
+                        width: 32
                         height: 32
-                        Image
-                        {
-                            source: "qrc:/assets/images/stop32.png"
-                            width: 32
-                            height: 32
-                            visible: (recDel.model.Included)? false : true;
-                        }
+                        visible: (recDel.model.Included)? false : true;
                     }
-
-
                 }
             }
 
@@ -313,6 +333,33 @@ Page {
                 width: 48
                 height: 250
                 anchors.left: parent.left
+
+                Button
+                {
+                    height: 48
+                    width: 48
+                    background: Item{}
+                    hoverEnabled: true
+                    opacity: 0.5
+                    onHoveredChanged:(hovered)? this.opacity=1 : this.opacity=0.5
+                    icon.source: "qrc:/assets/images/edit.png"
+                    icon.width: 48
+                    icon.height: 48
+                    display: AbstractButton.TextUnderIcon
+                    SwipeDelegate.onClicked:
+                    {
+                        if(recDel.swipe.complete)
+                        recDel.swipe.close();
+
+                        evalsPage.appStackView.push(updateComponent,  {
+                                                        eval_id: recDel.model.Id,
+                                                        course_id: recDel.model.Course_id,
+                                                        eval_time: recDel.model.Eval_time,
+                                                        max_grade: recDel.model.Max_grade,
+                                                        included: recDel.model.Included,
+                                                    });
+                    }
+                }
 
                 Button
                 {
@@ -342,33 +389,7 @@ Page {
                     }
                 }
 
-                Button
-                {
-                    height: 48
-                    width: 48
-                    background: Item{}
-                    hoverEnabled: true
-                    opacity: 0.5
-                    onHoveredChanged:(hovered)? this.opacity=1 : this.opacity=0.5
-                    icon.source: "qrc:/assets/images/edit.png"
-                    icon.width: 48
-                    icon.height: 48
-                    display: AbstractButton.TextUnderIcon
-                    SwipeDelegate.onClicked:
-                    {
-                        if(recDel.swipe.complete)
-                        recDel.swipe.close();
 
-                        evalsPage.appStackView.push(updateComponent,  {
-                                                        eval_id: recDel.model.Id,
-                                                        eval_cat_id: recDel.model.Eval_cat_id,
-                                                        course_id: recDel.model.Course_id,
-                                                        eval_time: recDel.model.Eval_time,
-                                                        max_grade: recDel.model.Max_grade,
-                                                        included: recDel.model.Included,
-                                                    });
-                    }
-                }
             }
         }
     }
@@ -387,6 +408,10 @@ Page {
             step: evalsPage.step
             base: evalsPage.base
             period: evalsPage.period
+
+            step_id: evalsPage.step_id;
+            base_id: evalsPage.base_id;
+            period_id: evalsPage.period_id;
 
             eval_cat: evalsPage.eval_cat
             eval_cat_id: evalsPage.eval_cat_id
@@ -428,6 +453,10 @@ Page {
             step: evalsPage.step
             base: evalsPage.base
             period: evalsPage.period
+
+            step_id: evalsPage.step_id;
+            base_id: evalsPage.base_id;
+            period_id: evalsPage.period_id;
 
             eval_cat: evalsPage.eval_cat
             eval_id: evalsPage.eval_cat_id

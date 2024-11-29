@@ -4,6 +4,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "./../public" as DialogBox
+import "./Evals.js" as Methods
 
 Page {
     id: insertPage
@@ -98,7 +99,7 @@ Page {
                         Layout.columnSpan: 2
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
@@ -117,7 +118,7 @@ Page {
                         Layout.columnSpan: 2
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
@@ -131,7 +132,7 @@ Page {
                         Layout.columnSpan: 2
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
@@ -159,10 +160,10 @@ Page {
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         model:ListModel { id: courseCBoxModel; }
+                        textRole: "text"
+                        valueRole: "value"
                         Component.onCompleted: Methods.updateCourseCB(insertPage.step_id, insertPage.base_id, insertPage.period_id);
                     }
-
-
 
 
                     // eval time

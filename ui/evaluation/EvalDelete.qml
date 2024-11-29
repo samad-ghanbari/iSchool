@@ -99,6 +99,7 @@ Page {
                     Text {
                         text: "شعبه" + " " + deletePage.branch
                         Layout.fillWidth: true
+                        Layout.columnSpan: 2
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter

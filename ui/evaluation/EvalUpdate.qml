@@ -18,7 +18,6 @@ Page {
     required property int    base_id;
     required property int    period_id;
 
-    required property string course_name
     required property string eval_cat;
     required property int    course_id
     required property int eval_id;
@@ -124,7 +123,7 @@ Page {
                         Layout.columnSpan: 2
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
@@ -139,7 +138,7 @@ Page {
                         Layout.columnSpan: 2
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: true
@@ -167,6 +166,8 @@ Page {
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         model:ListModel { id: courseCBoxModel; }
+                        textRole: "text"
+                        valueRole: "value"
                         Component.onCompleted:{
                             Methods.updateCourseCB(updatePage.step_id, updatePage.base_id, updatePage.period_id);
                             courseCB.currentIndex = courseCB.indexOfValue(updatePage.course_id)

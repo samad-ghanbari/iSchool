@@ -528,10 +528,15 @@ Page {
         Evals
         {
             appStackView: evalCatPage.appStackView
+
             branch: branchCB.currentText
             step: stepCB.currentText
             base: baseCB.currentText
             period: periodCB.currentText
+
+            step_id:   stepCB.currentValue
+            base_id:   baseCB.currentValue
+            period_id: periodCB.currentValue
         }
     }
 
