@@ -94,7 +94,6 @@ function updateEvalCatsModel(stepId, baseId, periodId)
 }
 
 
-
 // evals
 function updateEvals(eval_cat_id)
 {
@@ -102,13 +101,14 @@ function updateEvals(eval_cat_id)
     var jsondata = dbMan.getCatEvals(eval_cat_id);
     for(var obj of jsondata)
     {
-        // e.id, e.eval_cat_id, e.course_id, e.eval_time, e.max_grade, e.included,
+        // e.id, e.eval_cat_id, e.course_id, e.class_id, e.eval_time, e.max_grade, e.included,
         // co.course_name, co.course_coefficient, co.test_coefficient, co.shared_coefficient, co.final_weight
 
         evalsModel.append({
                               Id: obj.id,
                               Eval_cat_id: obj.eval_cat_id,
                               Course_id: obj.course_id,
+                              Class_id: obj.class_id,
                               Eval_time: obj.eval_time,
                               Max_grade: obj.max_grade,
                               Included: obj.included,
@@ -121,6 +121,29 @@ function updateEvals(eval_cat_id)
     }
 }
 
+
+function updateClassCB(course_id)
+{
+    classCBoxModel.clear();
+    var jsondata = dbMan.getCourseClasses(course_id);
+    for(var obj of jsondata)
+    {
+        evalsModel.append({
+                              Id: obj.id,
+                              Eval_cat_id: obj.eval_cat_id,
+                              Course_id: obj.course_id,
+                              Class_id: obj.class_id,
+                              Eval_time: obj.eval_time,
+                              Max_grade: obj.max_grade,
+                              Included: obj.included,
+                              Course_name: obj.course_name,
+                              Course_coefficient: obj.course_coefficient,
+                              Test_coefficient: obj.test_coefficient,
+                              Shared_coefficient: obj.shared_coefficient,
+                              Final_weight: obj.final_weight,
+                          });
+    }
+}
 
 function updateCourseCB(step_id, base_id, period_id)
 {

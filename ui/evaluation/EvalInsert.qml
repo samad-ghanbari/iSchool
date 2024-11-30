@@ -139,7 +139,7 @@ Page {
                         color: "black"
                     }
 
-                    //
+                    // course
                     Text {
                         text: "درس"
                         Layout.minimumWidth: 150
@@ -163,8 +163,35 @@ Page {
                         textRole: "text"
                         valueRole: "value"
                         Component.onCompleted: Methods.updateCourseCB(insertPage.step_id, insertPage.base_id, insertPage.period_id);
+                        onActivated: Methods.updateClassCB(courseCB.currentValue);
                     }
 
+                    //class
+                    Text {
+                        text: "کلاس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                        visible: (insertPage.base_id > -1)? true : false;
+                    }
+                    ComboBox
+                    {
+                        id: classCB
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        model:ListModel { id: classCBoxModel; }
+                        textRole: "text"
+                        valueRole: "value"
+                        visible: (insertPage.base_id > -1)? true : false;
+                    }
 
                     // eval time
                     Text {
@@ -263,7 +290,13 @@ Page {
                         font.pixelSize: 16
                         Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                         enabled: {
-                            if( (courseCB.currentValue > -1) && (evaltimeTF.text !== "") && (maxGradeTF.text !== "") )
+                            var stepFlag;
+                            if( (insertPage.base_id > -1) && (classCB.currentValue > -1) )
+                            stepFlag = true;
+                            else
+                            stepFlag = false;
+
+                            if( (courseCB.currentValue > -1) && (evaltimeTF.text !== "") && (maxGradeTF.text !== "") && stepFlag )
                             return true;
                             else
                             return false;
@@ -279,7 +312,7 @@ Page {
                             Eval["included"] = includedSW.checked
 
                             if(dbMan.evalInsert(Eval))
-                                successDialogId.open();
+                            successDialogId.open();
                             else
                             {
                                 var errorString = dbMan.getLastError();
