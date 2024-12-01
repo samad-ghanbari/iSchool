@@ -20,6 +20,7 @@ Page {
 
     required property string eval_cat;
     required property int    course_id
+    required property int    class_id
     required property int eval_id;
     required property string eval_time;
     required property double max_grade;
@@ -174,6 +175,37 @@ Page {
                         }
                     }
 
+                    //class
+                    Text {
+                        text: "کلاس"
+                        Layout.minimumWidth: 150
+                        Layout.maximumWidth: 150
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                        visible: (updatePage.base_id > -1)? true : false;
+                    }
+                    ComboBox
+                    {
+                        id: classCB
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        model:ListModel { id: classCBoxModel; }
+                        textRole: "text"
+                        valueRole: "value"
+                        visible: (updatePage.base_id > -1)? true : false;
+                        Component.onCompleted:{
+                            Methods.updateClassCB(updatePage.course_id);
+                            classCB.currentIndex = classCB.indexOfValue(updatePage.class_id)
+                        }
+                    }
+
 
                     //eval time
                     Text {
@@ -281,6 +313,10 @@ Page {
                             var Eval = {};
                             Eval["id"] = updatePage.eval_id;
                             Eval["course_id"] =courseCB.currentValue
+                            if(updatePage.base_id > -1)
+                            Eval["class_id"] = classCB.currentValue
+                            else
+                            Eval["class_id"] = -1;
                             Eval["eval_time"] = evaltimeTF.text
                             Eval["max_grade"] = parseFloat(maxGradeTF.text)
                             Eval["included"] = includedSW.checked

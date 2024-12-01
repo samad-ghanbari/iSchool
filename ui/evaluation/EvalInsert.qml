@@ -306,6 +306,10 @@ Page {
                             var Eval = {};
                             Eval["eval_cat_id"] = insertPage.eval_cat_id
                             Eval["course_id"] = courseCB.currentValue
+                            if(insertPage.base_id > -1)
+                            Eval["class_id"] = classCB.currentValue
+                            else
+                            Eval["class_id"] = -1;
                             Eval["eval_time"] = evaltimeTF.text
 
                             Eval["max_grade"] = parseFloat(maxGradeTF.text)

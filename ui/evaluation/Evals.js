@@ -109,6 +109,7 @@ function updateEvals(eval_cat_id)
                               Eval_cat_id: obj.eval_cat_id,
                               Course_id: obj.course_id,
                               Class_id: obj.class_id,
+                              Class_name: obj.class_name,
                               Eval_time: obj.eval_time,
                               Max_grade: obj.max_grade,
                               Included: obj.included,
@@ -128,20 +129,7 @@ function updateClassCB(course_id)
     var jsondata = dbMan.getCourseClasses(course_id);
     for(var obj of jsondata)
     {
-        evalsModel.append({
-                              Id: obj.id,
-                              Eval_cat_id: obj.eval_cat_id,
-                              Course_id: obj.course_id,
-                              Class_id: obj.class_id,
-                              Eval_time: obj.eval_time,
-                              Max_grade: obj.max_grade,
-                              Included: obj.included,
-                              Course_name: obj.course_name,
-                              Course_coefficient: obj.course_coefficient,
-                              Test_coefficient: obj.test_coefficient,
-                              Shared_coefficient: obj.shared_coefficient,
-                              Final_weight: obj.final_weight,
-                          });
+        classCBoxModel.append({value: obj.class_id,  text: obj.class_name });
     }
 }
 

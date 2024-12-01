@@ -151,7 +151,7 @@ Page {
                         Layout.margins: 20
                         flickableDirection: Flickable.AutoFlickDirection
                         cellWidth: 320
-                        cellHeight: 270 // 20 spacing
+                        cellHeight: 320 // 20 spacing
                         clip: true
                         model: ListModel{id: evalsModel}
                         highlight: Item{}
@@ -187,7 +187,7 @@ Page {
         {
             id: recDel
             required property var model;
-            height: 250
+            height: 300
             width: 300
             checkable: true
             checked: recDel.swipe.complete
@@ -281,6 +281,19 @@ Page {
                         elide: Text.ElideRight
                     }
                     Label {
+                        text: "کلاس " + recDel.model.Class_name
+                        visible: (recDel.model.Class_id > -1)? true : false;
+                        padding: 0
+                        font.family: "B Yekan"
+                        font.pixelSize: (recDel.highlighted)? 18 :16
+                        font.bold: (recDel.highlighted)? true : false
+                        color: (recDel.highlighted)? "royalblue":"black"
+                        horizontalAlignment: Label.AlignHCenter
+                        width: parent.width
+                        height: 50
+                        elide: Text.ElideRight
+                    }
+                    Label {
                         text: recDel.model.Eval_time
                         padding: 0
                         font.family: "B Yekan"
@@ -354,6 +367,7 @@ Page {
                         evalsPage.appStackView.push(updateComponent,  {
                                                         eval_id: recDel.model.Id,
                                                         course_id: recDel.model.Course_id,
+                                                        class_id: recDel.model.Class_id,
                                                         eval_time: recDel.model.Eval_time,
                                                         max_grade: recDel.model.Max_grade,
                                                         included: recDel.model.Included,
