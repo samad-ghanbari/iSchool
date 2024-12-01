@@ -110,7 +110,7 @@ Page {
                             return evalsPage.step + " - " + evalsPage.base;
                         }
                         font.family: "B Yekan"
-                        font.pixelSize: 16
+                        font.pixelSize: 20
                         font.bold: true
                     }
                     Label
@@ -126,6 +126,42 @@ Page {
                         font.bold: true
                     }
 
+                    Rectangle{Layout.fillWidth: true; Layout.preferredHeight: 2; Layout.maximumHeight: 2; color: "royalblue";}
+
+                    //class
+                    RowLayout
+                    {
+                        Layout.fillWidth: true;
+                        Layout.maximumWidth: 400;
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignHCenter
+
+                        Label
+                        {
+                            Layout.preferredWidth: 100;
+                            horizontalAlignment: Label.AlignRight
+                            verticalAlignment: Label.AlignVCenter
+                            color: "royalblue"
+                            text:"کلاس: "
+                            font.family: "B Yekan"
+                            font.pixelSize: 16
+                            font.bold: true
+                        }
+                        ComboBox
+                        {
+                            id: allClassCB
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "B Yekan"
+                            font.pixelSize: 16
+                            model:ListModel { id: allClassCBoxModel; }
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted: Methods.updateAllClassesCB(evalsPage.step_id, evalsPage.base_id, evalsPage.period_id);
+                            onActivated: Methods.updateEvals(evalsPage.eval_cat_id, allClassCB.currentValue);
+                        }
+
+                    }
 
                     Button
                     {
@@ -156,8 +192,6 @@ Page {
                         model: ListModel{id: evalsModel}
                         highlight: Item{}
                         delegate: evalsDelegate
-                        Component.onCompleted: Methods.updateEvals(evalsPage.eval_cat_id);
-
 
                         function closeSwipeHandler()
                         {

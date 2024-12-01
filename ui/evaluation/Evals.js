@@ -95,10 +95,10 @@ function updateEvalCatsModel(stepId, baseId, periodId)
 
 
 // evals
-function updateEvals(eval_cat_id)
+function updateEvals(eval_cat_id, class_id)
 {
     evalsModel.clear();
-    var jsondata = dbMan.getCatEvals(eval_cat_id);
+    var jsondata = dbMan.getCatEvals(eval_cat_id, class_id);
     for(var obj of jsondata)
     {
         // e.id, e.eval_cat_id, e.course_id, e.class_id, e.eval_time, e.max_grade, e.included,
@@ -131,6 +131,20 @@ function updateClassCB(course_id)
     {
         classCBoxModel.append({value: obj.class_id,  text: obj.class_name });
     }
+}
+
+function updateAllClassesCB(step_id, base_id, period_id)
+{
+    evalsModel.clear();
+    var jsondata = dbMan.getClasses(step_id, base_id, period_id);
+
+    for(var obj of jsondata)
+    {
+        //c.id, c.step_id, c.study_base_id, c.study_period_id, c.class_name, c.class_desc, c.sort_priority, st.step_name, sb.study_base, sp.study_period
+        allClassCBoxModel.append({value: obj.id,  text: obj.class_name });
+    }
+
+     allClassCBoxModel.append({value: -1,  text: "همه کلاس‌ها" });
 }
 
 function updateCourseCB(step_id, base_id, period_id)
