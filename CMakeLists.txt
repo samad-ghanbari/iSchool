@@ -139,12 +139,15 @@ qt_add_qml_module(appiSchool
         ui/evaluation/EvalCatDelete.qml
         ui/evaluation/EvalCatUpdate.qml
 
-        ui/evaluation/EvalsCourses.qml
+
         ui/evaluation/Evals.js
         ui/evaluation/Evals.qml
         ui/evaluation/EvalInsert.qml
         ui/evaluation/EvalDelete.qml
         ui/evaluation/EvalUpdate.qml
+
+        ui/evaluation/EvalStudents.qml
+
 
     #STUDENT EVALS
         ui/student_evals/StudentsEvals.qml
@@ -153,8 +156,6 @@ qt_add_qml_module(appiSchool
         ui/student/StudentCourseInsert.qml
         ui/student/StudentCourseDelete.qml
         ui/student/StudentCourseEval.qml
-
-
 
 
     #REPORT

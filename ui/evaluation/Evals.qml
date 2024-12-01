@@ -230,7 +230,8 @@ Page {
 
             background: Rectangle{color: (recDel.highlighted)? "snow" : "whitesmoke";}
             // e.id, e.eval_cat_id, e.course_id, e.eval_time, e.max_grade, e.included,
-            // co.course_name, co.course_coefficient, co.test_coefficient, co.shared_coefficient, co.final_weight
+            // co.course_name, co.course_coefficient, co.test_coefficient, co.shared_coefficient, co.final_weight, cl.class_name
+
 
             contentItem: Rectangle
             {
@@ -389,6 +390,36 @@ Page {
                     hoverEnabled: true
                     opacity: 0.5
                     onHoveredChanged:(hovered)? this.opacity=1 : this.opacity=0.5
+                    icon.source: "qrc:/assets/images/users.png"
+                    icon.width: 48
+                    icon.height: 48
+                    display: AbstractButton.TextUnderIcon
+                    SwipeDelegate.onClicked:
+                    {
+                        if(recDel.swipe.complete)
+                        recDel.swipe.close();
+
+                        evalsPage.appStackView.push(usersEvalComponent,  {
+
+                                                        eval_id: recDel.model.Id,
+                                                        course_id: recDel.model.Course_id,
+                                                        class_id: recDel.model.Class_id,
+                                                        class_name: recDel.model.Class_name,
+                                                        course_name: recDel.model.Course_name,
+                                                        max_grade: recDel.model.max_grade,
+                                                        included: recDel.model.Included
+
+                                                    });
+                    }
+                }
+                Button
+                {
+                    height: 48
+                    width: 48
+                    background: Item{}
+                    hoverEnabled: true
+                    opacity: 0.5
+                    onHoveredChanged:(hovered)? this.opacity=1 : this.opacity=0.5
                     icon.source: "qrc:/assets/images/edit.png"
                     icon.width: 48
                     icon.height: 48
@@ -513,5 +544,28 @@ Page {
         }
     }
 
+    //users eval
+    Component
+    {
+        id: usersEvalComponent
+        EvalStudents
+        {
+            appStackView: evalsPage.appStackView
+
+            branch: evalsPage.branch
+            step: evalsPage.step
+            base: evalsPage.base
+            period: evalsPage.period
+
+            step_id: evalsPage.step_id;
+            base_id: evalsPage.base_id;
+            period_id: evalsPage.period_id;
+
+            eval_cat: evalsPage.eval_cat
+            eval_id: evalsPage.eval_cat_id
+            test_flag : evalsPage.test_flag
+            final_flag: evalsPage.final_flag
+        }
+    }
 
 }
