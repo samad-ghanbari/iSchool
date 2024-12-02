@@ -4,6 +4,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "Evals.js" as Methods
+import "./../public" as DialogBox
+
 
 Page {
     id: evalStudentsPage
@@ -20,7 +22,7 @@ Page {
     required property int period_id;
 
     required property string eval_cat
-    required property int eval_cat_id
+    //required property int eval_cat_id
     required property bool test_flag
     required property bool final_flag
 
@@ -59,7 +61,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "ارزیابی دانش‌آموزان" + evalStudentsPage.eval_cat
+            text: evalStudentsPage.eval_cat
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -101,7 +103,7 @@ Page {
                         color: "royalblue"
                         text:"شعبه " + evalStudentsPage.branch
                         font.family: "B Yekan"
-                        font.pixelSize: 16
+                        font.pixelSize: 18
                         font.bold: true
                     }
                     //step base
@@ -119,7 +121,7 @@ Page {
                             return evalStudentsPage.step + " - " + evalStudentsPage.base;
                         }
                         font.family: "B Yekan"
-                        font.pixelSize: 20
+                        font.pixelSize: 18
                         font.bold: true
                     }
                     Label
@@ -131,7 +133,7 @@ Page {
                         color: "royalblue"
                         text:"سال تحصیلی " + evalStudentsPage.period
                         font.family: "B Yekan"
-                        font.pixelSize: 16
+                        font.pixelSize: 18
                         font.bold: true
                     }
                     // course class
@@ -141,29 +143,90 @@ Page {
                         Layout.fillWidth: true
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
-                        color: "royalblue"
+                        color: "darkmagenta"
                         text:"عنوان درس " + evalStudentsPage.course_name + " - " + "کلاس " + evalStudentsPage.class_name
                         font.family: "B Yekan"
-                        font.pixelSize: 16
+                        font.pixelSize: 20
                         font.bold: true
                     }
 
                     Rectangle{Layout.fillWidth: true; Layout.preferredHeight: 2; Layout.maximumHeight: 2; color: "royalblue";}
 
-
-                    Button
+                    RowLayout
                     {
                         Layout.preferredHeight: 64
-                        Layout.preferredWidth: 64
-                        Layout.alignment: Qt.AlignRight
-                        background: Item{}
-                        icon.source: "qrc:/assets/images/add.png"
-                        icon.width: 64
-                        icon.height: 64
-                        opacity: 0.5
-                        onClicked: evalStudentsPage.appStackView.push(insertComponent)
-                        hoverEnabled: true
-                        onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        Layout.fillWidth: true
+
+                        Button
+                        {
+                            Layout.preferredHeight: 64
+                            Layout.preferredWidth: 64
+                            background: Item{}
+                            icon.source: "qrc:/assets/images/add.png"
+                            icon.width: 64
+                            icon.height: 64
+                            opacity: 0.5
+                            onClicked: evalStudentsPage.appStackView.push(insertComponent)
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        }
+
+                        Button
+                        {
+                            id: refreshBtn
+                            Layout.preferredWidth: 64
+                            Layout.preferredHeight: 64
+                            background: Item{}
+                            icon.source: "qrc:/assets/images/refresh.png"
+                            icon.width: 64
+                            icon.height: 64
+                            opacity: 0.5
+                            onClicked:
+                            {
+                                if(evalStudentsPage.base_id > -1)
+                                {
+                                    // update class students
+                                    if(dbMan.updateEvalStudents(evalStudentsPage.step_id, evalStudentsPage.base_id, evalStudentsPage.period_id, evalStudentsPage.class_id, evalStudentsPage.eval_id))
+                                    {
+                                        infoDialogId.dialogSuccess = true;
+                                        infoDialogId.dialogTitle = "عملیات موفق"
+                                        infoDialogId.dialogText = "بروزرسانی با موفقیت انجام شد."
+                                        Methods.updateClassStudentsEval(evalStudentsPage.class_id, evalStudentsPage.eval_id );
+                                    }
+                                    else
+                                    {
+                                        infoDialogId/open();
+                                    }
+                                }
+                                else
+                                {
+                                    infoDialogId.dialogText = "برای دروس دوره، لازم است دانش‌آموزان به صورت دستی اضافه گردند."
+                                    infoDialogId.open();
+                                }
+
+                            }
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        }
+
+                        Item{Layout.fillWidth: true; Layout.preferredHeight:64;}
+
+                        Button
+                        {
+
+                            Layout.preferredWidth: 64
+                            Layout.preferredHeight: 64
+                            background: Item{}
+                            icon.source: "qrc:/assets/images/info.png"
+                            icon.width: 64
+                            icon.height: 64
+                            opacity: 0.5
+                            onClicked:
+                            {
+                            }
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        }
                     }
 
                     GridView
@@ -175,11 +238,12 @@ Page {
                         Layout.margins: 20
                         flickableDirection: Flickable.AutoFlickDirection
                         cellWidth: 320
-                        cellHeight: 320 // 20 spacing
+                        cellHeight: 370 // 20 spacing
                         clip: true
-                        model: ListModel{id: evalsModel}
+                        model: ListModel{id: evalStudentsModel; }
                         highlight: Item{}
                         delegate: evalsDelegate
+                        Component.onCompleted: Methods.updateClassStudentsEval(evalStudentsPage.class_id, evalStudentsPage.eval_id );
 
                         function closeSwipeHandler()
                         {
@@ -209,7 +273,8 @@ Page {
         {
             id: recDel
             required property var model;
-            height: 300
+            property bool isFemale: (model.Gender === "خانم")? true : false;
+            height: 350
             width: 300
             checkable: true
             checked: recDel.swipe.complete
@@ -220,6 +285,68 @@ Page {
 
             contentItem: Rectangle
             {
+                //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, s.student, s.fathername, s.gender, s.photo
+
+                width: parent.width
+                height: parent.height
+
+                ColumnLayout
+                {
+                    anchors.fill: parent
+
+                    Image {
+                        source:{
+                            if(recDel.model.Photo == "")
+                            {
+                                if(recDel.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
+                            }
+                            else
+                            {
+                                return "file://"+recDel.model.Photo;
+                            }
+
+                        }
+                        Layout.preferredWidth: 128
+                        Layout.preferredHeight: 128
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+                    Text {
+                        text: recDel.model.Student + " ( " + recDel.model.Fathername + " )"
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "royalblue"
+                        Layout.preferredWidth: parent.width
+                        Layout.preferredHeight: 50
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                    Text {
+                        text: (evalStudentsPage.test_flag)? "نمره اخذ شده: " + recDel.model.Student_grade + "%" : "نمره اخذ شده: " + recDel.model.Student_grade
+                        visible: (recDel.model.Student_grade > -1)? true :  false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "mediumvioletred"
+                        Layout.preferredWidth: parent.width
+                        Layout.preferredHeight: 50
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                    Text {
+                        text: (evalStudentsPage.test_flag)? "نمره با اعمال نمودار: " + recDel.model.Normalised_grade + "%"  :  "نمره با اعمال نمودار: " + recDel.model.Normalised_grade;
+                        visible: (recDel.model.Normalised_grade > -1)? true :  false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "mediumvioletred"
+                        Layout.preferredWidth: parent.width
+                        Layout.preferredHeight: 50
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    Item{Layout.preferredWidth: parent.width; Layout.fillHeight: true;}
+                }
+
+
             }
 
             onClicked: {recDel.swipe.close();}
@@ -231,7 +358,7 @@ Page {
                 height: 250
                 anchors.left: parent.left
 
-           }
+            }
         }
     }
 
@@ -300,10 +427,17 @@ Page {
             period_id: evalStudentsPage.period_id;
 
             eval_cat: evalStudentsPage.eval_cat
-            eval_id: evalStudentsPage.eval_cat_id
             test_flag : evalStudentsPage.test_flag
-            final_flag: evalStudentsPage.final_flag
         }
+    }
+
+    // DialogButtonBox
+    DialogBox.BaseDialog
+    {
+        id: infoDialogId
+        dialogTitle: "خطا"
+        dialogText: "بروزرسانی با خطا مواجه شد."
+        dialogSuccess: false
     }
 
 

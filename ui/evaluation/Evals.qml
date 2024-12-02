@@ -309,7 +309,7 @@ Page {
                         font.family: "B Yekan"
                         font.pixelSize: (recDel.highlighted)? 18 :16
                         font.bold: (recDel.highlighted)? true : false
-                        color: (recDel.highlighted)? "royalblue":"black"
+                        color: (recDel.highlighted)? "darkmagenta":"black"
                         horizontalAlignment: Label.AlignHCenter
                         width: parent.width
                         height: 50
@@ -322,7 +322,7 @@ Page {
                         font.family: "B Yekan"
                         font.pixelSize: (recDel.highlighted)? 18 :16
                         font.bold: (recDel.highlighted)? true : false
-                        color: (recDel.highlighted)? "royalblue":"black"
+                        color: (recDel.highlighted)? "darkmagenta":"black"
                         horizontalAlignment: Label.AlignHCenter
                         width: parent.width
                         height: 50
@@ -406,7 +406,7 @@ Page {
                                                         class_id: recDel.model.Class_id,
                                                         class_name: recDel.model.Class_name,
                                                         course_name: recDel.model.Course_name,
-                                                        max_grade: recDel.model.max_grade,
+                                                        max_grade: recDel.model.Max_grade,
                                                         included: recDel.model.Included
 
                                                     });
