@@ -181,3 +181,17 @@ function updateClassStudentsEval(class_id, eval_id)
                           });
     }
 }
+
+function updateStudentCB(class_id)
+{
+    studentCBoxModel.clear();
+    var jsondata = dbMan.getClassStudents(class_id);
+    //
+    for(var obj of jsondata)
+    {
+        studentCBoxModel.append({
+                              value: obj.id,
+                              text: obj.student,
+                          })
+    }
+}

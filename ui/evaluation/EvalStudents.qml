@@ -166,7 +166,7 @@ Page {
                             icon.width: 64
                             icon.height: 64
                             opacity: 0.5
-                            onClicked: evalStudentsPage.appStackView.push(insertComponent)
+                            onClicked: insertStudentEval.open();
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                         }
@@ -358,78 +358,204 @@ Page {
                 height: 250
                 anchors.left: parent.left
 
+                Button
+                {
+                    height: 48
+                    width: 48
+                    background: Item{}
+                    hoverEnabled: true
+                    opacity: 0.5
+                    onHoveredChanged:(hovered)? this.opacity=1 : this.opacity=0.5
+                    icon.source: "qrc:/assets/images/users.png"
+                    icon.width: 48
+                    icon.height: 48
+                    display: AbstractButton.TextUnderIcon
+                    SwipeDelegate.onClicked:
+                    {
+                    }
+                }
+                Button
+                {
+                    height: 48
+                    width: 48
+                    background: Item{}
+                    hoverEnabled: true
+                    opacity: 0.5
+                    onHoveredChanged:(hovered)? this.opacity=1 : this.opacity=0.5
+                    icon.source: "qrc:/assets/images/edit.png"
+                    icon.width: 48
+                    icon.height: 48
+                    display: AbstractButton.TextUnderIcon
+                    SwipeDelegate.onClicked:
+                    {
+                    }
+                }
+
+                Button
+                {
+                    height: 48
+                    width: 48
+                    background:Item{}
+                    hoverEnabled: true
+                    opacity: 0.5
+                    onHoveredChanged: (hovered)? this.opacity=1 : this.opacity=0.5
+                    icon.source: "qrc:/assets/images/trash.png"
+                    icon.width: 48
+                    icon.height: 48
+                    display: AbstractButton.TextUnderIcon
+                    SwipeDelegate.onClicked:
+                    {
+                        delDialog.student_eval_id = recDel.model.Id;
+                        delDialog.dialogTitle = "حذف " + recDel.model.Student
+                        delDialog.open();
+                    }
+                }
+
+
             }
         }
     }
 
 
-    //eval insert
-    Component
+    //student insert
+    Dialog
     {
-        id: insertComponent
-        EvalInsert
+        id : insertStudentEval
+        closePolicy:Popup.NoAutoClose
+        width: (parent.width > 400)? 400 : parent.width
+        height: 300
+        modal: true
+        dim: true
+        anchors.centerIn: parent;
+        title: "افزودن آزمون دانش‌آموز"
+        header: Rectangle{
+            width: parent.width;
+            height: 50;
+            color: "deepskyblue" ;
+            Text{ text: "افزودن آزمون دانش‌آموز" ; anchors.centerIn: parent; color: "darkblue";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+        }
+        contentItem:
+            ColumnLayout
         {
-            onPopStackSignal: evalStudentsPage.appStackView.pop();
-            onInsertedSignal: Methods.updateEvals(evalStudentsPage.eval_cat_id);
+            id: baseDialogCLId
+            width: parent.width
+            height: 250
 
-            branch: evalStudentsPage.branch
-            step: evalStudentsPage.step
-            base: evalStudentsPage.base
-            period: evalStudentsPage.period
+            Item{Layout.preferredHeight:  10; Layout.preferredWidth: baseDialogCLId.width;}
 
-            step_id: evalStudentsPage.step_id;
-            base_id: evalStudentsPage.base_id;
-            period_id: evalStudentsPage.period_id;
+            Text {
+                Layout.preferredWidth: parent.width
+                Layout.preferredHeight: 50
+                horizontalAlignment: Text.AlignLeft
+                text: "انتخاب دانش‌آموز"
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                color:  "forestgreen";
+            }
+            ComboBox
+            {
+                id: studentCB
+                Layout.fillWidth: true
+                Layout.preferredHeight: 50
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                model:ListModel { id: studentCBoxModel; }
+                textRole: "text"
+                valueRole: "value"
+                Component.onCompleted: Methods.updateStudentCB(evalStudentsPage.class_id);
+            }
 
-            eval_cat: evalStudentsPage.eval_cat
-            eval_cat_id: evalStudentsPage.eval_cat_id
-            test_flag : evalStudentsPage.test_flag
-            final_flag: evalStudentsPage.final_flag
+            Item{Layout.fillHeight: true;  Layout.preferredWidth: baseDialogCLId.width;}
+        }
+
+        footer:
+            Item{
+            width: parent.width;
+            height: 50
+            RowLayout
+            {
+                Button{
+                    text: "انصراف"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    onClicked: {insertStudentEval.close();}
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "crimson"}
+                }
+                Button
+                {
+                    text: "تایید"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    onClicked: {
+                        if(dbMan.insertStudentEval(evalStudentsPage.eval_id, studentCB.currentValue ))
+                        {
+                            infoDialogId.dialogSuccess = true
+                            infoDialogId.dialogTitle = "عملیات موفق"
+                            infoDialogId.dialogText = "دانش‌آموز به این آزمون افزوده شد."
+                            infoDialogId.width = 500
+                            infoDialogId.height = 150
+                            infoDialogId.open();
+                            insertStudentEval.close();
+                            Methods.updateClassStudentsEval(evalStudentsPage.class_id, evalStudentsPage.eval_id );
+                        }
+                        else
+                        {
+                            var errorString = dbMan.getLastError();
+                            infoDialogId.dialogSuccess = false
+                            infoDialogId.dialogText = errorString
+                            infoDialogId.width = parent.width
+                            infoDialogId.height = 500
+                            infoDialogId.open();
+                        }
+                    }
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                }
+                Item{Layout.fillWidth: true}
+            }
+        }
+
+    }
+
+    //delete student
+    DialogBox.BaseDialog
+    {
+        id: delDialog
+        dialogTitle:  "حذف دانش‌آموز"
+        dialogText: "آیا از حذف دانش‌آموز از این آزمون مطمئن می‌باشید؟"
+        acceptVisible: true
+        rejectVisible: true
+
+        property int student_eval_id;
+
+        onDialogAccepted: {
+            if(dbMan.deleteStudentEval(delDialog.student_eval_id))
+            {
+                infoDialogId.dialogSuccess = true
+                infoDialogId.dialogTitle = "عملیات موفق"
+                infoDialogId.dialogText = "دانش‌آموز از مشارکت در این آزمون حذف گردید."
+                infoDialogId.width = 500
+                infoDialogId.height = 150
+                infoDialogId.open();
+                Methods.updateClassStudentsEval(evalStudentsPage.class_id, evalStudentsPage.eval_id );
+            }
+
+            else
+            {
+                var errorString = dbMan.getLastError();
+                infoDialogId.dialogSuccess = false
+                infoDialogId.dialogText = errorString
+                infoDialogId.width = parent.width
+                infoDialogId.height = 500
+                infoDialogId.open();
+            }
         }
     }
 
-    //eval delete
-    Component
-    {
-        id: deleteComponent
-        EvalDelete
-        {
-            onPopStackSignal: evalStudentsPage.appStackView.pop();
-            onDeletedSignal: Methods.updateEvals(evalStudentsPage.eval_cat_id);
-
-            branch: evalStudentsPage.branch
-            step: evalStudentsPage.step
-            base: evalStudentsPage.base
-            period: evalStudentsPage.period
-
-            eval_cat: evalStudentsPage.eval_cat
-            test_flag : evalStudentsPage.test_flag
-            final_flag: evalStudentsPage.final_flag
-        }
-    }
-
-    //eval update
-    Component
-    {
-        id: updateComponent
-        EvalUpdate
-        {
-            onPopStackSignal: evalStudentsPage.appStackView.pop();
-            onUpdatedSignal: Methods.updateEvals(evalStudentsPage.eval_cat_id);
-
-            branch: evalStudentsPage.branch
-            step: evalStudentsPage.step
-            base: evalStudentsPage.base
-            period: evalStudentsPage.period
-
-            step_id: evalStudentsPage.step_id;
-            base_id: evalStudentsPage.base_id;
-            period_id: evalStudentsPage.period_id;
-
-            eval_cat: evalStudentsPage.eval_cat
-            test_flag : evalStudentsPage.test_flag
-        }
-    }
+    //set grade
 
     // DialogButtonBox
     DialogBox.BaseDialog

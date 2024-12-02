@@ -302,7 +302,7 @@ Page {
     {
         id: delDialog
         dialogTitle:  "حذف واحد درسی"
-        dialogText: "آیا از حذف حذف واحد درسی دانش آموز مطمئن می‌باشید؟"
+        dialogText: "آیا از حذف واحد درسی دانش آموز مطمئن می‌باشید؟"
         acceptVisible: true
         rejectVisible: true
 
