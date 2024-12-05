@@ -366,28 +366,29 @@ Page {
                     hoverEnabled: true
                     opacity: 0.5
                     onHoveredChanged:(hovered)? this.opacity=1 : this.opacity=0.5
-                    icon.source: "qrc:/assets/images/users.png"
-                    icon.width: 48
-                    icon.height: 48
-                    display: AbstractButton.TextUnderIcon
-                    SwipeDelegate.onClicked:
-                    {
-                    }
-                }
-                Button
-                {
-                    height: 48
-                    width: 48
-                    background: Item{}
-                    hoverEnabled: true
-                    opacity: 0.5
-                    onHoveredChanged:(hovered)? this.opacity=1 : this.opacity=0.5
                     icon.source: "qrc:/assets/images/edit.png"
                     icon.width: 48
                     icon.height: 48
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
+                        var sph="";
+                        if(recDel.model.Photo == "")
+                        {
+                            if(recDel.isFemale) sph= "qrc:/assets/images/female.png"; else sph= "qrc:/assets/images/user.png";
+                        }
+                        else
+                        {
+                            sph = "file://"+recDel.model.Photo;
+                        }
+                        setStudentGradeDialog.studentPhoto = sph;
+                        setStudentGradeDialog.studentName = recDel.model.Student + " ( " + recDel.model.Fathername + " )"
+                        setStudentGradeDialog.periodName = evalStudentsPage.period;
+                        setStudentGradeDialog.courseName =  evalStudentsPage.course_name;
+                        setStudentGradeDialog.maxGrade = evalStudentsPage.max_grade
+                        setStudentGradeDialog.studentGrade = recDel.model.Student_grade
+                        setStudentGradeDialog.studentEvalId = recDel.model.Id;
+                        setStudentGradeDialog.open();
                     }
                 }
 
@@ -555,7 +556,191 @@ Page {
         }
     }
 
-    //set grade
+    // set student grade
+    Dialog
+    {
+        id: setStudentGradeDialog
+        property string studentPhoto;
+        property string studentName;
+        property string courseName;
+        property string periodName;
+        property real maxGrade;
+        property real studentGrade;
+
+        property int studentEvalId;
+
+        closePolicy:Popup.NoAutoClose
+        modal: true
+        dim: true
+        anchors.centerIn: parent;
+        width: (parent.width > 500)? 500 : parent.width
+        height: 400
+        title: "ثبت نمره دانش‌آموز"
+        header: Rectangle{
+            width: parent.width;
+            height: 50;
+            color: "mediumvioletred"
+            Text{ text: "ثبت نمره دانش‌آموز"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+        }
+
+        contentItem:
+        ColumnLayout
+        {
+            width: parent.width
+            height: 300
+
+            RowLayout
+            {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 100
+                spacing: 10
+                Image {
+                    source:setStudentGradeDialog.studentPhoto
+                    Layout.preferredWidth: 100
+                    Layout.preferredHeight: 100
+                    Layout.alignment: Qt.AlignLeft
+                }
+                Column
+                {
+                    Layout.preferredHeight: 100
+                    Layout.fillWidth: true
+                    Text {
+                        text: setStudentGradeDialog.studentName
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "royalblue"
+                        width: parent.width
+                        height: 50
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                    Text {
+                        text: setStudentGradeDialog.periodName
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "royalblue"
+                        width: parent.width
+                        height: 50
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                }
+            }
+
+            Text {
+                text: "آزمون " + setStudentGradeDialog.courseName
+                font.family: "B Yekan"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+                Layout.preferredWidth: parent.width
+                Layout.preferredHeight: 50
+                horizontalAlignment: Text.AlignHCenter
+            }
+            RowLayout
+            {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 50
+
+                Text
+                {
+                    Layout.preferredWidth: 100
+                    Layout.preferredHeight: 50
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    color: "black"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: "نمره دریافتی"
+                    elide: Text.ElideLeft
+                }
+                TextField
+                {
+                    id: gradeTF
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 50
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    color: "black"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    placeholderText: "بزرگترین مقدار معتبر " + setStudentGradeDialog.maxGrade
+                    text: (setStudentGradeDialog.studentGrade > -1)? setStudentGradeDialog.studentGrade : "";
+                    validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
+                }
+            }
+
+
+            Item{Layout.preferredWidth: parent.width; Layout.fillHeight: true;}
+        }
+
+      footer:
+        Item{
+            width: parent.width;
+            height: 50
+            RowLayout
+            {
+                Button{
+                    text: "انصراف"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    onClicked: { setStudentGradeDialog.studentGrade = -1; setStudentGradeDialog.close(); }
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
+                }
+                Button
+                {
+                    text: "تایید"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    onClicked:
+                    {
+                        var grade = gradeTF.text
+                        grade = parseFloat(grade);
+                        if(gradeTF.text == "")
+                        grade = -1;
+
+                        if(grade > setStudentGradeDialog.maxGrade)
+                        {
+                            infoDialogId.dialogText = "مقدار وارد شده از سقف نمره ارزیابی بزرگتر است.";
+                            infoDialogId.open();
+                            return;
+                        }
+
+                        // set grade
+                        if(dbMan.setStudentEvalGrade(setStudentGradeDialog.studentEvalId, grade))
+                        {
+                            setStudentGradeDialog.studentGrade = -1;
+                            setStudentGradeDialog.close();
+                            infoDialogId.dialogSuccess = true;
+                            infoDialogId.dialogTitle = "عملیات موفق";
+                            infoDialogId.dialogText = "نمره دانش‌آموز با موفقیت ثبت شد.";
+                            infoDialogId.open();
+                            Methods.updateClassStudentsEval(evalStudentsPage.class_id, evalStudentsPage.eval_id );
+                        }
+                        else
+                        {
+                            setStudentGradeDialog.studentGrade = -1;
+                            setStudentGradeDialog.close();
+                            infoDialogId.dialogSuccess = false;
+                            infoDialogId.dialogTitle = "خطا";
+                            infoDialogId.dialogText = "ثبت نمره دانش‌آموز با خطا مواجه شد.";
+                            infoDialogId.open();
+                        }
+
+                    }
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                }
+                Item{Layout.fillWidth: true}
+            }
+        }
+
+    }
 
     // DialogButtonBox
     DialogBox.BaseDialog
