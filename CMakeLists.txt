@@ -210,6 +210,8 @@ qt_add_resources(appiSchool "assets"
         assets/images/certified32.png
         assets/images/check.png
         assets/images/check32.png
+        assets/images/normalised.png
+
 
     #LOGO
     FILES

@@ -182,16 +182,18 @@ function updateClassStudentsEval(class_id, eval_id)
     }
 }
 
-function updateStudentCB(class_id)
+function updateStudentCB(class_id, eval_id)
 {
     studentCBoxModel.clear();
-    var jsondata = dbMan.getClassStudents(class_id);
+    var jsondata = dbMan.getClassLeftStudents(class_id, eval_id);
     //
+    var student;
     for(var obj of jsondata)
     {
+        student = obj.name + " " + obj.lastname + " (" + obj.fathername + ")"
         studentCBoxModel.append({
                               value: obj.id,
-                              text: obj.student,
+                              text: student,
                           })
     }
 }

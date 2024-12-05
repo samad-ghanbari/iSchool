@@ -55,6 +55,7 @@ Dialog
             text: publicDialogBox.dialogText
             font.family: "B Yekan"
             font.pixelSize: 16
+            wrapMode: Text.WrapAnywhere
             color: (publicDialogBox.dialogSuccess)? "forestgreen" : "crimson";
         }
         TextField
