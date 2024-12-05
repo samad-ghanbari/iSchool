@@ -13,14 +13,13 @@ Page {
 
     required property var student;
     required property var registerModel;
-    // r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id,
-    // s.branch_id, br.city, br.branch_name, s.name, s.lastname, s.fathername, s.gender, s.enabled
-    // st.step_name, sb.study_base, sp.study_period, sp.passed
+    // 0r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id, r.class_id,  s.branch_id
+    // 6br.city, br.branch_name, st.step_name, sb.study_base, sp.study_period, sp.passed, cl.class_name
 
     required property var studentCourseModel;
-    // 0sc.id, sc.student_id, sc.course_id
-    // 3co.course_name, co.course_coefficient, co.test_coefficient, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
-    // 9t.name, t.lastname, cl.class_name
+    // 0sc.id, 1sc.student_id, 2sc.register_id, 3sc.course_id, 4sc.teacher_id,
+    // 5co.course_name, 6.study_base_id, 7.course_coefficient, 8.test_coefficient, 9.shared_coefficient, 10.final_weight,
+    // 11.teacher
 
     signal popStackViewSignal();
 
@@ -100,7 +99,16 @@ Page {
                                 Layout.preferredWidth: 128
                                 Layout.preferredHeight: 128
                                 Layout.alignment: Qt.AlignLeft
-                                source: (studentCourseEvalPage.isFemale)? "qrc:/assets/images/female.png" : "qrc:/assets/images/user.png"
+                                source: {
+                                    if(studentCourseEvalPage.student.photo == "")
+                                    {
+                                        if(studentCourseEvalPage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
+                                    }
+                                    else
+                                    {
+                                        return "file://"+studentCourseEvalPage.student.photo;
+                                    }
+                                }
                             }
                             Column{
                                 Layout.fillWidth: true
@@ -180,13 +188,13 @@ Page {
                          Text
                          {
                              anchors.top: courseNameInfo.bottom
-                             text: studentCourseEvalPage.studentCourseModel.Teacher + "  ( کلاس " + studentCourseEvalPage.studentCourseModel.Class_name + ") "
+                             text: studentCourseEvalPage.studentCourseModel.Teacher
                              height: 50
                              width: parent.width
                              verticalAlignment: Text.AlignVCenter
                              horizontalAlignment: Text.AlignHCenter
                              font.family: "B Yekan"
-                             font.pixelSize: 16
+                             font.pixelSize: 18
                              font.bold: true
                              color: "white"
                          }
@@ -342,7 +350,8 @@ Page {
             width: 300
             height: 300
             required property var model;
-            //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_name, e.eval_time, e.course_id, e.max_value
+            //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_cat_id, e.course_id, e.class_id, e.eval_time, e.max_grade, e.included,
+            //ec.eval_cat, ec.test_flag, ec.final_flag
 
             color:{
                 if(recDelt.model.Student_grade == -1)
@@ -370,7 +379,7 @@ Page {
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
-                    text: recDelt.model.Eval_name
+                    text: recDelt.model.Eval_cat
                     elide: Text.ElideLeft
                 }
 
@@ -414,7 +423,7 @@ Page {
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
-                    text: (recDelt.model.Percentage)? "بیشترین نمره: " + recDelt.model.Max_value +"%" : "بیشترین نمره: " +recDelt.model.Max_value;
+                    text: (recDelt.model.Test_flag)? "بیشترین نمره: " + recDelt.model.Max_grade +"%" : "بیشترین نمره: " +recDelt.model.Max_grade;
                     elide: Text.ElideLeft
                 }
             }
@@ -476,7 +485,7 @@ Page {
                     source: "qrc:/assets/images/certified32.png"
                     width: 32
                     height: 32
-                    visible: (recDelt.model.Final_eval)? true : false;
+                    visible: (recDelt.model.Final_flag)? true : false;
                 }
                 // not report included
                 Image
@@ -484,14 +493,15 @@ Page {
                     source: "qrc:/assets/images/stop32.png"
                     width: 32
                     height: 32
-                    visible: (recDelt.model.Report_included)? false : true;
+                    visible: (recDelt.model.Included)? false : true;
                 }
+                //test
                 Image
                 {
                     source: "qrc:/assets/images/check32.png"
                     width: 32
                     height: 32
-                    visible: (recDelt.model.Percentage)? true : false;
+                    visible: (recDelt.model.Test_flag)? true : false;
                 }
 
             }
@@ -515,21 +525,22 @@ Page {
                 {
 
 
-                    var eval_name = recDelt.model.Eval_name;
+                    var eval_cat = recDelt.model.Eval_cat;
+                    var eval_time = recDelt.model.Eval_time
                     var student_grade = recDelt.model.Student_grade
-                    var max_grade = recDelt.model.Max_value
+                    var max_grade = recDelt.model.Max_grade
                     var student = studentCourseEvalPage.student["name"] + " " + studentCourseEvalPage.student["lastname"];
                     var course = studentCourseEvalPage.studentCourseModel.Course_name
                     gradeTF.text = (student_grade > -1)? student_grade : ""
 
-                    setStudentgradeDialog.studentVar = student
-                    setStudentgradeDialog.evalnameVar = eval_name
-                    setStudentgradeDialog.gradeVar = student_grade
-                    setStudentgradeDialog.maxVar = max_grade
-                    setStudentgradeDialog.courseVar = course
-                    setStudentgradeDialog.studentEvalId = recDelt.model.Id
+                    setStudentGradeDialog.studentVar = student
+                    setStudentGradeDialog.evalCatVar = eval_cat
+                    setStudentGradeDialog.gradeVar = student_grade
+                    setStudentGradeDialog.maxVar = max_grade
+                    setStudentGradeDialog.courseVar = course
+                    setStudentGradeDialog.studentEvalId = recDelt.model.Id
 
-                    setStudentgradeDialog.open();
+                    setStudentGradeDialog.open();
                 }
             }
         }
@@ -547,9 +558,9 @@ Page {
     // set student grade
     Dialog
     {
-        id: setStudentgradeDialog
+        id: setStudentGradeDialog
         property string studentVar;
-        property string evalnameVar;
+        property string evalCatVar;
         property real gradeVar;
         property real maxVar;
 
@@ -586,7 +597,7 @@ Page {
                 font.family: "B Yekan"
                 font.pixelSize: 20
                 font.bold: true
-                text: setStudentgradeDialog.studentVar
+                text: setStudentGradeDialog.studentVar
                 elide: Text.ElideLeft
             }
             Text
@@ -601,7 +612,7 @@ Page {
                 font.family: "B Yekan"
                 font.pixelSize: 16
                 font.bold: true
-                text: setStudentgradeDialog.courseVar + " (" + setStudentgradeDialog.evalnameVar + ")"
+                text: setStudentGradeDialog.courseVar + " (" + setStudentGradeDialog.evalCatVar + ")"
                 elide: Text.ElideLeft
             }
 
@@ -635,8 +646,8 @@ Page {
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
-                    placeholderText: "بزرگترین مقدار معتبر " + setStudentgradeDialog.maxVar
-                    text: (setStudentgradeDialog.gradeVar > -1)? setStudentgradeDialog.gradeVar : "";
+                    placeholderText: "بزرگترین مقدار معتبر " + setStudentGradeDialog.maxVar
+                    text: (setStudentGradeDialog.gradeVar > -1)? setStudentGradeDialog.gradeVar : "";
                     validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
                 }
             }
@@ -654,7 +665,7 @@ Page {
                     Layout.preferredWidth:  100
                     font.family: "B Yekan"
                     font.pixelSize: 14
-                    onClicked: { setStudentgradeDialog.gradeVar = -1; setStudentgradeDialog.close(); }
+                    onClicked: { setStudentGradeDialog.gradeVar = -1; setStudentGradeDialog.close(); }
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
                 }
                 Button
@@ -668,10 +679,9 @@ Page {
                     {
                         var grade = gradeTF.text
                         grade = parseFloat(grade);
-                        if(gradeTF.text == "")
-                        grade = -1;
+                        if(gradeTF.text == "") grade = -1;
 
-                        if(grade > setStudentgradeDialog.maxVar)
+                        if(grade > setStudentGradeDialog.maxVar)
                         {
                             infoDialogId.dialogText = "مقدار وارد شده از سقف نمره ارزیابی بزرگتر است.";
                             infoDialogId.open();
@@ -679,10 +689,10 @@ Page {
                         }
 
                         // set grade
-                        if(dbMan.setStudentCourseEvalGrade(setStudentgradeDialog.studentEvalId, grade))
+                        if(dbMan.setStudentEvalGrade(setStudentGradeDialog.studentEvalId, grade))
                         {
-                            setStudentgradeDialog.gradeVar = -1;
-                            setStudentgradeDialog.close();
+                            setStudentGradeDialog.gradeVar = -1;
+                            setStudentGradeDialog.close();
                             infoDialogId.dialogSuccess = true;
                             infoDialogId.dialogTitle = "عملیات موفق";
                             infoDialogId.dialogText = "نمره دانش‌آموز با موفقیت ثبت شد.";
@@ -692,8 +702,8 @@ Page {
                         }
                         else
                         {
-                            setStudentgradeDialog.gradeVar = -1;
-                            setStudentgradeDialog.close();
+                            setStudentGradeDialog.gradeVar = -1;
+                            setStudentGradeDialog.close();
                             infoDialogId.dialogSuccess = false;
                             infoDialogId.dialogTitle = "خطا";
                             infoDialogId.dialogText = "ثبت نمره دانش‌آموز با خطا مواجه شد.";

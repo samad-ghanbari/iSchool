@@ -426,6 +426,23 @@ Page {
                         Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                         onClicked:
                         {
+                            // get teachers for each class
+                            var classes = dbMan.getClasses(insertPage.step_id, insertPage.base_id, insertPage.period_id  );
+                            //c.id, c.step_id, c.study_base_id, c.study_period_id, c.class_name, c.class_desc, c.sort_priority, st.step_name, sb.study_base, sp.study_period
+                            var teachers = dbMan.getBranchTeachers(insertPage.branch_id );
+                            //t.id, t.branch_id, t.name, t.lastname, t.gender, t.study_degree, t.study_field, t.telephone, t.enabled, b.city, b.branch_name
+
+                            var classModel = [];
+                            var teacherModel = [];
+                            for(var obj of classes)
+                            {
+                                classModel.append({value: obj.id, text: obj.class_name});
+                            }
+                            for(var obj of teachers)
+                            {
+                                teacherModel.append({value: obj.id, text: obj.name+" " +obj.lastname});
+                            }
+
                             var course = {};
                             course["step_id"] = insertPage.step_id
                             course["base_id"] = insertPage.base_id
@@ -486,4 +503,193 @@ Page {
         }
 
     }
+
+    //get teacher id for each class
+    Dialog
+    {
+        id: doneDialog
+        required property var eval;
+        required property var teacherModel;
+        required property var classModel;
+        required property string courseName;
+
+        closePolicy:Popup.NoAutoClose
+        modal: true
+        dim: true
+        anchors.centerIn: parent;
+        width: (parent.width > 500)? 500 : parent.width
+        height: 400
+        title: "نرمالایز کردن نمرات"
+        header: Rectangle{
+            width: parent.width;
+            height: 50;
+            color: "mediumvioletred"
+            Text{ text: "نرمالایز کردن نمرات"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+        }
+
+        contentItem:
+        ColumnLayout
+        {
+            width: parent.width
+            height: 300
+
+            Image {
+                source:"qrc:/assets/images/normalised.png"
+                Layout.preferredWidth: 100
+                Layout.preferredHeight: 100
+                Layout.alignment: Qt.AlignHCenter
+            }
+
+            Text {
+                text: "آزمون " + normalisedDialog.courseName + " (" + normalisedDialog.periodName + ") "
+                font.family: "B Yekan"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+                Layout.preferredWidth: parent.width
+                Layout.preferredHeight: 50
+                horizontalAlignment: Text.AlignHCenter
+            }
+            RowLayout
+            {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 50
+                spacing: 5
+
+                Text
+                {
+                    Layout.preferredWidth: 150
+                    Layout.preferredHeight: 50
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    color: "black"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: "نمره مبنا جهت نرمالایز "
+                    elide: Text.ElideLeft
+                }
+                TextField
+                {
+                    id: normaliseGradeTF
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 50
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    color: "black"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    placeholderText: "بزرگترین مقدار معتبر " + normalisedDialog.maxGrade
+                    validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
+                }
+            }
+
+
+            Item{Layout.preferredWidth: parent.width; Layout.fillHeight: true;}
+        }
+
+      footer:
+        Item{
+            width: parent.width;
+            height: 50
+            RowLayout
+            {
+                width: parent.width
+                height: 50
+                spacing: 10
+
+                Button{
+                    text: "حذف نمودار"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    onClicked: {
+
+                        if(dbMan.studentEvalDenormalise(normalisedDialog.eval_id))
+                        {
+                            normaliseGradeTF.text = "";
+                            normalisedDialog.close();
+                            infoDialogId.dialogSuccess = true;
+                            infoDialogId.dialogTitle = "عملیات موفق";
+                            infoDialogId.dialogText = "نمرات دانش‌آموزان از نمودار خارج گردید.";
+                            infoDialogId.open();
+                            Methods.updateClassStudentsEval(evalStudentsPage.class_id, evalStudentsPage.eval_id );
+                        }
+                        else
+                        {
+                            normaliseGradeTF.text = "";
+                            normalisedDialog.close();
+                            infoDialogId.dialogSuccess = false;
+                            infoDialogId.dialogTitle = "خطا";
+                            infoDialogId.dialogText = "عملیات با خطا مواجه شد.";
+                            infoDialogId.open();
+                        }
+                    }
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
+                }
+
+                Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+
+                Button{
+                    text: "انصراف"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    onClicked: { normaliseGradeTF.text = ""; normalisedDialog.close(); }
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "orange"}
+                }
+                Button
+                {
+                    text: "تایید"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    onClicked:
+                    {
+                        var norm = normaliseGradeTF.text
+                        norm = parseFloat(norm);
+                        if(normaliseGradeTF.text == "")
+                        norm = -1;
+
+                        if(norm > normalisedDialog.maxGrade)
+                        {
+                            infoDialogId.dialogText = "مقدار وارد شده از سقف نمره ارزیابی بزرگتر است.";
+                            infoDialogId.open();
+                            return;
+                        }
+
+                        // normalise
+                        if(dbMan.studentEvalNormalise(normalisedDialog.eval_id, norm))
+                        {
+                            normaliseGradeTF.text = "";
+                            normalisedDialog.close();
+                            infoDialogId.dialogSuccess = true;
+                            infoDialogId.dialogTitle = "عملیات موفق";
+                            infoDialogId.dialogText = "نمرات دانش‌آموزان نرمالایز گردید.";
+                            infoDialogId.open();
+                            Methods.updateClassStudentsEval(evalStudentsPage.class_id, evalStudentsPage.eval_id );
+                        }
+                        else
+                        {
+                            normaliseGradeTF.text = "";
+                            normalisedDialog.close();
+                            infoDialogId.dialogSuccess = false;
+                            infoDialogId.dialogTitle = "خطا";
+                            infoDialogId.dialogText = "عملیات با خطا مواجه شد.";
+                            infoDialogId.open();
+                        }
+
+                    }
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                }
+            }
+        }
+
+    }
+
+
 }

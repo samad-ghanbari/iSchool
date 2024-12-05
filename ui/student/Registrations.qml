@@ -176,8 +176,8 @@ Page {
     Component
     {
         id: registerDelegate
-        //0r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id, s.branch_id
-      // 6br.city, br.branch_name, st.step_name, sb.study_base, sp.study_period, sp.passed, cl.class_name
+        // 0r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id, r.class_id,  s.branch_id
+        // 6br.city, br.branch_name, st.step_name, sb.study_base, sp.study_period, sp.passed, cl.class_name
 
         SwipeDelegate
         {
@@ -305,7 +305,10 @@ Page {
                         if(regRecDel.swipe.complete)
                             regRecDel.swipe.close();
 
-                        registersPage.appStackView.push(studentCourseComponent, {student: registersPage.student, model: regRecDel.model});
+                        registersPage.appStackView.push(studentCourseComponent,
+                                                        {student: registersPage.student,
+                                                            model: regRecDel.model
+                                                        });
                     }
                 }
             }

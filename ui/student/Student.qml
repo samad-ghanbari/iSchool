@@ -148,6 +148,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true
@@ -161,7 +162,8 @@ Page {
                                 Layout.preferredHeight: 50
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
-
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
                             }
 
                             Text {
@@ -170,6 +172,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true
@@ -183,6 +186,8 @@ Page {
                                 Layout.preferredHeight: 50
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
                             }
 
                             Text {
@@ -191,6 +196,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true
@@ -204,6 +210,8 @@ Page {
                                 Layout.preferredHeight: 50
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
                             }
 
                             Text {
@@ -212,6 +220,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true
@@ -234,6 +243,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true
@@ -257,6 +267,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Qt.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true

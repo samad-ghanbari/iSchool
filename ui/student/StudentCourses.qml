@@ -13,9 +13,8 @@ Page {
     required property StackView appStackView;
     required property var student;
     required property var model;
-    // r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id,
-    // s.branch_id, br.city, br.branch_name, s.name, s.lastname, s.fathername, s.gender, s.enabled
-    // st.step_name, sb.study_base, sp.study_period, sp.passed
+    // 0r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id, r.class_id,  s.branch_id
+    // 6br.city, br.branch_name, st.step_name, sb.study_base, sp.study_period, sp.passed, cl.class_name
 
     property bool isFemale : (studentCoursesPage.student.gender === "خانم")? true : false;
 
@@ -469,7 +468,6 @@ Page {
         }
     }
 
-
     // insert student course
     Component
     {
@@ -508,7 +506,6 @@ Page {
         dialogSuccess: false
     }
 
-
     //eval
     Component
     {
@@ -521,7 +518,6 @@ Page {
             registerModel: studentCoursesPage.model
         }
     }
-
 
     // info drawer
     Drawer

@@ -222,8 +222,10 @@ function updateClassCB(step_id, base_id, period_id)
 function updateCourseEvalModel(student_id, course_id)
 {
     courseEvalModel.clear();
-    var jsondata = dbMan.getStudentCourseEvals(student_id, course_id);
-    //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_name, e.eval_time, e.course_id, e.max_value
+    var jsondata = dbMan.getStudentCourseEvals(student_id,  course_id);
+    //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_cat_id, e.course_id, e.class_id, e.eval_time, e.max_grade, e.included,
+    //ec.eval_cat, ec.test_flag, ec.final_flag
+
     for(var obj of jsondata)
     {
         courseEvalModel.append({
@@ -232,14 +234,15 @@ function updateCourseEvalModel(student_id, course_id)
                                    Eval_id: obj.eval_id,
                                    Student_grade: obj.student_grade,
                                    Normalised_grade: obj.normalised_grade,
-                                   Eval_name: obj.eval_name,
-                                   Eval_time: obj.eval_time,
+                                   Eval_cat_id: obj.eval_cat_id,
                                    Course_id: obj.course_id,
-                                   Max_value: obj.max_value,
-                                   Percentage: obj.percentage,
-                                   Final_eval: obj.final_eval,
-                                   Semester: obj.semester,
-                                   Report_included: obj.report_included
+                                   Class_id: obj.class_id,
+                                   Eval_time: obj.eval_time,
+                                   Max_grade: obj.max_grade,
+                                   Included: obj.included,
+                                   Eval_cat: obj.eval_cat,
+                                   Test_flag: obj.test_flag,
+                                   Final_flag: obj.final_flag
                                });
 
 

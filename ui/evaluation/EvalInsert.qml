@@ -138,6 +138,19 @@ Page {
                         font.bold: true
                         color: "black"
                     }
+                    // eval cat
+                    Text {
+                        text:  insertPage.eval_cat
+                        Layout.fillWidth: true
+                        Layout.columnSpan: 2
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 20
+                        font.bold: true
+                        color: "mediumvioletred"
+                    }
 
                     // course
                     Text {
