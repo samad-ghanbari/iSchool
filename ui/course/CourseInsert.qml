@@ -437,7 +437,7 @@ Page {
 
                             course["shared_coefficient"] = { "course": insertPage.courseSharedCoef, "test": insertPage.testSharedCoef };
 
-                            if(dbMan.courseInsert(course))
+                            if(true)//dbMan.courseInsert(course))
                             {
                                 // class_detail : class_id, course_id, teacher_id
                                 var course_id = dbMan.getLastInsertedId();
@@ -538,7 +538,7 @@ Page {
         dim: true
         anchors.centerIn: parent;
         width: (parent.width > 500)? 500 : parent.width
-        height: 450
+        height: 300
         header: Rectangle{
             width: parent.width;
             height: 50;
@@ -549,99 +549,101 @@ Page {
         ListModel{id: teacheCBModel;} // supports index=-1 and not selectable
 
         contentItem:
-        ColumnLayout
-        {
+        ScrollView{
             width: parent.width
-            height: 350
-
-            Text {
-                text: "سال‌تحصیلی " + doneDialog.period
-                font.family: "B Yekan"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkmagenta"
-                Layout.preferredWidth: parent.width
-                Layout.preferredHeight: 50
-                horizontalAlignment: Text.AlignHCenter
-            }
-            Text {
-                text: "پایه تحصیلی: " + doneDialog.base
-                font.family: "B Yekan"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkmagenta"
-                Layout.preferredWidth: parent.width
-                Layout.preferredHeight: 50
-                horizontalAlignment: Text.AlignHCenter
-            }
-            Text {
-                text: doneDialog.courseName
-                font.family: "B Yekan"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkmagenta"
-                Layout.preferredWidth: parent.width
-                Layout.preferredHeight: 50
-                horizontalAlignment: Text.AlignHCenter
-            }
-            Flow
+            ColumnLayout
             {
-                spacing: 20
-                flow: Flow.TopToBottom
-                Layout.minimumHeight: classTeacherRp.count*50+20
-                Layout.fillWidth: true
+                width: parent.width
+                height: 350
 
-                Repeater
+                Text {
+                    text: "سال‌تحصیلی " + doneDialog.period
+                    font.family: "B Yekan"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                    Layout.preferredWidth: parent.width
+                    Layout.preferredHeight: 50
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Text {
+                    text: "پایه تحصیلی: " + doneDialog.base
+                    font.family: "B Yekan"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                    Layout.preferredWidth: parent.width
+                    Layout.preferredHeight: 50
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Text {
+                    text: doneDialog.courseName
+                    font.family: "B Yekan"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                    Layout.preferredWidth: parent.width
+                    Layout.preferredHeight: 50
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Flow
                 {
-                    id: classTeacherRp
-                    model: doneDialog.classes
-                    delegate:Rectangle{
-                        id: recDel
-                        width : parent.width;
-                        height: 50;
-                        required property var model
-                        color: "transparent"
+                    spacing: 20
+                    flow: Flow.TopToBottom
+                    Layout.minimumHeight: classTeacherRp.count*50+20
+                    Layout.fillWidth: true
 
-                        RowLayout{
-                            anchors.fill: parent
-                            spacing: 10
-                            Text {
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "darkmagenta"
-                                Layout.preferredWidth: 150
-                                Layout.preferredHeight: 50
-                                horizontalAlignment: Text.AlignLeft
-                                verticalAlignment: Text.AlignVCenter
-                                text: "دبیر کلاس " + recDel.model.class_name
-                            }
-                            ComboBox
-                            {
-                                Layout.preferredHeight:  50
-                                Layout.fillWidth: true
-                                Layout.alignment: Qt.AlignLeft
-                                editable: false
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                font.bold: true
-                                model: teacheCBModel
-                                textRole: "teacher"
-                                valueRole: "id"
-                                Component.onCompleted: currentIndex = -1;
-                                onActivated:{
-                                    doneDialog.classTeacher[recDel.model.id] = currentValue;
-                                    okBtn.enabled = (Object.keys(doneDialog.classes).length == Object.keys(doneDialog.classTeacher).length)? true : false;
+                    Repeater
+                    {
+                        id: classTeacherRp
+                        model: doneDialog.classes
+                        delegate:Rectangle{
+                            id: recDel
+                            width : parent.width;
+                            height: 50;
+                            required property var model
+                            color: "transparent"
+
+                            RowLayout{
+                                anchors.fill: parent
+                                spacing: 10
+                                Text {
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    color: "darkmagenta"
+                                    Layout.preferredWidth: 150
+                                    Layout.preferredHeight: 50
+                                    horizontalAlignment: Text.AlignLeft
+                                    verticalAlignment: Text.AlignVCenter
+                                    text: "دبیر کلاس " + recDel.model.class_name
+                                }
+                                ComboBox
+                                {
+                                    Layout.preferredHeight:  50
+                                    Layout.fillWidth: true
+                                    Layout.alignment: Qt.AlignLeft
+                                    editable: false
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    model: teacheCBModel
+                                    textRole: "teacher"
+                                    valueRole: "id"
+                                    Component.onCompleted: currentIndex = -1;
+                                    onActivated:{
+                                        doneDialog.classTeacher[recDel.model.id] = currentValue;
+                                        okBtn.enabled = (Object.keys(doneDialog.classes).length == Object.keys(doneDialog.classTeacher).length)? true : false;
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
+                Item{Layout.preferredWidth: parent.width; Layout.fillHeight: true;}
             }
-
-            Item{Layout.preferredWidth: parent.width; Layout.fillHeight: true;}
         }
-
         footer:
         Item{
             width: parent.width;
