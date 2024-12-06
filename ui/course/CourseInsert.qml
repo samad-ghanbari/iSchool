@@ -5,7 +5,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "./../public" as DialogBox
-import "Course.js" as Methods
 
 Page {
     id: insertPage
@@ -316,35 +315,35 @@ Page {
                         clip: true
                         model: ListModel{id: courseCoefModel;}
                         delegate:
-                            Switch{
-                                required property var model
-                                checked: (insertPage.courseSharedCoef.indexOf(model.Id) > -1)? true : false;
-                                height: 50;
-                                width: courseCoefLV.width
-                                text:  model.Course_name;
-                                font.family: "B Yekan"
-                                font.pixelSize: 14
-                                onToggled:
-                                {
-                                    var index = insertPage.courseSharedCoef.indexOf(model.Id);
+                        Switch{
+                            required property var model
+                            checked: (insertPage.courseSharedCoef.indexOf(model.Id) > -1)? true : false;
+                            height: 50;
+                            width: courseCoefLV.width
+                            text:  model.Course_name;
+                            font.family: "B Yekan"
+                            font.pixelSize: 14
+                            onToggled:
+                            {
+                                var index = insertPage.courseSharedCoef.indexOf(model.Id);
 
-                                    if(checked)
-                                    {
-                                        //push step
-                                        if(index < 0)
-                                        insertPage.courseSharedCoef.push(model.Id);
-                                    }
-                                    else
-                                    {
-                                        if(index > -1)
-                                        insertPage.courseSharedCoef.splice(index, 1);
-                                    }
+                                if(checked)
+                                {
+                                    //push step
+                                    if(index < 0)
+                                    insertPage.courseSharedCoef.push(model.Id);
+                                }
+                                else
+                                {
+                                    if(index > -1)
+                                    insertPage.courseSharedCoef.splice(index, 1);
                                 }
                             }
+                        }
 
                         Component.onCompleted:{
                             for(var obj of insertPage.existsCourses)
-                                    courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name });
+                            courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name });
                         }
                     }
 
@@ -375,35 +374,35 @@ Page {
                         clip: true
                         model: ListModel{id: testCoefModel;}
                         delegate:
-                            Switch{
-                                required property var model
-                                checked: (insertPage.testSharedCoef.indexOf(model.Id) > -1)? true : false;
-                                height: 50;
-                                width: testCoefLV.width
-                                text:  model.Course_name;
-                                font.family: "B Yekan"
-                                font.pixelSize: 14
-                                onToggled:
-                                {
-                                    var index = insertPage.testSharedCoef.indexOf(model.Id);
+                        Switch{
+                            required property var model
+                            checked: (insertPage.testSharedCoef.indexOf(model.Id) > -1)? true : false;
+                            height: 50;
+                            width: testCoefLV.width
+                            text:  model.Course_name;
+                            font.family: "B Yekan"
+                            font.pixelSize: 14
+                            onToggled:
+                            {
+                                var index = insertPage.testSharedCoef.indexOf(model.Id);
 
-                                    if(checked)
-                                    {
-                                        //push step
-                                        if(index < 0)
-                                        insertPage.testSharedCoef.push(model.Id);
-                                    }
-                                    else
-                                    {
-                                        if(index > -1)
-                                        insertPage.testSharedCoef.splice(index, 1);
-                                    }
+                                if(checked)
+                                {
+                                    //push step
+                                    if(index < 0)
+                                    insertPage.testSharedCoef.push(model.Id);
+                                }
+                                else
+                                {
+                                    if(index > -1)
+                                    insertPage.testSharedCoef.splice(index, 1);
                                 }
                             }
+                        }
 
                         Component.onCompleted:{
                             for(var obj of insertPage.existsCourses)
-                                    testCoefModel.append({ Id: obj.id, Course_name: obj.course_name });
+                            testCoefModel.append({ Id: obj.id, Course_name: obj.course_name });
                         }
                     }
 
@@ -426,23 +425,6 @@ Page {
                         Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                         onClicked:
                         {
-                            // get teachers for each class
-                            var classes = dbMan.getClasses(insertPage.step_id, insertPage.base_id, insertPage.period_id  );
-                            //c.id, c.step_id, c.study_base_id, c.study_period_id, c.class_name, c.class_desc, c.sort_priority, st.step_name, sb.study_base, sp.study_period
-                            var teachers = dbMan.getBranchTeachers(insertPage.branch_id );
-                            //t.id, t.branch_id, t.name, t.lastname, t.gender, t.study_degree, t.study_field, t.telephone, t.enabled, b.city, b.branch_name
-
-                            var classModel = [];
-                            var teacherModel = [];
-                            for(var obj of classes)
-                            {
-                                classModel.append({value: obj.id, text: obj.class_name});
-                            }
-                            for(var obj of teachers)
-                            {
-                                teacherModel.append({value: obj.id, text: obj.name+" " +obj.lastname});
-                            }
-
                             var course = {};
                             course["step_id"] = insertPage.step_id
                             course["base_id"] = insertPage.base_id
@@ -456,7 +438,38 @@ Page {
                             course["shared_coefficient"] = { "course": insertPage.courseSharedCoef, "test": insertPage.testSharedCoef };
 
                             if(dbMan.courseInsert(course))
-                                successDialogId.open();
+                            {
+                                // class_detail : class_id, course_id, teacher_id
+                                var course_id = dbMan.getLastInsertedId();
+                                // get teachers for each class
+                                var classes = dbMan.getClassesBrief(insertPage.step_id, insertPage.base_id, insertPage.period_id );
+                                //c.id, c.class_name, c.class_desc
+                                var teachers = dbMan.getBranchTeachersBrief(insertPage.branch_id );
+                                //t.id, t.teacher
+
+                                if( ( insertPage.base_id > -1) && (classes.length > 0) && (teachers.length > 0) )
+                                {
+                                    doneDialog.period = insertPage.period;
+                                    doneDialog.base = insertPage.base;
+                                    doneDialog.courseName = courseNameTF.text
+                                    doneDialog.course_id = course_id;
+                                    doneDialog.classes = classes;
+                                    doneDialog.classTeacher = {}
+                                    okBtn.enabled = false
+                                    doneDialog.teachersModel.clear();
+                                    for(var t of teachers)
+                                    {
+                                        doneDialog.teachersModel.append(t)
+                                    }
+
+                                    doneDialog.open();
+                                }
+                                else
+                                {
+                                    successDialogId.open();
+                                }
+
+                            }
                             else
                             {
                                 var errorString = dbMan.getLastError();
@@ -508,40 +521,41 @@ Page {
     Dialog
     {
         id: doneDialog
-        required property var eval;
-        required property var teacherModel;
-        required property var classModel;
-        required property string courseName;
+        property string period;
+        property string base;
+        property string courseName;
+        property alias teachersModel : teacheCBModel;
+        // id , teacher
+
+        property var classes;
+        //id, c.class_name, c.class_desc
+
+        property var classTeacher : {} // class_id: teacher_id - supports only string key - have to convert to int
+        property int course_id;
 
         closePolicy:Popup.NoAutoClose
         modal: true
         dim: true
         anchors.centerIn: parent;
         width: (parent.width > 500)? 500 : parent.width
-        height: 400
-        title: "نرمالایز کردن نمرات"
+        height: 450
         header: Rectangle{
             width: parent.width;
             height: 50;
             color: "mediumvioletred"
-            Text{ text: "نرمالایز کردن نمرات"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+            Text{ text: "تعیین دبیر کلاس "; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
         }
+
+        ListModel{id: teacheCBModel;} // supports index=-1 and not selectable
 
         contentItem:
         ColumnLayout
         {
             width: parent.width
-            height: 300
-
-            Image {
-                source:"qrc:/assets/images/normalised.png"
-                Layout.preferredWidth: 100
-                Layout.preferredHeight: 100
-                Layout.alignment: Qt.AlignHCenter
-            }
+            height: 350
 
             Text {
-                text: "آزمون " + normalisedDialog.courseName + " (" + normalisedDialog.periodName + ") "
+                text: "سال‌تحصیلی " + doneDialog.period
                 font.family: "B Yekan"
                 font.pixelSize: 18
                 font.bold: true
@@ -550,46 +564,85 @@ Page {
                 Layout.preferredHeight: 50
                 horizontalAlignment: Text.AlignHCenter
             }
-            RowLayout
-            {
-                Layout.fillWidth: true
+            Text {
+                text: "پایه تحصیلی: " + doneDialog.base
+                font.family: "B Yekan"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+                Layout.preferredWidth: parent.width
                 Layout.preferredHeight: 50
-                spacing: 5
+                horizontalAlignment: Text.AlignHCenter
+            }
+            Text {
+                text: doneDialog.courseName
+                font.family: "B Yekan"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+                Layout.preferredWidth: parent.width
+                Layout.preferredHeight: 50
+                horizontalAlignment: Text.AlignHCenter
+            }
+            Flow
+            {
+                spacing: 20
+                flow: Flow.TopToBottom
+                Layout.minimumHeight: classTeacherRp.count*50+20
+                Layout.fillWidth: true
 
-                Text
+                Repeater
                 {
-                    Layout.preferredWidth: 150
-                    Layout.preferredHeight: 50
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignLeft
-                    color: "black"
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    font.bold: true
-                    text: "نمره مبنا جهت نرمالایز "
-                    elide: Text.ElideLeft
-                }
-                TextField
-                {
-                    id: normaliseGradeTF
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 50
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignLeft
-                    color: "black"
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    font.bold: true
-                    placeholderText: "بزرگترین مقدار معتبر " + normalisedDialog.maxGrade
-                    validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
+                    id: classTeacherRp
+                    model: doneDialog.classes
+                    delegate:Rectangle{
+                        id: recDel
+                        width : parent.width;
+                        height: 50;
+                        required property var model
+                        color: "transparent"
+
+                        RowLayout{
+                            anchors.fill: parent
+                            spacing: 10
+                            Text {
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "darkmagenta"
+                                Layout.preferredWidth: 150
+                                Layout.preferredHeight: 50
+                                horizontalAlignment: Text.AlignLeft
+                                verticalAlignment: Text.AlignVCenter
+                                text: "دبیر کلاس " + recDel.model.class_name
+                            }
+                            ComboBox
+                            {
+                                Layout.preferredHeight:  50
+                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignLeft
+                                editable: false
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                model: teacheCBModel
+                                textRole: "teacher"
+                                valueRole: "id"
+                                Component.onCompleted: currentIndex = -1;
+                                onActivated:{
+                                    doneDialog.classTeacher[recDel.model.id] = currentValue;
+                                    okBtn.enabled = (Object.keys(doneDialog.classes).length == Object.keys(doneDialog.classTeacher).length)? true : false;
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
 
             Item{Layout.preferredWidth: parent.width; Layout.fillHeight: true;}
         }
 
-      footer:
+        footer:
         Item{
             width: parent.width;
             height: 50
@@ -599,37 +652,6 @@ Page {
                 height: 50
                 spacing: 10
 
-                Button{
-                    text: "حذف نمودار"
-                    Layout.preferredHeight:  40
-                    Layout.preferredWidth:  100
-                    font.family: "B Yekan"
-                    font.pixelSize: 14
-                    onClicked: {
-
-                        if(dbMan.studentEvalDenormalise(normalisedDialog.eval_id))
-                        {
-                            normaliseGradeTF.text = "";
-                            normalisedDialog.close();
-                            infoDialogId.dialogSuccess = true;
-                            infoDialogId.dialogTitle = "عملیات موفق";
-                            infoDialogId.dialogText = "نمرات دانش‌آموزان از نمودار خارج گردید.";
-                            infoDialogId.open();
-                            Methods.updateClassStudentsEval(evalStudentsPage.class_id, evalStudentsPage.eval_id );
-                        }
-                        else
-                        {
-                            normaliseGradeTF.text = "";
-                            normalisedDialog.close();
-                            infoDialogId.dialogSuccess = false;
-                            infoDialogId.dialogTitle = "خطا";
-                            infoDialogId.dialogText = "عملیات با خطا مواجه شد.";
-                            infoDialogId.open();
-                        }
-                    }
-                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
-                }
-
                 Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
 
                 Button{
@@ -638,51 +660,33 @@ Page {
                     Layout.preferredWidth:  100
                     font.family: "B Yekan"
                     font.pixelSize: 14
-                    onClicked: { normaliseGradeTF.text = ""; normalisedDialog.close(); }
-                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "orange"}
+                    onClicked: { doneDialog.close(); }
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
                 }
                 Button
                 {
+                    id: okBtn
                     text: "تایید"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
                     font.family: "B Yekan"
                     font.pixelSize: 14
+                    enabled: false;
+
                     onClicked:
                     {
-                        var norm = normaliseGradeTF.text
-                        norm = parseFloat(norm);
-                        if(normaliseGradeTF.text == "")
-                        norm = -1;
-
-                        if(norm > normalisedDialog.maxGrade)
+                        if(dbMan.classDetailsInsert(doneDialog.classTeacher, doneDialog.course_id))
                         {
-                            infoDialogId.dialogText = "مقدار وارد شده از سقف نمره ارزیابی بزرگتر است.";
-                            infoDialogId.open();
-                            return;
-                        }
-
-                        // normalise
-                        if(dbMan.studentEvalNormalise(normalisedDialog.eval_id, norm))
-                        {
-                            normaliseGradeTF.text = "";
-                            normalisedDialog.close();
-                            infoDialogId.dialogSuccess = true;
-                            infoDialogId.dialogTitle = "عملیات موفق";
-                            infoDialogId.dialogText = "نمرات دانش‌آموزان نرمالایز گردید.";
-                            infoDialogId.open();
-                            Methods.updateClassStudentsEval(evalStudentsPage.class_id, evalStudentsPage.eval_id );
+                            successDialogId.dialogText = "درس جدید با موفقیت افزوده شد و \n به کلاس‌های موجود اضافه گردید."
+                            successDialogId.open();
                         }
                         else
                         {
-                            normaliseGradeTF.text = "";
-                            normalisedDialog.close();
-                            infoDialogId.dialogSuccess = false;
-                            infoDialogId.dialogTitle = "خطا";
-                            infoDialogId.dialogText = "عملیات با خطا مواجه شد.";
-                            infoDialogId.open();
+                            successDialogId.dialogText = "درس جدید با موفقیت افزوده شد."
+                            successDialogId.open();
                         }
 
+                        successDialogId.open();
                     }
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                 }
