@@ -329,7 +329,23 @@ Page {
                             Eval["included"] = includedSW.checked
 
                             if(dbMan.evalInsert(Eval))
-                            successDialogId.open();
+                            {
+                                // insert student_evals : student_id, eval_id
+                                var eval_id = dbMan.getLastInsertedId();
+                                // student of class
+                                var class_id = classCB.currentValue
+
+                                if(dbMan.StudentEvalEvaluationInsert(eval_id, class_id))
+                                {
+                                    successDialogId.dialogText = "ارزیابی جدید با موفقیت افزوده شد." + "\n" + "ارزیابی دانش‌آموزان کلاس بروز گردید."
+                                    successDialogId.open();
+                                }
+                                else
+                                {
+                                    successDialogId.dialogText = "ارزیابی جدید با موفقیت افزوده شد."
+                                    successDialogId.open();
+                                }
+                            }
                             else
                             {
                                 var errorString = dbMan.getLastError();
