@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import "./../public" as DialogBox
 
 Page {
-    id: insertClassPage
+    id: insertPage
 
     property int step_id;
     property int base_id;
@@ -34,7 +34,7 @@ Page {
             icon.width: 64
             icon.height: 64
             opacity: 0.5
-            onClicked: insertClassPage.popStackSignal(); //insertClassPage.appStackView.pop();
+            onClicked: insertPage.popStackSignal(); //insertPage.appStackView.pop();
             hoverEnabled: true
             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
         }
@@ -104,7 +104,7 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "شعبه " + insertClassPage.branch_text
+                                    text: "شعبه " + insertPage.branch_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -116,7 +116,7 @@ Page {
                                 }
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: insertClassPage.step_text + " - " + insertClassPage.base_text
+                                    text: insertPage.step_text + " - " + insertPage.base_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -128,7 +128,7 @@ Page {
                                 }
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: insertClassPage.period_text
+                                    text: insertPage.period_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -202,7 +202,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    value: dbMan.getClassMaxSortPriority(insertClassPage.step_id, insertClassPage.base_id,insertClassPage.period_id,) + 1;
+                                    value: dbMan.getClassMaxSortPriority(insertPage.step_id, insertPage.base_id,insertPage.period_id,) + 1;
                                 }
                             }
 
@@ -224,9 +224,9 @@ Page {
                                 onClicked:
                                 {
                                     var classObj = {};
-                                    classObj["step_id"] = insertClassPage.step_id;
-                                    classObj["study_base_id"] = insertClassPage.base_id;
-                                    classObj["study_period_id"] = insertClassPage.period_id;
+                                    classObj["step_id"] = insertPage.step_id;
+                                    classObj["study_base_id"] = insertPage.base_id;
+                                    classObj["study_period_id"] = insertPage.period_id;
                                     classObj["class_name"] = classNameTF.text;
                                     classObj["class_desc"] = classDescTF.text;
                                     classObj["sort_priority"] = classSortSB.value;
@@ -234,9 +234,31 @@ Page {
 
                                     if(dbMan.classInsert(classObj))
                                     {
-                                        classSuccessDialogId.open();
-                                        insertClassPage.classInsertedSignal();
+                                        // class_detail : class_id, course_id, teacher_id
+                                        var class_id = dbMan.getLastInsertedId();
+                                        var classes = dbMan.getClassesBrief(insertPage.step_id, insertPage.base_id, insertPage.period_id );
+                                        //c.id, c.class_name, c.class_desc
 
+                                        insertPage.classInsertedSignal();
+
+                                        if(classes.length > 0)
+                                        {
+                                            doneDialog.period = insertPage.period_text;
+                                            doneDialog.base = insertPage.base_text;
+                                            doneDialog.class_name = classNameTF.text;
+                                            doneDialog.class_id = class_id;
+                                            for(var c of classes)
+                                            {
+                                                if(c.id !== class_id)
+                                                    doneDialog.classesModel.append(c)
+                                            }
+
+                                            doneDialog.open();
+                                        }
+                                        else
+                                        {
+                                            successDialogId.open();
+                                        }
                                     }
                                     else
                                     {
@@ -274,13 +296,178 @@ Page {
 
     DialogBox.BaseDialog
     {
-        id: classSuccessDialogId
+        id: successDialogId
         dialogTitle: "عملیات موفق"
         dialogText: "کلاس جدید با موفقیت افزوده شد."
         dialogSuccess: true
         onDialogAccepted: {
-            insertClassPage.popStackSignal();
+            successDialogId.close();
+            insertPage.popStackSignal();
         }
 
     }
+
+    // update class detail
+    // use exists class as template
+    Dialog
+    {
+        id: doneDialog
+        property string period;
+        property string base;
+        property string class_name;
+        property int class_id;
+        property alias classesModel : classCBModel;
+
+        closePolicy:Popup.NoAutoClose
+        modal: true
+        dim: true
+        anchors.centerIn: parent;
+        width: (parent.width > 500)? 500 : parent.width
+        height: 400
+        header: Rectangle{
+            width: parent.width;
+            height: 50;
+            color: "mediumvioletred"
+            Text{ text: "تعیین کلاس الگو"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+        }
+
+        ListModel{id: classCBModel;} // supports index=-1 and not selectable
+
+        contentItem:
+            ScrollView{
+            id: dialogSV
+            width: parent.width
+            height: parent.height
+
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+
+            ColumnLayout
+            {
+                anchors.fill: parent
+                spacing: 10
+
+                Text {
+                    text: "سال‌تحصیلی " + doneDialog.period
+                    font.family: "B Yekan"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                    Layout.preferredWidth: dialogSV.width
+                    Layout.preferredHeight: 50
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Text {
+                    text: "پایه تحصیلی: " + doneDialog.base
+                    font.family: "B Yekan"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                    Layout.preferredWidth: dialogSV.width
+                    Layout.preferredHeight: 50
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Text {
+                    text: doneDialog.class_name
+                    font.family: "B Yekan"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                    Layout.preferredWidth: dialogSV.width
+                    Layout.preferredHeight: 50
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                RowLayout{
+                    Layout.preferredHeight: 50
+                    Layout.fillWidth: true
+                    spacing: 10
+                    Text {
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "darkmagenta"
+                        Layout.preferredWidth: 150
+                        Layout.preferredHeight: 50
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignVCenter
+                        text: "کلاس الگو "
+                    }
+                    ComboBox
+                    {
+                        id: templateClass
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignLeft
+                        editable: false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        model: classCBModel
+                        textRole: "class_name"
+                        valueRole: "id"
+                        Component.onCompleted: currentIndex = -1;
+                        onActivated: okBtn.enabled = (templateClass.currentIndex > -1)? true : false;
+
+                    }
+                }
+
+                Item{Layout.preferredWidth: dialogSV.width; Layout.fillHeight: true;}
+            }
+        }
+        footer:
+            Item{
+            width: parent.width;
+            height: 50
+            RowLayout
+            {
+                width: parent.width
+                height: 50
+                spacing: 10
+
+                Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+
+                Button{
+                    text: "انصراف"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    onClicked: { doneDialog.close(); }
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
+                }
+                Button
+                {
+                    id: okBtn
+                    text: "تایید"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    enabled: false;
+
+                    onClicked:
+                    {
+                        var templateClass_id = templateClass.currentValue;
+
+                        if(dbMan.classDetailsInsert(doneDialog.class_id, templateClass_id))
+                        {
+                            successDialogId.dialogText = "کلاس جدید با موفقیت افزوده شد. \n دروس کلاس بروزرسانی شد."
+                            successDialogId.open();
+                        }
+                        else
+                        {
+                            successDialogId.dialogText = "کلاس جدید با موفقیت افزوده شد."
+                            successDialogId.open();
+                        }
+
+                        doneDialog.close();
+                    }
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                }
+            }
+        }
+
+    }
+
+
 }

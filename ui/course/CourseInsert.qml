@@ -447,6 +447,8 @@ Page {
                                 var teachers = dbMan.getBranchTeachersBrief(insertPage.branch_id );
                                 //t.id, t.teacher
 
+                                insertPage.insertedSignal();
+
                                 if( ( insertPage.base_id > -1) && (classes.length > 0) && (teachers.length > 0) )
                                 {
                                     doneDialog.period = insertPage.period;
@@ -512,7 +514,6 @@ Page {
         onDialogAccepted: function(){
             successDialogId.close();
             insertPage.popStackSignal();
-            insertPage.insertedSignal();
         }
 
     }
@@ -694,7 +695,7 @@ Page {
                             successDialogId.open();
                         }
 
-                        successDialogId.open();
+                        doneDialog.close();
                     }
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                 }
