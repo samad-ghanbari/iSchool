@@ -8,7 +8,8 @@ import QtQuick.Layouts
 //import "./../step"
 //import "./../base"
 import "./../period" as PeriodModule;
-import "./../teacher" as TeacherModule;
+//import "./../teacher" as TeacherModule;
+import "./../class" as ClassModule
 import "./../student" as StudentModule;
 import "./../course" as CourseModule
 import "./../evaluation" as EvalModule
@@ -37,7 +38,7 @@ ToolBar {
             menuHomeId.icon.width=1
             menuPeriodId.icon.width=1
             menuCourseId.icon.width=1
-            menuTeacherId.icon.width=1
+            menuClassId.icon.width=1
             menuStudentId.icon.width=1
             menuEvalId.icon.width=1
             menuRepId.icon.width=1
@@ -45,7 +46,7 @@ ToolBar {
             menuHomeId.font.pixelSize=14
             menuPeriodId.font.pixelSize=14
             menuCourseId.font.pixelSize=14
-            menuTeacherId.font.pixelSize=14
+            menuClassId.font.pixelSize=14
             menuStudentId.font.pixelSize=14
             menuEvalId.font.pixelSize=14
             menuRepId.font.pixelSize=14
@@ -57,7 +58,7 @@ ToolBar {
             menuHomeId.icon.width=32
             menuPeriodId.icon.width=32
             menuCourseId.icon.width=32
-            menuTeacherId.icon.width=32
+            menuClassId.icon.width=32
             menuStudentId.icon.width=32
             menuEvalId.icon.width=32
             menuRepId.icon.width=32
@@ -65,7 +66,7 @@ ToolBar {
             menuHomeId.font.pixelSize=16
             menuPeriodId.font.pixelSize=16
             menuCourseId.font.pixelSize=16
-            menuTeacherId.font.pixelSize=16
+            menuClassId.font.pixelSize=16
             menuStudentId.font.pixelSize=16
             menuEvalId.font.pixelSize=16
             menuRepId.font.pixelSize=16
@@ -145,23 +146,42 @@ ToolBar {
         }
 
         ToolButton {
-            id: menuTeacherId
-            text: "دبیران"
+            id: menuClassId
+            text: "کلاس‌ها"
             font.family: "B Yekan"
             font.pixelSize: 16
-            icon.source: "qrc:/assets/images/teacher.png"
+            icon.source: "qrc:/assets/images/classroom.png"
             icon.width: 32
             icon.height: 32
             onClicked:
             {
-                if(toolbarId.appStackView.currentItem.objectName === "teachersON")
+                if(toolbarId.appStackView.currentItem.objectName === "classON")
                     toolbarId.appStackView.pop();
 
-                toolbarId.appStackView.push(teachersComponent, {objectName: "teachersON"});
+                toolbarId.appStackView.push(classComponent, {objectName: "classON"});
             }
             hoverEnabled: true
-            onHoveredChanged: toolbarId.menuHoverAction(menuTeacherId)
+            onHoveredChanged: toolbarId.menuHoverAction(menuClassId)
         }
+
+        // ToolButton {
+        //     id: menuTeacherId
+        //     text: "دبیران"
+        //     font.family: "B Yekan"
+        //     font.pixelSize: 16
+        //     icon.source: "qrc:/assets/images/teacher.png"
+        //     icon.width: 32
+        //     icon.height: 32
+        //     onClicked:
+        //     {
+        //         if(toolbarId.appStackView.currentItem.objectName === "teachersON")
+        //             toolbarId.appStackView.pop();
+
+        //         toolbarId.appStackView.push(teachersComponent, {objectName: "teachersON"});
+        //     }
+        //     hoverEnabled: true
+        //     onHoveredChanged: toolbarId.menuHoverAction(menuTeacherId)
+        // }
 
         ToolButton {
             id: menuStudentId
@@ -240,11 +260,11 @@ ToolBar {
         PeriodModule.Periods{appStackView: toolbarId.appStackView;}
     }
 
-    //teacher
+
     Component
     {
-        id: teachersComponent
-        TeacherModule.Teachers{appStackView: toolbarId.appStackView;}
+        id: classComponent
+        ClassModule.Class{appStackView: menubarId.appStackView;}
     }
 
     //student

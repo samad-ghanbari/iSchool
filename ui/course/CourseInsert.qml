@@ -437,7 +437,7 @@ Page {
 
                             course["shared_coefficient"] = { "course": insertPage.courseSharedCoef, "test": insertPage.testSharedCoef };
 
-                            if(true)//dbMan.courseInsert(course))
+                            if(dbMan.courseInsert(course))
                             {
                                 // class_detail : class_id, course_id, teacher_id
                                 var course_id = dbMan.getLastInsertedId();
@@ -538,7 +538,7 @@ Page {
         dim: true
         anchors.centerIn: parent;
         width: (parent.width > 500)? 500 : parent.width
-        height: 300
+        height: 500
         header: Rectangle{
             width: parent.width;
             height: 50;
@@ -550,11 +550,17 @@ Page {
 
         contentItem:
         ScrollView{
+            id: dialogSV
             width: parent.width
+            height: parent.height
+
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+
             ColumnLayout
             {
-                width: parent.width
-                height: 350
+                anchors.fill: parent
+                spacing: 10
 
                 Text {
                     text: "سال‌تحصیلی " + doneDialog.period
@@ -562,7 +568,7 @@ Page {
                     font.pixelSize: 18
                     font.bold: true
                     color: "darkmagenta"
-                    Layout.preferredWidth: parent.width
+                    Layout.preferredWidth: dialogSV.width
                     Layout.preferredHeight: 50
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -572,7 +578,7 @@ Page {
                     font.pixelSize: 18
                     font.bold: true
                     color: "darkmagenta"
-                    Layout.preferredWidth: parent.width
+                    Layout.preferredWidth: dialogSV.width
                     Layout.preferredHeight: 50
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -582,7 +588,7 @@ Page {
                     font.pixelSize: 18
                     font.bold: true
                     color: "darkmagenta"
-                    Layout.preferredWidth: parent.width
+                    Layout.preferredWidth: dialogSV.width
                     Layout.preferredHeight: 50
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -599,7 +605,7 @@ Page {
                         model: doneDialog.classes
                         delegate:Rectangle{
                             id: recDel
-                            width : parent.width;
+                            width : dialogSV.width;
                             height: 50;
                             required property var model
                             color: "transparent"
@@ -641,7 +647,7 @@ Page {
                     }
                 }
 
-                Item{Layout.preferredWidth: parent.width; Layout.fillHeight: true;}
+                Item{Layout.preferredWidth: dialogSV.width; Layout.fillHeight: true;}
             }
         }
         footer:
