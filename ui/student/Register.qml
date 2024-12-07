@@ -338,7 +338,36 @@ Page {
             reg["class_id"] = classCB.currentValue
 
             if(dbMan.registerStudent(reg))
-                successDialogId.open();
+            {
+                // on register > student_courses & student_evals should be inserted too
+
+                // student_courses : student_id, register_id, course_id, teacher_id
+                var register_id = dbMan.getLastInsertedId();
+                var student_id = registerPage.student.id;
+                var class_id = classCB.currentValue; // get course_id & teacher_id of class
+                //student_evals : student_id, eval_id
+                // class_id > eval_ids
+
+                if(dbMan.registerStudentCourseInsert(student_id, register_id, class_id) )
+                {
+                    if( dbMan.registerStudentEvalInsert(student_id, class_id) )
+                    {
+                        successDialogId.dialogText = "ثبت‌نام با موفقیت انجام شد." + "\n" + "دروس و ارزیابی دانش‌آموز بروز گردید."
+                        successDialogId.open();
+                    }
+                    else
+                    {
+                        successDialogId.dialogText = "ثبت‌نام با موفقیت انجام شد." + "\n" + "دروس دانش‌آموز بروز گردید."
+                        successDialogId.open();
+                    }
+
+                }
+                else
+                {
+                    successDialogId.dialogText = "ثبت‌نام با موفقیت انجام شد."
+                    successDialogId.open();
+                }
+            }
             else
             {
                 var errorString = dbMan.getLastError();
