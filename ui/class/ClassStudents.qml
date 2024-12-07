@@ -88,12 +88,11 @@ Page {
                             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                             Layout.preferredHeight:  150
                             Layout.preferredWidth:  150
-                            Layout.margins: 20
                             NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
                         }
                         Column{
                             Layout.fillWidth: true;
-                            Layout.preferredHeight: 200
+                            Layout.preferredHeight: 150
                             //branch
                             Text {
                                 text: "شعبه " + classStudentsPage.branch_text
@@ -130,24 +129,22 @@ Page {
                                 font.bold: true
                                 color: "royalblue"
                             }
-                            //class
-                            Text {
-                                text: "کلاس " + classStudentsPage.class_name + " - " + classStudentsPage.class_desc
-                                width: parent.width
-                                height: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignHCenter
-                                font.family: "B Yekan"
-                                font.pixelSize: 20
-                                font.bold: true
-                                color: "darkmagenta"
-                            }
                         }
                     }
 
-
-
-                    Rectangle{Layout.fillWidth: true; Layout.maximumWidth: 700; color:"dodgerblue"; Layout.preferredHeight:5; Layout.alignment: Qt.AlignHCenter;}
+                    //class
+                    Text {
+                        text: "کلاس " + classStudentsPage.class_name + " - " + classStudentsPage.class_desc
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "B Yekan"
+                        font.pixelSize: 20
+                        font.bold: true
+                        color: "darkmagenta"
+                    }
+                    Rectangle{Layout.fillWidth: true; Layout.maximumWidth: 700; color:"darkmagenta"; Layout.preferredHeight:5; Layout.alignment: Qt.AlignHCenter;}
 
                     Item
                     {

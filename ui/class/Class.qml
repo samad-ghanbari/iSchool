@@ -240,7 +240,7 @@ Page {
                     {
                         var bid = branchCB.currentValue;
                         if(bid >= 0)
-                            classPage.appStackView.push(classInsertComponent);
+                        classPage.appStackView.push(classInsertComponent);
                     }
                     hoverEnabled: true
                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -255,7 +255,7 @@ Page {
                     flickableDirection: Flickable.AutoFlickDirection
                     clip: true
                     cellWidth: 320
-                    cellHeight: 170
+                    cellHeight: 185
                     model: ListModel{id: classModel}
                     highlight: Item{}
                     delegate: classDelegate
@@ -289,7 +289,7 @@ Page {
             required property var model;
 
             //c.id, c.step_id, c.study_base_id, c.study_period_id, c.class_name, c.class_desc, c.sort_priority, st.step_name, sb.study_base, sp.study_period
-            height: 150
+            height: 165
             width: 300
             checkable: true
             checked: classRecDel.swipe.complete
@@ -298,15 +298,28 @@ Page {
 
             background: Rectangle{color: (classRecDel.highlighted)? "snow" : "whitesmoke";}
 
+            padding: 0
             contentItem: Rectangle
             {
                 color: (classRecDel.highlighted)? "snow" : "whitesmoke";
-                border.color: (classRecDel.highlighted)? "mediumvioletred" : "lightgray"
+                //border.color: (classRecDel.highlighted)? "mediumvioletred" : "lightgray"
 
                 Column
                 {
                     id: classRecDelCol
                     anchors.fill: parent
+                    Item{
+                        width: parent.width
+                        height: 48
+                        Image {
+                            source: "qrc:/assets/images/classroom2.png"
+                            anchors.centerIn: parent
+                            height:  48
+                            width:  48
+                        }
+                    }
+
+
                     Item{ width: parent.width;height: 10;}
                     spacing: 0
                     Label {
@@ -315,7 +328,7 @@ Page {
                         font.family: "B Yekan"
                         font.pixelSize: (classRecDel.highlighted)? 20 :16
                         font.bold: (classRecDel.highlighted)? true : false
-                        color: (classRecDel.highlighted)? "royalblue":"black"
+                        color: (classRecDel.highlighted)? "darkmagenta":"black"
                         horizontalAlignment: Label.AlignHCenter
                         width: parent.width
                         height: 50
@@ -335,134 +348,134 @@ Page {
                     }
                     Item{ width: parent.width;height: 10;}
                 }
+
+                // bottom bar
+                Rectangle{
+                    height: 5;
+                    width: classRecDel.width;
+                    anchors.bottom: parent.bottom;
+                    anchors.margins: 0
+                    color: "darkmagenta";
+                }
             }
 
             onClicked: {classRecDel.swipe.close();}
             onPressed: { classGV.currentIndex = model.index; classGV.closeSwipeHandler();}
             highlighted: (model.index === classGV.currentIndex)? true: false;
 
-            swipe.right: Column{
-                width: 60
-                height: 150
+            swipe.right:
+            Rectangle{
+                width: 40
+                height: 165
                 anchors.left: parent.left
-
-                Button
-                {
-                    height: 32
-                    width: 32
-                    //background:  Rectangle{id:detailBtnBg; color: "palegreen"}
-                    hoverEnabled: true
-                    //onHoveredChanged: detailBtnBg.color=(hovered)? Qt.darker("palegreen", 1.1):"palegreen"
-                    //text: "جزئیات"
-                    //font.bold: true
-                    //font.family: "B Yekan"
-                    //font.pixelSize: 14
-                    //palette.buttonText:  "white"
-                    icon.source: "qrc:/assets/images/course.png"
-                    icon.width: 32
-                    icon.height: 32
-                    display: AbstractButton.TextUnderIcon
-                    SwipeDelegate.onClicked:
+                color: "darkmagenta"
+                Column{
+                    anchors.fill: parent
+                    // class student
+                    Button
                     {
-                        if(classRecDel.swipe.complete)
+                        height: 40
+                        width: 40
+                        hoverEnabled: true
+                        icon.source: "qrc:/assets/images/users.png"
+                        icon.width: 40
+                        icon.height: 40
+                        display: AbstractButton.TextUnderIcon
+                        SwipeDelegate.onClicked:
+                        {
+                            if(classRecDel.swipe.complete)
                             classRecDel.swipe.close();
 
-                        classPage.appStackView.push(classDetailComponent, {
-                                                        class_id: classRecDel.model.Id,
-                                                        class_name: classRecDel.model.Class_name,
-                                                        class_desc: classRecDel.model.Class_desc,
-                                                    });
+                            classPage.appStackView.push(classStudentsComponent, {
+                                                            class_id: classRecDel.model.Id,
+                                                            class_name: classRecDel.model.Class_name,
+                                                            class_desc: classRecDel.model.Class_desc,
+                                                        });
 
+                        }
                     }
-                }
-                // class student
-                Button
-                {
-                    height: 32
-                    width: 32
-                    hoverEnabled: true
-                    icon.source: "qrc:/assets/images/users.png"
-                    icon.width: 32
-                    icon.height: 32
-                    display: AbstractButton.TextUnderIcon
-                    SwipeDelegate.onClicked:
+
+                    Button
                     {
-                        if(classRecDel.swipe.complete)
+                        height: 40
+                        width: 40
+                        hoverEnabled: true
+                        icon.source: "qrc:/assets/images/course.png"
+                        icon.width: 40
+                        icon.height: 40
+                        display: AbstractButton.TextUnderIcon
+                        SwipeDelegate.onClicked:
+                        {
+                            if(classRecDel.swipe.complete)
                             classRecDel.swipe.close();
 
-                        classPage.appStackView.push(classStudentsComponent, {
-                                                        class_id: classRecDel.model.Id,
-                                                        class_name: classRecDel.model.Class_name,
-                                                        class_desc: classRecDel.model.Class_desc,
-                                                    });
+                            classPage.appStackView.push(classDetailComponent, {
+                                                            class_id: classRecDel.model.Id,
+                                                            class_name: classRecDel.model.Class_name,
+                                                            class_desc: classRecDel.model.Class_desc,
+                                                        });
 
+                        }
                     }
-                }
-                Button
-                {
-                    height: 32
-                    width: 32
-                    //background:  Rectangle{id:editBtnBg; color: "royalblue"}
-                    hoverEnabled: true
-                    //onHoveredChanged: editBtnBg.color=(hovered)? Qt.darker("royalblue", 1.1):"royalblue"
-                    //text: "ویرایش"
-                    //font.bold: true
-                    //font.family: "B Yekan"
-                    //font.pixelSize: 14
-                    //palette.buttonText:  "white"
-                    icon.source: "qrc:/assets/images/edit.png"
-                    icon.width: 32
-                    icon.height: 32
-                    display: AbstractButton.TextUnderIcon
-                    SwipeDelegate.onClicked:
+
+                    Button
                     {
-                        if(classRecDel.swipe.complete)
+                        height: 40
+                        width: 40
+                        hoverEnabled: true
+                        icon.source: "qrc:/assets/images/edit.png"
+                        icon.width: 40
+                        icon.height: 40
+                        display: AbstractButton.TextUnderIcon
+                        SwipeDelegate.onClicked:
+                        {
+                            if(classRecDel.swipe.complete)
                             classRecDel.swipe.close();
 
-                        classPage.appStackView.push(updateClassComponent, {
-                                                        class_id: classRecDel.model.Id,
-                                                        class_name: classRecDel.model.Class_name,
-                                                        class_desc: classRecDel.model.Class_desc,
-                                                        sort_priority: classRecDel.model.Sort_priority,
-                                                        branch_text: branchCB.currentText,
-                                                        period_text : periodCB.currentText
-                                                    });
+                            classPage.appStackView.push(updateClassComponent, {
+                                                            class_id: classRecDel.model.Id,
+                                                            class_name: classRecDel.model.Class_name,
+                                                            class_desc: classRecDel.model.Class_desc,
+                                                            sort_priority: classRecDel.model.Sort_priority,
+                                                            branch_text: branchCB.currentText,
+                                                            period_text : periodCB.currentText
+                                                        });
 
+                        }
                     }
-                }
 
-                Button
-                {
-                    height: 32
-                    width: 32
-                    //background: Rectangle{id:trashBtnBg; color: "crimson"}
-                    hoverEnabled: true
-                    //onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
-                    //text: "حذف"
-                    font.bold: true
-                    font.family: "B Yekan"
-                    font.pixelSize: 14
-                    palette.buttonText:  "white"
-                    icon.source: "qrc:/assets/images/trash.png"
-                    icon.width: 32
-                    icon.height: 32
-                    display: AbstractButton.TextUnderIcon
-                    SwipeDelegate.onClicked:
+                    Button
                     {
-                        if(classRecDel.swipe.complete)
+                        height: 40
+                        width: 40
+                        //background: Rectangle{id:trashBtnBg; color: "crimson"}
+                        hoverEnabled: true
+                        //onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
+                        //text: "حذف"
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 14
+                        palette.buttonText:  "white"
+                        icon.source: "qrc:/assets/images/trash.png"
+                        icon.width: 40
+                        icon.height: 40
+                        display: AbstractButton.TextUnderIcon
+                        SwipeDelegate.onClicked:
+                        {
+                            if(classRecDel.swipe.complete)
                             classRecDel.swipe.close();
 
-                        classPage.appStackView.push(deleteClassComponent, {
-                                                        class_id: classRecDel.model.Id,
-                                                        class_name: classRecDel.model.Class_name,
-                                                        class_desc: classRecDel.model.Class_desc,
-                                                        branch_text: branchCB.currentText,
-                                                        period_text : periodCB.currentText
-                                                    });
+                            classPage.appStackView.push(deleteClassComponent, {
+                                                            class_id: classRecDel.model.Id,
+                                                            class_name: classRecDel.model.Class_name,
+                                                            class_desc: classRecDel.model.Class_desc,
+                                                            branch_text: branchCB.currentText,
+                                                            period_text : periodCB.currentText
+                                                        });
+                        }
                     }
                 }
             }
-
 
         }
     }

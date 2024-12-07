@@ -172,7 +172,7 @@ function updateClassStudentsModel(class_id)
     var jsondata = dbMan.getClassStudents(class_id, true);
     for(var obj of jsondata)
     {
-        // register_id, student_id , student, s.fathername, s.gender, s.birthday, s.photo
+        // Register_id, Student_id , Student, Fathername, Gender, Birthday, Photo
         classStudentsModel.append({
                                       Register_id: obj.register_id,
                                       Student_id: obj.student_id,
@@ -191,9 +191,9 @@ function updateClassStudentCourses(register_id)
     var jsondata = dbMan.getStudentCourses(register_id);
     for(var obj of jsondata)
     {
-        // 0sc.id, 1sc.student_id, 2sc.register_id, 3sc.course_id, 4sc.teacher_id,
-        // 5co.course_name, 6.study_base_id, 7.course_coefficient, 8.test_coefficient, 9.shared_coefficient, 10.final_weight,
-        // 11.teacher
+        // 0sc.Id, 1sc.Student_id, 2sc.Register_id, 3sc.Course_id, 4sc.Teacher_id,
+        // 5co.Course_name, 6.Study_base_id, 7.Course_coefficient, 8.Test_coefficient, 9.Shared_coefficient, 10.Final_weight,
+        // 11.Teacher
 
         cscModel.append({
                            Id: obj.id,
@@ -211,3 +211,4 @@ function updateClassStudentCourses(register_id)
                        });
     }
 }
+

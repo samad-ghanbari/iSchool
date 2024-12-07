@@ -12,6 +12,7 @@ Page {
 
     required property StackView appStackView;
     required property var student;
+    // Register_id, Student_id , Student, Fathername, Gender, Birthday, Photo
     required property var registerModel;
     // 0r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id, r.class_id,  s.branch_id
     // 6br.city, br.branch_name, st.step_name, sb.study_base, sp.study_period, sp.passed, cl.class_name
@@ -128,7 +129,7 @@ Page {
                                 }
                                 // branch step
                                 Text {
-                                    text: "شعبه " + " : " + classStudentCoursesPage.registerModel.City + " - " + classStudentCoursesPage.registerModel.Branch_name + " - " + classStudentCoursesPage.registerModel.Step_name + " - " + classStudentCoursesPage.registerModel.Study_base
+                                    text: "شعبه " + " : " + classStudentCoursesPage.registerModel.city + " - " + classStudentCoursesPage.registerModel.branch_name + " - " + classStudentCoursesPage.registerModel.step_name + " - " + classStudentCoursesPage.registerModel.study_base
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
@@ -140,7 +141,7 @@ Page {
                                 }
                                 // class
                                 Text {
-                                    text: "کلاس " + " : " + classStudentCoursesPage.registerModel.Class_name
+                                    text: "کلاس " + " : " + classStudentCoursesPage.registerModel.class_name
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
@@ -151,7 +152,7 @@ Page {
                                     color: "royalblue"
                                 }
                                 Text {
-                                    text: "سال تحصیلی " + " : " + classStudentCoursesPage.registerModel.Study_period
+                                    text: "سال تحصیلی " + " : " + classStudentCoursesPage.registerModel.study_period
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
@@ -195,12 +196,12 @@ Page {
                             opacity: 0.5
                             onClicked:
                             {
-                                var register_id = classStudentCoursesPage.registerModel.Id
+                                var register_id = classStudentCoursesPage.registerModel.id
                                 //update database
                                 if(dbMan.updateStudentBaseCourses(register_id))
                                 {
                                     // update model
-                                    Methods.updateStudentCourses(register_id);
+                                    Methods.updateClassStudentCourses(register_id);
                                     infoDialogId.dialogSuccess = true;
                                     infoDialogId.dialogTitle = "عملیات موفق";
                                     infoDialogId.dialogText = "بروزرسانی دروس پایه دانش‌آموز با موفقیت انجام شد.";
@@ -219,14 +220,12 @@ Page {
                             height: 64
                             anchors.right: refreshBtn.left
                             background: Item{}
-                            icon.source: "qrc:/assets/images/info.png"
+                            icon.source: "qrc:/assets/images/stat.png"
                             icon.width: 64
                             icon.height: 64
                             opacity: 0.5
                             onClicked:
                             {
-                                studentCourseInfoDrawer.open();
-                                studentCourseInfoDrawer.statCalulation();
                             }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -248,7 +247,7 @@ Page {
                         model: ListModel{id: cscModel}
                         highlight: Item{}
                         delegate: gvDelegate
-                        Component.onCompleted: Methods.updateClassStudentCourses(classStudentCoursesPage.registerModel.Id);
+                        Component.onCompleted: Methods.updateClassStudentCourses(classStudentCoursesPage.registerModel.id);
 
                         function closeSwipeHandler()
                         {
@@ -275,9 +274,9 @@ Page {
     Component
     {
         id: gvDelegate
-        // 0sc.id, 1sc.student_id, 2sc.register_id, 3sc.course_id, 4sc.teacher_id,
-        // 5co.course_name, 6.course_coefficient, 7.test_coefficient, 8.shared_coefficient, 9.final_weight,
-        // 10.teacher
+        // 0sc.Id, 1sc.Student_id, 2sc.Register_id, 3sc.Course_id, 4sc.Teacher_id,
+        // 5co.Course_name, 6.Study_base_id, 7.Course_coefficient, 8.Test_coefficient, 9.Shared_coefficient, 10.Final_weight,
+        // 11.Teacher
 
         SwipeDelegate
         {
@@ -289,20 +288,14 @@ Page {
             checked: recDelt.swipe.complete
             onCheckedChanged: { if(!recDelt.checked) recDelt.swipe.close();}
             clip: true
-            swipe.enabled : !recDelt.model.Passed
+            //swipe.enabled : !recDelt.model.Passed
 
             background: Rectangle{color: (recDelt.highlighted)? "snow" : "whitesmoke";}
 
+            padding: 0
             contentItem: Rectangle
             {
                 color: (recDelt.highlighted)? "snow" : "whitesmoke";
-
-                Rectangle{
-                    height: 5;
-                    width: parent.width;
-                    anchors.bottom: parent.bottom;
-                    color: (recDelt.model.Study_base_id > -1)? "mediumvioletred" : "goldenrod";
-                }
 
 
                 //coefficient
@@ -366,13 +359,22 @@ Page {
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         font.bold: (recDelt.highlighted)? true : false
-                        color: (recDelt.model.Passed)? "mediumvioletred":"dodgerblue"
+                        color: "dodgerblue"
                         horizontalAlignment: Label.AlignHCenter
                         width: parent.width
                         height: 50
                         elide: Text.ElideRight
                     }
 
+                }
+
+                // bottom bar
+                Rectangle{
+                    height: 5;
+                    width: recDelt.width;
+                    anchors.bottom: parent.bottom;
+                    anchors.margins: 0
+                    color: (recDelt.model.Study_base_id > -1)? "mediumvioletred" : "goldenrod";
                 }
             }
 
@@ -384,7 +386,7 @@ Page {
             Rectangle{
                 width: 75
                 height: 200
-                color: "whitesmoke"
+                color: (recDelt.model.Study_base_id > -1)? "mediumvioletred" : "goldenrod";
                 anchors.left: parent.left
 
                 Column{
