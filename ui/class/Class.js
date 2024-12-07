@@ -103,13 +103,13 @@ function updateClassDetailModel(class_id)
     {
         // id, cd.class_id, cd.course_id, cd.teacher_id, co.course_name, t.teacher
         classDetailModel.append({
-                              Id: obj.id,
-                              Class_id: obj.class_id,
-                              Course_id: obj.course_id,
-                              Teacher_id: obj.teacher_id,
-                              Course_name: obj.course_name,
-                              Teacher: obj.teacher,
-                          })
+                                    Id: obj.id,
+                                    Class_id: obj.class_id,
+                                    Course_id: obj.course_id,
+                                    Teacher_id: obj.teacher_id,
+                                    Course_name: obj.course_name,
+                                    Teacher: obj.teacher,
+                                })
     }
 }
 
@@ -124,9 +124,9 @@ function updateCourseCB(step_id, base_id, period_id)
         //st.branch_id, st.step_name, sb.study_base, sp.study_period
 
         courseCBoxModel.append({
-                              value: obj.id,
-                              text: obj.course_name,
-                          })
+                                   value: obj.id,
+                                   text: obj.course_name,
+                               })
     }
 }
 
@@ -140,9 +140,9 @@ function updateTeacherCB(branch_id)
         // /t.id, t.branch_id, t.name, t.lastname, t.gender, t.study_degree, t.study_field, t.telephone, t.enabled, b.city, b.branch_name
 
         teacherCBoxModel.append({
-                              value: obj.id,
-                              text: obj.name + " " + obj.lastname + " ("+ obj.study_field + ") ",
-                          })
+                                    value: obj.id,
+                                    text: obj.name + " " + obj.lastname + " ("+ obj.study_field + ") ",
+                                })
     }
 }
 
@@ -156,9 +156,58 @@ function getTeacherModel(branch_id)
         // /t.id, t.branch_id, t.name, t.lastname, t.gender, t.study_degree, t.study_field, t.telephone, t.enabled, b.city, b.branch_name
 
         model.push({
-                              value: obj.id,
-                              text: obj.name + " " + obj.lastname + " ("+ obj.study_field + ") ",
-                          });
+                       value: obj.id,
+                       text: obj.name + " " + obj.lastname + " ("+ obj.study_field + ") ",
+                   });
     }
     return model;
+}
+
+
+// class students
+
+function updateClassStudentsModel(class_id)
+{
+    classStudentsModel.clear();
+    var jsondata = dbMan.getClassStudents(class_id, true);
+    for(var obj of jsondata)
+    {
+        // register_id, student_id , student, s.fathername, s.gender, s.birthday, s.photo
+        classStudentsModel.append({
+                                      Register_id: obj.register_id,
+                                      Student_id: obj.student_id,
+                                      Student: obj.student,
+                                      Fathername: obj.fathername,
+                                      Gender: obj.gender,
+                                      Birthday: obj.birthday,
+                                      Photo: obj.photo
+                                  });
+    }
+}
+
+function updateClassStudentCourses(register_id)
+{
+    cscModel.clear();
+    var jsondata = dbMan.getStudentCourses(register_id);
+    for(var obj of jsondata)
+    {
+        // 0sc.id, 1sc.student_id, 2sc.register_id, 3sc.course_id, 4sc.teacher_id,
+        // 5co.course_name, 6.study_base_id, 7.course_coefficient, 8.test_coefficient, 9.shared_coefficient, 10.final_weight,
+        // 11.teacher
+
+        cscModel.append({
+                           Id: obj.id,
+                           Student_id: obj.student_id,
+                           Register_id: obj.register_id,
+                           Course_id: obj.course_id,
+                           Teacher_id: obj.teacher_id,
+                           Course_name: obj.course_name,
+                           Study_base_id: obj.study_base_id,
+                           Course_coefficient: obj.course_coefficient,
+                           Test_coefficient: obj.test_coefficient,
+                           Shared_coefficient: obj.shared_coefficient,
+                           Final_weight: obj.final_weight,
+                           Teacher: obj.teacher,
+                       });
+    }
 }

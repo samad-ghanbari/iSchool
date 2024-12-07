@@ -255,7 +255,7 @@ Page {
                     flickableDirection: Flickable.AutoFlickDirection
                     clip: true
                     cellWidth: 320
-                    cellHeight: 140
+                    cellHeight: 170
                     model: ListModel{id: classModel}
                     highlight: Item{}
                     delegate: classDelegate
@@ -289,7 +289,7 @@ Page {
             required property var model;
 
             //c.id, c.step_id, c.study_base_id, c.study_period_id, c.class_name, c.class_desc, c.sort_priority, st.step_name, sb.study_base, sp.study_period
-            height: 120
+            height: 150
             width: 300
             checkable: true
             checked: classRecDel.swipe.complete
@@ -343,7 +343,7 @@ Page {
 
             swipe.right: Column{
                 width: 60
-                height: 120
+                height: 150
                 anchors.left: parent.left
 
                 Button
@@ -358,7 +358,7 @@ Page {
                     //font.family: "B Yekan"
                     //font.pixelSize: 14
                     //palette.buttonText:  "white"
-                    icon.source: "qrc:/assets/images/info.png"
+                    icon.source: "qrc:/assets/images/course.png"
                     icon.width: 32
                     icon.height: 32
                     display: AbstractButton.TextUnderIcon
@@ -375,7 +375,29 @@ Page {
 
                     }
                 }
+                // class student
+                Button
+                {
+                    height: 32
+                    width: 32
+                    hoverEnabled: true
+                    icon.source: "qrc:/assets/images/users.png"
+                    icon.width: 32
+                    icon.height: 32
+                    display: AbstractButton.TextUnderIcon
+                    SwipeDelegate.onClicked:
+                    {
+                        if(classRecDel.swipe.complete)
+                            classRecDel.swipe.close();
 
+                        classPage.appStackView.push(classStudentsComponent, {
+                                                        class_id: classRecDel.model.Id,
+                                                        class_name: classRecDel.model.Class_name,
+                                                        class_desc: classRecDel.model.Class_desc,
+                                                    });
+
+                    }
+                }
                 Button
                 {
                     height: 32
@@ -486,6 +508,25 @@ Page {
         id: classDetailComponent
         ClassDetail
         {
+            appStackView : classPage.appStackView;
+
+            branch_id: branchCB.currentValue
+            step_id: stepCB.currentValue;
+            base_id: baseCB.currentValue;
+            period_id: periodCB.currentValue;
+
+            branch_text: branchCB.currentText;
+            step_text: stepCB.currentText
+            base_text : baseCB.currentText;
+            period_text: periodCB.currentText;
+        }
+    }
+
+    // class students
+    Component
+    {
+        id: classStudentsComponent
+        ClassStudents{
             appStackView : classPage.appStackView;
 
             branch_id: branchCB.currentValue
