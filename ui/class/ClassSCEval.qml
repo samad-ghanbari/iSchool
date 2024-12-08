@@ -259,6 +259,13 @@ Page {
                             opacity: 0.5
                             onClicked:
                             {
+                                classSCEStat.student_id = classSCEPage.student.Student_id;
+                                classSCEStat.course_id = classSCEPage.studentCourseModel.Course_id;
+                                classSCEStat.student = classSCEPage.student.Student
+                                classSCEStat.baseClass = classSCEPage.registerModel.study_base + "   " + "کلاس " + classSCEPage.registerModel.class_name
+                                classSCEStat.statObject = {}
+                                classSCEStat.statCalculate();
+                                classSCEStat.open();
                             }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -322,8 +329,6 @@ Page {
         }
     }
 
-
-
     //delegate
     Component
     {
@@ -339,12 +344,12 @@ Page {
 
             color:{
                 if(recDelt.model.student_grade == -1)
-                    return "lavenderblush";
+                return "lavenderblush";
 
                 if(recDelt.model.index % 2 == 0)
-                    return "whitesmoke"
+                return "whitesmoke"
                 else
-                    return "snow";
+                return "snow";
             }
 
             Rectangle
@@ -720,5 +725,148 @@ Page {
 
     }
 
+    // stat drawer
+    Drawer
+    {
+        id: classSCEStat
+        modal: true
+        height: parent.height
+        width: (parent.width > 500)? 500 : parent.width;
+        dragMargin: 0
 
+        property int student_id;
+        property int course_id;
+        property string student;
+        property string baseClass;
+
+        property var statObject: {}
+
+        function statCalculate()
+        {
+            //foreach eval-cat calculate mean/normalised
+            // statObject = {cat1:{ mean: x, nmean:y} , cat2:{}, cat3:{}, cat4:{} }
+
+
+
+            if(Object.keys(classSCEStat.statObject).length > 0)
+                emptyStatText.visible = false;
+            else
+                emptyStatText.visible = true;
+        }
+
+        ScrollView
+        {
+            id: classStudentsSV
+            anchors.fill: parent
+            anchors.margins: 5
+
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+
+            Rectangle{
+                anchors.fill: parent
+
+                ColumnLayout
+                {
+                    anchors.fill: parent
+
+                    Image{
+                        Layout.preferredWidth: 128
+                        Layout.preferredHeight: 128
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        Layout.topMargin: 20
+                        source: "qrc:/assets/images/stat.png"
+                    }
+
+                    Rectangle{
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 2
+                        color: "dodgerblue"
+                        Layout.margins: 10
+                    }
+
+                    Text{
+                        id: emptyStatText
+                        Layout.fillWidth: true;
+                        Layout.fillHeight: true;
+                        text: "آزمونی برای این درس ثبت نشده است."
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        color: "dodgerblue"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+                    Loader{
+                        sourceComponent: drawerStatComponent;
+                        visible: !emptyStatText.visible;
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                    }
+
+                    Item{Layout.fillHeight: true; Layout.preferredWidth: 5;}
+                }
+            }
+        }
+    }
+
+    //stat component
+    Component{
+        id: drawerStatComponent
+        Item{
+            id: statCmp
+
+            ColumnLayout
+            {
+                anchors.fill: parent
+
+                Text{
+                    Layout.fillWidth: true;
+                    Layout.preferredHeight: 50
+                    text: classSCEStat.student
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 20
+                    color: "dodgerblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+                Text{
+                    Layout.fillWidth: true;
+                    Layout.preferredHeight: 50
+                    text: classSCEStat.baseClass
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 18
+                    color: "dodgerblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+
+                Flow
+                {
+                    spacing: 20
+                    Layout.columnSpan: 2
+                    flow: Flow.TopToBottom
+                    Layout.preferredHeight: statRepeater.count*70
+
+                    Repeater
+                    {
+                        id: statRepeater
+                        model: ListModel {id: statModel }
+                        delegate:Item{}
+                    }
+                    Component.onCompleted:
+                    {
+                    }
+                }
+
+
+
+                Item{Layout.fillHeight: true; Layout.preferredWidth: 5;}
+            }
+        }
+    }
 }
