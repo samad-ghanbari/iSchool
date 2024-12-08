@@ -221,23 +221,6 @@ function updateClassSCEvalModel(student_id, course_id)
 
     for(var obj of jsondata)
     {
-        classSCEModel.append({
-                                   Id: obj.id,
-                                   Student_id: obj.student_id,
-                                   Eval_id: obj.eval_id,
-                                   Student_grade: obj.student_grade,
-                                   Normalised_grade: obj.normalised_grade,
-                                   Eval_cat_id: obj.eval_cat_id,
-                                   Course_id: obj.course_id,
-                                   Class_id: obj.class_id,
-                                   Eval_time: obj.eval_time,
-                                   Max_grade: obj.max_grade,
-                                   Included: obj.included,
-                                   Eval_cat: obj.eval_cat,
-                                   Test_flag: obj.test_flag,
-                                   Final_flag: obj.final_flag
-                               });
-
-
+        classSCEModel.append(obj);
     }
 }
