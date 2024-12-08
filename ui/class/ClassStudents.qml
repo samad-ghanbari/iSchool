@@ -225,7 +225,11 @@ Page {
             onCheckedChanged: { if(!recDel.checked) recDel.swipe.close();}
             clip: true
 
-            background: Rectangle{color: (recDel.highlighted)? "snow" : "whitesmoke";}
+            background: Rectangle{
+                color: (recDel.highlighted)? "snow" : "whitesmoke";
+                border.color: "lightgray";
+                border.width: (recDel.highlighted)? 4 : 0 ;
+            }
 
             contentItem: Rectangle
             {

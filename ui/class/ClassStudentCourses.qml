@@ -410,14 +410,15 @@ Page {
                         display: AbstractButton.TextUnderIcon
                         SwipeDelegate.onClicked:
                         {
-                            // if(recDelt.swipe.complete)
-                            // recDelt.swipe.close();
-                            // // 0sc.id, sc.student_id, sc.course_id
-                            // // 3co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
-                            // // 9t.name, t.lastname, cl.class_name
-                            // classStudentCoursesPage.appStackView.push(evalComponent, {
-                            //                                          studentCourseModel: recDelt.model
-                            //                                      });
+                            if(recDelt.swipe.complete)
+                            recDelt.swipe.close();
+
+                            // 0sc.id, sc.student_id, sc.course_id
+                            // 3co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
+                            // 9t.name, t.lastname, cl.class_name
+                            classStudentCoursesPage.appStackView.push(classSCEvalComponent, {
+                                                                     studentCourseModel: recDelt.model
+                                                                 });
                         }
                     }
                 }
@@ -435,17 +436,17 @@ Page {
         dialogSuccess: false
     }
 
-    // //eval
-    // Component
-    // {
-    //     id: evalComponent
-    //     StudentCourseEval
-    //     {
-    //         onPopStackViewSignal: classStudentCoursesPage.appStackView.pop();
+    //eval
+    Component
+    {
+        id: classSCEvalComponent
+        ClassSCEval
+        {
+            onPopStackViewSignal: classStudentCoursesPage.appStackView.pop();
 
-    //         student: classStudentCoursesPage.student
-    //         registerModel: classStudentCoursesPage.registerModel
-    //     }
-    // }
+            student: classStudentCoursesPage.student
+            registerModel: classStudentCoursesPage.registerModel
+        }
+    }
 
 }

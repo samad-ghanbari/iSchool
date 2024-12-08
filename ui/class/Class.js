@@ -196,19 +196,48 @@ function updateClassStudentCourses(register_id)
         // 11.Teacher
 
         cscModel.append({
-                           Id: obj.id,
-                           Student_id: obj.student_id,
-                           Register_id: obj.register_id,
-                           Course_id: obj.course_id,
-                           Teacher_id: obj.teacher_id,
-                           Course_name: obj.course_name,
-                           Study_base_id: obj.study_base_id,
-                           Course_coefficient: obj.course_coefficient,
-                           Test_coefficient: obj.test_coefficient,
-                           Shared_coefficient: obj.shared_coefficient,
-                           Final_weight: obj.final_weight,
-                           Teacher: obj.teacher,
-                       });
+                            Id: obj.id,
+                            Student_id: obj.student_id,
+                            Register_id: obj.register_id,
+                            Course_id: obj.course_id,
+                            Teacher_id: obj.teacher_id,
+                            Course_name: obj.course_name,
+                            Study_base_id: obj.study_base_id,
+                            Course_coefficient: obj.course_coefficient,
+                            Test_coefficient: obj.test_coefficient,
+                            Shared_coefficient: obj.shared_coefficient,
+                            Final_weight: obj.final_weight,
+                            Teacher: obj.teacher,
+                        });
     }
 }
 
+function updateClassSCEvalModel(student_id, course_id)
+{
+    classSCEModel.clear();
+    var jsondata = dbMan.getCategorisedEvals(student_id,  course_id);
+    //se.id, se.Student_id, se.Eval_id, se.Student_grade, se.Normalised_grade, e.Eval_cat_id, e.Course_id, e.Class_id, e.Eval_time, e.Max_grade, e.Included,
+    //ec.Eval_cat, ec.Test_flag, ec.Final_flag
+
+    for(var obj of jsondata)
+    {
+        classSCEModel.append({
+                                   Id: obj.id,
+                                   Student_id: obj.student_id,
+                                   Eval_id: obj.eval_id,
+                                   Student_grade: obj.student_grade,
+                                   Normalised_grade: obj.normalised_grade,
+                                   Eval_cat_id: obj.eval_cat_id,
+                                   Course_id: obj.course_id,
+                                   Class_id: obj.class_id,
+                                   Eval_time: obj.eval_time,
+                                   Max_grade: obj.max_grade,
+                                   Included: obj.included,
+                                   Eval_cat: obj.eval_cat,
+                                   Test_flag: obj.test_flag,
+                                   Final_flag: obj.final_flag
+                               });
+
+
+    }
+}

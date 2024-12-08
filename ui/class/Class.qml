@@ -296,7 +296,11 @@ Page {
             onCheckedChanged: { if(!classRecDel.checked) classRecDel.swipe.close();}
             clip: true
 
-            background: Rectangle{color: (classRecDel.highlighted)? "snow" : "whitesmoke";}
+            background: Rectangle{
+                color: (classRecDel.highlighted)? "snow" : "whitesmoke";
+                border.color: "lightgray";
+                border.width: (classRecDel.highlighted)? 4 : 0 ;
+            }
 
             padding: 0
             contentItem: Rectangle
