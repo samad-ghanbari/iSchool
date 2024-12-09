@@ -50,7 +50,8 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "ارزیابی واحد درسی " + classSCEPage.student.Student
+            textFormat: Text.RichText
+            text: "ارزیابی واحد درسی " + "<font color='darkmagenta'>"+ classSCEPage.student.Student + " ( " + classSCEPage.student.Fathername + " ) </font> "
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -86,7 +87,7 @@ Page {
                     {
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
-                        implicitHeight: 400
+                        implicitHeight: 300
                         RowLayout
                         {
                             anchors.fill: parent
@@ -109,31 +110,31 @@ Page {
                             }
                             Column{
                                 Layout.fillWidth: true
-                                Text {
-                                    text: classSCEPage.student.Student
-                                    height: 50
-                                    width: parent.width
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 20
-                                    font.bold: true
-                                    color: "darkmagenta"
-                                    elide: Text.ElideLeft
-                                }
+                                // Text {
+                                //     text: classSCEPage.student.Student
+                                //     height: 50
+                                //     width: parent.width
+                                //     verticalAlignment: Text.AlignVCenter
+                                //     horizontalAlignment: Text.AlignHCenter
+                                //     font.family: "B Yekan"
+                                //     font.pixelSize: 20
+                                //     font.bold: true
+                                //     color: "darkmagenta"
+                                //     elide: Text.ElideLeft
+                                // }
 
-                                Text {
-                                    text: "نام پدر" + " : " + classSCEPage.student.Fathername
-                                    height: 50
-                                    width: parent.width
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                    elide: Text.ElideLeft
-                                }
+                                // Text {
+                                //     text: "نام پدر" + " : " + classSCEPage.student.Fathername
+                                //     height: 50
+                                //     width: parent.width
+                                //     verticalAlignment: Text.AlignVCenter
+                                //     horizontalAlignment: Text.AlignHCenter
+                                //     font.family: "B Yekan"
+                                //     font.pixelSize: 16
+                                //     font.bold: true
+                                //     color: "royalblue"
+                                //     elide: Text.ElideLeft
+                                // }
 
                                 // branch step
                                 Text {
@@ -200,7 +201,7 @@ Page {
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkmagenta"
                                     elide: Text.ElideLeft
                                 }
                             }
@@ -208,6 +209,7 @@ Page {
                     }
 
                     //refresh
+                    //stat
                     Item
                     {
                         Layout.columnSpan: 2
@@ -261,9 +263,9 @@ Page {
                             {
                                 classSCEStat.student_id = classSCEPage.student.Student_id;
                                 classSCEStat.course_id = classSCEPage.studentCourseModel.Course_id;
+                                classSCEStat.course_name = classSCEPage.studentCourseModel.Course_name;
                                 classSCEStat.student = classSCEPage.student.Student
                                 classSCEStat.baseClass = classSCEPage.registerModel.study_base + "   " + "کلاس " + classSCEPage.registerModel.class_name
-                                classSCEStat.statObject = {}
                                 classSCEStat.statCalculate();
                                 classSCEStat.open();
                             }
@@ -307,7 +309,7 @@ Page {
                             GridView
                             {
                                 id: courseEvalGV
-                                height: (courseEvalGV.model.count ) * 400
+                                height: contentHeight + 100
                                 width: parent.width
 
                                 flickableDirection: Flickable.AutoFlickDirection
@@ -738,17 +740,21 @@ Page {
         property int course_id;
         property string student;
         property string baseClass;
-
-        property var statObject: {}
+        property string course_name;
 
         function statCalculate()
         {
-            //foreach eval-cat calculate mean/normalised
-            // statObject = {cat1:{ mean: x, nmean:y} , cat2:{}, cat3:{}, cat4:{} }
+            //foreach eval-cat calculate avg/normalised-Avg
+            // statObject = [{cat_id, category, test, final, avg, navg} ,{}, {}, {} }
 
+            var statObject = dbMan.getStudentCourseStatArray(classSCEStat.student_id, classSCEStat.course_id);
+            statSCEModel.clear();
+            for(var o of statObject)
+            {
+                statSCEModel.append(o);
+            }
 
-
-            if(Object.keys(classSCEStat.statObject).length > 0)
+            if(statSCEModel.count > 0)
                 emptyStatText.visible = false;
             else
                 emptyStatText.visible = true;
@@ -757,116 +763,211 @@ Page {
         ScrollView
         {
             id: classStudentsSV
-            anchors.fill: parent
+            width: parent.width
+            height: parent.height
             anchors.margins: 5
 
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
-            Rectangle{
-                anchors.fill: parent
+            Column
+            {
+                width: classStudentsSV.width
+                spacing: 20
 
-                ColumnLayout
-                {
-                    anchors.fill: parent
-
+                Item{
+                    width: parent.width
+                    height: 150
                     Image{
-                        Layout.preferredWidth: 128
-                        Layout.preferredHeight: 128
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                        Layout.topMargin: 20
+                        width: 128
+                        height: 128
+                        anchors.centerIn: parent
                         source: "qrc:/assets/images/stat.png"
                     }
+                }
+                Text{
+                    width: parent.width;
+                    height: 50
+                    text: classSCEStat.course_name
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 20
+                    color: "royalblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
 
-                    Rectangle{
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 2
-                        color: "dodgerblue"
-                        Layout.margins: 10
-                    }
+
+                Rectangle{
+                    width: parent.width
+                    height: 2
+                    color: "dodgerblue"
+                    anchors.margins: 10
+                }
+
+                Text{
+                    id: emptyStatText
+                    width: parent.width;
+                    height: 50
+                    text: "آزمونی برای این درس ثبت نشده است."
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    color: "dodgerblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Column{
+                    width: parent.width;
+                    visible: ! emptyStatText.visible
 
                     Text{
-                        id: emptyStatText
-                        Layout.fillWidth: true;
-                        Layout.fillHeight: true;
-                        text: "آزمونی برای این درس ثبت نشده است."
+                        width: parent.width;
+                        height: 50
+                        text: classSCEStat.student
                         font.bold: true
                         font.family: "B Yekan"
-                        font.pixelSize: 16
+                        font.pixelSize: 20
+                        color: "dodgerblue"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    Text{
+                        width: parent.width;
+                        height: 50
+                        text: classSCEStat.baseClass
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
                         color: "dodgerblue"
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    Loader{
-                        sourceComponent: drawerStatComponent;
-                        visible: !emptyStatText.visible;
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                    }
-
-                    Item{Layout.fillHeight: true; Layout.preferredWidth: 5;}
-                }
-            }
-        }
-    }
-
-    //stat component
-    Component{
-        id: drawerStatComponent
-        Item{
-            id: statCmp
-
-            ColumnLayout
-            {
-                anchors.fill: parent
-
-                Text{
-                    Layout.fillWidth: true;
-                    Layout.preferredHeight: 50
-                    text: classSCEStat.student
-                    font.bold: true
-                    font.family: "B Yekan"
-                    font.pixelSize: 20
-                    color: "dodgerblue"
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-                Text{
-                    Layout.fillWidth: true;
-                    Layout.preferredHeight: 50
-                    text: classSCEStat.baseClass
-                    font.bold: true
-                    font.family: "B Yekan"
-                    font.pixelSize: 18
-                    color: "dodgerblue"
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-
-
-                Flow
-                {
-                    spacing: 20
-                    Layout.columnSpan: 2
-                    flow: Flow.TopToBottom
-                    Layout.preferredHeight: statRepeater.count*70
-
                     Repeater
                     {
                         id: statRepeater
-                        model: ListModel {id: statModel }
-                        delegate:Item{}
+                        width: parent.width
+                        height: statRepeater.model.count*200
+
+                        model: ListModel{id: statSCEModel;}
+                        // cat_id:o.cat_id,
+                        // category:o.category,
+                        // final: o.final,
+                        // test:o.test,
+                        //  navg: o.navg,
+                        //  avg: o.avg
+
+                        delegate:Column{
+                            required property var model;
+                            property bool noNorm: (model.avg == model.navg)?  false : true;
+                            property var avg : {
+                                if(model.avg == -1) return " - ";
+                                else
+                                {
+                                    if(model["test"])
+                                        return "میانگین: " + model["avg"] + " % ";
+                                    else
+                                        return "میانگین: " + model["avg"];
+                                }
+                            }
+                            property var navg : {
+                                if(model.navg == -1) return " - ";
+                                else
+                                {
+                                    if(model["test"])
+                                        return "میانگین با نمودار: " + model["navg"] + " % ";
+                                    else
+                                        return "میانگین با نمودار: " + model["navg"];
+                                }
+                            }
+
+                            width: parent.width;
+                            height: 200;
+
+                            Label{
+                                text: parent.model["category"]
+                                width: parent.width
+                                height: 50;
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                                font.bold: true
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                color: "white"
+                                background:Rectangle{color: "slategray"}
+                            }
+
+                            Row{
+                                property var model : parent.model;
+                                width: parent.width;
+                                height: 30
+                                // final
+                                Image
+                                {
+                                    source: "qrc:/assets/images/certified32.png"
+                                    width: 30
+                                    height: 30
+                                    visible: (parent.model.final)? true : false;
+                                }
+                                //test
+                                Image
+                                {
+                                    source: "qrc:/assets/images/check32.png"
+                                    width: 30
+                                    height: 30
+                                    visible: (parent.model.test)? true : false;
+                                }
+
+                            }
+
+                            Label{
+                                text: parent.avg
+                                width: parent.width
+                                height: 50;
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                                font.bold: true
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                color: "slategray"
+                                MouseArea {
+                                    anchors.fill: parent;
+                                    hoverEnabled: true;
+                                    onEntered: parent.color = "mediumvioletred"
+                                    onExited: parent.color = "slategray"
+                                }
+                            }
+
+                            Label{
+                                text: parent.navg
+                                width: parent.width
+                                height: 50;
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                                font.bold: true
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                color: "slategray"
+                                visible: parent.noNorm
+                                MouseArea {
+                                    anchors.fill: parent;
+                                    hoverEnabled: true;
+                                    onEntered: parent.color = "mediumvioletred"
+                                    onExited: parent.color = "slategray"
+                                }
+                            }
+                            Item{width: parent.width; height: 20;}
+                        }
+
                     }
-                    Component.onCompleted:
-                    {
-                    }
+
+                    Item{height: 20; width: 5;}
                 }
-
-
-
-                Item{Layout.fillHeight: true; Layout.preferredWidth: 5;}
             }
+
+
         }
     }
 }

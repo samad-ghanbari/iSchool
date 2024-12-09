@@ -91,7 +91,7 @@ Page {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             font.family: "B Yekan"
-            font.pixelSize: 16
+            font.pixelSize: 20
             font.bold: true
             color: "royalblue"
         }
@@ -104,7 +104,7 @@ Page {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             font.family: "B Yekan"
-            font.pixelSize: 16
+            font.pixelSize: 18
             font.bold: true
             color: "royalblue"
         }
@@ -129,7 +129,7 @@ Page {
             flickableDirection: Flickable.AutoFlickDirection
             clip: true
             cellWidth: 310
-            cellHeight: 170
+            cellHeight: 260
             model: ListModel{id: regsModel}
             highlight: Item{}
             delegate: registerDelegate
@@ -183,7 +183,7 @@ Page {
         {
             id: regRecDel
             required property var model;
-            height: 160
+            height: 250
             width: 300
             checkable: true
             checked: regRecDel.swipe.complete
@@ -201,8 +201,19 @@ Page {
                 {
                     id: regRecDelCol
                     anchors.fill: parent
-
                     spacing: 0
+
+                    Item{
+                        width: parent.width
+                        height: 80
+                        Image{
+                            width: 64
+                            height: 64
+                            anchors.centerIn: parent
+                            source: "qrc:/assets/images/folders.png"
+                        }
+                    }
+
                     Label {
                         text: regRecDel.model.Step_name + " - " + regRecDel.model.Study_base
                         padding: 0
@@ -219,7 +230,7 @@ Page {
                         text: regRecDel.model.Study_period
                         padding: 0
                         font.family: "B Yekan"
-                        font.pixelSize: (regRecDel.highlighted)? 20 :16
+                        font.pixelSize: (regRecDel.highlighted)? 18 :16
                         font.bold: (regRecDel.highlighted)? true : false
                         color: (regRecDel.model.Passed)? "mediumvioletred":"dodgerblue"
                         horizontalAlignment: Label.AlignHCenter
@@ -232,7 +243,7 @@ Page {
                         text: "کلاس " + regRecDel.model.Class_name
                         padding: 0
                         font.family: "B Yekan"
-                        font.pixelSize: (regRecDel.highlighted)? 20 :16
+                        font.pixelSize: 16
                         font.bold: (regRecDel.highlighted)? true : false
                         color: (regRecDel.model.Passed)? "mediumvioletred":"dodgerblue"
                         horizontalAlignment: Label.AlignHCenter

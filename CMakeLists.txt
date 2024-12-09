@@ -242,6 +242,9 @@ qt_add_resources(appiSchool "assets"
     #SCHOOL
         assets/images/school.png
         assets/images/school2.png
+        assets/images/folder.png
+        assets/images/folders.png
+
     #BRANCH
         assets/images/branch.png
     #COURSE
