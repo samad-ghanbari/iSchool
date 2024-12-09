@@ -222,75 +222,12 @@ function updateClassCB(step_id, base_id, period_id)
 function updateCourseEvalModel(student_id, course_id)
 {
     courseEvalModel.clear();
-    var jsondata = dbMan.getStudentCourseEvals(student_id,  course_id);
-    //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_cat_id, e.course_id, e.class_id, e.eval_time, e.max_grade, e.included,
-    //ec.eval_cat, ec.test_flag, ec.final_flag
+    var jsondata = dbMan.getCategorisedEvals(student_id,  course_id);
+    //se.id, se.Student_id, se.Eval_id, se.Student_grade, se.Normalised_grade, e.Eval_cat_id, e.Course_id, e.Class_id, e.Eval_time, e.Max_grade, e.Included,
+    //ec.Eval_cat, ec.Test_flag, ec.Final_flag
 
     for(var obj of jsondata)
     {
-        courseEvalModel.append({
-                                   Id: obj.id,
-                                   Student_id: obj.student_id,
-                                   Eval_id: obj.eval_id,
-                                   Student_grade: obj.student_grade,
-                                   Normalised_grade: obj.normalised_grade,
-                                   Eval_cat_id: obj.eval_cat_id,
-                                   Course_id: obj.course_id,
-                                   Class_id: obj.class_id,
-                                   Eval_time: obj.eval_time,
-                                   Max_grade: obj.max_grade,
-                                   Included: obj.included,
-                                   Eval_cat: obj.eval_cat,
-                                   Test_flag: obj.test_flag,
-                                   Final_flag: obj.final_flag
-                               });
-
-
-    }
-}
-
-
-//staudent stat
-function updateStudentStatModel(registerId)
-{
-    /*
-{
-        Course_name : "ریاضی",
-        Course_coefficient: 3,
-        Test_coefficient: 2,
-
-        Course_continous: 15,
-        Test_continous: 16,
-
-        Course_final: 17,
-        Test_final: 18,
-
-        Course_semester: 19,
-        Test_semester: 20
-
-}
-*/
-
-    studentStatModel.clear();
-    var jsondata = dbMan.getUserPeriodStat(registerId);
-    for(var obj of jsondata)
-    {
-        studentStatModel.append({
-                                    ID : obj.ID,
-                                    Course_name : obj.Course_name,
-                                    Course_coefficient: obj.Course_coefficient,
-                                    Test_coefficient: obj.Test_coefficient,
-                                    Base_course: obj.Base_course,
-
-                                    Course_continous: obj.Course_continous,
-                                    Test_continous: obj.Test_continous,
-
-                                    Course_final: obj.Course_final,
-                                    Test_final: obj.Test_final,
-
-                                    Course_semester: obj.Course_semester,
-                                    Test_semester: obj.Test_semester
-
-                                });
+        courseEvalModel.append(obj);
     }
 }

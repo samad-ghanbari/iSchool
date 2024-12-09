@@ -317,7 +317,8 @@ Page {
                             regRecDel.swipe.close();
 
                         registersPage.appStackView.push(studentCourseComponent,
-                                                        {student: registersPage.student,
+                                                        {
+                                                            student: registersPage.student,
                                                             model: regRecDel.model
                                                         });
                     }

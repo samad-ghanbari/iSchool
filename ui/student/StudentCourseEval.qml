@@ -9,25 +9,22 @@ import "Student.js" as Methods
 
 
 Page {
-    id: studentCourseEvalPage
+    id: studentCEPage
+
 
     required property var student;
+    // Register_id, Student_id , Student, Fathername, Gender, Birthday, Photo
     required property var registerModel;
     // 0r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id, r.class_id,  s.branch_id
     // 6br.city, br.branch_name, st.step_name, sb.study_base, sp.study_period, sp.passed, cl.class_name
-
     required property var studentCourseModel;
-    // 0sc.id, 1sc.student_id, 2sc.register_id, 3sc.course_id, 4sc.teacher_id,
-    // 5co.course_name, 6.study_base_id, 7.course_coefficient, 8.test_coefficient, 9.shared_coefficient, 10.final_weight,
-    // 11.teacher
+    // 0sc.Id, 1sc.Student_id, 2sc.Register_id, 3sc.Course_id, 4sc.Teacher_id,
+    // 5co.Course_name, 6.Study_base_id, 7.Course_coefficient, 8.Test_coefficient, 9.Shared_coefficient, 10.Final_weight,
+    // 11.Teacher
 
     signal popStackViewSignal();
 
-    property bool isFemale : (studentCourseEvalPage.student.gender === "خانم")? true : false;
-
-    //property real studentCourseMean : dbMan.getStudentCourseMean(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
-    //property real studentCourseNormalisedMean : dbMan.getStudentCourseNormalisedMean(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
-
+    property bool isFemale : (studentCEPage.student.gender === "خانم")? true : false;
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -45,7 +42,7 @@ Page {
             icon.width: 64
             icon.height: 64
             opacity: 0.5
-            onClicked: studentCourseEvalPage.popStackViewSignal();
+            onClicked: studentCEPage.popStackViewSignal();
             hoverEnabled: true
             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
         }
@@ -54,7 +51,8 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "ارزیابی واحد درسی دانش‌آموز"
+            textFormat: Text.RichText
+            text: "ارزیابی واحد درسی " + "<font color='darkmagenta'>"+ studentCEPage.student.name + "  "+ studentCEPage.student.lastname + " ( " + studentCEPage.student.fathername + " ) </font> "
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -88,154 +86,131 @@ Page {
 
                     Rectangle
                     {
-                        Layout.fillWidth: true
                         Layout.columnSpan: 2
-                        implicitHeight: 200
+                        Layout.fillWidth: true
+                        implicitHeight: 300
                         RowLayout
                         {
                             anchors.fill: parent
+                            spacing: 10
                             Image
                             {
-                                Layout.preferredWidth: 128
-                                Layout.preferredHeight: 128
-                                Layout.alignment: Qt.AlignLeft
-                                source: {
-                                    if(studentCourseEvalPage.student.photo == "")
+                                Layout.preferredWidth: 200
+                                Layout.preferredHeight: 200
+                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                source:{
+                                    if(studentCEPage.student.photo == "")
                                     {
-                                        if(studentCourseEvalPage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
+                                        if(studentCEPage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
                                     }
                                     else
                                     {
-                                        return "file://"+studentCourseEvalPage.student.photo;
+                                        return "file://"+studentCEPage.student.photo;
                                     }
                                 }
                             }
                             Column{
                                 Layout.fillWidth: true
+                                // Text {
+                                //     text: studentCEPage.student.Student
+                                //     height: 50
+                                //     width: parent.width
+                                //     verticalAlignment: Text.AlignVCenter
+                                //     horizontalAlignment: Text.AlignHCenter
+                                //     font.family: "B Yekan"
+                                //     font.pixelSize: 20
+                                //     font.bold: true
+                                //     color: "darkmagenta"
+                                //     elide: Text.ElideLeft
+                                // }
+
+                                // Text {
+                                //     text: "نام پدر" + " : " + studentCEPage.student.Fathername
+                                //     height: 50
+                                //     width: parent.width
+                                //     verticalAlignment: Text.AlignVCenter
+                                //     horizontalAlignment: Text.AlignHCenter
+                                //     font.family: "B Yekan"
+                                //     font.pixelSize: 16
+                                //     font.bold: true
+                                //     color: "royalblue"
+                                //     elide: Text.ElideLeft
+                                // }
+
+                                // branch step
                                 Text {
-                                    text: studentCourseEvalPage.student["name"] + " " + studentCourseEvalPage.student["lastname"]
+                                    text: "شعبه " + " : " + studentCEPage.registerModel.City + " - " + studentCEPage.registerModel.Branch_name + " - " + studentCEPage.registerModel.Step_name + " - " + studentCEPage.registerModel.Study_base
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
+                                    horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
+                                    elide: Text.ElideLeft
                                 }
 
                                 Text {
-                                    text: "نام پدر" + " : " + studentCourseEvalPage.student["fathername"]
+                                    text: "سال تحصیلی " + " : " + studentCEPage.registerModel.Study_period
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
+                                    horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
+                                    elide: Text.ElideLeft
                                 }
-                                // branch step
+
+                                // class
                                 Text {
-                                    text: "شعبه " + " : " + studentCourseEvalPage.registerModel.City + " - " + studentCourseEvalPage.registerModel.Branch_name + " - " + studentCourseEvalPage.registerModel.Step_name + " - " + studentCourseEvalPage.registerModel.Study_base
+                                    text: "کلاس " + " : " + studentCEPage.registerModel.Class_name
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
+                                    horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
+                                    elide: Text.ElideLeft
                                 }
-                                // base period
+
+                                // course
                                 Text {
-                                    text:  studentCourseEvalPage.registerModel.Study_period
+                                    text: "درس:‌ " + studentCEPage.studentCourseModel.Course_name + " ( " + studentCEPage.studentCourseModel.Teacher + " ) "
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
+                                    horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
                                     font.pixelSize: 20
                                     font.bold: true
-                                    color: "darkcyan"
+                                    color: "darkmagenta"
+                                    elide: Text.ElideLeft
+                                }
+
+                                // coefficient
+                                Text {
+                                    text:  "ضریب درس: " + studentCEPage.studentCourseModel.Course_coefficient + "     " + "ضریب تست: " + studentCEPage.studentCourseModel.Test_coefficient
+                                    height: 50
+                                    width: parent.width
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    color: "darkmagenta"
+                                    elide: Text.ElideLeft
                                 }
                             }
                         }
                     }
 
-                    // course info
-                     Rectangle
-                     {
-                        Layout.columnSpan: 2
-                         Layout.fillWidth: true
-                         implicitHeight: 120
-                         color: "olivedrab"
-                         Layout.topMargin: 10
-                         Layout.bottomMargin: 10
-                         Text
-                         {
-                             id: courseNameInfo
-                             text: studentCourseEvalPage.studentCourseModel.Course_name
-                             height: 50
-                             width: parent.width
-                             verticalAlignment: Text.AlignVCenter
-                             horizontalAlignment: Text.AlignHCenter
-                             font.family: "B Yekan"
-                             font.pixelSize: 20
-                             font.bold: true
-                             color: "white"
-                         }
-                         Text
-                         {
-                             anchors.top: courseNameInfo.bottom
-                             text: studentCourseEvalPage.studentCourseModel.Teacher
-                             height: 50
-                             width: parent.width
-                             verticalAlignment: Text.AlignVCenter
-                             horizontalAlignment: Text.AlignHCenter
-                             font.family: "B Yekan"
-                             font.pixelSize: 18
-                             font.bold: true
-                             color: "white"
-                         }
-
-                         //coefficient
-                         Label
-                         {
-                             id: courseCoefLbl
-                             width: 30
-                             height: 60
-                             anchors.top: parent.top
-                             anchors.right: parent.right
-                             horizontalAlignment: Label.AlignHCenter
-                             verticalAlignment: Label.AlignVCenter
-                             font.family: "B Yekan"
-                             font.pixelSize: 16
-                             font.bold: true
-                             text: studentCourseEvalPage.studentCourseModel.Course_coefficient
-                             color: "white"
-                             background: Rectangle{anchors.fill: parent; color:"mediumvioletred"}
-                         }
-                         Label
-                         {
-                             width: 30
-                             height: 60
-                             anchors.top: courseCoefLbl.bottom
-                             anchors.right: parent.right
-                             horizontalAlignment: Label.AlignHCenter
-                             verticalAlignment: Label.AlignVCenter
-                             font.family: "B Yekan"
-                             font.pixelSize: 16
-                             font.bold: true
-                             text: studentCourseEvalPage.studentCourseModel.Test_coefficient
-                             color: "white"
-                             background: Rectangle{anchors.fill: parent; color:"darkmagenta"}
-                         }
-
-                     }
-
                     //refresh
-                    //course
+                    //stat
                     Item
                     {
                         Layout.columnSpan: 2
@@ -255,15 +230,15 @@ Page {
                             opacity: 0.5
                             onClicked:
                             {
-                                var student_id = studentCourseEvalPage.student.id
-                                var course_id = studentCourseEvalPage.studentCourseModel.Course_id;
+                                var student_id = studentCEPage.student.id
+                                var course_id = studentCEPage.studentCourseModel.Course_id;
                                 if(dbMan.updateStudentCourseEvals(student_id, course_id))
                                 {
                                     infoDialogId.dialogSuccess = true;
                                     infoDialogId.dialogTitle = "عملیات موفق";
                                     infoDialogId.dialogText = "بروزرسانی ارزیابی‌ها با موفقیت انجام شد.";
                                     infoDialogId.open();
-                                    Methods.updateCourseEvalModel(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
+                                    Methods.updateCourseEvalModel(student_id, course_id);
                                 }
                                 else
                                 {
@@ -281,14 +256,19 @@ Page {
                             height: 64
                             anchors.right: refreshBtn.left
                             background: Item{}
-                            icon.source: "qrc:/assets/images/info.png"
+                            icon.source: "qrc:/assets/images/stat.png"
                             icon.width: 64
                             icon.height: 64
                             opacity: 0.5
                             onClicked:
                             {
-                                studentCourseStatDrawer.open();
-                                studentCourseStatDrawer.statCalulation();
+                                classSCEStat.student_id = studentCEPage.student.id;
+                                classSCEStat.course_id = studentCEPage.studentCourseModel.Course_id;
+                                classSCEStat.course_name = studentCEPage.studentCourseModel.Course_name;
+                                classSCEStat.student = studentCEPage.student.name + "   " + studentCEPage.student.lastname
+                                classSCEStat.baseClass = studentCEPage.registerModel.Study_base + "   " + "کلاس " + studentCEPage.registerModel.Class_name
+                                classSCEStat.statCalculate();
+                                classSCEStat.open();
                             }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -296,49 +276,61 @@ Page {
                     }
 
 
-
-                    Rectangle
+                    ListView
                     {
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true;
-                        Layout.preferredHeight: 64
-                        Layout.margins:0
-                        color:"transparent"
-
-                        RowLayout
-                        {
-                            width: parent.width
-                            height: parent.height
-
-
-                        }
-                    }
-
-
-                    GridView
-                    {
-                        id: courseEvalGV
+                        id: courseEvalLV
                         Layout.columnSpan: 2
                         Layout.fillHeight: true
                         implicitHeight: 700
                         Layout.fillWidth: true
                         Layout.margins: 10
-                        flickableDirection: Flickable.AutoFlickDirection
                         clip: true
-                        cellWidth: 310
-                        cellHeight:310
-                        model: ListModel{id: courseEvalModel}
-                        highlight: Item{}
-                        delegate: gvDelegate
-                        Component.onCompleted: Methods.updateCourseEvalModel(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
+                        model: ListModel{id: courseEvalModel;}
+
+                        delegate:Column{
+                            id: recdel
+                            required property var model;
+                            height: courseEvalGV.height + 80
+                            width: ListView.view.width
+                            spacing: 20
+                            Label{
+                                width: parent.width;
+                                height: 80
+                                text: recdel.model.category + " ( " + studentCEPage.studentCourseModel.Course_name + " ) "
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                                font.bold: true
+                                font.family: "B Yekan"
+                                font.pixelSize: 20
+                                color: "white"
+                                background:Rectangle{color: "navy"}
+
+                            }
+
+                            GridView
+                            {
+                                id: courseEvalGV
+                                height: contentHeight + 100
+                                width: parent.width
+
+                                flickableDirection: Flickable.AutoFlickDirection
+                                clip: true
+                                cellWidth: 310
+                                cellHeight:310
+                                model: recdel.model.evals
+                                highlight: Item{}
+                                delegate: gvDelegate
+                            }
+                        }
+
+                        Component.onCompleted: Methods.updateCourseEvalModel(studentCEPage.student.id, studentCEPage.studentCourseModel.Course_id);
                     }
+
 
                 }
             }
         }
     }
-
-
 
     //delegate
     Component
@@ -350,17 +342,17 @@ Page {
             width: 300
             height: 300
             required property var model;
-            //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, e.eval_cat_id, e.course_id, e.class_id, e.eval_time, e.max_grade, e.included,
-            //ec.eval_cat, ec.test_flag, ec.final_flag
+            //se.id, se.Student_id, se.Eval_id, se.Student_grade, se.Normalised_grade, e.Eval_cat_id, e.Course_id, e.Class_id, e.Eval_time, e.Max_grade, e.Included,
+            //ec.Eval_cat, ec.Test_flag, ec.Final_flag
 
             color:{
-                if(recDelt.model.Student_grade == -1)
-                    return "lavenderblush";
+                if(recDelt.model.student_grade == -1)
+                return "lavenderblush";
 
                 if(recDelt.model.index % 2 == 0)
-                    return "whitesmoke"
+                return "whitesmoke"
                 else
-                    return "snow";
+                return "snow";
             }
 
             Rectangle
@@ -379,7 +371,7 @@ Page {
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
-                    text: recDelt.model.Eval_cat
+                    text: recDelt.model.eval_cat
                     elide: Text.ElideLeft
                 }
 
@@ -401,7 +393,7 @@ Page {
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
-                    text: recDelt.model.Eval_time
+                    text: recDelt.model.eval_time
                     elide: Text.ElideLeft
                 }
             }
@@ -423,7 +415,7 @@ Page {
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
-                    text: (recDelt.model.Test_flag)? "بیشترین نمره: " + recDelt.model.Max_grade +"%" : "بیشترین نمره: " +recDelt.model.Max_grade;
+                    text: (recDelt.model.test_flag)? "بیشترین نمره: " + recDelt.model.max_grade +" % " : "بیشترین نمره: " +recDelt.model.max_grade;
                     elide: Text.ElideLeft
                 }
             }
@@ -435,7 +427,7 @@ Page {
                 height: 50
                 color: "mintcream"
                 anchors.top : maxGradeRect.bottom
-                visible: (recDelt.model.Student_grade > -1)? true : false
+                visible: (recDelt.model.student_grade > -1)? true : false
                 Text
                 {
                     id: studentGradeText
@@ -446,7 +438,7 @@ Page {
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
-                    text: "نمره دریافتی: " + recDelt.model.Student_grade
+                    text: (recDelt.model.test_flag)? "نمره دریافتی: " + recDelt.model.student_grade + " % " :  "نمره دریافتی: " + recDelt.model.student_grade;
                     elide: Text.ElideLeft
                 }
             }
@@ -457,7 +449,7 @@ Page {
                 width: parent.width
                 height: 50
                 color: "honeydew"
-                visible: (recDelt.model.Normalised_grade > -1)? true : false
+                visible: (recDelt.model.normalised_grade > -1)? true : false
                 anchors.top : studentGradeRect.bottom
                 Text
                 {
@@ -469,7 +461,7 @@ Page {
                     font.family: "B Yekan"
                     font.pixelSize: 16
                     font.bold: true
-                    text: "نمره با اعمال نمودار: " + recDelt.model.Normalised_grade
+                    text: "نمره با اعمال نمودار: " + recDelt.model.normalised_grade
                     elide: Text.ElideLeft
                 }
             }
@@ -485,7 +477,7 @@ Page {
                     source: "qrc:/assets/images/certified32.png"
                     width: 32
                     height: 32
-                    visible: (recDelt.model.Final_flag)? true : false;
+                    visible: (recDelt.model.final_flag)? true : false;
                 }
                 // not report included
                 Image
@@ -493,7 +485,7 @@ Page {
                     source: "qrc:/assets/images/stop32.png"
                     width: 32
                     height: 32
-                    visible: (recDelt.model.Included)? false : true;
+                    visible: (recDelt.model.included)? false : true;
                 }
                 //test
                 Image
@@ -501,7 +493,7 @@ Page {
                     source: "qrc:/assets/images/check32.png"
                     width: 32
                     height: 32
-                    visible: (recDelt.model.Test_flag)? true : false;
+                    visible: (recDelt.model.test_flag)? true : false;
                 }
 
             }
@@ -525,20 +517,21 @@ Page {
                 {
 
 
-                    var eval_cat = recDelt.model.Eval_cat;
-                    var eval_time = recDelt.model.Eval_time
-                    var student_grade = recDelt.model.Student_grade
-                    var max_grade = recDelt.model.Max_grade
-                    var student = studentCourseEvalPage.student["name"] + " " + studentCourseEvalPage.student["lastname"];
-                    var course = studentCourseEvalPage.studentCourseModel.Course_name
+                    var eval_cat = recDelt.model.eval_cat;
+                    var eval_time = recDelt.model.eval_time
+                    var student_grade = recDelt.model.student_grade
+                    var max_grade = recDelt.model.max_grade
+                    var student = studentCEPage.student.name + "   " + studentCEPage.student.lastname
+                    var course = studentCEPage.studentCourseModel.Course_name
                     gradeTF.text = (student_grade > -1)? student_grade : ""
 
                     setStudentGradeDialog.studentVar = student
+                    setStudentGradeDialog.timeVar = eval_time
                     setStudentGradeDialog.evalCatVar = eval_cat
                     setStudentGradeDialog.gradeVar = student_grade
                     setStudentGradeDialog.maxVar = max_grade
                     setStudentGradeDialog.courseVar = course
-                    setStudentGradeDialog.studentEvalId = recDelt.model.Id
+                    setStudentGradeDialog.studentEvalId = recDelt.model.id
 
                     setStudentGradeDialog.open();
                 }
@@ -560,6 +553,7 @@ Page {
     {
         id: setStudentGradeDialog
         property string studentVar;
+        property string timeVar;
         property string evalCatVar;
         property real gradeVar;
         property real maxVar;
@@ -573,7 +567,7 @@ Page {
         dim: true
         anchors.centerIn: parent;
         width: (parent.width > 500)? 500 : parent.width
-        height: 300
+        height: 350
         title: ""
         header: Rectangle{
             width: parent.width;
@@ -615,12 +609,27 @@ Page {
                 text: setStudentGradeDialog.courseVar + " (" + setStudentGradeDialog.evalCatVar + ")"
                 elide: Text.ElideLeft
             }
+            Text
+            {
+                id: timeTextId
+                width: parent.width
+                height: 50
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                anchors.top : courseText.bottom
+                color: "slategray"
+                font.family: "B Yekan"
+                font.pixelSize: 14
+                font.bold: true
+                text: setStudentGradeDialog.timeVar
+                elide: Text.ElideLeft
+            }
 
             RowLayout
             {
                 width: parent.width
                 height: 50
-                anchors.top : courseText.bottom
+                anchors.top : timeTextId.bottom
 
                 Text
                 {
@@ -697,7 +706,7 @@ Page {
                             infoDialogId.dialogTitle = "عملیات موفق";
                             infoDialogId.dialogText = "نمره دانش‌آموز با موفقیت ثبت شد.";
                             infoDialogId.open();
-                            Methods.updateCourseEvalModel(studentCourseEvalPage.student.id, studentCourseEvalPage.studentCourseModel.Course_id);
+                            Methods.updateCourseEvalModel(studentCEPage.student.id, studentCEPage.studentCourseModel.Course_id);
 
                         }
                         else
@@ -719,442 +728,247 @@ Page {
 
     }
 
-    // info drawer
+    // stat drawer
     Drawer
     {
-        id: studentCourseStatDrawer
+        id: classSCEStat
         modal: true
         height: parent.height
-        width: 300
+        width: (parent.width > 500)? 500 : parent.width;
         dragMargin: 0
 
-        // given:  student_id & course_id
-        // result: {continous: x , final: x , semester: x}
-        property var studentCourseStat :     {"continous": "-" , "final":"-", "semester":"-"}
-        property var studentCourseNormStat : {"continous": "-" , "final":"-", "semester":"-"}
-        property var studentTestStat :       {"continous": "-" , "final":"-", "semester":"-"}
-        property var studentTestNormStat :   {"continous": "-" , "final":"-", "semester":"-"}
+        property int student_id;
+        property int course_id;
+        property string student;
+        property string baseClass;
+        property string course_name;
 
-        function statCalulation()
+        function statCalculate()
         {
-            var student_id = studentCourseEvalPage.student.id;
-            var course_id = studentCourseEvalPage.studentCourseModel.Course_id
+            //foreach eval-cat calculate avg/normalised-Avg
+            // statObject = [{cat_id, category, test, final, avg, navg} ,{}, {}, {} }
 
-            studentCourseStat = dbMan.getStudentCourseStat(student_id, course_id, false);
-            studentCourseNormStat = dbMan.getStudentCourseStat(student_id, course_id, true);
-            studentTestStat = dbMan.getStudentTestStat(student_id, course_id, false);
-            studentTestNormStat = dbMan.getStudentTestStat(student_id, course_id, true);
+            var statObject = dbMan.getStudentCourseStatArray(classSCEStat.student_id, classSCEStat.course_id);
+            statSCEModel.clear();
+            for(var o of statObject)
+            {
+                statSCEModel.append(o);
+            }
+
+            if(statSCEModel.count > 0)
+                emptyStatText.visible = false;
+            else
+                emptyStatText.visible = true;
         }
 
         ScrollView
         {
-            id: studentCourseStatSV
-            anchors.fill: parent
+            id: classStudentsSV
+            width: parent.width
+            height: parent.height
+            anchors.margins: 5
 
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
             Column
             {
-                width: studentCourseStatSV.width
+                width: classStudentsSV.width
                 spacing: 20
-                Image
-                {
-                    width: 128
-                    height: 128
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    source: "qrc:/assets/images/report.png"
 
-                }
-
-                Label
-                {
+                Item{
                     width: parent.width
-                    height: 20
-                    text: studentCourseEvalPage.student["name"] + " " + studentCourseEvalPage.student["lastname"]
-                    font.family:"B Yekan"
-                    font.pixelSize: 14
+                    height: 150
+                    Image{
+                        width: 128
+                        height: 128
+                        anchors.centerIn: parent
+                        source: "qrc:/assets/images/stat.png"
+                    }
+                }
+                Text{
+                    width: parent.width;
+                    height: 50
+                    text: classSCEStat.course_name
                     font.bold: true
-                    color: "darkmagenta"
-                    horizontalAlignment: Label.AlignHCenter
-                    verticalAlignment: Label.AlignVCenter
+                    font.family: "B Yekan"
+                    font.pixelSize: 20
+                    color: "royalblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
-                Label
-                {
+
+
+                Rectangle{
                     width: parent.width
-                    height: 20
-                    text: studentCourseEvalPage.studentCourseModel["Course_name"]
-                    font.family:"B Yekan"
+                    height: 2
+                    color: "dodgerblue"
+                    anchors.margins: 10
+                }
+
+                Text{
+                    id: emptyStatText
+                    width: parent.width;
+                    height: 50
+                    text: "آزمونی برای این درس ثبت نشده است."
+                    font.bold: true
+                    font.family: "B Yekan"
                     font.pixelSize: 16
-                    font.bold: true
-                    color: "mediumvioletred"
-                    horizontalAlignment: Label.AlignHCenter
-                    verticalAlignment: Label.AlignVCenter
+                    color: "dodgerblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
 
-                Label
-                {
-                    width: parent.width
-                    height: 70
-                    background: Rectangle{color: "mediumvioletred"}
-                    text: "آمار ارزیابی درس"
-                    font.family:"B Yekan"
-                    font.pixelSize: 18
-                    font.bold: true
-                    color: "white"
-                    horizontalAlignment: Label.AlignHCenter
-                    verticalAlignment: Label.AlignVCenter
-                }
+                Column{
+                    width: parent.width;
+                    visible: ! emptyStatText.visible
 
-                //course
-                // mostamar
-                Rectangle
-                {
-                    id: courseContinousBox
-                    property bool normFlag: (studentCourseStatDrawer.studentCourseStat.continous == studentCourseStatDrawer.studentCourseNormStat.continous)? false  : true;
-                    width: parent.width
-                    height: 120
-                    color: "ghostwhite"
-                    visible: (studentCourseStatDrawer.studentCourseStat["continous"] > -1)? true : false;
-                    Column
-                    {
-                        width: parent.width
-                        height: 120
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: " مستمر: "
-                            font.family:"B Yekan"
-                            font.pixelSize: 18
-                            font.bold: true
-                            color: "steelblue"
-                            horizontalAlignment: Label.AlignLeft
-                            verticalAlignment: Label.AlignVCenter
-                        }
-
-                        Label
-                        {
-                            visible: (courseContinousBox.normFlag)? true : false
-                            width: parent.width
-                            height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentCourseStat["continous"];
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
-                        }
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: (courseContinousBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["continous"] : studentCourseStatDrawer.studentCourseNormStat["continous"];
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
-                        }
+                    Text{
+                        width: parent.width;
+                        height: 50
+                        text: classSCEStat.student
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 20
+                        color: "dodgerblue"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
                     }
-                }
+                    Text{
+                        width: parent.width;
+                        height: 50
+                        text: classSCEStat.baseClass
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        color: "dodgerblue"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
 
-                //final
-                Rectangle
-                {
-                    id: courseFinalBox
-                    property bool normFlag: (studentCourseStatDrawer.studentCourseStat.final == studentCourseStatDrawer.studentCourseNormStat.final)? false  : true;
-                    width: parent.width
-                    height: 120
-                    color: "ghostwhite"
-                    visible: (studentCourseStatDrawer.studentCourseStat["final"] > -1)? true : false;
-                    Column
+                    Repeater
                     {
+                        id: statRepeater
                         width: parent.width
-                        height: 120
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: " پایانی: "
-                            font.family:"B Yekan"
-                            font.pixelSize: 18
-                            font.bold: true
-                            color: "steelblue"
-                            horizontalAlignment: Label.AlignLeft
-                            verticalAlignment: Label.AlignVCenter
-                        }
+                        height: statRepeater.model.count*200
 
-                        Label
-                        {
-                             visible: (courseFinalBox.normFlag)? true : false
-                            width: parent.width
-                            height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentCourseStat["final"];
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
-                        }
+                        model: ListModel{id: statSCEModel;}
+                        // cat_id:o.cat_id,
+                        // category:o.category,
+                        // final: o.final,
+                        // test:o.test,
+                        //  navg: o.navg,
+                        //  avg: o.avg
 
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: (courseFinalBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["final"]:studentCourseStatDrawer.studentCourseNormStat["final"];
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
+                        delegate:Column{
+                            required property var model;
+                            property bool noNorm: (model.avg == model.navg)?  false : true;
+                            property var avg : {
+                                if(model.avg == -1) return " - ";
+                                else
+                                {
+                                    if(model["test"])
+                                        return "میانگین: " + model["avg"] + " % ";
+                                    else
+                                        return "میانگین: " + model["avg"];
+                                }
+                            }
+                            property var navg : {
+                                if(model.navg == -1) return " - ";
+                                else
+                                {
+                                    if(model["test"])
+                                        return "میانگین با نمودار: " + model["navg"] + " % ";
+                                    else
+                                        return "میانگین با نمودار: " + model["navg"];
+                                }
+                            }
+
+                            width: parent.width;
+                            height: 200;
+
+                            Label{
+                                text: parent.model["category"]
+                                width: parent.width
+                                height: 50;
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                                font.bold: true
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                color: "white"
+                                background:Rectangle{color: "slategray"}
+                            }
+
+                            Row{
+                                property var model : parent.model;
+                                width: parent.width;
+                                height: 30
+                                // final
+                                Image
+                                {
+                                    source: "qrc:/assets/images/certified32.png"
+                                    width: 30
+                                    height: 30
+                                    visible: (parent.model.final)? true : false;
+                                }
+                                //test
+                                Image
+                                {
+                                    source: "qrc:/assets/images/check32.png"
+                                    width: 30
+                                    height: 30
+                                    visible: (parent.model.test)? true : false;
+                                }
+
+                            }
+
+                            Label{
+                                text: parent.avg
+                                width: parent.width
+                                height: 50;
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                                font.bold: true
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                color: "slategray"
+                                MouseArea {
+                                    anchors.fill: parent;
+                                    hoverEnabled: true;
+                                    onEntered: parent.color = "mediumvioletred"
+                                    onExited: parent.color = "slategray"
+                                }
+                            }
+
+                            Label{
+                                text: parent.navg
+                                width: parent.width
+                                height: 50;
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                                font.bold: true
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                color: "slategray"
+                                visible: parent.noNorm
+                                MouseArea {
+                                    anchors.fill: parent;
+                                    hoverEnabled: true;
+                                    onEntered: parent.color = "mediumvioletred"
+                                    onExited: parent.color = "slategray"
+                                }
+                            }
+                            Item{width: parent.width; height: 20;}
                         }
 
                     }
+
+                    Item{height: 20; width: 5;}
                 }
-
-                //semester
-                Rectangle
-                {
-                    id: courseSemesterBox
-                    property bool normFlag: (studentCourseStatDrawer.studentCourseStat.semester == studentCourseStatDrawer.studentCourseNormStat.semester)? false  : true;
-
-                    width: parent.width
-                    height: 120
-                    color: "ghostwhite"
-                    visible: (studentCourseStatDrawer.studentCourseStat["semester"] > -1)? true : false;
-                    Column
-                    {
-                        width: parent.width
-                        height: 120
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: " نیمسال: "
-                            font.family:"B Yekan"
-                            font.pixelSize: 18
-                            font.bold: true
-                            color: "steelblue"
-                            horizontalAlignment: Label.AlignLeft
-                            verticalAlignment: Label.AlignVCenter
-                        }
-
-                        Label
-                        {
-                            visible: (courseSemesterBox.normFlag)? true : false
-                            width: parent.width
-                            height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentCourseStat["semester"];
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
-                        }
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: (courseSemesterBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentCourseNormStat["semester"] : studentCourseStatDrawer.studentCourseNormStat["semester"];
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
-                        }
-                    }
-                }
-
-                Label
-                {
-                    width: parent.width
-                    height: 70
-                    background: Rectangle{color: "mediumvioletred"}
-                    text: "آمار ارزیابی تست"
-                    font.family:"B Yekan"
-                    font.pixelSize: 18
-                    font.bold: true
-                    color: "white"
-                    horizontalAlignment: Label.AlignHCenter
-                    verticalAlignment: Label.AlignVCenter
-
-                    visible: ((studentCourseStatDrawer.studentTestStat["continous"] > -1) || (studentCourseStatDrawer.studentTestStat["final"] > -1))? true : false;
-                }
-
-
-                // test
-                // mostamar
-                Rectangle
-                {
-                    id: testContinousBox
-                    property bool normFlag: (studentCourseStatDrawer.studentTestStat.continous == studentCourseStatDrawer.studentTestNormStat.continous)? false  : true;
-                    width: parent.width
-                    height: 120
-                    color: "ghostwhite"
-                    visible: (studentCourseStatDrawer.studentTestStat["continous"] > -1)? true : false;
-                    Column
-                    {
-                        width: parent.width
-                        height: 120
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: " تست مستمر: "
-                            font.family:"B Yekan"
-                            font.pixelSize: 18
-                            font.bold: true
-                            color: "steelblue"
-                            horizontalAlignment: Label.AlignLeft
-                            verticalAlignment: Label.AlignVCenter
-                        }
-
-                        Label
-                        {
-                            visible: (testContinousBox.normFlag)? true : false
-                            width: parent.width
-                            height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["continous"] +"%";
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
-                        }
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: (testContinousBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["continous"] +"%" : studentCourseStatDrawer.studentTestNormStat["continous"] +"%";
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
-                        }
-                    }
-                }
-
-                //final
-                Rectangle
-                {
-                    id: testFinalBox
-                    property bool normFlag: (studentCourseStatDrawer.studentTestStat.final == studentCourseStatDrawer.studentTestNormStat.final)? false  : true;
-
-                    width: parent.width
-                    height: 120
-                    color: "ghostwhite"
-                    visible: (studentCourseStatDrawer.studentTestStat["final"] > -1)? true : false;
-                    Column
-                    {
-                        width: parent.width
-                        height: 120
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: " تست پایانی: "
-                            font.family:"B Yekan"
-                            font.pixelSize: 18
-                            font.bold: true
-                            color: "steelblue"
-                            horizontalAlignment: Label.AlignLeft
-                            verticalAlignment: Label.AlignVCenter
-                        }
-
-                        Label
-                        {
-                             visible: (testFinalBox.normFlag)? true : false
-                            width: parent.width
-                            height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["final"] +"%";
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
-                        }
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: (testFinalBox.normFlag)?  " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["final"] +"%" : studentCourseStatDrawer.studentTestNormStat["final"] +"%";
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
-                        }
-                    }
-                }
-
-                //semester
-                Rectangle
-                {
-                    id: testSemesterBox
-                    property bool normFlag: (studentCourseStatDrawer.studentTestStat.semester == studentCourseStatDrawer.studentTestNormStat.semester)? false  : true;
-
-                    width: parent.width
-                    height: 120
-                    color: "ghostwhite"
-                    visible: (studentCourseStatDrawer.studentTestStat["semester"] > -1)? true : false;
-                    Column
-                    {
-                        width: parent.width
-                        height: 120
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: " تست نیمسال: "
-                            font.family:"B Yekan"
-                            font.pixelSize: 18
-                            font.bold: true
-                            color: "steelblue"
-                            horizontalAlignment: Label.AlignLeft
-                            verticalAlignment: Label.AlignVCenter
-                        }
-
-                        Label
-                        {
-                            visible: (testSemesterBox.normFlag)? true : false
-                            width: parent.width
-                            height: 40
-                            text: " بدون اعمال نمودار: " + studentCourseStatDrawer.studentTestStat["semester"] +"%";
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
-                        }
-                        Label
-                        {
-                            width: parent.width
-                            height: 40
-                            text: (testSemesterBox.normFlag)? " با اعمال نمودار: " + studentCourseStatDrawer.studentTestNormStat["semester"] +"%" : studentCourseStatDrawer.studentTestNormStat["semester"] +"%";
-                            font.family:"B Yekan"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "teal"
-                            horizontalAlignment: Label.AlignHCenter
-                            verticalAlignment: Label.AlignVCenter
-                        }
-                    }
-                }
-
             }
+
+
         }
     }
 }
