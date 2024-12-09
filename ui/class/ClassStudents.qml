@@ -161,6 +161,7 @@ Page {
                             icon.height: 64
                             opacity: 0.5
                             onClicked:{
+                                classStatDrawer.open();
                             }
 
                             hoverEnabled: true
@@ -341,6 +342,7 @@ Page {
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
+                        studentStatDrawer.open();
                     }
                 }
             }
@@ -365,25 +367,281 @@ Page {
         }
     }
 
+
+    // drawer - student stat
     Drawer
     {
-        id: classStudentsStat
+        id: studentStatDrawer
         modal: true
         height: parent.height
-        width: 300 //(parent.width > 300)? 300 : parent.width;
+        width: (parent.width > 500)? 500 : parent.width;
         dragMargin: 0
+
+        property int student_id;
+        property int register_id;
+        property string student;
+        property string baseClass;
+
+        function statCalculate()
+        {
+        }
 
         ScrollView
         {
-            id: classStudentsSV
-            anchors.fill: parent
+            id: studentStatDrawerSV
+            width: parent.width
+            height: parent.height
             anchors.margins: 5
 
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
-            ColumnLayout
-            {}
+            Column
+            {
+                width: studentStatDrawerSV.width
+                spacing: 20
+
+                Item{
+                    width: parent.width
+                    height: 150
+                    Image{
+                        width: 128
+                        height: 128
+                        anchors.centerIn: parent
+                        source: "qrc:/assets/images/stat.png"
+                    }
+                }
+                Text{
+                    width: parent.width;
+                    height: 50
+                    text: "student name"
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 20
+                    color: "royalblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+
+                Rectangle{
+                    width: parent.width
+                    height: 2
+                    color: "dodgerblue"
+                    anchors.margins: 10
+                }
+
+                Text{
+                    id: emptyStudentStatText
+                    width: parent.width;
+                    height: 50
+                    text: "نمرات دانش‌آموز به صورت کامل وارد نشده است."
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    color: "dodgerblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Column{
+                    width: parent.width;
+                    visible: ! emptyStudentStatText.visible
+
+                    Text{
+                        width: parent.width;
+                        height: 50
+                        text: "---"
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 20
+                        color: "dodgerblue"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    Text{
+                        width: parent.width;
+                        height: 50
+                        text: " -- "
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        color: "dodgerblue"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+                    Repeater
+                    {
+                        id: studentStatRepeater
+                        width: parent.width
+                        height: studentStatRepeater.model.count*200
+
+                        model: ListModel{id: studentStatModel;}
+                        delegate:Column{
+                            required property var model;
+
+                            width: parent.width;
+                            height: 200;
+
+                            Label{
+                                text: "----"
+                                width: parent.width
+                                height: 50;
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                                font.bold: true
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                color: "slategray"
+                                MouseArea {
+                                    anchors.fill: parent;
+                                    hoverEnabled: true;
+                                    onEntered: parent.color = "mediumvioletred"
+                                    onExited: parent.color = "slategray"
+                                }
+                            }
+                            Item{width: parent.width; height: 20;}
+                        }
+
+                    }
+
+                    Item{height: 20; width: 5;}
+                }
+            }
+
+
         }
     }
+
+    // drawer - class stat
+    Drawer
+    {
+        id: classStatDrawer
+        modal: true
+        height: parent.height
+        width: (parent.width > 500)? 500 : parent.width;
+        dragMargin: 0
+
+        property int class_id;
+        property string baseClass;
+
+        function statCalculate()
+        {
+        }
+
+        ScrollView
+        {
+            id: classStatSV
+            width: parent.width
+            height: parent.height
+            anchors.margins: 5
+
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+
+            Column
+            {
+                width: classStatSV.width
+                spacing: 20
+
+                Item{
+                    width: parent.width
+                    height: 150
+                    Image{
+                        width: 128
+                        height: 128
+                        anchors.centerIn: parent
+                        source: "qrc:/assets/images/stat.png"
+                    }
+                }
+                Text{
+                    width: parent.width;
+                    height: 50
+                    text: "class name"
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 20
+                    color: "royalblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+
+                Rectangle{
+                    width: parent.width
+                    height: 2
+                    color: "dodgerblue"
+                    anchors.margins: 10
+                }
+
+                Text{
+                    id: emptyClassStatText
+                    width: parent.width;
+                    height: 50
+                    text: "اطلاعات کلاس کامل نمی‌باشد."
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    color: "dodgerblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Column{
+                    width: parent.width;
+                    visible: ! emptyClassStatText.visible
+
+                    Text{
+                        width: parent.width;
+                        height: 50
+                        text: "----"
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 20
+                        color: "dodgerblue"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+
+                    Repeater
+                    {
+                        id: classStatRepeater
+                        width: parent.width
+                        height: classStatRepeater.model.count*200
+
+                        model: ListModel{id: classStatModel;}
+
+                        delegate:Column{
+                            required property var model;
+                            width: parent.width;
+                            height: 200;
+
+                            Label{
+                                text: "---"
+                                width: parent.width
+                                height: 50;
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                                font.bold: true
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                color: "white"
+                                background:Rectangle{color: "slategray"}
+                            }
+
+                            Item{width: parent.width; height: 20;}
+                        }
+
+                    }
+
+                    Item{height: 20; width: 5;}
+                }
+            }
+
+
+        }
+    }
+
 }
