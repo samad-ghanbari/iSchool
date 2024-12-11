@@ -342,7 +342,6 @@ Page {
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
-                        studentStatDrawer.student_id = recDel.model.Student_id
                         studentStatDrawer.student = recDel.model.Student + " ( " + recDel.model.Fathername + " ) "
                         studentStatDrawer.photo = recDel.model.Photo;
                         studentStatDrawer.register_id = recDel.model.Register_id
@@ -382,8 +381,8 @@ Page {
         height: parent.height
         width:  parent.width;
         dragMargin: 0
+        edge: Qt.RightEdge
 
-        property int student_id;
         property int register_id;
         property string student;
         property string photo;
@@ -391,7 +390,7 @@ Page {
 
         function statCalculate()
         {
-            var stat = dbMan.
+            var stat = dbMan.getStudentStat(studentStatDrawer.register_id);
         }
 
         ScrollView
@@ -409,14 +408,14 @@ Page {
                 height: 48
                 width: 48
                 background: Item{}
-                icon.source: "qrc:/assets/images/arrow-left.png"
+                icon.source: "qrc:/assets/images/arrow-right.png"
                 icon.width: 48
                 icon.height: 48
                 opacity: 0.5
                 onClicked: studentStatDrawer.close();
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-                anchors.right: parent.right
+                anchors.left: parent.left
             }
 
             Column
@@ -564,6 +563,7 @@ Page {
         height: parent.height
         width:  parent.width;
         dragMargin: 0
+        edge: Qt.RightEdge
 
         property int class_id;
         property string baseClass;
@@ -587,14 +587,14 @@ Page {
                 height: 48
                 width: 48
                 background: Item{}
-                icon.source: "qrc:/assets/images/arrow-left.png"
+                icon.source: "qrc:/assets/images/arrow-right.png"
                 icon.width: 48
                 icon.height: 48
                 opacity: 0.5
                 onClicked: classStatDrawer.close();
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-                anchors.right: parent.right
+                anchors.left: parent.left
             }
 
             Column
