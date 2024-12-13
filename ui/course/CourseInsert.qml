@@ -311,7 +311,7 @@ Page {
                         id: courseCoefLV
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
-                        implicitHeight: 300
+                        Layout.preferredHeight: courseCoefLV.contentHeight + 100
                         clip: true
                         model: ListModel{id: courseCoefModel;}
                         delegate:
@@ -344,6 +344,8 @@ Page {
                         Component.onCompleted:{
                             for(var obj of insertPage.existsCourses)
                             courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name });
+
+                            courseCoefLV.height = courseCoefLV.contentHeight + 100
                         }
                     }
 
@@ -370,7 +372,7 @@ Page {
                         id: testCoefLV
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
-                        implicitHeight: 300
+                        Layout.preferredHeight: testCoefLV.contentHeight + 100
                         clip: true
                         model: ListModel{id: testCoefModel;}
                         delegate:
@@ -403,6 +405,8 @@ Page {
                         Component.onCompleted:{
                             for(var obj of insertPage.existsCourses)
                             testCoefModel.append({ Id: obj.id, Course_name: obj.course_name });
+
+                            testCoefLV.height = testCoefLV.contentHeight + 100
                         }
                     }
 

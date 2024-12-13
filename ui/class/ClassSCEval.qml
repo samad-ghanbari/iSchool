@@ -280,7 +280,7 @@ Page {
                         id: courseEvalLV
                         Layout.columnSpan: 2
                         Layout.fillHeight: true
-                        implicitHeight: 700
+                        Layout.preferredHeight: courseEvalLV.contentHeight + 100
                         Layout.fillWidth: true
                         Layout.margins: 10
                         clip: true
@@ -301,8 +301,8 @@ Page {
                                 font.bold: true
                                 font.family: "B Yekan"
                                 font.pixelSize: 20
-                                color: "white"
-                                background:Rectangle{color: "navy"}
+                                color: "mediumvioletred"
+                                background:Rectangle{color: "thistle"}
 
                             }
 
@@ -378,11 +378,32 @@ Page {
 
             Rectangle
             {
-                id: evalTimeRect
+                id: courseNameRect
                 width: parent.width
                 height: 50
                 color: "transparent"
                 anchors.top : evalNameRect.bottom
+                Text
+                {
+                    anchors.fill: parent
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    color: "black"
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    font.bold: true
+                    text: classSCEPage.studentCourseModel.Course_name
+                    elide: Text.ElideLeft
+                }
+            }
+
+            Rectangle
+            {
+                id: evalTimeRect
+                width: parent.width
+                height: 50
+                color: "transparent"
+                anchors.top : courseNameRect.bottom
                 Text
                 {
                     anchors.fill: parent
@@ -741,6 +762,7 @@ Page {
         property string student;
         property string baseClass;
         property string course_name;
+        property var semesterGrade : "";
 
         function statCalculate()
         {
@@ -748,6 +770,8 @@ Page {
             // statObject = [{cat_id, category, test, final, avg, navg} ,{}, {}, {} }
 
             var statObject = dbMan.getStudentCourseStatArray(classSCEStat.student_id, classSCEStat.course_id);
+            classSCEStat.semesterGrade = dbMan.getStudentCourseSemester(classSCEStat.student_id, classSCEStat.course_id);
+
             statSCEModel.clear();
             for(var o of statObject)
             {
@@ -867,9 +891,9 @@ Page {
                                 else
                                 {
                                     if(model["test"])
-                                        return "میانگین: " + model["avg"] + " % ";
+                                    return "میانگین: " + model["avg"] + " % ";
                                     else
-                                        return "میانگین: " + model["avg"];
+                                    return "میانگین: " + model["avg"];
                                 }
                             }
                             property var navg : {
@@ -877,9 +901,9 @@ Page {
                                 else
                                 {
                                     if(model["test"])
-                                        return "میانگین با نمودار: " + model["navg"] + " % ";
+                                    return "میانگین با نمودار: " + model["navg"] + " % ";
                                     else
-                                        return "میانگین با نمودار: " + model["navg"];
+                                    return "میانگین با نمودار: " + model["navg"];
                                 }
                             }
 
@@ -935,8 +959,8 @@ Page {
                                 MouseArea {
                                     anchors.fill: parent;
                                     hoverEnabled: true;
-                                    onEntered: parent.color = "mediumvioletred"
-                                    onExited: parent.color = "slategray"
+                                    onEntered:{ parent.color = "mediumvioletred"; parent.font.pixelSize= 20;}
+                                    onExited:{ parent.color = "slategray"; parent.font.pixelSize= 16;}
                                 }
                             }
 
@@ -964,6 +988,43 @@ Page {
                     }
 
                     Item{height: 20; width: 5;}
+
+                    //semester grade
+                    Label{
+                        text: "نیمسال"
+                        width: parent.width
+                        height: 50;
+                        horizontalAlignment: Label.AlignHCenter
+                        verticalAlignment: Label.AlignVCenter
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        color: "white"
+                        background:Rectangle{color: "royalblue"}
+                        visible: (classSCEStat.semesterGrade > -1)? true: false;
+                    }
+
+                    Label{
+                        text: "نمره نیمسال: " + classSCEStat.semesterGrade
+                        width: parent.width
+                        height: 50;
+                        horizontalAlignment: Label.AlignHCenter
+                        verticalAlignment: Label.AlignVCenter
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        color: "slategray"
+                        visible: (classSCEStat.semesterGrade > -1)? true: false;
+                        MouseArea {
+                            anchors.fill: parent;
+                            hoverEnabled: true;
+                            onEntered:{ parent.color = "mediumvioletred"; parent.font.pixelSize= 20;}
+                            onExited:{ parent.color = "slategray"; parent.font.pixelSize= 16;}
+                        }
+                    }
+
+                    Item{width: parent.width; height: 20;}
+
                 }
             }
 

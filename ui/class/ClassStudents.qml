@@ -390,7 +390,7 @@ Page {
 
         function statCalculate()
         {
-            var stat = dbMan.getStudentStat(studentStatDrawer.register_id);
+            //var stat = dbMan.getStudentStat(studentStatDrawer.register_id);
         }
 
         ScrollView

@@ -175,8 +175,30 @@ Page {
                         model:ListModel { id: courseCBoxModel; }
                         textRole: "text"
                         valueRole: "value"
-                        Component.onCompleted: Methods.updateCourseCB(insertPage.step_id, insertPage.base_id, insertPage.period_id);
-                        onActivated: Methods.updateClassCB(courseCB.currentValue);
+                        Component.onCompleted: {
+                            Methods.updateCourseCB(insertPage.step_id, insertPage.base_id, insertPage.period_id);
+                            courseCBoxModel.append({ value: -1, text:"همه دروس"});
+                        }
+                        onActivated:{
+                            var course_id = courseCB.currentValue;
+                            if(course_id > -1)
+                            {
+
+                                if(dbMan.isStepCourse(course_id))
+                                    classCBoxModel.append({ value: -1, text:"ارزیابی پایه"});
+                                else
+                                    Methods.updateClassCB(course_id);
+                            }
+                            else
+                            {
+                                classCBoxModel.clear();
+                                var jsondata = dbMan.getClasses(insertPage.step_id, insertPage.base_id, insertPage.period_id);
+                                for(var obj of jsondata)
+                                {
+                                    classCBoxModel.append({value: obj.id,  text: obj.class_name });
+                                }
+                            }
+                        }
                     }
 
                     //class
@@ -218,6 +240,7 @@ Page {
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
+                        visible : (courseCB.currentValue > -1)? true : false
                     }
                     TextField
                     {
@@ -234,6 +257,7 @@ Page {
                             regularExpression: /^\d{4}\/\d{2}\/\d{2}$/
                             // Regex pattern to match date in yyyy/MM/dd format
                         }
+                        visible : (courseCB.currentValue > -1)? true : false
                     }
 
                     //max value
@@ -309,7 +333,7 @@ Page {
                             else
                             stepFlag = false;
 
-                            if( (courseCB.currentValue > -1) && (evaltimeTF.text !== "") && (maxGradeTF.text !== "") && stepFlag )
+                            if(  (maxGradeTF.text !== "") && stepFlag )
                             return true;
                             else
                             return false;
@@ -323,7 +347,10 @@ Page {
                             Eval["class_id"] = classCB.currentValue
                             else
                             Eval["class_id"] = -1;
-                            Eval["eval_time"] = evaltimeTF.text
+                            if(courseCB.currentValue > -1)
+                                Eval["eval_time"] = evaltimeTF.text
+                            else
+                                Eval["eval_time"] = ""
 
                             Eval["max_grade"] = parseFloat(maxGradeTF.text)
                             Eval["included"] = includedSW.checked

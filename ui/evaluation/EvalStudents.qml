@@ -272,7 +272,7 @@ Page {
                     {
                         id: evalStudentGV
                         Layout.columnSpan: 2
-                        implicitHeight: 600;
+                        Layout.preferredHeight: evalStudentGV.contentHeight + 100;
                         Layout.fillWidth: true
                         Layout.margins: 20
                         flickableDirection: Flickable.AutoFlickDirection

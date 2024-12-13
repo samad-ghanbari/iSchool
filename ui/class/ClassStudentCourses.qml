@@ -44,7 +44,8 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "دروس دانش‌آموز"
+            textFormat: Text.RichText
+            text: "دروس دانش‌آموز" + " " + "<font color='darkmagenta'>"+ classStudentCoursesPage.student.Student + " ( " + classStudentCoursesPage.student.Fathername + " ) </font> "
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -69,19 +70,17 @@ Page {
                 anchors.horizontalCenter : parent.horizontalCenter
                 color: "snow"
 
-                GridLayout
+                ColumnLayout
                 {
                     id: centerBox
                     anchors.fill: parent
                     anchors.margins: 20
-                    columns: 2
 
                     //student info
                     Rectangle
                     {
-                        Layout.columnSpan: 2
                         Layout.fillWidth: true
-                        implicitHeight: 250
+                        implicitHeight: 150
                         RowLayout
                         {
                             anchors.fill: parent
@@ -104,29 +103,6 @@ Page {
                             }
                             Column{
                                 Layout.fillWidth: true
-                                Text {
-                                    text: classStudentCoursesPage.student.Student
-                                    height: 50
-                                    width: parent.width
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-
-                                Text {
-                                    text: "نام پدر" + " : " + classStudentCoursesPage.student.Fathername
-                                    height: 50
-                                    width: parent.width
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
                                 // branch step
                                 Text {
                                     text: "شعبه " + " : " + classStudentCoursesPage.registerModel.city + " - " + classStudentCoursesPage.registerModel.branch_name + " - " + classStudentCoursesPage.registerModel.step_name + " - " + classStudentCoursesPage.registerModel.study_base
@@ -168,7 +144,6 @@ Page {
 
                     Rectangle
                     {
-                        Layout.columnSpan: 2
                         Layout.fillWidth: true
                         Layout.preferredHeight: 4
                         color: "skyblue"
@@ -178,11 +153,10 @@ Page {
 
                     Item
                     {
-                        Layout.columnSpan: 2
                         Layout.preferredHeight: 64
                         Layout.fillWidth: true
 
-
+                        // refresh
                         Button
                         {
                             id: refreshBtn
@@ -213,6 +187,7 @@ Page {
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                         }
+                        // student stat
                         Button
                         {
 
@@ -226,6 +201,12 @@ Page {
                             opacity: 0.5
                             onClicked:
                             {
+                                studentStatDrawer.student = classStudentCoursesPage.student.Student + " ( " + classStudentCoursesPage.student.Fathername + " ) "
+                                studentStatDrawer.photo = classStudentCoursesPage.student.Photo;
+                                studentStatDrawer.register_id = classStudentCoursesPage.registerModel.id
+                                studentStatDrawer.baseClass = classStudentCoursesPage.registerModel.study_base + "  -  " + "کلاس " +  classStudentCoursesPage.registerModel.class_name
+                                studentStatDrawer.statCalculate();
+                                studentStatDrawer.open();
                             }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -235,9 +216,8 @@ Page {
                     GridView
                     {
                         id: studentCourseGV
-                        Layout.columnSpan: 2
                         Layout.fillHeight: true
-                        implicitHeight: 400
+                        Layout.preferredHeight: studentCourseGV.contentHeight + 100
                         Layout.fillWidth: true
                         Layout.margins: 10
                         flickableDirection: Flickable.AutoFlickDirection
@@ -374,7 +354,22 @@ Page {
                     width: recDelt.width;
                     anchors.bottom: parent.bottom;
                     anchors.margins: 0
-                    color: (recDelt.model.Study_base_id > -1)? "mediumvioletred" : "goldenrod";
+                    color:{
+                        if(recDelt.model.Study_base_id > -1)
+                        {
+                            if(recDelt.highlighted)
+                                return "mediumvioletred";
+                            else
+                                return "lightgray";
+                        }
+                        else
+                        {
+                            if(recDelt.highlighted)
+                                return "goldenrod";
+                            else
+                                return "lightgray";
+                        }
+                    }
                 }
             }
 
@@ -386,7 +381,22 @@ Page {
             Rectangle{
                 width: 75
                 height: 200
-                color: (recDelt.model.Study_base_id > -1)? "mediumvioletred" : "goldenrod";
+                color:{
+                    if(recDelt.model.Study_base_id > -1)
+                    {
+                        if(recDelt.highlighted)
+                            return "mediumvioletred";
+                        else
+                            return "lightgray";
+                    }
+                    else
+                    {
+                        if(recDelt.highlighted)
+                            return "goldenrod";
+                        else
+                            return "lightgray";
+                    }
+                }
                 anchors.left: parent.left
 
                 Column{
@@ -446,6 +456,188 @@ Page {
 
             student: classStudentCoursesPage.student
             registerModel: classStudentCoursesPage.registerModel
+        }
+    }
+
+    // drawer - student stat
+    Drawer
+    {
+        id: studentStatDrawer
+        modal: true
+        height: parent.height
+        width:  parent.width;
+        dragMargin: 0
+        edge: Qt.RightEdge
+
+        property int register_id;
+        property string student;
+        property string photo;
+        property string baseClass;
+
+        function statCalculate()
+        {
+            var stat = dbMan.getStudentStat(studentStatDrawer.register_id);
+        }
+
+        ScrollView
+        {
+            id: studentStatDrawerSV
+            width: parent.width
+            height: parent.height
+            anchors.margins: 5
+
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+
+            Button
+            {
+                height: 48
+                width: 48
+                background: Item{}
+                icon.source: "qrc:/assets/images/arrow-right.png"
+                icon.width: 48
+                icon.height: 48
+                opacity: 0.5
+                onClicked: studentStatDrawer.close();
+                hoverEnabled: true
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                anchors.left: parent.left
+            }
+
+            Column
+            {
+                width: studentStatDrawerSV.width
+                spacing: 20
+
+                Item{
+                    width: parent.width
+                    height: 150
+                    Image{
+                        width: 128
+                        height: 128
+                        anchors.centerIn: parent
+                        source: {
+                            if(studentStatDrawer.photo == "")
+                            {
+                                return "qrc:/assets/images/stat.png";
+                            }
+                            else
+                            {
+                                return "file://"+studentStatDrawer.photo;
+                            }
+                        }
+                    }
+                }
+                Text{
+                    width: parent.width;
+                    height: 50
+                    text: studentStatDrawer.student
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 20
+                    color: "royalblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+                Text{
+                    width: parent.width;
+                    height: 50
+                    text: studentStatDrawer.baseClass
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 20
+                    color: "royalblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Rectangle{
+                    width: parent.width
+                    height: 2
+                    color: "dodgerblue"
+                    anchors.margins: 10
+                }
+
+                Text{
+                    id: emptyStudentStatText
+                    width: parent.width;
+                    height: 50
+                    text: "نمرات دانش‌آموز به صورت کامل وارد نشده است."
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    color: "dodgerblue"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Column{
+                    width: parent.width;
+                    visible: ! emptyStudentStatText.visible
+
+                    Text{
+                        width: parent.width;
+                        height: 50
+                        text: "---"
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 20
+                        color: "dodgerblue"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    Text{
+                        width: parent.width;
+                        height: 50
+                        text: " -- "
+                        font.bold: true
+                        font.family: "B Yekan"
+                        font.pixelSize: 18
+                        color: "dodgerblue"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+                    Repeater
+                    {
+                        id: studentStatRepeater
+                        width: parent.width
+                        height: studentStatRepeater.model.count*200
+
+                        model: ListModel{id: studentStatModel;}
+                        delegate:Column{
+                            required property var model;
+
+                            width: parent.width;
+                            height: 200;
+
+                            Label{
+                                text: "----"
+                                width: parent.width
+                                height: 50;
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                                font.bold: true
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                color: "slategray"
+                                MouseArea {
+                                    anchors.fill: parent;
+                                    hoverEnabled: true;
+                                    onEntered: parent.color = "mediumvioletred"
+                                    onExited: parent.color = "slategray"
+                                }
+                            }
+                            Item{width: parent.width; height: 20;}
+                        }
+
+                    }
+
+                    Item{height: 20; width: 5;}
+                }
+            }
+
+
         }
     }
 

@@ -45,82 +45,105 @@ Page {
         }
 
 
-        RowLayout{
+        Flow
+        {
             Layout.columnSpan: 2
-            Layout.preferredHeight:  50
-            Layout.preferredWidth: branchLbl.width + branchCB.width
+            Layout.fillWidth: true
+            layoutDirection: Qt.LeftToRight
             Layout.alignment: Qt.AlignHCenter
 
-            Label
+            // branch
+            Rectangle
             {
-                id: branchLbl
-                Layout.preferredHeight:  50
-                Layout.preferredWidth: 100
-                text:" انتخاب شعبه: "
-                font.family: "B Yekan"
-                font.pixelSize: 16
-                font.bold: true
-                horizontalAlignment: Label.AlignLeft
-                verticalAlignment: Label.AlignVCenter
-            }
-            ComboBox
-            {
-                id: branchCB
-                Layout.preferredHeight:  50
-                Layout.fillWidth: true
-                Layout.maximumWidth: 400
-                editable: false
-                font.family: "B Yekan"
-                font.pixelSize: 16
-                model: ListModel{id: branchCBoxModel}
-                textRole: "text"
-                valueRole: "value"
-                Component.onCompleted:
+                height: 50
+                width: 400
+                color: "transparent"
+
+                RowLayout
                 {
-                    Methods.updateBranchCB();
-                    branchCB.currentIndex = -1
+                    anchors.fill: parent
+
+                    Label
+                    {
+                        Layout.preferredHeight:  50
+                        Layout.preferredWidth: 100
+                        text:"شعبه:"
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        horizontalAlignment: Label.AlignRight
+                        verticalAlignment: Label.AlignVCenter
+                    }
+                    ComboBox
+                    {
+                        id: branchCB
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: 400
+                        editable: false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        model: ListModel{id: branchCBoxModel}
+                        textRole: "text"
+                        valueRole: "value"
+                        Component.onCompleted:
+                        {
+                            Methods.updateBranchCB();
+                            branchCB.currentIndex = -1
+                        }
+
+                        onActivated: {
+                            periodCBoxModel.clear();
+                            studentModel.clear();
+                            Methods.updatePeriodCB(branchCB.currentValue);
+                            periodCB.currentIndex = -1;
+                        }
+
+                    }
                 }
 
-                onActivated: Methods.updatePeriodCB(branchCB.currentValue);
-
             }
-        }
-        RowLayout{
-            Layout.columnSpan: 2
-            Layout.preferredHeight:  50
-            Layout.preferredWidth: periodLbl.width + periodCB.width
-            Layout.alignment: Qt.AlignHCenter
 
-            Label
+            // period
+            Rectangle
             {
-                id: periodLbl
-                Layout.preferredHeight:  50
-                Layout.preferredWidth: 100
-                text:"سال تحصیلی: "
-                font.family: "B Yekan"
-                font.pixelSize: 16
-                font.bold: true
-                horizontalAlignment: Label.AlignLeft
-                verticalAlignment: Label.AlignVCenter
-            }
-            ComboBox
-            {
-                id: periodCB
-                Layout.preferredHeight:  50
-                Layout.fillWidth: true
-                Layout.maximumWidth: 400
-                editable: false
-                font.family: "B Yekan"
-                font.pixelSize: 16
-                model: ListModel{id: periodCBoxModel}
-                textRole: "text"
-                valueRole: "value"
-                Component.onCompleted:
+                height: 50
+                width: 400
+                color: "transparent"
+                RowLayout
                 {
-                    periodCB.currentIndex = -1
-                }
+                    anchors.fill: parent
+                    Label
+                    {
+                        Layout.preferredHeight:  50
+                        Layout.preferredWidth: 100
+                        text:"سال تحصیلی:"
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        horizontalAlignment: Label.AlignRight
+                        verticalAlignment: Label.AlignVCenter
+                    }
+                    ComboBox
+                    {
+                        id: periodCB
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: 400
+                        editable: false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        model: ListModel{id: periodCBoxModel}
+                        textRole: "text"
+                        valueRole: "value"
+                        Component.onCompleted:
+                        {
+                            periodCB.currentIndex = -1
+                        }
 
-                onActivated: Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue);
+                        onActivated: Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue);
+                    }
+                }
             }
         }
 

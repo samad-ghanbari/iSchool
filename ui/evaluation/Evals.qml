@@ -182,7 +182,7 @@ Page {
                     {
                         id: evalsGV
                         Layout.columnSpan: 2
-                        implicitHeight: 600;
+                        Layout.preferredHeight: evalsGV.contentHeight + 100
                         Layout.fillWidth: true
                         Layout.margins: 20
                         flickableDirection: Flickable.AutoFlickDirection

@@ -241,16 +241,20 @@ Page {
 
                                         insertPage.classInsertedSignal();
 
-                                        if(classes.length > 0)
+                                        if(classes.length > 1)
                                         {
                                             doneDialog.period = insertPage.period_text;
                                             doneDialog.base = insertPage.base_text;
                                             doneDialog.class_name = classNameTF.text;
                                             doneDialog.class_id = class_id;
+                                            doneDialog.classesModel.append({id: -1, class_name:"بدون الگو"});
                                             for(var c of classes)
                                             {
                                                 if(c.id !== class_id)
-                                                    doneDialog.classesModel.append(c)
+                                                {
+                                                    doneDialog.classesModel.append(c);
+                                                    console.log(c.id, class_id)
+                                                }
                                             }
 
                                             doneDialog.open();
@@ -448,16 +452,23 @@ Page {
                     onClicked:
                     {
                         var templateClass_id = templateClass.currentValue;
-
-                        if(dbMan.classDetailsInsert(doneDialog.class_id, templateClass_id))
+                        if(templateClass_id == -1)
                         {
-                            successDialogId.dialogText = "کلاس جدید با موفقیت افزوده شد. \n دروس کلاس بروزرسانی شد."
+                            successDialogId.dialogText = "کلاس جدید با موفقیت افزوده شد."
                             successDialogId.open();
                         }
                         else
                         {
-                            successDialogId.dialogText = "کلاس جدید با موفقیت افزوده شد."
-                            successDialogId.open();
+                            if(dbMan.classDetailsInsert(doneDialog.class_id, templateClass_id))
+                            {
+                                successDialogId.dialogText = "کلاس جدید با موفقیت افزوده شد. \n دروس کلاس بروزرسانی شد."
+                                successDialogId.open();
+                            }
+                            else
+                            {
+                                successDialogId.dialogText = "کلاس جدید با موفقیت افزوده شد."
+                                successDialogId.open();
+                            }
                         }
 
                         doneDialog.close();

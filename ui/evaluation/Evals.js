@@ -81,15 +81,15 @@ function updateEvalCatsModel(stepId, baseId, periodId)
     {
         //id, eval_cat, step_id, study_base_id, study_period_id, test_flag, final_flag
         evalCatsModel.append({
-                                Id: obj.id,
-                                Eval_cat: obj.eval_cat,
-                                Step_id: obj.step_id,
-                                Study_base_id: obj.study_base_id,
-                                Study_period_id: obj.study_period_id,
-                                Test_flag: obj.test_flag,
-                                Final_flag: obj.final_flag,
-                                Sort_priority: obj.sort_priority
-                            });
+                                 Id: obj.id,
+                                 Eval_cat: obj.eval_cat,
+                                 Step_id: obj.step_id,
+                                 Study_base_id: obj.study_base_id,
+                                 Study_period_id: obj.study_period_id,
+                                 Test_flag: obj.test_flag,
+                                 Final_flag: obj.final_flag,
+                                 Sort_priority: obj.sort_priority
+                             });
     }
 }
 
@@ -144,7 +144,7 @@ function updateAllClassesCB(step_id, base_id, period_id)
         allClassCBoxModel.append({value: obj.id,  text: obj.class_name });
     }
 
-     allClassCBoxModel.append({value: -1,  text: "همه کلاس‌ها" });
+    allClassCBoxModel.append({value: -1,  text: "همه کلاس‌ها" });
 }
 
 function updateCourseCB(step_id, base_id, period_id)
@@ -155,9 +155,9 @@ function updateCourseCB(step_id, base_id, period_id)
     for(var obj of jsondata)
     {
         courseCBoxModel.append({
-                              value: obj.id,
-                              text: obj.course_name,
-                          })
+                                   value: obj.id,
+                                   text: obj.course_name,
+                               })
     }
 }
 
@@ -169,16 +169,16 @@ function updateClassStudentsEval(class_id, eval_id)
     {
         //se.id, se.student_id, se.eval_id, se.student_grade, se.normalised_grade, s.student, s.fathername, s.gender, s.photo
         evalStudentsModel.append({
-                              Id: obj.id,
-                              Student_id: obj.student_id,
-                              Eval_id: obj.eval_id,
-                              Student_grade: obj.student_grade,
-                              Normalised_grade: obj.normalised_grade,
-                              Student: obj.student,
-                              Fathername: obj.fathername,
-                              Gender: obj.gender,
-                              Photo: obj.photo
-                          });
+                                     Id: obj.id,
+                                     Student_id: obj.student_id,
+                                     Eval_id: obj.eval_id,
+                                     Student_grade: obj.student_grade,
+                                     Normalised_grade: obj.normalised_grade,
+                                     Student: obj.student,
+                                     Fathername: obj.fathername,
+                                     Gender: obj.gender,
+                                     Photo: obj.photo
+                                 });
     }
 }
 
@@ -192,8 +192,8 @@ function updateStudentCB(class_id, eval_id)
     {
         student = obj.name + " " + obj.lastname + " (" + obj.fathername + ")"
         studentCBoxModel.append({
-                              value: obj.id,
-                              text: student,
-                          })
+                                    value: obj.id,
+                                    text: student,
+                                })
     }
 }
