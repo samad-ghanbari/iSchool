@@ -182,7 +182,7 @@ Page {
                                     infoDialogId.open();
                                 }
                                 else
-                                    infoDialogId.open();
+                                infoDialogId.open();
                             }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -205,6 +205,7 @@ Page {
                                 studentStatDrawer.photo = classStudentCoursesPage.student.Photo;
                                 studentStatDrawer.register_id = classStudentCoursesPage.registerModel.id
                                 studentStatDrawer.baseClass = classStudentCoursesPage.registerModel.study_base + "  -  " + "کلاس " +  classStudentCoursesPage.registerModel.class_name
+                                studentStatDrawer.period = classStudentCoursesPage.registerModel.study_period
                                 studentStatDrawer.statCalculate();
                                 studentStatDrawer.open();
                             }
@@ -358,16 +359,16 @@ Page {
                         if(recDelt.model.Study_base_id > -1)
                         {
                             if(recDelt.highlighted)
-                                return "mediumvioletred";
+                            return "mediumvioletred";
                             else
-                                return "lightgray";
+                            return "lightgray";
                         }
                         else
                         {
                             if(recDelt.highlighted)
-                                return "goldenrod";
+                            return "goldenrod";
                             else
-                                return "lightgray";
+                            return "lightgray";
                         }
                     }
                 }
@@ -385,16 +386,16 @@ Page {
                     if(recDelt.model.Study_base_id > -1)
                     {
                         if(recDelt.highlighted)
-                            return "mediumvioletred";
+                        return "mediumvioletred";
                         else
-                            return "lightgray";
+                        return "lightgray";
                     }
                     else
                     {
                         if(recDelt.highlighted)
-                            return "goldenrod";
+                        return "goldenrod";
                         else
-                            return "lightgray";
+                        return "lightgray";
                     }
                 }
                 anchors.left: parent.left
@@ -427,8 +428,8 @@ Page {
                             // 3co.course_name, co.class_id, co.step_id, co.study_base_id, co.teacher_id, co.study_period_id
                             // 9t.name, t.lastname, cl.class_name
                             classStudentCoursesPage.appStackView.push(classSCEvalComponent, {
-                                                                     studentCourseModel: recDelt.model
-                                                                 });
+                                                                          studentCourseModel: recDelt.model
+                                                                      });
                         }
                     }
                 }
@@ -462,7 +463,7 @@ Page {
     // drawer - student stat
     Drawer
     {
-        id: studentStatDrawer
+        id:studentStatDrawer
         modal: true
         height: parent.height
         width:  parent.width;
@@ -473,172 +474,232 @@ Page {
         property string student;
         property string photo;
         property string baseClass;
+        property string period;
+        property var evalCats: []
+        property var evalCatsList : dbMan.getEvalCatsBrief(classStudentCoursesPage.registerModel.step_id, classStudentCoursesPage.registerModel.study_base_id, classStudentCoursesPage.registerModel.study_period_id);
 
         function statCalculate()
         {
-            var stat = dbMan.getStudentStat(studentStatDrawer.register_id);
+            for(var obj of studentStatDrawer.evalCatsList)
+            {
+                evalCats.push(obj.id)
+            }
+
+            var stat = dbMan.getStudentStat(studentStatDrawer.register_id, studentStatDrawer.evalCats);
+            emptyStudentStatText.visible = false
         }
 
-        ScrollView
+        GridLayout
         {
-            id: studentStatDrawerSV
-            width: parent.width
-            height: parent.height
-            anchors.margins: 5
-
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+            columns: 3
+            anchors.fill: parent
 
             Button
             {
-                height: 48
-                width: 48
+                Layout.preferredHeight: 64
+                Layout.preferredWidth: 64
+                Layout.alignment: Qt.AlignLeft
                 background: Item{}
                 icon.source: "qrc:/assets/images/arrow-right.png"
-                icon.width: 48
-                icon.height: 48
+                icon.width: 64
+                icon.height: 64
                 opacity: 0.5
                 onClicked: studentStatDrawer.close();
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-                anchors.left: parent.left
+            }
+            Text {
+                Layout.columnSpan: 2
+                Layout.fillWidth: true
+                Layout.preferredHeight: 64
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                textFormat: Text.RichText
+                text: "ارزیابی دانش‌آموز"
+                font.family: "B Yekan"
+                font.pixelSize: 24
+                font.bold: true
+                color: "mediumvioletred"
+                style: Text.Outline
+                styleColor: "white"
             }
 
-            Column
-            {
-                width: studentStatDrawerSV.width
-                spacing: 20
-
-                Item{
-                    width: parent.width
-                    height: 150
-                    Image{
-                        width: 128
-                        height: 128
-                        anchors.centerIn: parent
-                        source: {
-                            if(studentStatDrawer.photo == "")
-                            {
-                                return "qrc:/assets/images/stat.png";
-                            }
-                            else
-                            {
-                                return "file://"+studentStatDrawer.photo;
-                            }
+            Item{
+                Layout.preferredWidth: 100
+                Layout.preferredHeight: 100
+                Image{
+                    width: 80
+                    height: 80
+                    anchors.centerIn: parent
+                    source: {
+                        if(studentStatDrawer.photo == "")
+                        {
+                            return "qrc:/assets/images/stat.png";
+                        }
+                        else
+                        {
+                            return "file://"+studentStatDrawer.photo;
                         }
                     }
                 }
-                Text{
-                    width: parent.width;
-                    height: 50
-                    text: studentStatDrawer.student
-                    font.bold: true
-                    font.family: "B Yekan"
-                    font.pixelSize: 20
-                    color: "royalblue"
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
+            }
+            Text{
+                Layout.preferredHeight: 100
+                Layout.preferredWidth: 300
+                text: studentStatDrawer.student
+                font.bold: true
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                color: "darkmagenta"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+            Column
+            {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 100
                 Text{
                     width: parent.width;
                     height: 50
                     text: studentStatDrawer.baseClass
                     font.bold: true
                     font.family: "B Yekan"
-                    font.pixelSize: 20
+                    font.pixelSize: 16
                     color: "royalblue"
-                    horizontalAlignment: Text.AlignHCenter
+                    horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                 }
-
-                Rectangle{
-                    width: parent.width
-                    height: 2
-                    color: "dodgerblue"
-                    anchors.margins: 10
-                }
-
                 Text{
-                    id: emptyStudentStatText
                     width: parent.width;
                     height: 50
-                    text: "نمرات دانش‌آموز به صورت کامل وارد نشده است."
+                    text: studentStatDrawer.period
                     font.bold: true
                     font.family: "B Yekan"
                     font.pixelSize: 16
-                    color: "dodgerblue"
-                    horizontalAlignment: Text.AlignHCenter
+                    color: "royalblue"
+                    horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
-                }
-
-                Column{
-                    width: parent.width;
-                    visible: ! emptyStudentStatText.visible
-
-                    Text{
-                        width: parent.width;
-                        height: 50
-                        text: "---"
-                        font.bold: true
-                        font.family: "B Yekan"
-                        font.pixelSize: 20
-                        color: "dodgerblue"
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    Text{
-                        width: parent.width;
-                        height: 50
-                        text: " -- "
-                        font.bold: true
-                        font.family: "B Yekan"
-                        font.pixelSize: 18
-                        color: "dodgerblue"
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-
-                    Repeater
-                    {
-                        id: studentStatRepeater
-                        width: parent.width
-                        height: studentStatRepeater.model.count*200
-
-                        model: ListModel{id: studentStatModel;}
-                        delegate:Column{
-                            required property var model;
-
-                            width: parent.width;
-                            height: 200;
-
-                            Label{
-                                text: "----"
-                                width: parent.width
-                                height: 50;
-                                horizontalAlignment: Label.AlignHCenter
-                                verticalAlignment: Label.AlignVCenter
-                                font.bold: true
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                color: "slategray"
-                                MouseArea {
-                                    anchors.fill: parent;
-                                    hoverEnabled: true;
-                                    onEntered: parent.color = "mediumvioletred"
-                                    onExited: parent.color = "slategray"
-                                }
-                            }
-                            Item{width: parent.width; height: 20;}
-                        }
-
-                    }
-
-                    Item{height: 20; width: 5;}
                 }
             }
 
 
+            Rectangle{
+                Layout.columnSpan: 3
+                Layout.fillWidth: true
+                Layout.preferredHeight: 2
+                color: "dodgerblue"
+                Layout.margins: 20
+            }
+
+            Text{
+                id: emptyStudentStatText
+                Layout.fillWidth: true
+                Layout.columnSpan: 3
+                Layout.preferredHeight: 50
+                text: "نمرات دانش‌آموز به صورت کامل وارد نشده است."
+                font.bold: true
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                color: "dodgerblue"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+            Item{
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.columnSpan: 3
+                visible: emptyStudentStatText.visible
+            }
+
+            Column{
+                Layout.columnSpan: 1
+                Layout.preferredWidth: 200
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignLeft
+                visible: !emptyStudentStatText.visible
+                Layout.topMargin: 10
+                Layout.leftMargin: 5
+                Label{
+                    //background:Rectangle{color: "lavender"}
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 16
+                    color: "black"
+                    text: "انتخاب دسته ارزیابی"
+                    height: 50
+                    width: parent.width
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                }
+                Rectangle{width: parent.width; height: 2; color: "slategray";}
+                Rectangle
+                {
+                    width: parent.width
+                    height: parent.height
+                    color: "snow"
+
+                    ListView
+                    {
+                        id: evalCatLV
+                        anchors.fill: parent
+                        height: evalCatLV.contentHeight + 100
+                        clip: true
+                        model: ListModel{id: evalCatModel;}
+                        delegate:
+                        Switch{
+                            required property var model
+                            checked: (studentStatDrawer.evalCats.indexOf(model.id) > -1)? true : false;
+                            height: 50;
+                            width: evalCatLV.width
+                            text:  model.eval_cat;
+                            font.family: "B Yekan"
+                            font.pixelSize: 14
+                            onToggled:
+                            {
+                                var index = studentStatDrawer.evalCats.indexOf(model.id);
+
+                                if(checked)
+                                {
+                                    //push
+                                    if(index < 0)
+                                    studentStatDrawer.evalCats.push(model.id);
+                                }
+                                else
+                                {
+                                    if(index > -1)
+                                    studentStatDrawer.evalCats.splice(index, 1);
+                                }
+                            }
+                        }
+
+                        Component.onCompleted:{
+                            for(var obj of studentStatDrawer.evalCatsList)
+                            evalCatModel.append(obj);
+                        }
+                    }
+                }
+            }
+
+
+            Rectangle
+            {
+                Layout.columnSpan: 2
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                color: "red"
+                visible: !emptyStudentStatText.visible
+                ScrollView
+                {
+                    id: studentStatDrawerSV
+                    width: parent.width
+                    height: parent.height
+                    anchors.margins: 5
+
+                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                    ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+                }
+            }
         }
     }
-
 }
+
