@@ -275,7 +275,7 @@ Page {
                         id: coursesGV
                         Layout.columnSpan: 2
                         Layout.fillHeight: true
-                        implicitHeight: 500
+                        Layout.preferredHeight: coursesGV.contentHeight + 100
                         Layout.fillWidth: true
                         Layout.margins: 20
                         flickableDirection: Flickable.AutoFlickDirection
