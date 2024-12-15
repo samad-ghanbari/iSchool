@@ -342,11 +342,15 @@ Page {
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
+                        studentStatDrawer.step_id = classStudentsPage.step_id
+                        studentStatDrawer.base_id = classStudentsPage.base_id;
+                        studentStatDrawer.period_id = classStudentsPage.period_id;
                         studentStatDrawer.student = recDel.model.Student + " ( " + recDel.model.Fathername + " ) "
                         studentStatDrawer.photo = recDel.model.Photo;
                         studentStatDrawer.register_id = recDel.model.Register_id
                         studentStatDrawer.baseClass = classStudentsPage.base_text + "  -  " + "کلاس " +  classStudentsPage.class_name
-                        studentStatDrawer.statCalculate();
+                        studentStatDrawer.period = classStudentsPage.period_text
+                        studentStatDrawer.drawerInit();
                         studentStatDrawer.open();
                     }
                 }
@@ -374,185 +378,8 @@ Page {
 
 
     // drawer - student stat
-    Drawer
-    {
+    StudentStatDrawer{
         id: studentStatDrawer
-        modal: true
-        height: parent.height
-        width:  parent.width;
-        dragMargin: 0
-        edge: Qt.RightEdge
-
-        property int register_id;
-        property string student;
-        property string photo;
-        property string baseClass;
-
-        function statCalculate()
-        {
-            //var stat = dbMan.getStudentStat(studentStatDrawer.register_id);
-        }
-
-        ScrollView
-        {
-            id: studentStatDrawerSV
-            width: parent.width
-            height: parent.height
-            anchors.margins: 5
-
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
-
-            Button
-            {
-                height: 48
-                width: 48
-                background: Item{}
-                icon.source: "qrc:/assets/images/arrow-right.png"
-                icon.width: 48
-                icon.height: 48
-                opacity: 0.5
-                onClicked: studentStatDrawer.close();
-                hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-                anchors.left: parent.left
-            }
-
-            Column
-            {
-                width: studentStatDrawerSV.width
-                spacing: 20
-
-                Item{
-                    width: parent.width
-                    height: 150
-                    Image{
-                        width: 128
-                        height: 128
-                        anchors.centerIn: parent
-                        source: {
-                            if(studentStatDrawer.photo == "")
-                            {
-                                return "qrc:/assets/images/stat.png";
-                            }
-                            else
-                            {
-                                return "file://"+studentStatDrawer.photo;
-                            }
-                        }
-                    }
-                }
-                Text{
-                    width: parent.width;
-                    height: 50
-                    text: studentStatDrawer.student
-                    font.bold: true
-                    font.family: "B Yekan"
-                    font.pixelSize: 20
-                    color: "royalblue"
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-                Text{
-                    width: parent.width;
-                    height: 50
-                    text: studentStatDrawer.baseClass
-                    font.bold: true
-                    font.family: "B Yekan"
-                    font.pixelSize: 20
-                    color: "royalblue"
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-
-                Rectangle{
-                    width: parent.width
-                    height: 2
-                    color: "dodgerblue"
-                    anchors.margins: 10
-                }
-
-                Text{
-                    id: emptyStudentStatText
-                    width: parent.width;
-                    height: 50
-                    text: "نمرات دانش‌آموز به صورت کامل وارد نشده است."
-                    font.bold: true
-                    font.family: "B Yekan"
-                    font.pixelSize: 16
-                    color: "dodgerblue"
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-
-                Column{
-                    width: parent.width;
-                    visible: ! emptyStudentStatText.visible
-
-                    Text{
-                        width: parent.width;
-                        height: 50
-                        text: "---"
-                        font.bold: true
-                        font.family: "B Yekan"
-                        font.pixelSize: 20
-                        color: "dodgerblue"
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    Text{
-                        width: parent.width;
-                        height: 50
-                        text: " -- "
-                        font.bold: true
-                        font.family: "B Yekan"
-                        font.pixelSize: 18
-                        color: "dodgerblue"
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-
-                    Repeater
-                    {
-                        id: studentStatRepeater
-                        width: parent.width
-                        height: studentStatRepeater.model.count*200
-
-                        model: ListModel{id: studentStatModel;}
-                        delegate:Column{
-                            required property var model;
-
-                            width: parent.width;
-                            height: 200;
-
-                            Label{
-                                text: "----"
-                                width: parent.width
-                                height: 50;
-                                horizontalAlignment: Label.AlignHCenter
-                                verticalAlignment: Label.AlignVCenter
-                                font.bold: true
-                                font.family: "B Yekan"
-                                font.pixelSize: 16
-                                color: "slategray"
-                                MouseArea {
-                                    anchors.fill: parent;
-                                    hoverEnabled: true;
-                                    onEntered: parent.color = "mediumvioletred"
-                                    onExited: parent.color = "slategray"
-                                }
-                            }
-                            Item{width: parent.width; height: 20;}
-                        }
-
-                    }
-
-                    Item{height: 20; width: 5;}
-                }
-            }
-
-
-        }
     }
 
     // drawer - class stat

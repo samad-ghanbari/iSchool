@@ -8,7 +8,7 @@
 
 class DbMan;
 //models
-class BranchModel;
+class StudentStatModel;
 
 class Backend : public QObject
 {
@@ -23,6 +23,7 @@ public slots:
 
 private:
     DbMan *dbMan;
+    StudentStatModel *studentStatModel;
     QQmlApplicationEngine engine;
 };
 

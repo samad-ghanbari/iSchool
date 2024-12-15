@@ -767,13 +767,17 @@ Page {
         function statCalculate()
         {
             //foreach eval-cat calculate avg/normalised-Avg
-            // statObject = [{cat_id, category, test, final, avg, navg} ,{}, {}, {} }
+            // statObject = {course: [{cat_id, category, test, final, avg, navg} ,{}, {}, {} }] , test:[] }
 
-            var statObject = dbMan.getStudentCourseStatArray(classSCEStat.student_id, classSCEStat.course_id);
+            var statObject = dbMan.getStudentCourseStatArray(classSCEStat.student_id, classSCEStat.course_id); //{course:[], test:[]}
             classSCEStat.semesterGrade = dbMan.getStudentCourseSemester(classSCEStat.student_id, classSCEStat.course_id);
 
             statSCEModel.clear();
-            for(var o of statObject)
+            for(var o of statObject["course"])
+            {
+                statSCEModel.append(o);
+            }
+            for(var o of statObject["test"])
             {
                 statSCEModel.append(o);
             }

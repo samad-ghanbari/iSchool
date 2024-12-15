@@ -30,6 +30,7 @@ qt_add_qml_module(appiSchool
         lib/database/dbman.h
         lib/database/dbman.cpp
         lib/version.h
+        #lib/model/studentStatModel.h
         #lib/imageProvider.h
 
     RESOURCES assets.qrc
@@ -159,6 +160,7 @@ qt_add_qml_module(appiSchool
         ui/class/ClassStudents.qml
         ui/class/ClassStudentCourses.qml
         ui/class/ClassSCEval.qml
+        QML_FILES ui/class/StudentStatDrawer.qml
 
 
     #REPORT
