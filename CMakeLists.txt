@@ -160,7 +160,8 @@ qt_add_qml_module(appiSchool
         ui/class/ClassStudents.qml
         ui/class/ClassStudentCourses.qml
         ui/class/ClassSCEval.qml
-        QML_FILES ui/class/StudentStatDrawer.qml
+        ui/class/StudentStatDrawer.qml
+        ui/class/StudentStatPdfReport.qml
 
 
     #REPORT
@@ -263,6 +264,13 @@ qt_add_resources(appiSchool "assets"
         assets/images/log.png
     #REPORT
         assets/images/report.png
+        assets/images/pdf.png
+        assets/images/excel.png
+
+    #design
+    assets/images/design1.png
+    assets/images/design2.png
+    assets/images/design3.png
 
 )
 
@@ -289,6 +297,8 @@ target_link_libraries(appiSchool PRIVATE Qt6::Sql)
 # printsupport
 find_package(Qt6 REQUIRED COMPONENTS PrintSupport)
 
+#target_link_libraries(appiSchool PRIVATE Qt6::Widgets)
+#find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

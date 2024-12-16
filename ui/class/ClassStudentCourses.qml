@@ -190,7 +190,7 @@ Page {
                         // student stat
                         Button
                         {
-
+                            id: statBtn
                             width: 64
                             height: 64
                             anchors.right: refreshBtn.left
@@ -215,6 +215,26 @@ Page {
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                         }
+                    // pdf report
+                        Button
+                        {
+
+                            width: 64
+                            height: 64
+                            anchors.right: statBtn.left
+                            background: Item{}
+                            icon.source: "qrc:/assets/images/pdf.png"
+                            icon.width: 64
+                            icon.height: 64
+                            opacity: 0.5
+                            onClicked:
+                            {
+                                classStudentCoursesPage.appStackView.push(studentStatPdf);
+                            }
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        }
+
                     }
 
                     GridView
@@ -455,6 +475,20 @@ Page {
     {
         id: classSCEvalComponent
         ClassSCEval
+        {
+            onPopStackViewSignal: classStudentCoursesPage.appStackView.pop();
+
+            student: classStudentCoursesPage.student
+            registerModel: classStudentCoursesPage.registerModel
+        }
+    }
+
+    // report
+    Component
+    {
+        // pdf
+        id: studentStatPdf
+        StudentStatPdfReport
         {
             onPopStackViewSignal: classStudentCoursesPage.appStackView.pop();
 
