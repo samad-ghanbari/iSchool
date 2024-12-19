@@ -645,7 +645,7 @@ Drawer
                                 color: "darkslategray"
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
-                                text:"دروس با علامت * در معدل محاسبه نمی‌شوند."
+                                text:"دروس با علامت # در معدل محاسبه نمی‌شوند."
                             }
                             Label{
                                 width: parent.width

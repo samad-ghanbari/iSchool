@@ -245,6 +245,36 @@ Page {
                         }
                     }
 
+                    Rectangle{Layout.fillWidth: true; Layout.maximumWidth: 500; Layout.alignment: Qt.AlignHCenter; Layout.preferredHeight: 5; color: "slategray";}
+
+                    RowLayout{
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: 500
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignHCenter
+
+                        Label{
+                            Layout.preferredHeight: 50
+                            Layout.preferredWidth: 100
+                            Layout.alignment: Qt.AlignLeft
+                            horizontalAlignment: Label.AlignLeft
+                            verticalAlignment: Label.AlignVCenter
+                            font.bold: true
+                            font.family: "B Yekan"
+                            font.pixelSize: 16
+                            text:"نیمسال: "
+                        }
+                        TextField{
+                            id: semesterNumberTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            placeholderText: "اول"
+                            text: "اول"
+                            font.bold: true
+                            font.family: "B Yekan"
+                            font.pixelSize: 16
+                        }
+                    }
 
                     Item{
                         Layout.fillWidth: true
@@ -256,6 +286,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.maximumWidth: 500;
                         Layout.alignment: Qt.AlignHCenter
+
                         spacing: 10
 
                         Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
@@ -277,6 +308,7 @@ Page {
                             Layout.preferredWidth:  100
                             font.family: "B Yekan"
                             font.pixelSize: 14
+                            enabled: (semesterNumberTF.text == "")? false : true
                             onClicked:
                             {
                                 saveFileDialog.open();
@@ -317,7 +349,8 @@ Page {
         fileMode: FileDialog.SaveFile
         onAccepted:{
 
-            if(dbMan.studentStatPdf(selectedFile, pdfReport.registerModel.id, pdfReport.evalCats))
+            var semesterNumber = semesterNumberTF.text
+            if(dbMan.exportStudentStatPdf(selectedFile, pdfReport.registerModel.id, pdfReport.evalCats, semesterNumber))
             {
                 infoDialogId.dialogTitle = "عملیات موفق"
                 infoDialogId.dialogSuccess = true

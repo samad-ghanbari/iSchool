@@ -13,6 +13,7 @@ import "./../teacher" as TeacherModule
 import "./../student" as StudentModule
 import "./../course" as CourseModule
 import "./../evaluation" as EvalModule
+import "./../about" as AboutModule
 
 
 MenuBar {
@@ -263,6 +264,25 @@ MenuBar {
         }
     }
 
+    Menu {
+        id: aboutId
+        title: "درباره برنامه"
+        font.family: "B Yekan"
+        font.pixelSize: 16
+
+        Action {
+            text: "درباره برنامه";
+            onTriggered:
+            {
+                if(menubarId.appStackView.currentItem.objectName === "aboutON")
+                menubarId.appStackView.pop();
+
+                menubarId.appStackView.push(aboutComponent,{objectName: "aboutON"});
+            }
+            icon.source: "qrc:/assets/images/info.png"; icon.width: 24;icon.height:24;
+        }
+    }
+
     Component
     {
         id: listUserPageComponent
@@ -325,5 +345,13 @@ MenuBar {
     {
         id: evalsComponent
         EvalModule.EvalCats{appStackView: menubarId.appStackView;}
+    }
+
+
+    //About
+    Component
+    {
+        id: aboutComponent
+        AboutModule.About{onPopStackViewSignal: menubarId.appStackView.pop();}
     }
 }

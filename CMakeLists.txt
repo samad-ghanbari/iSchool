@@ -30,6 +30,12 @@ qt_add_qml_module(appiSchool
         lib/database/dbman.h
         lib/database/dbman.cpp
         lib/version.h
+        #pdf
+        lib/export/jsontable.h
+        lib/export/jsontable.cpp
+        lib/export/pdfjsontable.h
+        lib/export/pdfjsontable.cpp
+
         #lib/model/studentStatModel.h
         #lib/imageProvider.h
 
@@ -164,7 +170,8 @@ qt_add_qml_module(appiSchool
         ui/class/StudentStatPdfReport.qml
 
 
-    #REPORT
+    #About
+        ui/about/About.qml
 
 )
 
@@ -271,6 +278,7 @@ qt_add_resources(appiSchool "assets"
     assets/images/design1.png
     assets/images/design2.png
     assets/images/design3.png
+    assets/images/bg.png
 
 )
 
@@ -295,7 +303,8 @@ target_link_libraries(appiSchool PRIVATE Qt6::Sql)
 
 
 # printsupport
-find_package(Qt6 REQUIRED COMPONENTS PrintSupport)
+find_package(Qt6 REQUIRED COMPONENTS  PrintSupport)
+target_link_libraries(appiSchool PRIVATE  Qt6::PrintSupport)
 
 #target_link_libraries(appiSchool PRIVATE Qt6::Widgets)
 #find_package(Qt6 REQUIRED COMPONENTS Widgets)
