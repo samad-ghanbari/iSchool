@@ -262,7 +262,7 @@ Page {
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         placeholderText: "ضریب درس"
-                        validator: RegularExpressionValidator{regularExpression: /^[0-9]*$/; }
+                        validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
                     }
 
                     //test coefficient
@@ -285,7 +285,7 @@ Page {
                         font.family: "B Yekan"
                         font.pixelSize: 16
                         placeholderText: "ضریب تست"
-                        validator: RegularExpressionValidator{regularExpression: /^[0-9]*$/; }
+                        validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
                     }
 
                     //course shared coefficient
@@ -435,8 +435,8 @@ Page {
                             course["period_id"] = insertPage.period_id
 
                             course["course_name"] = courseNameTF.text
-                            course["course_coefficient"] = parseInt(courseCoefTF.text)
-                            course["test_coefficient"] = parseInt(testCoefTF.text)
+                            course["course_coefficient"] = parseFloat(courseCoefTF.text)
+                            course["test_coefficient"] = parseFloat(testCoefTF.text)
                             course["final_weight"] = parseFloat(finalWeightTF.text)
 
                             course["shared_coefficient"] = { "course": insertPage.courseSharedCoef, "test": insertPage.testSharedCoef };

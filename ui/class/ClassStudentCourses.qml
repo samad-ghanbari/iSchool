@@ -306,7 +306,7 @@ Page {
                 Rectangle
                 {
                     id: cBaseCoefLabel
-                    width: 30
+                    width: 40
                     height: 30
                     anchors.top: parent.top
                     anchors.right: parent.right
@@ -323,7 +323,7 @@ Page {
                 }
                 Rectangle
                 {
-                    width: 30
+                    width: 40
                     height: 30
                     anchors.top: cBaseCoefLabel.bottom
                     anchors.right: parent.right

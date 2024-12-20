@@ -251,8 +251,8 @@ Page {
                     Label
                     {
                         id: courseCoefLbl
-                        width: 30
-                        height: 40
+                        width: 40
+                        height: 30
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
                         font.family: "B Yekan"
@@ -264,8 +264,8 @@ Page {
                     }
                     Label
                     {
-                        width: 30
-                        height: 40
+                        width: 40
+                        height: 30
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
                         font.family: "B Yekan"

@@ -17,8 +17,8 @@ Page {
     required property int base_id;
     required property int step_id;
     required property int period_id;
-    required property int course_coefficient
-    required property int test_coefficient
+    required property real course_coefficient
+    required property real test_coefficient
     required property var shared_coefficient
     required property real final_weight;
 
@@ -273,7 +273,7 @@ Page {
                         font.pixelSize: 16
                         placeholderText: "ضریب درس"
                         text: updatePage.course_coefficient
-                        validator: IntValidator{bottom: 0; top: 20;}
+                        validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
                     }
 
                     //test coefficient
@@ -297,7 +297,7 @@ Page {
                         font.pixelSize: 16
                         placeholderText: "ضریب تست"
                         text: updatePage.test_coefficient
-                        validator: RegularExpressionValidator{regularExpression: /^[0-9]*$/; }
+                        validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
                     }
 
                     //course shared coefficient
@@ -451,8 +451,8 @@ Page {
 
                             course["id"] = updatePage.course_id;
                             course["course_name"] = courseNameTF.text
-                            course["course_coefficient"] = parseInt(courseCoefTF.text)
-                            course["test_coefficient"] = parseInt(testCoefTF.text)
+                            course["course_coefficient"] = parseFloat(courseCoefTF.text)
+                            course["test_coefficient"] = parseFloat(testCoefTF.text)
                             course["final_weight"] = parseFloat(finalWeightTF.text)
 
                             course["shared_coefficient"] = { "course": updatePage.courseSharedCoef, "test": updatePage.testSharedCoef };

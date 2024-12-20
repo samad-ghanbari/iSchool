@@ -9,7 +9,7 @@ Page {
 
     signal popStackViewSignal();
 
-    background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
+    background: Rectangle{anchors.fill: parent; color: "ghostwhite"; Image{source:"qrc:/assets/images/bg.png"; anchors.fill: parent; opacity: 0.5}}
 
     GridLayout
     {
@@ -48,7 +48,7 @@ Page {
             Layout.columnSpan: 2
             Layout.fillHeight: true
             Layout.fillWidth: true
-            color: "ghostwhite"
+            color: "transparent"
             ColumnLayout{
                 anchors.fill: parent
 
@@ -69,9 +69,13 @@ Page {
                     verticalAlignment: Qt.AlignVCenter
                     text: "Roshangaran School Management Application \n This application was developed with \n Qt LTS 6.8 release "
                     NumberAnimation on scale{
-                        from: 0.2; to: 1;
-                        duration: 200
+                        from: 0.1; to: 1;
+                        duration: 1000
                         easing.type: Easing.InOutQuad
+                    }
+                    NumberAnimation on opacity{
+                        from: 0.1; to: 1;
+                        duration: 2000
                     }
                 }
 
@@ -89,9 +93,13 @@ Page {
                     verticalAlignment: Qt.AlignVCenter
                     text: "Developer Contact: Ghanbari.Samad@Gmail.com "
                     NumberAnimation on scale{
-                        from: 10; to: 1;
-                        duration: 200
+                        from: 20; to: 1;
+                        duration: 1000
                         easing.type: Easing.InOutQuad
+                    }
+                    NumberAnimation on opacity{
+                        from: 0.1; to: 1;
+                        duration: 2000
                     }
                 }
                 Label{
@@ -113,5 +121,13 @@ Page {
                 }
             }
         }
+    }
+
+    Image{
+        source: "qrc:/assets/images/design3.png"
+        width: 100
+        height: 100
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
     }
 }
