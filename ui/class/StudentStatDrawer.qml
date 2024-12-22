@@ -35,6 +35,9 @@ Drawer
 
     function drawerInit()
     {
+        evalCats = [];
+        evalCatModel.clear();
+
         for(var obj of studentStatDrawer.evalCatsList)
         {
             evalCats.push(obj.id)
@@ -115,31 +118,33 @@ Drawer
 
     function getBgColor(value, test=false)
     {
-        if(test)
+        if(parseFloat(value) > -1)
         {
-            value = value.replace("%", "");
-            if(value >= 50 || value==="")
-                return "transparent";
-            if(value < 50 && value >= 40)
-                return "mistyrose"
-            if(value < 40 && value >= 20)
-                return "pink";
-            if(value < 20)
-                return "salmon";
+            if(test)
+            {
+                value = value.replace("%", "");
+                if(value >= 50 || value==="")
+                    return "transparent";
+                if(value < 50 && value >= 40)
+                    return "mistyrose"
+                if(value < 40 && value >= 20)
+                    return "pink";
+                if(value < 20)
+                    return "salmon";
+            }
+            else
+            {
+                if(value >= 15 || value==="")
+                    return "transparent";
+                if(value < 15 && value >= 12)
+                    return "mistyrose"
+                if(value < 12 && value >= 10)
+                    return "pink";
+                if(value < 10)
+                    return "salmon";
+            }
         }
-        else
-        {
-            if(value >= 15 || value==="")
-                return "transparent";
-            if(value < 15 && value >= 12)
-                return "mistyrose"
-            if(value < 12 && value >= 10)
-                return "pink";
-            if(value < 10)
-                return "salmon";
-        }
-
-
+        else return "transparent";
     }
 
     GridLayout
@@ -536,7 +541,15 @@ Drawer
                                         font.pixelSize: 16
                                         horizontalAlignment: Label.AlignHCenter
                                         verticalAlignment: Label.AlignVCenter
-                                        text: (typeof rpDel.model["avg"] != "undefined")? "  "+rpDel.model["avg"] : ""
+                                        text:{
+                                            if(typeof rpDel.model["navg"] != "undefined")
+                                            {
+                                                if(parseFloat(rpDel.model["navg"]) > -1)
+                                                return "  "+rpDel.model["navg"];
+                                                else return "-";
+                                            }
+                                            else return "-";
+                                        }
                                     }
                                 }
                                 Label{
@@ -550,7 +563,15 @@ Drawer
                                     font.pixelSize: 18
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
-                                    text: (typeof recdel.model["semester"] != "undefined")? "  "+recdel.model["semester"] : ""
+                                    text: {
+                                        if(typeof recdel.model["semester"] != "undefined")
+                                        {
+                                            if(parseFloat(recdel.model["semester"]) > -1){
+                                                return "  "+recdel.model["semester"];
+                                            }else return "-";
+                                        }
+                                        else return "-";
+                                    }
                                 }
                                 Label{
                                     Layout.preferredWidth: (typeof studentStatDrawer.courseHeaders[3+courseRowRp.count + 2]  != "undefined")?  studentStatDrawer.courseHeaders[3+courseRowRp.count + 2]["width"] : 0
@@ -561,7 +582,16 @@ Drawer
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
-                                    text:(typeof  recdel.model["class_rank"] != "undefined")?  recdel.model["class_rank"] + " / " + recdel.model["base_rank"] : "";
+                                    text:{
+                                        if(typeof  recdel.model["class_rank"] != "undefined")
+                                        {
+                                            if(parseFloat(recdel.model["semester"]) > -1){
+                                                return recdel.model["class_rank"] + " / " + recdel.model["base_rank"];
+                                            }
+                                            else return "-";
+                                        }
+                                        else return "-";
+                                    }
                                 }
                                 Label{
                                     Layout.preferredWidth: (typeof studentStatDrawer.courseHeaders[3+courseRowRp.count + 3]  != "undefined")?  studentStatDrawer.courseHeaders[3+courseRowRp.count + 3]["width"] : 0
@@ -572,7 +602,15 @@ Drawer
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
-                                    text: (typeof recdel.model["base_avg"] != "undefined")? recdel.model["class_avg"] + " / " + recdel.model["base_avg"] : "";
+                                    text:{
+                                        if(typeof recdel.model["base_avg"] != "undefined"){
+                                            if(parseFloat(recdel.model["semester"]) > -1){
+                                                return  recdel.model["class_avg"] + " / " + recdel.model["base_avg"];
+                                            }
+                                            else return "-";
+                                        }
+                                        else return "-";
+                                    }
                                 }
                                 Label{
                                     Layout.preferredWidth:(typeof studentStatDrawer.courseHeaders[3+courseRowRp.count + 4]  != "undefined")?  studentStatDrawer.courseHeaders[3+courseRowRp.count + 4]["width"] : 0
@@ -583,7 +621,15 @@ Drawer
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
-                                    text: (typeof recdel.model["base_min"] != "undefined")? recdel.model["class_min"] + " / " + recdel.model["base_min"] :  "";
+                                    text: {
+                                        if(typeof recdel.model["base_min"] != "undefined"){
+                                            if(parseFloat(recdel.model["semester"]) > -1){
+                                                return recdel.model["class_min"] + " / " + recdel.model["base_min"];
+                                            }
+                                            return "-";
+                                        }
+                                        else return "-";
+                                    }
                                 }
                                 Label{
                                     Layout.preferredWidth: (typeof studentStatDrawer.courseHeaders[3+courseRowRp.count + 5]  != "undefined")?  studentStatDrawer.courseHeaders[3+courseRowRp.count + 5]["width"] : 0
@@ -594,7 +640,15 @@ Drawer
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
-                                    text: (typeof recdel.model["base_max"]  != "undefined")? recdel.model["class_max"] + " / " + recdel.model["base_max"]  : "";
+                                    text:{
+                                        if(typeof recdel.model["base_max"]  != "undefined"){
+                                            if(parseFloat(recdel.model["semester"]) > -1){
+                                                return recdel.model["class_max"] + " / " + recdel.model["base_max"];
+                                            }
+                                            else return "-";
+                                        }
+                                        else return "-";
+                                    }
                                 }
 
                             }
@@ -838,7 +892,15 @@ Drawer
                                         font.pixelSize: 18
                                         horizontalAlignment: Label.AlignHCenter
                                         verticalAlignment: Label.AlignVCenter
-                                        text: (typeof trpDel.model["avg"] != "undefined")? "  "+trpDel.model["avg"] + " % " : ""
+                                        text: {
+                                            if(typeof trpDel.model["navg"] != "undefined")
+                                            {
+                                                if(parseFloat(trpDel.model["navg"]) > -1)
+                                                return "  "+trpDel.model["navg"] +" % ";
+                                                else return "-";
+                                            }
+                                            else return "-";
+                                        }
                                     }
                                 }
 
@@ -851,7 +913,18 @@ Drawer
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
-                                    text:(typeof  trecdel.model["class_rank"] != "undefined")?  trecdel.model["class_rank"] + " / " + trecdel.model["base_rank"] : "";
+                                    text:{
+                                        if(typeof  trecdel.model["class_rank"] != "undefined")
+                                        {
+                                            if(parseFloat(trecdel.model["class_rank"]) > -1)
+                                            {
+                                                return  trecdel.model["class_rank"] + " / " + trecdel.model["base_rank"];
+                                            }
+                                            else return "-";
+                                        }
+                                        else
+                                        return "-";
+                                    }
                                 }
                                 Label{
                                     Layout.preferredWidth: (typeof studentStatDrawer.testHeaders[2+testRowRp.count + 2]  != "undefined")?  studentStatDrawer.testHeaders[2+testRowRp.count + 2]["width"] : 0
@@ -862,7 +935,18 @@ Drawer
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
-                                    text: (typeof trecdel.model["base_avg"] != "undefined")? trecdel.model["class_avg"] + " %  / " + trecdel.model["base_avg"] + " %" : "";
+                                    text:{
+                                        if(typeof trecdel.model["base_avg"] != "undefined")
+                                        {
+                                            if( parseFloat(trecdel.model["base_avg"]) > -1)
+                                            {
+                                                return trecdel.model["class_avg"] + " %  / " + trecdel.model["base_avg"] + " %";
+                                            }
+                                            else return "-";
+
+                                        }
+                                        else return "-";
+                                    }
                                 }
                                 Label{
                                     Layout.preferredWidth:(typeof studentStatDrawer.testHeaders[2+testRowRp.count + 3]  != "undefined")?  studentStatDrawer.testHeaders[2+testRowRp.count + 3]["width"] : 0
@@ -873,7 +957,16 @@ Drawer
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
-                                    text: (typeof trecdel.model["base_min"] != "undefined")? trecdel.model["class_min"] + " % / " + trecdel.model["base_min"] + " %" :  "";
+                                    text:{
+
+                                        if(typeof trecdel.model["base_min"] != "undefined")
+                                        {
+                                            if(parseFloat(trecdel.model["class_min"]) > -1)
+                                            return trecdel.model["class_min"] + " % / " + trecdel.model["base_min"] + " %";
+                                            else return "-";
+                                        }
+                                        else return "-";
+                                    }
                                 }
                                 Label{
                                     Layout.preferredWidth: (typeof studentStatDrawer.testHeaders[2+testRowRp.count + 4]  != "undefined")?  studentStatDrawer.testHeaders[2+testRowRp.count + 4]["width"] : 0
@@ -884,7 +977,15 @@ Drawer
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
-                                    text: (typeof trecdel.model["base_max"]  != "undefined")? trecdel.model["class_max"] + " % / " + trecdel.model["base_max"] + " %"  : "";
+                                    text: {
+                                        if(typeof trecdel.model["base_max"]  != "undefined")
+                                        {
+                                            if(parseFloat(trecdel.model["base_max"]) > -1)
+                                            return trecdel.model["class_max"] + " % / " + trecdel.model["base_max"] + " %";
+                                            else return "-";
+                                        }
+                                        else return "-";
+                                    }
                                 }
 
                             }
