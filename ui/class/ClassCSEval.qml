@@ -8,7 +8,7 @@ import "./../public" as DialogBox
 
 
 Page {
-    id: classCSEPage // class course student evals
+    id: classCCSEPage // class course students evals
     required property string class_name;
     required property string course_name;
     required property int class_id;
@@ -44,7 +44,7 @@ Page {
             icon.width: 64
             icon.height: 64
             opacity: 0.5
-            onClicked: classCSEPage.popStackViewSignal();
+            onClicked: classCCSEPage.popStackViewSignal();
             hoverEnabled: true
             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
         }
@@ -86,7 +86,7 @@ Page {
                     anchors.margins: 20
 
                     Text {
-                        text: "شعبه " + classCSEPage.branch
+                        text: "شعبه " + classCCSEPage.branch
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
@@ -97,7 +97,7 @@ Page {
                         color: "royalblue"
                     }
                     Text {
-                        text: classCSEPage.step + " - " + classCSEPage.base
+                        text: classCCSEPage.step + " - " + classCCSEPage.base
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
@@ -108,7 +108,7 @@ Page {
                         color: "royalblue"
                     }
                     Text {
-                        text:  classCSEPage.period
+                        text:  classCCSEPage.period
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
@@ -121,64 +121,41 @@ Page {
 
                     //class
                     Text {
-                        text: "کلاس " + classCSEPage.class_name + " - " + classCSEPage.course_name + "(" + classCSEPage.teacher+")"
+                        text: "کلاس " + classCCSEPage.class_name + " - " + classCCSEPage.course_name + "(" + classCCSEPage.teacher+")"
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         font.family: "B Yekan"
-                        font.pixelSize: 18
+                        font.pixelSize: 20
                         font.bold: true
-                        color: "royalblue"
+                        color: "darkmagenta"
                     }
 
                     ListView
                     {
-                        id: courseEvalLV
+                        id: lv
                         Layout.fillHeight: true
-                        Layout.preferredHeight: courseEvalLV.contentHeight + 100
                         Layout.fillWidth: true
                         Layout.margins: 10
                         clip: true
-                        model: ListModel{id: classSCEModel;}
-
-                        delegate:Column{
+                        model: ListModel{id: lvModel;} // students and evals of this course
+                        // row - student_id - student - course_name  - student_evals
+                        delegate:Rectangle{
                             id: recdel
                             required property var model;
-                            height: courseEvalGV.height + 80
+                            height: 80
+                            color : "red"
                             width: ListView.view.width
-                            spacing: 20
-                            Label{
-                                width: parent.width;
-                                height: 80
-                                text: ""
-                                horizontalAlignment: Label.AlignHCenter
-                                verticalAlignment: Label.AlignVCenter
-                                font.bold: true
-                                font.family: "B Yekan"
-                                font.pixelSize: 20
-                                color: "mediumvioletred"
-                                background:Rectangle{color: "thistle"}
-
-                            }
-
-                            GridView
-                            {
-                                id: courseEvalGV
-                                height: contentHeight + 100
-                                width: parent.width
-
-                                flickableDirection: Flickable.AutoFlickDirection
-                                clip: true
-                                cellWidth: 310
-                                cellHeight:310
-                                model: recdel.model.evals
-                                highlight: Item{}
-                                delegate: gvDelegate
+                            RowLayout{
+                                anchors.fill: parent
                             }
                         }
 
-                        Component.onCompleted: {}
+                        Component.onCompleted: {
+
+                            var model = dbMan.getClassCourseStudentsEvals(classCCSEPage.class_id,classCCSEPage.course_id);
+                        }
                     }
 
 
