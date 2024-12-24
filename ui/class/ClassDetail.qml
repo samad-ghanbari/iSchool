@@ -40,8 +40,8 @@ Page {
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
             icon.height: 64
-            opacity: 0.5
             onClicked: classDetailPage.appStackView.pop();
+            opacity: 0.5
             hoverEnabled: true
             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
         }
@@ -202,7 +202,7 @@ Page {
                         flickableDirection: Flickable.AutoFlickDirection
                         clip: true
                         cellWidth: 320
-                        cellHeight: 140
+                        cellHeight: 170
                         model: ListModel{id: classDetailModel}
                         highlight: Item{}
                         delegate: classDetailDelegate
@@ -241,7 +241,7 @@ Page {
             required property var model;
 
             // id, cd.class_id, cd.course_id, cd.teacher_id, co.course_name, t.teacher
-            height: 120
+            height: 150
             width: 300
             checkable: true
             checked: recDelg.swipe.complete
@@ -295,15 +295,44 @@ Page {
 
             swipe.right: Column{
                 width: 60
-                height: 120
+                height: 150
                 anchors.left: parent.left
-
 
                 Button
                 {
                     height: 32
                     width: 32
+                    opacity: 0.5
                     hoverEnabled: true
+                    onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                    font.bold: true
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    palette.buttonText:  "white"
+                    icon.source: "qrc:/assets/images/evalcat.png"
+                    icon.width: 32
+                    icon.height: 32
+                    display: AbstractButton.TextUnderIcon
+                    SwipeDelegate.onClicked:
+                    {
+                        if(recDelg.swipe.complete)
+                        recDelg.swipe.close();
+
+                        classDetailPage.appStackView.push(classCourseStudentsEval, {
+                                                              course_name: recDelg.model.Course_name,
+                                                              course_id: recDelg.model.Course_id,
+                                                              teacher: recDelg.model.Teacher,
+                                                          });
+                    }
+                }
+
+                Button
+                {
+                    height: 32
+                    width: 32
+                    opacity: 0.5
+                    hoverEnabled: true
+                    onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                     font.bold: true
                     font.family: "B Yekan"
                     font.pixelSize: 14
@@ -331,7 +360,9 @@ Page {
                 {
                     height: 32
                     width: 32
+                    opacity: 0.5
                     hoverEnabled: true
+                    onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                     font.bold: true
                     font.family: "B Yekan"
                     font.pixelSize: 14
@@ -425,6 +456,25 @@ Page {
 
             onPopStackSignal: classDetailPage.appStackView.pop();
             onDeletedSignal: Methods.updateClassDetailModel(classDetailPage.class_id);
+        }
+    }
+
+    // class course student eval
+    Component{
+        id: classCourseStudentsEval
+        ClassCSEval{
+            class_id : classDetailPage.class_id
+            class_name: classDetailPage.class_name
+            branch : classDetailPage.branch_text
+            step: classDetailPage.step_text
+            base: classDetailPage.base_text
+            period: classDetailPage.period_text
+            branch_id: classDetailPage.branch_id
+            step_id: classDetailPage.step_id
+            base_id: classDetailPage.base_id
+            period_id: classDetailPage.period_id
+
+            onPopStackViewSignal: classDetailPage.appStackView.pop();
         }
     }
 

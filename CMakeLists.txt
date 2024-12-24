@@ -166,6 +166,7 @@ qt_add_qml_module(appiSchool
         ui/class/ClassStudents.qml
         ui/class/ClassStudentCourses.qml
         ui/class/ClassSCEval.qml
+        ui/class/ClassCSEval.qml
         ui/class/StudentStatDrawer.qml
         ui/class/StudentStatPdfReport.qml
 
