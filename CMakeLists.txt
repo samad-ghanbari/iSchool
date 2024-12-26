@@ -1,7 +1,7 @@
 # developer:    Samad Ghanbari
 # Email:        ghanbari.Samad@gmail.com
 # Qt Version:   Qt 6.8.0
-# Postgresql:   17.0
+# Postgresql:   15.10
 
 
 cmake_minimum_required(VERSION 3.16)
