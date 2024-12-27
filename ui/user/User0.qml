@@ -71,6 +71,8 @@ Page {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 contentHeight : userListGW.implicitHeight
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
                 Rectangle
                 {
@@ -155,7 +157,7 @@ Page {
                                 visible: (userPage.user["admin"])? true : false;
                                 Text {
                                     anchors.fill: parent
-                                    text: "ادمین شعبه"
+                                    text: "ادمین سامانه"
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Qt.AlignHCenter
                                     font.family: "B Yekan"
@@ -204,8 +206,6 @@ Page {
                                 text: userPage.user["name"]
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Qt.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
 
@@ -228,8 +228,6 @@ Page {
                                 text: userPage.user["lastname"]
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Qt.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                             }
@@ -274,8 +272,6 @@ Page {
                                 text: userPage.user["nat_id"]
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Qt.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                             }
@@ -297,8 +293,6 @@ Page {
                                 text: userPage.user["job_position"]
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Qt.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                             }
@@ -320,8 +314,6 @@ Page {
                                 text: userPage.user["telephone"]
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Qt.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                             }
@@ -338,9 +330,9 @@ Page {
                                 rowSpacing: 20
                                 columnSpacing: 10
 
-                                // Permissions
+                                // READ
                                 Text {
-                                    text: "دسترسی‌های کاربر"
+                                    text: "دسترسی‌های مشاهده"
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignHCenter
                                     font.family: "B Yekan"
@@ -358,7 +350,7 @@ Page {
                                 }
 
                                 Text {
-                                    text: "شعبه‌ها"
+                                    text: "دوره"
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
                                     font.family: "B Yekan"
@@ -368,59 +360,18 @@ Page {
                                 }
                                 ListView
                                 {
-                                    id: userBranchLV
+                                    id: userReadStepLV
                                     spacing: 20
                                     Layout.columnSpan: 2
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: userBranchLV.count*60
-                                    model: ListModel{id: branchModel;}
-                                    delegate:
-                                    Rectangle
-                                    {
-                                        id: recBrDelegate
-                                        required property var model;
-                                        width: userBranchLV.width;
-                                        height: 40;
-                                        color: "white"
-                                        Text
-                                        {
-                                            anchors.fill: parent
-                                            anchors.leftMargin: 40
-                                            text: recBrDelegate.model.city +" - "+  recBrDelegate.model.branch_name
-                                            font.family: "B Yekan"
-                                            font.pixelSize: 16
-                                        }
-                                    }
-
-                                    Component.onCompleted: UserMethods.updateBranchModel();
-
-                                }
-
-                                Text {
-                                    text: "دوره‌ها"
-                                    Layout.columnSpan: 2
-                                    Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 24
-                                    font.bold: true
-                                    color: "royalblue"
-                                    visible: (userPage.user["admin"])? false : true;
-                                }
-                                ListView
-                                {
-                                    id: userStepLV
-                                    visible: (userPage.user["admin"])? false : true;
-                                    spacing: 20
-                                    Layout.columnSpan: 2
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: userStepLV.count*60
-                                    model: ListModel{id: stepModel;}
+                                    Layout.preferredHeight: userReadStepLV.count*60
+                                    model: ListModel{id: readStepModel;}
                                     delegate:
                                     Rectangle
                                     {
                                         id: recDelegate
                                         required property var model;
-                                        width: userStepLV.width;
+                                        width: userReadStepLV.width;
                                         height: 40;
                                         color: "white"
                                         Text
@@ -435,13 +386,12 @@ Page {
 
                                     Component.onCompleted:
                                     {
-                                        UserMethods.updateStepModel();
+                                        UserMethods.updateReadStepModel();
                                     }
                                 }
 
                                 Text {
-                                    text: "پایه‌های تحصیلی"
-                                    visible: (userPage.user["admin"])? false : true;
+                                    text: "پایه تحصیلی"
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
                                     font.family: "B Yekan"
@@ -451,19 +401,18 @@ Page {
                                 }
                                 ListView
                                 {
-                                    id: userStudyBaseLV
-                                    visible: (userPage.user["admin"])? false : true;
+                                    id: userReadStudyBaseLV
                                     spacing: 20
                                     Layout.columnSpan: 2
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: userStudyBaseLV.count*60
-                                    model: ListModel{id: studyBaseModel;}
+                                    Layout.preferredHeight: userReadStudyBaseLV.count*60
+                                    model: ListModel{id: readStudyBaseModel;}
                                     delegate:
                                     Rectangle
                                     {
                                         id: recBaseDelegate
                                         required property var model;
-                                        width: userStudyBaseLV.width;
+                                        width: userReadStudyBaseLV.width;
                                         height: 40;
                                         color: "white"
                                         Text
@@ -479,9 +428,114 @@ Page {
 
                                     Component.onCompleted:
                                     {
-                                        UserMethods.updateStudyBaseModel();
+                                        UserMethods.updateReadStudyBaseModel();
                                     }
                                 }
+
+
+                                //write
+                                Text {
+                                    text: "دسترسی‌های ویرایش"
+                                    Layout.columnSpan: 2
+                                    Layout.alignment: Qt.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 24
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+
+                                Rectangle
+                                {
+                                    Layout.columnSpan: 2
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 1
+                                    color: "dodgerblue"
+                                }
+
+                                Text {
+                                    text: "دوره"
+                                    Layout.columnSpan: 2
+                                    Layout.alignment: Qt.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 24
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                ListView
+                                {
+                                    id: userWriteStepLV
+                                    spacing: 20
+                                    Layout.columnSpan: 2
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: userWriteStepLV.count*60
+                                    model: ListModel{id: writeStepModel;}
+                                    delegate:
+                                    Rectangle
+                                    {
+                                        id: recWrDelegate
+                                        required property var model;
+                                        width: userWriteStepLV.width;
+                                        height: 40;
+                                        color: "white"
+                                        Text
+                                        {
+                                            anchors.fill: parent
+                                            anchors.leftMargin: 40
+                                            text: recWrDelegate.model.City +" - "+  recWrDelegate.model.Branch_name + " - " + recWrDelegate.model.Step_name
+                                            font.family: "B Yekan"
+                                            font.pixelSize: 16
+                                        }
+                                    }
+
+                                    Component.onCompleted:
+                                    {
+                                        UserMethods.updateWriteStepModel();
+                                    }
+                                }
+
+                                Text {
+                                    text: "پایه تحصیلی"
+                                    Layout.columnSpan: 2
+                                    Layout.alignment: Qt.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 24
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                ListView
+                                {
+                                    id: userWriteStudyBaseLV
+                                    spacing: 20
+                                    Layout.columnSpan: 2
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: (userWriteStudyBaseLV.count)*60
+                                    model: ListModel{id: writeStudyBaseModel;}
+                                    delegate:
+                                    Rectangle
+                                    {
+                                        id: recWrBaseDel
+                                        required property var model;
+                                        width: userWriteStudyBaseLV.width;
+                                        height: 40;
+                                        color: "white"
+                                        Text
+                                        {
+                                            anchors.fill: parent
+                                            anchors.leftMargin: 40
+                                            text:  recWrBaseDel.model.City + " - " + recWrBaseDel.model.Branch_name +" - "+ recWrBaseDel.model.Study_base
+                                            font.family: "B Yekan"
+                                            font.pixelSize: 16
+                                        }
+                                    }
+
+                                    Component.onCompleted:
+                                    {
+                                        UserMethods.updateWriteStudyBaseModel();
+                                    }
+                                }
+
+
+
 
                             }
 

@@ -137,7 +137,7 @@ Page {
                                 visible: (userDeletePage.user["admin"])? true : false;
                                 Text {
                                     anchors.fill: parent
-                                    text: "ادمین سامانه"
+                                    text: "ادمین شعبه"
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Qt.AlignHCenter
                                     font.family: "B Yekan"

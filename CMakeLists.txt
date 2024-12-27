@@ -173,7 +173,6 @@ qt_add_qml_module(appiSchool
 
     #About
         ui/about/About.qml
-
 )
 
 

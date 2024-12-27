@@ -11,18 +11,14 @@ import "UserModify.js" as UserMethods
 Page {
     id: userModifyPageId
     property var user;
-    property var readPerm  : userModifyPageId.user["permissions"]["read"];
-    property var writePerm : userModifyPageId.user["permissions"]["write"];
+    property var perm  : userModifyPageId.user["permissions"];
 
-    property var selectedBranches: dbMan.getUserBranch(userModifyPageId.user["id"]);
-    property var readStep: userModifyPageId.readPerm["step"];
-    property var readStudyBase:userModifyPageId.readPerm["study_base"];
+    property var branchPerm: userModifyPageId.perm["branch"];
+    property var stepPerm: userModifyPageId.perm["step"];
+    property var studyBasePerm:userModifyPageId.perm["study_base"];
 
-    property var selectedSteps:userModifyPageId.readPerm["step"];
-    property var selectedBases:userModifyPageId.readPerm["study_base"];
-
-    property var writeStep: userModifyPageId.writePerm["step"];
-    property var writeStudyBase:userModifyPageId.writePerm["study_base"];
+    property var selectedSteps:userModifyPageId.perm["step"];
+    property var selectedBases:userModifyPageId.perm["study_base"];
 
     required property StackView appStackView;
 
@@ -66,8 +62,7 @@ Page {
 
             //id, name, lastname, gender, nat_id, password, job_position, telephone, permissions, enabled, admin
             //permission {
-            // read:{ base_study:[], step:[] } ,
-            // write: {base_study:[], step:[]}
+            //  branch:[] , step:[], study_base:[]
             //}
 
             ScrollView
@@ -76,8 +71,7 @@ Page {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 contentHeight : updateUserFormGW.implicitHeight
-                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+
 
                 Rectangle
                 {
@@ -120,6 +114,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true
@@ -134,6 +129,8 @@ Page {
                                 font.pixelSize: 16
                                 placeholderText: "نام‌کاربر"
                                 text: userModifyPageId.user["name"]
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
 
                             }
 
@@ -143,6 +140,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true
@@ -157,6 +155,8 @@ Page {
                                 font.pixelSize: 16
                                 placeholderText: "نام خانوادگی"
                                 text: userModifyPageId.user["lastname"]
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
                             }
 
                             Text {
@@ -165,6 +165,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true
@@ -186,6 +187,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true
@@ -200,6 +202,8 @@ Page {
                                 font.pixelSize: 16
                                 placeholderText: "کد ملی کاربر"
                                 text: userModifyPageId.user["nat_id"]
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
                             }
 
                             Text {
@@ -208,6 +212,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true
@@ -222,6 +227,8 @@ Page {
                                 font.pixelSize: 16
                                 placeholderText: "پست کاربر"
                                 text: userModifyPageId.user["job_position"]
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
                             }
 
                             Text {
@@ -230,6 +237,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true
@@ -244,6 +252,8 @@ Page {
                                 font.pixelSize: 16
                                 placeholderText: "شماره تماس"
                                 text: userModifyPageId.user["telephone"]
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
                             }
 
                             //enabled
@@ -253,6 +263,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
                                 font.bold: true
@@ -265,39 +276,42 @@ Page {
                             }
 
                             // //admin
-                            // Text {
-                            //     text: "ادمین سامانه"
-                            //     Layout.minimumWidth: 150
-                            //     Layout.maximumWidth: 150
-                            //     Layout.preferredHeight: 50
-                            //     verticalAlignment: Text.AlignVCenter
-                            //     font.family: "B Yekan"
-                            //     font.pixelSize: 16
-                            //     font.bold: true
-                            //     color: "crimson"
-                            // }
-                            // Switch
-                            // {
-                            //     id: updateUserAdminId
-                            //     checked:  (userModifyPageId.user["admin"])? true : false
-                            //     onCheckedChanged:
-                            //     {
-                            //         //updateUserAccPermId.visible=(checked)? false : true;
-                            //         adminWarningMessage.visible=(checked)? true : false;
-                            //     }
-                            // }
-                            // Text {
-                            //     id: adminWarningMessage
-                            //     visible:  (userModifyPageId.user["admin"])? true : false
-                            //     text: "هشدار! کاربر ادمین، دسترسی کامل به مدیریت سامانه دارد"
-                            //     Layout.columnSpan: 2
-                            //     Layout.alignment: Qt.AlignLeft
-                            //     font.family: "B Yekan"
-                            //     Layout.topMargin: -10
-                            //     font.pixelSize: 16
-                            //     font.bold: true
-                            //     color: "orange"
-                            // }
+                            Text {
+                                text: "ادمین شعبه"
+                                Layout.minimumWidth: 150
+                                Layout.maximumWidth: 150
+                                Layout.preferredHeight: 50
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "crimson"
+                            }
+                            Switch
+                            {
+                                id: updateUserAdminId
+                                checked:  (userModifyPageId.user["admin"])? true : false
+                                onCheckedChanged:
+                                {
+                                    //updateUserAccPermId.visible=(checked)? false : true;
+                                    adminWarningMessage.visible=(checked)? true : false;
+                                }
+                            }
+                            Text {
+                                id: adminWarningMessage
+                                visible:  (userModifyPageId.user["admin"])? true : false
+                                text: "هشدار! کاربر ادمین، دسترسی کامل به مدیریت سامانه دارد"
+                                Layout.columnSpan: 2
+                                Layout.alignment: Qt.AlignLeft
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
+                                font.family: "B Yekan"
+                                Layout.topMargin: -10
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "orange"
+                            }
 
                             //PERMISSION
                             GridLayout
@@ -309,20 +323,7 @@ Page {
                                 //rows: 11
                                 rowSpacing: 20
                                 columnSpacing: 10
-                                /*
-                            {
-                              "read":{
-                                "base":[1,2,3],
-                                "step":[1]
-                              },
-                              "write":{
-                                "base":[1],
-                                "step":[1]
-                              }
-                            }
-                            */
 
-                                // READ
                                 Text {
                                     text: "دسترسی‌های کاربر"
                                     Layout.columnSpan: 2
@@ -362,44 +363,45 @@ Page {
                                     Repeater
                                     {
                                         id: updateUserBranchesId
-                                        model: ListModel {id: branchesModel }
+                                        model: ListModel {id: branchModel }
                                         delegate:
                                         Switch{
                                             required property var model
-                                            checked: (userModifyPageId.selectedBranches.indexOf(model.Id) > -1)? true : false;
+                                            checked: (userModifyPageId.branchPerm.indexOf(model.id) > -1)? true : false;
                                             height: 50;
-                                            text: model.City + " - " + model.Branch_name
+                                            text: model.city + " - " + model.branch_name
                                             font.family: "B Yekan"
                                             font.pixelSize: 14
                                             onToggled:
                                             {
-                                                var index = userModifyPageId.selectedBranches.indexOf(model.Id);
+                                                var index = userModifyPageId.branchPerm.indexOf(model.id);
 
                                                 if(checked)
                                                 {
                                                     //push step
                                                     if(index < 0)
-                                                    userModifyPageId.selectedBranches.push(model.Id);
+                                                    userModifyPageId.branchPerm.push(model.id);
                                                 }
                                                 else
                                                 {
                                                     if(index > -1)
-                                                    userModifyPageId.selectedBranches.splice(index, 1);
+                                                    userModifyPageId.branchPerm.splice(index, 1);
                                                 }
 
                                                 UserMethods.checkBranch();
-                                                UserMethods.updateReadStep()
-                                                UserMethods.updateReadStudyBase()
-                                                UserMethods.checkStep();
-                                                UserMethods.checkBase();
+
+                                                UserMethods.updateStep()
+                                                UserMethods.updateStudyBase()
+
                                             }
                                         }
                                     }
                                 }
 
-                                // read study step
+                                //  study step
                                 Text {
-                                    text: "دسترسی‌ مشاهده دوره‌ها"
+                                    text: "دوره‌ها"
+                                    visible: (updateUserAdminId.checked)? false : true;
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
                                     font.family: "B Yekan"
@@ -410,41 +412,42 @@ Page {
                                 Flow
                                 {
                                     spacing: 20
+                                    visible: (updateUserAdminId.checked)? false : true;
                                     Layout.columnSpan: 2
                                     flow: Flow.TopToBottom
-                                    Layout.preferredHeight: updateUserReadStepId.count*70
+                                    Layout.preferredHeight: updateUserStepId.count*70
 
                                     Repeater
                                     {
-                                        id: updateUserReadStepId
-                                        model: ListModel {id: readStepModel }
+                                        id: updateUserStepId
+                                        model: ListModel {id: stepModel }
                                         delegate:
                                         Switch{
                                             required property var model
-                                            text: model.Branch_name +" - "+ model.Step_name
-                                            checked: (userModifyPageId.readStep.indexOf(model.Id) > -1)? true : false;
+                                            text: model.branch_name +" - "+ model.step_name
+                                            checked: (userModifyPageId.stepPerm.indexOf(model.id) > -1)? true : false;
                                             font.family: "B Yekan"
                                             font.pixelSize: 14
                                             onToggled:
                                             {
-                                                var index = userModifyPageId.readStep.indexOf(model.Id);
+                                                var index = userModifyPageId.stepPerm.indexOf(model.id);
                                                 if(checked)
                                                 {
                                                     if(index < 0)
-                                                    userModifyPageId.readStep.push(model.Id);
+                                                    userModifyPageId.stepPerm.push(model.id);
                                                 }
                                                 else
                                                 {
                                                     if(index > -1)
-                                                    userModifyPageId.readStep.splice(index, 1);
+                                                    userModifyPageId.stepPerm.splice(index, 1);
                                                 }
 
                                                 // write steps
-                                                var index = userModifyPageId.selectedSteps.indexOf(model.Id);
+                                                var index = userModifyPageId.selectedSteps.indexOf(model.id);
                                                 if(checked)
                                                 {
                                                     if(index < 0)
-                                                        userModifyPageId.selectedSteps.push(model.Id);
+                                                        userModifyPageId.selectedSteps.push(model.id);
                                                 }
                                                 else
                                                 {
@@ -454,24 +457,24 @@ Page {
                                                     UserMethods.checkStep();
                                                 }
 
-                                                UserMethods.updateReadStep();
-                                                UserMethods.updateWriteStepModel();
+                                                UserMethods.updateStep();
 
                                             }
                                         }
                                     }
                                 }
 
-                                // read study base
+                                //  study base
 
                                 Text {
-                                    text: "دسترسی‌ مشاهده پایه‌ها"
+                                    text: "پایه‌های تحصیلی"
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
+                                    visible: (updateUserAdminId.checked)? false : true;
                                 }
                                 Flow
                                 {
@@ -479,50 +482,35 @@ Page {
                                     Layout.columnSpan: 2
                                     flow: Flow.TopToBottom
                                     Layout.preferredHeight: updateUserReadBasisId.count*70
+                                    visible: (updateUserAdminId.checked)? false : true;
 
                                     Repeater
                                     {
                                         id: updateUserReadBasisId
-                                        model: ListModel {id: readBaseModel }
+                                        model: ListModel {id: baseModel }
                                         delegate:
                                         Switch{
                                             required property var model
-                                            text: model.City +" - "+model.Branch_name +" - "+model.Study_base
-                                            checked: (userModifyPageId.readStudyBase.indexOf(model.Id) > -1)? true : false;
+                                            text: model.city +" - "+model.branch_name +" - "+model.study_base
+                                            checked: (userModifyPageId.studyBasePerm.indexOf(model.id) > -1)? true : false;
                                             font.family: "B Yekan"
                                             font.pixelSize: 14
                                             onToggled:
                                             {
-                                                var index = userModifyPageId.readStudyBase.indexOf(model.Id)
+                                                var index = userModifyPageId.studyBasePerm.indexOf(model.id)
 
                                                 if(checked)
                                                 {
                                                     if(index < 0)
-                                                    userModifyPageId.readStudyBase.push(model.Id);
+                                                    userModifyPageId.studyBasePerm.push(model.id);
                                                 }
                                                 else
                                                 {
                                                     if(index > -1)
-                                                    userModifyPageId.readStudyBase.splice(index, 1);
-
-                                                    UserMethods.checkBase();
+                                                    userModifyPageId.studyBasePerm.splice(index, 1);
                                                 }
 
-                                                // write bases
-                                                var index = userModifyPageId.selectedBases.indexOf(model.Id);
-                                                if(checked)
-                                                {
-                                                    if(index < 0)
-                                                    userModifyPageId.selectedBases.push(model.Id);
-                                                }
-                                                else
-                                                {
-                                                    if(index > -1)
-                                                    userModifyPageId.selectedBases.splice(index, 1);
-                                                }
-
-                                                UserMethods.updateReadStudyBase();
-                                                UserMethods.updateWriteBaseModel();
+                                                UserMethods.updateStudyBase();
                                             }
                                         }
                                     }
@@ -538,109 +526,12 @@ Page {
                                     color: "dodgerblue"
                                 }
 
-                                //write step
-                                Text {
-                                    text: "دسترسی‌ ویرایش دوره‌ها"
-                                    Layout.columnSpan: 2
-                                    Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Flow
-                                {
-                                    spacing: 20
-                                    Layout.columnSpan: 2
-                                    flow: Flow.TopToBottom
-                                    Layout.preferredHeight: updateUserWriteStepId.count*70
-
-                                    Repeater
-                                    {
-                                        id: updateUserWriteStepId
-                                        model: ListModel {id: writeStepModel }
-                                        delegate:
-                                        Switch{
-                                            required property var model
-                                            text: model.Branch_name +" - "+ model.Step_name
-                                            checked: (userModifyPageId.writeStep.indexOf(model.Id) > -1)? true : false;
-                                            font.family: "B Yekan"
-                                            font.pixelSize: 14
-                                            onToggled:
-                                            {
-                                                var index = userModifyPageId.writeStep.indexOf(model.Id);
-                                                if(checked)
-                                                {
-                                                    if(index < 0)
-                                                    userModifyPageId.writeStep.push(model.Id);
-                                                }
-                                                else
-                                                {
-                                                    if(index > -1)
-                                                    userModifyPageId.writeStep.splice(index, 1);
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                }
-
-                                //write study base
-                                Text {
-                                    text: "دسترسی‌ ویرایش پایه‌ها"
-                                    Layout.columnSpan: 2
-                                    Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Flow
-                                {
-                                    spacing: 20
-                                    Layout.columnSpan: 2
-                                    flow: Flow.TopToBottom
-                                    Layout.preferredHeight: updateUserwriteBasisId.count*70
-
-                                    Repeater
-                                    {
-                                        id: updateUserwriteBasisId
-                                        model: ListModel {id: writeBaseModel }
-                                        delegate:
-                                        Switch{
-                                            required property var model
-                                            text: model.City +" - "+model.Branch_name +" - "+model.Study_base
-                                            checked: (userModifyPageId.writeStudyBase.indexOf(model.Id) > -1)? true : false;
-                                            font.family: "B Yekan"
-                                            font.pixelSize: 14
-                                            onToggled:
-                                            {
-                                                var index = userModifyPageId.writeStudyBase.indexOf(model.Id)
-
-                                                if(checked)
-                                                {
-                                                    if(index < 0)
-                                                    userModifyPageId.writeStudyBase.push(model.Id);
-                                                }
-                                                else
-                                                {
-                                                    if(index > -1)
-                                                    userModifyPageId.writeStudyBase.splice(index, 1);
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                }
-
-
                                 Component.onCompleted:
                                 {
                                     UserMethods.updateBranches()
-                                    UserMethods.updateReadStep()
-                                    UserMethods.updateReadStudyBase()
-                                    UserMethods.updateWriteStepModel()
-                                    UserMethods.updateWriteBaseModel()
+                                    UserMethods.updateStep()
+                                    UserMethods.updateStudyBase()
+
 
                                 }
 
@@ -668,23 +559,26 @@ Page {
                                     user["job_position"] = updateUserPositionId.text
                                     user["telephone"] = updateUserTelId.text;
 
-                                    //UserMethods.checkBranch();
-                                    UserMethods.checkStep();
-                                    UserMethods.checkBase();
 
-                                    var permission = {"read":{}, "write":{}}
-                                    var rs = userModifyPageId.readStep;
-                                    var rsb = userModifyPageId.readStudyBase;
-                                    var ws = userModifyPageId.writeStep;
-                                    var wsb = userModifyPageId.writeStudyBase;
+                                    var permission = {"branch":[], "step":[], "study_base":[]}
+                                    var b = userModifyPageId.branchPerm;
+                                    var s = userModifyPageId.stepPerm;
+                                    var sb = userModifyPageId.studyBasePerm;
 
-                                    permission["read"]  = {"step": rs, "study_base": rsb};
-                                    permission["write"] = {"step": ws, "study_base": wsb};
+                                    permission["branch"]  = b;
+                                    permission["step"] = s;
+                                    permission["study_base"] = sb;
 
                                     user["permissions"] = permission;
 
                                     user["enabled"] = updateUserEnabledId.checked
                                     user["gender"] = updateUserGenderId.currentText
+                                    user["admin"] = updateUserAdminId.checked
+
+                                    if(updateUserAdminId.checked){
+                                        permission["step"] = [];
+                                        permission["study_base"] = [];
+                                    }
 
                                     var check = true
                                     // check entries
