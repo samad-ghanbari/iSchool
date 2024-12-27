@@ -1,14 +1,14 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Fusion
 import QtQuick.Layouts
 
 import "./../public" as DialogBox
 
 
 Page {
-    id: classCCSEPage // class course students evals
+    id: classCSEPage // class course students evals
     required property string class_name;
     required property string course_name;
     required property int class_id;
@@ -23,10 +23,7 @@ Page {
     required property int base_id;
     required property int period_id;
 
-
-
     signal popStackViewSignal();
-
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -44,7 +41,7 @@ Page {
             icon.width: 64
             icon.height: 64
             opacity: 0.5
-            onClicked: classCCSEPage.popStackViewSignal();
+            onClicked: classCSEPage.popStackViewSignal();
             hoverEnabled: true
             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
         }
@@ -69,8 +66,6 @@ Page {
             Layout.columnSpan: 2
             Layout.fillWidth: true
             Layout.fillHeight: true
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
             Rectangle
             {
@@ -86,7 +81,7 @@ Page {
                     anchors.margins: 20
 
                     Text {
-                        text: "شعبه " + classCCSEPage.branch
+                        text: "شعبه " + classCSEPage.branch
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
@@ -97,7 +92,7 @@ Page {
                         color: "royalblue"
                     }
                     Text {
-                        text: classCCSEPage.step + " - " + classCCSEPage.base
+                        text: classCSEPage.step + " - " + classCSEPage.base
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
@@ -108,7 +103,7 @@ Page {
                         color: "royalblue"
                     }
                     Text {
-                        text:  classCCSEPage.period
+                        text:  classCSEPage.period
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
@@ -121,7 +116,7 @@ Page {
 
                     //class
                     Text {
-                        text: "کلاس " + classCCSEPage.class_name + " - " + classCCSEPage.course_name + "(" + classCCSEPage.teacher+")"
+                        text: "کلاس " + classCSEPage.class_name + " - " + classCSEPage.course_name + "( دبیر " + classCSEPage.teacher+")"
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
@@ -131,49 +126,301 @@ Page {
                         font.bold: true
                         color: "darkmagenta"
                     }
+                    //line
+                    Rectangle{
+                        color: "royalblue";
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: centerBox.width/2
+                        Layout.preferredHeight: 4
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+
+                    //header
+                    Rectangle{
+                        id: tableHeader
+                        Layout.preferredWidth: parent.width
+                        Layout.preferredHeight: 80
+                        Layout.alignment: Qt.AlignHCenter
+                        color: "transparent"
+                        visible: (headerRp.count > 0)? true : false;
+                        RowLayout{
+                            anchors.fill: parent
+                            spacing: 0
+                            Repeater{
+                                id: headerRp
+                                model: []
+                                delegate:Label{
+                                    id: recDel
+                                    required property var model;
+                                    background: Rectangle{ border.width: 1; border.color:"white";color: "mediumvioletred"}
+                                    Layout.preferredWidth: (typeof recDel.model["width"] != "undefined")? recDel.model["width"] : 0
+                                    Layout.margins: 0
+                                    Layout.preferredHeight: 80
+                                    horizontalAlignment: Label.AlignHCenter
+                                    verticalAlignment: Label.AlignVCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color:"white"
+                                    text: (typeof recDel.model["title"] != "undefined")? recDel.model["title"] : ""
+                                    // Layout.maximumWidth: {
+                                    //     if(typeof recDel.model["width"] != "undefined")
+                                    //     {
+                                    //         if(recDel.model["width"] > 0)
+                                    //             return  recDel.model["width"];
+                                    //         else
+                                    //             return 1000;
+                                    //     }
+                                    //     else return 0;
+                                    // }
+                                }
+                            }
+                            Item{Layout.fillWidth:true; Layout.preferredHeight:1}
+                        }
+                    }
 
                     ListView
                     {
                         id: lv
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                        Layout.margins: 10
+                        Layout.preferredWidth: parent.width
+                        Layout.preferredHeight: lv.contentHeight + 100
+                        Layout.margins: 0
                         clip: true
-                        model: ListModel{id: lvModel;} // students and evals of this course
-                        // row - student_id - student - course_name  - student_evals
-                        delegate:Rectangle{
-                            id: recdel
-                            required property var model;
-                            height: 80
-                            color : "red"
-                            width: ListView.view.width
-                            RowLayout{
-                                anchors.fill: parent
-                            }
-                        }
-
+                        model: ListModel{id: lvModel;}
+                        delegate:lvDelegate
                         Component.onCompleted: {
-
-                            var model = dbMan.getClassCourseStudentsEvals(classCCSEPage.class_id,classCCSEPage.course_id);
+                            var modelObject = dbMan.getClassCourseStudentsEvals(classCSEPage.class_id,classCSEPage.course_id);
+                            // modelObject {rows, headers{title, width}}
+                            headerRp.model = modelObject["headers"];
+                            var rowsModel = modelObject["rows"];
+                            for(var obj of rowsModel)
+                            {
+                                lvModel.append(obj);
+                            }
                         }
                     }
 
-
                 }
             }
+
         }
     }
 
     //delegate
     Component
     {
-        id: gvDelegate
+        id: lvDelegate
         Rectangle
         {
+            id: tDel
+            required property var model;
+            required property int index;
+            width: lv.width
+            height: 50
+            color: "transparent"
+            //border.width: 1
+            //border.color: "lightgray"
+            property var bgColor : (tDel.index % 2 == 0)? "ghostwhite" : "mintcream";
+
+            RowLayout{
+                anchors.fill: parent
+                spacing: 0
+
+                //Row
+                Label{
+                    Layout.margins: 0
+                    Layout.preferredHeight: 50
+                    Layout.preferredWidth: 100
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    font.family: "B Yekan"
+                    font.pixelSize: 18
+                    color:"black"
+                    background: Rectangle{ border.width: 1; border.color:"lightgray"; color:tDel.bgColor}
+                    text: (typeof tDel.model["row"] != "undefined")? tDel.model["row"] : ""
+                }
+
+                //student
+                Label{
+                    Layout.margins: 0
+                    Layout.preferredHeight: 50
+                    Layout.preferredWidth: 400
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    font.family: "B Yekan"
+                    font.pixelSize: 18
+                    color:"black"
+                    background: Rectangle{ border.width: 1; border.color:"lightgray"; color:tDel.bgColor}
+                    text: (typeof tDel.model["student"] != "undefined")? tDel.model["student"] : ""
+                }
+
+                //class
+                Label{
+                    Layout.margins: 0
+                    Layout.preferredHeight: 50
+                    Layout.preferredWidth: 200
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    font.family: "B Yekan"
+                    font.pixelSize: 18
+                    color:"black"
+                    background: Rectangle{ border.width: 1; border.color:"lightgray"; color:tDel.bgColor}
+                    text: (typeof tDel.model["class_name"] != "undefined")? tDel.model["class_name"] : ""
+                }
+
+                //course
+                Label{
+                    Layout.margins: 0
+                    Layout.preferredHeight: 50
+                    Layout.preferredWidth: 400
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    font.family: "B Yekan"
+                    font.pixelSize: 18
+                    color:"black"
+                    background: Rectangle{ border.width: 1; border.color:"lightgray"; color:tDel.bgColor}
+                    text: (typeof tDel.model["course_name"] != "undefined")? tDel.model["course_name"] : ""
+                }
+
+                // evals
+                Repeater{
+                    id: rowEvalRep
+                    model: (typeof tDel.model["evals"] != "undefined")? tDel.model["evals"] : [] // [{},{}]
+                    delegate:
+                    Rectangle{
+                        id: evalRecDel
+                        required property var model;
+                        property bool edit : false
+                        property real value : {
+                            if(typeof evalRecDel.model["student_grade"] != "undefined"){
+                                if(evalRecDel.model["student_grade"] > -1)
+                                {
+                                    return evalRecDel.model["student_grade"];
+                                }
+                            }
+                            return -1;
+                        }
+                        Layout.margins: 0
+                        Layout.preferredHeight: 50
+                        Layout.preferredWidth: 200
+                        border.width: 1; border.color:"lightgray"; color:tDel.bgColor
+
+                        TextField{
+                            id: te
+                            anchors.fill: parent
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "B Yekan"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color:"darkmagenta"
+                            text:(evalRecDel.value > -1)? evalRecDel.value :"";
+                            visible: evalRecDel.edit
+                            Rectangle{height:2; width: parent.width; color: "olivedrab"; anchors.bottom:parent.bottom;}
+                            validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
+                                regularExpression: /^-?\d*\.?\d+$/
+                            }
+                            Keys.onReturnPressed: function(event){
+                                evalRecDel.edit = false
+                                evalRecDel.edit = false
+                                var v = parseFloat(te.text);
+                                var sei = parseInt(evalRecDel.model["student_eval_id"]);
+
+                                if(!dbMan.setStudentEvalGrade(sei, v))
+                                {
+                                    infoDialogId.open();
+                                }
+                                else
+                                {
+                                    evalRecDel.value = v;
+                                }
+                            }
+
+                            Button{
+                                height: 24
+                                width: 24
+                                background: Rectangle{color:"transparent"}
+                                icon.source: "qrc:/assets/images/edit.png"
+                                icon.width: 24
+                                icon.height: 24
+                                opacity: 0.5
+                                onClicked: {
+                                    evalRecDel.edit = false
+                                    var v = parseFloat(te.text);
+                                    var sei = parseInt(evalRecDel.model["student_eval_id"]);
+
+                                    if(!dbMan.setStudentEvalGrade(sei, v))
+                                    {
+                                        infoDialogId.open();
+                                    }
+                                    else
+                                    {
+                                        evalRecDel.value = v;
+                                    }
+                                }
+
+                                hoverEnabled: true
+                                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                                anchors.right:parent.right
+                                anchors.top: parent.top
+                            }
+                            Button{
+                                height: 24
+                                width: 24
+                                background: Rectangle{color:"transparent"}
+                                icon.source: "qrc:/assets/images/cross.png"
+                                icon.width: 24
+                                icon.height: 24
+                                opacity: 0.5
+                                onClicked: {
+                                    evalRecDel.edit = false
+                                    parent.text = (evalRecDel.value > -1)? evalRecDel.value :"";
+                                }
+                                hoverEnabled: true
+                                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                                anchors.right:parent.right
+                                anchors.bottom: parent.bottom
+                            }
+                        }
+
+                        Label{
+                            anchors.fill: parent
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "B Yekan"
+                            //background: Rectangle{ border.width: 1; border.color:"lightgray"; color:tDel.bgColor}
+                            font.pixelSize: 18
+                            color:"black"
+                            text:{
+                                if(evalRecDel.model["test_flag"])
+                                {
+                                    return evalRecDel.value + " % "
+                                }
+                                else
+                                    return evalRecDel.value;
+                            }
+                            visible: !evalRecDel.edit
+                            MouseArea{
+                                anchors.fill: parent
+                                onDoubleClicked:{
+                                    evalRecDel.edit = true
+                                    te.focus = true
+                                }
+                            }
+                        }
+
+                    }
+
+
+                }
+
+
+                Item{Layout.fillWidth:true; Layout.preferredHeight:1}
+            }
         }
     }
 
-    //dialog
+    //dialog error
     DialogBox.BaseDialog
     {
         id: infoDialogId
