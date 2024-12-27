@@ -15,7 +15,6 @@ SwipeDelegate
     property int baseId
     property int branchId
     property string studyBase
-    property string city
     property string branchName
 
     signal baseDeleted(var index);
@@ -39,7 +38,7 @@ SwipeDelegate
 
             spacing: 0
             Label {
-                text: baseDelegate.studyBase
+                text: (baseDelegate.studyBase.includes("پایه"))? baseDelegate.studyBase : "پایه " + baseDelegate.studyBase
                 padding: 0
                 font.family: "B Yekan"
                 font.pixelSize: (baseDelegate.highlighted)? 20 :16
@@ -51,7 +50,7 @@ SwipeDelegate
                 elide: Text.ElideRight
             }
             Label {
-                text: baseDelegate.city + " - " + baseDelegate.branchName
+                text: (baseDelegate.branchName.includes("شعبه"))? baseDelegate.branchName : "شعبه "+ baseDelegate.branchName
                 padding: 0
                 font.family: "B Yekan"
                 font.pixelSize: 14
@@ -93,7 +92,7 @@ SwipeDelegate
                 if(baseDelegate.swipe.complete)
                     baseDelegate.swipe.close();
 
-                var branchText =  baseDelegate.city + " - " + baseDelegate.branchName;
+                var branchText =  baseDelegate.branchName;
                 baseDelegate.appStackView.push(deleteBaseComponent, {baseId: baseDelegate.baseId, baseIndex: baseDelegate.index,  studyBase: baseDelegate.studyBase, branchText: branchText});
             }
         }
@@ -118,7 +117,7 @@ SwipeDelegate
                 if(baseDelegate.swipe.complete)
                     baseDelegate.swipe.close();
 
-                var branchText =  baseDelegate.city + " - " + baseDelegate.branchName;
+                var branchText =  baseDelegate.branchName;
                 baseDelegate.appStackView.push(updateBaseComponent, {baseId: baseDelegate.baseId, studyBase: baseDelegate.studyBase, branch: branchText });
             }
         }

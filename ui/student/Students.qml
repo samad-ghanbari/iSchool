@@ -213,7 +213,8 @@ Page {
                     Layout.fillWidth: true
                     Layout.margins: 20
                     cellWidth: 300
-                    cellHeight: 300
+                    cellHeight: 340
+                    clip: true
                     model: ListModel{id: studentModel}
                     delegate: studentDelegate
                     layoutDirection: Qt.LeftToRight
@@ -236,6 +237,8 @@ Page {
             color:(model.Enabled)? "white" : "lightpink"
             opacity: 0.8
             radius: 10
+            border.width: 2
+            border.color: "lavenderblush"
 
             Item
             {
@@ -294,7 +297,17 @@ Page {
             {
                 anchors.fill: parent
                 hoverEnabled: true
-                onHoveredChanged: (containsMouse)? parent.opacity=1 : parent.opacity=0.8
+                onHoveredChanged:{
+                    if(containsMouse){
+                        parent.opacity=1;
+                        studentWidget.border.color = "pink"
+                    }
+                        else
+                        {
+                            studentWidget.border.color = "lavenderblush"
+                            parent.opacity=0.8
+                        }
+                }
                 onClicked: {studentsPage.appStackView.push(studentComponent, {studentId: studentWidget.model.Id });}
             }
 

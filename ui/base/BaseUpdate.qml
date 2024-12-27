@@ -105,6 +105,7 @@ Page {
                                     Layout.maximumWidth: 100
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true
@@ -117,6 +118,8 @@ Page {
                                     Layout.preferredHeight: 50
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     text: updateBasePage.branch
 
                                 }
@@ -127,6 +130,7 @@ Page {
                                     Layout.maximumWidth: 100
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true

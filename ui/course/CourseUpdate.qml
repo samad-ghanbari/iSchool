@@ -76,8 +76,6 @@ Page {
             Layout.columnSpan: 2
             Layout.fillWidth: true
             Layout.fillHeight: true
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
             Rectangle
             {
@@ -327,30 +325,30 @@ Page {
                         clip: true
                         model: ListModel{id: courseCoefModel;}
                         delegate:
-                            Switch{
-                                required property var model
-                                checked: (updatePage.courseSharedCoef.indexOf(model.Id) > -1)? true : false;
-                                height: 50;
-                                width: courseCoefLV.width
-                                text:  model.Course_name;
-                                font.family: "B Yekan"
-                                font.pixelSize: 14
-                                onToggled:
-                                {
-                                    var index = updatePage.courseSharedCoef.indexOf(model.Id);
+                        Switch{
+                            required property var model
+                            checked: (updatePage.courseSharedCoef.indexOf(model.Id) > -1)? true : false;
+                            height: 50;
+                            width: courseCoefLV.width
+                            text:  model.Course_name;
+                            font.family: "B Yekan"
+                            font.pixelSize: 14
+                            onToggled:
+                            {
+                                var index = updatePage.courseSharedCoef.indexOf(model.Id);
 
-                                    if(checked)
-                                    {
-                                        //push step
-                                        if(index < 0)
-                                        updatePage.courseSharedCoef.push(model.Id);
-                                    }
-                                    else
-                                    {
-                                        if(index > -1)
-                                        updatePage.courseSharedCoef.splice(index, 1);
-                                    }
+                                if(checked)
+                                {
+                                    //push step
+                                    if(index < 0)
+                                    updatePage.courseSharedCoef.push(model.Id);
                                 }
+                                else
+                                {
+                                    if(index > -1)
+                                    updatePage.courseSharedCoef.splice(index, 1);
+                                }
+                            }
 
                         }
 
@@ -358,7 +356,7 @@ Page {
 
                             for(var obj of updatePage.existsCourses)
                             {
-                               courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name});
+                                courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name});
                                 courseCoefLV.height = courseCoefLV.contentHeight + 100
                             }
                         }
@@ -392,31 +390,31 @@ Page {
                         clip: true
                         model: ListModel{id: testCoefModel;}
                         delegate:
-                            Switch{
-                                required property var model
-                                checked: (updatePage.testSharedCoef.indexOf(model.Id) > -1)? true : false;
-                                height: 50;
-                                width: testCoefLV.width
-                                text:  model.Course_name;
-                                font.family: "B Yekan"
-                                font.pixelSize: 14
-                                onToggled:
-                                {
-                                    var index = updatePage.testSharedCoef.indexOf(model.Id);
+                        Switch{
+                            required property var model
+                            checked: (updatePage.testSharedCoef.indexOf(model.Id) > -1)? true : false;
+                            height: 50;
+                            width: testCoefLV.width
+                            text:  model.Course_name;
+                            font.family: "B Yekan"
+                            font.pixelSize: 14
+                            onToggled:
+                            {
+                                var index = updatePage.testSharedCoef.indexOf(model.Id);
 
-                                    if(checked)
-                                    {
-                                        //push step
-                                        if(index < 0)
-                                        updatePage.testSharedCoef.push(model.Id);
-                                    }
-                                    else
-                                    {
-                                        if(index > -1)
-                                        updatePage.testSharedCoef.splice(index, 1);
-                                    }
+                                if(checked)
+                                {
+                                    //push step
+                                    if(index < 0)
+                                    updatePage.testSharedCoef.push(model.Id);
+                                }
+                                else
+                                {
+                                    if(index > -1)
+                                    updatePage.testSharedCoef.splice(index, 1);
                                 }
                             }
+                        }
 
                         Component.onCompleted:{
 
@@ -458,7 +456,12 @@ Page {
                             course["shared_coefficient"] = { "course": updatePage.courseSharedCoef, "test": updatePage.testSharedCoef };
 
                             if(dbMan.courseUpdate(course))
-                                successDialogId.open();
+                            {
+                                successDialogId.close();
+                                updatePage.popStackSignal();
+                                updatePage.updatedSignal();
+                            }
+
                             else
                             {
                                 var errorString = dbMan.getLastError();

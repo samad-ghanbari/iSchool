@@ -312,7 +312,10 @@ Page {
 
 
                                     if(dbMan.studentUpdate(student))
-                                        successDialogId.open();
+                                    {
+                                        updatePage.popStackSignal();
+                                        updatePage.updatedSignal();
+                                    }
 
                                     else
                                     {

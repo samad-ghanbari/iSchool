@@ -49,7 +49,7 @@ SwipeDelegate
 
             spacing: 0
             Label {
-                text: periodDelegate.studyPeriod
+                text: "سال‌تحصیلی " + periodDelegate.studyPeriod
                 padding: 0
                 font.family: "B Yekan"
                 font.pixelSize: (periodDelegate.highlighted)? 20 :16
@@ -61,7 +61,7 @@ SwipeDelegate
                 elide: Text.ElideRight
             }
             Label {
-                text: periodDelegate.city + " - " + periodDelegate.branchName
+                text: "شعبه " + periodDelegate.city + " - " + periodDelegate.branchName
                 padding: 0
                 font.family: "B Yekan"
                 font.pixelSize: 14

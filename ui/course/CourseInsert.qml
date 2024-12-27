@@ -67,8 +67,6 @@ Page {
             Layout.columnSpan: 2
             Layout.fillWidth: true
             Layout.fillHeight: true
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
             Rectangle
             {
@@ -238,6 +236,7 @@ Page {
                         Layout.preferredHeight: 50
                         font.family: "B Yekan"
                         font.pixelSize: 16
+                        text : "2"
                         placeholderText: "وزن ارزیابی نهایی"
                         validator: RegularExpressionValidator{regularExpression:  /^-?\d*\.?\d+$/; }
                     }
@@ -472,7 +471,8 @@ Page {
                                 }
                                 else
                                 {
-                                    successDialogId.open();
+                                    successDialogId.close();
+                                    insertPage.popStackSignal();
                                 }
 
                             }
