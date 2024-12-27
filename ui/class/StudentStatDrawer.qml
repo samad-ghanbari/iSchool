@@ -586,7 +586,7 @@ Drawer
                                         if(typeof  recdel.model["class_rank"] != "undefined")
                                         {
                                             if(parseFloat(recdel.model["semester"]) > -1){
-                                                return recdel.model["class_rank"] + " / " + recdel.model["base_rank"];
+                                                return recdel.model["class_rank"] + " \u2506 "  + recdel.model["base_rank"];
                                             }
                                             else return "-";
                                         }
@@ -605,7 +605,7 @@ Drawer
                                     text:{
                                         if(typeof recdel.model["base_avg"] != "undefined"){
                                             if(parseFloat(recdel.model["semester"]) > -1){
-                                                return  recdel.model["class_avg"] + " / " + recdel.model["base_avg"];
+                                                return  recdel.model["class_avg"] + " \u2506 "  + recdel.model["base_avg"];
                                             }
                                             else return "-";
                                         }
@@ -624,7 +624,7 @@ Drawer
                                     text: {
                                         if(typeof recdel.model["base_min"] != "undefined"){
                                             if(parseFloat(recdel.model["semester"]) > -1){
-                                                return recdel.model["class_min"] + " / " + recdel.model["base_min"];
+                                                return recdel.model["class_min"] + " \u2506 "  + recdel.model["base_min"];
                                             }
                                             return "-";
                                         }
@@ -643,7 +643,7 @@ Drawer
                                     text:{
                                         if(typeof recdel.model["base_max"]  != "undefined"){
                                             if(parseFloat(recdel.model["semester"]) > -1){
-                                                return recdel.model["class_max"] + " / " + recdel.model["base_max"];
+                                                return recdel.model["class_max"] + " \u2506 "  + recdel.model["base_max"];
                                             }
                                             else return "-";
                                         }
@@ -918,7 +918,7 @@ Drawer
                                         {
                                             if(parseFloat(trecdel.model["class_rank"]) > -1)
                                             {
-                                                return  trecdel.model["class_rank"] + " / " + trecdel.model["base_rank"];
+                                                return  trecdel.model["class_rank"] + " \u2506 "  + trecdel.model["base_rank"];
                                             }
                                             else return "-";
                                         }
@@ -940,7 +940,7 @@ Drawer
                                         {
                                             if( parseFloat(trecdel.model["base_avg"]) > -1)
                                             {
-                                                return trecdel.model["class_avg"] + " %  / " + trecdel.model["base_avg"] + " %";
+                                                return trecdel.model["class_avg"] + " %   \u2506 " + trecdel.model["base_avg"] + " %";
                                             }
                                             else return "-";
 
@@ -962,7 +962,7 @@ Drawer
                                         if(typeof trecdel.model["base_min"] != "undefined")
                                         {
                                             if(parseFloat(trecdel.model["class_min"]) > -1)
-                                            return trecdel.model["class_min"] + " % / " + trecdel.model["base_min"] + " %";
+                                            return trecdel.model["class_min"] + " % \u2506 " + trecdel.model["base_min"] + " %";
                                             else return "-";
                                         }
                                         else return "-";
@@ -981,7 +981,7 @@ Drawer
                                         if(typeof trecdel.model["base_max"]  != "undefined")
                                         {
                                             if(parseFloat(trecdel.model["base_max"]) > -1)
-                                            return trecdel.model["class_max"] + " % / " + trecdel.model["base_max"] + " %";
+                                            return trecdel.model["class_max"] + " % \u2506 " + trecdel.model["base_max"] + " %";
                                             else return "-";
                                         }
                                         else return "-";

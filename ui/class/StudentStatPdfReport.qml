@@ -276,6 +276,22 @@ Page {
                         }
                     }
 
+
+                    Switch{
+                        id: teacherPrint
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: 500
+                        Layout.preferredHeight: 50
+                        Layout.alignment: Qt.AlignHCenter
+
+                        text: "نمایش دبیر در خروجی"
+                        checked: false
+                        font.family: "B Yekan"
+                        font.pixelSize: 14
+                    }
+
+
+
                     Item{
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
@@ -333,7 +349,7 @@ Page {
         dialogSuccess: false
         onDialogAccepted:{
             if(infoDialogId.dialogSuccess)
-                pdfReport.popStackViewSignal();
+            pdfReport.popStackViewSignal();
 
             infoDialogId.close();
         }
@@ -350,7 +366,8 @@ Page {
         onAccepted:{
 
             var semesterNumber = semesterNumberTF.text
-            if(dbMan.exportStudentStatPdf(selectedFile, pdfReport.registerModel.id, pdfReport.evalCats, semesterNumber))
+            var teacherPrinting = teacherPrint.checked
+            if(dbMan.exportStudentStatPdf(selectedFile, pdfReport.registerModel.id, pdfReport.evalCats, semesterNumber, teacherPrinting))
             {
                 infoDialogId.dialogTitle = "عملیات موفق"
                 infoDialogId.dialogSuccess = true
