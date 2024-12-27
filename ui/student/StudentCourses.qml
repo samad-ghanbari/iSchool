@@ -59,8 +59,7 @@ Page {
             Layout.columnSpan: 2
             Layout.fillWidth: true
             Layout.fillHeight: true
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+
 
             Rectangle
             {
@@ -227,23 +226,23 @@ Page {
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                         }
-                        Button
-                        {
+                        // Button
+                        // {
 
-                            width: 64
-                            height: 64
-                            anchors.right: refreshBtn.left
-                            background: Item{}
-                            icon.source: "qrc:/assets/images/info.png"
-                            icon.width: 64
-                            icon.height: 64
-                            opacity: 0.5
-                            onClicked:
-                            {
-                            }
-                            hoverEnabled: true
-                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-                        }
+                        //     width: 64
+                        //     height: 64
+                        //     anchors.right: refreshBtn.left
+                        //     background: Item{}
+                        //     icon.source: "qrc:/assets/images/info.png"
+                        //     icon.width: 64
+                        //     icon.height: 64
+                        //     opacity: 0.5
+                        //     onClicked:
+                        //     {
+                        //     }
+                        //     hoverEnabled: true
+                        //     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        // }
                     }
 
                     GridView

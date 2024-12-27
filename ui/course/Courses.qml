@@ -11,6 +11,8 @@ Page {
     required property StackView appStackView;
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
+    property bool admin : dbMan.isUserAdmin();
+
     GridLayout
     {
         columns: 2
@@ -257,7 +259,7 @@ Page {
                         Layout.preferredWidth: 64
                         Layout.preferredHeight: 64
                         Layout.alignment: Qt.AlignRight
-                        visible: (periodCB.currentValue > -1)? true : false;
+                        visible: ( (periodCB.currentValue > -1) && (coursesPage.admin) )? true : false;
                         background: Item{}
                         icon.source: "qrc:/assets/images/add.png"
                         icon.width: 64
@@ -266,7 +268,7 @@ Page {
                         onClicked: coursesPage.appStackView.push(insertCourseComponent);
                         hoverEnabled: true
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-
+                        enabled: coursesPage.admin
                     }
 
 
@@ -434,10 +436,14 @@ Page {
             onPressed: { coursesGV.currentIndex = model.index; coursesGV.closeSwipeHandler();}
             highlighted: (model.index === coursesGV.currentIndex)? true: false;
 
+            swipe.enabled: coursesPage.admin
+
             swipe.right:Column{
                 width: 48
                 height: 250
                 anchors.left: parent.left
+
+                enabled: coursesPage.admin
 
                 Button
                 {

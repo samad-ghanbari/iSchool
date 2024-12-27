@@ -14,6 +14,7 @@ Page {
     signal deletedSignal();
     signal updatedSignal();
 
+    property bool admin  : dbMan.isUserAdmin();
 
     background: Rectangle{anchors.fill: parent; color: (teacherPage.teacher.enabled)? "mintcream" : "lavenderblush";}
 
@@ -78,7 +79,8 @@ Page {
                         {
                             id: toolbarRL
                             width: centerBoxRect.width
-                            height: 64
+                            height: (teacherPage.admin) ? 64 : 0
+                            visible: teacherPage.admin
 
 
                             Button

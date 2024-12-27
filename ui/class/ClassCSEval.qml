@@ -293,7 +293,7 @@ Page {
                         property bool edit : false
                         property real value : {
                             if(typeof evalRecDel.model["student_grade"] != "undefined"){
-                                if(evalRecDel.model["student_grade"] > -1)
+                                if(parseFloat(evalRecDel.model["student_grade"]) > -1)
                                 {
                                     return evalRecDel.model["student_grade"];
                                 }
@@ -392,12 +392,16 @@ Page {
                             font.pixelSize: 18
                             color:"black"
                             text:{
-                                if(evalRecDel.model["test_flag"])
+                                if(evalRecDel.value > -1)
                                 {
-                                    return evalRecDel.value + " % "
+                                    if(evalRecDel.model["test_flag"])
+                                    {
+                                        return evalRecDel.value + " % "
+                                    }
+                                    else
+                                        return evalRecDel.value;
                                 }
-                                else
-                                    return evalRecDel.value;
+                                else return ""
                             }
                             visible: !evalRecDel.edit
                             MouseArea{

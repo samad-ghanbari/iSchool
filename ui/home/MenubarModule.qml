@@ -27,6 +27,7 @@ MenuBar {
     required property ToolbarModule toolbarId;
 
     property bool admin : dbMan.isUserAdmin();
+    property bool superadmin : dbMan.isUserSuperAdmin();
 
     Connections
     {
@@ -52,6 +53,8 @@ MenuBar {
         font.pixelSize: 16
         Action {
             text: "شعبه‌ها";
+            enabled: menubarId.superadmin
+
             onTriggered:
             {
                 if(menubarId.appStackView.currentItem.objectName === "branchesON")
@@ -65,6 +68,7 @@ MenuBar {
         MenuSeparator { }
         Action {
             text: "دوره‌ها";
+            enabled: menubarId.admin
             onTriggered:
             {
                 if(menubarId.appStackView.currentItem.objectName === "stepsON")
@@ -78,6 +82,7 @@ MenuBar {
         MenuSeparator { }
         Action {
             text: "پایه‌های ‌تحصیلی";
+            enabled: menubarId.admin
             onTriggered:
             {
                 if(menubarId.appStackView.currentItem.objectName === "baseON")
@@ -91,6 +96,7 @@ MenuBar {
         MenuSeparator { }
         Action {
             text: "سال‌های ‌تحصیلی";
+            enabled: menubarId.admin
             onTriggered:
             {
                 if(menubarId.appStackView.currentItem.objectName === "studyPeriodON")
@@ -236,7 +242,7 @@ MenuBar {
         font.pixelSize: 16
         Action {
             text: "لیست کاربران";
-            enabled: menubarId.admin
+            enabled: menubarId.superadmin
 
             onTriggered:
             {

@@ -25,6 +25,8 @@ Page {
     required property StackView appStackView;
     signal classDetailUpdatedSignal();
 
+    property bool admin : dbMan.isUserAdmin()
+
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
     GridLayout
@@ -152,6 +154,8 @@ Page {
                             onClicked: classDetailPage.appStackView.push(classDetailInsertComponent);
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                            enabled : classDetailPage.admin
+                            visible : classDetailPage.admin
                         }
                     }
                     Item
@@ -190,6 +194,14 @@ Page {
                         }
                     }
 
+                    Rectangle{
+                        Layout.fillWidth: true
+                        Layout.columnSpan: 2
+                        Layout.maximumWidth:  700
+                        Layout.preferredHeight: 4
+                        color: "royalblue"
+                        Layout.alignment: Qt.AlignHCenter
+                    }
 
                     GridView
                     {
@@ -341,6 +353,8 @@ Page {
                     icon.width: 32
                     icon.height: 32
                     display: AbstractButton.TextUnderIcon
+                    enabled : classDetailPage.admin
+                    visible : classDetailPage.admin
                     SwipeDelegate.onClicked:
                     {
                         if(recDelg.swipe.complete)
@@ -371,6 +385,8 @@ Page {
                     icon.width: 32
                     icon.height: 32
                     display: AbstractButton.TextUnderIcon
+                    enabled : classDetailPage.admin
+                    visible : classDetailPage.admin
                     SwipeDelegate.onClicked:
                     {
                         if(recDelg.swipe.complete)

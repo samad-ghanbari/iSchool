@@ -11,6 +11,8 @@ Page {
     id: classPage
     required property StackView appStackView;
 
+    property bool admin : dbMan.isUserAdmin()
+
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
     GridLayout
@@ -231,11 +233,12 @@ Page {
                     Layout.preferredWidth: 64
                     Layout.alignment: Qt.AlignRight
                     background: Item{}
-                    visible: (periodCB.currentIndex >=0)? true : false;
+                    visible: (periodCB.currentIndex >=0  && classPage.admin)? true : false;
                     icon.source: "qrc:/assets/images/add.png"
                     icon.width: 64
                     icon.height: 64
                     opacity: 0.5
+                    enabled : classPage.admin
                     onClicked:
                     {
                         var bid = branchCB.currentValue;
@@ -245,6 +248,8 @@ Page {
                     hoverEnabled: true
                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                 }
+
+                Item{Layout.fillWidth: true; Layout.preferredHeight: 20; visible:!classPage.admin;}
 
                 GridView
                 {
@@ -430,6 +435,7 @@ Page {
                         icon.source: "qrc:/assets/images/edit.png"
                         icon.width: 40
                         icon.height: 40
+                        visible : classPage.admin
                         display: AbstractButton.TextUnderIcon
                         SwipeDelegate.onClicked:
                         {
@@ -457,6 +463,7 @@ Page {
                         //onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
                         //text: "حذف"
                         font.bold: true
+                        visible : classPage.admin
                         font.family: "B Yekan"
                         font.pixelSize: 14
                         palette.buttonText:  "white"

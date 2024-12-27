@@ -36,7 +36,7 @@ ToolBar {
         if(w < 1000)
         {
             menuHomeId.icon.width=1
-            menuPeriodId.icon.width=1
+            //s.icon.width=1
             menuCourseId.icon.width=1
             menuClassId.icon.width=1
             menuStudentId.icon.width=1
@@ -44,7 +44,7 @@ ToolBar {
             menuRepId.icon.width=1
 
             menuHomeId.font.pixelSize=14
-            menuPeriodId.font.pixelSize=14
+            //menuPeriodId.font.pixelSize=14
             menuCourseId.font.pixelSize=14
             menuClassId.font.pixelSize=14
             menuStudentId.font.pixelSize=14
@@ -56,7 +56,7 @@ ToolBar {
         else
         {
             menuHomeId.icon.width=32
-            menuPeriodId.icon.width=32
+            //menuPeriodId.icon.width=32
             menuCourseId.icon.width=32
             menuClassId.icon.width=32
             menuStudentId.icon.width=32
@@ -64,7 +64,7 @@ ToolBar {
             menuRepId.icon.width=32
 
             menuHomeId.font.pixelSize=16
-            menuPeriodId.font.pixelSize=16
+            //menuPeriodId.font.pixelSize=16
             menuCourseId.font.pixelSize=16
             menuClassId.font.pixelSize=16
             menuStudentId.font.pixelSize=16
@@ -105,25 +105,25 @@ ToolBar {
             onHoveredChanged: toolbarId.menuHoverAction(menuHomeId)
         }
 
-        ToolButton {
-            id: menuPeriodId
-            text: "سال‌های ‌تحصیلی"
-            font.family: "B Yekan"
-            font.pixelSize: 16
-            icon.source: "qrc:/assets/images/date.png"
-            icon.width: 32
-            icon.height: 32
-            onClicked:
-            {
-                if(toolbarId.appStackView.currentItem.objectName === "studyPeriodON")
-                    toolbarId.appStackView.pop();
+        // ToolButton {
+        //     id: menuPeriodId
+        //     text: "سال‌های ‌تحصیلی"
+        //     font.family: "B Yekan"
+        //     font.pixelSize: 16
+        //     icon.source: "qrc:/assets/images/date.png"
+        //     icon.width: 32
+        //     icon.height: 32
+        //     onClicked:
+        //     {
+        //         if(toolbarId.appStackView.currentItem.objectName === "studyPeriodON")
+        //             toolbarId.appStackView.pop();
 
-                toolbarId.appStackView.push(studyPeriodComponent, {objectName: "studyPeriodON"});
-            }
+        //         toolbarId.appStackView.push(studyPeriodComponent, {objectName: "studyPeriodON"});
+        //     }
 
-            hoverEnabled: true
-            onHoveredChanged: toolbarId.menuHoverAction(menuPeriodId)
-        }
+        //     hoverEnabled: true
+        //     onHoveredChanged: toolbarId.menuHoverAction(menuPeriodId)
+        // }
 
 
         ToolButton {

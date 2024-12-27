@@ -10,6 +10,8 @@ Page {
     id: teachersPage
     required property StackView appStackView;
 
+    property bool admin  : dbMan.isUserAdmin();
+
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
     GridLayout
@@ -103,13 +105,14 @@ Page {
                     Button
                     {
                         background: Item{}
-                        visible: (branchCB.currentIndex >=0)? true : false;
+                        visible: ((branchCB.currentIndex >=0) && teachersPage.admin )? true : false;
                         Layout.preferredWidth: 64
                         Layout.preferredHeight: 64
                         icon.source: "qrc:/assets/images/add.png"
                         icon.width: 64
                         icon.height: 64
                         opacity: 0.5
+                        enabled: teachersPage.admin
                         onClicked:
                         {
                             var bid = branchCB.currentValue;
