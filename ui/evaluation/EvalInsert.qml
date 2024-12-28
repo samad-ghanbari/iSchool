@@ -26,6 +26,7 @@ Page {
     signal popStackSignal();
     signal insertedSignal();
 
+    property var allBaseClasses : dbMan.getClasses(insertPage.step_id, insertPage.base_id, insertPage.period_id);
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -187,16 +188,20 @@ Page {
                                 if(dbMan.isStepCourse(course_id))
                                     classCBoxModel.append({ value: -1, text:"ارزیابی پایه"});
                                 else
+                                {
                                     Methods.updateClassCB(course_id);
+                                    classCBoxModel.append({ value: 0, text:"همه کلاس‌ها"});
+                                }
                             }
                             else
                             {
                                 classCBoxModel.clear();
-                                var jsondata = dbMan.getClasses(insertPage.step_id, insertPage.base_id, insertPage.period_id);
+                                var jsondata = insertPage.allBaseClasses
                                 for(var obj of jsondata)
                                 {
                                     classCBoxModel.append({value: obj.id,  text: obj.class_name });
                                 }
+                                classCBoxModel.append({ value: 0, text:"همه کلاس‌ها"});
                             }
                         }
                     }
@@ -343,6 +348,9 @@ Page {
                             var Eval = {};
                             Eval["eval_cat_id"] = insertPage.eval_cat_id
                             Eval["course_id"] = courseCB.currentValue
+                            // class
+                            // -1 : step eval
+                            // 0  : all class
                             if(insertPage.base_id > -1)
                             Eval["class_id"] = classCB.currentValue
                             else
@@ -354,6 +362,15 @@ Page {
 
                             Eval["max_grade"] = parseFloat(maxGradeTF.text)
                             Eval["included"] = includedSW.checked
+
+                            // all class ids
+                            var allClassId = [];
+                            for (var c of insertPage.allBaseClasses)
+                            {
+                                allClassId.push(c.id);
+                            }
+
+                            Eval["all_class"] = allClassId;
 
                             if(dbMan.evalInsert(Eval))
                             {

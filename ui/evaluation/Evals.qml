@@ -4,6 +4,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "Evals.js" as Methods
+import "./../public" as DialogBox
 
 Page {
     id: evalsPage
@@ -158,25 +159,57 @@ Page {
                             textRole: "text"
                             valueRole: "value"
                             Component.onCompleted: Methods.updateAllClassesCB(evalsPage.step_id, evalsPage.base_id, evalsPage.period_id);
-                            onActivated: Methods.updateEvals(evalsPage.eval_cat_id, allClassCB.currentValue);
+                            onActivated:{
+                                Methods.updateEvals(evalsPage.eval_cat_id, allClassCB.currentValue);
+                            }
                         }
 
                     }
 
-                    Button
-                    {
+                    RowLayout{
                         Layout.preferredHeight: 64
-                        Layout.preferredWidth: 64
-                        Layout.alignment: Qt.AlignRight
-                        background: Item{}
-                        icon.source: "qrc:/assets/images/add.png"
-                        icon.width: 64
-                        icon.height: 64
-                        opacity: 0.5
-                        onClicked: evalsPage.appStackView.push(insertComponent)
-                        hoverEnabled: true
-                        onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        Layout.fillWidth: true
+
+                        Button
+                        {
+                            Layout.preferredHeight: 64
+                            Layout.preferredWidth: 64
+                            background: Item{}
+                            icon.source: "qrc:/assets/images/add.png"
+                            icon.width: 64
+                            icon.height: 64
+                            opacity: 0.5
+                            onClicked: evalsPage.appStackView.push(insertComponent)
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                        Button
+                        {
+                            Layout.preferredHeight: 64
+                            Layout.preferredWidth: 64
+                            background: Item{}
+                            icon.source: "qrc:/assets/images/refresh.png"
+                            icon.width: 64
+                            icon.height: 64
+                            opacity: 0.5
+                            onClicked: {
+                                    // class - eval-cat > update all
+                                var class_id = allClassCB.currentValue
+                                if(dbMan.refreshEvaluationsStudents(class_id, evalsPage.eval_cat_id))
+                                {
+                                    infoDialogId.open();
+                                }
+
+                            }
+                            hoverEnabled: true
+                            visible: (allClassCB.currentValue > 0)? true : false
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        }
+
                     }
+
+
 
                     GridView
                     {
@@ -481,7 +514,7 @@ Page {
         EvalInsert
         {
             onPopStackSignal: evalsPage.appStackView.pop();
-            onInsertedSignal: Methods.updateEvals(evalsPage.eval_cat_id);
+            onInsertedSignal: Methods.updateEvals(evalsPage.eval_cat_id, allClassCB.currentValue );
 
             branch: evalsPage.branch
             step: evalsPage.step
@@ -506,7 +539,7 @@ Page {
         EvalDelete
         {
             onPopStackSignal: evalsPage.appStackView.pop();
-            onDeletedSignal: Methods.updateEvals(evalsPage.eval_cat_id);
+            onDeletedSignal: Methods.updateEvals(evalsPage.eval_cat_id, allClassCB.currentValue );
 
             branch: evalsPage.branch
             step: evalsPage.step
@@ -526,7 +559,7 @@ Page {
         EvalUpdate
         {
             onPopStackSignal: evalsPage.appStackView.pop();
-            onUpdatedSignal: Methods.updateEvals(evalsPage.eval_cat_id);
+            onUpdatedSignal: Methods.updateEvals(evalsPage.eval_cat_id, allClassCB.currentValue );
 
             branch: evalsPage.branch
             step: evalsPage.step
@@ -568,4 +601,12 @@ Page {
         }
     }
 
+    // DialogButtonBox
+    DialogBox.BaseDialog
+    {
+        id: infoDialogId
+        dialogTitle: "موفق"
+        dialogText: "بروزرسانی با موفقیت انجام شد."
+        dialogSuccess: true
+    }
 }

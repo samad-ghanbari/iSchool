@@ -65,8 +65,6 @@ Page {
             Layout.columnSpan: 2
             Layout.fillWidth: true
             Layout.fillHeight: true
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
             Rectangle
             {
@@ -150,22 +148,54 @@ Page {
                     {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 64
-                        Button
-                        {
-                            height:   64
-                            width: 64
-                            anchors.right: parent.right
-                            background: Item{}
-                            icon.source: "qrc:/assets/images/stat.png"
-                            icon.width: 64
-                            icon.height: 64
-                            opacity: 0.5
-                            onClicked:{
-                                classStatDrawer.open();
-                            }
+                        RowLayout{
+                            anchors.fill: parent
+                            Button
+                            {
+                                Layout.preferredWidth:   64
+                                Layout.preferredHeight: 64
+                                Layout.alignment: Qt.AlignRight
+                                background: Item{}
+                                icon.source: "qrc:/assets/images/stat.png"
+                                icon.width: 64
+                                icon.height: 64
+                                opacity: 0.5
+                                onClicked:{
+                                    classStatDrawer.open();
+                                }
 
-                            hoverEnabled: true
-                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                                hoverEnabled: true
+                                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                            }
+                            Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                            Button
+                            {
+                                Layout.preferredWidth:   64
+                                Layout.preferredHeight: 64
+                                Layout.alignment: Qt.AlignLeft
+                                background: Item{}
+                                icon.source: "qrc:/assets/images/newUser.png"
+                                icon.width: 64
+                                icon.height: 64
+                                opacity: 0.5
+                                onClicked:{
+                                    if(studentCBoxModel.count == 0)
+                                    {
+                                        var jsondata = dbMan.getBranchStudents(classStudentsPage.branch_id, classStudentsPage.period_id);
+                                        var temp;
+                                        for(var obj of jsondata)
+                                        {
+                                            temp = obj.name + " " + obj.lastname;
+                                            studentCBoxModel.append({value: obj.id,  text: temp})
+                                        }
+                                    }
+
+                                    addStudentDialog.open();
+                                }
+
+                                hoverEnabled: true
+                                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                            }
                         }
                     }
 
@@ -174,14 +204,14 @@ Page {
                     {
                         id: classStudentsGV
                         Layout.fillHeight: true
-                        implicitHeight: 500
+                        Layout.preferredHeight: classStudentsGV.contentHeight + 100
                         Layout.fillWidth: true
                         Layout.margins: 10
                         Layout.columnSpan: 2
                         flickableDirection: Flickable.AutoFlickDirection
                         clip: true
                         cellWidth: 320
-                        cellHeight: 140
+                        cellHeight: 340
                         model: ListModel{id: classStudentsModel}
                         highlight: Item{}
                         delegate: gvDelegate
@@ -234,7 +264,7 @@ Page {
 
             contentItem: Rectangle
             {
-                 // register_id , student_id, student, s.fathername, s.gender, s.birthday, s.photo
+                // register_id , student_id, student, s.fathername, s.gender, s.birthday, s.photo
 
                 width: parent.width
                 height: parent.height
@@ -319,13 +349,13 @@ Page {
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked: {
                         if(recDel.swipe.complete)
-                            recDel.swipe.close();
+                        recDel.swipe.close();
 
                         classStudentsPage.appStackView.push(classStudentCourseComponent,
-                                                        {
-                                                            student: recDel.model,
-                                                            registerModel : dbMan.getRegistration(recDel.model.Register_id)
-                                                        });
+                                                            {
+                                                                student: recDel.model,
+                                                                registerModel : dbMan.getRegistration(recDel.model.Register_id)
+                                                            });
                     }
                 }
                 Button
@@ -528,4 +558,116 @@ Page {
         }
     }
 
+    Dialog{
+        id: addStudentDialog
+        width: (parent.width > 400)? 400 : parent.width
+        height: (parent.height > 250)? 250 : parent.height
+        modal: true
+        closePolicy:Popup.NoAutoClose
+        dim: true
+        anchors.centerIn: parent;
+        title: "افزودن دانش‌آموز به کلاس " + classStudentsPage.class_name
+
+        header: Rectangle{
+            width: parent.width;
+            height: 50;
+            color: "forestgreen" ;
+            Text{ text: "افزودن دانش‌آموز"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+        }
+
+        contentItem:ColumnLayout{
+            Label{
+                text: "دانش‌آموز"
+                Layout.fillWidth: true
+                Layout.preferredHeight: 50
+                verticalAlignment: Label.AlignVCenter
+                horizontalAlignment: Label.AlignLeft
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                font.bold: true
+                color: "royalblue"
+            }
+            ComboBox{
+                id: studentCB
+                Layout.preferredHeight:  50
+                Layout.fillWidth: true
+                editable: true
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                model: ListModel{id: studentCBoxModel}
+                textRole: "text"
+                valueRole: "value"
+            }
+            Item{Layout.fillHeight: true; Layout.preferredWidth:1;}
+        }
+
+        footer:
+        Item{
+            width: parent.width;
+            height: 50
+            RowLayout
+            {
+                Button{
+                    text: "انصراف"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    onClicked: addStudentDialog.close();
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "crimson"}
+                }
+                Button
+                {
+                    text: "افزودن"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "B Yekan"
+                    font.pixelSize: 14
+                    onClicked: {
+                        // student-step-base-period-class
+                        var reg = {}
+                        reg["student_id"] = studentCB.currentValue;
+                        reg["step_id"] = classStudentsPage.step_id
+                        reg["study_base_id"] = classStudentsPage.base_id
+                        reg["study_period_id"] = classStudentsPage.period_id
+                        reg["class_id"] = classStudentsPage.class_id
+
+                        if(dbMan.registerStudent(reg))
+                        {
+                            // on register > student_courses & student_evals should be inserted too
+
+                            // student_courses : student_id, register_id, course_id, teacher_id
+                            var register_id = dbMan.getLastInsertedId();
+                            var student_id = studentCB.currentValue;
+                            var class_id = classStudentsPage.class_id // get course_id & teacher_id of class
+                            //student_evals : student_id, eval_id
+                            // class_id > eval_ids
+
+                            if(dbMan.registerStudentCourseInsert(student_id, register_id, class_id))
+                                dbMan.registerStudentEvalInsert(student_id, class_id);
+                            Methods.updateClassStudentsModel(classStudentsPage.class_id);
+
+                            //remove user from model
+                            var ind = studentCB.currentIndex
+                            studentCB.model.remove(ind)
+                            addStudentDialog.close();
+
+                        }
+                        else
+                        {
+                            var errorString = dbMan.getLastError();
+                            infoDialog.dialogText = errorString
+                            infoDialog.width = parent.width
+                            infoDialog.height = 500
+                            infoDialog.open();
+                        }
+
+                    }
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                }
+                Item{Layout.fillWidth: true}
+            }
+        }
+
+    }
 }

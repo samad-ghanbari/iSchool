@@ -28,10 +28,10 @@ function updatePeriodCB(branch_id)
     }
 }
 
-function updateStudentsModel(branch_id, period_id)
+function updateStudentsModel(branch_id, period_id, Limit, Offset)
 {
     studentModel.clear();
-    var jsondata = dbMan.getBranchPeriodStudents(branch_id, period_id);
+    var jsondata = dbMan.getBranchPeriodStudents(branch_id, period_id, Limit, Offset);
     //s.id, s.branch_id, s.name, s.lastname, s.fathername, s.gender, s.birthday, s.enabled, b.city, b.branch_name
     for(var obj of jsondata)
     {

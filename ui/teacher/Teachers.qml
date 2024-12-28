@@ -153,7 +153,8 @@ Page {
                     Layout.fillWidth: true
                     Layout.margins: 20
                     cellWidth: 300
-                    cellHeight: 300
+                    cellHeight: 330
+                    clip: true
                     model: ListModel{id: teacherModel}
                     delegate: teacherDelegate
                     layoutDirection: Qt.LeftToRight
@@ -174,6 +175,7 @@ Page {
             width: 256
             height: 300
             color:(model.Enabled)? "white" : "lightpink"
+            border.color : "lavenderblush"
             opacity: 0.8
             radius: 10
 
@@ -224,7 +226,17 @@ Page {
             {
                 anchors.fill: parent
                 hoverEnabled: true
-                onHoveredChanged: (containsMouse)? parent.opacity=1 : parent.opacity=0.8
+                onHoveredChanged:{
+                    if(containsMouse){
+                        parent.opacity=1;
+                        teacherWidget.border.color = "pink"
+                    }
+                        else
+                        {
+                            teacherWidget.border.color = "lavenderblush"
+                            parent.opacity=0.8
+                        }
+                }
                 onClicked: {teachersPage.appStackView.push(teacherComponent, {teacherId: teacherWidget.model.Id });}
             }
 
@@ -249,6 +261,7 @@ Page {
             }
         }
     }
+
     Component
     {
         id: teacherComponent

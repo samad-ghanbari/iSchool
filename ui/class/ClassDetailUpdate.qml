@@ -208,7 +208,7 @@ Page {
                                     id: teacherCB
                                     Layout.preferredHeight:  50
                                     Layout.fillWidth: true
-                                    editable: false
+                                    editable: true
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     model: ListModel{id: teacherCBoxModel}

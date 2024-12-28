@@ -10,6 +10,11 @@ Page {
     id: studentsPage
     required property StackView appStackView;
 
+    property int limit : 20
+    property int offset: 0
+    property int studentsCount
+    // offset shoud be less or equal than limit
+
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
     GridLayout
@@ -141,7 +146,12 @@ Page {
                             periodCB.currentIndex = -1
                         }
 
-                        onActivated: Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue);
+                        onActivated: {
+                            studentsPage.studentsCount = dbMan.getBranchPeriodStudentsCount(branchCB.currentValue, periodCB.currentValue);
+                            studentsPage.offset = 0;
+                            Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue, studentsPage.limit, studentsPage.offset);
+
+                        }
                     }
                 }
             }
@@ -204,6 +214,56 @@ Page {
                     }
                 }
 
+
+                RowLayout
+                {
+                    Layout.preferredHeight:   32
+                    Layout.fillWidth: true
+                    //Layout.alignment: Qt.AlignRight
+
+                    Item{Layout.fillWidth: true}
+                    Button
+                    {
+                        background: Item{}
+                        visible: (branchCB.currentIndex >=0)? true : false;
+                        Layout.preferredWidth: 32
+                        Layout.preferredHeight: 32
+                        icon.source: "qrc:/assets/images/arrow-right.png"
+                        icon.width: 32
+                        icon.height: 32
+                        opacity: 0.5
+                        onClicked:
+                        {
+                            studentsPage.offset = studentsPage.offset + 19;
+                            if(studentsPage.offset >= studentsPage.studentsCount ) studentsPage.offset = 0;
+
+                            Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue, studentsPage.limit, studentsPage.offset);
+                        }
+                        hoverEnabled: true
+                        onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                    }
+
+                    Button
+                    {
+                        visible: (branchCB.currentIndex >=0)? true : false;
+                        Layout.preferredWidth: 32
+                        Layout.preferredHeight: 32
+                        background: Item{}
+                        icon.source: "qrc:/assets/images/arrow-left.png"
+                        icon.width: 32
+                        icon.height: 32
+                        opacity: 0.5
+                        onClicked:
+                        {
+                            studentsPage.offset = studentsPage.offset - 19;
+                            if(studentsPage.offset  < 0 ) studentsPage.offset = 0;
+                            Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue, studentsPage.limit, studentsPage.offset);
+                        }
+                        hoverEnabled: true
+                        onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                    }
+                    Item{Layout.fillWidth: true}
+                }
 
 
                 GridView {
@@ -360,9 +420,6 @@ Page {
         {
             id: studentDrawerSV
             anchors.fill: parent
-
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
             ColumnLayout
             {
