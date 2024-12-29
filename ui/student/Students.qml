@@ -316,7 +316,7 @@ Page {
                             }
                             else
                             {
-                                return "file://"+studentWidget.model.Photo;
+                                return studentWidget.model.Photo;
                             }
 
                         }

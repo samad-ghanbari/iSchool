@@ -97,7 +97,7 @@ Page {
                                     }
                                     else
                                     {
-                                        return "file://"+studentCoursesPage.student.photo;
+                                        return studentCoursesPage.student.photo;
                                     }
                                 }
                             }

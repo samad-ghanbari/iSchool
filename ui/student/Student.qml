@@ -137,7 +137,7 @@ Page {
                                     }
                                     else
                                     {
-                                        return "file://"+studentPage.student.photo;
+                                        return studentPage.student.photo;
                                     }
                                 }
                             }

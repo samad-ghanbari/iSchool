@@ -90,7 +90,7 @@ Page {
                                     }
                                     else
                                     {
-                                        return "file://"+updatePage.model.photo;
+                                        return updatePage.model.photo;
                                     }
                                 }
                                 Layout.alignment: Qt.AlignHCenter

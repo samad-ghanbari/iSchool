@@ -91,7 +91,7 @@ Page {
                             }
                             else
                             {
-                                return "file://"+deletePage.student.photo;
+                                return deletePage.student.photo;
                             }
                         }
                     }

@@ -104,7 +104,7 @@ Page {
                                     }
                                     else
                                     {
-                                        return "file://"+classSCEPage.student.Photo;
+                                        return classSCEPage.student.Photo;
                                     }
                                 }
                             }

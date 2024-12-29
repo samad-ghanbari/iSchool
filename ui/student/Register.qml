@@ -86,7 +86,7 @@ Page {
                             }
                             else
                             {
-                                return "file://"+registerPage.student.photo;
+                                return registerPage.student.photo;
                             }
                         }
                     }

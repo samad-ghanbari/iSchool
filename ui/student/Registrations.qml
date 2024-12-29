@@ -78,7 +78,7 @@ Page {
                 }
                 else
                 {
-                    return "file://"+registersPage.student.photo;
+                    return registersPage.student.photo;
                 }
             }
         }

@@ -196,7 +196,7 @@ Drawer
                     }
                     else
                     {
-                        return "file://"+studentStatDrawer.photo;
+                        return studentStatDrawer.photo;
                     }
                 }
             }

@@ -79,7 +79,7 @@ Page {
                         }
                         else
                         {
-                            return "file://"+insertPage.student.photo;
+                            return insertPage.student.photo;
                         }
                     }
                 }

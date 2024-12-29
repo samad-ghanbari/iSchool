@@ -105,7 +105,7 @@ Page {
                                         }
                                         else
                                         {
-                                            return "file://"+deletePage.photo;
+                                            return deletePage.photo;
                                         }
                                     }
                                     Layout.alignment: Qt.AlignHCenter

@@ -281,7 +281,7 @@ Page {
                             }
                             else
                             {
-                                return "file://"+recDel.model.Photo;
+                                return recDel.model.Photo;
                             }
 
                         }

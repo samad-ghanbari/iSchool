@@ -341,7 +341,7 @@ Page {
                             }
                             else
                             {
-                                return "file://"+recDel.model.Photo;
+                                return recDel.model.Photo;
                             }
 
                         }
@@ -418,7 +418,7 @@ Page {
                         }
                         else
                         {
-                            sph = "file://"+recDel.model.Photo;
+                            sph = recDel.model.Photo;
                         }
                         setStudentGradeDialog.studentPhoto = sph;
                         setStudentGradeDialog.studentName = recDel.model.Student + " ( " + recDel.model.Fathername + " )"

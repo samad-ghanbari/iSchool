@@ -105,7 +105,7 @@ Page {
                                         }
                                         else
                                         {
-                                            return "file://"+pdfReport.student.Photo;
+                                            return pdfReport.student.Photo;
                                         }
                                     }
                                 }
