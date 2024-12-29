@@ -30,6 +30,7 @@ Page {
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
             icon.height: 64
+            icon.color:"transparent"
             opacity: 0.5
             onClicked: registersPage.appStackView.pop();
             hoverEnabled: true
@@ -57,6 +58,7 @@ Page {
             icon.source: "qrc:/assets/images/add.png"
             icon.width: 64
             icon.height: 64
+            icon.color:"transparent"
             opacity: 0.5
             onClicked: registersPage.appStackView.push(registerComponent);
             hoverEnabled: true
@@ -279,6 +281,7 @@ Page {
                     icon.source: "qrc:/assets/images/trash.png"
                     icon.width: 32
                     icon.height: 32
+                    icon.color:"transparent"
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
@@ -310,6 +313,7 @@ Page {
                     icon.source: "qrc:/assets/images/course.png"
                     icon.width: 32
                     icon.height: 32
+                    icon.color:"transparent"
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {

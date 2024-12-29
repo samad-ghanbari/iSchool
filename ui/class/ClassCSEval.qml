@@ -40,6 +40,7 @@ Page {
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
             icon.height: 64
+            icon.color:"transparent"
             opacity: 0.5
             onClicked: classCSEPage.popStackViewSignal();
             hoverEnabled: true
@@ -343,6 +344,7 @@ Page {
                                 icon.source: "qrc:/assets/images/edit.png"
                                 icon.width: 24
                                 icon.height: 24
+                                icon.color:"transparent"
                                 opacity: 0.5
                                 onClicked: {
                                     evalRecDel.edit = false
@@ -371,6 +373,7 @@ Page {
                                 icon.source: "qrc:/assets/images/cross.png"
                                 icon.width: 24
                                 icon.height: 24
+                                icon.color:"transparent"
                                 opacity: 0.5
                                 onClicked: {
                                     evalRecDel.edit = false

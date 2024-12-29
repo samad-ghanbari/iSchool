@@ -23,6 +23,7 @@ Page {
             background: Item{}
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
+            icon.color:"transparent"
             icon.height: 64
             opacity: 0.5
             onClicked: aboutPage.popStackViewSignal();

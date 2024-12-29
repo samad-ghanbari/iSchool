@@ -38,6 +38,7 @@ Page {
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
             icon.height: 64
+            icon.color:"transparent"
             opacity: 0.5
             onClicked: insertClassDetailPage.popStackSignal(); //insertClassDetailPage.appStackView.pop();
             hoverEnabled: true

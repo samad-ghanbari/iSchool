@@ -28,6 +28,7 @@ Page {
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
             icon.height: 64
+            icon.color:"transparent"
             opacity: 0.5
             onClicked: classPage.appStackView.pop();
             hoverEnabled: true
@@ -237,6 +238,7 @@ Page {
                     icon.source: "qrc:/assets/images/add.png"
                     icon.width: 64
                     icon.height: 64
+                    icon.color:"transparent"
                     opacity: 0.5
                     enabled : classPage.admin
                     onClicked:
@@ -389,6 +391,7 @@ Page {
                         icon.source: "qrc:/assets/images/users.png"
                         icon.width: 40
                         icon.height: 40
+                        icon.color:"transparent"
                         display: AbstractButton.TextUnderIcon
                         SwipeDelegate.onClicked:
                         {
@@ -412,6 +415,7 @@ Page {
                         icon.source: "qrc:/assets/images/course.png"
                         icon.width: 40
                         icon.height: 40
+                        icon.color:"transparent"
                         display: AbstractButton.TextUnderIcon
                         SwipeDelegate.onClicked:
                         {
@@ -435,6 +439,7 @@ Page {
                         icon.source: "qrc:/assets/images/edit.png"
                         icon.width: 40
                         icon.height: 40
+                        icon.color:"transparent"
                         visible : classPage.admin
                         display: AbstractButton.TextUnderIcon
                         SwipeDelegate.onClicked:
@@ -470,6 +475,7 @@ Page {
                         icon.source: "qrc:/assets/images/trash.png"
                         icon.width: 40
                         icon.height: 40
+                        icon.color:"transparent"
                         display: AbstractButton.TextUnderIcon
                         SwipeDelegate.onClicked:
                         {

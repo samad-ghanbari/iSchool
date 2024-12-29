@@ -63,7 +63,7 @@ MenuBar {
                 menubarId.appStackView.push(branchesComponent, {objectName: "branchesON"});
             }
 
-            icon.source: "qrc:/assets/images/branch.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/branch.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
         MenuSeparator { }
         Action {
@@ -77,7 +77,7 @@ MenuBar {
                 menubarId.appStackView.push(stepsComponent, {objectName: "stepsON"});
             }
 
-            icon.source: "qrc:/assets/images/school.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/school.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
         MenuSeparator { }
         Action {
@@ -91,7 +91,7 @@ MenuBar {
                 menubarId.appStackView.push(baseComponent, {objectName: "baseON"});
             }
 
-            icon.source: "qrc:/assets/images/school2.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/school2.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
         MenuSeparator { }
         Action {
@@ -105,7 +105,7 @@ MenuBar {
                 menubarId.appStackView.push(studyPeriodComponent, {objectName: "studyPeriodON"});
             }
 
-            icon.source: "qrc:/assets/images/date.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/date.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
         MenuSeparator { }
         Action {
@@ -116,7 +116,7 @@ MenuBar {
 
                 menubarId.appStackView.push(classComponent, {objectName: "classON"});
             }
-            icon.source: "qrc:/assets/images/classroom.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/classroom.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
         MenuSeparator { }
         Action {
@@ -129,7 +129,7 @@ MenuBar {
                 menubarId.appStackView.push(coursesComponent, {objectName: "courseON"});
             }
             icon.source: "qrc:/assets/images/course.png";
-            icon.width: 24;icon.height:24;
+            icon.width: 24;icon.height:24;icon.color:"transparent"
         }
     }
 
@@ -146,7 +146,7 @@ MenuBar {
                 menubarId.appStackView.push(teachersComponent, {objectName: "teachersON"});
             }
 
-            icon.source: "qrc:/assets/images/teacher.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/teacher.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
     }
 
@@ -164,7 +164,7 @@ MenuBar {
                 menubarId.appStackView.push(studentsComponent, {objectName: "studentsON"});
             }
             icon.source: "qrc:/assets/images/student.png";
-            icon.width: 24;icon.height:24;
+            icon.width: 24;icon.height:24;icon.color:"transparent"
         }
     }
 
@@ -182,7 +182,7 @@ MenuBar {
                 menubarId.appStackView.push(evalsComponent, {objectName: "evalsON"});
             }
             icon.source: "qrc:/assets/images/evaluation.png";
-            icon.width: 24;icon.height:24; }
+            icon.width: 24;icon.height:24;icon.color:"transparent" }
     }
 
     Menu {
@@ -199,7 +199,7 @@ MenuBar {
 
                 //menubarId.appStackView.push(listUserPageComponent,{objectName: "listUserON"});
             }
-            icon.source: "qrc:/assets/images/report.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/report.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
     }
 
@@ -210,7 +210,7 @@ MenuBar {
         font.pixelSize: 16
         Action {
             id:menuSettingTBId;
-            icon.source: "qrc:/assets/images/toolbox.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/toolbox.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
             text: "حذف نوار‌ابزار";
             onTriggered:
             if(menubarId.toolbarView)
@@ -230,7 +230,7 @@ MenuBar {
         Action {
             text: "پروفایل کاربر";
             onTriggered: console.log("profile")
-            icon.source: "qrc:/assets/images/user.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/user.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
 
     }
@@ -251,7 +251,7 @@ MenuBar {
 
                 menubarId.appStackView.push(listUserPageComponent,{objectName: "listUserON"});
             }
-            icon.source: "qrc:/assets/images/users.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/users.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
     }
 
@@ -266,7 +266,7 @@ MenuBar {
             onTriggered:
             {
             }
-            icon.source: "qrc:/assets/images/log.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/log.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
     }
 
@@ -285,7 +285,7 @@ MenuBar {
 
                 menubarId.appStackView.push(aboutComponent,{objectName: "aboutON"});
             }
-            icon.source: "qrc:/assets/images/info.png"; icon.width: 24;icon.height:24;
+            icon.source: "qrc:/assets/images/info.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
     }
 

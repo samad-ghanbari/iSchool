@@ -41,6 +41,7 @@ Page {
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
             icon.height: 64
+            icon.color:"transparent"
             opacity: 0.5
             onClicked: evalsPage.appStackView.pop();
             hoverEnabled: true
@@ -178,6 +179,7 @@ Page {
                             icon.source: "qrc:/assets/images/add.png"
                             icon.width: 64
                             icon.height: 64
+                            icon.color:"transparent"
                             opacity: 0.5
                             onClicked: evalsPage.appStackView.push(insertComponent)
                             hoverEnabled: true
@@ -192,6 +194,7 @@ Page {
                             icon.source: "qrc:/assets/images/refresh.png"
                             icon.width: 64
                             icon.height: 64
+                            icon.color:"transparent"
                             opacity: 0.5
                             onClicked: {
                                     // class - eval-cat > update all
@@ -426,6 +429,7 @@ Page {
                     icon.source: "qrc:/assets/images/users.png"
                     icon.width: 48
                     icon.height: 48
+                    icon.color:"transparent"
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
@@ -456,6 +460,7 @@ Page {
                     icon.source: "qrc:/assets/images/edit.png"
                     icon.width: 48
                     icon.height: 48
+                    icon.color:"transparent"
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
@@ -484,6 +489,7 @@ Page {
                     icon.source: "qrc:/assets/images/trash.png"
                     icon.width: 48
                     icon.height: 48
+                    icon.color:"transparent"
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {

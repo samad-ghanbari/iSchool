@@ -101,6 +101,7 @@ ToolBar {
             icon.source: "qrc:/assets/images/home2.png"
             icon.width: 32
             icon.height: 32
+            icon.color:"transparent"
             hoverEnabled: true
             onHoveredChanged: toolbarId.menuHoverAction(menuHomeId)
         }
@@ -113,6 +114,7 @@ ToolBar {
         //     icon.source: "qrc:/assets/images/date.png"
         //     icon.width: 32
         //     icon.height: 32
+        //      icon.color:"transparent"
         //     onClicked:
         //     {
         //         if(toolbarId.appStackView.currentItem.objectName === "studyPeriodON")
@@ -134,6 +136,7 @@ ToolBar {
             icon.source: "qrc:/assets/images/course.png"
             icon.width: 32
             icon.height: 32
+            icon.color:"transparent"
             onClicked:
             {
                 if(toolbarId.appStackView.currentItem.objectName === "courseON")
@@ -153,6 +156,7 @@ ToolBar {
             icon.source: "qrc:/assets/images/classroom.png"
             icon.width: 32
             icon.height: 32
+            icon.color:"transparent"
             onClicked:
             {
                 if(toolbarId.appStackView.currentItem.objectName === "classON")
@@ -172,6 +176,7 @@ ToolBar {
         //     icon.source: "qrc:/assets/images/teacher.png"
         //     icon.width: 32
         //     icon.height: 32
+        //     icon.color:"transparent"
         //     onClicked:
         //     {
         //         if(toolbarId.appStackView.currentItem.objectName === "teachersON")
@@ -191,6 +196,7 @@ ToolBar {
             icon.source: "qrc:/assets/images/student.png"
             icon.width: 32
             icon.height: 32
+            icon.color:"transparent"
             onClicked:
             {
                 if(toolbarId.appStackView.currentItem.objectName === "studentsON")
@@ -210,6 +216,7 @@ ToolBar {
             icon.source: "qrc:/assets/images/evaluation.png"
             icon.width: 32
             icon.height: 32
+            icon.color:"transparent"
             onClicked:
             {
                 if(toolbarId.appStackView.currentItem.objectName === "evalsON")
@@ -229,6 +236,7 @@ ToolBar {
             icon.source: "qrc:/assets/images/report.png"
             icon.width: 32
             icon.height: 32
+            icon.color:"transparent"
             onClicked: console.log("567")
             hoverEnabled: true
             onHoveredChanged: toolbarId.menuHoverAction(menuEvalId)

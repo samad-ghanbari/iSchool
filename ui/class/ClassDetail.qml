@@ -42,6 +42,7 @@ Page {
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
             icon.height: 64
+            icon.color:"transparent"
             onClicked: classDetailPage.appStackView.pop();
             opacity: 0.5
             hoverEnabled: true
@@ -150,6 +151,7 @@ Page {
                             icon.source: "qrc:/assets/images/add.png"
                             icon.width: 64
                             icon.height: 64
+                            icon.color:"transparent"
                             opacity: 0.5
                             onClicked: classDetailPage.appStackView.push(classDetailInsertComponent);
                             hoverEnabled: true
@@ -171,6 +173,7 @@ Page {
                             icon.source: "qrc:/assets/images/refresh.png"
                             icon.width: 64
                             icon.height: 64
+                            icon.color:"transparent"
                             opacity: 0.5
                             onClicked:{
                                 var courses = dbMan.getClassLeftCourses(classDetailPage.class_id, classDetailPage.step_id, classDetailPage.base_id, classDetailPage.period_id);
@@ -324,6 +327,7 @@ Page {
                     icon.source: "qrc:/assets/images/evalcat.png"
                     icon.width: 32
                     icon.height: 32
+                    icon.color:"transparent"
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
@@ -352,6 +356,7 @@ Page {
                     icon.source: "qrc:/assets/images/edit.png"
                     icon.width: 32
                     icon.height: 32
+                    icon.color:"transparent"
                     display: AbstractButton.TextUnderIcon
                     enabled : classDetailPage.admin
                     visible : classDetailPage.admin
@@ -384,6 +389,7 @@ Page {
                     icon.source: "qrc:/assets/images/trash.png"
                     icon.width: 32
                     icon.height: 32
+                    icon.color:"transparent"
                     display: AbstractButton.TextUnderIcon
                     enabled : classDetailPage.admin
                     visible : classDetailPage.admin

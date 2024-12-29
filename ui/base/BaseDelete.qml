@@ -32,6 +32,7 @@ Page {
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
             icon.height: 64
+            icon.color:"transparent"
             opacity: 0.5
             onClicked: baseDeletePage.appStackView.pop();
             hoverEnabled: true
@@ -142,6 +143,7 @@ Page {
                                 icon.source: "qrc:/assets/images/trash3.png"
                                 icon.width: 64
                                 icon.height: 64
+                                icon.color:"transparent"
                                 Layout.preferredHeight: 64
                                 Layout.preferredWidth: 64
                                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter

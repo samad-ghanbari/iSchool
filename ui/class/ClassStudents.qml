@@ -40,6 +40,7 @@ Page {
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
             icon.height: 64
+            icon.color:"transparent"
             opacity: 0.5
             onClicked: classStudentsPage.appStackView.pop();
             hoverEnabled: true
@@ -159,6 +160,7 @@ Page {
                                 icon.source: "qrc:/assets/images/stat.png"
                                 icon.width: 64
                                 icon.height: 64
+                                icon.color:"transparent"
                                 opacity: 0.5
                                 onClicked:{
                                     classStatDrawer.open();
@@ -177,6 +179,7 @@ Page {
                                 icon.source: "qrc:/assets/images/newUser.png"
                                 icon.width: 64
                                 icon.height: 64
+                                icon.color:"transparent"
                                 opacity: 0.5
                                 onClicked:{
                                     if(studentCBoxModel.count == 0)
@@ -346,6 +349,7 @@ Page {
                     icon.source: "qrc:/assets/images/evalcat.png"
                     icon.width: 48
                     icon.height: 48
+                    icon.color:"transparent"
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked: {
                         if(recDel.swipe.complete)
@@ -369,6 +373,7 @@ Page {
                     icon.source: "qrc:/assets/images/stat.png"
                     icon.width: 48
                     icon.height: 48
+                    icon.color:"transparent"
                     display: AbstractButton.TextUnderIcon
                     SwipeDelegate.onClicked:
                     {
@@ -447,6 +452,7 @@ Page {
                 icon.source: "qrc:/assets/images/arrow-right.png"
                 icon.width: 48
                 icon.height: 48
+                icon.color:"transparent"
                 opacity: 0.5
                 onClicked: classStatDrawer.close();
                 hoverEnabled: true

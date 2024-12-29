@@ -34,6 +34,7 @@ Page {
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
             icon.height: 64
+            icon.color:"transparent"
             opacity: 0.5
             onClicked: classStudentCoursesPage.appStackView.pop();
             hoverEnabled: true
@@ -167,6 +168,7 @@ Page {
                             icon.source: "qrc:/assets/images/refresh.png"
                             icon.width: 64
                             icon.height: 64
+                            icon.color:"transparent"
                             opacity: 0.5
                             onClicked:
                             {
@@ -198,6 +200,7 @@ Page {
                             icon.source: "qrc:/assets/images/stat.png"
                             icon.width: 64
                             icon.height: 64
+                            icon.color:"transparent"
                             opacity: 0.5
                             onClicked:
                             {
@@ -226,6 +229,7 @@ Page {
                             icon.source: "qrc:/assets/images/pdf.png"
                             icon.width: 64
                             icon.height: 64
+                            icon.color:"transparent"
                             opacity: 0.5
                             onClicked:
                             {
@@ -441,6 +445,7 @@ Page {
                         icon.source: "qrc:/assets/images/evaluation.png"
                         icon.width: 32
                         icon.height: 32
+                        icon.color:"transparent"
                         display: AbstractButton.TextUnderIcon
                         SwipeDelegate.onClicked:
                         {

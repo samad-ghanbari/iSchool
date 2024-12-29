@@ -86,6 +86,7 @@ SwipeDelegate
             icon.source: "qrc:/assets/images/trash.png"
             icon.width: 32
             icon.height: 32
+            icon.color:"transparent"
             display: AbstractButton.TextUnderIcon
             SwipeDelegate.onClicked:
             {
@@ -111,6 +112,7 @@ SwipeDelegate
             icon.source: "qrc:/assets/images/edit.png"
             icon.width: 32
             icon.height: 32
+            icon.color:"transparent"
             display: AbstractButton.TextUnderIcon
             SwipeDelegate.onClicked:
             {

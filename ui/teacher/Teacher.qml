@@ -35,6 +35,7 @@ Page {
                 icon.source: "qrc:/assets/images/arrow-right.png"
                 icon.width: 64
                 icon.height: 64
+                icon.color:"transparent"
                 opacity: 0.5
                 onClicked: teacherPage.appStackView.pop();
                 hoverEnabled: true
@@ -89,6 +90,7 @@ Page {
                                 icon.source: "qrc:/assets/images/edit.png"
                                 icon.width: 64
                                 icon.height: 64
+                                icon.color:"transparent"
                                 opacity: 0.5
                                 onClicked: teacherPage.appStackView.push(modifyComponent)
                                 hoverEnabled: true
@@ -105,6 +107,7 @@ Page {
                                 icon.source: "qrc:/assets/images/trash.png"
                                 icon.width: 64
                                 icon.height: 64
+                                icon.color:"transparent"
                                 opacity: 0.5
                                 onClicked:teacherPage.appStackView.push(deleteComponent)
                                 hoverEnabled: true

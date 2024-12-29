@@ -41,6 +41,7 @@ Page {
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
             icon.height: 64
+            icon.color:"transparent"
             opacity: 0.5
             onClicked: studentCEPage.popStackViewSignal();
             hoverEnabled: true
@@ -227,6 +228,7 @@ Page {
                             icon.source: "qrc:/assets/images/refresh.png"
                             icon.width: 64
                             icon.height: 64
+                            icon.color:"transparent"
                             opacity: 0.5
                             onClicked:
                             {
@@ -259,6 +261,7 @@ Page {
                             icon.source: "qrc:/assets/images/stat.png"
                             icon.width: 64
                             icon.height: 64
+                            icon.color:"transparent"
                             opacity: 0.5
                             onClicked:
                             {
