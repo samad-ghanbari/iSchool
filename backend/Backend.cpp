@@ -1,36 +1,33 @@
 #include "Backend.h"
 #include "lib/database/dbman.h"
-//#include "lib/model/studentStatModel.h"
-#include <QJsonObject>
 #include <QFontDatabase>
 
 Backend::Backend(QGuiApplication &app, QObject *parent)
-    : QObject{parent}, dbMan(nullptr), studentStatModel(nullptr)
+    : QObject{parent}, dbMan(nullptr)
 {
     dbMan = new DbMan(this);
-    //studentStatModel = new StudentStatModel(this);
 
-
-    QFontDatabase::addApplicationFont(":/assets/font/yekan.ttf");
+    QFontDatabase::addApplicationFont("qrc:/assets/font/yekan.ttf");
     // B Yekan
+    const QUrl url(QStringLiteral("qrc:/ui/login/LoginWindow.qml"));
 
     QObject::connect(
         &engine,
-        &QQmlApplicationEngine::objectCreationFailed,
+        &QQmlApplicationEngine::objectCreated,
         &app,
-        []() { QCoreApplication::exit(-1); },
+        [url](QObject *obj, const QUrl &objUrl) {
+            if (!obj && url == objUrl)
+                QCoreApplication::exit(-1);
+        },
         Qt::QueuedConnection);
-}
 
-void Backend::initiate()
-{
     engine.rootContext()->setContextProperty("backend", this);
     engine.rootContext()->setContextProperty("dbMan", dbMan);
-    //engine.rootContext()->setContextProperty("studentStatModel", studentStatModel);
-    engine.loadFromModule("iSchool", "LoginWindow");
+    engine.load(url);
 }
 
 void Backend::loadHome()
 {
-    engine.loadFromModule("iSchool", "HomeWindow");
+    const QUrl url(QStringLiteral("qrc:/ui/home/HomeWindow.qml"));
+    engine.load(url);
 }

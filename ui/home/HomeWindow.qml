@@ -1,14 +1,11 @@
-pragma ComponentBehavior: Bound
+//pragma ComponentBehavior: Bound
 
-import QtQuick
-import QtQuick.Window
-import QtQuick.Controls
-
+import QtQuick 2.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
 ApplicationWindow {
 
     id: appWindowId
-    minimumWidth: 400
-    minimumHeight: 400
     visibility: Window.Maximized
     visible: true
     color: "lavender"
@@ -17,14 +14,22 @@ ApplicationWindow {
     LayoutMirroring.childrenInherit: true
     //flags: Qt.WindowSystemMenuHint | ~Qt.WindowCloseButtonHint;
 
-    menuBar: MenubarModule{ id: menubarId; appStackView: homeStackViewId; toolbarId: toolbarId; }
-    header : ToolbarModule{id:toolbarId; appStackView: homeStackViewId; app: appWindowId; }
+    // contentItem: Item
+    // {
+    //     width: appWindowId.width
+    //     height: appWindowId.height
+    //     minimumWidth: 300 // Set your desired minimum width here
+    // }
 
 
-    StackView {
-            id: homeStackViewId
-            initialItem: HomePage{ objectName: "homePageON"}
-            anchors.fill: parent
-        }
+    // menuBar: MenubarModule{ id: menubarId; appStackView: homeStackViewId; toolbarId: toolbarId; }
+    // header : ToolbarModule{id:toolbarId; appStackView: homeStackViewId; app: appWindowId; }
+
+
+    // StackView {
+    //         id: homeStackViewId
+    //         initialItem: HomePage{ } //objectName: "homePageON"
+    //         anchors.fill: parent
+    //     }
 
 }

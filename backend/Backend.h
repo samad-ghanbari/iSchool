@@ -7,9 +7,6 @@
 #include <QQmlContext>
 
 class DbMan;
-//models
-class StudentStatModel;
-
 class Backend : public QObject
 {
     Q_OBJECT
@@ -17,13 +14,11 @@ class Backend : public QObject
 public:
     explicit Backend(QGuiApplication &app, QObject *parent = nullptr);
 public slots:
-    void initiate();
     void loadHome();
 
 
 private:
     DbMan *dbMan;
-    StudentStatModel *studentStatModel;
     QQmlApplicationEngine engine;
 };
 

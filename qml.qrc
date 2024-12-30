@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+    
+        <file>ui/login/InitialLogin.qml</file>
+        <file>ui/login/LoginForm.qml</file>
+        <file>ui/login/LoginWindow.qml</file>
+        <file>ui/login/NewRelease.qml</file>
+        <file>ui/login/NoConnection.qml</file>
+        <file>ui/login/OnMaintenance.qml</file>
+        
+        <file>ui/home/HomePage.qml</file>
+        <file>ui/home/HomeWindow.qml</file>
+        <file>ui/home/MenubarModule.qml</file>
+        <file>ui/home/ToolbarModule.qml</file>
+        
+    </qresource>
+</RCC>

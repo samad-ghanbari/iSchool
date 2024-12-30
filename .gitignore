@@ -1,6 +1,5 @@
 
 /lib
 /build
-/CMakeLists.txt.user
-/CMakeLists.*.user
-/CMakeLists.*.user*
+/*.pro.user
+
