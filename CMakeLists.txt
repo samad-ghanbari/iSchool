@@ -1,6 +1,6 @@
 # developer:    Samad Ghanbari
 # Email:        ghanbari.Samad@gmail.com
-# Qt Version:   Qt 6.8.0
+# Qt Version:   Qt 6.5.3
 # Postgresql:   15.10
 
 
@@ -10,6 +10,8 @@ project(iSchool VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(ICON_SOURCES icon.ico)
+
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.5)
@@ -18,7 +20,7 @@ qt_add_executable(appiSchool
     main.cpp
 )
 
-qt_policy(SET QTP0004 NEW)
+#qt_policy(SET QTP0004 NEW)
 
 qt_add_qml_module(appiSchool
     URI iSchool
