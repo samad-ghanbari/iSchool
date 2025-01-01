@@ -6,9 +6,11 @@ Window {
     width: 400
     height: 400;
     visibility: Window.Maximized;
+    minimumWidth: 400
+    minimumHeight: 400
     visible: true;
     color: "skyblue";
-    //title: "روشنگران";
+    title: "روشنگران";
 
     //flags: Qt.WindowSystemMenuHint | ~Qt.WindowCloseButtonHint;
 
