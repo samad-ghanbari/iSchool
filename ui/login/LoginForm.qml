@@ -65,8 +65,8 @@ Page {
     Rectangle
     {
         id: loginFormRecId
-        width: 400; // parent.width
-        height:  400; //Qt.binding(function(){ return loginFormColumnId.height+100;})
+        width: 500; // parent.width
+        height:  500; //Qt.binding(function(){ return loginFormColumnId.height+100;})
         anchors.centerIn: parent
         color: "#88DDCCFF"
         radius: 5
@@ -77,16 +77,16 @@ Page {
         Column
         {
             id: loginFormColumnId
-            width: 300
-            height: 300
+            width: 400
+            height: 400
             visible: true
             anchors.centerIn: parent
 
             Image {
                 id: loginImageId
-                source: "qrc:/assets/images/logo/logo64.png"
-                width: 64
-                height: 64
+                source: "qrc:/assets/images/logo/logo128.png"
+                width: 128
+                height: 128
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
@@ -99,7 +99,7 @@ Page {
                 text: "ورود به سامانه روشنگران"
                 color: "#FFF"
                 font.bold: true
-                font.pixelSize: 20
+                font.pixelSize: 24
                 font.family: "B Yekan"
                 horizontalAlignment:  Text.AlignHCenter
             }
@@ -156,7 +156,7 @@ Page {
                     font.pixelSize: 14
                     height: 50
                     width : parent.width/2
-                    Rectangle{width:parent.width; height:5; anchors.bottom: parent.bottom; color: "crimson"}
+                    Rectangle{width:parent.width; height:5; anchors.bottom: parent.bottom; color: "mediumvioletred"}
 
                     onClicked:
                     {

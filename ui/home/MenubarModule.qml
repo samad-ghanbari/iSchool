@@ -9,7 +9,6 @@ import "./../step" as StepModule
 import "./../base" as BaseModule
 import "./../period" as PeriodModule
 import "./../class" as ClassModule
-import "./../teacher" as TeacherModule
 import "./../student" as StudentModule
 import "./../course" as CourseModule
 import "./../evaluation" as EvalModule
@@ -25,9 +24,6 @@ MenuBar {
 
     required property StackView appStackView;
     required property ToolbarModule toolbarId;
-
-    property bool admin : dbMan.isUserAdmin();
-    property bool superadmin : dbMan.isUserSuperAdmin();
 
     Connections
     {
@@ -53,7 +49,7 @@ MenuBar {
         font.pixelSize: 16
         Action {
             text: "شعبه‌ها";
-            enabled: menubarId.superadmin
+            enabled: superAdmin
 
             onTriggered:
             {
@@ -68,7 +64,7 @@ MenuBar {
         MenuSeparator { }
         Action {
             text: "دوره‌ها";
-            enabled: menubarId.admin
+            enabled: admin
             onTriggered:
             {
                 if(menubarId.appStackView.currentItem.objectName === "stepsON")
@@ -82,7 +78,7 @@ MenuBar {
         MenuSeparator { }
         Action {
             text: "پایه‌های ‌تحصیلی";
-            enabled: menubarId.admin
+            enabled: admin
             onTriggered:
             {
                 if(menubarId.appStackView.currentItem.objectName === "baseON")
@@ -96,7 +92,7 @@ MenuBar {
         MenuSeparator { }
         Action {
             text: "سال‌های ‌تحصیلی";
-            enabled: menubarId.admin
+            enabled: admin
             onTriggered:
             {
                 if(menubarId.appStackView.currentItem.objectName === "studyPeriodON")
@@ -130,23 +126,6 @@ MenuBar {
             }
             icon.source: "qrc:/assets/images/course.png";
             icon.width: 24;icon.height:24;icon.color:"transparent"
-        }
-    }
-
-    Menu {
-        title: "دبیران"
-        font.family: "B Yekan"
-        font.pixelSize: 16
-        Action {
-            text: "دبیران";
-            onTriggered:{
-                if(menubarId.appStackView.currentItem.objectName === "teachersON")
-                menubarId.appStackView.pop();
-
-                menubarId.appStackView.push(teachersComponent, {objectName: "teachersON"});
-            }
-
-            icon.source: "qrc:/assets/images/teacher.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
     }
 
@@ -242,7 +221,7 @@ MenuBar {
         font.pixelSize: 16
         Action {
             text: "لیست کاربران";
-            enabled: menubarId.superadmin
+            enabled: superAdmin
 
             onTriggered:
             {
@@ -323,13 +302,6 @@ MenuBar {
     {
         id: classComponent
         ClassModule.Class{appStackView: menubarId.appStackView;}
-    }
-
-    //teacher
-    Component
-    {
-        id: teachersComponent
-        TeacherModule.Teachers{appStackView: menubarId.appStackView;}
     }
 
     //student

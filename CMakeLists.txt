@@ -1,7 +1,7 @@
 # developer:    Samad Ghanbari
 # Email:        ghanbari.Samad@gmail.com
 # Qt Version:   Qt 6.5.3
-# Postgresql:   15.10
+# Postgresql:   16.6
 
 
 cmake_minimum_required(VERSION 3.16)
@@ -58,6 +58,12 @@ qt_add_qml_module(appiSchool
         ui/home/HomePage.qml
         ui/home/MenubarModule.qml
         ui/home/ToolbarModule.qml
+        ui/home/StepsPage.qml
+        ui/home/FieldPage.qml
+        ui/home/BasePage.qml
+        ui/home/PeriodPage.qml
+        ui/home/ClassPage.qml
+
     #USER
         ui/user/ListUser.qml
         ui/user/ListUser.js
@@ -115,14 +121,6 @@ qt_add_qml_module(appiSchool
         ui/class/ClassDetailDelete.qml
         ui/class/ClassDetailUpdate.qml
 
-    # TEACHER
-        ui/teacher/Teachers.qml
-        ui/teacher/Teachers.js
-        ui/teacher/TeacherInsert.qml
-        ui/teacher/Teacher.qml
-        ui/teacher/TeacherDelete.qml
-        ui/teacher/TeacherUpdate.qml
-
     #STUDENT
         ui/student/Students.qml
         ui/student/Student.qml
@@ -175,6 +173,10 @@ qt_add_qml_module(appiSchool
 
     #About
         ui/about/About.qml
+        QML_FILES ui/home/ClassCoursePage.qml
+        QML_FILES ui/home/ClassStudentPage.qml
+
+
 )
 
 
@@ -235,6 +237,9 @@ qt_add_resources(appiSchool "assets"
         assets/images/logo/logo128.png
         assets/images/logo/logo512.png
         assets/images/logo/logo1024.png
+
+        icon.ico
+
     #LOGIN
     FILES
         assets/images/login/disconnection.png

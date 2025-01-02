@@ -68,7 +68,7 @@ Page {
                     color: "darkmagenta"
                     horizontalAlignment : Qt.AlignHCenter
                     verticalAlignment: Qt.AlignVCenter
-                    text: "Roshangaran School Management Application \n This application was developed with \n Qt LTS 6.8 release "
+                    text: "Roshangaran School Management Application \n This application was developed with \n Qt LTS 6.5 release "
                     NumberAnimation on scale{
                         from: 0.1; to: 1;
                         duration: 1000

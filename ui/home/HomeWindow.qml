@@ -12,7 +12,7 @@ ApplicationWindow {
     visibility: Window.Maximized
     visible: true
     color: "lavender"
-    title: qsTr("مدارس روشنگران")
+    title: qsTr("مدرسه غیر دولتی روشنگران")
     LayoutMirroring.enabled: true
     LayoutMirroring.childrenInherit: true
     //flags: Qt.WindowSystemMenuHint | ~Qt.WindowCloseButtonHint;
@@ -22,9 +22,23 @@ ApplicationWindow {
 
 
     StackView {
-            id: homeStackViewId
-            initialItem: HomePage{ objectName: "homePageON"}
-            anchors.fill: parent
+        id: homeStackViewId
+        initialItem: HomePage{
+            objectName: "homePageON"
+            onBranchSelected:(branch_var)=>{
+                homeStackViewId.push(stepComponent, {branch: branch_var, objectName: "stepsON"})
+            };
         }
+        anchors.fill: parent
+    }
+
+    Component{
+        id: stepComponent;
+        StepsPage{
+            appStackView: homeStackViewId
+        }
+    }
 
 }
+
+

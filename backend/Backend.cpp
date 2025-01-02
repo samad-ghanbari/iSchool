@@ -32,5 +32,9 @@ void Backend::initiate()
 
 void Backend::loadHome()
 {
+    bool admin = dbMan->isUserAdmin();
+    bool superAdmin = dbMan->isUserSuperAdmin();
+    engine.rootContext()->setContextProperty("admin", admin);
+    engine.rootContext()->setContextProperty("superAdmin", superAdmin);
     engine.loadFromModule("iSchool", "HomeWindow");
 }
