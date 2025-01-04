@@ -34,7 +34,7 @@ Page {
 
     Image {
         id: backimageId
-        source: "qrc:/assets/images/background/back1.jpg"
+        source: "qrc:/assets/images/background/back4.jpg"
         anchors.fill: parent
         opacity: 1
     }
@@ -65,7 +65,7 @@ Page {
     Rectangle
     {
         id: loginFormRecId
-        width: 500; // parent.width
+        width: 400; // parent.width
         height:  500; //Qt.binding(function(){ return loginFormColumnId.height+100;})
         anchors.centerIn: parent
         color: "#88DDCCFF"
@@ -77,7 +77,7 @@ Page {
         Column
         {
             id: loginFormColumnId
-            width: 400
+            width: 300
             height: 400
             visible: true
             anchors.centerIn: parent
@@ -97,7 +97,7 @@ Page {
                 width: parent.width
                 height: 40
                 text: "ورود به سامانه روشنگران"
-                color: "#FFF"
+                color: "slategray"
                 font.bold: true
                 font.pixelSize: 24
                 font.family: "B Yekan"

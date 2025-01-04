@@ -189,6 +189,20 @@ Page {
                         onEntered: parent.color = "mediumvioletred";
                         onExited: parent.color = "slategray";
                         onClicked: {
+                            var photo = recdel.model.photo;
+                            if(photo === "")
+                                {
+                                    if(recdel.isFemale)
+                                        photo = "qrc:/assets/images/female.png";
+                                    else
+                                        photo = "qrc:/assets/images/user.png";
+                                }
+
+                            classStudentsPageId.appStackView.push(studentCoursesComponent, {
+                                                                      student: recdel.model.name + " " + recdel.model.lastname,
+                                                                      student_id: recdel.model.id,
+                                                                      student_photo: photo
+                                                                  });
                         }
                     }
                 }
@@ -206,5 +220,20 @@ Page {
 
         }
 
+    }
+
+    Component{
+        id: studentCoursesComponent
+        StudentCoursesList{
+            appStackView: classStudentsPageId.appStackView
+            branch: classStudentsPageId.branch
+            step: classStudentsPageId.step
+            base: classStudentsPageId.base
+            field : classStudentsPageId.field
+            field_based: classStudentsPageId.field_based
+            period: classStudentsPageId.period
+            class_name: classStudentsPageId.class_name
+            class_id: classStudentsPageId.class_id
+        }
     }
 }
