@@ -201,6 +201,12 @@ Page {
                         onEntered: parent.color = "mediumvioletred";
                         onExited: parent.color = "slategray";
                         onClicked: {
+                            classCoursePageId.appStackView.push(courseStudentsComponent,  {
+                                                                    objectName: "courseStudentON",
+                                                                    course_id: recdel.model.id,
+                                                                    course_name: recdel.model.course_name
+
+                                                                });
                         }
                     }
                 }
@@ -217,6 +223,20 @@ Page {
             }
 
         }
+    }
 
+    Component{
+        id: courseStudentsComponent
+        CourseStudentsList{
+            appStackView: classCoursePageId.appStackView
+            branch: classCoursePageId.branch
+            step: classCoursePageId.step
+            base: classCoursePageId.base
+            field : classCoursePageId.field
+            field_based: classCoursePageId.field_based
+            period: classCoursePageId.period
+            class_name: classCoursePageId.class_name
+            class_id: classCoursePageId.class_id
+        }
     }
 }

@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import "./../public" as DialogBox
 
 Page {
-    id: studentCoursesPageId
+    id: courseStudentsPageId
 
     required property string branch;
     required property string step;
@@ -14,9 +14,8 @@ Page {
     required property string period;
     required property string class_name;
     required property int class_id;
-    required property int student_id;
-    required property string student;
-    required property string student_photo;
+    required property int course_id;
+    required property string course_name;
 
     required property StackView appStackView;
 
@@ -41,7 +40,7 @@ Page {
                 icon.height: 64
                 icon.color:"transparent"
                 opacity: 0.5
-                onClicked: studentCoursesPageId.appStackView.pop();
+                onClicked: courseStudentsPageId.appStackView.pop();
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
             }
@@ -51,7 +50,7 @@ Page {
                 Layout.preferredHeight: 64
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + studentCoursesPageId.branch + " - " + studentCoursesPageId.step
+                text: "شعبه " + courseStudentsPageId.branch + " - " + courseStudentsPageId.step
                 font.family: "B Yekan"
                 font.pixelSize: 18
                 font.bold: true
@@ -70,20 +69,19 @@ Page {
                 icon.color:"transparent"
                 opacity: 0.5
                 onClicked: {
-                    if(dbMan.refreshStudentEvals(studentCoursesPageId.class_id, studentCoursesPageId.student_id))
+                    if(dbMan.refreshCourseEvals(courseStudentsPageId.class_id, courseStudentsPageId.course_id))
                     {
                         infoDialogId.dialogSuccess = true
                         infoDialogId.dialogTitle = "عملیات موفق"
-                        infoDialogId.dialogText = "آزمون‌های دانش‌آموز با موفقیت به روزرسانی شد."
-                        infoDialogId.open();
-
+                        infoDialogId.dialogText = "آزمون‌های درس برای دانش‌آموزان بروزرسانی شد.";
+                        // update model
                         lvModel.clear();
-                        var register_id = dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
-                        var jsonarray = dbMan.getStudentCourses_evals(register_id);
+                        var jsonarray = dbMan.getCourseStudents_evals(courseStudentsPageId.class_id, courseStudentsPageId.course_id);
                         for(var obj of jsonarray)
                         {
                             lvModel.append(obj);
                         }
+
                     }
                     else
                         infoDialogId.open();
@@ -93,58 +91,46 @@ Page {
             }
         }
 
-        RowLayout{
+        Column{
             Layout.fillWidth: true
-            Layout.preferredHeight:  150
+            Layout.preferredHeight: 150
 
-            Image {
-                source:studentCoursesPageId.student_photo
-                Layout.preferredWidth: 150
-                Layout.preferredHeight: 150
-                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+            Text {
+                width: parent.width
+                height: 50
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: courseStudentsPageId.course_name
+                font.family: "B Yekan"
+                font.pixelSize: 24
+                font.bold: true
+                color: "darkmagenta"
             }
-            Column{
-                Layout.fillWidth: true
-                Layout.preferredHeight: 150
 
-                Text {
-                    width: parent.width
-                    height: 50
-                    verticalAlignment: Qt.AlignVCenter
-                    horizontalAlignment: Qt.AlignLeft
-                    text: studentCoursesPageId.student
-                    font.family: "B Yekan"
-                    font.pixelSize: 20
-                    font.bold: true
-                    color: "darkmagenta"
-                }
+            Text {
+                width: parent.width
+                height: 50
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: (courseStudentsPageId.field_based) ? "رشته " + courseStudentsPageId.field + " - " + " پایه " + courseStudentsPageId.base :  " پایه " + courseStudentsPageId.base
+                font.family: "B Yekan"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
 
-                Text {
-                    width: parent.width
-                    height: 50
-                    verticalAlignment: Qt.AlignVCenter
-                    horizontalAlignment: Qt.AlignLeft
-                    text: (studentCoursesPageId.field_based) ? "رشته " + studentCoursesPageId.field + " - " + " پایه " + studentCoursesPageId.base :  " پایه " + studentCoursesPageId.base
-                    font.family: "B Yekan"
-                    font.pixelSize: 18
-                    font.bold: true
-                    color: "darkmagenta"
-                }
-
-                Text {
-                    width: parent.width
-                    height: 50
-                    verticalAlignment: Qt.AlignVCenter
-                    horizontalAlignment: Qt.AlignLeft
-                    text: " سال تحصیلی " +  studentCoursesPageId.period + " - " + " کلاس " + studentCoursesPageId.class_name
-                    font.family: "B Yekan"
-                    font.pixelSize: 18
-                    font.bold: true
-                    color: "darkmagenta"
-                }
+            Text {
+                width: parent.width
+                height: 50
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: " سال تحصیلی " +  courseStudentsPageId.period + " - " + " کلاس " + courseStudentsPageId.class_name
+                font.family: "B Yekan"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
             }
         }
-
 
 
         Rectangle{
@@ -160,7 +146,7 @@ Page {
             Layout.preferredHeight: 25
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: " دروس دانش‌آموز "
+            text: "ارزیابی درس دانش‌آموزان"
             font.family: "B Yekan"
             font.pixelSize: 20
             font.bold: true
@@ -190,18 +176,15 @@ Page {
                     delegate:lvDelegate
                     Component.onCompleted: {
                         lvModel.clear();
-                        var register_id = dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
-                        var jsonarray = dbMan.getStudentCourses_evals(register_id);
-                        //0sc.id, 1sc.register_id, 2sc.course_id, 3co.course_name, 4co.step_id, 5co.base_id, 6co.period_id,
-                        //7co.course_coefficient, 8co.test_coefficient, 9co.shared_coefficient, 10co.final_weight, 11co.shared_weight
-                        // evals [{}, {}] : {sce.student_course_eval_id, sce.student_course_id, sce.eval_id, e.eval_name, e.base_id, e.period_id, e.test_flag, e.final_flag,e.max_grade, sce.grade, sce.eval_time, sce.included}
+                        // register_id, r.student_id, r.class_id, s.student, s.fathername, s.photo, evals[]
+                        var jsonarray = dbMan.getCourseStudents_evals(courseStudentsPageId.class_id, courseStudentsPageId.course_id);
                         for(var obj of jsonarray)
                         {
                             lvModel.append(obj);
                         }
                     }
                     populate: Transition {
-                        // NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 1000 }
+                        //NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 1000 }
                         NumberAnimation { properties: "x,y"; duration: 1000 }
                     }
                 }
@@ -221,22 +204,14 @@ Page {
             required property var model;
             color: (recdel.model.index % 2 == 0)? "aliceblue" : "mintcream"
             RowLayout{
+                //user
                 spacing: 10
                 anchors.fill: parent
-                Rectangle{
-                    Layout.preferredWidth: 300
+                Image {
+                    source:recdel.model.photo
+                    Layout.preferredWidth: 100
                     Layout.preferredHeight: 100
-                    color: "transparent"
-                    Label{
-                        anchors.fill: parent
-                        font.family: "B Yekan"
-                        font.pixelSize: 20
-                        font.bold: true
-                        horizontalAlignment: Qt.AlignLeft
-                        verticalAlignment: Qt.AlignVCenter
-                        text: recdel.model.course_name
-                        color: "darkmagenta"
-                    }
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                 }
 
                 Rectangle{
@@ -248,19 +223,22 @@ Page {
                         height: 50
                         color: "transparent"
                         anchors.top: parent.top
+                        // top rect
                         RowLayout{
                             anchors.fill: parent
                             spacing: 20
+
+                            //Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+
                             Label{
                                 Layout.preferredHeight: 50
                                 font.family: "B Yekan"
-                                font.pixelSize: 14
+                                font.pixelSize: 20
                                 font.bold: true
                                 horizontalAlignment: Qt.AlignHCenter
                                 verticalAlignment: Qt.AlignVCenter
-                                text: "ضریب درس: " + recdel.model.course_coefficient
+                                text:  recdel.model.student
                                 color: "darkslategray"
-                                visible: (recdel.model.course_coefficient > 0)? true : false
                             }
                             Label{
                                 Layout.preferredHeight: 50
@@ -269,36 +247,15 @@ Page {
                                 font.bold: true
                                 horizontalAlignment: Qt.AlignHCenter
                                 verticalAlignment: Qt.AlignVCenter
-                                text: "ضریب تست: " + recdel.model.test_coefficient
+                                text:  "نام پدر: " + recdel.model.fathername
                                 color: "darkslategray"
-                                visible: (recdel.model.test_coefficient > 0)? true : false
+                                visible: (recdel.model.fathername !== "")? true : false
                             }
-                            Label{
-                                Layout.preferredHeight: 50
-                                font.family: "B Yekan"
-                                font.pixelSize: 14
-                                font.bold: true
-                                horizontalAlignment: Qt.AlignHCenter
-                                verticalAlignment: Qt.AlignVCenter
-                                text: "وزن آزمون نهایی: " + recdel.model.final_weight
-                                color: "darkslategray"
-                                visible: (recdel.model.final_weight > 0)? true : false
-                            }
-                            Label{
-                                Layout.preferredHeight: 50
-                                font.family: "B Yekan"
-                                font.pixelSize: 14
-                                font.bold: true
-                                horizontalAlignment: Qt.AlignHCenter
-                                verticalAlignment: Qt.AlignVCenter
-                                text: "وزن ضریب اشتراکی: " + recdel.model.shared_weight
-                                color: "darkslategray"
-                                visible: (recdel.model.shared_weight > 0)? true : false
-                            }
+
 
                             Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                         }
-
+                        // line
                         Rectangle{
                             width: parent.width
                             height: 1
@@ -306,7 +263,8 @@ Page {
                             anchors.bottom: parent.bottom
                         }
                     }
-                    // evals & grade
+                    // bottom rect
+                    //evals & grade
                     Rectangle{
                         width: parent.width
                         height: 50
@@ -404,6 +362,7 @@ Page {
                                                         evalRecDel.value = v;
                                                     }
                                                 }
+
                                             }
 
                                             TextField{
@@ -437,6 +396,7 @@ Page {
                                                     icon.color:"transparent"
                                                     opacity: 0.5
                                                     onClicked: parent.parent.doneEdit();
+
                                                     hoverEnabled: true
                                                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                                                     anchors.right:parent.right
