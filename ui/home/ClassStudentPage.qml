@@ -145,8 +145,8 @@ Page {
                                 }
 
                             }
-                            Layout.preferredWidth: 200
-                            Layout.preferredHeight: 200
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 150
                             Layout.alignment: Qt.AlignHCenter
                         }
                         Text {
@@ -181,6 +181,69 @@ Page {
                         }
 
                         Item{Layout.preferredWidth: parent.width; Layout.fillHeight: true;}
+                        Rectangle{
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            color: "lightgray"
+                            Row{
+                                anchors.fill: parent
+                                Button
+                                {
+                                    height: 48
+                                    width: 48
+                                    background: Item{}
+                                    icon.source: "qrc:/assets/images/course.png"
+                                    icon.width: 48
+                                    icon.height: 48
+                                    icon.color:"transparent"
+                                    opacity: 1
+                                    onClicked:{
+                                        var photo = recdel.model.photo;
+                                        if(photo === "")
+                                        {
+                                            if(recdel.isFemale)
+                                                photo = "qrc:/assets/images/female.png";
+                                            else
+                                                photo = "qrc:/assets/images/user.png";
+                                        }
+
+                                        classStudentsPageId.appStackView.push(studentCoursesComponent, {
+                                                                                  student: recdel.model.name + " " + recdel.model.lastname,
+                                                                                  student_id: recdel.model.id,
+                                                                                  student_photo: photo
+                                                                              });
+                                    }
+
+                                }
+                                Button
+                                {
+                                    height: 48
+                                    width: 48
+                                    background: Item{}
+                                    icon.source: "qrc:/assets/images/evaluation.png"
+                                    icon.width: 48
+                                    icon.height: 48
+                                    icon.color:"transparent"
+                                    opacity: 1
+                                    onClicked:{
+                                        var photo = recdel.model.photo;
+                                        if(photo === "")
+                                        {
+                                            if(recdel.isFemale)
+                                                photo = "qrc:/assets/images/female.png";
+                                            else
+                                                photo = "qrc:/assets/images/user.png";
+                                        }
+                                        classStudentsPageId.appStackView.push(studentResultComponent, {
+                                                                                  student: recdel.model.name + " " + recdel.model.lastname,
+                                                                                  student_id: recdel.model.id,
+                                                                                  student_photo: photo
+                                                                              });
+                                    }
+
+                                }
+                            }
+                        }
                     }
 
                     MouseArea{
@@ -188,29 +251,14 @@ Page {
                         hoverEnabled: true
                         onEntered: parent.color = "mediumvioletred";
                         onExited: parent.color = "slategray";
-                        onClicked: {
-                            var photo = recdel.model.photo;
-                            if(photo === "")
-                                {
-                                    if(recdel.isFemale)
-                                        photo = "qrc:/assets/images/female.png";
-                                    else
-                                        photo = "qrc:/assets/images/user.png";
-                                }
-
-                            classStudentsPageId.appStackView.push(studentCoursesComponent, {
-                                                                      student: recdel.model.name + " " + recdel.model.lastname,
-                                                                      student_id: recdel.model.id,
-                                                                      student_photo: photo
-                                                                  });
-                        }
+                        acceptedButtons: Qt.NoButton
                     }
                 }
 
                 Component.onCompleted: {
                     var jsondata = dbMan.getClassStudentsArray(classStudentsPageId.class_id);
                     classStudentsModel.clear();
-                     //id, step_id, name, lastname, fathername, gender, birthday, photo
+                    //id, step_id, name, lastname, fathername, gender, birthday, photo
                     for(var obj of jsondata)
                     {
                         classStudentsModel.append(obj);
@@ -225,6 +273,22 @@ Page {
     Component{
         id: studentCoursesComponent
         StudentCoursesList{
+            appStackView: classStudentsPageId.appStackView
+            branch: classStudentsPageId.branch
+            step: classStudentsPageId.step
+            base: classStudentsPageId.base
+            field : classStudentsPageId.field
+            field_based: classStudentsPageId.field_based
+            period: classStudentsPageId.period
+            class_name: classStudentsPageId.class_name
+            class_id: classStudentsPageId.class_id
+        }
+    }
+
+    // student result
+    Component{
+        id: studentResultComponent
+        StudentResultSetting{
             appStackView: classStudentsPageId.appStackView
             branch: classStudentsPageId.branch
             step: classStudentsPageId.step

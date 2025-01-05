@@ -140,7 +140,7 @@ Page {
                     height: 50
                     width : parent.width/2
                     focus: true
-                    Rectangle{width:parent.width; height:5; anchors.bottom: parent.bottom; color: "forestgreen"}
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "darkcyan"}
 
                     onClicked:
                     {
@@ -156,7 +156,7 @@ Page {
                     font.pixelSize: 14
                     height: 50
                     width : parent.width/2
-                    Rectangle{width:parent.width; height:5; anchors.bottom: parent.bottom; color: "mediumvioletred"}
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
 
                     onClicked:
                     {

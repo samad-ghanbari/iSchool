@@ -100,7 +100,7 @@ Page {
                                     height: 150
                                     anchors.centerIn: parent
                                     source:{
-                                        if(pdfReport.student.Photo == "")
+                                        if(pdfReport.student.Photo === "")
                                         {
                                             if(pdfReport.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
                                         }

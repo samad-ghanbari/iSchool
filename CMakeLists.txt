@@ -67,6 +67,7 @@ qt_add_qml_module(appiSchool
         ui/home/ClassStudentPage.qml
         ui/home/StudentCoursesList.qml
         ui/home/CourseStudentsList.qml
+        ui/home/StudentResultSetting.qml
 
     #USER
         ui/user/ListUser.qml
