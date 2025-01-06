@@ -234,6 +234,8 @@ Page {
                             font.pixelSize: 16
                         }
 
+                        Rectangle{Layout.fillWidth: true; Layout.maximumWidth: 500; Layout.alignment: Qt.AlignHCenter; Layout.preferredHeight: 1; color: "slategray";}
+
                         Switch{
                             id: baseRankSW
                             Layout.fillWidth: true
@@ -316,8 +318,6 @@ Page {
                             }
                         }
 
-                        Rectangle{Layout.fillWidth: true; Layout.maximumWidth: 500; Layout.alignment: Qt.AlignHCenter; Layout.preferredHeight: 1; color: "slategray";}
-
                         Switch{
                             id: fieldBasedSW
                             Layout.fillWidth: true
@@ -329,6 +329,52 @@ Page {
                             visible: studentResultSettingPage.field_based
                             font.family: "B Yekan"
                             font.pixelSize: 16
+                        }
+
+                        RowLayout{
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 500
+                            Layout.preferredHeight: 50
+                            Layout.alignment: Qt.AlignHCenter
+
+                            Label{
+                                Layout.preferredHeight: 50
+                                Layout.preferredWidth: 200
+                                Layout.alignment: Qt.AlignLeft
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                text:"مرجع مقایسه رتبه و میانگین: "
+                            }
+                            ComboBox{
+                                id: compareRef
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                font.bold: false
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                model: ListModel{id: refModel}
+                                textRole: "text"
+                                valueRole: "value"
+                                Component.onCompleted:
+                                {
+                                    //compareRef.currentIndex = -1
+                                    refModel.clear();
+                                    var jsondata = dbMan.getEvals();
+                                    var finalValue = -1
+                                    //id, eval_name, base_id, period_id, test_flag, final_flag, max_grade
+                                    refModel.append({text: "ارزیابی نیمسال " , value: 0});
+                                    for(var obj of jsondata)
+                                    {
+                                        if(obj.test_flag === false)
+                                            refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+                                        if(obj.final_flag === true)
+                                            finalValue = obj.id
+                                    }
+                                    compareRef.currentIndex = compareRef.indexOfValue(finalValue)
+                                }
+                            }
                         }
 
                         Item{
@@ -376,6 +422,8 @@ Page {
                                     var baseAvg_flag = baseAvgSW.checked
                                     var fieldBased_flag = fieldBasedSW.checked
                                     var maxGrade_flag = maxGradeSW.checked
+                                    var compare_ref_id = compareRef.currentValue
+                                    var compare_ref = compareRef.currentText
 
                                     var params = {
                                         "student_id": student_id,
@@ -387,7 +435,9 @@ Page {
                                         "classRank_flag" : classRank_flag,
                                         "baseAvg_flag" : baseAvg_flag,
                                         "fieldBased_flag" : fieldBased_flag,
-                                        "maxGrade_flag" : maxGrade_flag
+                                        "maxGrade_flag" : maxGrade_flag,
+                                        "compare_ref_id": compare_ref_id,
+                                        "compare_ref" : compare_ref
                                     }
 
                                     var result = dbMan.getStudentTranscript(params);
@@ -396,7 +446,6 @@ Page {
                                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "darkcyan"}
                             }
                         }
-
 
                     }
                 }
