@@ -11,8 +11,26 @@ Backend::Backend(QGuiApplication &app, QObject *parent)
     //studentStatModel = new StudentStatModel(this);
 
 
-    QFontDatabase::addApplicationFont(":/assets/font/yekan.ttf");
+    // register fonts
+    // usage name
     // B Yekan
+    // IranNastaliq
+
+    QFontDatabase::addApplicationFont(":/assets/font/yekan.ttf"); // B Yean
+    QFontDatabase::addApplicationFont(":/assets/font/ZarBd.ttf"); // Zar
+    QFontDatabase::addApplicationFont(":/assets/font/TitrBd.ttf"); //Titr
+    //int ii =QFontDatabase::addApplicationFont(":/assets/font/Titraj.ttf"); //Titr
+
+
+    // //Retrieve and print the font family name
+    // QStringList fontFamilies = QFontDatabase::applicationFontFamilies(ii);
+    // if (!fontFamilies.isEmpty()) {
+    //     QString fontFamily = fontFamilies.at(0);
+    //     qDebug() << "Font family:" << fontFamily;
+    // } else {
+    //     qWarning() << "No font families found!";
+    // }
+
 
     QObject::connect(
         &engine,

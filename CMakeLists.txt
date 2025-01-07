@@ -188,6 +188,10 @@ qt_add_resources(appiSchool "assets"
 
     FILES
         assets/font/yekan.ttf
+        assets/font/IranNastaliq.ttf
+        assets/font/ZarBd.ttf
+        assets/font/TitrBd.ttf
+        #assets/font/Titraj.ttf
         qmldir
         ui/login/qmldir
         ui/home/qmldir

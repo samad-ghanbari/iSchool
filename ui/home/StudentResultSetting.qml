@@ -475,7 +475,7 @@ Page {
             //var result = dbMan.getStudentTranscript(params);
 
 
-            if(dbMan.studentTranscriptPdf(selectedFile, params))
+            if(dbMan.generatePdf(selectedFile, params))
             {
                 infoDialogId.dialogTitle = "عملیات موفق"
                 infoDialogId.dialogSuccess = true
