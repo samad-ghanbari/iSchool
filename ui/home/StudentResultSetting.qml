@@ -411,36 +411,7 @@ Page {
                                 font.pixelSize: 14
                                 onClicked:
                                 {
-                                    // student_id   class_id  evals  semester  baseRank classRank  baseAvg max_grade field_based
-                                    var student_id = studentResultSettingPage.student_id
-                                    var class_id = studentResultSettingPage.class_id
-                                    var evals = studentResultSettingPage.evals
-                                    var semester_flag = semesterColumnSW.checked
-                                    var semester_value = semesterNumberTF.text
-                                    var baseRank_flag = baseRankSW.checked
-                                    var classRank_flag = classRankSW.checked
-                                    var baseAvg_flag = baseAvgSW.checked
-                                    var fieldBased_flag = fieldBasedSW.checked
-                                    var maxGrade_flag = maxGradeSW.checked
-                                    var compare_ref_id = compareRef.currentValue
-                                    var compare_ref = compareRef.currentText
-
-                                    var params = {
-                                        "student_id": student_id,
-                                        "class_id": class_id,
-                                        "evals": evals,
-                                        "semester_flag": semester_flag,
-                                        "semester_value": semester_value,
-                                        "baseRank_flag" : baseRank_flag,
-                                        "classRank_flag" : classRank_flag,
-                                        "baseAvg_flag" : baseAvg_flag,
-                                        "fieldBased_flag" : fieldBased_flag,
-                                        "maxGrade_flag" : maxGrade_flag,
-                                        "compare_ref_id": compare_ref_id,
-                                        "compare_ref" : compare_ref
-                                    }
-
-                                    var result = dbMan.getStudentTranscript(params);
+                                    saveFileDialog.open();
                                 }
 
                                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "darkcyan"}
@@ -461,5 +432,62 @@ Page {
         dialogTitle: "خطا"
         dialogText: "عملیات با خطا مواجه شد."
         dialogSuccess: false
+    }
+
+    // file dialog
+    FileDialog {
+        id: saveFileDialog
+        title: "محل ذخیره گزارش"
+        currentFolder: "file:///home/samad"
+        //currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["PDF Files (*.pdf)", "All Files (*)"]
+        fileMode: FileDialog.SaveFile
+        onAccepted:{
+            // student_id   class_id  evals  semester  baseRank classRank  baseAvg max_grade field_based
+            var student_id = studentResultSettingPage.student_id
+            var class_id = studentResultSettingPage.class_id
+            var evals = studentResultSettingPage.evals
+            var semester_flag = semesterColumnSW.checked
+            var semester_value = semesterNumberTF.text
+            var baseRank_flag = baseRankSW.checked
+            var classRank_flag = classRankSW.checked
+            var baseAvg_flag = baseAvgSW.checked
+            var fieldBased_flag = fieldBasedSW.checked
+            var maxGrade_flag = maxGradeSW.checked
+            var compare_ref_id = compareRef.currentValue
+            var compare_ref = compareRef.currentText
+
+            var params = {
+                "student_id": student_id,
+                "class_id": class_id,
+                "evals": evals,
+                "semester_flag": semester_flag,
+                "semester_value": semester_value,
+                "baseRank_flag" : baseRank_flag,
+                "classRank_flag" : classRank_flag,
+                "baseAvg_flag" : baseAvg_flag,
+                "fieldBased_flag" : fieldBased_flag,
+                "maxGrade_flag" : maxGrade_flag,
+                "compare_ref_id": compare_ref_id,
+                "compare_ref" : compare_ref
+            }
+
+            //var result = dbMan.getStudentTranscript(params);
+
+
+            if(dbMan.studentTranscriptPdf(selectedFile, params))
+            {
+                infoDialogId.dialogTitle = "عملیات موفق"
+                infoDialogId.dialogSuccess = true
+                infoDialogId.width = 500
+                infoDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile
+                infoDialogId.open();
+            }
+            else
+            {
+                infoDialogId.open();
+            }
+        }
+        onRejected: saveFileDialog.close();
     }
 }
