@@ -2,11 +2,10 @@ function updateBranches()
 {
     branchesModel.clear();
     var jsondata = dbMan.getBranches();
-    //jsondata = JSON.parse(jsondata);
-    //id, city, branch_name, branch_address
     for(var obj of jsondata)
     {
-        branchesModel.append({ Id: obj.id, City: obj.city, Name: obj.branch_name, Address: obj.branch_address });
+        //id, city, branch_name, branch_address
+        branchesModel.append(obj);
     }
 }
 

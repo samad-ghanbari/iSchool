@@ -60,8 +60,8 @@ Page {
             {
                 height: parent.height
                 width: parent.width
-                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+                contentHeight:  centerBoxId.height + 100
+
 
                 Rectangle
                 {
@@ -70,7 +70,7 @@ Page {
                     width:  (parent.width < 700)? parent.width : 700
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.margins: 10
-                    implicitHeight: parent.height
+                    implicitHeight: stepInsertCL.height
 
                     radius: 10
                     Item {
@@ -135,6 +135,28 @@ Page {
 
                                 }
 
+                                Switch{
+                                    id: numericGradedSW
+                                    Layout.columnSpan: 2
+                                    Layout.preferredHeight:  50
+                                    text: "ارزیابی مبتنی بر عدد"
+                                    checked: true
+                                    Layout.alignment: Qt.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                }
+
+                                Switch{
+                                    id: fielsBasedSW
+                                    Layout.preferredHeight:  50
+                                    Layout.columnSpan: 2
+                                    text: "دوره مبتنی بر رشته"
+                                    checked: false
+                                    Layout.alignment: Qt.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                }
+
                             }
 
                             Item
@@ -157,6 +179,8 @@ Page {
                                     var Step = {};
                                     Step["branch_id"] = insertStepPage.branchId
                                     Step["step_name"] = stepNameTF.text
+                                    Step["numeric_graded"] = numericGradedSW.checked
+                                    Step["field_based"] = fielsBasedSW.checked
 
                                     var check = true
                                     // check entries

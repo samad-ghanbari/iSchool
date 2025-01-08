@@ -8,11 +8,14 @@ import "Base.js" as Methods
 Page {
     id: insertBasePage
 
-    property int branchId;
-    property string branchText
+    required property int step_id;
+    required property string branch
+    required property string step
+    required property bool field_based
+
 
     required property StackView appStackView
-    signal baseInsertedSignal(var branchId);
+    signal baseInsertedSignal(var step_id);
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -60,8 +63,7 @@ Page {
             {
                 height: parent.height
                 width: parent.width
-                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+                contentHeight: centerBoxId.height + 100
 
                 Rectangle
                 {
@@ -70,7 +72,7 @@ Page {
                     width:  (parent.width < 700)? parent.width : 700
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.margins: 10
-                    implicitHeight: parent.height
+                    implicitHeight: baseInsertCL.height + 100
 
                     radius: 10
                     Item {
@@ -101,7 +103,7 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "شعبه " + insertBasePage.branchText
+                                    text: "شعبه " + insertBasePage.branch + " - " + "دوره " + insertBasePage.step
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -112,13 +114,13 @@ Page {
                                     color: "royalblue"
                                 }
 
-
                                 Text {
                                     text: "نام پایه تحصیلی"
                                     Layout.minimumWidth: 100
                                     Layout.maximumWidth: 100
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment:  Text.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true
@@ -128,6 +130,7 @@ Page {
                                 {
                                     id: baseTF
                                     Layout.fillWidth: true
+                                    Layout.maximumWidth: 400
                                     Layout.preferredHeight: 50
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
@@ -135,6 +138,80 @@ Page {
 
                                 }
 
+                                Label
+                                {
+                                    Layout.minimumWidth: 100
+                                    Layout.maximumWidth: 100
+                                    Layout.preferredHeight: 50
+                                    text:" انتخاب رشته"
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    color: "royalblue"
+                                    horizontalAlignment: Label.AlignLeft
+                                    verticalAlignment: Label.AlignVCenter
+                                    visible: insertBasePage.field_based
+                                }
+                                ComboBox
+                                {
+                                    id: fieldCB
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    Layout.maximumWidth: 400
+                                    visible: insertBasePage.field_based
+                                    editable: false
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    model: ListModel{id: fieldCBoxModel}
+                                    textRole: "text"
+                                    valueRole: "value"
+                                    Component.onCompleted:
+                                    {
+                                        fieldCBoxModel.clear();
+                                        var jsondata = dbMan.getFields(insertBasePage.step_id);
+                                        //id, field_name
+                                        var temp;
+                                        for(var obj of jsondata)
+                                        {
+                                            fieldCBoxModel.append({ value: obj.id, text: obj.field_name })
+                                        }
+
+                                        fieldCB.currentIndex = -1
+                                    }
+                                }
+
+                                Switch{
+                                    id: enabledSW
+                                    Layout.columnSpan: 2
+                                    Layout.preferredHeight:  50
+                                    text: "فعال بودن پایه تحصیلی"
+                                    checked: true
+                                    Layout.alignment: Qt.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                }
+
+                                Text {
+                                    text: "اولویت نمایش"
+                                    Layout.minimumWidth: 100
+                                    Layout.maximumWidth: 100
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                SpinBox
+                                {
+                                    id: sortSB
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    Layout.maximumWidth: 400
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    value:  1;
+                                }
                             }
 
                             Item
@@ -155,8 +232,12 @@ Page {
                                 onClicked:
                                 {
                                     var Base = {};
-                                    Base["branch_id"] = insertBasePage.branchId
-                                    Base["study_base"] = baseTF.text
+                                    Base["step_id"] = insertBasePage.step_id
+                                    Base["base_name"] = baseTF.text
+                                    Base["field_based"] = insertBasePage.field_based
+                                    Base["field_id"] = fieldCB.currentValue
+                                    Base["enabled"] = enabledSW.checked
+                                    Base["sort_priority"] = sortSB.value
 
                                     var check = true
                                     // check entries
@@ -166,9 +247,9 @@ Page {
                                         return;
                                     }
 
-                                    if(dbMan.insertStudyBase(Base))
+                                    if(dbMan.insertBase(Base))
                                     {
-                                        insertBasePage.baseInsertedSignal(insertBasePage.branchId);
+                                        insertBasePage.baseInsertedSignal(insertBasePage.step_id);
                                         baseSuccessDialogId.open();
 
                                     }

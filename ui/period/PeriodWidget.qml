@@ -7,21 +7,16 @@ import "./Period.js" as Methods
 
 SwipeDelegate
 {
-    //s.id, s.branch_id, s.period_name, b.city, b.branch_name
+    // p.id, p.step_id, p.period_name, p.passed, s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
     id: periodDelegate
     required property StackView appStackView
     required property int index
 
-    property int periodId
-    property int branchId
-    property string studyPeriod
-    property bool passed;
-    property string city
-    property string branchName
+    property var periodModel
 
     signal periodDeleted(var index);
 
-    height: 110
+    height: 160
     checkable: true
     checked: periodDelegate.swipe.complete
     onCheckedChanged: { if(!periodDelegate.checked) periodDelegate.swipe.close();}
@@ -32,7 +27,7 @@ SwipeDelegate
     contentItem: Rectangle
     {
         color: {
-            if(periodDelegate.passed)
+            if(periodDelegate.periodModel.passed)
             {
                 if(periodDelegate.highlighted) return "lightpink"; else return "lavenderblush";
             }
@@ -49,7 +44,7 @@ SwipeDelegate
 
             spacing: 0
             Label {
-                text: "سال‌تحصیلی " + periodDelegate.studyPeriod
+                text: "سال‌تحصیلی " + periodDelegate.periodModel.period_name
                 padding: 0
                 font.family: "B Yekan"
                 font.pixelSize: (periodDelegate.highlighted)? 20 :16
@@ -61,7 +56,26 @@ SwipeDelegate
                 elide: Text.ElideRight
             }
             Label {
-                text: "شعبه " + periodDelegate.city + " - " + periodDelegate.branchName
+                text: "شعبه " + periodDelegate.periodModel.city + " - " + periodDelegate.periodModel.branch_name
+                padding: 0
+                font.family: "B Yekan"
+                font.pixelSize: 14
+                font.bold: (periodDelegate.highlighted)? true : false
+                color: (periodDelegate.highlighted)? "darkcyan": "black"
+                width: parent.width
+                height: 50
+                horizontalAlignment: Label.AlignHCenter
+                elide: Text.ElideRight
+            }
+
+            Label {
+                text:{
+                    var temp = periodDelegate.periodModel.step_name ;
+                    if(temp.includes("دوره"))
+                        return temp;
+                    else
+                        return "دوره " + periodDelegate.periodModel.step_name
+                }
                 padding: 0
                 font.family: "B Yekan"
                 font.pixelSize: 14
@@ -79,12 +93,12 @@ SwipeDelegate
 
     swipe.right: Row{
         width: 150
-        height: 100
+        height: 150
         anchors.left: parent.left
 
         Button
         {
-            height: 100
+            height: 150
             width: 75
             background: Rectangle{id:trashBtnBg; color: "crimson"}
             hoverEnabled: true
@@ -103,13 +117,12 @@ SwipeDelegate
             {
                 if(periodDelegate.swipe.complete)
                 periodDelegate.swipe.close();
-                var branchText =  periodDelegate.city + " - " + periodDelegate.branchName;
-                periodDelegate.appStackView.push(deletePeriodComponent, {periodId: periodDelegate.periodId, periodIndex: periodDelegate.index,  studyPeriod: periodDelegate.studyPeriod, passed: periodDelegate.passed, branchText: branchText});
+                periodDelegate.appStackView.push(deletePeriodComponent, { periodIndex: periodDelegate.index, model: periodDelegate.periodModel});
             }
         }
         Button
         {
-            height: 100
+            height: 150
             width: 75
             background:  Rectangle{id:editBtnBg; color: "royalblue"}
             hoverEnabled: true
@@ -128,8 +141,7 @@ SwipeDelegate
             {
                 if(periodDelegate.swipe.complete)
                 periodDelegate.swipe.close();
-                var branchText =  periodDelegate.city + " - " + periodDelegate.branchName;
-                periodDelegate.appStackView.push(updatePeriodComponent, {periodId: periodDelegate.periodId, studyPeriod: periodDelegate.studyPeriod, passed: periodDelegate.passed, branch: branchText });
+                periodDelegate.appStackView.push(updatePeriodComponent, {model: periodDelegate.periodModel });
             }
         }
     }

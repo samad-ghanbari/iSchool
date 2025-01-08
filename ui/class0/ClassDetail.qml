@@ -481,6 +481,24 @@ Page {
         }
     }
 
+    // class course student eval
+    Component{
+        id: classCourseStudentsEval
+        ClassCSEval{
+            class_id : classDetailPage.class_id
+            class_name: classDetailPage.class_name
+            branch : classDetailPage.branch_text
+            step: classDetailPage.step_text
+            base: classDetailPage.base_text
+            period: classDetailPage.period_text
+            branch_id: classDetailPage.branch_id
+            step_id: classDetailPage.step_id
+            base_id: classDetailPage.base_id
+            period_id: classDetailPage.period_id
+
+            onPopStackViewSignal: classDetailPage.appStackView.pop();
+        }
+    }
 
     DialogBox.BaseDialog
     {

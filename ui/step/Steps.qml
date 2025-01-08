@@ -37,7 +37,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "لیست دوره‌ها"
+            text: "مدیریت دوره‌ها"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -143,11 +143,13 @@ Page {
                         highlighted: (model.index === stepsLV.currentIndex)? true: false;
                         onStepDeleted: (sindex)=>{stepsModel.remove(sindex);}
 
-                        stepId: model.Id;
-                        branchId: model.BranchId;
-                        stepName: model.StepName;
-                        branchCity: model.BranchCity;
-                        branchName: model.BranchName;
+                        stepId: model.id;
+                        branchId: model.branch_id;
+                        stepName: model.step_name;
+                        branchCity: model.branch_city;
+                        branchName: model.branch_name;
+                        numeric_graded: model.numeric_graded;
+                        field_based: model.field_based;
                     }
 
                     function closeSwipeHandler()

@@ -8,11 +8,12 @@ Page {
     id: insertPage
 
     property int step_id;
+    property int base_id;
     property int period_id;
-
-    property string branch;
-    property string step
-    property string period
+    property string branch_text
+    property string step_text
+    property string base_text
+    property string period_text
 
     signal classInsertedSignal();
     signal popStackSignal();

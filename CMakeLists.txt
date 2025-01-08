@@ -168,12 +168,12 @@ qt_add_qml_module(appiSchool
         ui/student/StudentCourseInsert.qml
         ui/student/StudentCourseDelete.qml
         ui/student/StudentCourseEval.qml
-        ui/class/ClassStudents.qml
-        ui/class/ClassStudentCourses.qml
-        ui/class/ClassSCEval.qml
-        ui/class/ClassCSEval.qml
-        ui/class/StudentStatDrawer.qml
-        ui/class/StudentStatPdfReport.qml
+
+
+
+
+
+
 
 
     #About

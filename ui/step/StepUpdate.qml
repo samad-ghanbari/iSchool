@@ -9,9 +9,12 @@ import "Step.js" as Methods
 
 Page {
     id: updateStepPage
-    property int stepId
-    property string branch
-    property string step
+    required property int stepId
+    required property string branch
+    required property string step
+    required property bool field_based
+    required property bool numeric_graded
+
     required property StackView appStackView;
     signal stepUpdatedSignal(var step);
 
@@ -61,8 +64,7 @@ Page {
             {
                 height: parent.height
                 width: parent.width
-                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+                contentHeight: centerBoxId.height + 100
 
                 Rectangle
                 {
@@ -71,7 +73,7 @@ Page {
                     width:  (parent.width < 700)? parent.width : 700
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.margins: 10
-                    implicitHeight: parent.height
+                    implicitHeight: stepUpdateCL.height
 
                     radius: 10
                     Item{
@@ -143,6 +145,29 @@ Page {
                                     placeholderText: "دوره"
                                     text: updateStepPage.step
                                 }
+
+                                Switch{
+                                    id: numericGradedSW
+                                    Layout.columnSpan: 2
+                                    Layout.preferredHeight:  50
+                                    text: "ارزیابی مبتنی بر عدد"
+                                    checked: updateStepPage.numeric_graded
+                                    Layout.alignment: Qt.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                }
+
+                                Switch{
+                                    id: fieldsBasedSW
+                                    Layout.preferredHeight:  50
+                                    Layout.columnSpan: 2
+                                    text: "دوره مبتنی بر رشته"
+                                    checked: updateStepPage.field_based
+                                    Layout.alignment: Qt.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                }
+
                             }
 
                             Item
@@ -165,6 +190,8 @@ Page {
                                     var step = {};
                                     step["id"] = updateStepPage.stepId;
                                     step["step_name"] = stepNameTF.text;
+                                    step["field_based"] = fieldsBasedSW.checked;
+                                    step["numeric_graded"] = numericGradedSW.checked;
 
                                     var check = true
                                     // check entries

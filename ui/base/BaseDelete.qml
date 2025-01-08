@@ -8,10 +8,8 @@ import "./../public" as DialogBox
 
 Page {
     id: baseDeletePage
-    property int baseId
-    property int baseIndex
-    property string studyBase
-    property string branchText
+    required property int baseIndex
+    required property var model;
 
     required property StackView appStackView;
 
@@ -63,8 +61,7 @@ Page {
             {
                 height: parent.height
                 width: parent.width
-                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+                contentHeight: centerBoxSDId.height + 100
 
                 Rectangle
                 {
@@ -73,7 +70,7 @@ Page {
                     width:  (parent.width < 700)? parent.width : 700
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.margins: 10
-                    implicitHeight: parent.height
+                    implicitHeight: baseDeleteCL.height + 100
 
                     radius: 10
                     Item {
@@ -95,16 +92,55 @@ Page {
                                 Layout.preferredWidth:  parent.width
 
                                 Text {
-                                    Layout.columnSpan: 2
-                                    text: "شعبه " + baseDeletePage.branchText
+                                    text: "شعبه "
+                                    Layout.minimumWidth: 100
+                                    Layout.maximumWidth: 100
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                }
+                                Text
+                                {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
-                                    font.pixelSize: 20
+                                    font.pixelSize: 16
+                                    text: "شعبه " + baseDeletePage.model.city + " " + baseDeletePage.model.branch_name
                                     font.bold: true
-                                    color: "royalblue"
+                                }
+
+
+
+                                Text {
+                                    text: "دوره "
+                                    Layout.minimumWidth: 100
+                                    Layout.maximumWidth: 100
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                }
+                                Text
+                                {
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    text:{
+                                        var temp = baseDeletePage.model.step_name;
+                                        if(temp.includes("دوره"))
+                                        return temp;
+                                        else
+                                        return "دوره " + temp;
+                                    }
+                                    font.bold: true
                                 }
 
 
@@ -114,7 +150,7 @@ Page {
                                     Layout.maximumWidth: 100
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                 }
@@ -123,12 +159,27 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    text: baseDeletePage.studyBase
+                                    text: baseDeletePage.model.base_name
                                     font.bold: true
                                 }
+
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text: "رشته " + baseDeletePage.model.field_name
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 20
+                                    font.bold: true
+                                    color: "royalblue"
+                                    visible: baseDeletePage.model.field_based
+                                }
+
                             }
 
                             Item
@@ -183,7 +234,7 @@ Page {
         rejectVisible: true
 
         onDialogAccepted: function(){
-            if(dbMan.deleteStudyBase(baseDeletePage.baseId))
+            if(dbMan.deleteBase(baseDeletePage.model.id))
                 baseSuccessDelDialog.open();
             else
                 baseErrorDelDialog.open();

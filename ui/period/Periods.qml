@@ -37,7 +37,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "لیست سال‌های تحصیلی"
+            text: "مدیریت سال‌های تحصیلی"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -82,10 +82,59 @@ Page {
                     branchCB.currentIndex = -1
                 }
 
-                onActivated: Methods.periodsUpdate(branchCB.currentValue)
-
+                onActivated: {
+                        stepCBoxModel.clear();
+                        periodsModel.clear();
+                        var jsondata = dbMan.getBranchSteps(branchCB.currentValue);
+                        //s.id, s.branch_id, s.step_name, s.field_based, s.numeric_graded, b.city, b.branch_name
+                        var temp;
+                        for(var obj of jsondata)
+                        {
+                            temp = obj.step_name;
+                            stepCBoxModel.append({ value: obj.id, text: temp })
+                        }
+                }
             }
         }
+
+        RowLayout{
+            Layout.columnSpan: 2
+            Layout.preferredHeight:  50
+            Layout.preferredWidth: branchLbl.width + branchCB.width
+            Layout.alignment: Qt.AlignHCenter
+
+            Label
+            {
+                Layout.preferredHeight:  50
+                Layout.preferredWidth: 100
+                text:" انتخاب دوره"
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                font.bold: true
+                horizontalAlignment: Label.AlignLeft
+                verticalAlignment: Label.AlignVCenter
+            }
+            ComboBox
+            {
+                id: stepCB
+                Layout.preferredHeight:  50
+                Layout.fillWidth: true
+                Layout.maximumWidth: 400
+                editable: false
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                model: ListModel{id: stepCBoxModel}
+                textRole: "text"
+                valueRole: "value"
+                Component.onCompleted:
+                {
+                    stepCB.currentIndex = -1
+                }
+
+                onActivated: Methods.periodsUpdate(stepCB.currentValue)
+            }
+        }
+
 
         Rectangle
         {
@@ -103,7 +152,7 @@ Page {
                     Layout.preferredWidth: 64
                     Layout.alignment: Qt.AlignRight
                     background: Item{}
-                    visible: (branchCB.currentIndex >=0)? true : false;
+                    visible: (stepCB.currentIndex >=0)? true : false;
                     icon.source: "qrc:/assets/images/add.png"
                     icon.width: 64
                     icon.height: 64
@@ -111,9 +160,9 @@ Page {
                     opacity: 0.5
                     onClicked:
                     {
-                        var bid = branchCB.currentValue;
-                        if(bid >= 0)
-                        periodsPage.appStackView.push(periodInsertComponent, {branchId: bid, branchText: branchCB.currentText });
+                        var sid = stepCB.currentValue;
+                        if(sid >= 0)
+                        periodsPage.appStackView.push(periodInsertComponent, {step_id: sid, branch: branchCB.currentText, step: stepCB.currentText });
                         else
                         insertInfoDialogId.open();
                     }
@@ -143,12 +192,7 @@ Page {
                         highlighted: (model.index === periodsLV.currentIndex)? true: false;
                         onPeriodDeleted: (pindex)=>{periodsModel.remove(pindex);}
 
-                        periodId: model.Id;
-                        branchId: model.BranchId;
-                        studyPeriod: model.StudyPeriod;
-                        passed: model.Passed
-                        city: model.City;
-                        branchName: model.BranchName;
+                        periodModel: model
                     }
 
                     function closeSwipeHandler()
@@ -174,7 +218,7 @@ Page {
         id: periodInsertComponent
         PeriodInsert{
             appStackView: periodsPage.appStackView;
-            onPeriodInsertedSignal: (bId)=> Methods.periodsUpdate(bId);
+            onPeriodInsertedSignal: (sId)=> Methods.periodsUpdate(sId);
         }
     }
     DialogBox.BaseDialog

@@ -17,8 +17,8 @@ ApplicationWindow {
     LayoutMirroring.childrenInherit: true
     //flags: Qt.WindowSystemMenuHint | ~Qt.WindowCloseButtonHint;
 
-    menuBar: MenubarModule{ id: menubarId; appStackView: homeStackViewId; toolbarId: toolbarId; }
-    header : ToolbarModule{id:toolbarId; appStackView: homeStackViewId; app: appWindowId; }
+    menuBar: MenubarModule{ id: menubarId; appStackView: homeStackViewId; }
+    header : ToolbarModule{id:toolbarId; appStackView: homeStackViewId; }
 
 
     StackView {

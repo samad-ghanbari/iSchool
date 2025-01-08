@@ -47,6 +47,7 @@ Page {
         anchors.fill: parent
         anchors.topMargin: 20
         opacity: 0
+        spacing: 20
 
         clip: true
         delegate: Rectangle{
@@ -83,7 +84,7 @@ Page {
             MouseArea{
                 anchors.fill: parent
                 hoverEnabled: true
-                onEntered: parent.color = "ghostwhite";
+                onEntered: parent.color = "lavenderblush";
                 onExited: parent.color = "transparent";
                 onClicked: {
                     // step page

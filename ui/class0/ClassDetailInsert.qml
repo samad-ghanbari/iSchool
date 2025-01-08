@@ -1,18 +1,27 @@
-pragma ComponentBehavior: Bound
-
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
 import "./../public" as DialogBox
-import "Period.js" as Methods
+import "Class.js" as Methods
 
 Page {
-    id: updatePeriodPage
-    property var model
+    id: insertClassDetailPage
 
-    required property StackView appStackView;
-    signal periodUpdatedSignal(var period);
+    required property int branch_id;
+    required property int step_id;
+    required property int base_id;
+    required property int period_id;
+    required property int class_id;
+    required property string branch_text
+    required property string step_text
+    required property string base_text
+    required property string period_text
+    required property string class_name
+    required property string class_desc
+
+    signal insertedSignal();
+    signal popStackSignal();
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -31,7 +40,7 @@ Page {
             icon.height: 64
             icon.color:"transparent"
             opacity: 0.5
-            onClicked: updatePeriodPage.appStackView.pop();
+            onClicked: insertClassDetailPage.popStackSignal(); //insertClassDetailPage.appStackView.pop();
             hoverEnabled: true
             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
         }
@@ -40,7 +49,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "ویرایش سال تحصیلی"
+            text: "افزودن اطلاعات کلاس"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -60,7 +69,8 @@ Page {
             {
                 height: parent.height
                 width: parent.width
-                contentHeight: centerBoxId.height + 100
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
                 Rectangle
                 {
@@ -69,18 +79,19 @@ Page {
                     width:  (parent.width < 700)? parent.width : 700
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.margins: 10
-                    implicitHeight: periodUpdateCL.height + 100
+                    implicitHeight: parent.height
 
                     radius: 10
-                    Item{
+                    Item {
                         anchors.fill: parent
                         anchors.margins: 10
+
                         ColumnLayout
                         {
-                            id: periodUpdateCL
+                            id: periodInsertCL
                             width: parent.width
                             Image {
-                                source: "qrc:/assets/images/edit.png"
+                                source: "qrc:/assets/images/add.png"
                                 Layout.alignment: Qt.AlignHCenter
                                 Layout.preferredHeight:  64
                                 Layout.preferredWidth:  64
@@ -90,102 +101,68 @@ Page {
 
                             GridLayout
                             {
-                                id: periodUpdateGL
+                                id: classInsertGL
                                 columns: 2
                                 rows: 5
                                 rowSpacing: 20
                                 columnSpacing: 10
                                 Layout.preferredWidth:  parent.width
 
-
                                 Text {
-                                    text: "شعبه"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text
-                                {
-                                    Layout.fillWidth: true
-                                    Layout.maximumWidth: 400
-                                    Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    text: updatePeriodPage.model.city + " - " + updatePeriodPage.model.branch_name
-                                }
-
-                                Text {
-                                    text: "دوره"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text
-                                {
-                                    Layout.fillWidth: true
-                                    Layout.maximumWidth: 400
-                                    Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    text: updatePeriodPage.model.step_name
-
-                                }
-
-                                Text {
-                                    text: "سال تحصیلی"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                TextField
-                                {
-                                    id: periodTF
-                                    Layout.fillWidth: true
-                                    Layout.maximumWidth: 400
-                                    Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    placeholderText: "سال تحصیلی"
-                                    text: updatePeriodPage.model.period_name
-                                }
-
-                                Switch{
-                                    id: enabledSW
                                     Layout.columnSpan: 2
-                                    Layout.preferredHeight:  50
-                                    text: "اتمام سال تحصیلی"
-                                    checked: updatePeriodPage.model.passed
-                                    Layout.alignment: Qt.AlignLeft
+                                    text: "شعبه " + insertClassDetailPage.branch_text
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
-                                    font.pixelSize: 16
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text:  insertClassDetailPage.step_text + " - " + insertClassDetailPage.base_text
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    elide: Text.ElideRight
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text:  insertClassDetailPage.period_text
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text: "کلاس " + insertClassDetailPage.class_name + " - " + insertClassDetailPage.class_desc
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    elide: Text.ElideRight
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
                                 }
 
                                 Text {
-                                    text: "اولویت نمایش"
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    text: "عنوان درس"
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     font.family: "B Yekan"
@@ -193,15 +170,51 @@ Page {
                                     font.bold: true
                                     color: "royalblue"
                                 }
-                                SpinBox
+                                ComboBox
                                 {
-                                    id: sortSB
+                                    id: courseCB
+                                    Layout.preferredHeight:  50
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    Layout.maximumWidth: 400
+                                    editable: false
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    value:  updatePeriodPage.model.sort_priority;
+                                    model: ListModel{id: courseCBoxModel}
+                                    textRole: "text"
+                                    valueRole: "value"
+                                    Component.onCompleted:
+                                    {
+                                        Methods.updateCourseCB(insertClassDetailPage.step_id, insertClassDetailPage.base_id, insertClassDetailPage.period_id);
+                                        courseCB.currentIndex = -1
+                                    }
+                                }
+
+                                Text {
+                                    text: "دبیر "
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                ComboBox
+                                {
+                                    id: teacherCB
+                                    Layout.preferredHeight:  50
+                                    Layout.fillWidth: true
+                                    editable: false
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    model: ListModel{id: teacherCBoxModel}
+                                    textRole: "text"
+                                    valueRole: "value"
+                                    Component.onCompleted:
+                                    {
+                                        Methods.updateTeacherCB(insertClassDetailPage.branch_id);
+                                        teacherCB.currentIndex = -1
+                                    }
                                 }
 
                             }
@@ -223,36 +236,27 @@ Page {
                                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                                 onClicked:
                                 {
-                                    var period = {};
-                                    period["id"] = updatePeriodPage.model.period_id;
-                                    period["period_name"] = periodTF.text;
-                                    period["passed"] = enabledSW.checked;
-                                    period["sort_priority"] = sortSB.value
+                                    var cdObj = {};
+                                    cdObj["class_id"] = insertClassDetailPage.class_id;
+                                    cdObj["course_id"] = courseCB.currentValue
+                                    cdObj["teacher_id"] = teacherCB.currentValue;
 
-                                    var check = true
-                                    // check entries
-                                    if(!Methods.checkPeriodUpdateEntries(period))
-                                    {
-                                        periodInfoDialogId.open();
-                                        return;
-                                    }
 
-                                    if(dbMan.periodUpdate(period))
+                                    if(dbMan.classDetailInsert(cdObj))
                                     {
-                                        period = dbMan.getPeriod(period["id"]);
-                                        updatePeriodPage.periodUpdatedSignal(period);
-                                        periodSuccessDialogId.open();
+                                        classSuccessDialogId.open();
+                                        insertClassDetailPage.insertedSignal();
 
                                     }
                                     else
                                     {
                                         var errorString = dbMan.getLastError();
-                                        periodInfoDialogId.dialogTitle = "خطا"
-                                        periodInfoDialogId.dialogText = errorString
-                                        periodInfoDialogId.width = parent.width
-                                        periodInfoDialogId.height = 500
-                                        periodInfoDialogId.dialogSuccess = false
-                                        periodInfoDialogId.open();
+                                        classInfoDialogId.dialogText = errorString
+                                        classInfoDialogId.width = parent.width
+                                        classInfoDialogId.height = 500
+                                        classInfoDialogId.dialogSuccess = false
+
+                                        classInfoDialogId.open();
                                     }
                                 }
                             }
@@ -268,21 +272,25 @@ Page {
             }
         }
 
-        DialogBox.BaseDialog
-        {
-            id: periodInfoDialogId
-            dialogTitle: "خطا"
-            dialogText: "ورود فیلد الزامی می‌باشد"
-            dialogSuccess: false
+    }
+
+    DialogBox.BaseDialog
+    {
+        id: classInfoDialogId
+        dialogTitle: "خطا"
+        dialogText: "افزودن اطلاعات کلاس با خطا مواجه شد."
+        dialogSuccess: false
+    }
+
+    DialogBox.BaseDialog
+    {
+        id: classSuccessDialogId
+        dialogTitle: "عملیات موفق"
+        dialogText: "اطلاعات کلاس با موفقیت اضافه شد."
+        dialogSuccess: true
+        onDialogAccepted: {
+            insertClassDetailPage.popStackSignal();
         }
 
-        DialogBox.BaseDialog
-        {
-            id: periodSuccessDialogId
-            dialogTitle: "عملیات موفق"
-            dialogText: "اطلاعات سال تحصیلی با موفقیت بروزرسانی شد"
-            dialogSuccess: true
-            onDialogAccepted: function(){periodSuccessDialogId.close(); updatePeriodPage.appStackView.pop();}
-        }
     }
 }

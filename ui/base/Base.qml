@@ -37,7 +37,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "لیست پایه‌های تحصیلی"
+            text: "مدیریت پایه‌های تحصیلی"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -82,7 +82,56 @@ Page {
                     branchCB.currentIndex = -1
                 }
 
-                onActivated: Methods.studyBasesUpdate(branchCB.currentValue)
+                onActivated: {
+                        stepCBoxModel.clear();
+                        baseModel.clear();
+                        var jsondata = dbMan.getBranchSteps(branchCB.currentValue);
+                        //s.id, s.branch_id, s.step_name, s.field_based, s.numeric_graded, b.city, b.branch_name
+                        var temp;
+                        for(var obj of jsondata)
+                        {
+                            temp = obj.step_name;
+                            stepCBoxModel.append({ value: obj.id, text: temp })
+                        }
+                }
+            }
+        }
+
+        RowLayout{
+            Layout.columnSpan: 2
+            Layout.preferredHeight:  50
+            Layout.preferredWidth: branchLbl.width + branchCB.width
+            Layout.alignment: Qt.AlignHCenter
+
+            Label
+            {
+                Layout.preferredHeight:  50
+                Layout.preferredWidth: 100
+                text:" انتخاب دوره"
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                font.bold: true
+                horizontalAlignment: Label.AlignLeft
+                verticalAlignment: Label.AlignVCenter
+            }
+            ComboBox
+            {
+                id: stepCB
+                Layout.preferredHeight:  50
+                Layout.fillWidth: true
+                Layout.maximumWidth: 400
+                editable: false
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                model: ListModel{id: stepCBoxModel}
+                textRole: "text"
+                valueRole: "value"
+                Component.onCompleted:
+                {
+                    stepCB.currentIndex = -1
+                }
+
+                onActivated: Methods.basesUpdate(stepCB.currentValue)
             }
         }
 
@@ -102,7 +151,7 @@ Page {
                     Layout.preferredWidth: 64
                     Layout.alignment: Qt.AlignRight
                     background: Item{}
-                    visible: (branchCB.currentIndex >=0)? true : false;
+                    visible: (stepCB.currentIndex >=0)? true : false;
                     icon.source: "qrc:/assets/images/add.png"
                     icon.width: 64
                     icon.height: 64
@@ -110,9 +159,9 @@ Page {
                     opacity: 0.5
                     onClicked:
                     {
-                        var bid = branchCB.currentValue;
-                        if(bid >= 0)
-                        basesPage.appStackView.push(baseInsertComponent, {branchId: bid, branchText: branchCB.currentText });
+                        var sid = stepCB.currentValue;
+                        if(sid >= 0)
+                        basesPage.appStackView.push(baseInsertComponent, {step_id: sid, branch: branchCB.currentText, step: stepCB.currentText });
                         else
                         insertInfoDialogId.open();
                     }
@@ -141,11 +190,7 @@ Page {
                         onPressed: { basesLV.currentIndex = model.index; basesLV.closeSwipeHandler();}
                         highlighted: (model.index === basesLV.currentIndex)? true: false;
                         onBaseDeleted: (sindex)=>{baseModel.remove(sindex);}
-
-                        baseId: model.Id;
-                        branchId: model.BranchId;
-                        studyBase: model.StudyBase;
-                        branchName: model.Branch;
+                        base_model : model
                     }
 
                     function closeSwipeHandler()
@@ -171,7 +216,8 @@ Page {
         id: baseInsertComponent
         BaseInsert{
             appStackView: basesPage.appStackView;
-            onBaseInsertedSignal: (bId)=> Methods.studyBasesUpdate(bId);
+            onBaseInsertedSignal: (bId)=> Methods.basesUpdate(bId);
+            field_based: dbMan.isStepFieldBased(stepCB.currentValue)
         }
     }
     DialogBox.BaseDialog

@@ -7,15 +7,12 @@ import "./Base.js" as Methods
 
 SwipeDelegate
 {
-    //s.id, s.branch_id, s.Base_name, b.city, b.branch_name
     id: baseDelegate
     required property StackView appStackView
     required property int index
 
-    property int baseId
-    property int branchId
-    property string studyBase
-    property string branchName
+    property var base_model // base model
+    // b.id, b.step_id, b.field_id, b.base_name, b.enabled, s.step_name, s.field_based, s.numeric_graded, f.field_name
 
     signal baseDeleted(var index);
 
@@ -25,11 +22,17 @@ SwipeDelegate
     onCheckedChanged: { if(!baseDelegate.checked) baseDelegate.swipe.close();}
     clip: true
 
-    background: Rectangle{color: (baseDelegate.highlighted)? "snow" : "whitesmoke";}
+    background: Rectangle{
+        color: (baseDelegate.highlighted)? "snow" : "whitesmoke";
+
+    }
 
     contentItem: Rectangle
     {
-        color: (baseDelegate.highlighted)? "snow" : "whitesmoke";
+        color:{
+            if(!baseDelegate.base_model.enabled) return "lavenderblush";
+            if(baseDelegate.highlighted) return "snow"; else return "whitesmoke";
+        }
 
         Column
         {
@@ -38,7 +41,10 @@ SwipeDelegate
 
             spacing: 0
             Label {
-                text: (baseDelegate.studyBase.includes("پایه"))? baseDelegate.studyBase : "پایه " + baseDelegate.studyBase
+                text:{
+                    var temp = baseDelegate.base_model["base_name"];
+                    (temp.includes("پایه"))? temp : "پایه " + temp
+                }
                 padding: 0
                 font.family: "B Yekan"
                 font.pixelSize: (baseDelegate.highlighted)? 20 :16
@@ -50,7 +56,19 @@ SwipeDelegate
                 elide: Text.ElideRight
             }
             Label {
-                text: (baseDelegate.branchName.includes("شعبه"))? baseDelegate.branchName : "شعبه "+ baseDelegate.branchName
+                text:{
+                    var temp = baseDelegate.base_model["field_based"];
+                    var text = "رشته " + baseDelegate.base_model["field_name"];
+                    if(temp)
+                        return text;
+                    else{
+                        temp = baseDelegate.base_model["step_name"];
+                        if(!temp.includes("دوره"))
+                            temp = "دوره " + baseDelegate.base_model["step_name"];
+
+                        return temp;
+                    }
+                }
                 padding: 0
                 font.family: "B Yekan"
                 font.pixelSize: 14
@@ -93,8 +111,7 @@ SwipeDelegate
                 if(baseDelegate.swipe.complete)
                     baseDelegate.swipe.close();
 
-                var branchText =  baseDelegate.branchName;
-                baseDelegate.appStackView.push(deleteBaseComponent, {baseId: baseDelegate.baseId, baseIndex: baseDelegate.index,  studyBase: baseDelegate.studyBase, branchText: branchText});
+                baseDelegate.appStackView.push(deleteBaseComponent, { baseIndex: baseDelegate.index, model: baseDelegate.base_model});
             }
         }
         Button
@@ -120,7 +137,8 @@ SwipeDelegate
                     baseDelegate.swipe.close();
 
                 var branchText =  baseDelegate.branchName;
-                baseDelegate.appStackView.push(updateBaseComponent, {baseId: baseDelegate.baseId, studyBase: baseDelegate.studyBase, branch: branchText });
+                baseDelegate.appStackView.push(updateBaseComponent, {model: baseDelegate.base_model });
+
             }
         }
     }

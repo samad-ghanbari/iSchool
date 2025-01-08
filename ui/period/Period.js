@@ -12,21 +12,21 @@ function updateBranchCB()
     }
 }
 
-function periodsUpdate(branchId)
+function periodsUpdate(step_id)
 {
     periodsModel.clear();
-    var jsondata = dbMan.getBranchPeriods(branchId);
-    //sp.id, sp.branch_id, sp.study_period, sp.passed, b.city, b.branch_name, b.branch_address
+    var jsondata = dbMan.getStepPeriods(step_id, true);
+    // p.id, p.step_id, p.period_name, p.passed, s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
     for(var obj of jsondata)
     {
-        periodsModel.append({Id: obj.id, BranchId: obj.branch_id, StudyPeriod: obj.study_period, Passed: obj.passed, City: obj.city, BranchName: obj.branch_name  })
+        periodsModel.append(obj)
     }
 }
 
 
 function checkPeriodInsertEntries(Period)
 {
-    if(Period["branch_id"]  < 0)
+    if(Period["step_id"]  < 0)
     {
         periodInfoDialogId.dialogTitle = "خطا"
         periodInfoDialogId.dialogText = "انتخاب شعبه به درستی صورت نگرفته است."
@@ -34,7 +34,7 @@ function checkPeriodInsertEntries(Period)
         return false;
     }
 
-    if(!Period["study_period"])
+    if(!Period["period_name"])
     {
         periodNameTF.placeholderText="ورود فیلد الزامی می‌باشد"
         periodNameTF.placeholderTextColor = "red"
@@ -59,7 +59,7 @@ function checkPeriodUpdateEntries(Period)
         return false;
     }
 
-    if(!Period["study_period"])
+    if(!Period["period_name"])
     {
         periodTF.placeholderText="ورود فیلد الزامی می‌باشد"
         periodTF.placeholderTextColor = "red"
@@ -77,6 +77,5 @@ function checkPeriodUpdateEntries(Period)
 
 function updateWidget(PeriodObj)
 {
-    periodDelegate.studyPeriod = PeriodObj["study_period"];
-    periodDelegate.passed = PeriodObj["passed"];
+    periodDelegate.periodModel = PeriodObj
 }

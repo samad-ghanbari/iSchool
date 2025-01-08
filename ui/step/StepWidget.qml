@@ -17,10 +17,13 @@ SwipeDelegate
     property string stepName
     property string branchCity
     property string branchName
+    required property bool numeric_graded
+    required property bool field_based
+
 
     signal stepDeleted(var index);
 
-    height: 110
+    height: 210
     checkable: true
     checked: stepDelegate.swipe.complete
     onCheckedChanged: { if(!stepDelegate.checked) stepDelegate.swipe.close();}
@@ -42,7 +45,7 @@ SwipeDelegate
                 text: stepDelegate.stepName
                 padding: 0
                 font.family: "B Yekan"
-                font.pixelSize: (stepDelegate.highlighted)? 20 :16
+                font.pixelSize: (stepDelegate.highlighted)? 24 :16
                 font.bold: (stepDelegate.highlighted)? true : false
                 color: (stepDelegate.highlighted)? "royalblue":"black"
                 horizontalAlignment: Label.AlignHCenter
@@ -63,18 +66,40 @@ SwipeDelegate
                 elide: Text.ElideRight
             }
 
+            Switch{
+                id: numericGradedSW
+                height: 50
+                text: "ارزیابی مبتنی بر عدد"
+                checked: stepDelegate.numeric_graded
+                anchors.horizontalCenter: parent.horizontalCenter
+                checkable: false
+                font.family: "B Yekan"
+                font.pixelSize: 16
+            }
+
+            Switch{
+                id: fielsbasedSW
+                height: 50
+                text: "دوره مبتنی بر رشته"
+                checked: stepDelegate.field_based
+                checkable: false
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.family: "B Yekan"
+                font.pixelSize: 16
+            }
+
             Rectangle{width: 400; height:5; color: (stepDelegate.highlighted)? "mediumvioletred" : "whitesmoke"; anchors.horizontalCenter: parent.horizontalCenter }
         }
     }
 
     swipe.right: Row{
         width: 150
-        height: 100
+        height: 210
         anchors.left: parent.left
 
         Button
         {
-            height: 100
+            height: 210
             width: 75
             background: Rectangle{id:trashBtnBg; color: "crimson"}
             hoverEnabled: true
@@ -94,12 +119,20 @@ SwipeDelegate
                 if(stepDelegate.swipe.complete)
                 stepDelegate.swipe.close();
                 var branchText =  stepDelegate.branchCity + " - " + stepDelegate.branchName;
-                stepDelegate.appStackView.push(deleteStepComponent, {stepId: stepDelegate.stepId, stepIndex: stepDelegate.index,  stepName: stepDelegate.stepName, branchText: branchText});
+                stepDelegate.appStackView.push(deleteStepComponent, {
+                                                   stepId: stepDelegate.stepId,
+                                                   stepIndex: stepDelegate.index,
+                                                   stepName: stepDelegate.stepName,
+                                                   branchText: branchText,
+                                                   numeric_graded: stepDelegate.numeric_graded,
+                                                   field_based: stepDelegate.field_based
+
+                                               });
             }
         }
         Button
         {
-            height: 100
+            height: 210
             width: 75
             background:  Rectangle{id:editBtnBg; color: "royalblue"}
             hoverEnabled: true
@@ -119,7 +152,14 @@ SwipeDelegate
                 if(stepDelegate.swipe.complete)
                 stepDelegate.swipe.close();
                 var branchText =  stepDelegate.branchCity + " - " + stepDelegate.branchName;
-                stepDelegate.appStackView.push(updateStepComponent, {stepId: stepDelegate.stepId, step: stepDelegate.stepName, branch: branchText });
+                stepDelegate.appStackView.push(updateStepComponent, {
+                                                   stepId: stepDelegate.stepId,
+                                                   step: stepDelegate.stepName,
+                                                   branch: branchText,
+                                                   numeric_graded: stepDelegate.numeric_graded,
+                                                   field_based: stepDelegate.field_based
+
+                                               });
             }
         }
     }

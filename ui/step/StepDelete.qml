@@ -8,10 +8,12 @@ import "./../public" as DialogBox
 
 Page {
     id: stepDeletePage
-    property int stepId
-    property int stepIndex
-    property string stepName
-    property string branchText
+    required property int stepId
+    required property int stepIndex
+    required property string stepName
+    required property string branchText
+    required property bool field_based
+    required property bool numeric_graded
 
     required property StackView appStackView;
 
@@ -63,8 +65,7 @@ Page {
             {
                 height: parent.height
                 width: parent.width
-                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+                contentHeight: stepDeleteCL.height + 100
 
                 Rectangle
                 {
@@ -73,7 +74,7 @@ Page {
                     width:  (parent.width < 700)? parent.width : 700
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.margins: 10
-                    implicitHeight: parent.height
+                    implicitHeight: stepDeleteCL.height + 100
 
                     radius: 10
                     Item {
@@ -114,7 +115,7 @@ Page {
                                     Layout.maximumWidth: 100
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                 }
@@ -123,12 +124,34 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     text: stepDeletePage.stepName
                                     font.bold: true
                                 }
+                            }
+
+                            Switch{
+                                id: numericGradedSW
+                                Layout.preferredHeight:  50
+                                text: "ارزیابی مبتنی بر عدد"
+                                checked: stepDeletePage.numeric_graded
+                                Layout.alignment: Qt.AlignLeft
+                                font.family: "B Yekan"
+                                checkable: false
+                                font.pixelSize: 16
+                            }
+
+                            Switch{
+                                id: fieldsBasedSW
+                                Layout.preferredHeight:  50
+                                text: "دوره مبتنی بر رشته"
+                                checked: stepDeletePage.field_based
+                                Layout.alignment: Qt.AlignLeft
+                                checkable: false
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
                             }
 
                             Item

@@ -1,5 +1,3 @@
-pragma ComponentBehavior: Bound
-
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -7,19 +5,20 @@ import QtQuick.Layouts
 import "./../public" as DialogBox
 
 Page {
-    id: deleteBranchPage
-    property int branchId
-    property int branchIndex
-    property string branchCity
-    property string branchName
-    property string branchDescription
-    property string branchAddress
+    id: deleteClassPage
 
-    required property StackView appStackView;
+    property int class_id;
+    property string branch_text;
+    property string step_text;
+    property string base_text;
+    property string period_text;
+    property string class_name;
+    property string class_desc;
 
-    signal branchDeleted(var index);
+    signal deletedSignal();
+    signal popStackSignal();
 
-    background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
+    background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
     GridLayout
     {
@@ -34,8 +33,9 @@ Page {
             icon.source: "qrc:/assets/images/arrow-right.png"
             icon.width: 64
             icon.height: 64
+            icon.color:"transparent"
             opacity: 0.5
-            onClicked: deleteBranchPage.appStackView.pop();
+            onClicked: deleteClassPage.popStackSignal(); //deleteClassPage.appStackView.pop();
             hoverEnabled: true
             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
         }
@@ -44,7 +44,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "حذف شعبه"
+            text: "حذف کلاس"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -64,16 +64,17 @@ Page {
             {
                 height: parent.height
                 width: parent.width
-                contentHeight: centerBoxBDId.height + 100
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
                 Rectangle
                 {
-                    id: centerBoxBDId
+                    id: centerBoxId
                     color:"snow"
                     width:  (parent.width < 700)? parent.width : 700
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.margins: 10
-                    implicitHeight: branchDeleteCL.height
+                    implicitHeight: parent.height
 
                     radius: 10
                     Item {
@@ -82,113 +83,72 @@ Page {
 
                         ColumnLayout
                         {
-                            id: branchDeleteCL
+                            id: periodInsertCL
                             width: parent.width
-                            Text
-                            {
-                                text: "حذف"
-                                font.family: "B Yekan"
-                                font.pixelSize: 24
-                                font.bold: true
-                                color: "crimson"
-                                Layout.preferredWidth: parent.width
-                                Layout.preferredHeight: 50
-                                horizontalAlignment: Qt.AlignHCenter
-                                verticalAlignment: Qt.AlignVCenter
-                            }
-                            Button
-                            {
-                                background: Item{}
-                                icon.source: "qrc:/assets/images/trash3.png"
-                                icon.width: 64
-                                icon.height: 64
-                                Layout.preferredHeight: 64
-                                Layout.preferredWidth: 64
-                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                opacity: 0.5
-                                onClicked: branchDelDialog.open();
-                                hoverEnabled: true
-                                onHoveredChanged:
-                                {
-                                    if(hovered)
-                                    {
-                                        this.opacity = 1
-                                        this.scale = 1.1
-                                    }
-                                    else
-                                    {
-                                        this.opacity = 0.8
-                                        this.scale = 1
-                                    }
-                                }
+
+                            Image {
+                                source: "qrc:/assets/images/trash.png"
+                                Layout.alignment: Qt.AlignHCenter
+                                Layout.preferredHeight:  64
+                                Layout.preferredWidth:  64
+                                Layout.margins: 20
+                                NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
                             }
 
                             GridLayout
                             {
-                                id: branchDeleteGL
+                                id: classInsertGL
                                 columns: 2
                                 rows: 5
                                 rowSpacing: 20
                                 columnSpacing: 10
                                 Layout.preferredWidth:  parent.width
 
-
                                 Text {
-                                    text: "شهر"
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text
-                                {
-                                    id: branchCityTF
+                                    Layout.columnSpan: 2
+                                    text: "شعبه " + deleteClassPage.branch_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
+                                    horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    text: deleteBranchPage.branchCity
-
-                                }
-
-                                Text {
-                                    text: "شعبه"
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
+                                    font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
                                 }
-                                Text
-                                {
-                                    id: branchNameTF
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text: deleteClassPage.step_text + " - " + deleteClassPage.base_text
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
+                                    horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    text: deleteBranchPage.branchName
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text:  deleteClassPage.period_text
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
                                 }
 
+
                                 Text {
-                                    text: "آدرس"
+                                    text: "نام کلاس"
                                     Layout.minimumWidth: 150
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
+                                    horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                     font.bold: true
@@ -196,16 +156,39 @@ Page {
                                 }
                                 Text
                                 {
-                                    id: branchAddressTF
+                                    id: classNameTF
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
+                                    horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    text: deleteBranchPage.branchAddress
+                                    text: deleteClassPage.class_name
                                 }
 
+                                Text {
+                                    text: "توضیحات کلاس"
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text
+                                {
+                                    id: classDescTF
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    text: deleteClassPage.class_desc
+                                }
 
                             }
 
@@ -214,8 +197,20 @@ Page {
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
                             }
-                        }
 
+                            Button
+                            {
+                                text: "حذف"
+                                Layout.preferredWidth: 200
+                                Layout.preferredHeight: 50
+                                Layout.alignment: Qt.AlignHCenter
+                                font.family: "B Yekan"
+                                font.pixelSize: 16
+                                Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
+                                onClicked: classDelDialog.open();
+
+                            }
+                        }
                     }
                 }
             }
@@ -225,39 +220,38 @@ Page {
 
     DialogBox.BaseDialog
     {
-        id: branchDelDialog
-        dialogTitle:  "حذف شعبه"
-        dialogText: "آیا از حذف شعبه از سامانه مطمئن می‌باشید؟"
+        id: classDelDialog
+        dialogTitle:  "حذف کلاس"
+        dialogText: "آیا از حذف کلاس از سامانه مطمئن می‌باشید؟"
         acceptVisible: true
         rejectVisible: true
 
         onDialogAccepted: function(){
-            if(dbMan.deleteBranch(deleteBranchPage.branchId))
-                branchSuccessDelDialog.open();
+            if(dbMan.classDelete(deleteClassPage.class_id))
+                classSuccessDialogId.open();
+
             else
-                branchErrorDelDialog.open();
+                classInfoDialogId.open();
         }
     }
-
     DialogBox.BaseDialog
     {
-        id: branchSuccessDelDialog
-        dialogTitle:  "حذف شعبه"
-        dialogText: "حذف شعبه با موفقیت صورت پذیرفت"
-        acceptVisible: true
-        dialogSuccess: true
-        onDialogAccepted: function(){
-            deleteBranchPage.appStackView.pop();
-            deleteBranchPage.branchDeleted(deleteBranchPage.branchIndex);
-        }
-    }
-
-    DialogBox.BaseDialog
-    {
-        id: branchErrorDelDialog
-        dialogTitle:  "حذف شعبه"
-        dialogText: "حذف شعبه با مشکل مواجه شد"
-        acceptVisible: true
+        id: classInfoDialogId
+        dialogTitle: "خطا"
+        dialogText: "حذف کلاس جدید با خطا مواجه شد."
         dialogSuccess: false
+    }
+
+    DialogBox.BaseDialog
+    {
+        id: classSuccessDialogId
+        dialogTitle: "عملیات موفق"
+        dialogText: "حذف کلاس با موفقیت انجام شد."
+        dialogSuccess: true
+        onDialogAccepted: {
+            deleteClassPage.popStackSignal();
+            deleteClassPage.deletedSignal();
+        }
+
     }
 }

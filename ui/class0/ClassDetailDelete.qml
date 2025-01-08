@@ -3,18 +3,27 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "./../public" as DialogBox
-import "Period.js" as Methods
 
 Page {
-    id: insertPeriodPage
+    id: deletePage
 
-    property int step_id;
-    property string branch
-    property string step
+    required property int branch_id;
+    required property int step_id;
+    required property int base_id;
+    required property int period_id;
+    required property int class_id;
+    required property string branch_text
+    required property string step_text
+    required property string base_text
+    required property string period_text
+    required property string class_name
+    required property string class_desc
+    required property string course_name
+    required property string teacher
+    required property int class_detail_id
 
-
-    required property StackView appStackView
-    signal periodInsertedSignal(var step_id);
+    signal deletedSignal();
+    signal popStackSignal();
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -33,7 +42,7 @@ Page {
             icon.height: 64
             icon.color:"transparent"
             opacity: 0.5
-            onClicked: insertPeriodPage.appStackView.pop();
+            onClicked: deletePage.popStackSignal(); //deletePage.appStackView.pop();
             hoverEnabled: true
             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
         }
@@ -42,7 +51,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "افزودن سال تحصیلی"
+            text: "حذف اطلاعات کلاس"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -62,7 +71,8 @@ Page {
             {
                 height: parent.height
                 width: parent.width
-                contentHeight: centerBoxId.height + 100
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
                 Rectangle
                 {
@@ -71,7 +81,7 @@ Page {
                     width:  (parent.width < 700)? parent.width : 700
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.margins: 10
-                    implicitHeight: periodInsertCL.height
+                    implicitHeight: parent.height
 
                     radius: 10
                     Item {
@@ -83,7 +93,7 @@ Page {
                             id: periodInsertCL
                             width: parent.width
                             Image {
-                                source: "qrc:/assets/images/add.png"
+                                source: "qrc:/assets/images/trash.png"
                                 Layout.alignment: Qt.AlignHCenter
                                 Layout.preferredHeight:  64
                                 Layout.preferredWidth:  64
@@ -93,7 +103,7 @@ Page {
 
                             GridLayout
                             {
-                                id: periodInsertGL
+                                id: classInsertGL
                                 columns: 2
                                 rows: 5
                                 rowSpacing: 20
@@ -102,17 +112,61 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text:{
-
-                                        var temp = insertPeriodPage.step
-                                        if(temp.includes("دوره"))
-                                            return "شعبه " + insertPeriodPage.branch + " - " + insertPeriodPage.step
-                                        else
-                                            return "شعبه " + insertPeriodPage.branch + " - "+ "دوره " + insertPeriodPage.step
-                                    }
+                                    text: "شعبه " + deletePage.branch_text
                                     Layout.fillWidth: true
-                                    Layout.maximumWidth: 400
                                     Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text:  deletePage.step_text + " - " + deletePage.base_text
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    elide: Text.ElideRight
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text:  deletePage.period_text
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text: "کلاس " + deletePage.class_name + " " + deletePage.class_desc
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    elide: Text.ElideRight
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "royalblue"
+                                }
+
+                                Text {
+                                    Layout.columnSpan: 2
+                                    text: "عنوان درس: " + deletePage.course_name
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    elide: Text.ElideRight
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
@@ -123,60 +177,19 @@ Page {
 
 
                                 Text {
-                                    text: "سال تحصیلی"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                TextField
-                                {
-                                    id: periodTF
-                                    Layout.fillWidth: true
-                                    Layout.maximumWidth: 400
-                                    Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    placeholderText: "سال تحصیلی"
-
-                                }
-
-                                Switch{
-                                    id: enabledSW
                                     Layout.columnSpan: 2
-                                    Layout.preferredHeight:  50
-                                    text: "اتمام سال تحصیلی"
-                                    checked: false
-                                    Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                }
-
-                                Text {
-                                    text: "اولویت نمایش"
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    text: "مدرس: " + deletePage.teacher
+                                    Layout.fillWidth: true
                                     Layout.preferredHeight: 50
+                                    elide: Text.ElideRight
                                     verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
                                     font.family: "B Yekan"
-                                    font.pixelSize: 16
+                                    font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
                                 }
-                                SpinBox
-                                {
-                                    id: sortSB
-                                    Layout.fillWidth: true
-                                    Layout.maximumWidth: 400
-                                    Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
-                                    font.pixelSize: 16
-                                    value:  1;
-                                }
+
 
                             }
 
@@ -188,47 +201,14 @@ Page {
 
                             Button
                             {
-                                text: "تایید"
+                                text: "حذف"
                                 Layout.preferredWidth: 200
                                 Layout.preferredHeight: 50
                                 Layout.alignment: Qt.AlignHCenter
                                 font.family: "B Yekan"
                                 font.pixelSize: 16
-                                Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
-                                onClicked:
-                                {
-                                    var period = {};
-                                    period["step_id"] = insertPeriodPage.step_id
-                                    period["period_name"] = periodTF.text
-                                    period["passed"] = enabledSW.checked
-                                    period["sort_priority"] = sortSB.value
-
-
-                                    var check = true
-                                    // check entries
-                                    if(!Methods.checkPeriodInsertEntries(period))
-                                    {
-                                        periodInfoDialogId.open();
-                                        return;
-                                    }
-
-                                    if(dbMan.periodInsert(period))
-                                    {
-                                        insertPeriodPage.periodInsertedSignal(insertPeriodPage.step_id);
-                                        periodSuccessDialogId.open();
-
-                                    }
-                                    else
-                                    {
-                                        var errorString = dbMan.getLastError();
-                                        periodInfoDialogId.dialogTitle = "خطا"
-                                        periodInfoDialogId.dialogText = errorString
-                                        periodInfoDialogId.width = parent.width
-                                        periodInfoDialogId.height = 500
-                                        periodInfoDialogId.dialogSuccess = false
-                                        periodInfoDialogId.open();
-                                    }
-                                }
+                                Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
+                                onClicked: delDialog.open();
                             }
 
                             Item
@@ -246,19 +226,38 @@ Page {
 
     DialogBox.BaseDialog
     {
-        id: periodInfoDialogId
+        id: delDialog
+        dialogTitle:  "حذف اطلاعات کلاس"
+        dialogText: "آیا از حذف اطلاعات کلاس از سامانه مطمئن می‌باشید؟"
+        acceptVisible: true
+        rejectVisible: true
+
+        onDialogAccepted: function(){
+            if(dbMan.classDetailDelete(deletePage.class_detail_id))
+                successDialogId.open();
+
+            else
+                infoDialogId.open();
+        }
+    }
+    DialogBox.BaseDialog
+    {
+        id: infoDialogId
         dialogTitle: "خطا"
-        dialogText: "افزودن سال تحصیلی با خطا مواجه شد."
+        dialogText: "حذف اطلاعات کلاس با خطا مواجه شد."
         dialogSuccess: false
     }
 
     DialogBox.BaseDialog
     {
-        id: periodSuccessDialogId
+        id: successDialogId
         dialogTitle: "عملیات موفق"
-        dialogText: "سال تحصیلی جدید با موفقیت افزوده شد."
+        dialogText: "حذف اطلاعات کلاس با موفقیت انجام شد."
         dialogSuccess: true
-        onDialogAccepted: function(){periodSuccessDialogId.close(); insertPeriodPage.appStackView.pop();}
+        onDialogAccepted: {
+            deletePage.popStackSignal();
+            deletePage.deletedSignal();
+        }
 
     }
 }

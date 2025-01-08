@@ -39,7 +39,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "مدیریت کلاس‌ها"
+            text: "لیست کلاس‌های شعبه"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -133,7 +133,48 @@ Page {
                         valueRole: "value"
                         Component.onCompleted: stepCB.currentIndex = -1
 
-                        onActivated: Methods.updatePeriodCB(stepCB.currentValue);
+                        onActivated: Methods.updateBaseCB(branchCB.currentValue)
+                    }
+                }
+            }
+
+            // base
+            Rectangle
+            {
+                height: 50
+                width: 400
+                color: "transparent"
+                RowLayout
+                {
+                    anchors.fill: parent
+                    Label
+                    {
+                        Layout.preferredHeight:  50
+                        Layout.preferredWidth: 100
+                        text:"پایه تحصیلی:"
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        font.bold: true
+                        horizontalAlignment: Label.AlignRight
+                        verticalAlignment: Label.AlignVCenter
+                    }
+                    ComboBox
+                    {
+                        id: baseCB
+                        Layout.preferredHeight:  50
+                        Layout.fillWidth: true
+                        editable: false
+                        font.family: "B Yekan"
+                        font.pixelSize: 16
+                        model: ListModel{id: baseCBoxModel}
+                        textRole: "text"
+                        valueRole: "value"
+                        Component.onCompleted:
+                        {
+                            baseCB.currentIndex = -1
+                        }
+
+                        onActivated: Methods.updatePeriodCB(branchCB.currentValue);
                     }
                 }
             }
@@ -171,7 +212,7 @@ Page {
                         valueRole: "value"
                         Component.onCompleted: periodCB.currentIndex = -1
 
-                        onActivated: Methods.updateClassModel(stepCB.currentValue, periodCB.currentValue)
+                        onActivated: Methods.updateClassModel(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue)
                     }
                 }
             }
@@ -202,8 +243,8 @@ Page {
                     enabled : classPage.admin
                     onClicked:
                     {
-                        var sid = stepCB.currentValue;
-                        if(sid >= 0)
+                        var bid = branchCB.currentValue;
+                        if(bid >= 0)
                         classPage.appStackView.push(classInsertComponent);
                     }
                     hoverEnabled: true
@@ -221,7 +262,7 @@ Page {
                     flickableDirection: Flickable.AutoFlickDirection
                     clip: true
                     cellWidth: 320
-                    cellHeight: 250
+                    cellHeight: 185
                     model: ListModel{id: classModel}
                     highlight: Item{}
                     delegate: classDelegate
@@ -251,33 +292,32 @@ Page {
         id: classDelegate
         SwipeDelegate
         {
-            id: rec
+            id: classRecDel
             required property var model;
 
-            //cl.id, cl.base_id, b.step_id, s.step_name, s.field_based, b.base_name, b.field_id, f.field_name, cl.period_id, cl.class_name, cl.class_desc, cl.sort_priority "\
-
-            height: 220
+            //c.id, c.step_id, c.study_base_id, c.study_period_id, c.class_name, c.class_desc, c.sort_priority, st.step_name, sb.study_base, sp.study_period
+            height: 165
             width: 300
             checkable: true
-            checked: rec.swipe.complete
-            onCheckedChanged: { if(!rec.checked) rec.swipe.close();}
+            checked: classRecDel.swipe.complete
+            onCheckedChanged: { if(!classRecDel.checked) classRecDel.swipe.close();}
             clip: true
 
             background: Rectangle{
-                color: (rec.highlighted)? "snow" : "whitesmoke";
+                color: (classRecDel.highlighted)? "snow" : "whitesmoke";
                 border.color: "lightgray";
-                border.width: (rec.highlighted)? 4 : 0 ;
+                border.width: (classRecDel.highlighted)? 4 : 0 ;
             }
 
             padding: 0
             contentItem: Rectangle
             {
-                color: (rec.highlighted)? "snow" : "whitesmoke";
-                //border.color: (rec.highlighted)? "mediumvioletred" : "lightgray"
+                color: (classRecDel.highlighted)? "snow" : "whitesmoke";
+                //border.color: (classRecDel.highlighted)? "mediumvioletred" : "lightgray"
 
                 Column
                 {
-                    id: recCol
+                    id: classRecDelCol
                     anchors.fill: parent
                     Item{
                         width: parent.width
@@ -294,47 +334,24 @@ Page {
                     Item{ width: parent.width;height: 10;}
                     spacing: 0
                     Label {
-                        text: "کلاس " + rec.model.class_name
+                        text: "کلاس " + classRecDel.model.Class_name
                         padding: 0
                         font.family: "B Yekan"
-                        font.pixelSize: (rec.highlighted)? 20 :16
-                        font.bold: (rec.highlighted)? true : false
-                        color: (rec.highlighted)? "darkmagenta":"black"
+                        font.pixelSize: (classRecDel.highlighted)? 20 :16
+                        font.bold: (classRecDel.highlighted)? true : false
+                        color: (classRecDel.highlighted)? "darkmagenta":"black"
                         horizontalAlignment: Label.AlignHCenter
                         width: parent.width
                         height: 50
                         elide: Text.ElideRight
                     }
                     Label {
-                        text: {
-                            var temp = rec.model.base_name;
-                            if(!temp.includes("پایه")) temp = "پایه " + temp;
-
-                            if(rec.model.field_based){
-                                return rec.model.field-name + " - " + temp;
-                            }
-                            else{
-                                return temp;
-                            }
-                        }
+                        text: classRecDel.model.Class_desc
                         padding: 0
                         font.family: "B Yekan"
-                        font.pixelSize: (rec.highlighted)? 20 :16
-                        font.bold: (rec.highlighted)? true : false
-                        color: (rec.highlighted)? "darkmagenta":"black"
-                        horizontalAlignment: Label.AlignHCenter
-                        width: parent.width
-                        height: 50
-                        elide: Text.ElideRight
-                    }
-
-                    Label {
-                        text: rec.model.class_desc
-                        padding: 0
-                        font.family: "B Yekan"
-                        font.pixelSize: (rec.highlighted)? 20 :16
-                        font.bold: (rec.highlighted)? true : false
-                        color: (rec.highlighted)? "royalblue":"black"
+                        font.pixelSize: (classRecDel.highlighted)? 20 :16
+                        font.bold: (classRecDel.highlighted)? true : false
+                        color: (classRecDel.highlighted)? "royalblue":"black"
                         horizontalAlignment: Label.AlignHCenter
                         width: parent.width
                         height: 50
@@ -346,21 +363,21 @@ Page {
                 // bottom bar
                 Rectangle{
                     height: 5;
-                    width: rec.width;
+                    width: classRecDel.width;
                     anchors.bottom: parent.bottom;
                     anchors.margins: 0
                     color: "darkmagenta";
                 }
             }
 
-            onClicked: {rec.swipe.close();}
+            onClicked: {classRecDel.swipe.close();}
             onPressed: { classGV.currentIndex = model.index; classGV.closeSwipeHandler();}
             highlighted: (model.index === classGV.currentIndex)? true: false;
 
             swipe.right:
             Rectangle{
                 width: 40
-                height: 220
+                height: 165
                 anchors.left: parent.left
                 color: "darkmagenta"
                 Column{
@@ -378,10 +395,14 @@ Page {
                         display: AbstractButton.TextUnderIcon
                         SwipeDelegate.onClicked:
                         {
-                            if(rec.swipe.complete)
-                            rec.swipe.close();
+                            if(classRecDel.swipe.complete)
+                            classRecDel.swipe.close();
 
-                            classPage.appStackView.push(classStudentsComponent, { model: rec.model  });
+                            classPage.appStackView.push(classStudentsComponent, {
+                                                            class_id: classRecDel.model.Id,
+                                                            class_name: classRecDel.model.Class_name,
+                                                            class_desc: classRecDel.model.Class_desc,
+                                                        });
 
                         }
                     }
@@ -398,10 +419,14 @@ Page {
                         display: AbstractButton.TextUnderIcon
                         SwipeDelegate.onClicked:
                         {
-                            if(rec.swipe.complete)
-                            rec.swipe.close();
+                            if(classRecDel.swipe.complete)
+                            classRecDel.swipe.close();
 
-                            classPage.appStackView.push(classDetailComponent, {   model: rec.model });
+                            classPage.appStackView.push(classDetailComponent, {
+                                                            class_id: classRecDel.model.Id,
+                                                            class_name: classRecDel.model.Class_name,
+                                                            class_desc: classRecDel.model.Class_desc,
+                                                        });
 
                         }
                     }
@@ -419,11 +444,16 @@ Page {
                         display: AbstractButton.TextUnderIcon
                         SwipeDelegate.onClicked:
                         {
-                            if(rec.swipe.complete)
-                            rec.swipe.close();
+                            if(classRecDel.swipe.complete)
+                            classRecDel.swipe.close();
 
                             classPage.appStackView.push(updateClassComponent, {
-                                                            model: rec.model
+                                                            class_id: classRecDel.model.Id,
+                                                            class_name: classRecDel.model.Class_name,
+                                                            class_desc: classRecDel.model.Class_desc,
+                                                            sort_priority: classRecDel.model.Sort_priority,
+                                                            branch_text: branchCB.currentText,
+                                                            period_text : periodCB.currentText
                                                         });
 
                         }
@@ -433,7 +463,10 @@ Page {
                     {
                         height: 40
                         width: 40
+                        //background: Rectangle{id:trashBtnBg; color: "crimson"}
                         hoverEnabled: true
+                        //onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
+                        //text: "حذف"
                         font.bold: true
                         visible : classPage.admin
                         font.family: "B Yekan"
@@ -446,10 +479,16 @@ Page {
                         display: AbstractButton.TextUnderIcon
                         SwipeDelegate.onClicked:
                         {
-                            if(rec.swipe.complete)
-                            rec.swipe.close();
+                            if(classRecDel.swipe.complete)
+                            classRecDel.swipe.close();
 
-                            classPage.appStackView.push(deleteClassComponent, {  model: rec.model   });
+                            classPage.appStackView.push(deleteClassComponent, {
+                                                            class_id: classRecDel.model.Id,
+                                                            class_name: classRecDel.model.Class_name,
+                                                            class_desc: classRecDel.model.Class_desc,
+                                                            branch_text: branchCB.currentText,
+                                                            period_text : periodCB.currentText
+                                                        });
                         }
                     }
                 }
@@ -464,14 +503,16 @@ Page {
         id: classInsertComponent
         ClassInsert{
             onPopStackSignal: classPage.appStackView.pop();
-            onClassInsertedSignal: Methods.updateClassModel(stepCB.currentValue, periodCB.currentValue)
+            onClassInsertedSignal: Methods.updateClassModel(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue)
 
             step_id: stepCB.currentValue
+            base_id: baseCB.currentValue
             period_id: periodCB.currentValue
 
-            branch: branchCB.currentText;
-            step: stepCB.currentText
-            period: periodCB.currentText;
+            branch_text: branchCB.currentText;
+            step_text: stepCB.currentText
+            base_text: baseCB.currentText
+            period_text: periodCB.currentText;
         }
     }
 
@@ -511,7 +552,24 @@ Page {
         }
     }
 
+    // class students
+    Component
+    {
+        id: classStudentsComponent
+        ClassStudents{
+            appStackView : classPage.appStackView;
 
+            branch_id: branchCB.currentValue
+            step_id: stepCB.currentValue;
+            base_id: baseCB.currentValue;
+            period_id: periodCB.currentValue;
+
+            branch_text: branchCB.currentText;
+            step_text: stepCB.currentText
+            base_text : baseCB.currentText;
+            period_text: periodCB.currentText;
+        }
+    }
 
     //delete
     Component

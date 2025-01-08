@@ -8,11 +8,9 @@ import "./../public" as DialogBox
 
 Page {
     id: periodDeletePage
-    property int periodId
+
     property int periodIndex
-    property string studyPeriod
-    property bool passed
-    property string branchText
+    property var model
 
     required property StackView appStackView;
 
@@ -64,8 +62,7 @@ Page {
             {
                 height: parent.height
                 width: parent.width
-                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+                contentHeight: centerBoxSDId.height + 100
 
                 Rectangle
                 {
@@ -74,7 +71,7 @@ Page {
                     width:  (parent.width < 700)? parent.width : 700
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.margins: 10
-                    implicitHeight: parent.height
+                    implicitHeight: periodDeleteCL.height + 100
 
                     radius: 10
                     Item {
@@ -96,26 +93,57 @@ Page {
                                 Layout.preferredWidth:  parent.width
 
                                 Text {
-                                    Layout.columnSpan: 2
-                                    text: "شعبه " + periodDeletePage.branchText
+                                    text: "شعبه"
+                                    Layout.minimumWidth: 200
+                                    Layout.maximumWidth: 200
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                }
+                                Text
+                                {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
-                                    font.pixelSize: 20
+                                    font.pixelSize: 16
+                                    text: periodDeletePage.model.city + " - " + periodDeletePage.model.branch_name
                                     font.bold: true
-                                    color: "royalblue"
+                                }
+
+                                Text {
+                                    text: "دوره "
+                                    Layout.minimumWidth: 200
+                                    Layout.maximumWidth: 200
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                }
+                                Text
+                                {
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "B Yekan"
+                                    font.pixelSize: 16
+                                    text: periodDeletePage.model.step_name
+                                    font.bold: true
                                 }
 
 
                                 Text {
                                     text: "سال تحصیلی"
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    Layout.minimumWidth: 200
+                                    Layout.maximumWidth: 200
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                 }
@@ -124,20 +152,20 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    text: periodDeletePage.studyPeriod
+                                    text: periodDeletePage.model.period_name
                                     font.bold: true
                                 }
 
                                 Text {
                                     text: "وضعیت سال تحصیلی"
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    Layout.minimumWidth: 200
+                                    Layout.maximumWidth: 200
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
                                 }
@@ -146,10 +174,10 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
+                                    horizontalAlignment: Text.AlignLeft
                                     font.family: "B Yekan"
                                     font.pixelSize: 16
-                                    text: (periodDeletePage.passed)? "سال تحصیلی مختومه" : "سال تحصیلی جاری"
+                                    text: (periodDeletePage.model.passed)? "سال تحصیلی مختومه" : "سال تحصیلی جاری"
                                     font.bold: true
                                 }
 
@@ -214,7 +242,7 @@ Page {
         rejectVisible: true
 
         onDialogAccepted: function(){
-            if(dbMan.periodDelete(periodDeletePage.periodId))
+            if(dbMan.periodDelete(periodDeletePage.model.period_id))
                 periodSuccessDelDialog.open();
             else
                 periodErrorDelDialog.open();

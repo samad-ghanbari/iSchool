@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Controls
 
 import "./../user/" as UserModule
-import "./../branch" as BranchModule
+import "./../branch/"
 import "./../step" as StepModule
 import "./../base" as BaseModule
 import "./../period" as PeriodModule
@@ -17,34 +17,15 @@ import "./../about" as AboutModule
 
 MenuBar {
     id: menubarId
-    property alias menuSettingTBId: menuSettingTBId
+    //property alias menuSettingTBId: menuSettingTBId
     property bool toolbarView: true
     font.family: "B Yekan"
     font.pixelSize: 16
 
     required property StackView appStackView;
-    required property ToolbarModule toolbarId;
-
-    Connections
-    {
-        target: menubarId.toolbarId
-        function onToolBarShow()
-        {
-            menubarId.menuSettingTBId.text="حذف نوار‌ابزار";
-            menubarId.toolbarView=true
-            menubarId.toolbarId.visible=true;
-        }
-
-        function onToolBarHide()
-        {
-            menubarId.menuSettingTBId.text="نمایش نوار‌ابزار";
-            menubarId.toolbarView=false
-            menubarId.toolbarId.visible=false;
-        }
-    }
 
     Menu {
-        title: "مدرسه"
+        title: "مدیریت"
         font.family: "B Yekan"
         font.pixelSize: 16
         Action {
@@ -104,29 +85,44 @@ MenuBar {
             icon.source: "qrc:/assets/images/date.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
         MenuSeparator { }
-        Action {
-            text: "کلاس‌ها";
-            onTriggered:{
-                if(menubarId.appStackView.currentItem.objectName === "classON")
-                menubarId.appStackView.pop();
+        // Action {
+        //     text: "کلاس‌ها";
+        //     onTriggered:{
+        //         if(menubarId.appStackView.currentItem.objectName === "classON")
+        //         menubarId.appStackView.pop();
 
-                menubarId.appStackView.push(classComponent, {objectName: "classON"});
-            }
-            icon.source: "qrc:/assets/images/classroom.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
-        }
-        MenuSeparator { }
-        Action {
-            text: "درس‌ها";
-            onTriggered:
-            {
-                if(menubarId.appStackView.currentItem.objectName === "courseON")
-                menubarId.appStackView.pop();
+        //         menubarId.appStackView.push(classComponent, {objectName: "classON"});
+        //     }
+        //     icon.source: "qrc:/assets/images/classroom.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
+        // }
+        // MenuSeparator { }
+        // Action {
+        //     text: "درس‌ها";
+        //     onTriggered:
+        //     {
+        //         if(menubarId.appStackView.currentItem.objectName === "courseON")
+        //         menubarId.appStackView.pop();
 
-                menubarId.appStackView.push(coursesComponent, {objectName: "courseON"});
-            }
-            icon.source: "qrc:/assets/images/course.png";
-            icon.width: 24;icon.height:24;icon.color:"transparent"
-        }
+        //         menubarId.appStackView.push(coursesComponent, {objectName: "courseON"});
+        //     }
+        //     icon.source: "qrc:/assets/images/course.png";
+        //     icon.width: 24;icon.height:24;icon.color:"transparent"
+        // }
+        // MenuSeparator { }
+        // Action {
+        //     text: "لیست کاربران";
+        //     enabled: superAdmin
+
+        //     onTriggered:
+        //     {
+        //         if(menubarId.appStackView.currentItem.objectName === "listUserON")
+        //         menubarId.appStackView.pop();
+
+        //         menubarId.appStackView.push(listUserPageComponent,{objectName: "listUserON"});
+        //     }
+        //     icon.source: "qrc:/assets/images/users.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
+        // }
+
     }
 
     Menu {
@@ -147,107 +143,87 @@ MenuBar {
         }
     }
 
-    Menu {
-        title: "ارزیابی‌ها"
-        font.family: "B Yekan"
-        font.pixelSize: 16
-        Action {
-            text: "ارزیابی‌ها";
-            onTriggered:
-            {
-                if(menubarId.appStackView.currentItem.objectName === "evalsON")
-                menubarId.appStackView.pop();
+    // Menu {
+    //     title: "ارزیابی‌ها"
+    //     font.family: "B Yekan"
+    //     font.pixelSize: 16
+    //     Action {
+    //         text: "ارزیابی‌ها";
+    //         onTriggered:
+    //         {
+    //             if(menubarId.appStackView.currentItem.objectName === "evalsON")
+    //             menubarId.appStackView.pop();
 
-                menubarId.appStackView.push(evalsComponent, {objectName: "evalsON"});
-            }
-            icon.source: "qrc:/assets/images/evaluation.png";
-            icon.width: 24;icon.height:24;icon.color:"transparent" }
-    }
+    //             menubarId.appStackView.push(evalsComponent, {objectName: "evalsON"});
+    //         }
+    //         icon.source: "qrc:/assets/images/evaluation.png";
+    //         icon.width: 24;icon.height:24;icon.color:"transparent" }
+    // }
 
-    Menu {
-        id: menuReportId
-        title: "گزارشات"
-        font.family: "B Yekan"
-        font.pixelSize: 16
-        Action {
-            text: "گزارش آماری";
-            onTriggered:
-            {
-                if(menubarId.appStackView.currentItem.objectName === "listUserON")
-                menubarId.appStackView.pop();
+    // Menu {
+    //     id: menuReportId
+    //     title: "گزارشات"
+    //     font.family: "B Yekan"
+    //     font.pixelSize: 16
+    //     Action {
+    //         text: "گزارش آماری";
+    //         onTriggered:
+    //         {
+    //             if(menubarId.appStackView.currentItem.objectName === "listUserON")
+    //             menubarId.appStackView.pop();
 
-                //menubarId.appStackView.push(listUserPageComponent,{objectName: "listUserON"});
-            }
-            icon.source: "qrc:/assets/images/report.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
-        }
-    }
+    //             //menubarId.appStackView.push(listUserPageComponent,{objectName: "listUserON"});
+    //         }
+    //         icon.source: "qrc:/assets/images/report.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
+    //     }
+    // }
 
-    Menu {
-        id: menuSettingId
-        title: "تنظیمات کاربر"
-        font.family: "B Yekan"
-        font.pixelSize: 16
-        Action {
-            id:menuSettingTBId;
-            icon.source: "qrc:/assets/images/toolbox.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
-            text: "حذف نوار‌ابزار";
-            onTriggered:
-            if(menubarId.toolbarView)
-            {
-                menuSettingTBId.text="نمایش نوار‌ابزار";
-                menubarId.toolbarView=false
-                menubarId.toolbarId.visible=false;
-            }
-            else
-            {
-                menubarId.menuSettingTBId.text="حذف نوار‌ابزار";
-                menubarId.toolbarView=true
-                menubarId.toolbarId.visible=true;
+    // Menu {
+    //     id: menuSettingId
+    //     title: "تنظیمات کاربر"
+    //     font.family: "B Yekan"
+    //     font.pixelSize: 16
+    //     Action {
+    //         id:menuSettingTBId;
+    //         icon.source: "qrc:/assets/images/toolbox.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
+    //         text: "حذف نوار‌ابزار";
+    //         onTriggered:
+    //         if(menubarId.toolbarView)
+    //         {
+    //             menuSettingTBId.text="نمایش نوار‌ابزار";
+    //             menubarId.toolbarView=false
+    //             menubarId.toolbarId.visible=false;
+    //         }
+    //         else
+    //         {
+    //             menubarId.menuSettingTBId.text="حذف نوار‌ابزار";
+    //             menubarId.toolbarView=true
+    //             menubarId.toolbarId.visible=true;
 
-            }
-        }
-        Action {
-            text: "پروفایل کاربر";
-            onTriggered: console.log("profile")
-            icon.source: "qrc:/assets/images/user.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
-        }
+    //         }
+    //     }
+    //     Action {
+    //         text: "پروفایل کاربر";
+    //         onTriggered: console.log("profile")
+    //         icon.source: "qrc:/assets/images/user.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
+    //     }
 
-    }
+    // }
 
-    Menu {
-        id: menuAdminSettingId
-        title: "تنظیمات سامانه"
-        font.family: "B Yekan"
-        font.pixelSize: 16
-        Action {
-            text: "لیست کاربران";
-            enabled: superAdmin
+    // Menu {
+    //     id: menuLogId
+    //     title: "لاگ کاربران"
+    //     font.family: "B Yekan"
+    //     font.pixelSize: 16
 
-            onTriggered:
-            {
-                if(menubarId.appStackView.currentItem.objectName === "listUserON")
-                menubarId.appStackView.pop();
-
-                menubarId.appStackView.push(listUserPageComponent,{objectName: "listUserON"});
-            }
-            icon.source: "qrc:/assets/images/users.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
-        }
-    }
-
-    Menu {
-        id: menuLogId
-        title: "لاگ کاربران"
-        font.family: "B Yekan"
-        font.pixelSize: 16
-
-        Action {
-            text: "مشاهده لاگ‌ها";
-            onTriggered:
-            {
-            }
-            icon.source: "qrc:/assets/images/log.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
-        }
-    }
+    //     Action {
+    //         text: "مشاهده لاگ‌ها";
+    //         onTriggered:
+    //         {
+    //         }
+    //         icon.source: "qrc:/assets/images/log.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
+    //     }
+    // }
 
     Menu {
         id: aboutId
@@ -277,7 +253,7 @@ MenuBar {
     Component
     {
         id: branchesComponent
-        BranchModule.Branches{ appStackView: menubarId.appStackView;}
+        Branches{ appStackView: menubarId.appStackView;}
     }
     Component
     {

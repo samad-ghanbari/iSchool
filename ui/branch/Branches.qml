@@ -37,7 +37,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "لیست شعبه‌ها"
+            text: "مدیریت شعبه‌ها"
             font.family: "B Yekan"
             font.pixelSize: 24
             font.bold: true
@@ -81,10 +81,10 @@ Page {
                 BranchWidget{
                     id: branchDelegate
                     required property var model;
-                    branchId: model.Id;
-                    branchCity: model.City;
-                    branchName: model.Name;
-                    branchAddress: model.Address
+                    branchId: model.id;
+                    branchCity: model.city;
+                    branchName: model.branch_name;
+                    branchAddress: model.branch_address
 
                     index : model.index
                     appStackView: branchesPage.appStackView
@@ -113,7 +113,7 @@ Page {
 
             }
 
-            Component.onCompleted: BMethods.updateBranches();
+            Component.onCompleted:BMethods.updateBranches();
         }
 
     }

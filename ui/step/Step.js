@@ -1,12 +1,11 @@
 function stepsUpdate(BranchId)
 {
     stepsModel.clear();
-    var jsondata = dbMan.getBranchStepsJson(BranchId);
-    //jsondata = JSON.parse(jsondata);
-    //s.id, s.branch_id, s.step_name, b.city, b.branch_name
+    var jsondata = dbMan.getBranchSteps(BranchId);
+    //s.id, s.branch_id, s.step_name, s.field_based, s.numeric_graded, b.city, b.branch_name
     for(var obj of jsondata)
     {
-        stepsModel.append({Id: obj.id, BranchId: obj.branch_id, StepName: obj.step_name, BranchCity: obj.branch_city, BranchName: obj.branch_name})
+        stepsModel.append(obj)
     }
 }
 
@@ -76,4 +75,6 @@ function checkStepUpdateEntries(Step)
 function updateWidget(stepObj)
 {
     stepDelegate.stepName = stepObj["step_name"];
+    stepDelegate.numeric_graded = stepObj["numeric_graded"];
+    stepDelegate.field_based = stepObj["field_based"];
 }
