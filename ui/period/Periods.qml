@@ -13,25 +13,10 @@ Page {
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
-    GridLayout
+    ColumnLayout
     {
         anchors.fill: parent
-        columns:2
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: periodsPage.appStackView.pop();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
@@ -47,7 +32,6 @@ Page {
         }
 
         RowLayout{
-            Layout.columnSpan: 2
             Layout.preferredHeight:  50
             Layout.preferredWidth: branchLbl.width + branchCB.width
             Layout.alignment: Qt.AlignHCenter
@@ -98,7 +82,6 @@ Page {
         }
 
         RowLayout{
-            Layout.columnSpan: 2
             Layout.preferredHeight:  50
             Layout.preferredWidth: branchLbl.width + branchCB.width
             Layout.alignment: Qt.AlignHCenter
@@ -138,10 +121,9 @@ Page {
 
         Rectangle
         {
-            Layout.columnSpan: 2
             Layout.fillHeight: true
             Layout.fillWidth: true
-            color: "ghostwhite"
+            color: "transparent"
             ColumnLayout
             {
                 anchors.fill: parent

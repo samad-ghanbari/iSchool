@@ -15,11 +15,12 @@ Backend::Backend(QGuiApplication &app, QObject *parent)
     // usage name
     // B Yekan
     // IranNastaliq
+    // Far.Afaaq
 
     QFontDatabase::addApplicationFont(":/assets/font/yekan.ttf"); // B Yean
     QFontDatabase::addApplicationFont(":/assets/font/ZarBd.ttf"); // Zar
     QFontDatabase::addApplicationFont(":/assets/font/TitrBd.ttf"); //Titr
-    //int ii =QFontDatabase::addApplicationFont(":/assets/font/Titraj.ttf"); //Titr
+    int ii =QFontDatabase::addApplicationFont(":/assets/font/Far.Afaaq.ttf"); //Titr
 
 
     // //Retrieve and print the font family name

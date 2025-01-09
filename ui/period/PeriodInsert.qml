@@ -16,27 +16,12 @@ Page {
     required property StackView appStackView
     signal periodInsertedSignal(var step_id);
 
-    background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
+    background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
-    GridLayout
+    ColumnLayout
     {
         anchors.fill: parent
-        columns:2
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: insertPeriodPage.appStackView.pop();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
@@ -53,10 +38,9 @@ Page {
 
         Rectangle
         {
-            Layout.columnSpan: 2
             Layout.fillHeight: true
             Layout.fillWidth: true
-            color: "honeydew"
+            color: "transparent"
 
             ScrollView
             {

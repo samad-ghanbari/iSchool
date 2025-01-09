@@ -9,10 +9,10 @@ import "./../step" as StepModule
 import "./../base" as BaseModule
 import "./../period" as PeriodModule
 import "./../class" as ClassModule
-import "./../student" as StudentModule
+//import "./../student" as StudentModule
 import "./../course" as CourseModule
 import "./../evaluation" as EvalModule
-import "./../about" as AboutModule
+// import "./../about" as AboutModule
 
 
 MenuBar {
@@ -125,23 +125,23 @@ MenuBar {
 
     }
 
-    Menu {
-        title: "دانش‌آموزان"
-        font.family: "B Yekan"
-        font.pixelSize: 16
-        Action {
-            text: "دانش‌آموزان";
-            onTriggered:
-            {
-                if(menubarId.appStackView.currentItem.objectName === "studentsON")
-                menubarId.appStackView.pop();
+    // Menu {
+    //     title: "دانش‌آموزان"
+    //     font.family: "B Yekan"
+    //     font.pixelSize: 16
+    //     Action {
+    //         text: "دانش‌آموزان";
+    //         onTriggered:
+    //         {
+    //             if(menubarId.appStackView.currentItem.objectName === "studentsON")
+    //             menubarId.appStackView.pop();
 
-                menubarId.appStackView.push(studentsComponent, {objectName: "studentsON"});
-            }
-            icon.source: "qrc:/assets/images/student.png";
-            icon.width: 24;icon.height:24;icon.color:"transparent"
-        }
-    }
+    //             menubarId.appStackView.push(studentsComponent, {objectName: "studentsON"});
+    //         }
+    //         icon.source: "qrc:/assets/images/student.png";
+    //         icon.width: 24;icon.height:24;icon.color:"transparent"
+    //     }
+    // }
 
     // Menu {
     //     title: "ارزیابی‌ها"
@@ -225,24 +225,24 @@ MenuBar {
     //     }
     // }
 
-    Menu {
-        id: aboutId
-        title: "درباره برنامه"
-        font.family: "B Yekan"
-        font.pixelSize: 16
+    // Menu {
+    //     id: aboutId
+    //     title: "درباره برنامه"
+    //     font.family: "B Yekan"
+    //     font.pixelSize: 16
 
-        Action {
-            text: "درباره برنامه";
-            onTriggered:
-            {
-                if(menubarId.appStackView.currentItem.objectName === "aboutON")
-                menubarId.appStackView.pop();
+    //     Action {
+    //         text: "درباره برنامه";
+    //         onTriggered:
+    //         {
+    //             if(menubarId.appStackView.currentItem.objectName === "aboutON")
+    //             menubarId.appStackView.pop();
 
-                menubarId.appStackView.push(aboutComponent,{objectName: "aboutON"});
-            }
-            icon.source: "qrc:/assets/images/info.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
-        }
-    }
+    //             menubarId.appStackView.push(aboutComponent,{objectName: "aboutON"});
+    //         }
+    //         icon.source: "qrc:/assets/images/info.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
+    //     }
+    // }
 
     Component
     {
@@ -280,12 +280,12 @@ MenuBar {
         ClassModule.Class{appStackView: menubarId.appStackView;}
     }
 
-    //student
-    Component
-    {
-        id: studentsComponent
-        StudentModule.Students{appStackView: menubarId.appStackView;}
-    }
+    // //student
+    // Component
+    // {
+    //     id: studentsComponent
+    //     StudentModule.Students{appStackView: menubarId.appStackView;}
+    // }
 
     //Course
     Component
@@ -302,10 +302,5 @@ MenuBar {
     }
 
 
-    //About
-    Component
-    {
-        id: aboutComponent
-        AboutModule.About{onPopStackViewSignal: menubarId.appStackView.pop();}
-    }
+
 }

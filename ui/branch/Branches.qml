@@ -13,59 +13,52 @@ Page {
 
     required property StackView appStackView;
 
-    GridLayout
+    ColumnLayout
     {
         anchors.fill: parent
-        columns:3
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: branchesPage.appStackView.pop();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
-        Text {
+        Rectangle{
             Layout.fillWidth: true
             Layout.preferredHeight: 64
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            text: "مدیریت شعبه‌ها"
-            font.family: "B Yekan"
-            font.pixelSize: 24
-            font.bold: true
-            color: "mediumvioletred"
-            style: Text.Outline
-            styleColor: "white"
+            color:"ghostwhite"
+
+            Text {
+                width: parent.width
+                height: 64
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: "مدیریت شعبه‌ها"
+                font.family: "B Yekan"
+                font.pixelSize: 24
+                font.bold: true
+                color: "mediumvioletred"
+                style: Text.Outline
+                styleColor: "white"
+            }
+
+            Button
+            {
+                width: 64
+                height: 64
+                background: Item{}
+                icon.source: "qrc:/assets/images/add.png"
+                icon.width: 64
+                icon.height: 64
+                icon.color:"transparent"
+                opacity: 0.5
+                onClicked: branchesPage.appStackView.push(branchInsertComponent);
+                hoverEnabled: true
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+            }
         }
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/add.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: branchesPage.appStackView.push(branchInsertComponent);
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
+
+
 
         Rectangle
         {
-            Layout.columnSpan: 3
             Layout.fillHeight: true
             Layout.fillWidth: true
-            color: "ghostwhite"
+            color: "transparent"
 
             ListView
             {

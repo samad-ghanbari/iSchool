@@ -26,21 +26,21 @@ Page {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             color:"transparent"
-            Button
-            {
-                height: 64
-                width: 64
-                anchors.left: parent.left
-                background: Item{}
-                icon.source: "qrc:/assets/images/arrow-right.png"
-                icon.width: 64
-                icon.height: 64
-                icon.color:"transparent"
-                opacity: 0.5
-                onClicked: classStudentsPageId.appStackView.pop();
-                hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-            }
+            // Button
+            // {
+            //     height: 64
+            //     width: 64
+            //     anchors.left: parent.left
+            //     background: Item{}
+            //     icon.source: "qrc:/assets/images/arrow-right.png"
+            //     icon.width: 64
+            //     icon.height: 64
+            //     icon.color:"transparent"
+            //     opacity: 0.5
+            //     onClicked: classStudentsPageId.appStackView.pop();
+            //     hoverEnabled: true
+            //     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+            // }
             Text {
                 width: parent.width
                 height: parent.height

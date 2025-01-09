@@ -68,6 +68,7 @@ qt_add_qml_module(appiSchool
         ui/home/StudentCoursesList.qml
         ui/home/CourseStudentsList.qml
         ui/home/StudentResultSetting.qml
+        ui/home/About.qml
 
     #USER
         ui/user/ListUser.qml
@@ -169,16 +170,6 @@ qt_add_qml_module(appiSchool
         ui/student/StudentCourseDelete.qml
         ui/student/StudentCourseEval.qml
 
-
-
-
-
-
-
-
-    #About
-        ui/about/About.qml
-
 )
 
 
@@ -191,7 +182,7 @@ qt_add_resources(appiSchool "assets"
         assets/font/IranNastaliq.ttf
         assets/font/ZarBd.ttf
         assets/font/TitrBd.ttf
-        #assets/font/Titraj.ttf
+        assets/font/Far.Afaaq.ttf
         qmldir
         ui/login/qmldir
         ui/home/qmldir

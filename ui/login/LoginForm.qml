@@ -99,8 +99,8 @@ Page {
                 text: "ورود به سامانه روشنگران"
                 color: "slategray"
                 font.bold: true
-                font.pixelSize: 24
-                font.family: "B Yekan"
+                font.pixelSize: 20
+                font.family: "Far.Afaaq"
                 horizontalAlignment:  Text.AlignHCenter
             }
 
