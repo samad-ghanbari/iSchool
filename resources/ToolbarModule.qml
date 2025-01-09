@@ -64,7 +64,7 @@ ToolBar {
             icon.height: 64
             icon.color:"transparent"
             opacity: 0.5
-            onClicked: toolbarId.appStackView.push("qrc:/resources/About.qml",{objectName: "aboutON"});
+            onClicked: toolbarId.appStackView.push("qrc:/ui/resources/About.qml",{objectName: "aboutON"});
             hoverEnabled: true
             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
         }

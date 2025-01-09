@@ -30,21 +30,7 @@ Page {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             color:"transparent"
-            // Button
-            // {
-            //     height: 64
-            //     width: 64
-            //     anchors.left: parent.left
-            //     background: Item{}
-            //     icon.source: "qrc:/assets/images/arrow-right.png"
-            //     icon.width: 64
-            //     icon.height: 64
-            //     icon.color:"transparent"
-            //     opacity: 0.5
-            //     onClicked: studentCoursesPageId.appStackView.pop();
-            //     hoverEnabled: true
-            //     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-            // }
+
             Text {
                 width: parent.width
                 height: parent.height
@@ -423,7 +409,7 @@ Page {
                                                     regularExpression: /^-?\d*\.?\d+$/
                                                 }
 
-                                                onEditingFinished:parent.doneEdit();
+                                                //onEditingFinished:parent.doneEdit();
                                                 //onFocusChanged: parent.doneEdit();
                                                 Keys.onReturnPressed: parent.doneEdit();
 
@@ -453,7 +439,7 @@ Page {
                                                     opacity: 0.5
                                                     onClicked: {
                                                         evalRecDel.edit = false
-                                                        parent.text = evalRecDel.value
+                                                        te.text = (evalRecDel.value > -1000)? evalRecDel.value : ""
                                                     }
                                                     hoverEnabled: true
                                                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;

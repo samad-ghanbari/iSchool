@@ -68,7 +68,8 @@ qt_add_qml_module(appiSchool
         ui/home/StudentCoursesList.qml
         ui/home/CourseStudentsList.qml
         ui/home/StudentResultSetting.qml
-        ui/home/About.qml
+        ui/home/BaseAvg.qml
+
 
     #USER
         ui/user/ListUser.qml
@@ -183,10 +184,15 @@ qt_add_resources(appiSchool "assets"
         assets/font/ZarBd.ttf
         assets/font/TitrBd.ttf
         assets/font/Far.Afaaq.ttf
+        assets/font/Phamelo.ttf
+        assets/font/Daughter.ttf
         qmldir
         ui/login/qmldir
         ui/home/qmldir
         ui/user/qmldir
+
+        resources/About.qml
+        #ui/resources/ToolbarModule.qml
 
     #BACKGROUND
     FILES
@@ -271,6 +277,7 @@ qt_add_resources(appiSchool "assets"
     #EVALUATION
         assets/images/evaluation.png
         assets/images/evalcat.png
+        assets/images/baseAvg.png
     #LOG
         assets/images/log.png
     #REPORT

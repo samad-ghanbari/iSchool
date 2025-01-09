@@ -18,258 +18,271 @@ Page {
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
-    ColumnLayout
-    {
+    Flickable{
         anchors.fill: parent
+        contentHeight: classCoursesGV.contentHeight + 400
 
-        Rectangle{
-            Layout.fillWidth: true
-            Layout.preferredHeight: 64
-            color:"transparent"
-            // Button
-            // {
-            //     height: 64
-            //     width: 64
-            //     anchors.left: parent.left
-            //     background: Item{}
-            //     icon.source: "qrc:/assets/images/arrow-right.png"
-            //     icon.width: 64
-            //     icon.height: 64
-            //     icon.color:"transparent"
-            //     opacity: 0.5
-            //     onClicked: classStudentsPageId.appStackView.pop();
-            //     hoverEnabled: true
-            //     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-            // }
-            Text {
-                width: parent.width
-                height: parent.height
+        ColumnLayout
+        {
+            id: cspCL
+            anchors.fill: parent
+
+            Rectangle{
+                Layout.fillWidth: true
                 Layout.preferredHeight: 64
+                color:"transparent"
+                Text {
+                    width: parent.width
+                    height: parent.height
+                    Layout.preferredHeight: 64
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    text: "شعبه " + classStudentsPageId.branch + " - " + classStudentsPageId.step
+                    font.family: "B Yekan"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                }
+            }
+
+
+            Text {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 25
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + classStudentsPageId.branch + " - " + classStudentsPageId.step
+                text: (classStudentsPageId.field_based) ? "رشته " + classStudentsPageId.field + " - " + " پایه " + classStudentsPageId.base :  " پایه " + classStudentsPageId.base
                 font.family: "B Yekan"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
             }
-        }
+
+            Text {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 25
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: " سال تحصیلی " +  classStudentsPageId.period + " - " + " کلاس " + classStudentsPageId.class_name
+                font.family: "B Yekan"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
+
+            Rectangle{
+                Layout.preferredHeight: 1
+                Layout.fillWidth: true
+                //Layout.maximumWidth: 700
+                Layout.alignment: Qt.AlignHCenter
+                color: "darkgray"
+            }
+
+            RowLayout{
+                Layout.fillWidth: true
+                Layout.preferredHeight:  64
+                Layout.alignment: Qt.AlignRight
+
+                Text {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 25
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignLeft
+                    text: " دانش‌آموزان کلاس "
+                    font.family: "B Yekan"
+                    font.pixelSize: 20
+                    font.bold: true
+                    color: "mediumvioletred"
+                }
+
+                Button
+                {
+                    Layout.preferredWidth: 64
+                    Layout.preferredHeight:  64
+                    background: Item{}
+                    icon.source: "qrc:/assets/images/evaluation.png"
+                    icon.width: 64
+                    icon.height: 64
+                    icon.color:"transparent"
+                    opacity: 0.5
+                    onClicked: {}
+                    hoverEnabled: true
+                    onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                }
+            }
 
 
-        Text {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 25
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            text: (classStudentsPageId.field_based) ? "رشته " + classStudentsPageId.field + " - " + " پایه " + classStudentsPageId.base :  " پایه " + classStudentsPageId.base
-            font.family: "B Yekan"
-            font.pixelSize: 18
-            font.bold: true
-            color: "darkmagenta"
-        }
+            Rectangle{
+                id: mainBox
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.topMargin: 20
+                color: "transparent"
 
-        Text {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 25
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            text: " سال تحصیلی " +  classStudentsPageId.period + " - " + " کلاس " + classStudentsPageId.class_name
-            font.family: "B Yekan"
-            font.pixelSize: 18
-            font.bold: true
-            color: "darkmagenta"
-        }
+                GridView{
+                    id: classCoursesGV
+                    model: ListModel{id: classStudentsModel;}
+                    anchors.fill: parent
+                    anchors.margins: 20
+                    clip: true
+                    flickableDirection: Flickable.AutoFlickDirection
+                    cellWidth: 350
+                    cellHeight: 350
+                    interactive: false
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    delegate: Rectangle{
+                        id: recdel;
+                        required property var model;
+                        property bool isFemale : (recdel.model.gender === "خانم") ? true : false;
+                        width: 320
+                        height: 320
+                        border.width: 2
+                        border.color: "mediumvioletred"
+                        color: "slategray";
+                        radius: 5
+                        ColumnLayout
+                        {
+                            anchors.fill: parent
 
-        Rectangle{
-            Layout.preferredHeight: 1
-            Layout.fillWidth: true
-            //Layout.maximumWidth: 700
-            Layout.alignment: Qt.AlignHCenter
-            color: "darkgray"
-        }
-
-        Text {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 25
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            text: " دانش‌آموزان کلاس "
-            font.family: "B Yekan"
-            font.pixelSize: 20
-            font.bold: true
-            color: "mediumvioletred"
-        }
-
-
-        Rectangle{
-            id: mainBox
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.topMargin: 20
-            color: "transparent"
-
-            GridView{
-                id: classCoursesGV
-                model: ListModel{id: classStudentsModel;}
-                anchors.fill: parent
-                anchors.margins: 20
-                clip: true
-                flickableDirection: Flickable.AutoFlickDirection
-                cellWidth: 350
-                cellHeight: 350
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                delegate: Rectangle{
-                    id: recdel;
-                    required property var model;
-                    property bool isFemale : (recdel.model.gender === "خانم") ? true : false;
-                    width: 320
-                    height: 320
-                    border.width: 2
-                    border.color: "mediumvioletred"
-                    color: "slategray";
-                    radius: 5
-                    ColumnLayout
-                    {
-                        anchors.fill: parent
-
-                        Image {
-                            source:{
-                                if(recdel.model.photo === "")
-                                {
-                                    if(recdel.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
-                                }
-                                else
-                                {
-                                    return recdel.model.photo;
-                                }
-
-                            }
-                            Layout.preferredWidth: 150
-                            Layout.preferredHeight: 150
-                            Layout.alignment: Qt.AlignHCenter
-                        }
-                        Text {
-                            text: recdel.model.name + " " + recdel.model.lastname
-                            font.family: "B Yekan"
-                            font.pixelSize: 18
-                            font.bold: true
-                            color: "white"
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                        Text {
-                            text: "نام پدر: " + recdel.model.fathername
-                            font.family: "B Yekan"
-                            font.pixelSize: 14
-                            font.bold: true
-                            color: "white"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                        Text {
-                            text: "تاریخ تولد:‌ " + recdel.model.birthday;
-                            font.family: "B Yekan"
-                            font.pixelSize: 14
-                            font.bold: true
-                            color: "white"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-
-                        Item{Layout.preferredWidth: parent.width; Layout.fillHeight: true;}
-                        Rectangle{
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                            color: "lightgray"
-                            Row{
-                                anchors.fill: parent
-                                Button
-                                {
-                                    height: 48
-                                    width: 48
-                                    background: Item{}
-                                    icon.source: "qrc:/assets/images/course.png"
-                                    icon.width: 48
-                                    icon.height: 48
-                                    icon.color:"transparent"
-                                    opacity: 1
-                                    onClicked:{
-                                        var photo = recdel.model.photo;
-                                        if(photo === "")
-                                        {
-                                            if(recdel.isFemale)
-                                                photo = "qrc:/assets/images/female.png";
-                                            else
-                                                photo = "qrc:/assets/images/user.png";
-                                        }
-
-                                        classStudentsPageId.appStackView.push(studentCoursesComponent, {
-                                                                                  student: recdel.model.name + " " + recdel.model.lastname,
-                                                                                  student_id: recdel.model.id,
-                                                                                  student_photo: photo
-                                                                              });
+                            Image {
+                                source:{
+                                    if(recdel.model.photo === "")
+                                    {
+                                        if(recdel.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
+                                    }
+                                    else
+                                    {
+                                        return recdel.model.photo;
                                     }
 
                                 }
-                                Button
-                                {
-                                    height: 48
-                                    width: 48
-                                    background: Item{}
-                                    icon.source: "qrc:/assets/images/evaluation.png"
-                                    icon.width: 48
-                                    icon.height: 48
-                                    icon.color:"transparent"
-                                    opacity: 1
-                                    onClicked:{
-                                        var photo = recdel.model.photo;
-                                        if(photo === "")
-                                        {
-                                            if(recdel.isFemale)
-                                                photo = "qrc:/assets/images/female.png";
-                                            else
-                                                photo = "qrc:/assets/images/user.png";
-                                        }
-                                        classStudentsPageId.appStackView.push(studentResultComponent, {
-                                                                                  student: recdel.model.name + " " + recdel.model.lastname,
-                                                                                  student_id: recdel.model.id,
-                                                                                  student_photo: photo
-                                                                              });
-                                    }
+                                Layout.preferredWidth: 150
+                                Layout.preferredHeight: 150
+                                Layout.alignment: Qt.AlignHCenter
+                            }
+                            Text {
+                                text: recdel.model.name + " " + recdel.model.lastname
+                                font.family: "B Yekan"
+                                font.pixelSize: 18
+                                font.bold: true
+                                color: "white"
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+                            Text {
+                                text: "نام پدر: " + recdel.model.fathername
+                                font.family: "B Yekan"
+                                font.pixelSize: 14
+                                font.bold: true
+                                color: "white"
+                                Layout.preferredWidth: parent.width
+                                Layout.preferredHeight: 25
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+                            Text {
+                                text: "تاریخ تولد:‌ " + recdel.model.birthday;
+                                font.family: "B Yekan"
+                                font.pixelSize: 14
+                                font.bold: true
+                                color: "white"
+                                Layout.preferredWidth: parent.width
+                                Layout.preferredHeight: 25
+                                horizontalAlignment: Text.AlignHCenter
+                            }
 
+                            Item{Layout.preferredWidth: parent.width; Layout.fillHeight: true;}
+                            Rectangle{
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                color: "lightgray"
+                                Row{
+                                    anchors.fill: parent
+                                    Button
+                                    {
+                                        height: 48
+                                        width: 48
+                                        background: Item{}
+                                        icon.source: "qrc:/assets/images/course.png"
+                                        icon.width: 48
+                                        icon.height: 48
+                                        icon.color:"transparent"
+                                        opacity: 1
+                                        onClicked:{
+                                            var photo = recdel.model.photo;
+                                            if(photo === "")
+                                            {
+                                                if(recdel.isFemale)
+                                                    photo = "qrc:/assets/images/female.png";
+                                                else
+                                                    photo = "qrc:/assets/images/user.png";
+                                            }
+
+                                            classStudentsPageId.appStackView.push(studentCoursesComponent, {
+                                                                                      student: recdel.model.name + " " + recdel.model.lastname,
+                                                                                      student_id: recdel.model.id,
+                                                                                      student_photo: photo
+                                                                                  });
+                                        }
+
+                                    }
+                                    Button
+                                    {
+                                        height: 48
+                                        width: 48
+                                        background: Item{}
+                                        icon.source: "qrc:/assets/images/evaluation.png"
+                                        icon.width: 48
+                                        icon.height: 48
+                                        icon.color:"transparent"
+                                        opacity: 1
+                                        onClicked:{
+                                            var photo = recdel.model.photo;
+                                            if(photo === "")
+                                            {
+                                                if(recdel.isFemale)
+                                                    photo = "qrc:/assets/images/female.png";
+                                                else
+                                                    photo = "qrc:/assets/images/user.png";
+                                            }
+                                            classStudentsPageId.appStackView.push(studentResultComponent, {
+                                                                                      student: recdel.model.name + " " + recdel.model.lastname,
+                                                                                      student_id: recdel.model.id,
+                                                                                      student_photo: photo
+                                                                                  });
+                                        }
+
+                                    }
                                 }
                             }
                         }
+
+                        MouseArea{
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: parent.color = "mediumvioletred";
+                            onExited: parent.color = "slategray";
+                            acceptedButtons: Qt.NoButton
+                        }
                     }
 
-                    MouseArea{
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        onEntered: parent.color = "mediumvioletred";
-                        onExited: parent.color = "slategray";
-                        acceptedButtons: Qt.NoButton
+                    Component.onCompleted: {
+                        var jsondata = dbMan.getClassStudentsArray(classStudentsPageId.class_id);
+                        classStudentsModel.clear();
+                        //id, step_id, name, lastname, fathername, gender, birthday, photo
+                        for(var obj of jsondata)
+                        {
+                            classStudentsModel.append(obj);
+                        }
                     }
                 }
 
-                Component.onCompleted: {
-                    var jsondata = dbMan.getClassStudentsArray(classStudentsPageId.class_id);
-                    classStudentsModel.clear();
-                    //id, step_id, name, lastname, fathername, gender, birthday, photo
-                    for(var obj of jsondata)
-                    {
-                        classStudentsModel.append(obj);
-                    }
-                }
             }
 
         }
 
     }
-
     Component{
         id: studentCoursesComponent
         StudentCoursesList{

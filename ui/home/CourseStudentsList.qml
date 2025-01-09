@@ -382,7 +382,7 @@ Page {
                                                     regularExpression: /^-?\d*\.?\d+$/
                                                 }
 
-                                                onEditingFinished:parent.doneEdit();
+                                                //onEditingFinished:parent.doneEdit();
                                                 //onFocusChanged: parent.doneEdit();
                                                 Keys.onReturnPressed: parent.doneEdit();
 
@@ -413,7 +413,7 @@ Page {
                                                     opacity: 0.5
                                                     onClicked: {
                                                         evalRecDel.edit = false
-                                                        parent.text = evalRecDel.value
+                                                        te.text = (evalRecDel.value > -1000)? evalRecDel.value : ""
                                                     }
                                                     hoverEnabled: true
                                                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;

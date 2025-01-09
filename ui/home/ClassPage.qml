@@ -24,21 +24,7 @@ Page {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             color:"transparent"
-            // Button
-            // {
-            //     height: 64
-            //     width: 64
-            //     anchors.left: parent.left
-            //     background: Item{}
-            //     icon.source: "qrc:/assets/images/arrow-right.png"
-            //     icon.width: 64
-            //     icon.height: 64
-            //     icon.color:"transparent"
-            //     opacity: 0.5
-            //     onClicked: classPageId.appStackView.pop();
-            //     hoverEnabled: true
-            //     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-            // }
+
             Text {
                 width: parent.width
                 height: parent.height
@@ -86,16 +72,41 @@ Page {
             color: "darkgray"
         }
 
-        Text {
+        RowLayout{
             Layout.fillWidth: true
-            Layout.preferredHeight: 25
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            text: "لیست کلاس‌ها"
-            font.family: "B Yekan"
-            font.pixelSize: 20
-            font.bold: true
-            color: "mediumvioletred"
+            Layout.preferredHeight:  64
+            Layout.alignment: Qt.AlignRight
+
+            Text {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 25
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignLeft
+                text: "  لیست کلاس‌ها  "
+                font.family: "B Yekan"
+                font.pixelSize: 20
+                font.bold: true
+                color: "mediumvioletred"
+            }
+
+            Button
+            {
+                Layout.preferredWidth: 125
+                Layout.preferredHeight:  64
+                //background: Item{}
+                //icon.source: "qrc:/assets/images/baseAvg.png"
+                text: "ثبت میانگین پایه"
+                font.family: "B Yekan"
+                font.pixelSize: 16
+                icon.width: 128
+                icon.height: 64
+                icon.color:"transparent"
+                opacity: 0.5
+                onClicked: appStackView.push(baseAverageComponent);
+                hoverEnabled: true
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+            }
+
         }
 
 
@@ -230,5 +241,16 @@ Page {
         }
     }
 
+    Component{
+        id: baseAverageComponent
+        BaseAvg{
+            branch: classPageId.branch
+            step: classPageId.step
+            base: classPageId.base
+            field : classPageId.field
+            field_based: classPageId.field_based
+            period: classPageId.period
+        }
+    }
 
 }

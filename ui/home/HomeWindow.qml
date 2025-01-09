@@ -19,7 +19,11 @@ ApplicationWindow {
 
     menuBar: MenubarModule{ id: menubarId; appStackView: homeStackViewId; }
     header : ToolbarModule{id:toolbarId; appStackView: homeStackViewId; }
+    // header: Loader{
+    //     id: toolbarLoader
+    //     source: {"qrc:/resources/ToolbarModule.qml" ; appStackView: homeStackViewId }
 
+    // }
 
     StackView {
         id: homeStackViewId

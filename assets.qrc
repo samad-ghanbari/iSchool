@@ -1,5 +1,7 @@
+<!DOCTYPE RCC>
 <RCC>
     <qresource prefix="/">
-        <file>assets/font/yekan.ttf</file>
+
     </qresource>
 </RCC>
+

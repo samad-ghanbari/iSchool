@@ -273,6 +273,12 @@ Page {
                             checked: true
                             font.family: "B Yekan"
                             font.pixelSize: 16
+                            onCheckedChanged: {
+                                if(checked)
+                                    customeBaseAvgSW.visible = true
+                                else
+                                    customeBaseAvgSW.visible = false
+                            }
                         }
 
                         Switch{
@@ -375,6 +381,21 @@ Page {
                                     compareRef.currentIndex = compareRef.indexOfValue(finalValue)
                                 }
                             }
+                        }
+
+                        Rectangle{Layout.fillWidth: true; Layout.maximumWidth: 500; Layout.alignment: Qt.AlignHCenter; Layout.preferredHeight: 1; color: "slategray";}
+
+                        Switch{
+                            id: customeBaseAvgSW
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 500
+                            Layout.preferredHeight: 50
+                            Layout.alignment: Qt.AlignHCenter
+
+                            text: "استفاده از میانگین دروس ثبت شده"
+                            checked: true
+                            font.family: "B Yekan"
+                            font.pixelSize: 16
                         }
 
                         Item{
