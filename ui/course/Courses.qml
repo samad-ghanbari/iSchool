@@ -38,7 +38,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "دروس ارائه شده"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -92,7 +92,7 @@ Page {
                                     Layout.preferredHeight:  50
                                     Layout.preferredWidth: 100
                                     text:"شعبه:"
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     horizontalAlignment: Label.AlignRight
@@ -104,7 +104,7 @@ Page {
                                     Layout.preferredHeight:  50
                                     Layout.fillWidth: true
                                     editable: false
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     model: ListModel{id: branchCBoxModel}
                                     textRole: "text"
@@ -135,7 +135,7 @@ Page {
                                     Layout.preferredHeight:  50
                                     Layout.preferredWidth: 100
                                     text:"دوره:"
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     horizontalAlignment: Label.AlignRight
@@ -147,7 +147,7 @@ Page {
                                     Layout.preferredHeight:  50
                                     Layout.fillWidth: true
                                     editable: false
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     model: ListModel{id: stepCBoxModel}
                                     textRole: "text"
@@ -173,7 +173,7 @@ Page {
                                     Layout.preferredHeight:  50
                                     Layout.preferredWidth: 100
                                     text:"پایه تحصیلی:"
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     horizontalAlignment: Label.AlignRight
@@ -185,7 +185,7 @@ Page {
                                     Layout.preferredHeight:  50
                                     Layout.fillWidth: true
                                     editable: false
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     model: ListModel{id: baseCBoxModel}
                                     textRole: "text"
@@ -214,7 +214,7 @@ Page {
                                     Layout.preferredHeight:  50
                                     Layout.preferredWidth: 100
                                     text:"سال تحصیلی:"
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     horizontalAlignment: Label.AlignRight
@@ -226,7 +226,7 @@ Page {
                                     Layout.preferredHeight:  50
                                     Layout.fillWidth: true
                                     editable: false
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     model: ListModel{id: periodCBoxModel}
                                     textRole: "text"
@@ -348,7 +348,7 @@ Page {
                     {
                         anchors.centerIn: parent
                         text: recDel.model.Course_coefficient
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "white"
@@ -365,7 +365,7 @@ Page {
                     {
                         anchors.centerIn: parent
                         text:  recDel.model.Test_coefficient
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "white"
@@ -389,7 +389,7 @@ Page {
                     Label {
                         text: recDel.model.Course_name
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (recDel.highlighted)? 20 :16
                         font.bold: (recDel.highlighted)? true : false
                         color: (recDel.highlighted)? "royalblue":"black"
@@ -425,7 +425,7 @@ Page {
                     {
                         anchors.centerIn: parent
                         text: (recDel.model.Study_base_id > -1)? "درس پایه" : "درس دوره";
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "white"
@@ -483,7 +483,7 @@ Page {
                     onHoveredChanged:(hovered)? this.opacity=1 : this.opacity=0.5
                     //text: "ویرایش"
                     //font.bold: true
-                    //font.family: "B Yekan"
+                    //font.family: "Kalameh"
                     //font.pixelSize: 14
                     //palette.buttonText:  "white"
                     icon.source: "qrc:/assets/images/edit.png"

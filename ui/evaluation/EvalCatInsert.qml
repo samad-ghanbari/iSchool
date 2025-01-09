@@ -47,7 +47,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ثبت دسته ارزیابی جدید"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -94,7 +94,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -115,7 +115,7 @@ Page {
                         elide: Text.ElideRight
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -130,7 +130,7 @@ Page {
                         elide: Text.ElideRight
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -144,7 +144,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -156,7 +156,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         placeholderText: "آزمون نهایی نیمسال اول"
                     }
@@ -170,7 +170,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -192,7 +192,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -214,7 +214,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -242,7 +242,7 @@ Page {
                         Layout.preferredWidth: 200
                         Layout.preferredHeight: 50
                         Layout.alignment: Qt.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         enabled : (evalCatTF.text == "")? false : true;
                         Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}

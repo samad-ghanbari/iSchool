@@ -55,7 +55,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ثبت ارزیابی جدید"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -102,7 +102,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -121,7 +121,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -135,7 +135,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -148,7 +148,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                         color: "mediumvioletred"
@@ -162,7 +162,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -172,7 +172,7 @@ Page {
                         id: courseCB
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         model:ListModel { id: courseCBoxModel; }
                         textRole: "text"
@@ -215,7 +215,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -226,7 +226,7 @@ Page {
                         id: classCB
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         model:ListModel { id: classCBoxModel; }
                         textRole: "text"
@@ -242,7 +242,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -255,7 +255,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         placeholderText: "1403/08/10"
                         validator: RegularExpressionValidator
@@ -274,7 +274,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -284,7 +284,7 @@ Page {
                         id: maxGradeTF
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         placeholderText: "مقدار عددی مانند ۲۰"
                         validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
@@ -300,7 +300,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -329,7 +329,7 @@ Page {
                         Layout.preferredWidth: 200
                         Layout.preferredHeight: 50
                         Layout.alignment: Qt.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                         enabled: {

@@ -44,7 +44,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: "شعبه " + periodPageId.branch + " - " + periodPageId.step
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -58,7 +58,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: (periodPageId.field_based) ? "رشته " + periodPageId.field + " - " + " پایه " + periodPageId.base :  " پایه " + periodPageId.base
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
             color: "darkmagenta"
@@ -78,7 +78,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "سال تحصیلی مورد نظر خود را انتخاب نمایید"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
             color: "mediumvioletred"
@@ -115,7 +115,7 @@ Page {
                     Label{
                         width: parent.width
                         height: 50
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "white"
@@ -127,7 +127,7 @@ Page {
                     Label{
                         width: parent.width
                         height: 150
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                         color: "white"

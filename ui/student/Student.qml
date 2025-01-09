@@ -46,7 +46,7 @@ Page {
                 text: "مشخصات دانش‌آموز"
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 24
                 font.bold: true
                 color: "mediumvioletred"
@@ -152,7 +152,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -163,7 +163,7 @@ Page {
                                 text: studentPage.student["name"]
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
@@ -176,7 +176,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -187,7 +187,7 @@ Page {
                                 text: studentPage.student["lastname"]
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
@@ -200,7 +200,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -211,7 +211,7 @@ Page {
                                 text: studentPage.student["fathername"]
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
@@ -224,7 +224,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -235,7 +235,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 text: studentPage.student["gender"]
                             }
@@ -247,7 +247,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -258,7 +258,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 text: studentPage.student["birthday"]
                             }
@@ -271,7 +271,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -281,7 +281,7 @@ Page {
                                 id: enabledSW
                                 checked: studentPage.student["enabled"]
                                 text: checked? "فعال" : "غیرفعال";
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 palette.highlight: "royalblue"
                                 palette.text: "gray"
                                 enabled: false
@@ -296,7 +296,7 @@ Page {
                                 Layout.maximumWidth: 300
                                 Layout.alignment: Qt.AlignHCenter
                                 text: "ثبت نامی‌های دانش‌آموز"
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 onClicked:studentPage.appStackView.push(registersComponent);

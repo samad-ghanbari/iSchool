@@ -53,7 +53,7 @@ Page {
             horizontalAlignment: Qt.AlignHCenter
             textFormat: Text.RichText
             text: "ارزیابی واحد درسی کلاس "
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -87,7 +87,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "royalblue"
@@ -98,7 +98,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "royalblue"
@@ -109,7 +109,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "royalblue"
@@ -122,7 +122,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                         color: "darkmagenta"
@@ -159,7 +159,7 @@ Page {
                                     Layout.preferredHeight: 80
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color:"white"
@@ -234,7 +234,7 @@ Page {
                     Layout.preferredWidth: 100
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 18
                     color:"black"
                     background: Rectangle{ border.width: 1; border.color:"lightgray"; color:tDel.bgColor}
@@ -248,7 +248,7 @@ Page {
                     Layout.preferredWidth: 400
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 18
                     color:"black"
                     background: Rectangle{ border.width: 1; border.color:"lightgray"; color:tDel.bgColor}
@@ -262,7 +262,7 @@ Page {
                     Layout.preferredWidth: 200
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 18
                     color:"black"
                     background: Rectangle{ border.width: 1; border.color:"lightgray"; color:tDel.bgColor}
@@ -276,7 +276,7 @@ Page {
                     Layout.preferredWidth: 400
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 18
                     color:"black"
                     background: Rectangle{ border.width: 1; border.color:"lightgray"; color:tDel.bgColor}
@@ -311,7 +311,7 @@ Page {
                             anchors.fill: parent
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 18
                             font.bold: true
                             color:"darkmagenta"
@@ -390,7 +390,7 @@ Page {
                             anchors.fill: parent
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             //background: Rectangle{ border.width: 1; border.color:"lightgray"; color:tDel.bgColor}
                             font.pixelSize: 18
                             color:"black"

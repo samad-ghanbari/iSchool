@@ -51,7 +51,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ارزیابی واحد درسی دانش‌آموز"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -115,7 +115,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -127,7 +127,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -139,7 +139,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -151,7 +151,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -164,7 +164,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -192,7 +192,7 @@ Page {
                              width: parent.width
                              verticalAlignment: Text.AlignVCenter
                              horizontalAlignment: Text.AlignHCenter
-                             font.family: "B Yekan"
+                             font.family: "Kalameh"
                              font.pixelSize: 20
                              font.bold: true
                              color: "white"
@@ -205,7 +205,7 @@ Page {
                              width: parent.width
                              verticalAlignment: Text.AlignVCenter
                              horizontalAlignment: Text.AlignHCenter
-                             font.family: "B Yekan"
+                             font.family: "Kalameh"
                              font.pixelSize: 18
                              font.bold: true
                              color: "white"
@@ -221,7 +221,7 @@ Page {
                              anchors.right: parent.right
                              horizontalAlignment: Label.AlignHCenter
                              verticalAlignment: Label.AlignVCenter
-                             font.family: "B Yekan"
+                             font.family: "Kalameh"
                              font.pixelSize: 16
                              font.bold: true
                              text: classSCEPage.studentCourseModel.Course_coefficient
@@ -236,7 +236,7 @@ Page {
                              anchors.right: parent.right
                              horizontalAlignment: Label.AlignHCenter
                              verticalAlignment: Label.AlignVCenter
-                             font.family: "B Yekan"
+                             font.family: "Kalameh"
                              font.pixelSize: 16
                              font.bold: true
                              text: classSCEPage.studentCourseModel.Test_coefficient
@@ -386,7 +386,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     color: "white"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: recDelt.model.Eval_cat
@@ -408,7 +408,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     color: "slategray"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: recDelt.model.Eval_time
@@ -430,7 +430,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     color: "slategray"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: (recDelt.model.Test_flag)? "بیشترین نمره: " + recDelt.model.Max_grade +" % " : "بیشترین نمره: " +recDelt.model.Max_grade;
@@ -453,7 +453,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     color: "slategray"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: (recDelt.model.Test_flag)? "نمره دریافتی: " + recDelt.model.Student_grade + " % " :  "نمره دریافتی: " + recDelt.model.Student_grade;
@@ -476,7 +476,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     color: "slategray"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: "نمره با اعمال نمودار: " + recDelt.model.Normalised_grade
@@ -591,7 +591,7 @@ Page {
             width: parent.width;
             height: 50;
             color: "mediumvioletred"
-            Text{ text: "ثبت نمره دانش‌آموز"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+            Text{ text: "ثبت نمره دانش‌آموز"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "Kalameh"; font.pixelSize: 16}
         }
 
         contentItem:
@@ -606,7 +606,7 @@ Page {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 color: "darkmagenta"
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 20
                 font.bold: true
                 text: setStudentGradeDialog.studentVar
@@ -621,7 +621,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.top : studentInfoText.bottom
                 color: "slategray"
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 font.bold: true
                 text: setStudentGradeDialog.courseVar + " (" + setStudentGradeDialog.evalCatVar + ")"
@@ -636,7 +636,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.top : courseText.bottom
                 color: "slategray"
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 14
                 font.bold: true
                 text: setStudentGradeDialog.timeVar
@@ -656,7 +656,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
                     color: "black"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: "نمره دریافتی"
@@ -670,7 +670,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
                     color: "black"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     placeholderText: "بزرگترین مقدار معتبر " + setStudentGradeDialog.maxVar
@@ -690,7 +690,7 @@ Page {
                     text: "انصراف"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked: { setStudentGradeDialog.gradeVar = -1; setStudentGradeDialog.close(); }
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
@@ -700,7 +700,7 @@ Page {
                     text: "تایید"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked:
                     {

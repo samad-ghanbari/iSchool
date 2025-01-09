@@ -32,7 +32,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "حذف شعبه"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -73,7 +73,7 @@ Page {
                             Text
                             {
                                 text: "حذف"
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 24
                                 font.bold: true
                                 color: "crimson"
@@ -126,7 +126,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -138,7 +138,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     text: deleteBranchPage.branchCity
 
@@ -151,7 +151,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -163,7 +163,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     text: deleteBranchPage.branchName
                                 }
@@ -175,7 +175,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -187,7 +187,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     text: deleteBranchPage.branchAddress
                                 }

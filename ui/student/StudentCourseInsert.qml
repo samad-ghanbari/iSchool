@@ -49,7 +49,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "افزودن واحد درسی دانش‌آموز"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -92,7 +92,7 @@ Page {
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -104,7 +104,7 @@ Page {
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -116,7 +116,7 @@ Page {
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -128,7 +128,7 @@ Page {
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -139,7 +139,7 @@ Page {
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -214,7 +214,7 @@ Page {
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -226,7 +226,7 @@ Page {
                                     Layout.fillWidth: true
 
                                     editable: false
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     model: ListModel{
                                         ListElement{ID: 1; TEXT: "دروس پایه" }
@@ -268,7 +268,7 @@ Page {
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -279,7 +279,7 @@ Page {
                                     Layout.preferredHeight:  50
                                     Layout.fillWidth: true
                                     editable: false
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     model: ListModel{id: courseCBModel;}
                                     valueRole: "value"
@@ -299,7 +299,7 @@ Page {
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -310,7 +310,7 @@ Page {
                                     Layout.preferredHeight:  50
                                     Layout.fillWidth: true
                                     editable: false
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     model: ListModel{id: teacherCBoxModel;}
                                     valueRole: "value"
@@ -340,7 +340,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 enabled: false
                                 Layout.alignment: Qt.AlignHCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                                 onClicked:

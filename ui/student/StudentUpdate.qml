@@ -41,7 +41,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ویرایش دانش‌آموز"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -117,7 +117,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
@@ -130,7 +130,7 @@ Page {
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -140,7 +140,7 @@ Page {
                                     id: nameTF
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "نام دانش‌آموز"
                                     text: updatePage.model.name
@@ -153,7 +153,7 @@ Page {
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -163,7 +163,7 @@ Page {
                                     id: lastnameTF
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "نام خانوادگی دانش‌آموز"
                                     text: updatePage.model.lastname
@@ -176,7 +176,7 @@ Page {
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -186,7 +186,7 @@ Page {
                                     id: fathernameTF
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "نام پدر دانش‌آموز"
                                     text: updatePage.model.fathername
@@ -199,7 +199,7 @@ Page {
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -211,7 +211,7 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.maximumWidth: 200
                                     editable: false
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     model: ["خانم", "آقا"]
                                     Component.onCompleted: genderCB.currentIndex = find(updatePage.model.gender)
@@ -224,7 +224,7 @@ Page {
                                     Layout.maximumWidth: 100
                                     Layout.preferredHeight: 40
                                     palette.text: "royalblue"
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     onClicked: photoBrows.open();
@@ -234,7 +234,7 @@ Page {
                                     id: photoPath
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     elide: Text.ElideLeft
                                 }
@@ -246,7 +246,7 @@ Page {
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -256,7 +256,7 @@ Page {
                                     id: birthdayTF
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "تاریخ تولد"
                                     text: updatePage.model.birthday
@@ -264,7 +264,7 @@ Page {
                                 //enabled
                                 Text {
                                     text: "وضعیت فعال/غیرفعال"
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     Layout.minimumWidth: 150
                                     Layout.maximumWidth: 150
@@ -278,7 +278,7 @@ Page {
                                     id: enabledSW
                                     checked: updatePage.model.enabled
                                     text: checked? "فعال" : "غیرفعال";
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     palette.highlight: "royalblue"
                                     palette.text: "gray"
                                 }
@@ -296,7 +296,7 @@ Page {
                                 Layout.preferredWidth: 200
                                 Layout.preferredHeight: 50
                                 Layout.alignment: Qt.AlignHCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                                 onClicked:

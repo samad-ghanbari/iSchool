@@ -46,7 +46,7 @@ SwipeDelegate
                     (temp.includes("پایه"))? temp : "پایه " + temp
                 }
                 padding: 0
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: (baseDelegate.highlighted)? 20 :16
                 font.bold: (baseDelegate.highlighted)? true : false
                 color: (baseDelegate.highlighted)? "royalblue":"black"
@@ -70,7 +70,7 @@ SwipeDelegate
                     }
                 }
                 padding: 0
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 14
                 font.bold: (baseDelegate.highlighted)? true : false
                 color: (baseDelegate.highlighted)? "darkcyan": "black"
@@ -98,7 +98,7 @@ SwipeDelegate
             onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
             text: "حذف"
             font.bold: true
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 14
             palette.buttonText:  "white"
             icon.source: "qrc:/assets/images/trash.png"
@@ -123,7 +123,7 @@ SwipeDelegate
             onHoveredChanged: editBtnBg.color=(hovered)? Qt.darker("royalblue", 1.1):"royalblue"
             text: "ویرایش"
             font.bold: true
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 14
             palette.buttonText:  "white"
             icon.source: "qrc:/assets/images/edit.png"

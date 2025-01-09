@@ -45,7 +45,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "افزودن کلاس جدید"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -110,7 +110,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
@@ -122,7 +122,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
@@ -134,7 +134,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
@@ -147,7 +147,7 @@ Page {
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -157,7 +157,7 @@ Page {
                                     id: classNameTF
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "نام کلاس"
 
@@ -169,7 +169,7 @@ Page {
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -179,7 +179,7 @@ Page {
                                     id: classDescTF
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "موقعیت کلاس"
                                 }
@@ -190,7 +190,7 @@ Page {
                                     Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -201,7 +201,7 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.maximumWidth: 100
                                     Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     value: dbMan.getClassMaxSortPriority(insertPage.step_id, insertPage.base_id,insertPage.period_id,) + 1;
                                 }
@@ -219,7 +219,7 @@ Page {
                                 Layout.preferredWidth: 200
                                 Layout.preferredHeight: 50
                                 Layout.alignment: Qt.AlignHCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                                 onClicked:
@@ -333,7 +333,7 @@ Page {
             width: parent.width;
             height: 50;
             color: "mediumvioletred"
-            Text{ text: "تعیین کلاس الگو"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+            Text{ text: "تعیین کلاس الگو"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "Kalameh"; font.pixelSize: 16}
         }
 
         ListModel{id: classCBModel;} // supports index=-1 and not selectable
@@ -354,7 +354,7 @@ Page {
 
                 Text {
                     text: "سال‌تحصیلی " + doneDialog.period
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
                     color: "darkmagenta"
@@ -364,7 +364,7 @@ Page {
                 }
                 Text {
                     text: "پایه تحصیلی: " + doneDialog.base
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
                     color: "darkmagenta"
@@ -374,7 +374,7 @@ Page {
                 }
                 Text {
                     text: doneDialog.class_name
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
                     color: "darkmagenta"
@@ -387,7 +387,7 @@ Page {
                     Layout.fillWidth: true
                     spacing: 10
                     Text {
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "darkmagenta"
@@ -404,7 +404,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.alignment: Qt.AlignLeft
                         editable: false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         model: classCBModel
@@ -435,7 +435,7 @@ Page {
                     text: "انصراف"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked: { doneDialog.close(); }
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
@@ -446,7 +446,7 @@ Page {
                     text: "تایید"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     enabled: false;
 

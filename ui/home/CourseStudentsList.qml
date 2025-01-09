@@ -51,7 +51,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: "شعبه " + courseStudentsPageId.branch + " - " + courseStudentsPageId.step
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -101,7 +101,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: courseStudentsPageId.course_name
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 24
                 font.bold: true
                 color: "darkmagenta"
@@ -113,7 +113,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: (courseStudentsPageId.field_based) ? "رشته " + courseStudentsPageId.field + " - " + " پایه " + courseStudentsPageId.base :  " پایه " + courseStudentsPageId.base
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -125,7 +125,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: " سال تحصیلی " +  courseStudentsPageId.period + " - " + " کلاس " + courseStudentsPageId.class_name
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -147,7 +147,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ارزیابی درس دانش‌آموزان"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
             color: "mediumvioletred"
@@ -232,7 +232,7 @@ Page {
 
                             Label{
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 20
                                 font.bold: true
                                 horizontalAlignment: Qt.AlignHCenter
@@ -242,7 +242,7 @@ Page {
                             }
                             Label{
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 14
                                 font.bold: true
                                 horizontalAlignment: Qt.AlignHCenter
@@ -312,7 +312,7 @@ Page {
                                             height: 50
                                             horizontalAlignment: Text.AlignRight
                                             verticalAlignment: Text.AlignVCenter
-                                            font.family: "B Yekan"
+                                            font.family: "Kalameh"
                                             font.pixelSize: 16
                                             font.bold: true
                                             color:"black"
@@ -371,7 +371,7 @@ Page {
                                                 width: 100
                                                 horizontalAlignment: Text.AlignHCenter
                                                 verticalAlignment: Text.AlignVCenter
-                                                font.family: "B Yekan"
+                                                font.family: "Kalameh"
                                                 font.pixelSize: 18
                                                 font.bold: true
                                                 color:"darkmagenta"
@@ -427,7 +427,7 @@ Page {
                                                 height: 50
                                                 horizontalAlignment: Text.AlignHCenter
                                                 verticalAlignment: Text.AlignVCenter
-                                                font.family: "B Yekan"
+                                                font.family: "Kalameh"
                                                 font.pixelSize: 18
                                                 font.bold: true
                                                 color:"black"

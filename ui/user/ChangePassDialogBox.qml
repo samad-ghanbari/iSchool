@@ -26,7 +26,7 @@ Dialog
         width: parent.width;
         height: 50;
         color:  "forestgreen"
-        Text{ text:"تغییر رمزعبور کاربر"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+        Text{ text:"تغییر رمزعبور کاربر"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "Kalameh"; font.pixelSize: 16}
     }
 
     contentItem:
@@ -43,14 +43,14 @@ Dialog
             Layout.preferredWidth: parent.width
             horizontalAlignment: Text.AlignLeft
             text: "رمزعبور جدید را وارد نمایید"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 16
             color:  "forestgreen"
         }
         TextField
         {
             id: dialogTextField1
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.bold: true
             Layout.preferredWidth: parent.width
             Layout.preferredHeight: 40
@@ -61,7 +61,7 @@ Dialog
         Text {
             Layout.preferredWidth: parent.width
             horizontalAlignment: Text.AlignLeft
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             text: "رمزعبور جدید را مجدد وارد نمایید"
             font.pixelSize: 16
             color:  "forestgreen"
@@ -69,7 +69,7 @@ Dialog
         TextField
         {
             id: dialogTextField2
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.bold: true
             Layout.preferredWidth: parent.width
             Layout.preferredHeight: 40
@@ -90,7 +90,7 @@ Dialog
                 text: "انصراف"
                 Layout.preferredHeight:  40
                 Layout.preferredWidth:  100
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 14
                 onClicked: changePasswordDialog.dialogRejected();
                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "crimson"}
@@ -100,7 +100,7 @@ Dialog
                 text: "تایید"
                 Layout.preferredHeight:  40
                 Layout.preferredWidth:  100
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 14
                 onClicked: changePasswordDialog.dialogAccepted();
                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}

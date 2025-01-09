@@ -47,7 +47,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "حذف ثبت‌نام دانش‌آموز"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -103,7 +103,7 @@ Page {
                         Layout.maximumWidth: 200
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -115,7 +115,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
 
                     }
@@ -126,7 +126,7 @@ Page {
                         Layout.maximumWidth: 200
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -138,7 +138,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                     }
 
@@ -158,7 +158,7 @@ Page {
                         Layout.preferredWidth: 200
                         text:"شعبه"
                         color: "royalblue"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignLeft
@@ -169,7 +169,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         text: deletePage.student.city + " - " + deletePage.student.branch_name
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         horizontalAlignment: Label.AlignLeft
                         verticalAlignment: Label.AlignVCenter
@@ -181,7 +181,7 @@ Page {
                         Layout.preferredWidth: 200
                         text:"دوره"
                         color: "royalblue"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignLeft
@@ -193,7 +193,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         Layout.maximumWidth: 400
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         text: deletePage.regStep
                         horizontalAlignment: Label.AlignLeft
@@ -207,7 +207,7 @@ Page {
                         Layout.preferredWidth: 200
                         text:"پایه تحصیلی"
                         color: "royalblue"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignLeft
@@ -219,7 +219,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         Layout.maximumWidth: 400
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         text: deletePage.regBase
                         horizontalAlignment: Label.AlignLeft
@@ -233,7 +233,7 @@ Page {
                         Layout.preferredWidth: 200
                         text:"سال تحصیلی"
                         color: "royalblue"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignLeft
@@ -245,7 +245,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         Layout.maximumWidth: 400
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         horizontalAlignment: Label.AlignLeft
                         verticalAlignment: Label.AlignVCenter
@@ -259,7 +259,7 @@ Page {
                         Layout.preferredWidth: 200
                         text:"کلاس "
                         color: "royalblue"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignLeft
@@ -270,7 +270,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         Layout.maximumWidth: 400
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         horizontalAlignment: Label.AlignLeft
                         verticalAlignment: Label.AlignVCenter
@@ -285,7 +285,7 @@ Page {
                         Layout.maximumWidth: 500
                         Layout.topMargin: 50
                         Layout.alignment: Qt.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         text: "حذف ثبت‌نام"

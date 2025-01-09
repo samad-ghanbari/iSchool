@@ -32,7 +32,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: "شعبه " + classPageId.branch + " - " + classPageId.step
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -46,7 +46,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: (classPageId.field_based) ? "رشته " + classPageId.field + " - " + " پایه " + classPageId.base :  " پایه " + classPageId.base
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
             color: "darkmagenta"
@@ -58,7 +58,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: " سال تحصیلی " +  classPageId.period
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
             color: "darkmagenta"
@@ -83,7 +83,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
                 text: "  لیست کلاس‌ها  "
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 20
                 font.bold: true
                 color: "mediumvioletred"
@@ -96,7 +96,7 @@ Page {
                 //background: Item{}
                 //icon.source: "qrc:/assets/images/baseAvg.png"
                 text: "ثبت میانگین پایه"
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 icon.width: 128
                 icon.height: 64
@@ -140,7 +140,7 @@ Page {
                     Label{
                         width: parent.width
                         height: 150
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                         color: "white"

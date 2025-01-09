@@ -43,7 +43,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ثبت نامی‌های دانش‌آموز"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -92,7 +92,7 @@ Page {
             Layout.preferredHeight: 50
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
             color: "royalblue"
@@ -105,7 +105,7 @@ Page {
             Layout.preferredHeight: 50
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
             color: "royalblue"
@@ -219,7 +219,7 @@ Page {
                     Label {
                         text: regRecDel.model.Step_name + " - " + regRecDel.model.Study_base
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (regRecDel.highlighted)? 20 :16
                         font.bold: (regRecDel.highlighted)? true : false
                         color: (regRecDel.highlighted)? "royalblue":"black"
@@ -231,7 +231,7 @@ Page {
                     Label {
                         text: regRecDel.model.Study_period
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (regRecDel.highlighted)? 18 :16
                         font.bold: (regRecDel.highlighted)? true : false
                         color: (regRecDel.model.Passed)? "mediumvioletred":"dodgerblue"
@@ -244,7 +244,7 @@ Page {
                     Label {
                         text: "کلاس " + regRecDel.model.Class_name
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: (regRecDel.highlighted)? true : false
                         color: (regRecDel.model.Passed)? "mediumvioletred":"dodgerblue"
@@ -275,7 +275,7 @@ Page {
                     onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
                     text: "حذف"
                     font.bold: true
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     palette.buttonText:  "white"
                     icon.source: "qrc:/assets/images/trash.png"
@@ -307,7 +307,7 @@ Page {
                     onHoveredChanged: courseBtnBg.color=(hovered)? Qt.darker("darkcyan", 1.1):"darkcyan"
                     text: "دروس"
                     font.bold: true
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     palette.buttonText:  "white"
                     icon.source: "qrc:/assets/images/course.png"

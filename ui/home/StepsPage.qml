@@ -39,7 +39,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: "شعبه " + stepPageId.branch
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -60,7 +60,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "دوره مورد نظر خود را انتخاب نمایید"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
             color: "mediumvioletred"
@@ -96,7 +96,7 @@ Page {
                     Label{
                         width: parent.width
                         height: 150
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                         color: "white"
@@ -108,7 +108,7 @@ Page {
                     Label{
                         width: parent.width
                         height: 50
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 12
                         font.bold: true
                         color: "white"

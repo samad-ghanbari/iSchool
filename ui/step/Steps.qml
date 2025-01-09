@@ -24,7 +24,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "مدیریت دوره‌ها"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -43,7 +43,7 @@ Page {
                 Layout.preferredHeight:  50
                 Layout.preferredWidth: 100
                 text:" انتخاب شعبه"
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 font.bold: true
                 horizontalAlignment: Label.AlignLeft
@@ -56,7 +56,7 @@ Page {
                 Layout.fillWidth: true
                 Layout.maximumWidth: 400
                 editable: false
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 model: ListModel{id: branchCBoxModel}
                 textRole: "text"

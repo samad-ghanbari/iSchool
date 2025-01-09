@@ -24,7 +24,7 @@ Backend::Backend(QGuiApplication &app, QObject *parent)
     QFontDatabase::addApplicationFont(":/assets/font/TitrBd.ttf"); //Titr
     QFontDatabase::addApplicationFont(":/assets/font/Far.Afaaq.ttf");
     QFontDatabase::addApplicationFont(":/assets/font/Phamelo.ttf");
-    int ii =QFontDatabase::addApplicationFont(":/assets/font/Daughter.ttf");
+    int ii =QFontDatabase::addApplicationFont(":/assets/font/Kalameh.ttf");
 
 
     // //Retrieve and print the font family name

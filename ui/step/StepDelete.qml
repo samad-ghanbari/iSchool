@@ -32,7 +32,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "حذف دوره"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -87,7 +87,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 20
                                     font.bold: true
                                     color: "royalblue"
@@ -101,7 +101,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                 }
                                 Text
@@ -110,7 +110,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     text: stepDeletePage.stepName
                                     font.bold: true
@@ -123,7 +123,7 @@ Page {
                                 text: "ارزیابی مبتنی بر عدد"
                                 checked: stepDeletePage.numeric_graded
                                 Layout.alignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 checkable: false
                                 font.pixelSize: 16
                             }
@@ -135,7 +135,7 @@ Page {
                                 checked: stepDeletePage.field_based
                                 Layout.alignment: Qt.AlignLeft
                                 checkable: false
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                             }
 
@@ -147,7 +147,7 @@ Page {
                             // Text
                             // {
                             //     text: "حذف"
-                            //     font.family: "B Yekan"
+                            //     font.family: "Kalameh"
                             //     font.pixelSize: 24
                             //     font.bold: true
                             //     color: "crimson"

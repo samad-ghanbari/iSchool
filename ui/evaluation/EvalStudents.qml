@@ -63,7 +63,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: evalStudentsPage.eval_cat
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -103,7 +103,7 @@ Page {
                         verticalAlignment: Label.AlignVCenter
                         color: "royalblue"
                         text:"شعبه " + evalStudentsPage.branch
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                     }
@@ -121,7 +121,7 @@ Page {
                             else
                             return evalStudentsPage.step + " - " + evalStudentsPage.base;
                         }
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                     }
@@ -133,7 +133,7 @@ Page {
                         verticalAlignment: Label.AlignVCenter
                         color: "royalblue"
                         text:"سال تحصیلی " + evalStudentsPage.period
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                     }
@@ -146,7 +146,7 @@ Page {
                         verticalAlignment: Label.AlignVCenter
                         color: "darkmagenta"
                         text:"عنوان درس " + evalStudentsPage.course_name + " - " + "کلاس " + evalStudentsPage.class_name
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                     }
@@ -159,7 +159,7 @@ Page {
                         verticalAlignment: Label.AlignVCenter
                         color: "darkmagenta"
                         text: (evalStudentsPage.test_flag)? "ماکزیمم نمره " + evalStudentsPage.max_grade + " % " : "ماکزیمم نمره " + evalStudentsPage.max_grade
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                     }
@@ -356,7 +356,7 @@ Page {
                     }
                     Text {
                         text: recDel.model.Student + " ( " + recDel.model.Fathername + " )"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -367,7 +367,7 @@ Page {
                     Text {
                         text: (evalStudentsPage.test_flag)? "نمره اخذ شده: " + recDel.model.Student_grade + "%" : "نمره اخذ شده: " + recDel.model.Student_grade
                         visible: (recDel.model.Student_grade > -1)? true :  false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "mediumvioletred"
@@ -378,7 +378,7 @@ Page {
                     Text {
                         text: (evalStudentsPage.test_flag)? "نمره با اعمال نمودار: " + recDel.model.Normalised_grade + "%"  :  "نمره با اعمال نمودار: " + recDel.model.Normalised_grade;
                         visible: (recDel.model.Normalised_grade > -1)? true :  false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "mediumvioletred"
@@ -479,7 +479,7 @@ Page {
             width: parent.width;
             height: 50;
             color: "deepskyblue" ;
-            Text{ text: "افزودن آزمون دانش‌آموز" ; anchors.centerIn: parent; color: "darkblue";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+            Text{ text: "افزودن آزمون دانش‌آموز" ; anchors.centerIn: parent; color: "darkblue";font.bold:true; font.family: "Kalameh"; font.pixelSize: 16}
         }
         contentItem:
             ColumnLayout
@@ -495,7 +495,7 @@ Page {
                 Layout.preferredHeight: 50
                 horizontalAlignment: Text.AlignLeft
                 text: "انتخاب دانش‌آموز"
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 color:  "forestgreen";
             }
@@ -504,7 +504,7 @@ Page {
                 id: studentCB
                 Layout.fillWidth: true
                 Layout.preferredHeight: 50
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 model:ListModel { id: studentCBoxModel; }
                 textRole: "text"
@@ -524,7 +524,7 @@ Page {
                     text: "انصراف"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked: {insertStudentEval.close();}
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "crimson"}
@@ -534,7 +534,7 @@ Page {
                     text: "تایید"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked: {
                         if(dbMan.insertStudentEval(evalStudentsPage.eval_id, studentCB.currentValue ))
@@ -625,7 +625,7 @@ Page {
             width: parent.width;
             height: 50;
             color: "mediumvioletred"
-            Text{ text: "ثبت نمره دانش‌آموز"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+            Text{ text: "ثبت نمره دانش‌آموز"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "Kalameh"; font.pixelSize: 16}
         }
 
         contentItem:
@@ -651,7 +651,7 @@ Page {
                     Layout.fillWidth: true
                     Text {
                         text: setStudentGradeDialog.studentName
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -661,7 +661,7 @@ Page {
                     }
                     Text {
                         text: setStudentGradeDialog.periodName
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -674,7 +674,7 @@ Page {
 
             Text {
                 text: "آزمون " + setStudentGradeDialog.courseName
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -694,7 +694,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
                     color: "black"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: "نمره دریافتی"
@@ -708,7 +708,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
                     color: "black"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     placeholderText: "بزرگترین مقدار معتبر " + setStudentGradeDialog.maxGrade
@@ -731,7 +731,7 @@ Page {
                     text: "انصراف"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked: { setStudentGradeDialog.studentGrade = -1; setStudentGradeDialog.close(); }
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
@@ -741,7 +741,7 @@ Page {
                     text: "تایید"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked:
                     {
@@ -817,7 +817,7 @@ Page {
             width: parent.width;
             height: 50;
             color: "mediumvioletred"
-            Text{ text: "نرمالایز کردن نمرات"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+            Text{ text: "نرمالایز کردن نمرات"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "Kalameh"; font.pixelSize: 16}
         }
 
         contentItem:
@@ -835,7 +835,7 @@ Page {
 
             Text {
                 text: "آزمون " + normalisedDialog.courseName + " (" + normalisedDialog.periodName + ") "
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -856,7 +856,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
                     color: "black"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: "نمره مبنا جهت نرمالایز "
@@ -870,7 +870,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
                     color: "black"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     placeholderText: "بزرگترین مقدار معتبر " + normalisedDialog.maxGrade
@@ -896,7 +896,7 @@ Page {
                     text: "حذف نمودار"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked: {
 
@@ -929,7 +929,7 @@ Page {
                     text: "انصراف"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked: { normaliseGradeTF.text = ""; normalisedDialog.close(); }
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "orange"}
@@ -939,7 +939,7 @@ Page {
                     text: "تایید"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked:
                     {

@@ -63,7 +63,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ویرایش درس"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -109,7 +109,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -120,7 +120,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "royalblue"
@@ -134,7 +134,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -145,7 +145,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "royalblue"
@@ -160,7 +160,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -172,7 +172,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "royalblue"
@@ -185,7 +185,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -196,7 +196,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "royalblue"
@@ -209,7 +209,7 @@ Page {
                         Layout.maximumWidth: 150
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -219,7 +219,7 @@ Page {
                         id: courseNameTF
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         placeholderText: "نام درس"
                         text: updatePage.course_name
@@ -234,7 +234,7 @@ Page {
                         Layout.maximumWidth: 150
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -245,7 +245,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                         text: updatePage.final_weight
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         placeholderText: "وزن ارزیابی نهایی"
                         validator: RegularExpressionValidator{regularExpression:  /^-?\d*\.?\d+$/; }
@@ -258,7 +258,7 @@ Page {
                         Layout.maximumWidth: 150
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -268,7 +268,7 @@ Page {
                         id: courseCoefTF
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         placeholderText: "ضریب درس"
                         text: updatePage.course_coefficient
@@ -282,7 +282,7 @@ Page {
                         Layout.maximumWidth: 150
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
@@ -292,7 +292,7 @@ Page {
                         id: testCoefTF
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         placeholderText: "ضریب تست"
                         text: updatePage.test_coefficient
@@ -309,7 +309,7 @@ Page {
                         Text
                         {
                             anchors.centerIn: parent
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             color: "white"
@@ -332,7 +332,7 @@ Page {
                             height: 50;
                             width: courseCoefLV.width
                             text:  model.Course_name;
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 14
                             onToggled:
                             {
@@ -374,7 +374,7 @@ Page {
                         Text
                         {
                             anchors.centerIn: parent
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             color: "white"
@@ -397,7 +397,7 @@ Page {
                             height: 50;
                             width: testCoefLV.width
                             text:  model.Course_name;
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 14
                             onToggled:
                             {
@@ -441,7 +441,7 @@ Page {
                         Layout.preferredWidth: 200
                         Layout.preferredHeight: 50
                         Layout.alignment: Qt.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                         onClicked:

@@ -35,7 +35,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "دروس ارائه شده"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -85,7 +85,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.preferredWidth: 120
                                 text:"شعبه"
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 horizontalAlignment: Label.AlignLeft
@@ -97,7 +97,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.fillWidth: true
                                 editable: false
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 model: ListModel{id: branchCBoxModel}
                                 textRole: "text"
@@ -132,7 +132,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.preferredWidth: 120
                                 text:"دوره"
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 horizontalAlignment: Label.AlignLeft
@@ -144,7 +144,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.fillWidth: true
                                 editable: false
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 model: ListModel{id: stepCBoxModel}
                                 textRole: "text"
@@ -174,7 +174,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.preferredWidth: 120
                                 text:"پایه‌تحصیلی"
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 horizontalAlignment: Label.AlignLeft
@@ -186,7 +186,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.fillWidth: true
                                 editable: false
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 model: ListModel{id: baseCBoxModel}
                                 textRole: "text"
@@ -219,7 +219,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.preferredWidth: 120
                                 text:"سال‌تحصیلی"
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 horizontalAlignment: Label.AlignLeft
@@ -231,7 +231,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.fillWidth: true
                                 editable: false
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 model: ListModel{id: periodCBoxModel}
                                 textRole: "text"
@@ -280,7 +280,7 @@ Page {
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignLeft
                         text: "دروس پایه‌تحصیلی"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 24
                         font.bold: true
                         color: "mediumvioletred"
@@ -330,7 +330,7 @@ Page {
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignLeft
                         text: "دروس مشترک دوره"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 24
                         font.bold: true
                         color: "mediumvioletred"
@@ -412,7 +412,7 @@ Page {
                     {
                         anchors.centerIn: parent
                         text: recDel.model.Course_coefficient
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "white"
@@ -429,7 +429,7 @@ Page {
                     {
                         anchors.centerIn: parent
                         text:  recDel.model.Test_coefficient
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "white"
@@ -453,7 +453,7 @@ Page {
                     Label {
                         text: recDel.model.Course_name
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (recDel.highlighted)? 20 :16
                         font.bold: (recDel.highlighted)? true : false
                         color: (recDel.highlighted)? "royalblue":"black"
@@ -514,7 +514,7 @@ Page {
                     onHoveredChanged:(hovered)? this.opacity=1 : this.opacity=0.5
                     //text: "ویرایش"
                     //font.bold: true
-                    //font.family: "B Yekan"
+                    //font.family: "Kalameh"
                     //font.pixelSize: 14
                     //palette.buttonText:  "white"
                     icon.source: "qrc:/assets/images/edit.png"
@@ -578,7 +578,7 @@ Page {
                     {
                         anchors.centerIn: parent
                         text: recDel.model.Course_coefficient
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "white"
@@ -595,7 +595,7 @@ Page {
                     {
                         anchors.centerIn: parent
                         text:  recDel.model.Test_coefficient
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "white"
@@ -619,7 +619,7 @@ Page {
                     Label {
                         text: recDel.model.Course_name
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (recDel.highlighted)? 20 :16
                         font.bold: (recDel.highlighted)? true : false
                         color: (recDel.highlighted)? "royalblue":"black"

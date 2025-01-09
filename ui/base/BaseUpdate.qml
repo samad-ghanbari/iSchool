@@ -40,7 +40,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ویرایش پایه تحصیلی"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -103,7 +103,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -113,7 +113,7 @@ Page {
                                     id: branchTF
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
@@ -128,7 +128,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -139,7 +139,7 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     Layout.maximumWidth: 400
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "پایه تحصیلی"
                                     text: updateBasePage.model.base_name
@@ -151,7 +151,7 @@ Page {
                                     Layout.maximumWidth: 100
                                     Layout.preferredHeight: 50
                                     text:" انتخاب رشته"
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     color: "royalblue"
                                     font.bold: true
@@ -167,7 +167,7 @@ Page {
                                     Layout.maximumWidth: 400
                                     visible: updateBasePage.model.field_based
                                     editable: false
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     model: ListModel{id: fieldCBoxModel}
                                     textRole: "text"
@@ -195,7 +195,7 @@ Page {
                                     text: "فعال بودن پایه تحصیلی"
                                     checked: updateBasePage.model.enabled
                                     Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                 }
 
@@ -205,7 +205,7 @@ Page {
                                     Layout.maximumWidth: 100
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -216,7 +216,7 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     Layout.maximumWidth: 400
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     value:  updateBasePage.model.sort_priority;
                                 }
@@ -235,7 +235,7 @@ Page {
                                 Layout.preferredWidth: 200
                                 Layout.preferredHeight: 50
                                 Layout.alignment: Qt.AlignHCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                                 onClicked:

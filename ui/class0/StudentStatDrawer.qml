@@ -175,7 +175,7 @@ Drawer
             horizontalAlignment: Qt.AlignHCenter
             textFormat: Text.RichText
             text: "ارزیابی دانش‌آموز"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -207,7 +207,7 @@ Drawer
             Layout.preferredWidth: 400
             text: studentStatDrawer.student
             font.bold: true
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 20
             color: "darkmagenta"
             horizontalAlignment: Text.AlignHCenter
@@ -222,7 +222,7 @@ Drawer
                 height: 50
                 text: studentStatDrawer.baseClass
                 font.bold: true
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 20
                 color: "royalblue"
                 horizontalAlignment: Text.AlignLeft
@@ -233,7 +233,7 @@ Drawer
                 height: 50
                 text: studentStatDrawer.period
                 font.bold: true
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 20
                 color: "royalblue"
                 horizontalAlignment: Text.AlignLeft
@@ -257,7 +257,7 @@ Drawer
             Layout.preferredHeight: 50
             text: "نمرات دانش‌آموز به صورت کامل وارد نشده است."
             font.bold: true
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 16
             color: "dodgerblue"
             horizontalAlignment: Text.AlignHCenter
@@ -281,7 +281,7 @@ Drawer
             Label{
                 //background:Rectangle{color: "lavender"}
                 font.bold: true
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 color: "black"
                 text: "انتخاب دسته ارزیابی"
@@ -311,7 +311,7 @@ Drawer
                         height: 50;
                         width: evalCatLV.width
                         text:  model.eval_cat;
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 14
                         onToggled:
                         {
@@ -368,7 +368,7 @@ Drawer
                             background:Rectangle{color: "darkmagenta";}
                             color:"white"
                             font.bold: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 18
                             horizontalAlignment: Label.AlignHCenter
                             verticalAlignment: Label.AlignVCenter
@@ -381,7 +381,7 @@ Drawer
                             background:Rectangle{color: "whitesmoke"; border.width:1; border.color:"hotpink"}
                             color:"black"
                             font.bold: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 18
                             horizontalAlignment: Label.AlignHCenter
                             verticalAlignment: Label.AlignVCenter
@@ -394,7 +394,7 @@ Drawer
                             background:Rectangle{color: "whitesmoke"; border.width:1; border.color:"hotpink"}
                             color:"black"
                             font.bold: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 18
                             horizontalAlignment: Label.AlignHCenter
                             verticalAlignment: Label.AlignVCenter
@@ -410,7 +410,7 @@ Drawer
                                 background:Rectangle{color: "whitesmoke"; border.width:1; border.color:"hotpink"}
                                 color:"black"
                                 font.bold: true
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 18
                                 horizontalAlignment: Label.AlignHCenter
                                 verticalAlignment: Label.AlignVCenter
@@ -442,7 +442,7 @@ Drawer
                                     Layout.preferredWidth: (typeof hdel.model["width"] != "undefined")? hdel.model["width"] : 0
                                     Layout.preferredHeight: 80
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     color: "white"
                                     //background:Rectangle{color: "darkslategray"}
@@ -482,7 +482,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -494,7 +494,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -506,7 +506,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -518,7 +518,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -538,7 +538,7 @@ Drawer
                                         color:"black"
                                         background: Rectangle{color: studentStatDrawer.getBgColor(rpDel.text);}
                                         font.bold: true
-                                        font.family: "B Yekan"
+                                        font.family: "Kalameh"
                                         font.pixelSize: 16
                                         horizontalAlignment: Label.AlignHCenter
                                         verticalAlignment: Label.AlignVCenter
@@ -560,7 +560,7 @@ Drawer
                                     color:"midnightblue"
                                     font.bold: true
                                     background: Rectangle{color: studentStatDrawer.getBgColor(courseSemesterLbl.text);}
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -579,7 +579,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -599,7 +599,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -618,7 +618,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -637,7 +637,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -669,7 +669,7 @@ Drawer
                                 width: parent.width
                                 height: 40
                                 font.bold: true
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 color: "darkslategray"
                                 horizontalAlignment: Label.AlignLeft
@@ -683,7 +683,7 @@ Drawer
                                     width: sharedListCol.width
                                     height: 30
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     color: "slategray"
                                     horizontalAlignment: Text.AlignLeft
@@ -695,7 +695,7 @@ Drawer
                                 width: parent.width
                                 height: 40
                                 font.bold: true
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 color: "darkslategray"
                                 horizontalAlignment: Label.AlignLeft
@@ -706,7 +706,7 @@ Drawer
                                 width: parent.width
                                 height: 40
                                 font.bold: true
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 color: "darkslategray"
                                 horizontalAlignment: Label.AlignLeft
@@ -726,7 +726,7 @@ Drawer
                         color: "white"
                         visible: (testHeaderRepeater.count > 0)? true : false
                         font.bold: true
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 24
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
@@ -747,7 +747,7 @@ Drawer
                             background:Rectangle{color: "whitesmoke"; border.width:1; border.color:"lightcoral"}
                             color:"black"
                             font.bold: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 18
                             horizontalAlignment: Label.AlignHCenter
                             verticalAlignment: Label.AlignVCenter
@@ -760,7 +760,7 @@ Drawer
                             background:Rectangle{color: "whitesmoke"; border.width:1; border.color:"lightcoral"}
                             color:"black"
                             font.bold: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 18
                             horizontalAlignment: Label.AlignHCenter
                             verticalAlignment: Label.AlignVCenter
@@ -776,7 +776,7 @@ Drawer
                                 background:Rectangle{color: "whitesmoke"; border.width:1; border.color:"lightcoral"}
                                 color:"black"
                                 font.bold: true
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 18
                                 horizontalAlignment: Label.AlignHCenter
                                 verticalAlignment: Label.AlignVCenter
@@ -808,7 +808,7 @@ Drawer
                                     Layout.preferredWidth: (typeof htdel.model["width"] != "undefined")? htdel.model["width"] : 0
                                     Layout.preferredHeight: 80
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     color: "white"
                                     //background:Rectangle{color: "darkslategray"}
@@ -845,7 +845,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -857,7 +857,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -869,7 +869,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -889,7 +889,7 @@ Drawer
                                         color:"midnightblue"
                                         background: Rectangle{color: studentStatDrawer.getBgColor(trpDel.text, true);}
                                         font.bold: true
-                                        font.family: "B Yekan"
+                                        font.family: "Kalameh"
                                         font.pixelSize: 18
                                         horizontalAlignment: Label.AlignHCenter
                                         verticalAlignment: Label.AlignVCenter
@@ -910,7 +910,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -932,7 +932,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -954,7 +954,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -974,7 +974,7 @@ Drawer
                                     Layout.preferredHeight: 70
                                     color:"black"
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     horizontalAlignment: Label.AlignHCenter
                                     verticalAlignment: Label.AlignVCenter
@@ -1006,7 +1006,7 @@ Drawer
                                 width: parent.width
                                 height: 40
                                 font.bold: true
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 color: "darkslategray"
                                 horizontalAlignment: Label.AlignLeft
@@ -1020,7 +1020,7 @@ Drawer
                                     width: sharedListCol.width
                                     height: 30
                                     font.bold: true
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     color: "slategray"
                                     horizontalAlignment: Text.AlignLeft

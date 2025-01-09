@@ -19,14 +19,14 @@ MenuBar {
     id: menubarId
     //property alias menuSettingTBId: menuSettingTBId
     property bool toolbarView: true
-    font.family: "B Yekan"
+    font.family: "Kalameh"
     font.pixelSize: 16
 
     required property StackView appStackView;
 
     Menu {
         title: "مدیریت"
-        font.family: "B Yekan"
+        font.family: "Kalameh"
         font.pixelSize: 16
         Action {
             text: "شعبه‌ها";
@@ -127,7 +127,7 @@ MenuBar {
 
     // Menu {
     //     title: "دانش‌آموزان"
-    //     font.family: "B Yekan"
+    //     font.family: "Kalameh"
     //     font.pixelSize: 16
     //     Action {
     //         text: "دانش‌آموزان";
@@ -145,7 +145,7 @@ MenuBar {
 
     // Menu {
     //     title: "ارزیابی‌ها"
-    //     font.family: "B Yekan"
+    //     font.family: "Kalameh"
     //     font.pixelSize: 16
     //     Action {
     //         text: "ارزیابی‌ها";
@@ -163,7 +163,7 @@ MenuBar {
     // Menu {
     //     id: menuReportId
     //     title: "گزارشات"
-    //     font.family: "B Yekan"
+    //     font.family: "Kalameh"
     //     font.pixelSize: 16
     //     Action {
     //         text: "گزارش آماری";
@@ -181,7 +181,7 @@ MenuBar {
     // Menu {
     //     id: menuSettingId
     //     title: "تنظیمات کاربر"
-    //     font.family: "B Yekan"
+    //     font.family: "Kalameh"
     //     font.pixelSize: 16
     //     Action {
     //         id:menuSettingTBId;
@@ -213,7 +213,7 @@ MenuBar {
     // Menu {
     //     id: menuLogId
     //     title: "لاگ کاربران"
-    //     font.family: "B Yekan"
+    //     font.family: "Kalameh"
     //     font.pixelSize: 16
 
     //     Action {
@@ -228,7 +228,7 @@ MenuBar {
     // Menu {
     //     id: aboutId
     //     title: "درباره برنامه"
-    //     font.family: "B Yekan"
+    //     font.family: "Kalameh"
     //     font.pixelSize: 16
 
     //     Action {

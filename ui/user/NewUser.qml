@@ -54,7 +54,7 @@ Page {
                 text: "ایجاد کاربر جدید سامانه"
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 24
                 font.bold: true
                 color: "mediumvioletred"
@@ -113,7 +113,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -123,7 +123,7 @@ Page {
                                 id: newUserNameId
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 placeholderText: "نام‌کاربر"
 
@@ -135,7 +135,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -145,7 +145,7 @@ Page {
                                 id: newUserLastNameId
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 placeholderText: "نام خانوادگی"
                             }
@@ -156,7 +156,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -165,7 +165,7 @@ Page {
                                 id: newUserGenderId
                                 editable: false
                                 model: ["خانم", "آقا"]
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 Layout.preferredHeight: 50
                             }
@@ -176,7 +176,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -186,7 +186,7 @@ Page {
                                 id: newUserNatidId
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 placeholderText: "کد ملی کاربر"
                             }
@@ -197,7 +197,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -207,7 +207,7 @@ Page {
                                 id: newUserPassId
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 placeholderText: "رمز عبور"
                                 echoMode: TextField.Password
@@ -218,7 +218,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -228,7 +228,7 @@ Page {
                                 id: newUserPassConfirmId
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 placeholderText: "تکرار رمز عبور"
                                 echoMode: TextField.Password
@@ -240,7 +240,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -250,7 +250,7 @@ Page {
                                 id: newUserPositionId
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 placeholderText: "پست کاربر"
                             }
@@ -261,7 +261,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -271,7 +271,7 @@ Page {
                                 id: newUserTelId
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 placeholderText: "شماره تماس"
                             }
@@ -283,7 +283,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -301,7 +301,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "crimson"
@@ -322,7 +322,7 @@ Page {
                                 text: "هشدار! کاربر ادمین، دسترسی کامل به مدیریت شعبه دارد"
                                 Layout.columnSpan: 2
                                 Layout.alignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 Layout.topMargin: -10
                                 font.pixelSize: 16
                                 font.bold: true
@@ -351,7 +351,7 @@ Page {
                                     text: "دسترسی‌های کاربر"
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 24
                                     font.bold: true
                                     color: "royalblue"
@@ -370,7 +370,7 @@ Page {
                                     text: "شعبه‌ها"
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
@@ -393,7 +393,7 @@ Page {
                                             checked: (addNewUserPageId.selectedBranches.indexOf(model.id) > -1)? true : false;
                                             height: 50;
                                             text: model.city + " - " + model.branch_name
-                                            font.family: "B Yekan"
+                                            font.family: "Kalameh"
                                             font.pixelSize: 14
                                             onToggled:
                                             {
@@ -430,7 +430,7 @@ Page {
                                     visible:(newUserAdminId.checked)? false : true;
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
@@ -452,7 +452,7 @@ Page {
                                             required property var model
                                             text: model.branch_name +" - "+ model.step_name
                                             checked: (addNewUserPageId.stepPerm.indexOf(model.id) > -1)? true : false;
-                                            font.family: "B Yekan"
+                                            font.family: "Kalameh"
                                             font.pixelSize: 14
                                             onToggled:
                                             {
@@ -494,7 +494,7 @@ Page {
                                     visible:(newUserAdminId.checked)? false : true;
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
@@ -516,7 +516,7 @@ Page {
                                             required property var model
                                             text: model.city +" - "+model.branch_name +" - "+model.study_base
                                             checked: (addNewUserPageId.studyBasePerm.indexOf(model.id) > -1)? true : false;
-                                            font.family: "B Yekan"
+                                            font.family: "Kalameh"
                                             font.pixelSize: 14
                                             onToggled:
                                             {
@@ -570,7 +570,7 @@ Page {
                                 Layout.preferredWidth: 200
                                 Layout.preferredHeight: 50
                                 Layout.alignment: Qt.AlignHCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                                 onClicked:

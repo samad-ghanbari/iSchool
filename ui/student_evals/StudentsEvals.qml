@@ -36,7 +36,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ارزیابی‌های دروس"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -88,7 +88,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.preferredWidth: 120
                                 text:"شعبه"
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 horizontalAlignment: Label.AlignLeft
@@ -100,7 +100,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.fillWidth: true
                                 editable: false
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 model: ListModel{id: branchCBoxModel}
                                 textRole: "text"
@@ -135,7 +135,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.preferredWidth: 120
                                 text:"دوره"
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 horizontalAlignment: Label.AlignLeft
@@ -147,7 +147,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.fillWidth: true
                                 editable: false
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 model: ListModel{id: stepCBoxModel}
                                 textRole: "text"
@@ -177,7 +177,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.preferredWidth: 120
                                 text:"پایه‌تحصیلی"
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 horizontalAlignment: Label.AlignLeft
@@ -189,7 +189,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.fillWidth: true
                                 editable: false
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 model: ListModel{id: baseCBoxModel}
                                 textRole: "text"
@@ -222,7 +222,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.preferredWidth: 120
                                 text:"سال‌تحصیلی"
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 horizontalAlignment: Label.AlignLeft
@@ -234,7 +234,7 @@ Page {
                                 Layout.preferredHeight:  50
                                 Layout.fillWidth: true
                                 editable: false
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 model: ListModel{id: periodCBoxModel}
                                 textRole: "text"
@@ -315,7 +315,7 @@ Page {
                 Label {
                     text: recDel.model.Course_name
                     padding: 0
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: recDel.fontSize
                     font.bold: recDel.fontBold
                     color: recDel.fontColor
@@ -327,7 +327,7 @@ Page {
                 Label {
                     text: "مدرس: " + recDel.model.Teacher
                     padding: 0
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: recDel.fontSize
                     font.bold: recDel.fontBold
                     horizontalAlignment: Label.AlignHCenter
@@ -338,7 +338,7 @@ Page {
                 Label {
                     text: "کلاس: " + recDel.model.Class_name
                     padding: 0
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: recDel.fontSize
                     font.bold: recDel.fontBold
                     horizontalAlignment: Label.AlignHCenter

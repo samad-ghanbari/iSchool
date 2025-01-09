@@ -41,7 +41,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ثبت نام جدید"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -83,7 +83,7 @@ Page {
                             Layout.maximumWidth: 200
                             Layout.preferredHeight: 50
                             verticalAlignment: Text.AlignVCenter
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             color: "royalblue"
@@ -94,7 +94,7 @@ Page {
                             text: registerPage.student["name"]
                             Layout.fillWidth: true
                             Layout.preferredHeight: 50
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
 
@@ -106,7 +106,7 @@ Page {
                             Layout.maximumWidth: 200
                             Layout.preferredHeight: 50
                             verticalAlignment: Text.AlignVCenter
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             color: "royalblue"
@@ -117,7 +117,7 @@ Page {
                             text: registerPage.student["lastname"]
                             Layout.fillWidth: true
                             Layout.preferredHeight: 50
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                         }
@@ -128,7 +128,7 @@ Page {
                             Layout.maximumWidth: 200
                             Layout.preferredHeight: 50
                             verticalAlignment: Text.AlignVCenter
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             color: "royalblue"
@@ -139,7 +139,7 @@ Page {
                             text: registerPage.student["fathername"]
                             Layout.fillWidth: true
                             Layout.preferredHeight: 50
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                         }
@@ -160,7 +160,7 @@ Page {
                             Layout.preferredHeight:  50
                             Layout.fillWidth: true
                             text:"شعبه " + registerPage.student.city + " - " + registerPage.student.branch_name
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             horizontalAlignment: Label.AlignHCenter
@@ -172,7 +172,7 @@ Page {
                             Layout.preferredHeight:  50
                             Layout.preferredWidth: 200
                             text:"دوره"
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             horizontalAlignment: Label.AlignLeft
@@ -185,7 +185,7 @@ Page {
                             Layout.fillWidth: true
                             Layout.maximumWidth: 400
                             editable: false
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             model: ListModel{id: stepCBoxModel}
@@ -203,7 +203,7 @@ Page {
                             Layout.preferredHeight:  50
                             Layout.preferredWidth: 200
                             text:"پایه تحصیلی"
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             horizontalAlignment: Label.AlignLeft
@@ -216,7 +216,7 @@ Page {
                             Layout.fillWidth: true
                             Layout.maximumWidth: 400
                             editable: false
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             model: ListModel{id: baseCBoxModel}
@@ -234,7 +234,7 @@ Page {
                             Layout.preferredHeight:  50
                             Layout.preferredWidth: 200
                             text:"سال تحصیلی"
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             horizontalAlignment: Label.AlignLeft
@@ -247,7 +247,7 @@ Page {
                             Layout.fillWidth: true
                             Layout.maximumWidth: 400
                             editable: false
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             model: ListModel{id: periodCBoxModel}
@@ -267,7 +267,7 @@ Page {
                             Layout.maximumWidth: 500
                             Layout.topMargin: 50
                             Layout.alignment: Qt.AlignHCenter
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             text: "ثبت نام"

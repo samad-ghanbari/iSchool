@@ -28,7 +28,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: "مدیریت شعبه‌ها"
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 24
                 font.bold: true
                 color: "mediumvioletred"

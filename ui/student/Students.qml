@@ -42,7 +42,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "لیست دانش‌آموزان شعبه"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -74,7 +74,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 100
                         text:"شعبه:"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignRight
@@ -87,7 +87,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.maximumWidth: 400
                         editable: false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         model: ListModel{id: branchCBoxModel}
                         textRole: "text"
@@ -124,7 +124,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 100
                         text:"سال تحصیلی:"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignRight
@@ -137,7 +137,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.maximumWidth: 400
                         editable: false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         model: ListModel{id: periodCBoxModel}
                         textRole: "text"
@@ -331,7 +331,7 @@ Page {
                     }
                     Text {
                         text: studentWidget.model.Name + " " + studentWidget.model.LastName
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -340,7 +340,7 @@ Page {
                     }
                     Text {
                         text: "نام پدر" + " : " + studentWidget.model.FatherName
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         Layout.alignment: Qt.AlignLeft
@@ -348,7 +348,7 @@ Page {
                     }
                     Text {
                         text: "تاریخ تولد" + " : " + studentWidget.model.Birthday
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         Layout.alignment: Qt.AlignLeft
@@ -450,7 +450,7 @@ Page {
                         horizontalAlignment: Qt.AlignHCenter
                         anchors.topMargin: 10
                         text: "جستجوی دانش‌آموزان "
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         Layout.alignment: Qt.AlignHCenter
                         font.bold: true
@@ -460,7 +460,7 @@ Page {
 
                 Text {
                     text: "نام دانش‌آموز"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "mediumvioletred"
                     Layout.fillWidth: true
@@ -471,7 +471,7 @@ Page {
                 {
                     id: nameTF
                     placeholderText: "نام دانش‌آموز"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     Layout.fillWidth: true
                     Layout.preferredHeight: 40
@@ -482,7 +482,7 @@ Page {
                 //lastname
                 Text {
                     text: "نام ‌خانوادگی دانش‌آموز"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "mediumvioletred"
                     Layout.fillWidth: true
@@ -493,7 +493,7 @@ Page {
                 {
                     id: lastnameTF
                     placeholderText: "نام ‌خانوادگی دانش‌آموز"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     Layout.fillWidth: true
                     Layout.preferredHeight: 40
@@ -504,7 +504,7 @@ Page {
                 //fathername
                 Text {
                     text: "نام پدر دانش‌آموز"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "mediumvioletred"
                     Layout.fillWidth: true
@@ -515,7 +515,7 @@ Page {
                 {
                     id: fathernameTF
                     placeholderText: "نام پدر دانش‌آموز"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     Layout.fillWidth: true
                     Layout.preferredHeight: 40
@@ -525,7 +525,7 @@ Page {
                 //gender
                 Text {
                     text: "جنسیت"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "mediumvioletred"
                     Layout.fillWidth: true
@@ -536,7 +536,7 @@ Page {
                     id: genderId
                     editable: false
                     model: ["", "آقا", "خانم"]
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     Layout.preferredHeight: 40
                     Layout.leftMargin: 10
@@ -547,7 +547,7 @@ Page {
                 //birthday
                 Text {
                     text: "تاریخ تولد"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "mediumvioletred"
                     Layout.fillWidth: true
@@ -558,7 +558,7 @@ Page {
                 {
                     id: birthdayTF
                     placeholderText: "تاریخ تولد"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     Layout.fillWidth: true
                     Layout.preferredHeight: 40
@@ -569,7 +569,7 @@ Page {
                 //enabled
                 Text {
                     text: "وضعیت فعال/غیرفعال"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "mediumvioletred"
                     Layout.fillWidth: true
@@ -582,7 +582,7 @@ Page {
                     checked: true
                     Layout.topMargin: -5
                     text: checked? "فعال" : "غیرفعال";
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     palette.highlight: "mediumvioletred"
                     palette.text: "gray"
                 }
@@ -592,7 +592,7 @@ Page {
                 Button
                 {
                     text: "جستجو"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     Layout.preferredHeight: 40
                     Layout.preferredWidth: 100

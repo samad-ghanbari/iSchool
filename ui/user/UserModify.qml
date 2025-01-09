@@ -55,7 +55,7 @@ Page {
                 text: "ویرایش کاربر"
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 24
                 font.bold: true
                 color: "mediumvioletred"
@@ -116,7 +116,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -126,7 +126,7 @@ Page {
                                 id: updateUserNameId
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 placeholderText: "نام‌کاربر"
                                 text: userModifyPageId.user["name"]
@@ -142,7 +142,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -152,7 +152,7 @@ Page {
                                 id: updateUserLastNameId
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 placeholderText: "نام خانوادگی"
                                 text: userModifyPageId.user["lastname"]
@@ -167,7 +167,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -176,7 +176,7 @@ Page {
                                 id: updateUserGenderId
                                 editable: false
                                 model: ["خانم", "آقا"]
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 Layout.preferredHeight: 50
                                 Component.onCompleted: updateUserGenderId.currentIndex = find(userModifyPageId.user["gender"])
@@ -189,7 +189,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -199,7 +199,7 @@ Page {
                                 id: updateUserNatidId
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 placeholderText: "کد ملی کاربر"
                                 text: userModifyPageId.user["nat_id"]
@@ -214,7 +214,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -224,7 +224,7 @@ Page {
                                 id: updateUserPositionId
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 placeholderText: "پست کاربر"
                                 text: userModifyPageId.user["job_position"]
@@ -239,7 +239,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -249,7 +249,7 @@ Page {
                                 id: updateUserTelId
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 placeholderText: "شماره تماس"
                                 text: userModifyPageId.user["telephone"]
@@ -265,7 +265,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -284,7 +284,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "crimson"
@@ -307,7 +307,7 @@ Page {
                                 Layout.alignment: Qt.AlignLeft
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 Layout.topMargin: -10
                                 font.pixelSize: 16
                                 font.bold: true
@@ -329,7 +329,7 @@ Page {
                                     text: "دسترسی‌های کاربر"
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 24
                                     font.bold: true
                                     color: "royalblue"
@@ -348,7 +348,7 @@ Page {
                                     text: "شعبه‌ها"
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
@@ -371,7 +371,7 @@ Page {
                                             checked: (userModifyPageId.branchPerm.indexOf(model.id) > -1)? true : false;
                                             height: 50;
                                             text: model.city + " - " + model.branch_name
-                                            font.family: "B Yekan"
+                                            font.family: "Kalameh"
                                             font.pixelSize: 14
                                             onToggled:
                                             {
@@ -405,7 +405,7 @@ Page {
                                     visible: (updateUserAdminId.checked)? false : true;
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
@@ -427,7 +427,7 @@ Page {
                                             required property var model
                                             text: model.branch_name +" - "+ model.step_name
                                             checked: (userModifyPageId.stepPerm.indexOf(model.id) > -1)? true : false;
-                                            font.family: "B Yekan"
+                                            font.family: "Kalameh"
                                             font.pixelSize: 14
                                             onToggled:
                                             {
@@ -471,7 +471,7 @@ Page {
                                     text: "پایه‌های تحصیلی"
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: "royalblue"
@@ -494,7 +494,7 @@ Page {
                                             required property var model
                                             text: model.city +" - "+model.branch_name +" - "+model.study_base
                                             checked: (userModifyPageId.studyBasePerm.indexOf(model.id) > -1)? true : false;
-                                            font.family: "B Yekan"
+                                            font.family: "Kalameh"
                                             font.pixelSize: 14
                                             onToggled:
                                             {
@@ -547,7 +547,7 @@ Page {
                                 Layout.preferredWidth: 200
                                 Layout.preferredHeight: 50
                                 Layout.alignment: Qt.AlignHCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                                 onClicked:

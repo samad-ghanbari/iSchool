@@ -36,7 +36,7 @@ Dialog
         width: parent.width;
         height: 50;
         color: (publicDialogBox.dialogSuccess)? "forestgreen" : "crimson";
-        Text{ text: publicDialogBox.dialogTitle; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+        Text{ text: publicDialogBox.dialogTitle; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "Kalameh"; font.pixelSize: 16}
     }
 
     contentItem:
@@ -53,7 +53,7 @@ Dialog
             Layout.preferredWidth: parent.width
             horizontalAlignment: Text.AlignLeft
             text: publicDialogBox.dialogText
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 16
             wrapMode: Text.WrapAnywhere
             color: (publicDialogBox.dialogSuccess)? "forestgreen" : "crimson";
@@ -61,7 +61,7 @@ Dialog
         TextField
         {
             id: dialogTextField
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.bold: true
             Layout.preferredWidth: parent.width
             Layout.preferredHeight: 40
@@ -82,7 +82,7 @@ Dialog
                 text: "انصراف"
                 Layout.preferredHeight:  40
                 Layout.preferredWidth:  100
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 14
                 visible: publicDialogBox.rejectVisible
                 onClicked: publicDialogBox.dialogRejected();
@@ -93,7 +93,7 @@ Dialog
                 text: "تایید"
                 Layout.preferredHeight:  40
                 Layout.preferredWidth:  100
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 14
                 visible: publicDialogBox.acceptVisible
                 onClicked: publicDialogBox.dialogAccepted()

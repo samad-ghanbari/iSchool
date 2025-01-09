@@ -50,7 +50,7 @@ Page {
             horizontalAlignment: Qt.AlignHCenter
             textFormat: Text.RichText
             text: "گزارش ارزیابی دانش‌آموز "
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -122,7 +122,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 20
                                     font.bold: true
                                     color: "darkmagenta"
@@ -135,7 +135,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -148,7 +148,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -159,7 +159,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -180,7 +180,7 @@ Page {
                     Label{
                         //background:Rectangle{color: "lavender"}
                         font.bold: true
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         color: "black"
                         text: "انتخاب دسته ارزیابی‌ها جهت صدور گزارش"
@@ -208,7 +208,7 @@ Page {
                             height: 50;
                             width: evalCatsLV.width
                             text:  model.eval_cat;
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 14
                             onToggled:
                             {
@@ -261,7 +261,7 @@ Page {
                             horizontalAlignment: Label.AlignLeft
                             verticalAlignment: Label.AlignVCenter
                             font.bold: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             text:"نیمسال: "
                         }
@@ -272,7 +272,7 @@ Page {
                             placeholderText: "اول"
                             text: "اول"
                             font.bold: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                         }
                     }
@@ -287,7 +287,7 @@ Page {
 
                         text: "نمایش دبیر در خروجی"
                         checked: false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 14
                     }
 
@@ -312,7 +312,7 @@ Page {
                             text: "انصراف"
                             Layout.preferredHeight:  40
                             Layout.preferredWidth:  100
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 14
                             onClicked: { pdfReport.popStackViewSignal();}
                             Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
@@ -323,7 +323,7 @@ Page {
                             text: "تایید"
                             Layout.preferredHeight:  40
                             Layout.preferredWidth:  100
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 14
                             enabled: (semesterNumberTF.text == "")? false : true
                             onClicked:

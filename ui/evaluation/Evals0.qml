@@ -49,7 +49,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ارزیابی‌های درسی"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -91,7 +91,7 @@ Page {
                         verticalAlignment: Label.AlignVCenter
                         color: "royalblue"
                         text:"شعبه " + evalsPage.branch + "، " + evalsPage.step
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                     }
@@ -104,7 +104,7 @@ Page {
                         color: "royalblue"
                         text: evalsPage.base
                         visible: (evalsPage.base == "")? false : true
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                     }
@@ -116,7 +116,7 @@ Page {
                         verticalAlignment: Label.AlignVCenter
                         color: "mediumvioletred"
                         text:"سال تحصیلی " + evalsPage.period
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                     }
@@ -130,7 +130,7 @@ Page {
                         verticalAlignment: Label.AlignVCenter
                         color: "white"
                         text: evalsPage.course_name + " ( " +  evalsPage.teacher + " ) "
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                         Label
@@ -142,7 +142,7 @@ Page {
                             anchors.right: parent.right
                             horizontalAlignment: Label.AlignHCenter
                             verticalAlignment: Label.AlignVCenter
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             text: evalsPage.course_coefficient
@@ -157,7 +157,7 @@ Page {
                             anchors.right: parent.right
                             horizontalAlignment: Label.AlignHCenter
                             verticalAlignment: Label.AlignVCenter
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             text: evalsPage.test_coefficient
@@ -259,7 +259,7 @@ Page {
                     {
                         anchors.centerIn: parent
                         color: "white"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         text: (recDel.model.Percentage)? "%"+ recDel.model.Max_value : recDel.model.Max_value
@@ -283,7 +283,7 @@ Page {
                     Label {
                         text: recDel.model.Eval_name
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (recDel.highlighted)? 20 :16
                         font.bold: (recDel.highlighted)? true : false
                         color: (recDel.highlighted)? "royalblue":"black"
@@ -295,7 +295,7 @@ Page {
                     Label {
                         text: recDel.model.Eval_time
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (recDel.highlighted)? 20 :16
                         font.bold: (recDel.highlighted)? true : false
                         horizontalAlignment: Label.AlignHCenter
@@ -307,7 +307,7 @@ Page {
                     Label {
                         text: recDel.model.Teacher
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (recDel.highlighted)? 20 :16
                         font.bold: (recDel.highlighted)? true : false
                         horizontalAlignment: Label.AlignHCenter

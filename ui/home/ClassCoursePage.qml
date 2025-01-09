@@ -48,7 +48,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: "شعبه " + classCoursePageId.branch + " - " + classCoursePageId.step
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -62,7 +62,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: (classCoursePageId.field_based) ? "رشته " + classCoursePageId.field + " - " + " پایه " + classCoursePageId.base :  " پایه " + classCoursePageId.base
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
             color: "darkmagenta"
@@ -74,7 +74,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: " سال تحصیلی " +  classCoursePageId.period + " - " + " کلاس " + classCoursePageId.class_name
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
             color: "darkmagenta"
@@ -94,7 +94,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: " دروس کلاس "
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
             color: "mediumvioletred"
@@ -136,7 +136,7 @@ Page {
                         Label{
                             Layout.fillWidth: true
                             Layout.preferredHeight: 50
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 20
                             font.bold: true
                             color: "white"
@@ -150,7 +150,7 @@ Page {
                         Label{
                             Layout.fillWidth: true
                             Layout.preferredHeight: 20
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 14
                             font.bold: true
                             color: "lightgray"
@@ -161,7 +161,7 @@ Page {
                         Label{
                             Layout.fillWidth: true
                             Layout.preferredHeight: 20
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 14
                             font.bold: true
                             color: "lightgray"
@@ -172,7 +172,7 @@ Page {
                         Label{
                             Layout.fillWidth: true
                             Layout.preferredHeight:  20
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 14
                             font.bold: true
                             color: "lightgray"
@@ -183,7 +183,7 @@ Page {
                         Label{
                             Layout.fillWidth: true
                             Layout.preferredHeight:  20
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 14
                             font.bold: true
                             color: "lightgray"

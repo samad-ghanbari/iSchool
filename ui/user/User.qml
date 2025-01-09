@@ -60,7 +60,7 @@ Page {
                 text: "کاربر سامانه"
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 24
                 font.bold: true
                 color: "mediumvioletred"
@@ -162,7 +162,7 @@ Page {
                                     text: "ادمین شعبه"
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Qt.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 24
                                     font.bold: true
                                     color: "white"
@@ -181,7 +181,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Qt.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 24
                                     color: "white"
                                     text: (userPage.user["enabled"])? "فعال" : "غیرفعال"
@@ -197,7 +197,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -210,7 +210,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
 
                             }
@@ -221,7 +221,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -234,7 +234,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                             }
 
@@ -244,7 +244,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -255,7 +255,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 text: userPage.user["gender"]
                             }
@@ -267,7 +267,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -280,7 +280,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                             }
 
@@ -290,7 +290,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -303,7 +303,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                             }
 
@@ -313,7 +313,7 @@ Page {
                                 Layout.maximumWidth: 150
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -326,7 +326,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                             }
 
@@ -347,7 +347,7 @@ Page {
                                     text: "دسترسی‌های کاربر"
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 24
                                     font.bold: true
                                     color: "royalblue"
@@ -365,7 +365,7 @@ Page {
                                     text: "شعبه‌ها"
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 24
                                     font.bold: true
                                     color: "royalblue"
@@ -391,7 +391,7 @@ Page {
                                             anchors.fill: parent
                                             anchors.leftMargin: 40
                                             text: recBrDelegate.model.city +" - "+  recBrDelegate.model.branch_name
-                                            font.family: "B Yekan"
+                                            font.family: "Kalameh"
                                             font.pixelSize: 16
                                         }
                                     }
@@ -404,7 +404,7 @@ Page {
                                     text: "دوره‌ها"
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 24
                                     font.bold: true
                                     color: "royalblue"
@@ -432,7 +432,7 @@ Page {
                                             anchors.fill: parent
                                             anchors.leftMargin: 40
                                             text: recDelegate.model.City +" - "+  recDelegate.model.Branch_name + " - " + recDelegate.model.Step_name
-                                            font.family: "B Yekan"
+                                            font.family: "Kalameh"
                                             font.pixelSize: 16
                                         }
                                     }
@@ -448,7 +448,7 @@ Page {
                                     visible: (userPage.user["admin"])? false : true;
                                     Layout.columnSpan: 2
                                     Layout.alignment: Qt.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 24
                                     font.bold: true
                                     color: "royalblue"
@@ -476,7 +476,7 @@ Page {
                                             anchors.fill: parent
                                             anchors.leftMargin: 40
                                             text:  recBaseDelegate.model.City + " - " + recBaseDelegate.model.Branch_name +" - "+ recBaseDelegate.model.Study_base
-                                            font.family: "B Yekan"
+                                            font.family: "Kalameh"
                                             font.pixelSize: 16
                                         }
                                     }

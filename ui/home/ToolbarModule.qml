@@ -37,7 +37,7 @@ ToolBar {
             Layout.preferredHeight:  64
             Layout.alignment: Qt.AlignHCenter
             // text: "صفحه‌اصلی"
-            // font.family: "B Yekan"
+            // font.family: "Kalameh"
             // font.pixelSize: 16
             background: Item{}
             onClicked:

@@ -59,7 +59,7 @@ Page {
             Label{
                 width: parent.width
                 height: 50
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 20
                 font.bold: true
                 color: "darkmagenta"
@@ -71,7 +71,7 @@ Page {
             Label{
                 width: parent.width
                 height: 50
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 20
                 font.bold: true
                 color: "darkslategray"
@@ -114,7 +114,7 @@ Page {
         width: parent.width
         text: dbMan.getUserName() + " عزیز به سامانه روشنگران خوش آمدید"
         anchors.bottom: parent.bottom
-        font.family: "B Yekan"
+        font.family: "Kalameh"
         font.pixelSize: 16
         font.bold: true
         color: "black"

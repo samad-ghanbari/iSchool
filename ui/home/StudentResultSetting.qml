@@ -71,7 +71,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: "شعبه " + studentResultSettingPage.branch + " - " + studentResultSettingPage.step
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -99,7 +99,7 @@ Page {
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignLeft
                     text: studentResultSettingPage.student
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 20
                     font.bold: true
                     color: "darkmagenta"
@@ -111,7 +111,7 @@ Page {
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignLeft
                     text: (studentResultSettingPage.field_based) ? "رشته " + studentResultSettingPage.field + " - " + " پایه " + studentResultSettingPage.base :  " پایه " + studentResultSettingPage.base
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
                     color: "darkmagenta"
@@ -123,7 +123,7 @@ Page {
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignLeft
                     text: " سال تحصیلی " +  studentResultSettingPage.period + " - " + " کلاس " + studentResultSettingPage.class_name
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
                     color: "darkmagenta"
@@ -147,7 +147,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "کارنامه دانش‌آموز"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
             color: "mediumvioletred"
@@ -188,7 +188,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 Layout.alignment: Qt.AlignHCenter
                                 text: " ارزیابی " + model.eval_name;
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 onToggled:
                                 {
@@ -230,7 +230,7 @@ Page {
 
                             text: "ارزیابی نیمسال"
                             checked: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                         }
 
@@ -245,7 +245,7 @@ Page {
 
                             text: "رتبه در پایه "
                             checked: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                         }
 
@@ -258,7 +258,7 @@ Page {
 
                             text: "رتبه در کلاس "
                             checked: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                         }
 
@@ -271,7 +271,7 @@ Page {
 
                             text: "میانگین پایه"
                             checked: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             onCheckedChanged: {
                                 if(checked)
@@ -290,7 +290,7 @@ Page {
 
                             text: "بالاترین نمره پایه"
                             checked: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                         }
 
@@ -308,7 +308,7 @@ Page {
                                 Layout.alignment: Qt.AlignLeft
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 text:"نیمسال: "
                             }
@@ -319,7 +319,7 @@ Page {
                                 placeholderText: "اول"
                                 text: "اول"
                                 font.bold: false
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                             }
                         }
@@ -333,7 +333,7 @@ Page {
                             text: "گزارش مبتنی بر رشته " + studentResultSettingPage.field
                             checked: studentResultSettingPage.field_based
                             visible: studentResultSettingPage.field_based
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                         }
 
@@ -349,7 +349,7 @@ Page {
                                 Layout.alignment: Qt.AlignLeft
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 text:"مرجع مقایسه رتبه و میانگین: "
                             }
@@ -358,7 +358,7 @@ Page {
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
                                 font.bold: false
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 model: ListModel{id: refModel}
                                 textRole: "text"
@@ -386,7 +386,7 @@ Page {
                         Rectangle{Layout.fillWidth: true; Layout.maximumWidth: 500; Layout.alignment: Qt.AlignHCenter; Layout.preferredHeight: 1; color: "slategray";}
 
                         Switch{
-                            id: customeBaseAvgSW
+                            id: predefinedBaseAvgSW
                             Layout.fillWidth: true
                             Layout.maximumWidth: 500
                             Layout.preferredHeight: 50
@@ -394,7 +394,7 @@ Page {
 
                             text: "استفاده از میانگین دروس ثبت شده"
                             checked: true
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                         }
 
@@ -417,7 +417,7 @@ Page {
                                 text: "انصراف"
                                 Layout.preferredHeight:  50
                                 Layout.preferredWidth:  100
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 14
                                 onClicked: { studentResultSettingPage.appStackView.pop(); }
                                 Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
@@ -428,7 +428,7 @@ Page {
                                 text: "تایید"
                                 Layout.preferredHeight:  50
                                 Layout.preferredWidth:  200
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 14
                                 onClicked:
                                 {
@@ -477,6 +477,7 @@ Page {
             var maxGrade_flag = maxGradeSW.checked
             var compare_ref_id = compareRef.currentValue
             var compare_ref = compareRef.currentText
+            var predefined_base_avg = predefinedBaseAvgSW.checked
 
             var params = {
                 "student_id": student_id,
@@ -490,7 +491,8 @@ Page {
                 "fieldBased_flag" : fieldBased_flag,
                 "maxGrade_flag" : maxGrade_flag,
                 "compare_ref_id": compare_ref_id,
-                "compare_ref" : compare_ref
+                "compare_ref" : compare_ref,
+                "predefined_base_avg": predefined_base_avg
             }
 
             //var result = dbMan.getStudentTranscript(params);

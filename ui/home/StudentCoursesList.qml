@@ -38,7 +38,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: "شعبه " + studentCoursesPageId.branch + " - " + studentCoursesPageId.step
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -99,7 +99,7 @@ Page {
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignLeft
                     text: studentCoursesPageId.student
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 20
                     font.bold: true
                     color: "darkmagenta"
@@ -111,7 +111,7 @@ Page {
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignLeft
                     text: (studentCoursesPageId.field_based) ? "رشته " + studentCoursesPageId.field + " - " + " پایه " + studentCoursesPageId.base :  " پایه " + studentCoursesPageId.base
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
                     color: "darkmagenta"
@@ -123,7 +123,7 @@ Page {
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignLeft
                     text: " سال تحصیلی " +  studentCoursesPageId.period + " - " + " کلاس " + studentCoursesPageId.class_name
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
                     color: "darkmagenta"
@@ -147,7 +147,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: " دروس دانش‌آموز "
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
             color: "mediumvioletred"
@@ -215,12 +215,12 @@ Page {
                     color: "transparent"
                     Label{
                         anchors.fill: parent
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                         horizontalAlignment: Qt.AlignLeft
                         verticalAlignment: Qt.AlignVCenter
-                        text: recdel.model.course_name
+                        text: "   "+ recdel.model.course_name
                         color: "darkmagenta"
                     }
                 }
@@ -239,7 +239,7 @@ Page {
                             spacing: 20
                             Label{
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 14
                                 font.bold: true
                                 horizontalAlignment: Qt.AlignHCenter
@@ -250,7 +250,7 @@ Page {
                             }
                             Label{
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 14
                                 font.bold: true
                                 horizontalAlignment: Qt.AlignHCenter
@@ -261,7 +261,7 @@ Page {
                             }
                             Label{
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 14
                                 font.bold: true
                                 horizontalAlignment: Qt.AlignHCenter
@@ -272,7 +272,7 @@ Page {
                             }
                             Label{
                                 Layout.preferredHeight: 50
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 14
                                 font.bold: true
                                 horizontalAlignment: Qt.AlignHCenter
@@ -340,7 +340,7 @@ Page {
                                             height: 50
                                             horizontalAlignment: Text.AlignRight
                                             verticalAlignment: Text.AlignVCenter
-                                            font.family: "B Yekan"
+                                            font.family: "Kalameh"
                                             font.pixelSize: 16
                                             font.bold: true
                                             color:"black"
@@ -398,7 +398,7 @@ Page {
                                                 width: 100
                                                 horizontalAlignment: Text.AlignHCenter
                                                 verticalAlignment: Text.AlignVCenter
-                                                font.family: "B Yekan"
+                                                font.family: "Kalameh"
                                                 font.pixelSize: 18
                                                 font.bold: true
                                                 color:"darkmagenta"
@@ -453,7 +453,7 @@ Page {
                                                 height: 50
                                                 horizontalAlignment: Text.AlignHCenter
                                                 verticalAlignment: Text.AlignVCenter
-                                                font.family: "B Yekan"
+                                                font.family: "Kalameh"
                                                 font.pixelSize: 18
                                                 font.bold: true
                                                 color:"black"

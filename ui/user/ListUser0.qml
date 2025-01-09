@@ -34,7 +34,7 @@ Page {
             text: "لیست کاربران سامانه"
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -143,7 +143,7 @@ Page {
                         horizontalAlignment: Qt.AlignHCenter
                         anchors.topMargin: 10
                         text: "جستجوی کاربران"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         Layout.alignment: Qt.AlignHCenter
                         font.bold: true
@@ -156,7 +156,7 @@ Page {
                 //name
                 Text {
                     text: "نام کاربر"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "royalblue"
                     Layout.fillWidth: true
@@ -167,7 +167,7 @@ Page {
                 {
                     id: searchUserNameTF
                     placeholderText: "نام کاربر"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     Layout.fillWidth: true
                     Layout.preferredHeight: 40
@@ -178,7 +178,7 @@ Page {
                 //lastname
                 Text {
                     text: "نام ‌خانوادگی کاربر"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "royalblue"
                     Layout.fillWidth: true
@@ -189,7 +189,7 @@ Page {
                 {
                     id: searchUserLastNameTF
                     placeholderText: "نام ‌خانوادگی کاربر"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     Layout.fillWidth: true
                     Layout.preferredHeight: 40
@@ -200,7 +200,7 @@ Page {
                 //natid
                 Text {
                     text: "کد‌ملی کاربر"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "royalblue"
                     Layout.fillWidth: true
@@ -211,7 +211,7 @@ Page {
                 {
                     id: searchUserNatidTF
                     placeholderText: "کد‌ملی کاربر"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     Layout.fillWidth: true
                     Layout.preferredHeight: 40
@@ -222,7 +222,7 @@ Page {
                 //tel
                 Text {
                     text: "شماره ‌تماس کاربر"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "royalblue"
                     Layout.fillWidth: true
@@ -233,7 +233,7 @@ Page {
                 {
                     id: searchUserTelTF
                     placeholderText: "شماره ‌تماس کاربر"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     Layout.fillWidth: true
                     Layout.preferredHeight: 40
@@ -244,7 +244,7 @@ Page {
                 //Position
                 Text {
                     text: "سمت ‌شغلی کاربر"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "royalblue"
                     Layout.fillWidth: true
@@ -255,7 +255,7 @@ Page {
                 {
                     id: searchUserPositionTF
                     placeholderText: "سمت ‌شغلی کاربر"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     Layout.fillWidth: true
                     Layout.preferredHeight: 40
@@ -268,7 +268,7 @@ Page {
                 Button
                 {
                     text: "جستجو"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     Layout.preferredHeight: 40
                     Layout.preferredWidth: 100

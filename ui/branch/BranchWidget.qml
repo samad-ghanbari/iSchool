@@ -44,7 +44,7 @@ SwipeDelegate
             Label {
                 text: branchDelegate.branchCity +" - "+ branchDelegate.branchName
                 padding: 0
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: (branchDelegate.highlighted)? 20 :16
                 font.bold: (branchDelegate.highlighted)? true : false
                 color: (branchDelegate.highlighted)? "royalblue":"black"
@@ -56,7 +56,7 @@ SwipeDelegate
             Label {
                 text: branchDelegate.branchAddress
                 padding: 0
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 14
                 font.bold: (branchDelegate.highlighted)? true : false
                 color: (branchDelegate.highlighted)? "darkcyan": "black"
@@ -85,7 +85,7 @@ SwipeDelegate
             onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
             text: "حذف"
             font.bold: true
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 14
             palette.buttonText:  "white"
             icon.source: "qrc:/assets/images/trash.png"
@@ -109,7 +109,7 @@ SwipeDelegate
             onHoveredChanged: editBtnBg.color=(hovered)? Qt.darker("royalblue", 1.1):"royalblue"
             text: "ویرایش"
             font.bold: true
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 14
             palette.buttonText:  "white"
             icon.source: "qrc:/assets/images/edit.png"

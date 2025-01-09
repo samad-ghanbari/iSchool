@@ -42,7 +42,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: "شعبه " + basePageId.branch + " - " + basePageId.step
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -55,7 +55,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "رشته " + basePageId.field
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
             color: "darkmagenta"
@@ -76,7 +76,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "پایه تحصیلی مورد نظر خود را انتخاب نمایید"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
             color: "mediumvioletred"
@@ -113,7 +113,7 @@ Page {
                     Label{
                         width: parent.width
                         height: 200
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                         color: "white"

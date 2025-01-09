@@ -44,7 +44,7 @@ SwipeDelegate
             Label {
                 text: stepDelegate.stepName
                 padding: 0
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: (stepDelegate.highlighted)? 24 :16
                 font.bold: (stepDelegate.highlighted)? true : false
                 color: (stepDelegate.highlighted)? "royalblue":"black"
@@ -56,7 +56,7 @@ SwipeDelegate
             Label {
                 text: stepDelegate.branchCity + " - " + stepDelegate.branchName
                 padding: 0
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 14
                 font.bold: (stepDelegate.highlighted)? true : false
                 color: (stepDelegate.highlighted)? "darkcyan": "black"
@@ -73,7 +73,7 @@ SwipeDelegate
                 checked: stepDelegate.numeric_graded
                 anchors.horizontalCenter: parent.horizontalCenter
                 checkable: false
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
             }
 
@@ -84,7 +84,7 @@ SwipeDelegate
                 checked: stepDelegate.field_based
                 checkable: false
                 anchors.horizontalCenter: parent.horizontalCenter
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
             }
 
@@ -106,7 +106,7 @@ SwipeDelegate
             onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
             text: "حذف"
             font.bold: true
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 14
             palette.buttonText:  "white"
             icon.source: "qrc:/assets/images/trash.png"
@@ -139,7 +139,7 @@ SwipeDelegate
             onHoveredChanged: editBtnBg.color=(hovered)? Qt.darker("royalblue", 1.1):"royalblue"
             text: "ویرایش"
             font.bold: true
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 14
             palette.buttonText:  "white"
             icon.source: "qrc:/assets/images/edit.png"

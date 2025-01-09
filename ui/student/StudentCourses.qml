@@ -46,7 +46,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "دروس دانش‌آموز"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -110,7 +110,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -122,7 +122,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -134,7 +134,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -146,7 +146,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -157,7 +157,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -334,7 +334,7 @@ Page {
                     {
                         anchors.centerIn: parent
                         text: recDelt.model.Course_coefficient
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "white"
@@ -351,7 +351,7 @@ Page {
                     {
                         anchors.centerIn: parent
                         text:  recDelt.model.Test_coefficient
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "white"
@@ -367,7 +367,7 @@ Page {
                     Label {
                         text: recDelt.model.Course_name
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (recDelt.highlighted)? 20 :16
                         font.bold: (recDelt.highlighted)? true : false
                         color: (recDelt.highlighted)? "darkcyan":"black"
@@ -379,7 +379,7 @@ Page {
                     Label {
                         text: "مدرس " + recDelt.model.Teacher
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: (recDelt.highlighted)? true : false
                         color: (recDelt.model.Passed)? "mediumvioletred":"dodgerblue"
@@ -415,7 +415,7 @@ Page {
                         onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
                         text: "حذف"
                         font.bold: true
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 14
                         palette.buttonText:  "white"
                         icon.source: "qrc:/assets/images/trash.png"
@@ -447,7 +447,7 @@ Page {
                         onHoveredChanged: evalBtnBg.color=(hovered)? Qt.darker("dodgerblue", 1.1):"dodgerblue"
                         text: "ارزیابی"
                         font.bold: true
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 14
                         palette.buttonText:  "white"
                         icon.source: "qrc:/assets/images/evaluation.png"
@@ -556,7 +556,7 @@ Page {
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: recDelg.model.Course_name
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                 }
@@ -575,7 +575,7 @@ Page {
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
                         text: recDelg.model.Course_coefficient
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 14
                         font.bold: true
                     }
@@ -588,7 +588,7 @@ Page {
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
                         text: recDelg.model.Test_coefficient
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 14
                         font.bold: true
                     }
@@ -611,7 +611,7 @@ Page {
                     verticalAlignment: Label.AlignVCenter
                     text: "آزمون درس"
                     background:Rectangle{color: "snow"}
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                 }
@@ -626,7 +626,7 @@ Page {
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: "آزمون تست"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                 }
@@ -642,7 +642,7 @@ Page {
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: "مستمر: "
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                 }
@@ -656,7 +656,7 @@ Page {
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: (recDelg.model.Course_continous > 0)? recDelg.model.Course_continous : "-"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                 }
@@ -671,7 +671,7 @@ Page {
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: (recDelg.model.Test_continous > 0)? recDelg.model.Test_continous + " % " : "-"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                 }
@@ -687,7 +687,7 @@ Page {
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: "پایانی: "
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                 }
@@ -701,7 +701,7 @@ Page {
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: (recDelg.model.Course_final > 0)? recDelg.model.Course_final : "-"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                 }
@@ -716,7 +716,7 @@ Page {
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: (recDelg.model.Test_final > 0)? recDelg.model.Test_final + " % "  : "-"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                 }
@@ -731,7 +731,7 @@ Page {
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: "نیمسال: "
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                 }
@@ -745,7 +745,7 @@ Page {
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: (recDelg.model.Course_semester > 0)? recDelg.model.Course_semester : "-"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                 }
@@ -760,7 +760,7 @@ Page {
                     horizontalAlignment: Label.AlignHCenter
                     verticalAlignment: Label.AlignVCenter
                     text: (recDelg.model.Test_semester > 0)? recDelg.model.Test_semester + " % "  : "-"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                 }

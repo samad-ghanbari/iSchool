@@ -40,7 +40,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "لیست کلاس‌های شعبه"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -71,7 +71,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 100
                         text:"شعبه:"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignRight
@@ -83,7 +83,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         editable: false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         model: ListModel{id: branchCBoxModel}
                         textRole: "text"
@@ -114,7 +114,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 100
                         text:"دوره:"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignRight
@@ -126,7 +126,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         editable: false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         model: ListModel{id: stepCBoxModel}
                         textRole: "text"
@@ -152,7 +152,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 100
                         text:"پایه تحصیلی:"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignRight
@@ -164,7 +164,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         editable: false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         model: ListModel{id: baseCBoxModel}
                         textRole: "text"
@@ -193,7 +193,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 100
                         text:"سال تحصیلی:"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignRight
@@ -205,7 +205,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         editable: false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         model: ListModel{id: periodCBoxModel}
                         textRole: "text"
@@ -336,7 +336,7 @@ Page {
                     Label {
                         text: "کلاس " + classRecDel.model.Class_name
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (classRecDel.highlighted)? 20 :16
                         font.bold: (classRecDel.highlighted)? true : false
                         color: (classRecDel.highlighted)? "darkmagenta":"black"
@@ -348,7 +348,7 @@ Page {
                     Label {
                         text: classRecDel.model.Class_desc
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (classRecDel.highlighted)? 20 :16
                         font.bold: (classRecDel.highlighted)? true : false
                         color: (classRecDel.highlighted)? "royalblue":"black"
@@ -469,7 +469,7 @@ Page {
                         //text: "حذف"
                         font.bold: true
                         visible : classPage.admin
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 14
                         palette.buttonText:  "white"
                         icon.source: "qrc:/assets/images/trash.png"

@@ -31,7 +31,7 @@ Page {
 
                 return "شعبه " + baseAvgPage.branch + " - " + temp
             }
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
             color: "darkmagenta"
@@ -49,7 +49,7 @@ Page {
                     return  "سال‌تحصیلی " + baseAvgPage.period
             }
 
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
             color: "darkmagenta"
@@ -69,7 +69,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ثبت میانگین پایه دروس"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
             color: "mediumvioletred"
@@ -86,7 +86,7 @@ Page {
                 height: 80
                 verticalAlignment: Label.AlignVCenter
                 horizontalAlignment: Label.AlignHCenter
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color:"black"
@@ -99,7 +99,7 @@ Page {
                 height: 80
                 verticalAlignment: Label.AlignVCenter
                 horizontalAlignment: Label.AlignHCenter
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color:"black"
@@ -200,7 +200,7 @@ Page {
                     color: "transparent"
                     Label{
                         anchors.fill: parent
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                         horizontalAlignment: Qt.AlignLeft
@@ -238,7 +238,7 @@ Page {
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color:"darkmagenta"
@@ -292,7 +292,7 @@ Page {
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color:"black"

@@ -40,7 +40,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "مدیریت کلاس‌ها"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -71,7 +71,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 100
                         text:"شعبه:"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignRight
@@ -83,7 +83,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         editable: false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         model: ListModel{id: branchCBoxModel}
                         textRole: "text"
@@ -114,7 +114,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 100
                         text:"دوره:"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignRight
@@ -126,7 +126,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         editable: false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         model: ListModel{id: stepCBoxModel}
                         textRole: "text"
@@ -152,7 +152,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 100
                         text:"سال تحصیلی:"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         horizontalAlignment: Label.AlignRight
@@ -164,7 +164,7 @@ Page {
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         editable: false
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         model: ListModel{id: periodCBoxModel}
                         textRole: "text"
@@ -296,7 +296,7 @@ Page {
                     Label {
                         text: "کلاس " + rec.model.class_name
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (rec.highlighted)? 20 :16
                         font.bold: (rec.highlighted)? true : false
                         color: (rec.highlighted)? "darkmagenta":"black"
@@ -318,7 +318,7 @@ Page {
                             }
                         }
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (rec.highlighted)? 20 :16
                         font.bold: (rec.highlighted)? true : false
                         color: (rec.highlighted)? "darkmagenta":"black"
@@ -331,7 +331,7 @@ Page {
                     Label {
                         text: rec.model.class_desc
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (rec.highlighted)? 20 :16
                         font.bold: (rec.highlighted)? true : false
                         color: (rec.highlighted)? "royalblue":"black"
@@ -436,7 +436,7 @@ Page {
                         hoverEnabled: true
                         font.bold: true
                         visible : classPage.admin
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 14
                         palette.buttonText:  "white"
                         icon.source: "qrc:/assets/images/trash.png"

@@ -53,7 +53,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "ارزیابی " + evalsPage.eval_cat
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -93,7 +93,7 @@ Page {
                         verticalAlignment: Label.AlignVCenter
                         color: "royalblue"
                         text:"شعبه " + evalsPage.branch
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                     }
@@ -111,7 +111,7 @@ Page {
                             else
                             return evalsPage.step + " - " + evalsPage.base;
                         }
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                     }
@@ -123,7 +123,7 @@ Page {
                         verticalAlignment: Label.AlignVCenter
                         color: "royalblue"
                         text:"سال تحصیلی " + evalsPage.period
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                     }
@@ -145,7 +145,7 @@ Page {
                             verticalAlignment: Label.AlignVCenter
                             color: "royalblue"
                             text:"کلاس: "
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                         }
@@ -154,7 +154,7 @@ Page {
                             id: allClassCB
                             Layout.fillWidth: true
                             Layout.preferredHeight: 50
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             model:ListModel { id: allClassCBoxModel; }
                             textRole: "text"
@@ -291,7 +291,7 @@ Page {
                         height: 30
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         text: recDel.model.Course_coefficient
@@ -304,7 +304,7 @@ Page {
                         height: 30
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         text: recDel.model.Test_coefficient
@@ -330,7 +330,7 @@ Page {
                     Label {
                         text: evalsPage.eval_cat
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (recDel.highlighted)? 18 :16
                         font.bold: (recDel.highlighted)? true : false
                         color: (recDel.highlighted)? "royalblue":"black"
@@ -342,7 +342,7 @@ Page {
                     Label {
                         text: recDel.model.Course_name
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (recDel.highlighted)? 18 :16
                         font.bold: (recDel.highlighted)? true : false
                         color: (recDel.highlighted)? "darkmagenta":"black"
@@ -355,7 +355,7 @@ Page {
                         text: "کلاس " + recDel.model.Class_name
                         visible: (recDel.model.Class_id > -1)? true : false;
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (recDel.highlighted)? 18 :16
                         font.bold: (recDel.highlighted)? true : false
                         color: (recDel.highlighted)? "darkmagenta":"black"
@@ -367,7 +367,7 @@ Page {
                     Label {
                         text: recDel.model.Eval_time
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: (recDel.highlighted)? true : false
                         color: (recDel.highlighted)? "royalblue":"black"
@@ -384,7 +384,7 @@ Page {
                             return "نمره آزمون " +  recDel.model.Max_grade;
                         }
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: (recDel.highlighted)? true : false
                         horizontalAlignment: Label.AlignHCenter

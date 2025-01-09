@@ -51,7 +51,7 @@ Rectangle {
             }
             Text {
                 text: userWidget.userName + " " + userWidget.userLastname
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 font.bold: true
                 color: "royalblue"
@@ -60,7 +60,7 @@ Rectangle {
             }
             Text {
                 text: "کدملی" + " : " + userWidget.userNatId
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 font.bold: true
                 Layout.alignment: Qt.AlignLeft
@@ -68,7 +68,7 @@ Rectangle {
             }
             Text {
                 text: "پست‌شغلی" + " : " + userWidget.userJobPosition
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 font.bold: true
                 Layout.alignment: Qt.AlignLeft

@@ -38,7 +38,7 @@ Page {
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignHCenter
                     text: "شعبه " + classStudentsPageId.branch + " - " + classStudentsPageId.step
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
                     color: "darkmagenta"
@@ -52,7 +52,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: (classStudentsPageId.field_based) ? "رشته " + classStudentsPageId.field + " - " + " پایه " + classStudentsPageId.base :  " پایه " + classStudentsPageId.base
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -64,7 +64,7 @@ Page {
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: " سال تحصیلی " +  classStudentsPageId.period + " - " + " کلاس " + classStudentsPageId.class_name
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
@@ -89,7 +89,7 @@ Page {
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignLeft
                     text: " دانش‌آموزان کلاس "
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 20
                     font.bold: true
                     color: "mediumvioletred"
@@ -163,7 +163,7 @@ Page {
                             }
                             Text {
                                 text: recdel.model.name + " " + recdel.model.lastname
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 18
                                 font.bold: true
                                 color: "white"
@@ -173,7 +173,7 @@ Page {
                             }
                             Text {
                                 text: "نام پدر: " + recdel.model.fathername
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 14
                                 font.bold: true
                                 color: "white"
@@ -183,7 +183,7 @@ Page {
                             }
                             Text {
                                 text: "تاریخ تولد:‌ " + recdel.model.birthday;
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 14
                                 font.bold: true
                                 color: "white"

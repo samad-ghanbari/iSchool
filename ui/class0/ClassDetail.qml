@@ -54,7 +54,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "جزئیات کلاس"
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -92,7 +92,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "royalblue"
@@ -104,7 +104,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "royalblue"
@@ -116,7 +116,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "royalblue"
@@ -130,7 +130,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "royalblue"
@@ -279,7 +279,7 @@ Page {
                     Label {
                         text:  recDelg.model.Course_name
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (recDelg.highlighted)? 20 :16
                         font.bold: (recDelg.highlighted)? true : false
                         color: (recDelg.highlighted)? "royalblue":"black"
@@ -291,7 +291,7 @@ Page {
                     Label {
                         text: recDelg.model.Teacher
                         padding: 0
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: (recDelg.highlighted)? 20 :16
                         font.bold: (recDelg.highlighted)? true : false
                         color: (recDelg.highlighted)? "royalblue":"black"
@@ -321,7 +321,7 @@ Page {
                     hoverEnabled: true
                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                     font.bold: true
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     palette.buttonText:  "white"
                     icon.source: "qrc:/assets/images/evalcat.png"
@@ -350,7 +350,7 @@ Page {
                     hoverEnabled: true
                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                     font.bold: true
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     palette.buttonText:  "white"
                     icon.source: "qrc:/assets/images/edit.png"
@@ -383,7 +383,7 @@ Page {
                     hoverEnabled: true
                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                     font.bold: true
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     palette.buttonText:  "white"
                     icon.source: "qrc:/assets/images/trash.png"
@@ -553,7 +553,7 @@ Page {
                         horizontalAlignment: Qt.AlignHCenter
                         anchors.topMargin: 10
                         text: "بروزرسانی اطلاعات کلاس"
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         Layout.alignment: Qt.AlignHCenter
                         font.bold: true
@@ -578,7 +578,7 @@ Page {
                             width: parent.width
                             height: 50
                             verticalAlignment: Text.AlignVCenter
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
                             color: "royalblue"
@@ -589,7 +589,7 @@ Page {
                             height:  50
                             width: parent.width
                             editable: false
-                            font.family: "B Yekan"
+                            font.family: "Kalameh"
                             font.pixelSize: 16
                             model: classCoursesRefreshDrawer.teachersModel
                             textRole: "text"
@@ -609,7 +609,7 @@ Page {
                 Button
                 {
                     text: "بروزرسانی"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     Layout.preferredHeight: 40
                     Layout.preferredWidth: 100

@@ -46,7 +46,7 @@ SwipeDelegate
             Label {
                 text: "سال‌تحصیلی " + periodDelegate.periodModel.period_name
                 padding: 0
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: (periodDelegate.highlighted)? 20 :16
                 font.bold: (periodDelegate.highlighted)? true : false
                 color: (periodDelegate.highlighted)? "royalblue":"black"
@@ -58,7 +58,7 @@ SwipeDelegate
             Label {
                 text: "شعبه " + periodDelegate.periodModel.city + " - " + periodDelegate.periodModel.branch_name
                 padding: 0
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 14
                 font.bold: (periodDelegate.highlighted)? true : false
                 color: (periodDelegate.highlighted)? "darkcyan": "black"
@@ -77,7 +77,7 @@ SwipeDelegate
                         return "دوره " + periodDelegate.periodModel.step_name
                 }
                 padding: 0
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 14
                 font.bold: (periodDelegate.highlighted)? true : false
                 color: (periodDelegate.highlighted)? "darkcyan": "black"
@@ -105,7 +105,7 @@ SwipeDelegate
             onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
             text: "حذف"
             font.bold: true
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 14
             palette.buttonText:  "white"
             icon.source: "qrc:/assets/images/trash.png"
@@ -129,7 +129,7 @@ SwipeDelegate
             onHoveredChanged: editBtnBg.color=(hovered)? Qt.darker("royalblue", 1.1):"royalblue"
             text: "ویرایش"
             font.bold: true
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 14
             palette.buttonText:  "white"
             icon.source: "qrc:/assets/images/edit.png"

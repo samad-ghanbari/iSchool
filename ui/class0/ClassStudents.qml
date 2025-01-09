@@ -52,7 +52,7 @@ Page {
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "دانش‌آموزان کلاس "
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -99,7 +99,7 @@ Page {
                                 height: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 18
                                 font.bold: true
                                 color: "royalblue"
@@ -111,7 +111,7 @@ Page {
                                 height: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 18
                                 font.bold: true
                                 color: "royalblue"
@@ -123,7 +123,7 @@ Page {
                                 height: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 18
                                 font.bold: true
                                 color: "royalblue"
@@ -138,7 +138,7 @@ Page {
                         Layout.preferredHeight: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                         color: "darkmagenta"
@@ -294,7 +294,7 @@ Page {
                     }
                     Text {
                         text: recDel.model.Student
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
                         color: "darkmagenta"
@@ -304,7 +304,7 @@ Page {
                     }
                     Text {
                         text: "نام پدر: " + recDel.model.Fathername
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -314,7 +314,7 @@ Page {
                     }
                     Text {
                         text: "تاریخ تولد:‌ " + recDel.model.Birthday;
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
@@ -480,7 +480,7 @@ Page {
                     height: 50
                     text: "class name"
                     font.bold: true
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 20
                     color: "royalblue"
                     horizontalAlignment: Text.AlignHCenter
@@ -501,7 +501,7 @@ Page {
                     height: 50
                     text: "اطلاعات کلاس کامل نمی‌باشد."
                     font.bold: true
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "dodgerblue"
                     horizontalAlignment: Text.AlignHCenter
@@ -517,7 +517,7 @@ Page {
                         height: 50
                         text: "----"
                         font.bold: true
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         color: "dodgerblue"
                         horizontalAlignment: Text.AlignHCenter
@@ -545,7 +545,7 @@ Page {
                                 horizontalAlignment: Label.AlignHCenter
                                 verticalAlignment: Label.AlignVCenter
                                 font.bold: true
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 color: "white"
                                 background:Rectangle{color: "slategray"}
@@ -578,7 +578,7 @@ Page {
             width: parent.width;
             height: 50;
             color: "forestgreen" ;
-            Text{ text: "افزودن دانش‌آموز"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+            Text{ text: "افزودن دانش‌آموز"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "Kalameh"; font.pixelSize: 16}
         }
 
         contentItem:ColumnLayout{
@@ -588,7 +588,7 @@ Page {
                 Layout.preferredHeight: 50
                 verticalAlignment: Label.AlignVCenter
                 horizontalAlignment: Label.AlignLeft
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 font.bold: true
                 color: "royalblue"
@@ -598,7 +598,7 @@ Page {
                 Layout.preferredHeight:  50
                 Layout.fillWidth: true
                 editable: true
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 model: ListModel{id: studentCBoxModel}
                 textRole: "text"
@@ -617,7 +617,7 @@ Page {
                     text: "انصراف"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked: addStudentDialog.close();
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "crimson"}
@@ -627,7 +627,7 @@ Page {
                     text: "افزودن"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked: {
                         // student-step-base-period-class

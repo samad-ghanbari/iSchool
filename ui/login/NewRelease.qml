@@ -38,7 +38,7 @@ Page {
             id: updatetctId
             text: qsTr("لطفا نسبت به نصب ورژن جدید برنامه اقدام فرمایید")
             font.pixelSize: 36
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             anchors.horizontalCenter: parent.horizontalCenter
             color: "#FFF"
             anchors.top: backimageId.bottom
@@ -47,7 +47,7 @@ Page {
             id: currentVersionId
             text: qsTr("ورژن فعلی نرم‌افزار شما ") + dbMan.getAppVersion();
             font.pixelSize: 24
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             anchors.horizontalCenter: parent.horizontalCenter
             color: "#FFF"
             anchors.top: updatetctId.bottom
@@ -56,7 +56,7 @@ Page {
             id: newVersionId
             text: qsTr("ورژن جدید نرم‌افزار ") + dbMan.getVersion()
             font.pixelSize: 36
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.bold: true
             anchors.horizontalCenter: parent.horizontalCenter
             color: "#050"

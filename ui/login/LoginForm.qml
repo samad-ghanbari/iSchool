@@ -100,7 +100,7 @@ Page {
                 color: "slategray"
                 font.bold: true
                 font.pixelSize: 20
-                font.family: "Far.Afaaq"
+                font.family: "Kalameh"
                 horizontalAlignment:  Text.AlignHCenter
             }
 
@@ -110,7 +110,7 @@ Page {
                 height: 50
                 width : parent.width
                 placeholderText: "کد‌ملی"
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 KeyNavigation.tab: passwordField
                 focus: true
             }
@@ -120,7 +120,7 @@ Page {
                 id: passwordField
                 height: 50
                 width : parent.width
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 placeholderText: "رمز‌عبور"
                 echoMode: TextField.Password
                 KeyNavigation.tab: loginBtnId
@@ -135,7 +135,7 @@ Page {
                 Button {
                     id: loginBtnId
                     text: "ورود به سامانه"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     height: 50
                     width : parent.width/2
@@ -152,7 +152,7 @@ Page {
                 Button {
                     id: closeBtnId
                     text: "خروج"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     height: 50
                     width : parent.width/2
@@ -178,7 +178,7 @@ Page {
                 id: incorrectUserPassTxt
                 text: ""
                 color:"mediumvioletred"
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 anchors.horizontalCenter: parent.horizontalCenter
                 ScaleAnimator on scale {

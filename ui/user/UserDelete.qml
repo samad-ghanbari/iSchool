@@ -45,7 +45,7 @@ Page {
                 text: userDeletePage.user["name"] + " " + userDeletePage.user["lastname"]
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 24
                 font.bold: true
                 color: "mediumvioletred"
@@ -90,7 +90,7 @@ Page {
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
                                 text: "حذف کاربر"
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 24
                                 font.bold: true
                                 color: "crimson"
@@ -142,7 +142,7 @@ Page {
                                     text: "ادمین شعبه"
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Qt.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 24
                                     font.bold: true
                                     color: "white"
@@ -156,7 +156,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -168,7 +168,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 text: userDeletePage.user["name"]
                             }
@@ -180,7 +180,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -192,7 +192,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 text: userDeletePage.user["lastname"]
                             }
@@ -204,7 +204,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -216,7 +216,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 text: userDeletePage.user["nat_id"]
                             }
@@ -228,7 +228,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -239,7 +239,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 text: userDeletePage.user["gender"]
                             }
@@ -251,7 +251,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -263,7 +263,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 text: userDeletePage.user["job_position"]
                             }
@@ -275,7 +275,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "royalblue"
@@ -287,7 +287,7 @@ Page {
                                 Layout.preferredHeight: 50
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Qt.AlignLeft
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 text: userDeletePage.user["telephone"]
                             }

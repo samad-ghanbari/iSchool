@@ -54,7 +54,7 @@ Page {
             horizontalAlignment: Qt.AlignHCenter
             textFormat: Text.RichText
             text: "ارزیابی واحد درسی " + "<font color='darkmagenta'>"+ studentCEPage.student.name + "  "+ studentCEPage.student.lastname + " ( " + studentCEPage.student.fathername + " ) </font> "
-            font.family: "B Yekan"
+            font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
             color: "mediumvioletred"
@@ -118,7 +118,7 @@ Page {
                                 //     width: parent.width
                                 //     verticalAlignment: Text.AlignVCenter
                                 //     horizontalAlignment: Text.AlignHCenter
-                                //     font.family: "B Yekan"
+                                //     font.family: "Kalameh"
                                 //     font.pixelSize: 20
                                 //     font.bold: true
                                 //     color: "darkmagenta"
@@ -131,7 +131,7 @@ Page {
                                 //     width: parent.width
                                 //     verticalAlignment: Text.AlignVCenter
                                 //     horizontalAlignment: Text.AlignHCenter
-                                //     font.family: "B Yekan"
+                                //     font.family: "Kalameh"
                                 //     font.pixelSize: 16
                                 //     font.bold: true
                                 //     color: "royalblue"
@@ -145,7 +145,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -158,7 +158,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -172,7 +172,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
@@ -186,7 +186,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 20
                                     font.bold: true
                                     color: "darkmagenta"
@@ -200,7 +200,7 @@ Page {
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
-                                    font.family: "B Yekan"
+                                    font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "darkmagenta"
@@ -303,7 +303,7 @@ Page {
                                 horizontalAlignment: Label.AlignHCenter
                                 verticalAlignment: Label.AlignVCenter
                                 font.bold: true
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 20
                                 color: "white"
                                 background:Rectangle{color: "navy"}
@@ -371,7 +371,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     color: "white"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: recDelt.model.eval_cat
@@ -393,7 +393,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     color: "slategray"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: recDelt.model.eval_time
@@ -415,7 +415,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     color: "slategray"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: (recDelt.model.test_flag)? "بیشترین نمره: " + recDelt.model.max_grade +" % " : "بیشترین نمره: " +recDelt.model.max_grade;
@@ -438,7 +438,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     color: "slategray"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: (recDelt.model.test_flag)? "نمره دریافتی: " + recDelt.model.student_grade + " % " :  "نمره دریافتی: " + recDelt.model.student_grade;
@@ -461,7 +461,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     color: "slategray"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: "نمره با اعمال نمودار: " + recDelt.model.normalised_grade
@@ -576,7 +576,7 @@ Page {
             width: parent.width;
             height: 50;
             color: "mediumvioletred"
-            Text{ text: "ثبت نمره دانش‌آموز"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "B Yekan"; font.pixelSize: 16}
+            Text{ text: "ثبت نمره دانش‌آموز"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "Kalameh"; font.pixelSize: 16}
         }
 
         contentItem:
@@ -591,7 +591,7 @@ Page {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 color: "darkmagenta"
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 20
                 font.bold: true
                 text: setStudentGradeDialog.studentVar
@@ -606,7 +606,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.top : studentInfoText.bottom
                 color: "slategray"
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 16
                 font.bold: true
                 text: setStudentGradeDialog.courseVar + " (" + setStudentGradeDialog.evalCatVar + ")"
@@ -621,7 +621,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.top : courseText.bottom
                 color: "slategray"
-                font.family: "B Yekan"
+                font.family: "Kalameh"
                 font.pixelSize: 14
                 font.bold: true
                 text: setStudentGradeDialog.timeVar
@@ -641,7 +641,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
                     color: "black"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     text: "نمره دریافتی"
@@ -655,7 +655,7 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
                     color: "black"
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     font.bold: true
                     placeholderText: "بزرگترین مقدار معتبر " + setStudentGradeDialog.maxVar
@@ -675,7 +675,7 @@ Page {
                     text: "انصراف"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked: { setStudentGradeDialog.gradeVar = -1; setStudentGradeDialog.close(); }
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "red"}
@@ -685,7 +685,7 @@ Page {
                     text: "تایید"
                     Layout.preferredHeight:  40
                     Layout.preferredWidth:  100
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 14
                     onClicked:
                     {
@@ -794,7 +794,7 @@ Page {
                     height: 50
                     text: classSCEStat.course_name
                     font.bold: true
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 20
                     color: "royalblue"
                     horizontalAlignment: Text.AlignHCenter
@@ -815,7 +815,7 @@ Page {
                     height: 50
                     text: "آزمونی برای این درس ثبت نشده است."
                     font.bold: true
-                    font.family: "B Yekan"
+                    font.family: "Kalameh"
                     font.pixelSize: 16
                     color: "dodgerblue"
                     horizontalAlignment: Text.AlignHCenter
@@ -831,7 +831,7 @@ Page {
                         height: 50
                         text: classSCEStat.student
                         font.bold: true
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 20
                         color: "dodgerblue"
                         horizontalAlignment: Text.AlignHCenter
@@ -842,7 +842,7 @@ Page {
                         height: 50
                         text: classSCEStat.baseClass
                         font.bold: true
-                        font.family: "B Yekan"
+                        font.family: "Kalameh"
                         font.pixelSize: 18
                         color: "dodgerblue"
                         horizontalAlignment: Text.AlignHCenter
@@ -897,7 +897,7 @@ Page {
                                 horizontalAlignment: Label.AlignHCenter
                                 verticalAlignment: Label.AlignVCenter
                                 font.bold: true
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 color: "white"
                                 background:Rectangle{color: "slategray"}
@@ -933,7 +933,7 @@ Page {
                                 horizontalAlignment: Label.AlignHCenter
                                 verticalAlignment: Label.AlignVCenter
                                 font.bold: true
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 color: "slategray"
                                 MouseArea {
@@ -951,7 +951,7 @@ Page {
                                 horizontalAlignment: Label.AlignHCenter
                                 verticalAlignment: Label.AlignVCenter
                                 font.bold: true
-                                font.family: "B Yekan"
+                                font.family: "Kalameh"
                                 font.pixelSize: 16
                                 color: "slategray"
                                 visible: parent.noNorm

@@ -2,6 +2,7 @@
 # Email:        ghanbari.Samad@gmail.com
 # Qt Version:   Qt 6.5.3
 # Postgresql:   16.6
+# find . -type f -name "*.qml" -exec sed -i 's/B Yekan/Kalameh/g' {} +
 
 
 cmake_minimum_required(VERSION 3.16)
@@ -186,6 +187,7 @@ qt_add_resources(appiSchool "assets"
         assets/font/Far.Afaaq.ttf
         assets/font/Phamelo.ttf
         assets/font/Daughter.ttf
+        assets/font/Kalameh.ttf
         qmldir
         ui/login/qmldir
         ui/home/qmldir
