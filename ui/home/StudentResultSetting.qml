@@ -275,9 +275,9 @@ Page {
                             font.pixelSize: 16
                             onCheckedChanged: {
                                 if(checked)
-                                    customeBaseAvgSW.visible = true
+                                    predefinedBaseAvgSW.visible = true
                                 else
-                                    customeBaseAvgSW.visible = false
+                                    predefinedBaseAvgSW.visible = false
                             }
                         }
 
@@ -455,6 +455,17 @@ Page {
         dialogSuccess: false
     }
 
+    //dialog error
+    DialogBox.BaseDialog
+    {
+        id: successDialogId
+        dialogTitle: "عملیات موفق"
+        dialogText: ""
+        dialogSuccess: true
+        onDialogAccepted: studentResultSettingPage.appStackView.pop();
+    }
+
+
     // file dialog
     FileDialog {
         id: saveFileDialog
@@ -500,11 +511,9 @@ Page {
 
             if(dbMan.generatePdf(selectedFile, params))
             {
-                infoDialogId.dialogTitle = "عملیات موفق"
-                infoDialogId.dialogSuccess = true
-                infoDialogId.width = 500
-                infoDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile
-                infoDialogId.open();
+                successDialogId.width = 500
+                successDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile
+                successDialogId.open();
             }
             else
             {
