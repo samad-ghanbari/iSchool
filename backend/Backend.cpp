@@ -11,6 +11,8 @@ Backend::Backend(QGuiApplication &app, QObject *parent)
     //studentStatModel = new StudentStatModel(this);
 
 
+    //dbMan->update7();
+
     // register fonts
     // usage name
     // B Yekan

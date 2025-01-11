@@ -147,7 +147,7 @@ Page {
 
                             Image {
                                 source:{
-                                    if(recdel.model.photo === "")
+                                    if(recdel.model["photo"] === "")
                                     {
                                         if(recdel.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
                                     }
