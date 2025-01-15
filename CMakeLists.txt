@@ -272,6 +272,8 @@ qt_add_resources(appiSchool "assets"
         assets/images/branch.png
     #COURSE
         assets/images/course.png
+        assets/images/grade.png
+
     #STUDY PERIOD
         assets/images/date.png
     #CLASSROOM

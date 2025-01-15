@@ -91,15 +91,15 @@ Page {
 
             Button
             {
-                Layout.preferredWidth: 125
                 Layout.preferredHeight:  64
-                //background: Item{}
-                //icon.source: "qrc:/assets/images/baseAvg.png"
+                background: Item{}
+                icon.source: "qrc:/assets/images/grade.png"
                 text: "ثبت میانگین پایه"
                 font.family: "Kalameh"
                 font.pixelSize: 16
-                icon.width: 128
-                icon.height: 64
+                icon.width: 32
+                icon.height: 32
+                display: AbstractButton.TextUnderIcon
                 icon.color:"transparent"
                 opacity: 0.5
                 onClicked: appStackView.push(baseAverageComponent);

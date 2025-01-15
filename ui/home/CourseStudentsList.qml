@@ -29,21 +29,6 @@ Page {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             color:"transparent"
-            // Button
-            // {
-            //     height: 64
-            //     width: 64
-            //     anchors.left: parent.left
-            //     background: Item{}
-            //     icon.source: "qrc:/assets/images/arrow-right.png"
-            //     icon.width: 64
-            //     icon.height: 64
-            //     icon.color:"transparent"
-            //     opacity: 0.5
-            //     onClicked: courseStudentsPageId.appStackView.pop();
-            //     hoverEnabled: true
-            //     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-            // }
             Text {
                 width: parent.width
                 height: parent.height
@@ -55,39 +40,6 @@ Page {
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
-            }
-
-            Button
-            {
-                height: 64
-                width: 64
-                anchors.right: parent.right
-                background: Item{}
-                icon.source: "qrc:/assets/images/refresh.png"
-                icon.width: 64
-                icon.height: 64
-                icon.color:"transparent"
-                opacity: 0.5
-                onClicked: {
-                    if(dbMan.refreshCourseEvals(courseStudentsPageId.class_id, courseStudentsPageId.course_id))
-                    {
-                        infoDialogId.dialogSuccess = true
-                        infoDialogId.dialogTitle = "عملیات موفق"
-                        infoDialogId.dialogText = "آزمون‌های درس برای دانش‌آموزان بروزرسانی شد.";
-                        // update model
-                        lvModel.clear();
-                        var jsonarray = dbMan.getCourseStudents_evals(courseStudentsPageId.class_id, courseStudentsPageId.course_id);
-                        for(var obj of jsonarray)
-                        {
-                            lvModel.append(obj);
-                        }
-
-                    }
-                    else
-                        infoDialogId.open();
-                }
-                hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
             }
         }
 
@@ -141,18 +93,84 @@ Page {
             color: "darkgray"
         }
 
-        Text {
+        RowLayout{
             Layout.fillWidth: true
             Layout.preferredHeight: 25
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            text: "ارزیابی درس دانش‌آموزان"
-            font.family: "Kalameh"
-            font.pixelSize: 20
-            font.bold: true
-            color: "mediumvioletred"
-        }
+            Text {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 50
+                Layout.alignment: Qt.AlignLeft
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignLeft
+                text: "ارزیابی درس دانش‌آموزان"
+                font.family: "Kalameh"
+                font.pixelSize: 20
+                font.bold: true
+                color: "mediumvioletred"
+            }
 
+            Button
+            {
+                Layout.preferredHeight:  50
+                background: Item{}
+                icon.source: "qrc:/assets/images/grade.png"
+                icon.width: 32
+                icon.height: 32
+                icon.color:"transparent"
+                text: "ثبت نمره"
+                font.family: "Kalameh"
+                font.pixelSize: 16
+                font.bold: true
+                display: AbstractButton.TextUnderIcon
+                opacity: 0.5
+                onClicked: {
+                    setGradeDialog.evalCBox.currentIndex=-1
+                    setGradeDialog.gradeValue=""
+                    setGradeDialog.open();
+                }
+                hoverEnabled: true
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+            }
+            Button
+            {
+                height: 50
+                background: Item{}
+                icon.source: "qrc:/assets/images/refresh.png"
+                icon.width: 32
+                icon.height: 32
+                text: "بروزرسانی ارزیابی‌ها"
+                font.family: "Kalameh"
+                font.pixelSize: 16
+                font.bold: true
+                display: AbstractButton.TextUnderIcon
+                icon.color:"transparent"
+                opacity: 0.5
+                onClicked: {
+                    if(dbMan.refreshCourseEvals(courseStudentsPageId.class_id, courseStudentsPageId.course_id))
+                    {
+                        infoDialogId.dialogSuccess = true
+                        infoDialogId.dialogTitle = "عملیات موفق"
+                        infoDialogId.dialogText = "آزمون‌های درس برای دانش‌آموزان بروزرسانی شد.";
+                        // update model
+                        lvModel.clear();
+                        var jsonarray = dbMan.getCourseStudents_evals(courseStudentsPageId.class_id, courseStudentsPageId.course_id);
+                        for(var obj of jsonarray)
+                        {
+                            lvModel.append(obj);
+                        }
+
+                    }
+                    else{
+                        infoDialogId.dialogText = "انجام عملیات با خطا مواجه شد."
+                        infoDialogId.dialogTitle = "خطا"
+                        infoDialogId.dialogSuccess = false
+                        infoDialogId.open();
+                    }
+                }
+                hoverEnabled: true
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+            }
+        }
 
         Rectangle{
             id: mainBox
@@ -345,6 +363,9 @@ Page {
                                                 {
                                                     if(!dbMan.setStudentCourseEvalGrade(scei))
                                                     {
+                                                        infoDialogId.dialogText = "انجام عملیات با خطا مواجه شد."
+                                                        infoDialogId.dialogTitle = "خطا"
+                                                        infoDialogId.dialogSuccess = false
                                                         infoDialogId.open();
                                                     }
                                                     else
@@ -355,6 +376,9 @@ Page {
                                                 else{
                                                     if(!dbMan.setStudentCourseEvalGrade(scei, v))
                                                     {
+                                                        infoDialogId.dialogText = "انجام عملیات با خطا مواجه شد."
+                                                        infoDialogId.dialogTitle = "خطا"
+                                                        infoDialogId.dialogSuccess = false
                                                         infoDialogId.open();
                                                     }
                                                     else
@@ -482,5 +506,172 @@ Page {
         dialogTitle: "خطا"
         dialogText: "عملیات با خطا مواجه شد."
         dialogSuccess: false
+    }
+
+    // set grade of all students in once
+    Dialog{
+        id: setGradeDialog
+        property alias gradeValue : gradeTF.text
+        property alias evalCBox: evalCB
+
+        property real maxValue: 0
+
+        closePolicy:Popup.NoAutoClose
+        width: (parent.width > 400)? 400 : parent.width
+        height: 350
+        modal: true
+        dim: true
+        anchors.centerIn: parent;
+        title: "ثبت نمره یکسان به دانش‌آموزان کلاس"
+
+        header: Rectangle{
+            width: setGradeDialog.width;
+            height: 50;
+            color: "teal";
+            Text{ text: "ثبت نمره یکسان به دانش‌آموزان کلاس"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "Kalameh"; font.pixelSize: 16}
+        }
+
+        contentItem:Rectangle{
+            width: parent.width
+            height: 250
+            anchors.margins: 20
+            color: "transparent"
+
+            ColumnLayout{
+                        id: baseDialogCLId
+                        anchors.fill: parent
+
+                        Item{Layout.preferredHeight:  10; Layout.preferredWidth: parent.width;}
+
+                        Label{
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 30
+                            verticalAlignment: Label.AlignVCenter
+                            horizontalAlignment: Label.AlignLeft
+                            text: " انتخاب ارزیابی "
+                            font.family: "Kalameh"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "teal"
+                        }
+                        ComboBox{
+                            id: evalCB
+                            Layout.preferredHeight:  50
+                            Layout.fillWidth: true
+                            editable: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            model: ListModel{id: evalCBoxModel}
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted:
+                            {
+                                var jsondata = dbMan.getEvals(courseStudentsPageId.class_id);
+                                // id, eval_name, base_id, period_id, test_flag, final_flag, max_grade
+                                evalCBoxModel.clear();
+                                for(var obj of jsondata){
+                                    var text = obj["eval_name"];
+                                    var id = obj["id"]
+                                    var max = obj["max_grade"]
+                                    evalCBoxModel.append({"text": text, "value": id, "max": max});
+                                }
+
+                                evalCB.currentIndex = -1
+                            }
+                            onActivated: setGradeDialog.maxValue = evalCBoxModel.get(evalCB.currentIndex)["max"];
+                        }
+
+                        Label{
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 30
+                            verticalAlignment: Label.AlignVCenter
+                            horizontalAlignment: Label.AlignLeft
+                            text: " نمره "
+                            font.family: "Kalameh"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "teal"
+                        }
+                        TextField{
+                            id: gradeTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Label.AlignVCenter
+                            horizontalAlignment: Label.AlignLeft
+                            placeholderText: "مقدار نمره "
+                            font.family: "Kalameh"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "teal"
+                            validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
+                                regularExpression: /^-?\d*\.?\d+$/
+                            }
+                        }
+
+                        Item{Layout.fillHeight: true; Layout.preferredWidth: parent.width;}
+                    }
+        }
+
+        footer:Item{
+            width: parent.width;
+            height: 50
+            RowLayout
+            {
+                Button{
+                    text: "انصراف"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "Kalameh"
+                    font.pixelSize: 14
+                    onClicked: setGradeDialog.close();
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
+                }
+                Button
+                {
+                    text: "تایید"
+                    Layout.preferredHeight:  40
+                    Layout.preferredWidth:  100
+                    font.family: "Kalameh"
+                    font.pixelSize: 14
+                    onClicked: {
+
+                        var eval_id = evalCB.currentValue
+                        var text = gradeTF.text
+                        var grade = parseFloat(text);
+                        if(grade <= setGradeDialog.maxValue){
+
+                            if(! dbMan.updateGrade(courseStudentsPageId.class_id, courseStudentsPageId.course_id, eval_id, grade)){
+                                infoDialogId.dialogText = "انجام عملیات با خطا مواجه شد."
+                                infoDialogId.dialogTitle = "خطا"
+                                infoDialogId.dialogSuccess = false
+                                infoDialogId.open();
+                            }
+                            else
+                            {
+                                lvModel.clear();
+                                // register_id, r.student_id, r.class_id, s.student, s.fathername, s.photo, evals[]
+                                var jsonarray = dbMan.getCourseStudents_evals(courseStudentsPageId.class_id, courseStudentsPageId.course_id);
+                                for(var obj of jsonarray)
+                                {
+                                    lvModel.append(obj);
+                                }
+
+                                setGradeDialog.close();
+                            }
+                        }
+                        else
+                        {
+                            infoDialogId.dialogText = "نمره وارد شده در محدوده نمره مجاز قرار ندارد."
+                            infoDialogId.dialogTitle = "خطا"
+                            infoDialogId.dialogSuccess = false
+                            infoDialogId.open();
+                        }
+                    }
+                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "teal"}
+                }
+                Item{Layout.fillWidth: true}
+            }
+        }
+
     }
 }
