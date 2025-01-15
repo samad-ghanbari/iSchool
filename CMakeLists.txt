@@ -68,7 +68,8 @@ qt_add_qml_module(appiSchool
         ui/home/ClassStudentPage.qml
         ui/home/StudentCoursesList.qml
         ui/home/CourseStudentsList.qml
-        ui/home/StudentResultSetting.qml
+        ui/home/StudentTranscriptSetting.qml
+        ui/home/ClassTranscriptsSetting.qml
         ui/home/BaseAvg.qml
 
 

@@ -97,15 +97,19 @@ Page {
 
                 Button
                 {
-                    Layout.preferredWidth: 64
-                    Layout.preferredHeight:  64
+                    Layout.preferredWidth: 100
+                    Layout.preferredHeight:  100
                     background: Item{}
+                    display: AbstractButton.TextUnderIcon
                     icon.source: "qrc:/assets/images/evaluation.png"
-                    icon.width: 64
-                    icon.height: 64
+                    icon.width: 32
+                    icon.height: 32
                     icon.color:"transparent"
+                    text: "صدور کارنامه"
+                    font.family: "Kalameh"
+                    font.pixelSize: 14
                     opacity: 0.5
-                    onClicked: {}
+                    onClicked: classStudentsPageId.appStackView.push(classTranscriptsComponent);
                     hoverEnabled: true
                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                 }
@@ -301,7 +305,23 @@ Page {
     // student result
     Component{
         id: studentResultComponent
-        StudentResultSetting{
+        StudentTranscriptSetting{
+            appStackView: classStudentsPageId.appStackView
+            branch: classStudentsPageId.branch
+            step: classStudentsPageId.step
+            base: classStudentsPageId.base
+            field : classStudentsPageId.field
+            field_based: classStudentsPageId.field_based
+            period: classStudentsPageId.period
+            class_name: classStudentsPageId.class_name
+            class_id: classStudentsPageId.class_id
+        }
+    }
+
+    // class result - class transcript
+    Component{
+        id: classTranscriptsComponent
+        ClassTranscriptsSetting{
             appStackView: classStudentsPageId.appStackView
             branch: classStudentsPageId.branch
             step: classStudentsPageId.step
