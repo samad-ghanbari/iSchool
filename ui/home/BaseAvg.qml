@@ -77,7 +77,7 @@ Page {
 
         Row{
             Layout.preferredHeight: 80
-            Layout.preferredWidth: 450
+            Layout.preferredWidth: 500
             Layout.alignment: Qt.AlignHCenter
             spacing: 0
 
@@ -95,7 +95,7 @@ Page {
             }
 
             Label{
-                width: 150
+                width: 200
                 height: 80
                 verticalAlignment: Label.AlignVCenter
                 horizontalAlignment: Label.AlignHCenter
@@ -126,14 +126,14 @@ Page {
                 {
                     id: lv
                     height: lv.contentHeight
-                    width: 450
+                    width: 500
                     anchors.centerIn: parent
                     model: ListModel{id: lvModel;}
                     clip: true
                     delegate:lvDelegate
                     Component.onCompleted: {
                         lvModel.clear();
-                        var jsonarray = dbMan.getBase_CourseAverages();
+                        var jsonarray = dbMan.getCourse_baseAverages();
                         for(var obj of jsonarray)
                         {
                             lvModel.append(obj);
@@ -156,7 +156,7 @@ Page {
             height: 80
             width: lv.width
 
-            // ba.id, ba.base_id, ba.period_id, ba.course_id, co.course_name, co.course_coefficient, ba.average
+            //id, course_name,course_coefficient, base_id, period_id, base_average
             required property var model;
             color: (recdel.model.index % 2 == 0)? "aliceblue" : "mintcream"
 
@@ -167,7 +167,7 @@ Page {
 
                 if(te.text === "")
                 {
-                    if(!dbMan.updateBaseAverage(recdel.model.id))
+                    if(!dbMan.updateCourse_baseAverage(recdel.model.id))
                     {
                         infoDialogId.open();
                     }
@@ -177,7 +177,7 @@ Page {
                     }
                 }
                 else{
-                    if(!dbMan.updateBaseAverage(recdel.model.id, v))
+                    if(!dbMan.updateCourse_baseAverage(recdel.model.id, v))
                     {
                         infoDialogId.open();
                     }
@@ -209,111 +209,129 @@ Page {
                         color: "darkmagenta"
                     }
                 }
-                // avg value
 
-                Rectangle{
-                    id: avgRec
+
+                // avg value
+                Row{
                     Layout.alignment: Qt.AlignHCenter
-                    Layout.preferredWidth: 150
+                    Layout.preferredWidth: 200
                     Layout.preferredHeight: 50
                     Layout.margins: 0
 
-                    color:"transparent"
-                    border.width: 1
-                    border.color: "gray"
-
-                    property bool edit : false
-                    property real value : {
-                        if(typeof recdel.model["average"] != "undefined"){
-                            if(recdel.model["average"] !== "")
-                                return recdel.model["average"];
-                            else
-                                return -1000;
-                        }
-                        else return -1000;
-                    }
-
-                    TextField{
-                        id: te
-                        anchors.fill: parent
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color:"darkmagenta"
-                        text:(avgRec.value > -1000)? avgRec.value :"";
-                        visible: avgRec.edit
-                        Rectangle{height:2; width: parent.width; color: "olivedrab"; anchors.bottom:parent.bottom;}
-                        validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
-                            regularExpression: /^-?\d*\.?\d+$/
-                        }
-
-                        //onEditingFinished:recdel.doneEdit(); // it calles funtion on any clicks
-                        //onFocusChanged: parent.doneEdit();
-                        Keys.onReturnPressed: recdel.doneEdit();
-
-                        Button{
-                            height: 24
-                            width: 24
-                            background: Rectangle{color:"transparent"}
-                            icon.source: "qrc:/assets/images/tick.png"
-                            icon.width: 24
-                            icon.height: 24
-                            icon.color:"transparent"
-                            opacity: 0.5
-                            onClicked: recdel.doneEdit();
-                            hoverEnabled: true
-                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-                            anchors.right:parent.right
-                            anchors.top: parent.top
-                        }
-                        Button{
-                            height: 24
-                            width: 24
-                            background: Rectangle{color:"transparent"}
-                            icon.source: "qrc:/assets/images/cross.png"
-                            icon.width: 24
-                            icon.height: 24
-                            icon.color:"transparent"
-                            opacity: 0.5
-                            onClicked: {
-                                avgRec.edit = false
-                                te.text = (avgRec.value > -1000)? avgRec.value : ""
-                            }
-                            hoverEnabled: true
-                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-                            anchors.left:parent.left
-                            anchors.top: parent.top
-                        }
-                    }
-
                     Label{
-                        anchors.fill: parent
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
+                        width: 50
+                        height: 50
                         font.family: "Kalameh"
-                        font.pixelSize: 18
+                        font.pixelSize: 16
                         font.bold: true
-                        color:"black"
-                        background: Item{}
-                        text:{
-                            if(avgRec.value > -1000)
-                            {
-                                    return avgRec.value;
-                            }
-                            else return ""
-                        }
-                        visible: !avgRec.edit
-                        MouseArea{
-                            anchors.fill: parent
-                            onDoubleClicked:{
-                                avgRec.edit = true
-                                te.focus = true
-                            }
-                        }
+                        horizontalAlignment: Qt.AlignHCenter
+                        verticalAlignment: Qt.AlignVCenter
+                        text: "  " + recdel.model.course_coefficient
+                        color: "white"
+                        background: Rectangle{color:"mediumvioletred"; anchors.fill:parent}
                     }
+                    Rectangle{
+                        id: avgRec
+                        width: 150
+                        height: 50
 
+                        color:"transparent"
+                        border.width: 1
+                        border.color: "gray"
+
+                        property bool edit : false
+                        property real value : {
+                            if(typeof recdel.model["average"] != "undefined"){
+                                if(recdel.model["average"] !== "")
+                                    return recdel.model["average"];
+                                else
+                                    return -1000;
+                            }
+                            else return -1000;
+                        }
+
+                        TextField{
+                            id: te
+                            anchors.fill: parent
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color:"darkmagenta"
+                            text:(avgRec.value > -1000)? avgRec.value :"";
+                            visible: avgRec.edit
+                            Rectangle{height:2; width: parent.width; color: "olivedrab"; anchors.bottom:parent.bottom;}
+                            validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
+                                regularExpression: /^-?\d*\.?\d+$/
+                            }
+
+                            //onEditingFinished:recdel.doneEdit(); // it calles funtion on any clicks
+                            //onFocusChanged: parent.doneEdit();
+                            Keys.onReturnPressed: recdel.doneEdit();
+
+                            Button{
+                                height: 24
+                                width: 24
+                                background: Rectangle{color:"transparent"}
+                                icon.source: "qrc:/assets/images/tick.png"
+                                icon.width: 24
+                                icon.height: 24
+                                icon.color:"transparent"
+                                opacity: 0.5
+                                onClicked: recdel.doneEdit();
+                                hoverEnabled: true
+                                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                                anchors.right:parent.right
+                                anchors.top: parent.top
+                            }
+                            Button{
+                                height: 24
+                                width: 24
+                                background: Rectangle{color:"transparent"}
+                                icon.source: "qrc:/assets/images/cross.png"
+                                icon.width: 24
+                                icon.height: 24
+                                icon.color:"transparent"
+                                opacity: 0.5
+                                onClicked: {
+                                    avgRec.edit = false
+                                    te.text = (avgRec.value > -1000)? avgRec.value : ""
+                                }
+                                hoverEnabled: true
+                                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                                anchors.left:parent.left
+                                anchors.top: parent.top
+                            }
+                        }
+
+                        Label{
+                            anchors.fill: parent
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color:"black"
+                            background: Item{}
+                            text:{
+                                if(avgRec.value > -1000)
+                                {
+                                    return avgRec.value;
+                                }
+                                else return ""
+                            }
+                            visible: !avgRec.edit
+                            MouseArea{
+                                anchors.fill: parent
+                                onDoubleClicked:{
+                                    avgRec.edit = true
+                                    te.focus = true
+                                }
+                            }
+                        }
+
+                    }
                 }
 
                 Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}

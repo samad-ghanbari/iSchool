@@ -392,7 +392,7 @@ Page {
                             Layout.preferredHeight: 50
                             Layout.alignment: Qt.AlignHCenter
 
-                            text: "استفاده از میانگین دروس ثبت شده"
+                            text: "استفاده از میانگین پایه دروس ثبت شده"
                             checked: true
                             font.family: "Kalameh"
                             font.pixelSize: 16
