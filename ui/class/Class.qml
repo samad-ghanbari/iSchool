@@ -15,30 +15,16 @@ Page {
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
-    GridLayout
+
+    ColumnLayout
     {
         anchors.fill: parent
-        columns:2
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: classPage.appStackView.pop();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
+            horizontalAlignment: Qt.AlignLeft
             text: "مدیریت کلاس‌ها"
             font.family: "Kalameh"
             font.pixelSize: 24
@@ -48,150 +34,149 @@ Page {
             styleColor: "white"
         }
 
-        Flow
-        {
-            Layout.columnSpan: 2
+        Flickable{
             Layout.fillWidth: true
-            layoutDirection: Qt.LeftToRight
-            Layout.alignment: Qt.AlignHCenter
-
-            // branch
-            Rectangle
-            {
-                height: 50
-                width: 400
-                color: "transparent"
-
-                RowLayout
-                {
-                    anchors.fill: parent
-
-                    Label
-                    {
-                        Layout.preferredHeight:  50
-                        Layout.preferredWidth: 100
-                        text:"شعبه:"
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        horizontalAlignment: Label.AlignRight
-                        verticalAlignment: Label.AlignVCenter
-                    }
-                    ComboBox
-                    {
-                        id: branchCB
-                        Layout.preferredHeight:  50
-                        Layout.fillWidth: true
-                        editable: false
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        model: ListModel{id: branchCBoxModel}
-                        textRole: "text"
-                        valueRole: "value"
-                        Component.onCompleted:
-                        {
-                            Methods.updateBranchCB();
-                            branchCB.currentIndex = -1
-                        }
-
-                        onActivated: Methods.updateStepCB(branchCB.currentValue)
-                    }
-                }
-
-            }
-
-            // step
-            Rectangle
-            {
-                height: 50
-                width: 400
-                color: "transparent"
-                RowLayout
-                {
-                    anchors.fill: parent
-                    Label
-                    {
-                        Layout.preferredHeight:  50
-                        Layout.preferredWidth: 100
-                        text:"دوره:"
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        horizontalAlignment: Label.AlignRight
-                        verticalAlignment: Label.AlignVCenter
-                    }
-                    ComboBox
-                    {
-                        id: stepCB
-                        Layout.preferredHeight:  50
-                        Layout.fillWidth: true
-                        editable: false
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        model: ListModel{id: stepCBoxModel}
-                        textRole: "text"
-                        valueRole: "value"
-                        Component.onCompleted: stepCB.currentIndex = -1
-
-                        onActivated: Methods.updatePeriodCB(stepCB.currentValue);
-                    }
-                }
-            }
-
-            // period
-            Rectangle
-            {
-                height: 50
-                width: 400
-                color: "transparent"
-                RowLayout
-                {
-                    anchors.fill: parent
-                    Label
-                    {
-                        Layout.preferredHeight:  50
-                        Layout.preferredWidth: 100
-                        text:"سال تحصیلی:"
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        horizontalAlignment: Label.AlignRight
-                        verticalAlignment: Label.AlignVCenter
-                    }
-                    ComboBox
-                    {
-                        id: periodCB
-                        Layout.preferredHeight:  50
-                        Layout.fillWidth: true
-                        editable: false
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        model: ListModel{id: periodCBoxModel}
-                        textRole: "text"
-                        valueRole: "value"
-                        Component.onCompleted: periodCB.currentIndex = -1
-
-                        onActivated: Methods.updateClassModel(stepCB.currentValue, periodCB.currentValue)
-                    }
-                }
-            }
-        }
-
-        Rectangle
-        {
-            Layout.columnSpan: 2
             Layout.fillHeight: true
-            Layout.fillWidth: true
-            color: "ghostwhite"
-            ColumnLayout
-            {
-                anchors.fill: parent
+            contentHeight: centerBox.implicitHeight
+            clip: true
+            Column{
+                id: centerBox
+                width: parent.width
 
+                // branch
+                Rectangle
+                {
+                    height: 50
+                    width: 400
+                    color: "transparent"
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    RowLayout
+                    {
+                        anchors.fill: parent
+
+                        Label
+                        {
+                            Layout.preferredHeight:  50
+                            Layout.preferredWidth: 100
+                            text:"شعبه:"
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            horizontalAlignment: Label.AlignRight
+                            verticalAlignment: Label.AlignVCenter
+                        }
+                        ComboBox
+                        {
+                            id: branchCB
+                            Layout.preferredHeight:  50
+                            Layout.fillWidth: true
+                            editable: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            model: ListModel{id: branchCBoxModel}
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted:
+                            {
+                                Methods.updateBranchCB();
+                                branchCB.currentIndex = -1
+                            }
+
+                            onActivated: Methods.updateStepCB(branchCB.currentValue)
+                        }
+                    }
+
+                }
+
+                // step
+                Rectangle
+                {
+                    height: 50
+                    width: 400
+                    color: "transparent"
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    RowLayout
+                    {
+                        anchors.fill: parent
+                        Label
+                        {
+                            Layout.preferredHeight:  50
+                            Layout.preferredWidth: 100
+                            text:"دوره:"
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            horizontalAlignment: Label.AlignRight
+                            verticalAlignment: Label.AlignVCenter
+                        }
+                        ComboBox
+                        {
+                            id: stepCB
+                            Layout.preferredHeight:  50
+                            Layout.fillWidth: true
+                            editable: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            model: ListModel{id: stepCBoxModel}
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted: stepCB.currentIndex = -1
+
+                            onActivated: Methods.updatePeriodCB(stepCB.currentValue);
+
+                        }
+                    }
+                }
+
+
+                // period
+                Rectangle
+                {
+                    height: 50
+                    width: 400
+                    color: "transparent"
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    RowLayout
+                    {
+                        anchors.fill: parent
+                        Label
+                        {
+                            Layout.preferredHeight:  50
+                            Layout.preferredWidth: 100
+                            text:"سال تحصیلی:"
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            horizontalAlignment: Label.AlignRight
+                            verticalAlignment: Label.AlignVCenter
+                        }
+                        ComboBox
+                        {
+                            id: periodCB
+                            Layout.preferredHeight:  50
+                            Layout.fillWidth: true
+                            editable: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            model: ListModel{id: periodCBoxModel}
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted: periodCB.currentIndex = -1
+
+                            onActivated: Methods.updateClassModel(stepCB.currentValue, periodCB.currentValue)
+                        }
+                    }
+                }
+
+                // add button
                 Button
                 {
-                    Layout.preferredHeight:   64
-                    Layout.preferredWidth: 64
-                    Layout.alignment: Qt.AlignRight
+                    height:   64
+                    width: 64
+                    anchors.right: parent.right
                     background: Item{}
                     visible: (periodCB.currentIndex >=0  && classPage.admin)? true : false;
                     icon.source: "qrc:/assets/images/add.png"
@@ -210,14 +195,13 @@ Page {
                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                 }
 
-                Item{Layout.fillWidth: true; Layout.preferredHeight: 20; visible:!classPage.admin;}
-
+                // gridview
                 GridView
                 {
                     id: classGV
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    Layout.margins: 10
+                    height: classGV.contentHeight + 100
+                    width: parent.width
+                    anchors.margins: 10
                     flickableDirection: Flickable.AutoFlickDirection
                     clip: true
                     cellWidth: 320
@@ -311,7 +295,7 @@ Page {
                             if(!temp.includes("پایه")) temp = "پایه " + temp;
 
                             if(rec.model.field_based){
-                                return rec.model.field-name + " - " + temp;
+                                return rec.model.field_name + " - " + temp;
                             }
                             else{
                                 return temp;
@@ -361,7 +345,7 @@ Page {
             Rectangle{
                 width: 40
                 height: 220
-                anchors.left: parent.left
+                anchors.left: rec.left
                 color: "darkmagenta"
                 Column{
                     anchors.fill: parent
@@ -381,7 +365,14 @@ Page {
                             if(rec.swipe.complete)
                             rec.swipe.close();
 
-                            classPage.appStackView.push(classStudentsComponent, { model: rec.model  });
+                            classPage.appStackView.push(classStudentsComponent, {
+                                                            base: rec.model.base_name,
+                                                            field_based: rec.model.field_based,
+                                                            field: rec.model.field_name,
+
+                                                            class_id: rec.model.class_id,
+                                                            class_name: rec.model.class_name
+                                                        } );
 
                         }
                     }
@@ -401,7 +392,15 @@ Page {
                             if(rec.swipe.complete)
                             rec.swipe.close();
 
-                            classPage.appStackView.push(classDetailComponent, {   model: rec.model });
+                            classPage.appStackView.push(classCoursesComponent, {
+                                                            base: rec.model.base_name,
+                                                            field_based: rec.model.field_based,
+                                                            field: rec.model.field_name,
+
+                                                            class_id: rec.model.class_id,
+                                                            class_name: rec.model.class_name,
+
+                                                        });
 
                         }
                     }
@@ -423,7 +422,15 @@ Page {
                             rec.swipe.close();
 
                             classPage.appStackView.push(updateClassComponent, {
-                                                            model: rec.model
+                                                            class_id: rec.model.class_id,
+                                                            class_name: rec.model.class_name,
+                                                            class_desc : rec.model.class_desc,
+                                                            sort_priority : rec.model.sort_priority,
+
+                                                            field_based: rec.model.field_based,
+                                                            field: rec.model.field_name,
+                                                            base: rec.model.base_name
+
                                                         });
 
                         }
@@ -449,7 +456,15 @@ Page {
                             if(rec.swipe.complete)
                             rec.swipe.close();
 
-                            classPage.appStackView.push(deleteClassComponent, {  model: rec.model   });
+                            classPage.appStackView.push(deleteClassComponent, {
+                                                            class_id: rec.model.class_id,
+                                                            class_name: rec.model.class_name,
+                                                            class_desc : rec.model.class_desc,
+                                                            field_based: rec.model.field_based,
+                                                            field: rec.model.field_name,
+                                                            base: rec.model.base_name
+
+                                                        });
                         }
                     }
                 }
@@ -463,11 +478,12 @@ Page {
     {
         id: classInsertComponent
         ClassInsert{
-            onPopStackSignal: classPage.appStackView.pop();
             onClassInsertedSignal: Methods.updateClassModel(stepCB.currentValue, periodCB.currentValue)
+            onPopStackSignal: classPage.appStackView.pop();
 
             step_id: stepCB.currentValue
             period_id: periodCB.currentValue
+            field_based: stepCBoxModel.get(stepCB.currentIndex)["field_based"];
 
             branch: branchCB.currentText;
             step: stepCB.currentText
@@ -482,36 +498,25 @@ Page {
         ClassUpdate
         {
             onPopStackSignal: classPage.appStackView.pop();
-            onClassUpdatedSignal : Methods.updateClassModel(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue)
+            onClassUpdatedSignal : Methods.updateClassModel(stepCB.currentValue, periodCB.currentValue)
 
-            branch_text: branchCB.currentText;
-            step_text: stepCB.currentText
-            base_text : baseCB.currentText;
-            period_text: periodCB.currentText;
+            branch: branchCB.currentText;
+            step: stepCB.currentText
+            period: periodCB.currentText
         }
     }
 
-    //detail
+    //class courses
     Component
     {
-        id: classDetailComponent
-        ClassDetail
+        id: classCoursesComponent
+        ClassCourses
         {
-            appStackView : classPage.appStackView;
-
-            branch_id: branchCB.currentValue
-            step_id: stepCB.currentValue;
-            base_id: baseCB.currentValue;
-            period_id: periodCB.currentValue;
-
-            branch_text: branchCB.currentText;
-            step_text: stepCB.currentText
-            base_text : baseCB.currentText;
-            period_text: periodCB.currentText;
+            branch: branchCB.currentText;
+            step: stepCB.currentText
+            period: periodCB.currentText
         }
     }
-
-
 
     //delete
     Component
@@ -520,13 +525,23 @@ Page {
         ClassDelete
         {
             onPopStackSignal: classPage.appStackView.pop();
-            onDeletedSignal : Methods.updateClassModel(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue);
+            onDeletedSignal : Methods.updateClassModel(stepCB.currentValue, periodCB.currentValue);
 
-            branch_text: branchCB.currentText;
-            step_text: stepCB.currentText
-            base_text : baseCB.currentText;
-            period_text: periodCB.currentText
+            branch: branchCB.currentText;
+            step: stepCB.currentText;
+            period: periodCB.currentText
         }
     }
 
+    // class Students
+    Component{
+        id: classStudentsComponent
+        ClassStudents{
+
+            branch: branchCB.currentText;
+            step: stepCB.currentText
+            step_id: stepCB.currentValue
+            period: periodCB.currentText
+        }
+    }
 }

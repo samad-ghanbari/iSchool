@@ -28,7 +28,7 @@ function updateStepCB(branchId)
     var temp;
     for(var obj of jsondata)
     {
-        stepCBoxModel.append({value: obj.id,  text: obj.step_name })
+        stepCBoxModel.append({value: obj.id,  text: obj.step_name, field_based: obj.field_based })
     }
 }
 
@@ -57,78 +57,6 @@ function updateClassModel(step_id, period_id)
         classModel.append(obj)
     }
 }
-
-//class detail
-
-function updateClassDetailModel(class_id)
-{
-    classDetailModel.clear();
-    var jsondata = dbMan.getClassDetails(class_id);
-    //
-    for(var obj of jsondata)
-    {
-        // id, cd.class_id, cd.course_id, cd.teacher_id, co.course_name, t.teacher
-        classDetailModel.append({
-                                    Id: obj.id,
-                                    Class_id: obj.class_id,
-                                    Course_id: obj.course_id,
-                                    Teacher_id: obj.teacher_id,
-                                    Course_name: obj.course_name,
-                                    Teacher: obj.teacher,
-                                })
-    }
-}
-
-function updateCourseCB(step_id, base_id, period_id)
-{
-    courseCBoxModel.clear();
-    var jsondata = dbMan.getBaseCourses(step_id, base_id, period_id);
-    //
-    for(var obj of jsondata)
-    {
-        //co.id, co.course_name, co.step_id, co.study_base_id, co.study_period_id, co.course_coefficient, co.test_coefficient,  co.shared_coefficient,  co.final_weight,
-        //st.branch_id, st.step_name, sb.study_base, sp.study_period
-
-        courseCBoxModel.append({
-                                   value: obj.id,
-                                   text: obj.course_name,
-                               })
-    }
-}
-
-function updateTeacherCB(branch_id)
-{
-    teacherCBoxModel.clear();
-    var jsondata = dbMan.getBranchTeachers(branch_id);
-    //
-    for(var obj of jsondata)
-    {
-        // /t.id, t.branch_id, t.name, t.lastname, t.gender, t.study_degree, t.study_field, t.telephone, t.enabled, b.city, b.branch_name
-
-        teacherCBoxModel.append({
-                                    value: obj.id,
-                                    text: obj.name + " " + obj.lastname + " ("+ obj.study_field + ") ",
-                                })
-    }
-}
-
-function getTeacherModel(branch_id)
-{
-    var jsondata = dbMan.getBranchTeachers(branch_id);
-    var model = [];
-    //
-    for(var obj of jsondata)
-    {
-        // /t.id, t.branch_id, t.name, t.lastname, t.gender, t.study_degree, t.study_field, t.telephone, t.enabled, b.city, b.branch_name
-
-        model.push({
-                       value: obj.id,
-                       text: obj.name + " " + obj.lastname + " ("+ obj.study_field + ") ",
-                   });
-    }
-    return model;
-}
-
 
 // class students
 

@@ -125,10 +125,11 @@ qt_add_qml_module(appiSchool
         ui/class/ClassInsert.qml
         ui/class/ClassDelete.qml
         ui/class/ClassUpdate.qml
-        ui/class/ClassDetail.qml
-        ui/class/ClassDetailInsert.qml
-        ui/class/ClassDetailDelete.qml
-        ui/class/ClassDetailUpdate.qml
+        ui/class/ClassCourses.qml
+        ui/class/ClassStudents.qml
+        #ui/class/ClassDetailInsert.qml
+        #ui/class/ClassDetailDelete.qml
+        #ui/class/ClassDetailUpdate.qml
 
     #STUDENT
         ui/student/Students.qml
@@ -235,6 +236,7 @@ qt_add_resources(appiSchool "assets"
         assets/images/check32.png
         assets/images/normalised.png
         assets/images/stat.png
+        assets/images/change.png
 
 
     #LOGO

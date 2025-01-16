@@ -60,8 +60,8 @@ ToolBar {
             Layout.alignment: Qt.AlignRight
             background: Item{}
             icon.source: "qrc:/assets/images/info.png"
-            icon.width: 64
-            icon.height: 64
+            icon.width: 32
+            icon.height: 32
             icon.color:"transparent"
             opacity: 0.5
             onClicked: toolbarId.appStackView.push("qrc:/resources/About.qml",{objectName: "aboutON"});

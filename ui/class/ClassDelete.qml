@@ -7,38 +7,26 @@ import "./../public" as DialogBox
 Page {
     id: deleteClassPage
 
-    property int class_id;
-    property string branch_text;
-    property string step_text;
-    property string base_text;
-    property string period_text;
-    property string class_name;
-    property string class_desc;
+    required property int class_id;
+    required property string class_name
+    required property string class_desc
+    required property bool field_based
+    required property string field
+    required property string base
+
+    required property string branch;
+    required property string step
+    required property string period;
 
     signal deletedSignal();
     signal popStackSignal();
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
-    GridLayout
+    ColumnLayout
     {
         anchors.fill: parent
-        columns:2
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: deleteClassPage.popStackSignal(); //deleteClassPage.appStackView.pop();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
@@ -53,168 +41,164 @@ Page {
             styleColor: "white"
         }
 
-        Rectangle
+
+        Flickable
         {
-            Layout.columnSpan: 2
             Layout.fillHeight: true
             Layout.fillWidth: true
-            color: "lavenderblush"
+            anchors.margins: 10
+            contentHeight: centerBox.implicitHeight
 
-            ScrollView
-            {
-                height: parent.height
-                width: parent.width
-                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+            Rectangle{
+                width:  (parent.width < 700)? parent.width : 700
+                height: centerBox.implicitHeight
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: "ghostwhite"
 
-                Rectangle
-                {
-                    id: centerBoxId
-                    color:"snow"
-                    width:  (parent.width < 700)? parent.width : 700
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.margins: 10
-                    implicitHeight: parent.height
+                Column{
+                    id: centerBox
+                    width:  parent.width
 
-                    radius: 10
-                    Item {
-                        anchors.fill: parent
-                        anchors.margins: 10
 
-                        ColumnLayout
-                        {
-                            id: periodInsertCL
-                            width: parent.width
+                    Image {
+                        source: "qrc:/assets/images/trash.png"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        height:  64
+                        width:  64
+                        NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
+                    }
 
-                            Image {
-                                source: "qrc:/assets/images/trash.png"
-                                Layout.alignment: Qt.AlignHCenter
-                                Layout.preferredHeight:  64
-                                Layout.preferredWidth:  64
-                                Layout.margins: 20
-                                NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
+                    Text {
+                        text: "شعبه " + deleteClassPage.branch + " - " + deleteClassPage.step
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+                    Text {
+                        text:{
+                            var base = deleteClassPage.base
+                            if(!base.includes("پایه")) base = "پایه " + base;
+
+                            if(deleteClassPage.field_based){
+
+                                return "رشته " + deleteClassPage.field + " - " +  base
                             }
+                            else{
 
-                            GridLayout
-                            {
-                                id: classInsertGL
-                                columns: 2
-                                rows: 5
-                                rowSpacing: 20
-                                columnSpacing: 10
-                                Layout.preferredWidth:  parent.width
-
-                                Text {
-                                    Layout.columnSpan: 2
-                                    text: "شعبه " + deleteClassPage.branch_text
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text {
-                                    Layout.columnSpan: 2
-                                    text: deleteClassPage.step_text + " - " + deleteClassPage.base_text
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text {
-                                    Layout.columnSpan: 2
-                                    text:  deleteClassPage.period_text
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-
-
-                                Text {
-                                    text: "نام کلاس"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text
-                                {
-                                    id: classNameTF
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    text: deleteClassPage.class_name
-                                }
-
-                                Text {
-                                    text: "توضیحات کلاس"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text
-                                {
-                                    id: classDescTF
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    text: deleteClassPage.class_desc
-                                }
-
-                            }
-
-                            Item
-                            {
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                            }
-
-                            Button
-                            {
-                                text: "حذف"
-                                Layout.preferredWidth: 200
-                                Layout.preferredHeight: 50
-                                Layout.alignment: Qt.AlignHCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
-                                onClicked: classDelDialog.open();
-
+                                return base;
                             }
                         }
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+                    Text {
+                        text: "سال تحصیلی " +  deleteClassPage.period
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "royalblue"
+                    }
+
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+
+                        Text {
+                            text: "نام کلاس"
+                            Layout.preferredWidth:  150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "royalblue"
+                        }
+                        Text
+                        {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            text: deleteClassPage.class_name
+                        }
+
+                    }
+
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "توضیحات کلاس "
+                            Layout.preferredWidth:  150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "royalblue"
+                        }
+                        Text
+                        {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            text: deleteClassPage.class_desc
+                        }
+                    }
+
+                    Item
+                    {
+                        width: parent.width
+                        height: 50
+                    }
+
+                    Button
+                    {
+                        text: "حذف"
+                        width: 200
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
+                        onClicked: classDelDialog.open();
+
+                    }
+
+                    Item
+                    {
+                        width: parent.width
+                        height: 50
                     }
                 }
+
             }
         }
+
 
     }
 
