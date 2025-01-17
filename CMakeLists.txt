@@ -103,6 +103,13 @@ qt_add_qml_module(appiSchool
         ui/step/StepUpdate.qml
         ui/step/StepDelete.qml
 
+    # Field
+        ui/field/Fields.qml
+        ui/field/FieldInsert.qml
+        ui/field/FieldUpdate.qml
+        ui/field/FieldDelete.qml
+
+
     # STUDY BASE
         ui/base/Base.qml
         ui/base/Base.js
@@ -173,6 +180,7 @@ qt_add_qml_module(appiSchool
         ui/student/StudentCourseInsert.qml
         ui/student/StudentCourseDelete.qml
         ui/student/StudentCourseEval.qml
+
 
 )
 
@@ -269,6 +277,7 @@ qt_add_resources(appiSchool "assets"
         assets/images/school2.png
         assets/images/folder.png
         assets/images/folders.png
+        assets/images/books.png
 
     #BRANCH
         assets/images/branch.png

@@ -6,6 +6,7 @@ import QtQuick.Controls
 import "./../user/" as UserModule
 import "./../branch/"
 import "./../step" as StepModule
+import "./../field" as FieldModule
 import "./../base" as BaseModule
 import "./../period" as PeriodModule
 import "./../class" as ClassModule
@@ -55,6 +56,20 @@ MenuBar {
             }
 
             icon.source: "qrc:/assets/images/school.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
+        }
+        MenuSeparator { }
+        Action {
+            text: "رشته‌ها";
+            enabled: admin
+            onTriggered:
+            {
+                if(menubarId.appStackView.currentItem.objectName === "fieldsON")
+                menubarId.appStackView.pop();
+
+                menubarId.appStackView.push(fieldsComponent, {objectName: "fieldsON"});
+            }
+
+            icon.source: "qrc:/assets/images/books.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
         MenuSeparator { }
         Action {
@@ -198,6 +213,13 @@ MenuBar {
     {
         id: stepsComponent
         StepModule.Steps{
+            appStackView : menubarId.appStackView
+        }
+    }
+    Component
+    {
+        id: fieldsComponent
+        FieldModule.Fields{
             appStackView : menubarId.appStackView
         }
     }
