@@ -1,10 +1,10 @@
 function updateBranchCB()
 {
-    branchCBoxModel.clear();
-    stepCBoxModel.clear();
-    baseCBoxModel.clear();
-    periodCBoxModel.clear();
-
+    branchModel.clear();
+    stepModel.clear();
+    fieldModel.clear();
+    baseModel.clear();
+    periodModel.clear();
     coursesModel.clear();
 
     var jsondata = dbMan.getBranches();
@@ -13,59 +13,91 @@ function updateBranchCB()
     for(var obj of jsondata)
     {
         temp = obj.city + " - "+ obj.branch_name;
-        branchCBoxModel.append({value: obj.id,  text: temp })
+        branchModel.append({value: obj.id,  text: temp })
     }
 }
 
 function updateStepCB(branchId)
 {
-    stepCBoxModel.clear();
-    baseCB.currentIndex = -1
-    periodCB.currentIndex = -1
-
+    stepModel.clear();
+    fieldModel.clear();
+    baseModel.clear();
+    periodModel.clear();
     coursesModel.clear();
 
-    var jsondata = dbMan.getBranchStepsJson(branchId);
-    //s.id, s.branch_id, s.step_name, b.city, b.branch_name
+    var jsondata = dbMan.getBranchSteps(branchId);
+    //s.id, s.branch_id, s.step_name, s.field_based, s.numeric_graded, b.city, b.branch_name
     var temp;
     for(var obj of jsondata)
     {
-        stepCBoxModel.append({value: obj.id,  text: obj.step_name })
+        stepModel.append({value: obj.id,  text: obj.step_name, field_based: obj.field_based })
     }
 }
 
-function updateBaseCB(branchId)
+function updateFieldCB(stepId)
 {
-    baseCBoxModel.clear();
-    periodCB.currentIndex = -1
-
+    fieldModel.clear();
+    baseModel.clear();
+    periodModel.clear();
     coursesModel.clear();
 
-    var jsondata = dbMan.getBranchStudyBases(branchId);
-    //sb.id, sb.branch_id, sb.study_base, b.city, b.branch_name
-    baseCBoxModel.append({value: 0,  text: " - " });
-
+    var jsondata = dbMan.getFields(stepId);
+    //id, step_id, field_name, enabled, sort_priority
     var temp;
     for(var obj of jsondata)
     {
-        baseCBoxModel.append({value: obj.id,  text: obj.study_base })
+        fieldModel.append({value: obj.id,  text: obj.field_name})
     }
 
 }
 
-function updatePeriodCB(branchId)
+function updateFieldBaseCB(fieldId)
 {
-    periodCBoxModel.clear();
-
+    baseModel.clear();
+    periodModel.clear();
     coursesModel.clear();
 
-    var jsondata = dbMan.getBranchPeriods(branchId);
-    //sp.id, sp.branch_id, sp.study_period, sp.passed, b.city, b.branch_name, b.branch_address
+    var jsondata = dbMan.getFieldBases(fieldId, false);
+    //b.id, b.step_id, b.field_id, s.branch_id, b.base_name, b.enabled, s.step_name, s.field_based, s.numeric_graded, f.field_name, br.branch_name, br.city, b.sort_priority
+    baseModel.append({value: 0,  text: " - " });
+
+    var temp;
+    for(var obj of jsondata)
+    {
+        baseModel.append({value: obj.id,  text: obj.base_name })
+    }
+}
+
+function updateBaseCB(stepId)
+{
+    baseModel.clear();
+    periodCB.clear();
+    coursesModel.clear();
+
+    var jsondata = dbMan.getStepBases(stepId, false);
+    //b.id, b.step_id, b.field_id, s.branch_id, b.base_name, b.enabled, s.step_name, s.field_based, s.numeric_graded, f.field_name, br.branch_name, br.city, b.sort_priority
+    baseModel.append({value: 0,  text: " - " });
+
+    var temp;
+    for(var obj of jsondata)
+    {
+        baseModel.append({value: obj.id,  text: obj.base_name })
+    }
+
+}
+
+function updatePeriodCB(stepId)
+{
+    periodModel.clear();
+    coursesModel.clear();
+
+    var jsondata = dbMan.getStepPeriods(stepId, false);
+    //p.id, p.step_id, p.period_name, p.passed,s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
     var temp;
     for(var obj of jsondata)
     {
         if(!obj.passed)
-            periodCBoxModel.append({value: obj.id,  text: obj.study_period })
+            periodModel.append({value: obj.period_id,  text: obj.period_name })
     }
 }
 
@@ -74,26 +106,12 @@ function updateCourse(stepId, baseId, periodId)
     coursesModel.clear();
 
     var jsondata = dbMan.getAllCourses(stepId, baseId, periodId);
-    // co.id, co.course_name, co.step_id, co.study_base_id, co.study_period_id, co.course_coefficient,
-    // co.test_coefficient,  co.shared_coefficient, co.final_weight, st.branch_id, st.step_name, sb.study_base, sp.study_period
+    //co.id, co.course_name, co.step_id, co.base_id, co.period_id, co.course_coefficient, co.test_coefficient,
+    //co.shared_coefficient,  co.final_weight, shared_weight, course_flag, test_flag, base_average, sort_priority
 
     for(var obj of jsondata)
     {
-            coursesModel.append({
-                                        Id: obj.id,
-                                        Course_name: obj.course_name,
-                                        Step_id: obj.step_id,
-                                        Study_base_id: obj.study_base_id,
-                                        Study_period_id: obj.study_period_id,
-                                        Course_coefficient: obj.course_coefficient,
-                                        Test_coefficient: obj.test_coefficient,
-                                        Shared_coefficient: obj.shared_coefficient,
-                                        Final_weight: obj.final_weight,
-                                        Branch_id: obj.branch_id,
-                                        Step_name: obj.step_name,
-                                        Study_base: obj.study_base,
-                                        Study_period: obj.study_period,
-                                    });
+            coursesModel.append(obj);
 
     }
 }

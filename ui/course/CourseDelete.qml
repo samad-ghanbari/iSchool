@@ -8,307 +8,293 @@ import "./../public" as DialogBox
 
 Page {
     id: deletePage
+
     signal popStackSignal();
     signal deletedSignal();
 
     required property int course_id;
+    required property bool field_based;
 
     required property string branch;
     required property string step;
+    required property string field;
     required property string base;
     required property string period;
+
     required property string course_name;
-    required property int course_coefficient;
-    required property int test_coefficient;
+    required property real final_weight;
+    required property real course_coefficient;
+    required property real test_coefficient;
 
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
-
-    GridLayout
+    ColumnLayout
     {
-        columns: 2
         anchors.fill: parent
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: deletePage.popStackSignal();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "حذف درس"
+            text: "حذف واحد درسی"
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
 
-
-        ScrollView
-        {
-            Layout.columnSpan: 2
-            Layout.fillWidth: true
+        Flickable{
             Layout.fillHeight: true
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+            Layout.fillWidth: true
+            clip: true
+            contentHeight: centerBox.implicitHeight
 
             Rectangle
             {
                 width: (parent.width > 700)? 700 : parent.width
-                implicitHeight : centerBox.implicitHeight + 40
+                height:  centerBox.implicitHeight + 100
                 anchors.horizontalCenter : parent.horizontalCenter
                 color: "snow"
+                anchors.margins: 10
 
-                GridLayout
-                {
+                Column{
                     id: centerBox
-                    anchors.fill: parent
-                    anchors.margins: 20
-                    columns: 2
+                    width : parent.width
+                    anchors.margins: 10
 
                     Image
                     {
-                        Layout.columnSpan: 2
-                        Layout.preferredWidth: 128
-                        Layout.preferredHeight: 128
-                        Layout.alignment: Qt.AlignHCenter
-                        source:  "qrc:/assets/images/course.png"
+                        width: 64
+                        height: 64
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        source:  "qrc:/assets/images/trash.png"
+                        NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
                     }
 
                     //branch
                     Text {
-                        text: "شعبه"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 50
+                        text: "شعبه " + deletePage.branch + " - " + deletePage.step
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
                     }
                     Text {
-                        text: deletePage.branch
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
+                        text: (deletePage.field_based) ? "رشته " + deletePage.field + " - " +  deletePage.base :  deletePage.base
+                        width: parent.width
+                        height: 50
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
-                        font.pixelSize: 18
+                        font.pixelSize: 16
                         font.bold: true
-                        color: "royalblue"
+                        color: "black"
+                    }
+                    Text {
+                        text: "سال تحصیلی " + deletePage.period
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
                     }
 
-                    //step
-                    Text {
-                        text: "دوره"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
+                    // course name
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //Course name
+                        Text {
+                            text: "نام درس"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        Text
+                        {
+                            id: courseNameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            text: deletePage.course_name
+                            color: "darkred"
+                        }
                     }
-                    Text {
-                        text: deletePage.step
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "royalblue"
-                    }
-                    //base
-                    Text {
-                        text: "پایه تحصیلی"
-                        visible: (deletePage.base === "")? false : true;
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text {
-                        text:  deletePage.base
-                        visible: (deletePage.base === "")? false : true;
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "royalblue"
-                    }
-                    //period
-                    Text {
-                        text: "سال تحصیلی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text {
-                        text:  deletePage.period
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "royalblue"
-                    }
-                    //Course name
-                    Text {
-                        text: "نام درس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
+                    Item
                     {
-                        id: courseNameTF
-                        text:  deletePage.course_name
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "royalblue"
-                    }
-                    //Course coef
-                    Text {
-                        text: "ضریب درس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "royalblue"
-                        text: deletePage.course_coefficient
-                    }
-                    //Course coef
-                    Text {
-                        text: "ضریب تست"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "royalblue"
-                        text: deletePage.test_coefficient
+                        width: parent.width
+                        height: 10
                     }
 
+                    // final weight
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //final weight
+                        Text {
+                            text: "وزن ارزیابی نهایی"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        Text
+                        {
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text : deletePage.final_weight
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            color: "darkred"
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                    }
+
+                    // course coeff
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //Course coef
+                        Text {
+                            text: "ضریب درس"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        Text
+                        {
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            text: deletePage.course_coefficient
+                            color: "darkred"
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                    }
+                    // test Coeff
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //test coefficient
+                        Text {
+                            text: "ضریب تست"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        Text
+                        {
+                            id: testCoefTF
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            text: deletePage.test_coefficient
+                            color: "darkred"
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                    }
+
+                    Item{width: parent.width; height: 5;}
+                    Rectangle{
+                        width: parent.width
+                        height: 1
+                        color: "darkgray"
+                    }
 
                     Item
                     {
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 10
                     }
 
                     Button
                     {
-                        Layout.columnSpan: 2
                         text: "تایید"
-                        Layout.preferredWidth: 200
-                        Layout.preferredHeight: 50
-                        Layout.alignment: Qt.AlignHCenter
+                        width: 200
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
                         font.family: "Kalameh"
                         font.pixelSize: 16
-                        Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
-                        onClicked: courseDelDialog.open();
+                        Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "crimson"}
+                        onClicked:
+                        {
+                            courseDelDialog.width=500
+                            courseDelDialog.open();
+                        }
                     }
 
                     Item
                     {
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 10
                     }
-
                 }
             }
         }
-
-
-
     }
+
     DialogBox.BaseDialog
     {
         id: courseDelDialog
         dialogTitle:  "حذف درس"
-        dialogText: "آیا از حذف درس از سامانه مطمئن می‌باشید؟"
+        dialogText: "آیا از حذف واحد درسی از زیر مجموعه همه دانش‌آموزان مطمئن می‌باشید؟" + ""
         acceptVisible: true
         rejectVisible: true
 
-        onDialogAccepted: {
+        onDialogAccepted: function(){
             if(dbMan.courseDelete(deletePage.course_id))
+            {
+                deletePage.deletedSignal();
                 successDialogId.open();
+            }
             else
             {
                 var errorString = dbMan.getLastError();
@@ -332,12 +318,11 @@ Page {
     {
         id: successDialogId
         dialogTitle: "عملیات موفق"
-        dialogText: "درس با موفقیت حذف گردید."
+        dialogText: "درس با موفقیت حذف شد."
         dialogSuccess: true
         onDialogAccepted: function(){
             successDialogId.close();
             deletePage.popStackSignal();
-            deletePage.deletedSignal();
         }
 
     }

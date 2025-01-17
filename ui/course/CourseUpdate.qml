@@ -22,6 +22,8 @@ Page {
     required property var shared_coefficient
     required property real final_weight;
 
+    required property bool field_based;
+    required property string field;
 
     required property string branch;
     required property string step;

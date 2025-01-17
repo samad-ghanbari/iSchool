@@ -110,7 +110,6 @@ Page {
 
                         Switch{
                             id: enabledSW
-                            Layout.columnSpan: 2
                             Layout.preferredHeight:  50
                             text: "فعال بودن رشته تحصیلی"
                             checked: true
