@@ -401,7 +401,28 @@ Page {
                     Layout.preferredWidth:  100
                     font.family: "Kalameh"
                     font.pixelSize: 14
-                    onClicked: {}
+                    onClicked: {
+
+                        var class_id = classStudentsPageId.class_id
+                        var student_id = studentCB.currentValue
+                        if(student_id > 0){
+                            if(dbMan.registerStudent(student_id, class_id)){
+                                var jsondata = dbMan.getClassStudentsArray(classStudentsPageId.class_id);
+                                classStudentsModel.clear();
+                                //id, step_id, name, lastname, fathername, gender, birthday, photo
+                                for(var obj of jsondata)
+                                {
+                                    classStudentsModel.append(obj);
+                                }
+                                addStudentDialog.close();
+                            }
+                            else
+                                infoDialogId.open();
+                        }
+                        else
+                            infoDialogId.open();
+
+                    }
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "royalblue"}
                 }
                 Item{Layout.fillWidth: true}
@@ -481,7 +502,7 @@ Page {
                     font.pixelSize: 14
                     onClicked: {
 
-                        if(! dbman.deleteStudentRegistration(deleteStudentDialog.student_id, classStudentsPageId.class_id))
+                        if(! dbMan.deleteStudentRegistration(deleteStudentDialog.student_id, classStudentsPageId.class_id))
                         {
                             infoDialogId.open();
                         }
@@ -493,6 +514,8 @@ Page {
                             {
                                 classStudentsModel.append(obj);
                             }
+
+                            deleteStudentDialog.close();
                         }
                     }
                     Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
