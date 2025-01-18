@@ -422,7 +422,16 @@ Page {
                                     opacity: 0.5
                                     onClicked: {
                                         coursesPage.appStackView.push(updateComponent, {
-                                                                          courseModel: recdel.model,
+                                                                          course_id: recdel.model.id,
+                                                                          course_name: recdel.model.course_name,
+                                                                          final_weight: recdel.model.final_weight,
+                                                                          course_coefficient: recdel.model.course_coefficient,
+                                                                          test_coefficient: recdel.model.test_coefficient,
+                                                                          shared_coefficient: recdel.model.shared_coefficient,
+                                                                          sort_priority: recdel.model.sort_priority,
+                                                                          course_flag: recdel.model.course_flag,
+                                                                          test_flag: recdel.model.test_flag,
+                                                                          shared_weight: recdel.model.shared_weight
                                                                       });
                                     }
                                     hoverEnabled: true
@@ -492,10 +501,14 @@ Page {
 
             branch: branchCB.currentText
             step: stepCB.currentText
+            step_id: stepCB.currentValue
             field_based: stepModel.get(stepCB.currentIndex)["field_based"];
             field: fieldCB.currentText
             base: baseCB.currentText
+            base_id: baseCB.currentValue
             period: periodCB.currentText
+            period_id: periodCB.currentValue
+
         }
     }
 }

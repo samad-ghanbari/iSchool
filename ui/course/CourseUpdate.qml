@@ -12,7 +12,6 @@ Page {
     signal popStackSignal();
     signal updatedSignal();
 
-    required property var courseModel;
     required property string branch;
     required property string step;
     required property string field;
@@ -20,9 +19,26 @@ Page {
     required property string period;
     required property bool field_based
 
-    property var courseSharedArray : updatePage.courseModel.shared_coefficient["ids"]
+    required property int course_id;
+    required property int step_id;
+    required property int base_id;
+    required property int period_id;
 
-    property var existsCourses : dbMan.getAllCoursesMinimised(updatePage.courseModel.step_id, updatePage.courseModel.base_id, updatePage.courseModel.period_id, updatePage.courseModel.id);
+    required property string course_name;
+    required property real final_weight;
+    required property real course_coefficient;
+    required property real test_coefficient;
+    required property var shared_coefficient;
+    required property int sort_priority;
+    required property bool course_flag;
+    required property bool test_flag;
+    required property real shared_weight;
+
+
+
+    property var courseSharedArray : updatePage.shared_coefficient["ids"]
+
+    property var existsCourses : dbMan.getAllCoursesMinimised(updatePage.step_id, updatePage.base_id, updatePage.period_id, updatePage.course_id);
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
@@ -132,7 +148,7 @@ Page {
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             placeholderText: "نام درس"
-                            text: updatePage.courseModel.course_name
+                            text: updatePage.course_name
                         }
                     }
                     Item
@@ -166,7 +182,7 @@ Page {
                             Layout.preferredHeight: 50
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            text :  updatePage.courseModel.final_weight
+                            text :  updatePage.final_weight
                             placeholderText: "وزن ارزیابی نهایی"
                             validator: RegularExpressionValidator{regularExpression:  /^-?\d*\.?\d+$/; }
                         }
@@ -200,7 +216,7 @@ Page {
                             font.pixelSize: 16
                             placeholderText: "ضریب درس"
                             validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
-                            text: updatePage.courseModel.course_coefficient
+                            text: updatePage.course_coefficient
                         }
                         Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }
@@ -231,7 +247,7 @@ Page {
                             font.pixelSize: 16
                             placeholderText: "ضریب تست"
                             validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
-                            text: updatePage.courseModel.test_coefficient
+                            text: updatePage.test_coefficient
                         }
                         Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }
@@ -259,7 +275,7 @@ Page {
                             Layout.preferredHeight: 50
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            value: updatePage.courseModel.sort_priority
+                            value: updatePage.sort_priority
                         }
                         Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }
@@ -277,7 +293,7 @@ Page {
                         width: parent.width
                         height:  50
                         text: "واحد درسی"
-                        checked: updatePage.courseModel.course_flag
+                        checked: updatePage.course_flag
                         Layout.alignment: Qt.AlignLeft
                         font.family: "Kalameh"
                         font.pixelSize: 16
@@ -294,7 +310,7 @@ Page {
                         width: parent.width
                         height:  50
                         text: "واحد تستی"
-                        checked: updatePage.courseModel.test_flag
+                        checked: updatePage.test_flag
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         onCheckedChanged: {
@@ -337,7 +353,7 @@ Page {
                             Layout.maximumWidth: 150
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            text : updatePage.courseModel.shared_weight
+                            text : updatePage.shared_weight
                             placeholderText: "وزن دروس اشتراکی "
                             validator: RegularExpressionValidator{regularExpression:  /^-?\d*\.?\d+$/; }
                         }
@@ -416,7 +432,7 @@ Page {
                         onClicked:
                         {
                             var course = {};
-                            course["id"] = updatePage.courseModel.id;
+                            course["id"] = updatePage.course_id;
                             course["course_name"] = courseNameTF.text
                             course["course_coefficient"] = parseFloat(courseCoefTF.text)
                             course["test_coefficient"] = parseFloat(testCoefTF.text)
