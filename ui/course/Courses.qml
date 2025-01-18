@@ -421,6 +421,9 @@ Page {
                                     icon.color:"transparent"
                                     opacity: 0.5
                                     onClicked: {
+                                        coursesPage.appStackView.push(updateComponent, {
+                                                                          courseModel: recdel.model,
+                                                                      });
                                     }
                                     hoverEnabled: true
                                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -486,10 +489,6 @@ Page {
         {
             onPopStackSignal: coursesPage.appStackView.pop();
             onUpdatedSignal: Methods.updateCourse(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue);
-
-            step_id: stepCB.currentValue
-            base_id: baseCB.currentValue
-            period_id: periodCB.currentValue
 
             branch: branchCB.currentText
             step: stepCB.currentText

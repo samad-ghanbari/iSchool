@@ -1,4 +1,5 @@
 pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -11,54 +12,24 @@ Page {
     signal popStackSignal();
     signal updatedSignal();
 
-    required property int course_id;
-
-    required property int branch_id;
-    required property int base_id;
-    required property int step_id;
-    required property int period_id;
-    required property real course_coefficient
-    required property real test_coefficient
-    required property var shared_coefficient
-    required property real final_weight;
-
-    required property bool field_based;
-    required property string field;
-
+    required property var courseModel;
     required property string branch;
     required property string step;
+    required property string field;
     required property string base;
     required property string period;
-    required property string course_name;
+    required property bool field_based
 
-    property var courseSharedCoef : shared_coefficient["course"]
-    property var testSharedCoef : shared_coefficient["test"]
+    property var courseSharedArray : updatePage.courseModel.shared_coefficient["ids"]
 
-    property var existsCourses : dbMan.getAllCoursesMinimised(updatePage.step_id, updatePage.base_id, updatePage.period_id, updatePage.course_id );// id course_name array of objects
+    property var existsCourses : dbMan.getAllCoursesMinimised(updatePage.courseModel.step_id, updatePage.courseModel.base_id, updatePage.courseModel.period_id, updatePage.courseModel.id);
 
+    background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
-    background: Rectangle{anchors.fill: parent; color: "mintcream"}
-
-
-    GridLayout
+    ColumnLayout
     {
-        columns: 2
         anchors.fill: parent
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: updatePage.popStackSignal();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
@@ -68,403 +39,400 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
 
-
-        ScrollView
-        {
-            Layout.columnSpan: 2
-            Layout.fillWidth: true
+        Flickable{
             Layout.fillHeight: true
+            Layout.fillWidth: true
+            clip: true
+            contentHeight: centerBox.implicitHeight
 
             Rectangle
             {
                 width: (parent.width > 700)? 700 : parent.width
-                implicitHeight : centerBox.implicitHeight + 40
+                height:  centerBox.implicitHeight + 100
                 anchors.horizontalCenter : parent.horizontalCenter
                 color: "snow"
+                anchors.margins: 10
 
-                GridLayout
-                {
+                Column{
                     id: centerBox
-                    anchors.fill: parent
-                    anchors.margins: 20
-                    columns: 2
+                    width : parent.width
+                    anchors.margins: 10
 
                     Image
                     {
-                        Layout.columnSpan: 2
-                        Layout.preferredWidth: 128
-                        Layout.preferredHeight: 128
-                        Layout.alignment: Qt.AlignHCenter
-                        source:  "qrc:/assets/images/course.png"
+                        width: 64
+                        height: 64
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        source:  "qrc:/assets/images/edit.png"
+                        NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
                     }
 
                     //branch
                     Text {
-                        text: "شعبه"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 50
+                        text: "شعبه " + updatePage.branch + " - " + updatePage.step
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
                     }
                     Text {
-                        text: updatePage.branch
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
+                        text: (updatePage.field_based) ? "رشته " + updatePage.field + " - " +  updatePage.base :  updatePage.base
+                        width: parent.width
+                        height: 50
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "royalblue"
-                    }
-
-                    //step
-                    Text {
-                        text: "دوره"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
                     }
                     Text {
-                        text: updatePage.step
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
+                        text: "سال تحصیلی " + updatePage.period
+                        width: parent.width
+                        height: 50
                         verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "royalblue"
-                    }
-
-                    //base
-                    Text {
-                        text: "پایه تحصیلی"
-                        visible: (updatePage.base_id > 0)? true : false;
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
                     }
-                    Text {
-                        text:  updatePage.base
-                        visible: (updatePage.base_id > 0)? true : false;
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "royalblue"
-                    }
-                    //period
-                    Text {
-                        text: "سال تحصیلی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text {
-                        text:  updatePage.period
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "royalblue"
-                    }
 
-                    //Course name
-                    Text {
-                        text: "نام درس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    TextField
-                    {
-                        id: courseNameTF
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        placeholderText: "نام درس"
-                        text: updatePage.course_name
-
-                    }
-
-
-                    //final weight
-                    Text {
-                        text: "وزن ارزیابی نهایی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    TextField
-                    {
-                        id: finalWeightTF
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        text: updatePage.final_weight
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        placeholderText: "وزن ارزیابی نهایی"
-                        validator: RegularExpressionValidator{regularExpression:  /^-?\d*\.?\d+$/; }
-                    }
-
-                    //Course coef
-                    Text {
-                        text: "ضریب درس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    TextField
-                    {
-                        id: courseCoefTF
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        placeholderText: "ضریب درس"
-                        text: updatePage.course_coefficient
-                        validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
-                    }
-
-                    //test coefficient
-                    Text {
-                        text: "ضریب تست"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    TextField
-                    {
-                        id: testCoefTF
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        placeholderText: "ضریب تست"
-                        text: updatePage.test_coefficient
-                        validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
-                    }
-
-                    //course shared coefficient
-                    Rectangle
-                    {
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        color: "darkmagenta"
-                        Text
-                        {
-                            anchors.centerIn: parent
+                    // course name
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //Course name
+                        Text {
+                            text: "نام درس"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
-                            color: "white"
-                            text:"ضریب مشترک دروس"
+                            color: "black"
+                        }
+                        TextField
+                        {
+                            id: courseNameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            placeholderText: "نام درس"
+                            text: updatePage.courseModel.course_name
                         }
                     }
-                    // get all course in this period
+                    Item
+                    {
+                        width: parent.width
+                        height: 10
+                    }
+
+                    // final weight
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //final weight
+                        Text {
+                            text: "وزن ارزیابی نهایی"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        TextField
+                        {
+                            id: finalWeightTF
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text :  updatePage.courseModel.final_weight
+                            placeholderText: "وزن ارزیابی نهایی"
+                            validator: RegularExpressionValidator{regularExpression:  /^-?\d*\.?\d+$/; }
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                    }
+
+                    // course coeff
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //Course coef
+                        Text {
+                            text: "ضریب درس"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        TextField
+                        {
+                            id: courseCoefTF
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            placeholderText: "ضریب درس"
+                            validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
+                            text: updatePage.courseModel.course_coefficient
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                    }
+                    // test Coeff
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //test coefficient
+                        Text {
+                            text: "ضریب تست"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        TextField
+                        {
+                            id: testCoefTF
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            placeholderText: "ضریب تست"
+                            validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
+                            text: updatePage.courseModel.test_coefficient
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                    }
+                    // sort priority
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "اولویت نمایش"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        SpinBox
+                        {
+                            id: sortSB
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            value: updatePage.courseModel.sort_priority
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                    }
+
+                    Item{width: parent.width; height: 5;}
+                    Rectangle{
+                        width: parent.width
+                        height: 1
+                        color: "darkgray"
+                    }
+
+                    // course flag
+                    Switch{
+                        id: courseFlagSW
+                        width: parent.width
+                        height:  50
+                        text: "واحد درسی"
+                        checked: updatePage.courseModel.course_flag
+                        Layout.alignment: Qt.AlignLeft
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        onCheckedChanged: {
+                            if(!checked){
+                                if(!testFlagSW.checked)
+                                    courseFlagSW.checked = true;
+                            }
+                        }
+                    }
+                    // test flag
+                    Switch{
+                        id: testFlagSW
+                        width: parent.width
+                        height:  50
+                        text: "واحد تستی"
+                        checked: updatePage.courseModel.test_flag
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        onCheckedChanged: {
+                            if(!checked){
+                                if(!courseFlagSW.checked)
+                                    testFlagSW.checked = true;
+                            }
+                        }
+                    }
+
+                    Rectangle{
+                        width: parent.width
+                        height: 1
+                        color: "darkgray"
+                    }
+                    Item{width: parent.width; height: 5;}
+
+                    // shared weight
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //final weight
+                        Text {
+                            text: "وزن اشتراکی "
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        TextField
+                        {
+                            id: sharedWeightTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            Layout.maximumWidth: 150
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text : updatePage.courseModel.shared_weight
+                            placeholderText: "وزن دروس اشتراکی "
+                            validator: RegularExpressionValidator{regularExpression:  /^-?\d*\.?\d+$/; }
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                    }
+
+                    // shared
+                    Text
+                    {
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "darkcyan"
+                        text:" دروس اشتراکی"
+                    }
                     ListView
                     {
-                        id: courseCoefLV
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: courseCoefLV.contentHeight + 100
+                        id: sharedCourseLV
+                        width: parent.width
+                        height: sharedCourseLV.contentHeight + 50
                         clip: true
                         model: ListModel{id: courseCoefModel;}
                         delegate:
                         Switch{
+                            id: rec
                             required property var model
-                            checked: (updatePage.courseSharedCoef.indexOf(model.Id) > -1)? true : false;
+                            checked: (updatePage.courseSharedArray.indexOf(rec.model.id) > -1)? true : false;
                             height: 50;
-                            width: courseCoefLV.width
-                            text:  model.Course_name;
+                            width: sharedCourseLV.width
+                            text:  rec.model.course_name;
                             font.family: "Kalameh"
                             font.pixelSize: 14
                             onToggled:
                             {
-                                var index = updatePage.courseSharedCoef.indexOf(model.Id);
+                                var index = updatePage.courseSharedArray.indexOf(model.id);
 
                                 if(checked)
                                 {
                                     //push step
                                     if(index < 0)
-                                    updatePage.courseSharedCoef.push(model.Id);
+                                    updatePage.courseSharedArray.push(model.id);
                                 }
                                 else
                                 {
                                     if(index > -1)
-                                    updatePage.courseSharedCoef.splice(index, 1);
-                                }
-                            }
-
-                        }
-
-                        Component.onCompleted:{
-
-                            for(var obj of updatePage.existsCourses)
-                            {
-                                courseCoefModel.append({ Id: obj.id, Course_name: obj.course_name});
-                                courseCoefLV.height = courseCoefLV.contentHeight + 100
-                            }
-                        }
-
-                    }
-
-                    //test shared coefficient
-                    Rectangle
-                    {
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        color: "darkmagenta"
-                        Text
-                        {
-                            anchors.centerIn: parent
-                            font.family: "Kalameh"
-                            font.pixelSize: 16
-                            font.bold: true
-                            color: "white"
-                            text:"ضریب مشترک تست"
-                        }
-                    }
-
-                    ListView
-                    {
-                        id: testCoefLV
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: testCoefLV.contentHeight + 100
-                        clip: true
-                        model: ListModel{id: testCoefModel;}
-                        delegate:
-                        Switch{
-                            required property var model
-                            checked: (updatePage.testSharedCoef.indexOf(model.Id) > -1)? true : false;
-                            height: 50;
-                            width: testCoefLV.width
-                            text:  model.Course_name;
-                            font.family: "Kalameh"
-                            font.pixelSize: 14
-                            onToggled:
-                            {
-                                var index = updatePage.testSharedCoef.indexOf(model.Id);
-
-                                if(checked)
-                                {
-                                    //push step
-                                    if(index < 0)
-                                    updatePage.testSharedCoef.push(model.Id);
-                                }
-                                else
-                                {
-                                    if(index > -1)
-                                    updatePage.testSharedCoef.splice(index, 1);
+                                    updatePage.courseSharedArray.splice(index, 1);
                                 }
                             }
                         }
 
                         Component.onCompleted:{
-
                             for(var obj of updatePage.existsCourses)
-                            {
-                                testCoefModel.append({ Id: obj.id, Course_name: obj.course_name });
-                                testCoefLV.height = testCoefLV.contentHeight + 100
-                            }
+                            courseCoefModel.append(obj);
                         }
                     }
 
                     Item
                     {
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 10
                     }
 
                     Button
                     {
-                        Layout.columnSpan: 2
                         text: "تایید"
-                        Layout.preferredWidth: 200
-                        Layout.preferredHeight: 50
-                        Layout.alignment: Qt.AlignHCenter
+                        width: 200
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                         onClicked:
                         {
                             var course = {};
-
-                            course["id"] = updatePage.course_id;
+                            course["id"] = updatePage.courseModel.id;
                             course["course_name"] = courseNameTF.text
                             course["course_coefficient"] = parseFloat(courseCoefTF.text)
                             course["test_coefficient"] = parseFloat(testCoefTF.text)
                             course["final_weight"] = parseFloat(finalWeightTF.text)
+                            course["shared_weight"] = parseFloat(sharedWeightTF.text)
+                            course["sort_priority"] = sortSB.value
+                            course["course_flag"] = courseFlagSW.checked
+                            course["test_flag"] = testFlagSW.checked
 
-                            course["shared_coefficient"] = { "course": updatePage.courseSharedCoef, "test": updatePage.testSharedCoef };
+                            course["shared_coefficient"] = {"ids":updatePage.courseSharedArray}
 
                             if(dbMan.courseUpdate(course))
                             {
-                                successDialogId.close();
-                                updatePage.popStackSignal();
                                 updatePage.updatedSignal();
+                                successDialogId.open();
                             }
-
                             else
                             {
                                 var errorString = dbMan.getLastError();
@@ -478,17 +446,9 @@ Page {
 
                     Item
                     {
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 10
                     }
-
-
-
-
-
-
-
                 }
             }
         }
@@ -511,7 +471,6 @@ Page {
         onDialogAccepted: function(){
             successDialogId.close();
             updatePage.popStackSignal();
-            updatePage.updatedSignal();
         }
 
     }

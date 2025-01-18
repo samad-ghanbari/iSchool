@@ -153,6 +153,7 @@ qt_add_qml_module(appiSchool
         ui/course/Courses.qml
         ui/course/Course.js
         ui/course/CourseInsert.qml
+        ui/course/CourseUpdate0.qml
         ui/course/CourseUpdate.qml
         ui/course/CourseDelete.qml
 
