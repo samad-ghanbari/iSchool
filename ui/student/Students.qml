@@ -17,57 +17,39 @@ Page {
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
-    GridLayout
+    ColumnLayout
     {
         anchors.fill: parent
-        columns:2
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: studentsPage.appStackView.pop();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "لیست دانش‌آموزان شعبه"
+            text: "مدیریت دانش‌آموزان"
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
 
-
-        Flow
-        {
-            Layout.columnSpan: 2
+        Flickable{
             Layout.fillWidth: true
-            layoutDirection: Qt.LeftToRight
-            Layout.alignment: Qt.AlignHCenter
+            Layout.fillHeight: true
+            clip: true
+            contentHeight: centerBox.implicitHeight
 
-            // branch
-            Rectangle
-            {
-                height: 50
-                width: 400
-                color: "transparent"
-
+            Column{
+                id: centerBox
+                width: parent.width
+                // branch
                 RowLayout
                 {
-                    anchors.fill: parent
+                    width: 400
+                    height: 50
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     Label
                     {
@@ -89,41 +71,51 @@ Page {
                         editable: false
                         font.family: "Kalameh"
                         font.pixelSize: 16
-                        model: ListModel{id: branchCBoxModel}
+                        model: ListModel{id: branchModel}
                         textRole: "text"
                         valueRole: "value"
                         Component.onCompleted:
                         {
-                            Methods.updateBranchCB();
+                            branchModel.clear();
+                            stepModel.clear();
+                            studentModel.clear();
+                            var jsondata = dbMan.getBranches();
+                            //id, city, branch_name, address
+                            var temp;
+                            for(var obj of jsondata)
+                            {
+                                temp = obj.city + " - "+ obj.branch_name;
+                                branchModel.append({value: obj.id,  text: temp })
+                            }
                             branchCB.currentIndex = -1
                         }
 
                         onActivated: {
-                            periodCBoxModel.clear();
+                            stepModel.clear();
                             studentModel.clear();
-                            Methods.updatePeriodCB(branchCB.currentValue);
-                            periodCB.currentIndex = -1;
+                            var jsondata = dbMan.getBranchSteps(branchCB.currentValue);
+                            //s.id, s.branch_id, s.step_name, s.field_based, s.numeric_graded, b.city, b.branch_name
+                            var temp;
+                            for(var obj of jsondata)
+                            {
+                                stepModel.append({value: obj.id,  text: obj.step_name, field_based: obj.field_based })
+                            }
                         }
 
                     }
                 }
-
-            }
-
-            // period
-            Rectangle
-            {
-                height: 50
-                width: 400
-                color: "transparent"
+                //step
                 RowLayout
                 {
-                    anchors.fill: parent
+                    width: 400
+                    height: 50
+                    anchors.horizontalCenter: parent.horizontalCenter
+
                     Label
                     {
                         Layout.preferredHeight:  50
                         Layout.preferredWidth: 100
-                        text:"سال تحصیلی:"
+                        text:"دوره: "
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
@@ -132,52 +124,41 @@ Page {
                     }
                     ComboBox
                     {
-                        id: periodCB
+                        id: stepCB
                         Layout.preferredHeight:  50
                         Layout.fillWidth: true
                         Layout.maximumWidth: 400
                         editable: false
                         font.family: "Kalameh"
                         font.pixelSize: 16
-                        model: ListModel{id: periodCBoxModel}
+                        model: ListModel{id: stepModel}
                         textRole: "text"
                         valueRole: "value"
-                        Component.onCompleted:
-                        {
-                            periodCB.currentIndex = -1
-                        }
-
                         onActivated: {
-                            studentsPage.studentsCount = dbMan.getBranchPeriodStudentsCount(branchCB.currentValue, periodCB.currentValue);
-                            studentsPage.offset = 0;
-                            Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue, studentsPage.limit, studentsPage.offset);
-
+                            studentModel.clear();
+                            var cond = {};
+                            var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
+                            for(var obj of jsondata){
+                                studentModel.append(obj);
+                            }
                         }
+
                     }
                 }
-            }
-        }
 
+                Item{width: parent.width; height: 10;}
+                Rectangle{width: parent.width; height: 1; color: "darkgray";}
+                Item{width: parent.width; height: 10;}
 
-        Rectangle
-        {
-            Layout.columnSpan: 2
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            color: "ghostwhite"
-            ColumnLayout
-            {
-                anchors.fill: parent
                 RowLayout
                 {
                     Layout.preferredHeight:   64
                     Layout.fillWidth: true
-                    //Layout.alignment: Qt.AlignRight
 
                     Button
                     {
                         background: Item{}
-                        visible: (branchCB.currentIndex >=0)? true : false;
+                        visible: (stepCB.currentIndex >=0)? true : false;
                         Layout.preferredWidth: 64
                         Layout.preferredHeight: 64
                         icon.source: "qrc:/assets/images/add.png"
@@ -187,8 +168,8 @@ Page {
                         opacity: 0.5
                         onClicked:
                         {
-                            var bid = branchCB.currentValue;
-                            if(bid >= 0)
+                            var sid = stepCB.currentValue;
+                            if(sid >= 0)
                                 studentsPage.appStackView.push(studentInsertComponent);
                         }
                         hoverEnabled: true
@@ -197,7 +178,7 @@ Page {
                     Item{Layout.fillWidth: true}
                     Button
                     {
-                        visible: (branchCB.currentIndex >=0)? true : false;
+                        visible: (stepCB.currentIndex >=0)? true : false;
                         Layout.preferredWidth: 64
                         Layout.preferredHeight: 64
                         background: Item{}
@@ -208,8 +189,8 @@ Page {
                         opacity: 0.5
                         onClicked:
                         {
-                            var bid = branchCB.currentValue;
-                            if(bid >= 0)
+                            var sid = stepCB.currentValue;
+                            if(sid >= 0)
                                 studentSearchDrawer.open();
                         }
                         hoverEnabled: true
@@ -217,18 +198,16 @@ Page {
                     }
                 }
 
-
                 RowLayout
                 {
                     Layout.preferredHeight:   32
                     Layout.fillWidth: true
-                    //Layout.alignment: Qt.AlignRight
 
                     Item{Layout.fillWidth: true}
                     Button
                     {
                         background: Item{}
-                        visible: (branchCB.currentIndex >=0)? true : false;
+                        visible: (stepCB.currentIndex >=0)? true : false;
                         Layout.preferredWidth: 32
                         Layout.preferredHeight: 32
                         icon.source: "qrc:/assets/images/arrow-right.png"
@@ -241,7 +220,7 @@ Page {
                             studentsPage.offset = studentsPage.offset + 19;
                             if(studentsPage.offset >= studentsPage.studentsCount ) studentsPage.offset = 0;
 
-                            Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue, studentsPage.limit, studentsPage.offset);
+                            Methods.updateStudentsModel(stepCB.currentValue, periodCB.currentValue, studentsPage.limit, studentsPage.offset);
                         }
                         hoverEnabled: true
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -249,7 +228,7 @@ Page {
 
                     Button
                     {
-                        visible: (branchCB.currentIndex >=0)? true : false;
+                        visible: (stepCB.currentIndex >=0)? true : false;
                         Layout.preferredWidth: 32
                         Layout.preferredHeight: 32
                         background: Item{}
@@ -262,7 +241,7 @@ Page {
                         {
                             studentsPage.offset = studentsPage.offset - 19;
                             if(studentsPage.offset  < 0 ) studentsPage.offset = 0;
-                            Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue, studentsPage.limit, studentsPage.offset);
+                            Methods.updateStudentsModel(stepCB.currentValue, periodCB.currentValue, studentsPage.limit, studentsPage.offset);
                         }
                         hoverEnabled: true
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -270,13 +249,12 @@ Page {
                     Item{Layout.fillWidth: true}
                 }
 
+                Item{width: parent.width; height: 10;}
 
                 GridView {
-                    Layout.columnSpan: 3
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    Layout.margins: 20
+                    id: studentsGV
+                    width: parent.width
+                    height: studentsGV.contentHeight
                     cellWidth: 300
                     cellHeight: 340
                     clip: true
