@@ -1,40 +1,34 @@
 import QtQuick
+import QtQuick.Dialogs
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Dialogs
 
 import "./../public" as DialogBox
 
 Page {
     id: updatePage
 
-    required property var model;
-    required property string branchText;
+    property string branch
+    property string step
 
-    signal updatedSignal();
+    required property int student_id
+    required property string name
+    required property string lastname
+    required property string fathername
+    required property string birthday
+    required property string gender
+    required property bool enabled
+    required property string photo
+
     signal popStackSignal();
+    signal updatedSignal();
 
-    background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
+    background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
-    GridLayout
+    ColumnLayout
     {
         anchors.fill: parent
-        columns:2
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: updatePage.popStackSignal();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
@@ -44,303 +38,311 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
-            style: Text.Outline
-            styleColor: "white"
+            color: "darkcyan"
+        }
+        Image {
+            source: "qrc:/assets/images/edit.png"
+            Layout.alignment: Qt.AlignHCenter
+            Layout.preferredHeight:  64
+            Layout.preferredWidth:  64
+            Layout.margins: 10
+            NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
         }
 
-        Rectangle
-        {
-            Layout.columnSpan: 2
-            Layout.fillHeight: true
+        Flickable{
             Layout.fillWidth: true
-            color: "mintcream"
+            Layout.fillHeight: true
+            clip: true
+            contentHeight: centerBox.implicitHeight
 
-            ScrollView
-            {
-                height: parent.height
-                width: parent.width
-                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+            Rectangle{
+                color:"snow"
+                width:  (parent.width < 700)? parent.width : 700
+                height: centerBox.implicitHeight + 100
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                Rectangle
-                {
-                    id: centerBoxId
-                    color:"snow"
-                    width:  (parent.width < 700)? parent.width : 700
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.margins: 10
-                    implicitHeight: parent.height
+                Column{
+                    id: centerBox
+                    width: parent.width
 
-                    radius: 10
-                    Item {
-                        anchors.fill: parent
-                        anchors.margins: 10
+                    Image {
+                        source: updatePage.photo
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        height:  128
+                        width:  128
+                        NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
+                    }
 
-                        ColumnLayout
+                    //branch-step
+                    Text {
+                        text: "شعبه " + updatePage.branch + " - " + updatePage.step
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "darkcyan"
+                    }
+
+                    //name
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //name
+                        Text {
+                            text: "نام دانش‌آموز"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
                         {
-                            id: periodInsertCL
-                            width: parent.width
-                            Image {
-                                id: userPhoto
-                                //source: "qrc:/assets/images/edit.png"
-                                source:{
-                                    if(updatePage.model.photo == "")
-                                    {
-                                        if(updatePage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
-                                    }
-                                    else
-                                    {
-                                        return updatePage.model.photo;
-                                    }
-                                }
-                                Layout.alignment: Qt.AlignHCenter
-                                Layout.preferredHeight:  64
-                                Layout.preferredWidth:  64
-                                Layout.margins: 20
-                                NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
+                            id: nameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            placeholderText: "نام دانش‌آموز"
+                            text: updatePage.name
+
+                        }
+                    }
+                    //lastname
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //lastname
+                        Text {
+                            text: "نام خانوادگی"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: lastnameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            placeholderText: "نام خانوادگی دانش‌آموز"
+                            text: updatePage.lastname
+
+                        }
+                    }
+                    //fathername
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //fathername
+                        Text {
+                            text: "نام پدر"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: fathernameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            placeholderText: "نام پدر"
+                            text: updatePage.fathername
+                        }
+                    }
+                    //gender
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //gender
+                        Text {
+                            text: "جنسیت"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        ComboBox
+                        {
+                            id: genderCB
+                            Layout.preferredHeight:  50
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 200
+                            editable: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            model: ["خانم", "آقا"]
+                            //textRole: "text"
+                            //valueRole: "value"
+                            Component.onCompleted: genderCB.currentIndex = genderCB.find(updatePage.gender)
+                        }
+
+                        Item{Layout.preferredHeight: 1; Layout.fillWidth: true;}
+                    }
+                    //photo
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //photo
+                        Button{
+                            text: "تصویر"
+                            Layout.minimumWidth: 100
+                            Layout.maximumWidth: 100
+                            Layout.preferredHeight: 40
+                            palette.text: "darkcyan"
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            onClicked: photoBrows.open();
+                        }
+                        Text
+                        {
+                            id: photoPath
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: false
+                            elide: Text.ElideLeft
+                        }
+                    }
+                    //birthday
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //birthday
+                        Text {
+                            text: "تاریخ تولد"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: birthdayTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            placeholderText: "1380/01/01"
+                            validator: RegularExpressionValidator
+                            {
+                                regularExpression: /^\d{4}\/\d{2}\/\d{2}$/
+                                // Regex pattern to match date in yyyy/MM/dd format
+                            }
+                            text: updatePage.birthday
+                        }
+                    }
+                    //enabled
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //enabled
+                        Text {
+                            text: "وضعیت فعال/غیرفعال"
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        Switch
+                        {
+                            id: enabledSW
+                            checked: updatePage.enabled
+                            text: checked? "فعال" : "غیرفعال";
+                            font.family: "Kalameh"
+                            palette.highlight: "darkcyan"
+                            palette.text: "gray"
+                        }
+                        Item{Layout.preferredHeight: 1; Layout.fillWidth: true;}
+                    }
+
+                    Item
+                    {
+                        width: parent.width
+                        height: 10
+                    }
+
+                    Button
+                    {
+                        text: "تایید"
+                        width: 200
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                        onClicked:
+                        {
+                            var student = {};
+                            student["id"] = updatePage.student_id
+                            student["name"] = nameTF.text
+                            student["lastname"] = lastnameTF.text
+                            student["fathername"] = fathernameTF.text
+                            student["gender"] = genderCB.currentText
+                            student["birthday"] = birthdayTF.text
+                            student["enabled"] = enabledSW.checked
+                            student["photo"] = photoPath.text;
+
+                            if(dbMan.studentUpdate(student)){
+                                updatePage.updatedSignal();
+                                successDialogId.open();
                             }
 
-                            GridLayout
+                            else
                             {
-                                columns: 2
-                                rows: 5
-                                rowSpacing: 20
-                                columnSpacing: 10
-                                Layout.preferredWidth:  parent.width
-
-                                //branch
-                                Text {
-                                    Layout.columnSpan: 2
-                                    text: "شعبه " + updatePage.branchText
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-
-                                //name
-                                Text {
-                                    text: "نام دانش‌آموز"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                TextField
-                                {
-                                    id: nameTF
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    placeholderText: "نام دانش‌آموز"
-                                    text: updatePage.model.name
-
-                                }
-                                //lastname
-                                Text {
-                                    text: "نام خانوادگی"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                TextField
-                                {
-                                    id: lastnameTF
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    placeholderText: "نام خانوادگی دانش‌آموز"
-                                    text: updatePage.model.lastname
-
-                                }
-                                //fathername
-                                Text {
-                                    text: "نام پدر"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                TextField
-                                {
-                                    id: fathernameTF
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    placeholderText: "نام پدر دانش‌آموز"
-                                    text: updatePage.model.fathername
-
-                                }
-                                //gender
-                                Text {
-                                    text: "جنسیت"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                ComboBox
-                                {
-                                    id: genderCB
-                                    Layout.preferredHeight:  50
-                                    Layout.fillWidth: true
-                                    Layout.maximumWidth: 200
-                                    editable: false
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    model: ["خانم", "آقا"]
-                                    Component.onCompleted: genderCB.currentIndex = find(updatePage.model.gender)
-                                }
-
-                                //photo
-                                Button{
-                                    text: "تصویر"
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
-                                    Layout.preferredHeight: 40
-                                    palette.text: "royalblue"
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    onClicked: photoBrows.open();
-                                }
-                                Text
-                                {
-                                    id: photoPath
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    elide: Text.ElideLeft
-                                }
-
-                                //birthday
-                                Text {
-                                    text: "تاریخ تولد"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                TextField
-                                {
-                                    id: birthdayTF
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    placeholderText: "تاریخ تولد"
-                                    text: updatePage.model.birthday
-                                }
-                                //enabled
-                                Text {
-                                    text: "وضعیت فعال/غیرفعال"
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Switch
-                                {
-                                    id: enabledSW
-                                    checked: updatePage.model.enabled
-                                    text: checked? "فعال" : "غیرفعال";
-                                    font.family: "Kalameh"
-                                    palette.highlight: "royalblue"
-                                    palette.text: "gray"
-                                }
-                            }
-
-                            Item
-                            {
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                            }
-
-                            Button
-                            {
-                                text: "تایید"
-                                Layout.preferredWidth: 200
-                                Layout.preferredHeight: 50
-                                Layout.alignment: Qt.AlignHCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
-                                onClicked:
-                                {
-                                    var student = {};
-                                    student["id"] = updatePage.model.id;
-                                    student["name"] = nameTF.text
-                                    student["lastname"] = lastnameTF.text
-                                    student["fathername"] = fathernameTF.text
-                                    student["gender"] = genderCB.currentText
-                                    student["birthday"] = birthdayTF.text
-                                    student["enabled"] = enabledSW.checked
-                                    student["photo_path"] = photoPath.text
-
-
-                                    if(dbMan.studentUpdate(student))
-                                    {
-                                        updatePage.popStackSignal();
-                                        updatePage.updatedSignal();
-                                    }
-
-                                    else
-                                    {
-                                        var errorString = dbMan.getLastError();
-                                        infoDialogId.dialogText = errorString
-                                        infoDialogId.width = parent.width
-                                        infoDialogId.height = 500
-                                        infoDialogId.open();
-                                    }
-                                }
-                            }
-
-                            Item
-                            {
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
+                                var errorString = dbMan.getLastError();
+                                infoDialogId.dialogText = errorString
+                                infoDialogId.width = parent.width
+                                infoDialogId.height = 500
+                                infoDialogId.open();
                             }
                         }
                     }
+
+                    Item
+                    {
+                        width: parent.width
+                        height: 10
+                    }
+
                 }
             }
         }
-
     }
+
 
     FileDialog {
         id: photoBrows
@@ -348,10 +350,7 @@ Page {
         currentFolder: "file:///home/samad/"
         //  currentFolder: "C:/Users/YourUsername/Documents"
         nameFilters: ["Images (*.png *.jpg)"]
-        onAccepted:{
-            userPhoto.source = selectedFile
-            photoPath.text = selectedFile;
-        }
+        onAccepted: photoPath.text = selectedFile;
         onRejected: photoBrows.close();
         }
 
@@ -359,7 +358,7 @@ Page {
     {
         id: infoDialogId
         dialogTitle: "خطا"
-        dialogText: "ویرایش اطلاعات دانش‌آموز با خطا مواجه شد."
+        dialogText: "ویرایش دانش‌آموز با خطا مواجه شد."
         dialogSuccess: false
     }
 
@@ -367,12 +366,11 @@ Page {
     {
         id: successDialogId
         dialogTitle: "عملیات موفق"
-        dialogText: "ویرایش اطلاعات دانش‌آموز با موفقیت انجام شد."
+        dialogText: "ویرایش دانش‌آموز با موفقیت انجام شد."
         dialogSuccess: true
-        onDialogAccepted: {
+        onDialogAccepted: function(){
+            successDialogId.close();
             updatePage.popStackSignal();
-            updatePage.updatedSignal();
         }
-
     }
 }

@@ -4,15 +4,15 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Student.js" as Methods
-
 Page {
     id: studentsPage
     required property StackView appStackView;
 
-    property int limit : 20
+    property int limit : 25
     property int offset: 0
+    property var conditions;
     property int studentsCount
+    property int pageNumber: 1
     // offset shoud be less or equal than limit
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
@@ -25,7 +25,7 @@ Page {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
+            horizontalAlignment: Qt.AlignLeft
             text: "مدیریت دانش‌آموزان"
             font.family: "Kalameh"
             font.pixelSize: 24
@@ -59,6 +59,7 @@ Page {
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
+                        color:"darkcyan"
                         horizontalAlignment: Label.AlignRight
                         verticalAlignment: Label.AlignVCenter
                     }
@@ -119,6 +120,7 @@ Page {
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
+                        color:"darkcyan"
                         horizontalAlignment: Label.AlignRight
                         verticalAlignment: Label.AlignVCenter
                     }
@@ -136,8 +138,13 @@ Page {
                         valueRole: "value"
                         onActivated: {
                             studentModel.clear();
-                            var cond = {};
+                            var cond = studentsPage.conditions;
+                            studentsPage.offset = 0;
+                            studentsPage.pageNumber = 1
+
+                            studentsPage.studentsCount = dbMan.getStudentsCount(stepCB.currentValue, cond);
                             var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
+
                             for(var obj of jsondata){
                                 studentModel.append(obj);
                             }
@@ -152,18 +159,22 @@ Page {
 
                 RowLayout
                 {
-                    Layout.preferredHeight:   64
-                    Layout.fillWidth: true
+                    width: parent.width
+                    height: 64
 
                     Button
                     {
                         background: Item{}
                         visible: (stepCB.currentIndex >=0)? true : false;
-                        Layout.preferredWidth: 64
                         Layout.preferredHeight: 64
                         icon.source: "qrc:/assets/images/add.png"
-                        icon.width: 64
-                        icon.height: 64
+                        icon.width: 40
+                        icon.height: 40
+                        text: "دانش‌آموز جدید"
+                        font.pixelSize: 14
+                        font.family: "Kalameh"
+                        display: AbstractButton.TextUnderIcon
+                        font.bold: true
                         icon.color:"transparent"
                         opacity: 0.5
                         onClicked:
@@ -179,75 +190,108 @@ Page {
                     Button
                     {
                         visible: (stepCB.currentIndex >=0)? true : false;
-                        Layout.preferredWidth: 64
                         Layout.preferredHeight: 64
                         background: Item{}
-                        icon.source: "qrc:/assets/images/search.png"
-                        icon.width: 64
-                        icon.height: 64
+                        icon.source: "qrc:/assets/images/filter.png"
+                        icon.width: 40
+                        icon.height: 40
+                        text: "فیلتر"
+                        font.pixelSize: 14
+                        font.family: "Kalameh"
+                        display: AbstractButton.TextUnderIcon
                         icon.color:"transparent"
                         opacity: 0.5
                         onClicked:
                         {
                             var sid = stepCB.currentValue;
                             if(sid >= 0)
-                                studentSearchDrawer.open();
+                            studentSearchDrawer.open();
                         }
                         hoverEnabled: true
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+
+                        enabled: false
                     }
                 }
 
                 RowLayout
                 {
-                    Layout.preferredHeight:   32
-                    Layout.fillWidth: true
-
-                    Item{Layout.fillWidth: true}
+                    height:   40
+                    width: parent.width
+                    visible: (stepCB.currentIndex >=0)? true : false;
+                    Item{Layout.fillWidth: true; Layout.preferredHeight: 10;}
                     Button
                     {
                         background: Item{}
-                        visible: (stepCB.currentIndex >=0)? true : false;
-                        Layout.preferredWidth: 32
-                        Layout.preferredHeight: 32
-                        icon.source: "qrc:/assets/images/arrow-right.png"
-                        icon.width: 32
-                        icon.height: 32
+                        Layout.preferredWidth: 40
+                        Layout.preferredHeight: 40
+                        icon.source: "qrc:/assets/images/toRight.png" // previous
+                        icon.width: 40
+                        icon.height: 40
                         icon.color:"transparent"
                         opacity: 0.5
+                        visible: (studentsPage.offset == 0)? false : true
                         onClicked:
                         {
-                            studentsPage.offset = studentsPage.offset + 19;
-                            if(studentsPage.offset >= studentsPage.studentsCount ) studentsPage.offset = 0;
+                            studentModel.clear();
 
-                            Methods.updateStudentsModel(stepCB.currentValue, periodCB.currentValue, studentsPage.limit, studentsPage.offset);
+                            var cond = studentsPage.conditions;
+                            studentsPage.offset = studentsPage.offset - 24;
+                            studentsPage.pageNumber = studentsPage.pageNumber - 1;
+                            if(studentsPage.offset  < 0 ) { studentsPage.offset = 0; studentsPage.pageNumber = 1;}
+                            var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
+
+                            for(var obj of jsondata){
+                                studentModel.append(obj);
+                            }
                         }
                         hoverEnabled: true
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                     }
 
+                    Label{
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        font.bold: true
+                        color: "darkcyan"
+                        height: 40
+                        verticalAlignment: Label.AlignVCenter
+                        horizontalAlignment: Label.AlignHCenter
+                        text: studentsPage.pageNumber
+                    }
+
                     Button
                     {
-                        visible: (stepCB.currentIndex >=0)? true : false;
-                        Layout.preferredWidth: 32
-                        Layout.preferredHeight: 32
+                        visible: (studentsPage.offset + 24 >= studentsPage.studentsCount)? false : true;
+                        Layout.preferredWidth: 40
+                        Layout.preferredHeight: 40
                         background: Item{}
-                        icon.source: "qrc:/assets/images/arrow-left.png"
-                        icon.width: 32
-                        icon.height: 32
+                        icon.source: "qrc:/assets/images/toLeft.png" //next
+                        icon.width: 40
+                        icon.height: 40
                         icon.color:"transparent"
                         opacity: 0.5
                         onClicked:
                         {
-                            studentsPage.offset = studentsPage.offset - 19;
-                            if(studentsPage.offset  < 0 ) studentsPage.offset = 0;
-                            Methods.updateStudentsModel(stepCB.currentValue, periodCB.currentValue, studentsPage.limit, studentsPage.offset);
+                            studentModel.clear();
+
+                            studentsPage.offset = studentsPage.offset + 24;
+                            studentsPage.pageNumber = studentsPage.pageNumber + 1;
+                            if(studentsPage.offset >= studentsPage.studentsCount ){ studentsPage.offset = studentsPage.offset - 24; studentsPage.pageNumber = studentsPage.pageNumber - 1;}
+
+                            var cond = studentsPage.conditions;
+                            var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
+
+                            for(var obj of jsondata){
+                                studentModel.append(obj);
+                            }
                         }
                         hoverEnabled: true
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                     }
-                    Item{Layout.fillWidth: true}
+                    Item{Layout.fillWidth: true; Layout.preferredHeight: 10;}
                 }
+
 
                 Item{width: parent.width; height: 10;}
 
@@ -271,17 +315,34 @@ Page {
     {
         id: studentDelegate
         Rectangle {
-            id: studentWidget
+            id: rec
             required property var model;
-            property bool isFemale: (model.Gender === "خانم")? true : false;
 
             width: 256
             height: 300
-            color:(model.Enabled)? "white" : "lightpink"
+            color:(rec.model.enabled)? "white" : "lightpink"
             opacity: 0.8
             radius: 10
             border.width: 2
             border.color: "lavenderblush"
+
+            MouseArea
+            {
+                anchors.fill: parent
+                hoverEnabled: true
+                onHoveredChanged:{
+                    if(containsMouse){
+                        parent.opacity=1;
+                        rec.border.color = "pink"
+                    }
+                    else
+                    {
+                        rec.border.color = "lavenderblush"
+                        parent.opacity=0.8
+                    }
+                }
+
+            }
 
             Item
             {
@@ -292,68 +353,126 @@ Page {
                     anchors.fill: parent
 
                     Image {
-                        source:{
-                            if(studentWidget.model.Photo == "")
-                            {
-                                if(studentWidget.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
-                            }
-                            else
-                            {
-                                return studentWidget.model.Photo;
-                            }
-
-                        }
-                        Layout.preferredWidth: 128
-                        Layout.preferredHeight: 128
+                        source:rec.model.photo;
+                        Layout.preferredWidth: 100
+                        Layout.preferredHeight: 100
                         Layout.alignment: Qt.AlignHCenter
                     }
                     Text {
-                        text: studentWidget.model.Name + " " + studentWidget.model.LastName
+                        text: rec.model.name + " " + rec.model.lastname
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
-                        color: "royalblue"
+                        color: "darkcyan"
                         Layout.preferredWidth: parent.width
                         horizontalAlignment: Text.AlignHCenter
                     }
                     Text {
-                        text: "نام پدر" + " : " + studentWidget.model.FatherName
+                        text: "نام پدر" + " : " + rec.model.fathername
                         font.family: "Kalameh"
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
                         Layout.alignment: Qt.AlignLeft
                         Layout.fillWidth: true
                     }
                     Text {
-                        text: "تاریخ تولد" + " : " + studentWidget.model.Birthday
+                        text: "تاریخ تولد" + " : " + rec.model.birthday
                         font.family: "Kalameh"
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
                         Layout.alignment: Qt.AlignLeft
                         Layout.fillWidth: true
                     }
-                }
 
-            }
+                    Item{Layout.preferredWidth:  1; Layout.fillHeight: true;}
 
-            MouseArea
-            {
-                anchors.fill: parent
-                hoverEnabled: true
-                onHoveredChanged:{
-                    if(containsMouse){
-                        parent.opacity=1;
-                        studentWidget.border.color = "pink"
-                    }
-                        else
+                    Row{
+                        Layout.alignment: Qt.AlignRight
+                        Layout.preferredHeight: 40
+                        Layout.preferredWidth: 120
+                        Button
                         {
-                            studentWidget.border.color = "lavenderblush"
-                            parent.opacity=0.8
+                            width: 40
+                            height: 32
+                            background: Item{}
+                            icon.source: "qrc:/assets/images/trash.png"
+                            icon.width: 32
+                            icon.height: 32
+                            icon.color:"transparent"
+                            opacity: 0.5
+                            onClicked: {
+                                studentsPage.appStackView.push(studentDeleteComponent, {
+                                                                   student_id: rec.model.id,
+                                                                   name: rec.model.name,
+                                                                   lastname: rec.model.lastname,
+                                                                   fathername: rec.model.fathername,
+                                                                   gender: rec.model.gender,
+                                                                   birthday: rec.model.birthday,
+                                                                   photo: rec.model.photo,
+                                                                   enabled: rec.model.enabled
+                                                               }
+                                                                   );
+                            }
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                         }
-                }
-                onClicked: {studentsPage.appStackView.push(studentComponent, {studentId: studentWidget.model.Id });}
-            }
+                        Button
+                        {
+                            width: 40
+                            height: 32
+                            background: Item{}
+                            icon.source: "qrc:/assets/images/edit.png"
+                            icon.width: 32
+                            icon.height: 32
+                            icon.color:"transparent"
+                            opacity: 0.5
+                            onClicked: {
 
+                                studentsPage.appStackView.push(studentUpdateComponent, {
+                                                                   student_id: rec.model.id,
+                                                                   name: rec.model.name,
+                                                                   lastname: rec.model.lastname,
+                                                                   fathername: rec.model.fathername,
+                                                                   gender: rec.model.gender,
+                                                                   birthday: rec.model.birthday,
+                                                                   photo: rec.model.photo,
+                                                                   enabled: rec.model.enabled
+                                                               }
+                                                                   );
+                            }
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        }
+                        Button
+                        {
+                            width: 40
+                            height: 32
+                            background: Item{}
+                            icon.source: "qrc:/assets/images/folders.png"
+                            icon.width: 32
+                            icon.height: 32
+                            icon.color:"transparent"
+                            opacity: 0.5
+                            onClicked: {
+                                studentsPage.appStackView.push(registrationsComponent, {
+                                                                   student_id: rec.model.id,
+                                                                   name: rec.model.name,
+                                                                   lastname: rec.model.lastname,
+                                                                   fathername: rec.model.fathername,
+                                                                   gender: rec.model.gender,
+                                                                   birthday: rec.model.birthday,
+                                                                   photo: rec.model.photo,
+                                                                   enabled: rec.model.enabled
+                                                               }
+                                                                   );
+                            }
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        }
+                    }
+                }
+
+            }
 
 
         }
@@ -365,26 +484,88 @@ Page {
         id: studentInsertComponent
         StudentInsert
         {
-            branchId : branchCB.currentValue
-            branchText: branchCB.currentText
+            step_id : stepCB.currentValue
+            step: stepCB.currentText
+            branch: branchCB.currentText
             onPopStackSignal: studentsPage.appStackView.pop();
             onInsertedSignal:
             {
-                Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue);
+                studentModel.clear();
+                var cond = studentsPage.conditions;
+                studentsPage.offset = 0;
+                studentsPage.pageNumber = 1
+
+                studentsPage.studentsCount = dbMan.getStudentsCount(stepCB.currentValue, cond);
+                var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
+
+                for(var obj of jsondata){
+                    studentModel.append(obj);
+                }
             }
         }
     }
 
-    //student component
+    //update
     Component
     {
-        id: studentComponent
-        Student
+        id: studentUpdateComponent
+        StudentUpdate
         {
+            step: stepCB.currentText
+            branch: branchCB.currentText
+            onPopStackSignal: studentsPage.appStackView.pop();
+            onUpdatedSignal:
+            {
+                studentModel.clear();
+                var cond = studentsPage.conditions;
+                studentsPage.offset = 0;
+                studentsPage.pageNumber = 1
+
+                studentsPage.studentsCount = dbMan.getStudentsCount(stepCB.currentValue, cond);
+                var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
+
+                for(var obj of jsondata){
+                    studentModel.append(obj);
+                }
+            }
+        }
+    }
+
+    // delete
+    Component
+    {
+        id: studentDeleteComponent
+        StudentDelete
+        {
+            step: stepCB.currentText
+            branch: branchCB.currentText
+            onPopStackSignal: studentsPage.appStackView.pop();
+            onDeletedSignal:
+            {
+                studentModel.clear();
+                var cond = studentsPage.conditions;
+                studentsPage.offset = 0;
+                studentsPage.pageNumber = 1
+
+                studentsPage.studentsCount = dbMan.getStudentsCount(stepCB.currentValue, cond);
+                var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
+
+                for(var obj of jsondata){
+                    studentModel.append(obj);
+                }
+            }
+        }
+    }
+
+    // registrations
+    Component{
+        id: registrationsComponent
+        Registrations{
+            step: stepCB.currentText
+            step_id: stepCB.currentValue
+            field_based: stepModel.get(stepCB.currentIndex)["field_based"];
+            branch: branchCB.currentText
             appStackView: studentsPage.appStackView
-            branchText: branchCB.currentText
-            onDeletedSignal: Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue)
-            onUpdatedSignal: Methods.updateStudentsModel(branchCB.currentValue, periodCB.currentValue)
         }
     }
 

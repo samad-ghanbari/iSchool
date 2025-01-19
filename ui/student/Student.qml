@@ -91,7 +91,7 @@ Page {
                                 icon.height: 48
                                 icon.color:"transparent"
                                 opacity: 0.5
-                                onClicked: studentPage.appStackView.push(modifyComponent)
+                                onClicked: {}
                                 hoverEnabled: true
                                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                                 NumberAnimation on scale { duration: 400; from: 0; to:1; easing.type: Easing.Linear }
@@ -310,21 +310,6 @@ Page {
         }
     }
 
-    Component
-    {
-        id: modifyComponent
-        StudentUpdate
-        {
-            model: studentPage.student
-            branchText: studentPage.branchText
-            onPopStackSignal: studentPage.appStackView.pop();
-            onUpdatedSignal:
-            {
-                studentPage.student = dbMan.getStudent(studentPage.studentId)
-                studentPage.updatedSignal();
-            }
-        }
-    }
 
     //-----delete
     Component

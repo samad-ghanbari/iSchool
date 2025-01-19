@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Dialogs
 import QtQuick.Controls
 import QtQuick.Layouts
 
@@ -7,42 +8,27 @@ import "./../public" as DialogBox
 Page {
     id: deletePage
 
-    required property var model;
-    property int studentId: model.id
-    property string branchText;
-    property string name: model.name
-    property string lastname: model.lastname
-    property string fathername: model.fathername
-    property string gender: model.gender
-    property string birthday: model.birthday
-    property bool enabled: model.enabled
-    property string photo: model.photo
-    property bool isFemale : (deletePage.model.gender === "خانم")? true : false;
+    property string branch
+    property string step
 
-    signal deletedSignal();
+    required property int student_id
+    required property string name
+    required property string lastname
+    required property string fathername
+    required property string birthday
+    required property string gender
+    required property bool enabled
+    required property string photo
+
     signal popStackSignal();
+    signal deletedSignal();
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
-    GridLayout
+    ColumnLayout
     {
         anchors.fill: parent
-        columns:2
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: deletePage.popStackSignal();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
@@ -52,291 +38,277 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
-            style: Text.Outline
-            styleColor: "white"
+            color: "darkcyan"
+        }
+        Image {
+            source: "qrc:/assets/images/trash.png"
+            Layout.alignment: Qt.AlignHCenter
+            Layout.preferredHeight:  64
+            Layout.preferredWidth:  64
+            Layout.margins: 10
+            NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
         }
 
-        Rectangle
-        {
-            Layout.columnSpan: 2
-            Layout.fillHeight: true
+        Flickable{
             Layout.fillWidth: true
-            color: "lavenderblush"
+            Layout.fillHeight: true
+            clip: true
+            contentHeight: centerBox.implicitHeight
 
-            ScrollView
-            {
-                height: parent.height
-                width: parent.width
-                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+            Rectangle{
+                color:"snow"
+                width:  (parent.width < 700)? parent.width : 700
+                height: centerBox.implicitHeight + 100
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                Rectangle
-                {
-                    id: centerBoxId
-                    color:"snow"
-                    width:  (parent.width < 700)? parent.width : 700
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.margins: 10
-                    implicitHeight: parent.height
+                Column{
+                    id: centerBox
+                    width: parent.width
 
-                    radius: 10
-                    Item {
-                        anchors.fill: parent
-                        anchors.margins: 10
+                    Image {
+                        source: deletePage.photo
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        height:  128
+                        width:  128
+                        NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
+                    }
 
-                        ColumnLayout
-                        {
-                            width: parent.width
+                    //branch-step
+                    Text {
+                        text: "شعبه " + deletePage.branch + " - " + deletePage.step
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "darkcyan"
+                    }
 
-                            GridLayout
-                            {
-                                columns: 2
-                                rows: 5
-                                rowSpacing: 20
-                                columnSpacing: 10
-                                Layout.preferredWidth:  parent.width
-
-                                Image {
-                                    //source: "qrc:/assets/images/edit.png"
-                                    source:{
-                                        if(deletePage.photo == "")
-                                        {
-                                            if(deletePage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
-                                        }
-                                        else
-                                        {
-                                            return deletePage.photo;
-                                        }
-                                    }
-                                    Layout.alignment: Qt.AlignHCenter
-                                    Layout.preferredHeight:  64
-                                    Layout.preferredWidth:  64
-                                    Layout.margins: 20
-                                    Layout.columnSpan: 2
-                                    NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
-                                }
-
-                                Text {
-                                    Layout.columnSpan: 2
-                                    text: "شعبه " + deletePage.branchText
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-
-                                //name
-                                Text {
-                                    text: "نام دانش‌آموز"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text
-                                {
-                                    id: nameTF
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    text: deletePage.name
-
-                                }
-                                //lastname
-                                Text {
-                                    text: "نام خانوادگی"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text
-                                {
-                                    id: lastnameTF
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    text: deletePage.lastname
-
-                                }
-                                //fathername
-                                Text {
-                                    text: "نام پدر"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text
-                                {
-                                    id: fathernameTF
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    text: deletePage.fathername
-
-                                }
-                                //gender
-                                Text {
-                                    text: "جنسیت"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text
-                                {
-                                    id: genderTF
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    text: deletePage.gender
-
-                                }
-
-                                //birthday
-                                Text {
-                                    text: "تاریخ تولد"
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Text
-                                {
-                                    id: birthdayTF
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    text: deletePage.birthday
-                                }
-                                //enabled
-                                Text {
-                                    text: "وضعیت فعال/غیرفعال"
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    Layout.minimumWidth: 150
-                                    Layout.maximumWidth: 150
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Switch
-                                {
-                                    id: enabledSW
-                                    checked: deletePage.enabled
-                                    text: checked? "فعال" : "غیرفعال";
-                                    font.family: "Kalameh"
-                                    palette.highlight: "royalblue"
-                                    palette.text: "gray"
-                                    enabled: false
-                                }
-                            }
-
-                            Item
-                            {
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                            }
-
-                            Button
-                            {
-                                background: Item{}
-                                icon.source: "qrc:/assets/images/trash3.png"
-                                icon.width: 64
-                                icon.height: 64
-                                icon.color:"transparent"
-                                Layout.preferredHeight: 64
-                                Layout.preferredWidth: 64
-                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                opacity: 0.5
-                                onClicked: delDialog.open();
-                                hoverEnabled: true
-                                onHoveredChanged:
-                                {
-                                    if(hovered)
-                                    {
-                                        this.opacity = 1
-                                        this.scale = 1.1
-                                    }
-                                    else
-                                    {
-                                        this.opacity = 0.8
-                                        this.scale = 1
-                                    }
-                                }
-                            }
+                    //name
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //name
+                        Text {
+                            text: "نام دانش‌آموز"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
                         }
+                        Text
+                        {
+                            id: nameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text: deletePage.name
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
+                    //lastname
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //lastname
+                        Text {
+                            text: "نام خانوادگی"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        Text
+                        {
+                            id: lastnameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text: deletePage.lastname
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
+                    //fathername
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //fathername
+                        Text {
+                            text: "نام پدر"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        Text
+                        {
+                            id: fathernameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text: deletePage.fathername
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
+                    //gender
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //gender
+                        Text {
+                            text: "جنسیت"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        Text
+                        {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text: deletePage.gender
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                        Item{Layout.preferredHeight: 1; Layout.fillWidth: true;}
+                    }
+
+                    //birthday
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //birthday
+                        Text {
+                            text: "تاریخ تولد"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        Text
+                        {
+                            id: birthdayTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text: deletePage.birthday
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
+
+                    Item
+                    {
+                        width: parent.width
+                        height: 10
+                    }
+
+                    Button
+                    {
+                        text: "حذف دانش‌آموز"
+                        width: 200
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "crimson"}
+                        onClicked: delDialog.open();
+                    }
+
+                    Item
+                    {
+                        width: parent.width
+                        height: 20
+                    }
+
+                    Text
+                    {
+                        width: parent.width
+                        height: 40
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        text: "برای حذف دانش‌آموز لازم است ابتدا ثبت‌نامی‌های دانش‌آموز حذف گردند."
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        color: "crimson"
+                    }
+                    Item
+                    {
+                        width: parent.width
+                        height: 10
                     }
                 }
             }
         }
-
     }
 
     DialogBox.BaseDialog
     {
         id: delDialog
-        dialogTitle:  "حذف دبیر"
-        dialogText: "آیا از حذف دانش‌آموز از سامانه مطمئن می‌باشید؟"
+        dialogTitle:  "حذف دانش‌آموز"
+        dialogText: "آیا از حذف کامل دانش‌آموز مطمئن هستید؟"
         acceptVisible: true
         rejectVisible: true
 
         onDialogAccepted: function(){
-            if(dbMan.studentDelete(deletePage.studentId))
+            if(dbMan.studentDelete(deletePage.student_id)){
+                deletePage.deletedSignal();
                 successDialogId.open();
+            }
 
             else
+            {
+                var errorString = dbMan.getLastError();
+                infoDialogId.dialogText = errorString
+                infoDialogId.width = parent.width
+                infoDialogId.height = 500
                 infoDialogId.open();
+            }
         }
     }
+
     DialogBox.BaseDialog
     {
         id: infoDialogId
         dialogTitle: "خطا"
-        dialogText: "حذف دانش‌آموز با خطا مواجه شد."
+        dialogText: "انجام عملیات با خطا مواجه شد."
         dialogSuccess: false
     }
 
@@ -344,12 +316,11 @@ Page {
     {
         id: successDialogId
         dialogTitle: "عملیات موفق"
-        dialogText: "حذف دانش‌آموز با موفقیت انجام شد."
+        dialogText: "دانش‌آموز با موفقیت حذف شد."
         dialogSuccess: true
-        onDialogAccepted: {
+        onDialogAccepted: function(){
             successDialogId.close();
             deletePage.popStackSignal();
-            deletePage.deletedSignal();
         }
     }
 }

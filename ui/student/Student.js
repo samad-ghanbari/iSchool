@@ -93,54 +93,11 @@ function updateStepCB(branchId)
 
 function updateBaseCB(branchId)
 {
-    baseCBoxModel.clear();
-    var jsondata = dbMan.getBranchStudyBases(branchId);
-    //sb.id, sb.branch_id, sb.study_base, b.city, b.branch_name
-    var temp;
-    for(var obj of jsondata)
-    {
-        baseCBoxModel.append({value: obj.id,  text: obj.study_base })
-    }
+
 }
 
 function updatePeiodCB(branchId)
 {
-    periodCBoxModel.clear();
-    var jsondata = dbMan.getBranchPeriods(branchId);
-    //sp.id, sp.branch_id, sp.study_period, sp.passed, b.city, b.branch_name, b.branch_address
-    var temp;
-    for(var obj of jsondata)
-    {
-        if(!obj.passed)
-            periodCBoxModel.append({value: obj.id,  text: obj.study_period })
-    }
-}
-
-function updateStudentRegs(branchId, studentId)
-{
-    //0r.id,  r.student_id, r.step_id, r.study_base_id, r.study_period_id, s.branch_id
-    // 6br.city, br.branch_name, st.step_name, sb.study_base, sp.study_period, sp.passed, cl.class_name
-
-    regsModel.clear();
-    var jsondata = dbMan.getRegisterations(branchId, studentId);
-    for(var obj of jsondata)
-    {
-        regsModel.append({
-                             Id: obj.id,
-                             Student_id: obj.student_id,
-                             Step_id: obj.step_id,
-                             Study_base_id: obj.study_base_id,
-                             Study_period_id: obj.study_period_id,
-                             Branch_id: obj.branch_id,
-                             City: obj.city,
-                             Branch_name: obj.branch_name,
-                             Step_name: obj.step_name,
-                             Study_base: obj.study_base,
-                             Study_period: obj.study_period,
-                             Passed: obj.passed,
-                             Class_name: obj.class_name
-                         });
-    }
 
 }
 

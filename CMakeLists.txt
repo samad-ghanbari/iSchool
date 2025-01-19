@@ -140,8 +140,8 @@ qt_add_qml_module(appiSchool
 
     #STUDENT
         ui/student/Students.qml
-        ui/student/Student.qml
-        ui/student/Student.js
+        #ui/student/Student.qml
+        #ui/student/Student.js
         ui/student/StudentInsert.qml
         ui/student/StudentDelete.qml
         ui/student/StudentUpdate.qml
@@ -246,6 +246,9 @@ qt_add_resources(appiSchool "assets"
         assets/images/normalised.png
         assets/images/stat.png
         assets/images/change.png
+        assets/images/toLeft.png
+        assets/images/toRight.png
+        assets/images/filter.png
 
 
     #LOGO

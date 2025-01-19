@@ -2,40 +2,32 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Student.js" as Methods
+//import "Student.js" as Methods
 import "./../public" as DialogBox
 
 Page {
     id: registerPage
 
-    required property var student;
+    required property string branch
+    required property string step
+    required property int step_id
+    required property int student_id
+    required property bool field_based
+    required property string name
+    required property string lastname
+    required property string fathername
+    required property string photo
+
     signal popStackSignal();
-    signal newRegisterSignal();
+    signal registeredSignal();
 
-    property bool isFemale : (registerPage.student.Gender === "خانم")? true : false;
-
-    background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
+    background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
 
-    GridLayout
+    ColumnLayout
     {
-        columns: 2
         anchors.fill: parent
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: registerPage.popStackSignal();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
@@ -45,267 +37,270 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
-            style: Text.Outline
-            styleColor: "white"
+            color: "darkcyan"
         }
 
-
-
-        ScrollView
-        {
-            Layout.columnSpan: 2
+        Flickable{
             Layout.fillWidth: true
             Layout.fillHeight: true
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+            clip: true
+            contentHeight: centerBox.implicitHeight
 
-            Rectangle
-            {
+            Rectangle{
                 width: (parent.width > 700)? 700 : parent.width
-                implicitHeight : centerBox.implicitHeight + 40
+                height : centerBox.implicitHeight + 100
                 anchors.horizontalCenter : parent.horizontalCenter
                 color: "snow"
 
-                GridLayout
-                {
+                Column{
                     id: centerBox
-                    anchors.fill: parent
-                    anchors.margins: 20
-                    columns: 2
+                    width: parent.width
 
-                    Image
-                    {
-                        Layout.columnSpan: 2
-                        Layout.preferredWidth: 128
-                        Layout.preferredHeight: 128
-                        Layout.alignment: Qt.AlignHCenter
-                        source:{
-                            if(registerPage.student.photo == "")
-                            {
-                                if(registerPage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
-                            }
-                            else
-                            {
-                                return registerPage.student.photo;
-                            }
-                        }
+                    Image {
+                        source: registerPage.photo
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        height:  128
+                        width:  128
+                        NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
                     }
 
+                    //branch-step
                     Text {
-                        text: "دانش آموز"
-                        Layout.minimumWidth: 200
-                        Layout.maximumWidth: 200
-                        Layout.preferredHeight: 50
+                        text: "شعبه " + registerPage.branch + " - " + registerPage.step
+                        width: parent.width
+                        height: 50
                         verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
-                        font.pixelSize: 16
+                        font.pixelSize: 18
                         font.bold: true
-                        color: "royalblue"
-                    }
-                    Text
-                    {
-                        id: nameId
-                        text: registerPage.student["name"] + " " + registerPage.student["lastname"]
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-
+                        color: "darkcyan"
                     }
 
+                    Item{width: parent.width; height: 10;}
+
+                    //student
                     Text {
-                        text: "نام پدر"
-                        Layout.minimumWidth: 200
-                        Layout.maximumWidth: 200
-                        Layout.preferredHeight: 50
+                        text: registerPage.name + " " + registerPage.lastname + " ( " + registerPage.fathername + " ) "
+                        width: parent.width
+                        height: 50
                         verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
-                        font.pixelSize: 16
+                        font.pixelSize: 20
                         font.bold: true
-                        color: "royalblue"
-                    }
-                    Text
-                    {
-                        id: fathernameId
-                        text: registerPage.student["fathername"]
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
+                        color: "mediumvioletred"
                     }
 
-                    Rectangle
-                    {
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 4
-                        color: "skyblue"
-                        Layout.topMargin: 10
-                        Layout.bottomMargin: 10
-                    }
+                    Item{width: parent.width; height: 10;}
 
-                    Label
-                    {
-                        Layout.preferredHeight:  50
-                        Layout.preferredWidth: 200
-                        text:"شعبه"
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        horizontalAlignment: Label.AlignLeft
-                        verticalAlignment: Label.AlignVCenter
-                    }
-                    Label
-                    {
-                        Layout.preferredHeight:  50
-                        Layout.fillWidth: true
-                        text: registerPage.student.city + " - " + registerPage.student.branch_name
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        horizontalAlignment: Label.AlignLeft
-                        verticalAlignment: Label.AlignVCenter
-                    }
-
-                    Label
-                    {
-                        Layout.preferredHeight:  50
-                        Layout.preferredWidth: 200
-                        text:"دوره"
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        horizontalAlignment: Label.AlignLeft
-                        verticalAlignment: Label.AlignVCenter
-                    }
-                    ComboBox
-                    {
-                        id: stepCB
-                        Layout.preferredHeight:  50
-                        Layout.fillWidth: true
-                        Layout.maximumWidth: 400
-                        Layout.alignment: Qt.AlignLeft
-                        editable: false
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        model: ListModel{id: stepCBoxModel}
-                        textRole: "text"
-                        valueRole: "value"
-                        Component.onCompleted:
-                        {
-                            Methods.updateStepCB(registerPage.student.branch_id);
+                    //field
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        visible: (registerPage.field_based)? true : false
+                        Text {
+                            text: "رشته تحصیلی "
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
                         }
-                    }
-
-                    // base
-                    Label
-                    {
-                        Layout.preferredHeight:  50
-                        Layout.preferredWidth: 200
-                        text:"پایه تحصیلی"
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        horizontalAlignment: Label.AlignLeft
-                        verticalAlignment: Label.AlignVCenter
-                    }
-                    ComboBox
-                    {
-                        id: baseCB
-                        Layout.preferredHeight:  50
-                        Layout.fillWidth: true
-                        Layout.maximumWidth: 400
-                        Layout.alignment: Qt.AlignLeft
-                        editable: false
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        model: ListModel{id: baseCBoxModel}
-                        textRole: "text"
-                        valueRole: "value"
-                        Component.onCompleted:
+                        ComboBox
                         {
-                            Methods.updateBaseCB(registerPage.student.branch_id);
+                            id: fieldCB
+                            Layout.preferredHeight:  50
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 400
+                            editable: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            model: ListModel{id: fieldModel}
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted:
+                            {
+                                fieldModel.clear();
+                                var jsondata = dbMan.getFields(registerPage.step_id);
+
+                                for(var obj of jsondata)
+                                {
+                                    fieldModel.append({value: obj.id,  text: obj.field_name })
+                                }
+
+                                fieldCB.currentIndex = -1;
+                            }
+
+                            onActivated: {
+                                if(registerPage.field_based){
+                                    baseModel.clear();
+                                    var jsondata = dbMan.getFieldBases(fieldCB.currentValue, false);
+
+                                    for(var obj of jsondata)
+                                    {
+                                        baseModel.append({value: obj.id,  text: obj.base_name })
+                                    }
+
+                                    baseCB.currentIndex = -1
+                                }
+                            }
                         }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }
 
-                    // study period
-                    Label
-                    {
-                        Layout.preferredHeight:  50
-                        Layout.preferredWidth: 200
-                        text:"سال تحصیلی"
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        horizontalAlignment: Label.AlignLeft
-                        verticalAlignment: Label.AlignVCenter
-                    }
-                    ComboBox
-                    {
-                        id: periodCB
-                        Layout.preferredHeight:  50
-                        Layout.fillWidth: true
-                        Layout.maximumWidth: 400
-                        Layout.alignment: Qt.AlignLeft
-                        editable: false
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-
-                        model: ListModel{id: periodCBoxModel}
-                        textRole: "text"
-                        valueRole: "value"
-                        Component.onCompleted:
+                    //base
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "پایه تحصیلی "
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        ComboBox
                         {
-                            Methods.updatePeiodCB(registerPage.student.branch_id);
+                            id: baseCB
+                            Layout.preferredHeight:  50
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 400
+                            editable: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            model: ListModel{id: baseModel}
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted:
+                            {
+                                if(! registerPage.field_based){
+                                    baseModel.clear();
+                                    var jsondata = dbMan.getStepBases(registerPage.step_id, false);
+
+                                    for(var obj of jsondata)
+                                    {
+                                        baseModel.append({value: obj.id,  text: obj.base_name })
+                                    }
+
+                                    periodCB.currentIndex = -1
+                                }
+                            }
+
+                            onActivated: periodCB.currentIndex = -1;
                         }
-
-                        onActivated : Methods.updateClassCB(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue);
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }
 
-                    // class
-                    Label
-                    {
-                        Layout.preferredHeight:  50
-                        Layout.preferredWidth: 200
-                        text:"کلاس درس"
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        horizontalAlignment: Label.AlignLeft
-                        verticalAlignment: Label.AlignVCenter
+                    //period
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "سال تحصیلی "
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        ComboBox
+                        {
+                            id: periodCB
+                            Layout.preferredHeight:  50
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 400
+                            Layout.alignment: Qt.AlignLeft
+                            editable: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+
+                            model: ListModel{id: periodModel}
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted:
+                            {
+                                periodModel.clear();
+                                var jsondata = dbMan.getStepPeriods(registerPage.step_id, false);
+                                for(var obj of jsondata)
+                                {
+                                    if(!obj.passed)
+                                        periodModel.append({value: obj.period_id,  text: obj.period_name })
+                                }
+                                periodCB.currentIndex = -1;
+                            }
+
+                            onActivated : {
+                                classModel.clear();
+                                var jsondata = dbMan.getBaseClasses(baseCB.currentValue, periodCB.currentValue);
+                                for(var obj of jsondata)
+                                {
+                                    if(!obj.passed)
+                                        classModel.append({value: obj.class_id,  text: obj.class_name })
+                                }
+                                classCB.currentIndex = -1;
+                            }
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }
-                    ComboBox
-                    {
-                        id: classCB
-                        Layout.preferredHeight:  50
-                        Layout.fillWidth: true
-                        Layout.maximumWidth: 400
-                        Layout.alignment: Qt.AlignLeft
-                        editable: false
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        model: ListModel{id: classModel;}
-                        textRole: "text"
-                        valueRole: "value"
+
+                    //class
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+
+                        Text {
+                            text: "کلاس"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        ComboBox
+                        {
+                            id: classCB
+                            Layout.preferredHeight:  50
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 400
+                            Layout.alignment: Qt.AlignLeft
+                            editable: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            model: ListModel{id: classModel;}
+                            textRole: "text"
+                            valueRole: "value"
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }
 
-
-
+                    Item{height: 20; width:parent.width;}
 
                     Button
                     {
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 60
-                        Layout.fillWidth: true
-                        Layout.maximumWidth: 500
-                        Layout.topMargin: 50
-                        Layout.alignment: Qt.AlignHCenter
+                        height: 60
+                        width: 400
+                        anchors.horizontalCenter: parent.horizontalCenter
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
@@ -315,7 +310,8 @@ Page {
                         Rectangle{width: parent.width;  height: 4; color:"skyblue"; anchors.bottom: parent.bottom;}
                     }
 
-                    Item{Layout.columnSpan: 2; Layout.preferredHeight: 40; Layout.fillWidth: true;}
+                    Item{height: 20; width:parent.width;}
+
 
                 }
             }
@@ -331,43 +327,11 @@ Page {
         dialogSuccess: true
         rejectVisible: true
         onDialogAccepted: {
-            var reg = {}
-            reg["student_id"] = registerPage.student.id;
-            reg["step_id"] = stepCB.currentValue;
-            reg["study_base_id"] = baseCB.currentValue;
-            reg["study_period_id"] = periodCB.currentValue;
-            reg["class_id"] = classCB.currentValue
 
-            if(dbMan.registerStudent(reg))
+            if(dbMan.registerStudent(registerPage.student_id, classCB.currentValue))
             {
-                // on register > student_courses & student_evals should be inserted too
-
-                // student_courses : student_id, register_id, course_id, teacher_id
-                var register_id = dbMan.getLastInsertedId();
-                var student_id = registerPage.student.id;
-                var class_id = classCB.currentValue; // get course_id & teacher_id of class
-                //student_evals : student_id, eval_id
-                // class_id > eval_ids
-
-                if(dbMan.registerStudentCourseInsert(student_id, register_id, class_id) )
-                {
-                    if( dbMan.registerStudentEvalInsert(student_id, class_id) )
-                    {
-                        successDialogId.dialogText = "ثبت‌نام با موفقیت انجام شد." + "\n" + "دروس و ارزیابی دانش‌آموز بروز گردید."
-                        successDialogId.open();
-                    }
-                    else
-                    {
-                        successDialogId.dialogText = "ثبت‌نام با موفقیت انجام شد." + "\n" + "دروس دانش‌آموز بروز گردید."
-                        successDialogId.open();
-                    }
-
-                }
-                else
-                {
-                    successDialogId.dialogText = "ثبت‌نام با موفقیت انجام شد."
-                    successDialogId.open();
-                }
+                successDialogId.dialogText = "ثبت‌نام با موفقیت انجام شد."
+                successDialogId.open();
             }
             else
             {
@@ -397,7 +361,7 @@ Page {
         dialogSuccess: true
         onDialogAccepted: {
             registerPage.popStackSignal();
-            registerPage.newRegisterSignal();
+            registerPage.registeredSignal();
         }
 
     }
