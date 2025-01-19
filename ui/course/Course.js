@@ -71,7 +71,7 @@ function updateFieldBaseCB(fieldId)
 function updateBaseCB(stepId)
 {
     baseModel.clear();
-    periodCB.clear();
+    periodModel.clear();
     coursesModel.clear();
 
     var jsondata = dbMan.getStepBases(stepId, false);

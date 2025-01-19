@@ -20,13 +20,15 @@ Backend::Backend(QGuiApplication &app, QObject *parent)
     // Far.Afaaq
     //The Phamelo
     //Daughter of Fortune
+    // B Nazanin
 
     QFontDatabase::addApplicationFont(":/assets/font/yekan.ttf"); // B Yean
     QFontDatabase::addApplicationFont(":/assets/font/ZarBd.ttf"); // Zar
     QFontDatabase::addApplicationFont(":/assets/font/TitrBd.ttf"); //Titr
     QFontDatabase::addApplicationFont(":/assets/font/Far.Afaaq.ttf");
     QFontDatabase::addApplicationFont(":/assets/font/Phamelo.ttf");
-    int ii =QFontDatabase::addApplicationFont(":/assets/font/Kalameh.ttf");
+    QFontDatabase::addApplicationFont(":/assets/font/Kalameh.ttf");
+    int ii = QFontDatabase::addApplicationFont(":/assets/font/bnazanin.ttf");
 
 
     // //Retrieve and print the font family name

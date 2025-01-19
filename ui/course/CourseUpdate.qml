@@ -36,7 +36,7 @@ Page {
 
 
 
-    property var courseSharedArray : updatePage.shared_coefficient["ids"]
+    property var courseSharedArray : []
 
     property var existsCourses : dbMan.getAllCoursesMinimised(updatePage.step_id, updatePage.base_id, updatePage.period_id, updatePage.course_id);
 
@@ -409,6 +409,16 @@ Page {
                         }
 
                         Component.onCompleted:{
+
+                            var sharedObj = updatePage.shared_coefficient;
+                            if(typeof sharedObj !== 'undefined'){
+                                var keys = Object.keys(sharedObj)
+                                if(keys.includes("ids"))
+                                    updatePage.courseSharedArray = sharedObj["ids"];
+                            }
+
+
+
                             for(var obj of updatePage.existsCourses)
                             courseCoefModel.append(obj);
                         }

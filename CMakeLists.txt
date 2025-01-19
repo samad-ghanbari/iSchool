@@ -199,6 +199,8 @@ qt_add_resources(appiSchool "assets"
         assets/font/Phamelo.ttf
         assets/font/Daughter.ttf
         assets/font/Kalameh.ttf
+        assets/font/bnazanin.ttf
+
         qmldir
         ui/login/qmldir
         ui/home/qmldir
