@@ -10,7 +10,7 @@ Page {
 
     property int limit : 25
     property int offset: 0
-    property var conditions;
+    property var filterParams: [{key: "name", value: "samad"}, {key: "lastname", value: "ghanbari"}]; // [    {"key": "name", "value": "samad"}, {key: "lastname", value: "ghanbari"}    ] name lastname fathername birthday
     property int studentsCount
     property int pageNumber: 1
     // offset shoud be less or equal than limit
@@ -138,7 +138,7 @@ Page {
                         valueRole: "value"
                         onActivated: {
                             studentModel.clear();
-                            var cond = studentsPage.conditions;
+                            var cond = studentsPage.filterParams;
                             studentsPage.offset = 0;
                             studentsPage.pageNumber = 1
 
@@ -210,7 +210,38 @@ Page {
                         hoverEnabled: true
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
 
-                        enabled: false
+                        //enabled: false
+                    }
+                }
+
+                // filter box
+                Rectangle{
+                    visible: (Object.keys(studentsPage.filterParams).length > 0)? true : false
+                    width: parent.width
+                    height: 50
+                    color: "transparent"
+                    Flickable{
+                        anchors.fill: parent
+                        contentWidth: filterBox.implicitWidth
+                        Row{
+                            id: filterBox
+                            height: parent.heigth
+
+                            Repeater{
+                                model: studentsPage.filterParams
+                                delegate: FilterDelegate{
+                                    id: fRec
+                                    required property var model;
+                                    widgetHeight: 32
+                                    key: fRec.model.key
+                                    value: fRec.model.value
+                                    onRemoveSignal: {
+                                        console.log(fRec.model.index)
+                                    }
+                                }
+                            }
+
+                        }
                     }
                 }
 
@@ -235,7 +266,7 @@ Page {
                         {
                             studentModel.clear();
 
-                            var cond = studentsPage.conditions;
+                            var cond = studentsPage.filterParams;
                             studentsPage.offset = studentsPage.offset - 24;
                             studentsPage.pageNumber = studentsPage.pageNumber - 1;
                             if(studentsPage.offset  < 0 ) { studentsPage.offset = 0; studentsPage.pageNumber = 1;}
@@ -279,7 +310,7 @@ Page {
                             studentsPage.pageNumber = studentsPage.pageNumber + 1;
                             if(studentsPage.offset >= studentsPage.studentsCount ){ studentsPage.offset = studentsPage.offset - 24; studentsPage.pageNumber = studentsPage.pageNumber - 1;}
 
-                            var cond = studentsPage.conditions;
+                            var cond = studentsPage.filterParams;
                             var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
 
                             for(var obj of jsondata){
@@ -491,7 +522,7 @@ Page {
             onInsertedSignal:
             {
                 studentModel.clear();
-                var cond = studentsPage.conditions;
+                var cond = studentsPage.filterParams;
                 studentsPage.offset = 0;
                 studentsPage.pageNumber = 1
 
@@ -517,7 +548,7 @@ Page {
             onUpdatedSignal:
             {
                 studentModel.clear();
-                var cond = studentsPage.conditions;
+                var cond = studentsPage.filterParams;
                 studentsPage.offset = 0;
                 studentsPage.pageNumber = 1
 
@@ -543,7 +574,7 @@ Page {
             onDeletedSignal:
             {
                 studentModel.clear();
-                var cond = studentsPage.conditions;
+                var cond = studentsPage.filterParams;
                 studentsPage.offset = 0;
                 studentsPage.pageNumber = 1
 

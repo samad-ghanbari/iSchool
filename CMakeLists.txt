@@ -181,6 +181,7 @@ qt_add_qml_module(appiSchool
         ui/student/StudentCourseInsert.qml
         ui/student/StudentCourseDelete.qml
         ui/student/StudentCourseEval.qml
+        QML_FILES ui/student/FilterDelegate.qml
 
 
 )
