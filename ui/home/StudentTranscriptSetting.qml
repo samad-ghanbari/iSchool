@@ -39,6 +39,15 @@ Page {
 
     property var evals: []
 
+
+    property color grade17_15  : "lavenderblush"
+    property color grade15_12  : "lightpink"
+    property color grade12_10  : "pink"
+    property color grade10  : "hotpink"
+
+
+
+
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
     ColumnLayout
@@ -176,6 +185,18 @@ Page {
                         id: centerlayout
                         width: parent.width
 
+                        Label{
+                            Layout.preferredHeight: 50
+                            Layout.fillWidth: true
+                            Layout.margins: 10
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text:"تنظیمات کارنامه"
+                            color: "slategray"
+                        }
+
                         Repeater
                         {
                             id: evalsRp
@@ -304,7 +325,7 @@ Page {
 
                             Label{
                                 Layout.preferredHeight: 50
-                                Layout.preferredWidth: 100
+                                Layout.preferredWidth: 200
                                 Layout.alignment: Qt.AlignLeft
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
@@ -398,10 +419,171 @@ Page {
                             font.pixelSize: 16
                         }
 
+                        Rectangle{Layout.fillWidth: true; Layout.margins: 10; Layout.maximumWidth: 500; Layout.alignment: Qt.AlignHCenter; Layout.preferredHeight: 2; color: "black";}
+
+                        // printer
+
+                        Label{
+                            Layout.preferredHeight: 50
+                            Layout.fillWidth: true
+                            Layout.margins: 10
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text:"تنظیمات چاپ"
+                            color: "slategray"
+                        }
+
+                        RowLayout{
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 500
+                            Layout.preferredHeight: 50
+                            Layout.alignment: Qt.AlignHCenter
+
+                            Label{
+                                Layout.preferredHeight: 50
+                                Layout.preferredWidth: 200
+                                Layout.alignment: Qt.AlignLeft
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                text:"انداره صفحه: "
+                            }
+                            ComboBox{
+                                id: paperSizeCB
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                font.bold: false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                model: ListModel{id: paperModel}
+                                textRole: "text"
+                                valueRole: "value"
+                                Component.onCompleted:
+                                {
+                                    paperModel.append({text: "A4 (8.3 inch x 11.7 inch)", value: "A4"});
+                                    paperModel.append({text: "A3 (11.7 inch x 16.5 inch)", value: "A3"});
+                                    paperSizeCB.currentIndex = paperSizeCB.indexOfValue("A4")
+                                }
+                            }
+                        }
+
+                        RowLayout{
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 500
+                            Layout.preferredHeight: 50
+                            Layout.alignment: Qt.AlignHCenter
+
+                            Label{
+                                Layout.preferredHeight: 50
+                                Layout.preferredWidth: 200
+                                Layout.alignment: Qt.AlignLeft
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                text:"اندازه فونت محتوای جدول: "
+                            }
+                            ComboBox{
+                                id: contentFontSizeCB
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                font.bold: false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                model: ListModel{id: contentFSModel}
+                                textRole: "text"
+                                valueRole: "value"
+                                Component.onCompleted:
+                                {
+                                    contentFSModel.append({text: "8", value: 8});
+                                    contentFSModel.append({text: "10", value: 10});
+                                    contentFSModel.append({text: "12", value: 12});
+                                    contentFSModel.append({text: "14", value: 14});
+                                    contentFSModel.append({text: "16", value: 16});
+                                    contentFSModel.append({text: "18", value: 18});
+
+                                    contentFontSizeCB.currentIndex = contentFontSizeCB.indexOfValue(12)
+                                }
+                            }
+                        }
+
+                        RowLayout{
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 500
+                            Layout.preferredHeight: 50
+                            Layout.alignment: Qt.AlignHCenter
+
+                            Label{
+                                Layout.preferredHeight: 50
+                                Layout.preferredWidth: 200
+                                Layout.alignment: Qt.AlignLeft
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                text:"اندازه فونت تیتر جدول: "
+                            }
+                            ComboBox{
+                                id: titrFontSizeCB
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                font.bold: false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                model: ListModel{id: titrFontModel}
+                                textRole: "text"
+                                valueRole: "value"
+                                Component.onCompleted:
+                                {
+                                    titrFontModel.append({text: "8", value: 8});
+                                    titrFontModel.append({text: "10", value: 10});
+                                    titrFontModel.append({text: "12", value: 12});
+                                    titrFontModel.append({text: "14", value: 14});
+                                    titrFontModel.append({text: "16", value: 16});
+                                    titrFontModel.append({text: "18", value: 18});
+                                    titrFontModel.append({text: "20", value: 20});
+
+                                    contentFontSizeCB.currentIndex = contentFontSizeCB.indexOfValue(14)
+                                }
+                            }
+                        }
+
+                        RowLayout{
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 500
+                            Layout.preferredHeight: 50
+                            Layout.alignment: Qt.AlignHCenter
+
+                            Label{
+                                Layout.preferredHeight: 50
+                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignLeft
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                text:"رنگ پس‌زمینه نمرات بین ۱۷ تا ۱۵: "
+                            }
+                            Button{
+                                id: btn17_15
+                                Layout.preferredWidth: 100
+                                Layout.preferredHeight: 50
+                                background: Rectangle{color: studentResultSettingPage}
+                                onClicked: color17_15_Dialog.open();
+                            }
+                        }
+
+
+
                         Item{
                             Layout.fillWidth: true
                             Layout.preferredHeight: 50
                         }
+
+                        // buttons
 
                         RowLayout
                         {
@@ -465,7 +647,6 @@ Page {
         onDialogAccepted: studentResultSettingPage.appStackView.pop();
     }
 
-
     // file dialog
     FileDialog {
         id: saveFileDialog
@@ -522,4 +703,38 @@ Page {
         }
         onRejected: saveFileDialog.close();
     }
+
+    //color 17-15
+    ColorDialog {
+        id: color17_15_Dialog
+        title: "انتخاب رنگ"
+        onAccepted: studentResultSettingPage.grade17_15 = color17_15_Dialog.color
+    }
+
+    //color 15-12
+    ColorDialog {
+        id: color15_12
+        title: "انتخاب رنگ"
+        onAccepted: {
+            console.log("You chose: " + color15_12.color)
+        }
+    }
+
+        //color 12-10
+    ColorDialog {
+        id: color12_10
+        title: "انتخاب رنگ"
+        onAccepted: {
+            console.log("You chose: " + color12_10.color)
+        }
+    }
+    //color below 10
+    ColorDialog {
+        id: color10
+        title: "انتخاب رنگ"
+        onAccepted: {
+            console.log("You chose: " + color10.color)
+        }
+    }
+
 }
