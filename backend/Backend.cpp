@@ -28,7 +28,8 @@ Backend::Backend(QGuiApplication &app, QObject *parent)
     QFontDatabase::addApplicationFont(":/assets/font/Far.Afaaq.ttf");
     QFontDatabase::addApplicationFont(":/assets/font/Phamelo.ttf");
     QFontDatabase::addApplicationFont(":/assets/font/Kalameh.ttf");
-    int ii = QFontDatabase::addApplicationFont(":/assets/font/bnazanin.ttf");
+    QFontDatabase::addApplicationFont(":/assets/font/bnazanin.ttf"); // B Nazanin
+    int ii = QFontDatabase::addApplicationFont(":/assets/font/MitraBd.ttf"); // Mitra
 
 
     // //Retrieve and print the font family name

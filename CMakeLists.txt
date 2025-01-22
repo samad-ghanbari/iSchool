@@ -181,7 +181,7 @@ qt_add_qml_module(appiSchool
         ui/student/StudentCourseInsert.qml
         ui/student/StudentCourseDelete.qml
         ui/student/StudentCourseEval.qml
-        QML_FILES ui/student/FilterDelegate.qml
+        ui/student/FilterDelegate.qml
 
 
 )
@@ -201,6 +201,7 @@ qt_add_resources(appiSchool "assets"
         assets/font/Daughter.ttf
         assets/font/Kalameh.ttf
         assets/font/bnazanin.ttf
+        assets/font/MitraBd.ttf
 
         qmldir
         ui/login/qmldir
