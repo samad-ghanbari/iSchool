@@ -749,14 +749,12 @@ Page {
         title: "انتخاب رنگ"
         selectedColor: "#fcdadf"
     }
-
     // highlight2
     ColorDialog {
         id: highlight2_Dialog
         title: "انتخاب رنگ"
         selectedColor: "#f6aab6"
     }
-
     // highlight3
     ColorDialog {
         id: highlight3_Dialog
