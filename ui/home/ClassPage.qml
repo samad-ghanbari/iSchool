@@ -107,6 +107,24 @@ Page {
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
             }
 
+            Button
+            {
+                Layout.preferredHeight:  64
+                background: Item{}
+                icon.source: "qrc:/assets/images/stat.png"
+                text: "رتبه‌بندی"
+                font.family: "Kalameh"
+                font.pixelSize: 16
+                icon.width: 32
+                icon.height: 32
+                display: AbstractButton.TextUnderIcon
+                icon.color:"transparent"
+                opacity: 0.5
+                onClicked: appStackView.push(rankComponent);
+                hoverEnabled: true
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+            }
+
         }
 
 
@@ -253,4 +271,17 @@ Page {
         }
     }
 
+    Component{
+        id:rankComponent
+        Rank{
+            branch: classPageId.branch
+            step: classPageId.step
+            base: classPageId.base
+            field : classPageId.field
+            field_based: classPageId.field_based
+            period: classPageId.period
+
+            onPopSignal: classPageId.appStackView.pop();
+        }
+    }
 }

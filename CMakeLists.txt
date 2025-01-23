@@ -12,6 +12,9 @@ project(iSchool VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(ICON_SOURCES icon.ico)
+set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/icon.rc")
+
+    
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
@@ -19,6 +22,7 @@ qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(appiSchool
     main.cpp
+    ${app_icon_resource_windows}
 )
 
 #qt_policy(SET QTP0004 NEW)
@@ -71,6 +75,7 @@ qt_add_qml_module(appiSchool
         ui/home/StudentTranscriptSetting.qml
         ui/home/ClassTranscriptsSetting.qml
         ui/home/BaseAvg.qml
+        ui/home/Rank.qml
 
 
     #USER
@@ -182,7 +187,6 @@ qt_add_qml_module(appiSchool
         ui/student/StudentCourseDelete.qml
         ui/student/StudentCourseEval.qml
         ui/student/FilterDelegate.qml
-
 
 )
 
