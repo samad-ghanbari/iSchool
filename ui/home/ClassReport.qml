@@ -6,7 +6,7 @@ import QtQuick.Dialogs
 import "./../public" as DialogBox
 
 Page {
-    id: rankPage
+    id: classReportPage
 
     required property string branch;
     required property string step;
@@ -14,6 +14,8 @@ Page {
     required property string base;
     required property bool field_based;
     required property string period;
+    required property string class_name;
+    required property int class_id;
 
     signal popSignal();
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
@@ -32,7 +34,7 @@ Page {
                 Layout.preferredHeight: 64
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + rankPage.branch + " - " + rankPage.step
+                text: "شعبه " + classReportPage.branch + " - " + classReportPage.step
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
@@ -51,7 +53,7 @@ Page {
                 Layout.preferredHeight: 64
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: (rankPage.field_based) ? "رشته " + rankPage.field + " - " + " سال‌تحصیلی " + rankPage.period :  " سال‌تحصیلی " + rankPage.period
+                text: (classReportPage.field_based) ? "رشته " + classReportPage.field + " - " + " سال‌تحصیلی " + classReportPage.period :  " سال‌تحصیلی " + classReportPage.period
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
@@ -73,7 +75,7 @@ Page {
             Layout.preferredHeight: 25
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "رتبه‌بندی دانش‌آموزان پایه" + rankPage.base
+            text: "گزارش کلی دانش‌آموزان کلاس " + classReportPage.class_name
             font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
@@ -104,7 +106,7 @@ Page {
                         verticalAlignment: Label.AlignVCenter
                         font.family: "Kalameh"
                         font.pixelSize: 16
-                        text:"تنظیمات رتبه‌بندی"
+                        text:"تنظیمات گزارش"
                         color: "slategray"
                     }
 
@@ -119,7 +121,7 @@ Page {
                             verticalAlignment: Label.AlignVCenter
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            text:"مرجع مقایسه رتبه و میانگین: "
+                            text:"آزمون مرجع: "
                         }
                         ComboBox{
                             id: compareRef
@@ -206,15 +208,6 @@ Page {
                         }
                     }
 
-                    Switch{
-                        id: testSW
-                        width: parent.width
-                        height: 50
-                        text: "معدل تست"
-                        checked: true
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                    }
 
                     Switch{
                         id: photoSW
@@ -319,7 +312,7 @@ Page {
                                 contentFSModel.append({text: "18", value: 18});
                                 contentFSModel.append({text: "20", value: 20});
 
-                                contentFontSizeCB.currentIndex = contentFontSizeCB.indexOfValue(14)
+                                contentFontSizeCB.currentIndex = contentFontSizeCB.indexOfValue(12)
                             }
                         }
                     }
@@ -357,7 +350,7 @@ Page {
                                 titrFontModel.append({text: "18 Bold", value: 18});
                                 titrFontModel.append({text: "20 Bold", value: 20});
 
-                                titrFontSizeCB.currentIndex = titrFontSizeCB.indexOfValue(12)
+                                titrFontSizeCB.currentIndex = titrFontSizeCB.indexOfValue(10)
                             }
                         }
                     }
@@ -420,7 +413,7 @@ Page {
                             Layout.preferredWidth:  100
                             font.family: "Kalameh"
                             font.pixelSize: 14
-                            onClicked: { rankPage.popSignal();}
+                            onClicked: { classReportPage.popSignal();}
                             Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
                         }
                         Button
@@ -466,7 +459,7 @@ Page {
         dialogTitle: "عملیات موفق"
         dialogText: ""
         dialogSuccess: true
-        onDialogAccepted: rankPage.popSignal();
+        onDialogAccepted: classReportPage.popSignal();
     }
 
     // file dialog
@@ -482,11 +475,12 @@ Page {
             var compare_ref = compareRef.currentText
 
             var params = {
-                "compare_ref_id": compare_ref_id,
-                "compare_ref" : compare_ref,
+                "eval_id": compare_ref_id,
+                "eval" : compare_ref,
+                "class_id": classReportPage.class_id,
+                "class_name": classReportPage.class_name,
                 "semester": semesterNumberTF.text,
                 "date": dateTE.text,
-                "include_test" : testSW.checked,
                 "include_photo" : photoSW.checked,
                 "include_fathername" : fathernameSW.checked,
                 "paperSize": paperSizeCB.currentValue,
@@ -495,7 +489,7 @@ Page {
                 "titrFontSize": titrFontSizeCB.currentValue
             }
 
-            if(dbMan.generateRankPdf(selectedFile, params))
+            if(dbMan.generateClassReportPdf(selectedFile, params))
             {
                 successDialogId.width = 500
                 successDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile

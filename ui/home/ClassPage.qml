@@ -155,6 +155,22 @@ Page {
                     border.color: "mediumvioletred"
                     color: "slategray";
                     radius: 5
+
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered: parent.color = "mediumvioletred";
+                        onExited: parent.color = "slategray";
+                        //acceptedButtons: Qt.NoButton
+                        onClicked:{
+                            classPageId.appStackView.push(classStudentsComponent, {
+                                                             objectName:"classStudentsON",
+                                                             class_name: recdel.model.class_name,
+                                                             class_id: recdel.model.id
+                                                         });
+                        }
+                    }
+
                     Label{
                         width: parent.width
                         height: 150
@@ -176,6 +192,7 @@ Page {
                         Button{
                             width: 50
                             height: 50
+                            visible: false
                             anchors.left: parent.left
                             icon.source: "qrc:/assets/images/student.png"
                             icon.width: 50
@@ -209,13 +226,7 @@ Page {
                         }
                     }
 
-                    MouseArea{
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        onEntered: parent.color = "mediumvioletred";
-                        onExited: parent.color = "slategray";
-                        acceptedButtons: Qt.NoButton
-                    }
+
                 }
 
                 Component.onCompleted: {

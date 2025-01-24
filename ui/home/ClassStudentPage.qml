@@ -113,6 +113,24 @@ Page {
                     hoverEnabled: true
                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                 }
+                Button
+                {
+                    Layout.preferredWidth: 100
+                    Layout.preferredHeight:  100
+                    background: Item{}
+                    display: AbstractButton.TextUnderIcon
+                    icon.source: "qrc:/assets/images/report.png"
+                    icon.width: 32
+                    icon.height: 32
+                    icon.color:"transparent"
+                    text: "گزارش کلی"
+                    font.family: "Kalameh"
+                    font.pixelSize: 14
+                    opacity: 0.5
+                    onClicked: classStudentsPageId.appStackView.push(classReportComponent);
+                    hoverEnabled: true
+                    onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                }
             }
 
 
@@ -333,4 +351,22 @@ Page {
             class_id: classStudentsPageId.class_id
         }
     }
+
+    // class report - students grade all in one
+    Component{
+        id: classReportComponent
+        ClassReport{
+            branch: classStudentsPageId.branch
+            step: classStudentsPageId.step
+            base: classStudentsPageId.base
+            field : classStudentsPageId.field
+            field_based: classStudentsPageId.field_based
+            period: classStudentsPageId.period
+            class_name: classStudentsPageId.class_name
+            class_id: classStudentsPageId.class_id
+
+            onPopSignal: classStudentsPageId.appStackView.pop()
+        }
+    }
+
 }

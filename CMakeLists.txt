@@ -76,6 +76,7 @@ qt_add_qml_module(appiSchool
         ui/home/ClassTranscriptsSetting.qml
         ui/home/BaseAvg.qml
         ui/home/Rank.qml
+        ui/home/ClassReport.qml
 
 
     #USER
@@ -187,7 +188,6 @@ qt_add_qml_module(appiSchool
         ui/student/StudentCourseDelete.qml
         ui/student/StudentCourseEval.qml
         ui/student/FilterDelegate.qml
-
 )
 
 
