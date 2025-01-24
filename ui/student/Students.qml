@@ -10,7 +10,7 @@ Page {
 
     property int limit : 25
     property int offset: 0
-    property var filterParams: [{key: "name", value: "samad"}, {key: "lastname", value: "ghanbari"}]; // [    {"key": "name", "value": "samad"}, {key: "lastname", value: "ghanbari"}    ] name lastname fathername birthday
+    property var filterParams: []; //{key: "name", value: "samad"}, {key: "lastname", value: "ghanbari"}    [    {"key": "name", "value": "samad"}, {key: "lastname", value: "ghanbari"}    ] name lastname fathername birthday
     property int studentsCount
     property int pageNumber: 1
     // offset shoud be less or equal than limit
@@ -210,40 +210,40 @@ Page {
                         hoverEnabled: true
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
 
-                        //enabled: false
+                        enabled: false
                     }
                 }
 
-                // filter box
-                Rectangle{
-                    visible: (Object.keys(studentsPage.filterParams).length > 0)? true : false
-                    width: parent.width
-                    height: 50
-                    color: "transparent"
-                    Flickable{
-                        anchors.fill: parent
-                        contentWidth: filterBox.implicitWidth
-                        Row{
-                            id: filterBox
-                            height: parent.heigth
+                // // filter box
+                // Rectangle{
+                //     visible: (Object.keys(studentsPage.filterParams).length > 0)? true : false
+                //     width: parent.width
+                //     height: 50
+                //     color: "transparent"
+                //     Flickable{
+                //         anchors.fill: parent
+                //         contentWidth: filterBox.implicitWidth
+                //         Row{
+                //             id: filterBox
+                //             height: parent.heigth
 
-                            Repeater{
-                                model: studentsPage.filterParams
-                                delegate: FilterDelegate{
-                                    id: fRec
-                                    required property var model;
-                                    widgetHeight: 32
-                                    key: fRec.model.key
-                                    value: fRec.model.value
-                                    onRemoveSignal: {
-                                        console.log(fRec.model.index)
-                                    }
-                                }
-                            }
+                //             Repeater{
+                //                 model: studentsPage.filterParams
+                //                 delegate: FilterDelegate{
+                //                     id: fRec
+                //                     required property var model;
+                //                     widgetHeight: 32
+                //                     key: fRec.model.key
+                //                     value: fRec.model.value
+                //                     onRemoveSignal: {
+                //                         console.log(fRec.model.index)
+                //                     }
+                //                 }
+                //             }
 
-                        }
-                    }
-                }
+                //         }
+                //     }
+                // }
 
                 RowLayout
                 {

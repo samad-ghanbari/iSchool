@@ -190,7 +190,7 @@ Page {
                                 elide: Text.ElideRight
                             }
                             Label {
-                                text: (registersPage.field_based)? "رشته " + rec.model.field_name + " - " +  rec.model.base_name : " پایه " + rec.model.base_name
+                                text: (registersPage.field_based)? "رشته " + rec.model.field_name + " - " +  rec.model.base_name : " " + rec.model.base_name
                                 padding: 0
                                 font.family: "Kalameh"
                                 font.pixelSize: (rec.highlighted)? 18 :16
