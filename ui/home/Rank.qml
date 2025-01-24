@@ -206,6 +206,15 @@ Page {
                         }
                     }
 
+                    Switch{
+                        id: testSW
+                        width: parent.width
+                        height: 50
+                        text: "معدل تست"
+                        checked: true
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                    }
 
                     Switch{
                         id: photoSW
@@ -477,6 +486,7 @@ Page {
                 "compare_ref" : compare_ref,
                 "semester": semesterNumberTF.text,
                 "date": dateTE.text,
+                "include_test" : testSW.checked,
                 "include_photo" : photoSW.checked,
                 "include_fathername" : fathernameSW.checked,
                 "paperSize": paperSizeCB.currentValue,
