@@ -10,7 +10,7 @@ Page {
 
     property int limit : 25
     property int offset: 0
-    property var filterParams: []; //{key: "name", value: "samad"}, {key: "lastname", value: "ghanbari"}    [    {"key": "name", "value": "samad"}, {key: "lastname", value: "ghanbari"}    ] name lastname fathername birthday
+    property var filterParams: [{_key: "name", _value: "samad"}, {_key: "lastname", _value: "ghanbari"}]; //{key: "name", value: "samad"}, {key: "lastname", value: "ghanbari"}    [    {"key": "name", "value": "samad"}, {key: "lastname", value: "ghanbari"}    ] name lastname fathername birthday
     property int studentsCount
     property int pageNumber: 1
     // offset shoud be less or equal than limit
@@ -181,7 +181,7 @@ Page {
                         {
                             var sid = stepCB.currentValue;
                             if(sid >= 0)
-                                studentsPage.appStackView.push(studentInsertComponent);
+                            studentsPage.appStackView.push(studentInsertComponent);
                         }
                         hoverEnabled: true
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -214,41 +214,72 @@ Page {
                     }
                 }
 
-                // // filter box
-                // Rectangle{
-                //     visible: (Object.keys(studentsPage.filterParams).length > 0)? true : false
-                //     width: parent.width
-                //     height: 50
-                //     color: "transparent"
-                //     Flickable{
-                //         anchors.fill: parent
-                //         contentWidth: filterBox.implicitWidth
-                //         Row{
-                //             id: filterBox
-                //             height: parent.heigth
+                // filter box
+                GridView {
+                    id: filterBox
+                    width: parent.width
+                    height: 32
+                    //cellWidth: 300
+                    cellHeight: 32
+                    clip: true
+                    model: ListModel{id: filterModel}
+                    delegate: Item{
+                        required property var model;
+                        FilterDelegate{
+                            _key : "نام"
+                            _value: "صمد"
+                            widgetHeight: 32
+                            onRemoveSignal: {
+                                console.log(this.model.index)
+                            }
+                        }
+                    }
+                    layoutDirection: Qt.LeftToRight
+                    flow: GridView.FlowLeftToRight
+                }
 
-                //             Repeater{
-                //                 model: studentsPage.filterParams
-                //                 delegate: FilterDelegate{
-                //                     id: fRec
-                //                     required property var model;
-                //                     widgetHeight: 32
-                //                     key: fRec.model.key
-                //                     value: fRec.model.value
-                //                     onRemoveSignal: {
-                //                         console.log(fRec.model.index)
+                // Rectangle{
+                //     id: pid
+
+                //     width: parent.width
+                //     height: 32
+                //     color: "pink"
+                //     Flickable{
+                //         width: pid.width
+                //         height: pid.height
+                //         contentWidth: filterBox.implicitWidth + 50
+
+                //         Rectangle{
+                //             anchors.fill: parent;
+                //             color: "red"
+                //             Row{
+                //                 id: filterBox
+                //                 height: parent.heigth
+                //                 spacing: 10
+                //                 anchors.left: parent.left
+                //                 Repeater{
+                //                     model: studentsPage.filterParams
+                //                     delegate: Item{
+                //                         required property var model;
+                //                         FilterDelegate{
+                //                             _key : "نام"
+                //                             _value: "صمد"
+                //                             widgetHeight: 32
+                //                             onRemoveSignal: {
+                //                                 console.log(this.model.index)
+                //                             }
+                //                         }
                 //                     }
                 //                 }
-                //             }
-
                 //         }
+                //     }
                 //     }
                 // }
 
                 RowLayout
                 {
                     height:   40
-                    width: parent.width
+                    width:  parent.width
                     visible: (stepCB.currentIndex >=0)? true : false;
                     Item{Layout.fillWidth: true; Layout.preferredHeight: 10;}
                     Button
@@ -442,7 +473,7 @@ Page {
                                                                    photo: rec.model.photo,
                                                                    enabled: rec.model.enabled
                                                                }
-                                                                   );
+                                                               );
                             }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -469,7 +500,7 @@ Page {
                                                                    photo: rec.model.photo,
                                                                    enabled: rec.model.enabled
                                                                }
-                                                                   );
+                                                               );
                             }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -495,7 +526,7 @@ Page {
                                                                    photo: rec.model.photo,
                                                                    enabled: rec.model.enabled
                                                                }
-                                                                   );
+                                                               );
                             }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;

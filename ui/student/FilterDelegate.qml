@@ -4,52 +4,68 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-Row{
+Rectangle{
+
     id: widgetItem
 
     required property int widgetHeight
-    property alias key : keyLabel.text
-    property alias value : valueLabel.text
+    required property string _key; // {key value}
+    required property string _value; // {key value}
+
+    height: widgetHeight
+    width: wrow.implicitWidth+ 10
+    color: "#55b0e0e6"
 
     signal removeSignal()
 
-    Label{
-        id: keyLabel
-        height:  widgetItem.widgetHeight
-        text:""
-        font.family: "Kalameh"
-        font.pixelSize: 12
-        font.bold: false
-        color:"darkcyan"
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-    }
+    Row{
+        id: wrow
+        height: parent.height
+        spacing: 10
 
-    Label{
-        id: valueLabel
-        height:  widgetItem.widgetHeight
-        text:""
-        font.family: "Kalameh"
-        font.pixelSize: 12
-        font.bold: false
-        color:"darkcyan"
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-    }
+        Label{
+            id: keyLabel
+            height:  widgetItem.widgetHeight
+            text: widgetItem._key + ": "
+            font.family: "Kalameh"
+            font.pixelSize: 12
+            font.bold: false
+            color:"darkcyan"
+            horizontalAlignment: Label.AlignRight
+            verticalAlignment: Label.AlignVCenter
+        }
 
-    Button{
-        id: rmBtn
+        Label{
+            id: valueLabel
+            height:  widgetItem.widgetHeight
+            text: widgetItem._value
+            font.family: "Kalameh"
+            font.pixelSize: 12
+            font.bold: false
+            color:"darkcyan"
+            horizontalAlignment: Label.AlignRight
+            verticalAlignment: Label.AlignVCenter
+        }
 
+        Item{
             height: widgetItem.widgetHeight
-            icon.source: "qrc:/assets/images/cross.png"
-            icon.width: 24
-            icon.height: 24
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked:  widgetItem.removeSignal()
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-
+            width: height
+            Image{
+                id: rmBtn
+                width: parent.width/2
+                height: parent.height/2
+                anchors.centerIn: parent
+                source: "qrc:/assets/images/cross.png"
+                opacity: 0.2
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onEntered: rmBtn.opacity = 1
+                    onExited: rmBtn.opacity = 0.2
+                    onClicked: widgetItem.removeSignal()
+                }
+            }
+        }
     }
 
 }
