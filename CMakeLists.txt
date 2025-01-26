@@ -146,6 +146,7 @@ qt_add_qml_module(appiSchool
 
     #STUDENT
         ui/student/Students.qml
+        ui/student/Students.js
         #ui/student/Student.qml
         #ui/student/Student.js
         ui/student/StudentInsert.qml
