@@ -11,12 +11,15 @@ Rectangle{
     required property int widgetHeight
     required property string _key; // {key value}
     required property string _value; // {key value}
+    required property string _type; // base period class name lastname
 
     height: widgetHeight
     width: wrow.implicitWidth+ 10
-    color: "#55b0e0e6"
+    color: "#55ffc0cb"//"#55b0e0e6"
 
-    signal removeSignal()
+    Rectangle{width: parent.width; height: 1; color: "mediumvioletred"; anchors.bottom: parent.bottom;}
+
+    signal removeSignal(var filter_type)
 
     Row{
         id: wrow
@@ -26,7 +29,7 @@ Rectangle{
         Label{
             id: keyLabel
             height:  widgetItem.widgetHeight
-            text: widgetItem._key + ": "
+            text: " " + widgetItem._key + ": "
             font.family: "Kalameh"
             font.pixelSize: 12
             font.bold: false
@@ -62,7 +65,7 @@ Rectangle{
                     hoverEnabled: true
                     onEntered: rmBtn.opacity = 1
                     onExited: rmBtn.opacity = 0.2
-                    onClicked: widgetItem.removeSignal()
+                    onClicked: widgetItem.removeSignal(widgetItem._type)
                 }
             }
         }

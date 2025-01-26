@@ -10,7 +10,6 @@ Page {
 
     property int limit : 25
     property int offset: 0
-    property var filterParams: [{_key: "name", _value: "samad"}, {_key: "lastname", _value: "ghanbari"}]; //{key: "name", value: "samad"}, {key: "lastname", value: "ghanbari"}    [    {"key": "name", "value": "samad"}, {key: "lastname", value: "ghanbari"}    ] name lastname fathername birthday
     property int studentsCount
     property int pageNumber: 1
     // offset shoud be less or equal than limit
@@ -80,6 +79,14 @@ Page {
                             branchModel.clear();
                             stepModel.clear();
                             studentModel.clear();
+
+                            filterModel.clear();
+                            filter_baseModel.clear();
+                            filter_periodModel.clear();
+                            filter_classModel.clear();
+                            nameTF.text = "";
+                            lastnameTF.text = "";
+
                             var jsondata = dbMan.getBranches();
                             //id, city, branch_name, address
                             var temp;
@@ -94,6 +101,14 @@ Page {
                         onActivated: {
                             stepModel.clear();
                             studentModel.clear();
+
+                            filterModel.clear();
+                            filter_baseModel.clear();
+                            filter_periodModel.clear();
+                            filter_classModel.clear();
+                            nameTF.text = "";
+                            lastnameTF.text = "";
+
                             var jsondata = dbMan.getBranchSteps(branchCB.currentValue);
                             //s.id, s.branch_id, s.step_name, s.field_based, s.numeric_graded, b.city, b.branch_name
                             var temp;
@@ -138,16 +153,47 @@ Page {
                         valueRole: "value"
                         onActivated: {
                             studentModel.clear();
-                            var cond = studentsPage.filterParams;
+
+                            filterModel.clear();
+                            filter_baseModel.clear();
+                            filter_periodModel.clear();
+                            filter_classModel.clear();
+                            nameTF.text = "";
+                            lastnameTF.text = "";
+
+                            var cond = {}
                             studentsPage.offset = 0;
                             studentsPage.pageNumber = 1
 
-                            studentsPage.studentsCount = dbMan.getStudentsCount(stepCB.currentValue, cond);
-                            var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
+                            var step_id = stepCB.currentValue;
+
+                            studentsPage.studentsCount = dbMan.getStudentsCount(step_id, cond);
+                            studentCountLbl.text = studentsPage.studentsCount + " نفر "
+                            var jsondata = dbMan.getStudents(step_id, cond, studentsPage.limit, studentsPage.offset);
 
                             for(var obj of jsondata){
                                 studentModel.append(obj);
                             }
+
+                            // upadate base-period-class
+                            //base
+                            jsondata = dbMan.getStepBases(stepCB.currentValue, false);
+                            //b.id, b.step_id, b.field_id, s.branch_id, b.base_name, b.enabled, s.step_name, s.field_based, s.numeric_graded, f.field_name, br.branch_name, br.city, b.sort_priority
+                            var temp;
+                            for(obj of jsondata)
+                            {
+                                filter_baseModel.append({value: obj.id,  text: obj.base_name })
+                            }
+                            //period
+                            jsondata = dbMan.getStepPeriods(step_id, false);
+                            for(obj of jsondata)
+                            {
+                                //p.period_id, p.step_id, p.period_name, p.passed, s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
+                                filter_periodModel.append({value: obj.period_id,  text: obj.period_name })
+                            }
+
+                            filter_baseCB.currentIndex = -1;
+                            filter_periodCB.currentIndex = -1;
                         }
 
                     }
@@ -187,6 +233,19 @@ Page {
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                     }
                     Item{Layout.fillWidth: true}
+                    Label{
+                        id: studentCountLbl
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        font.bold: true
+                        color: "darkcyan"
+                        height: 64
+                        verticalAlignment: Label.AlignVCenter
+                        horizontalAlignment: Label.AlignHCenter
+                        text: ""
+                    }
+
+                    Item{Layout.fillWidth: true}
                     Button
                     {
                         visible: (stepCB.currentIndex >=0)? true : false;
@@ -209,72 +268,57 @@ Page {
                         }
                         hoverEnabled: true
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-
-                        enabled: false
                     }
                 }
 
                 // filter box
-                GridView {
-                    id: filterBox
+                Flickable{
+                    height:  32
                     width: parent.width
-                    height: 32
-                    //cellWidth: 300
-                    cellHeight: 32
-                    clip: true
-                    model: ListModel{id: filterModel}
-                    delegate: Item{
-                        required property var model;
-                        FilterDelegate{
-                            _key : "نام"
-                            _value: "صمد"
-                            widgetHeight: 32
-                            onRemoveSignal: {
-                                console.log(this.model.index)
+                    contentWidth: (filterBox.implicitWidth > width)?  filterBox.implicitWidth : width
+
+
+                    RowLayout{
+                        anchors.fill: parent
+                        Row{
+                            id: filterBox
+                            Layout.preferredHeight: parent.height
+                            spacing: 10
+                            Layout.alignment: Qt.AlignHCenter
+
+                            Repeater{
+                                model: ListModel{id:filterModel}
+                                delegate: FilterDelegate{
+                                    id:delg
+                                    required property var model;
+                                    _key : delg.model._key
+                                    _value: delg.model._value
+                                    _type: delg.model._type
+                                    widgetHeight: 32
+                                    onRemoveSignal: (_type)=>{
+                                        if(_type === "base"){
+                                            filter_baseCB.currentIndex = -1;
+                                            filter_classCB.currentIndex = -1;
+                                        }
+                                        else if(_type === "period"){
+                                            filter_periodCB.currentIndex = -1;
+                                            filter_classCB.currentIndex = -1;
+                                        }
+                                        else if(_type === "class")
+                                            filter_classCB.currentIndex = -1;
+                                        else if(_type === "name")
+                                            nameTF.text = "";
+                                        else if(_type === "lastname")
+                                            lastnameTF.text = "";
+
+                                        searchBtn.clicked();
+                                    }
+                                }
                             }
                         }
                     }
-                    layoutDirection: Qt.LeftToRight
-                    flow: GridView.FlowLeftToRight
+
                 }
-
-                // Rectangle{
-                //     id: pid
-
-                //     width: parent.width
-                //     height: 32
-                //     color: "pink"
-                //     Flickable{
-                //         width: pid.width
-                //         height: pid.height
-                //         contentWidth: filterBox.implicitWidth + 50
-
-                //         Rectangle{
-                //             anchors.fill: parent;
-                //             color: "red"
-                //             Row{
-                //                 id: filterBox
-                //                 height: parent.heigth
-                //                 spacing: 10
-                //                 anchors.left: parent.left
-                //                 Repeater{
-                //                     model: studentsPage.filterParams
-                //                     delegate: Item{
-                //                         required property var model;
-                //                         FilterDelegate{
-                //                             _key : "نام"
-                //                             _value: "صمد"
-                //                             widgetHeight: 32
-                //                             onRemoveSignal: {
-                //                                 console.log(this.model.index)
-                //                             }
-                //                         }
-                //                     }
-                //                 }
-                //         }
-                //     }
-                //     }
-                // }
 
                 RowLayout
                 {
@@ -297,7 +341,7 @@ Page {
                         {
                             studentModel.clear();
 
-                            var cond = studentsPage.filterParams;
+                            var cond = {}
                             studentsPage.offset = studentsPage.offset - 24;
                             studentsPage.pageNumber = studentsPage.pageNumber - 1;
                             if(studentsPage.offset  < 0 ) { studentsPage.offset = 0; studentsPage.pageNumber = 1;}
@@ -341,7 +385,7 @@ Page {
                             studentsPage.pageNumber = studentsPage.pageNumber + 1;
                             if(studentsPage.offset >= studentsPage.studentsCount ){ studentsPage.offset = studentsPage.offset - 24; studentsPage.pageNumber = studentsPage.pageNumber - 1;}
 
-                            var cond = studentsPage.filterParams;
+                            var cond = {}
                             var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
 
                             for(var obj of jsondata){
@@ -353,7 +397,6 @@ Page {
                     }
                     Item{Layout.fillWidth: true; Layout.preferredHeight: 10;}
                 }
-
 
                 Item{width: parent.width; height: 10;}
 
@@ -553,11 +596,12 @@ Page {
             onInsertedSignal:
             {
                 studentModel.clear();
-                var cond = studentsPage.filterParams;
+                var cond = {}
                 studentsPage.offset = 0;
                 studentsPage.pageNumber = 1
 
                 studentsPage.studentsCount = dbMan.getStudentsCount(stepCB.currentValue, cond);
+                studentCountLbl.text = studentsPage.studentsCount + " نفر "
                 var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
 
                 for(var obj of jsondata){
@@ -579,11 +623,12 @@ Page {
             onUpdatedSignal:
             {
                 studentModel.clear();
-                var cond = studentsPage.filterParams;
+                var cond = {}
                 studentsPage.offset = 0;
                 studentsPage.pageNumber = 1
 
                 studentsPage.studentsCount = dbMan.getStudentsCount(stepCB.currentValue, cond);
+                studentCountLbl.text = studentsPage.studentsCount + " نفر "
                 var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
 
                 for(var obj of jsondata){
@@ -605,11 +650,12 @@ Page {
             onDeletedSignal:
             {
                 studentModel.clear();
-                var cond = studentsPage.filterParams;
+                var cond = {}
                 studentsPage.offset = 0;
                 studentsPage.pageNumber = 1
 
                 studentsPage.studentsCount = dbMan.getStudentsCount(stepCB.currentValue, cond);
+                studentCountLbl.text = studentsPage.studentsCount + " نفر "
                 var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
 
                 for(var obj of jsondata){
@@ -655,7 +701,7 @@ Page {
                 {
                     Layout.preferredWidth: parent.width
                     Layout.preferredHeight: 110
-                    color: "mediumvioletred"
+                    color: "darkcyan"
 
                     Image {
                         id: searchImage
@@ -679,11 +725,93 @@ Page {
                     }
                 }
 
+                // base
                 Text {
-                    text: "نام دانش‌آموز"
+                    text: "پایه تحصیلی"
                     font.family: "Kalameh"
                     font.pixelSize: 16
-                    color: "mediumvioletred"
+                    color: "darkcyan"
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignLeft
+                    Layout.leftMargin: 10
+                }
+                ComboBox{
+                    id: filter_baseCB
+                    model: ListModel{id: filter_baseModel;}
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 40
+                    Layout.margins: 10
+                    Layout.topMargin: -5
+                    textRole: "text"
+                    valueRole: "value"
+                }
+
+                // period
+                Text {
+                    text: "سال تحصیلی"
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    color: "darkcyan"
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignLeft
+                    Layout.leftMargin: 10
+                }
+                ComboBox{
+                    id: filter_periodCB
+                    model: ListModel{id: filter_periodModel;}
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 40
+                    Layout.margins: 10
+                    Layout.topMargin: -5
+                    textRole: "text"
+                    valueRole: "value"
+
+                    onActivated: {
+                        filter_classModel.clear();
+                        var jsondata = dbMan.getBaseClasses(filter_baseCB.currentValue, filter_periodCB.currentValue);
+                        //
+                        for(var obj of jsondata)
+                        {
+                            filter_classModel.append(({value: obj.class_id,  text: obj.class_name }))
+                        }
+
+                        filter_classCB.currentIndex = -1;
+                    }
+                }
+
+                // class
+                Text {
+                    text: "کلاس"
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    color: "darkcyan"
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignLeft
+                    Layout.leftMargin: 10
+                }
+                ComboBox{
+                    id: filter_classCB
+                    model: ListModel{id: filter_classModel;}
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 40
+                    Layout.margins: 10
+                    Layout.topMargin: -5
+                    textRole: "text"
+                    valueRole: "value"
+                }
+
+
+                Text {
+                    text: "نام"
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    color: "darkcyan"
                     Layout.fillWidth: true
                     horizontalAlignment: Qt.AlignLeft
                     Layout.leftMargin: 10
@@ -702,10 +830,10 @@ Page {
 
                 //lastname
                 Text {
-                    text: "نام ‌خانوادگی دانش‌آموز"
+                    text: "نام‌‌خانوادگی"
                     font.family: "Kalameh"
                     font.pixelSize: 16
-                    color: "mediumvioletred"
+                    color: "darkcyan"
                     Layout.fillWidth: true
                     horizontalAlignment: Qt.AlignLeft
                     Layout.leftMargin: 10
@@ -722,102 +850,19 @@ Page {
                     Layout.topMargin: -5
                 }
 
-                //fathername
-                Text {
-                    text: "نام پدر دانش‌آموز"
-                    font.family: "Kalameh"
-                    font.pixelSize: 16
-                    color: "mediumvioletred"
-                    Layout.fillWidth: true
-                    horizontalAlignment: Qt.AlignLeft
-                    Layout.leftMargin: 10
-                }
-                TextField
-                {
-                    id: fathernameTF
-                    placeholderText: "نام پدر دانش‌آموز"
-                    font.family: "Kalameh"
-                    font.pixelSize: 16
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 40
-                    Layout.margins: 10
-                    Layout.topMargin: -5
-                }
-                //gender
-                Text {
-                    text: "جنسیت"
-                    font.family: "Kalameh"
-                    font.pixelSize: 16
-                    color: "mediumvioletred"
-                    Layout.fillWidth: true
-                    horizontalAlignment: Qt.AlignLeft
-                    Layout.leftMargin: 10
-                }
-                ComboBox {
-                    id: genderId
-                    editable: false
-                    model: ["", "آقا", "خانم"]
-                    font.family: "Kalameh"
-                    font.pixelSize: 16
-                    Layout.preferredHeight: 40
-                    Layout.leftMargin: 10
-                    Layout.topMargin: -5
-                }
-
-
-                //birthday
-                Text {
-                    text: "تاریخ تولد"
-                    font.family: "Kalameh"
-                    font.pixelSize: 16
-                    color: "mediumvioletred"
-                    Layout.fillWidth: true
-                    horizontalAlignment: Qt.AlignLeft
-                    Layout.leftMargin: 10
-                }
-                TextField
-                {
-                    id: birthdayTF
-                    placeholderText: "تاریخ تولد"
-                    font.family: "Kalameh"
-                    font.pixelSize: 16
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 40
-                    Layout.margins: 10
-                    Layout.topMargin: -5
-                }
-
-                //enabled
-                Text {
-                    text: "وضعیت فعال/غیرفعال"
-                    font.family: "Kalameh"
-                    font.pixelSize: 16
-                    color: "mediumvioletred"
-                    Layout.fillWidth: true
-                    horizontalAlignment: Qt.AlignLeft
-                    Layout.leftMargin: 10
-                }
-                Switch
-                {
-                    id: enabledId
-                    checked: true
-                    Layout.topMargin: -5
-                    text: checked? "فعال" : "غیرفعال";
-                    font.family: "Kalameh"
-                    palette.highlight: "mediumvioletred"
-                    palette.text: "gray"
-                }
 
                 // button
 
                 Button
                 {
+                    id: searchBtn
                     text: "جستجو"
                     font.family: "Kalameh"
                     font.pixelSize: 14
                     Layout.preferredHeight: 40
                     Layout.preferredWidth: 100
                     Layout.alignment: Qt.AlignHCenter
+                    Layout.topMargin: 20
                     icon.source: "qrc:/assets/images/search.png"
                     icon.width: 32
                     icon.height: 32
@@ -825,19 +870,53 @@ Page {
 
                     onClicked: {
 
-                        var student = {};
-                        student["branch_id"] = branchCB.currentValue;
-                        student["name"] = nameTF.text;
-                        student["lastname"] = lastnameTF.text;
-                        student["fathername"] = fathernameTF.text;
-                        student["gender"] = genderId.currentText;
-                        student["birthday"] = birthdayTF.text;
-                        student["enabled"] = enabledId.checked;
+                        filterModel.clear();
 
-                        Methods.filterStudents(student);
+                        var cond = {};
+                        var base_id = filter_baseCB.currentValue;
+                        var period_id = filter_periodCB.currentValue;
+                        var class_id = filter_classCB.currentValue;
+                        var name = nameTF.text;
+                        var lastname = lastnameTF.text;
+
+                        if(base_id > -1){
+                            cond["base_id"] = base_id;
+                            filterModel.append({_key: "پایه‌تحصیلی", _value: filter_baseCB.currentText, _type: "base"})
+                        }
+                        if(period_id > -1){
+                            cond["period_id"] = period_id;
+                            filterModel.append({_key: "سال‌تحصیلی", _value: filter_periodCB.currentText, _type: "period"})
+                        }
+                        if(class_id > -1){
+                            cond["class_id"] = class_id;
+                            filterModel.append({_key: "کلاس", _value: filter_classCB.currentTex , _type: "class"})
+                        }
+                        if(name !== ""){
+                            cond["name"] = name;
+                            filterModel.append({_key: "نام", _value: name, _type: "name"})
+                        }
+                        if(lastname !== ""){
+                            cond["lastname"] = lastname;
+                            filterModel.append({_key: "نام‌خانوادگی", _value: lastname, _type: "lastname"})
+                        }
+
+                        studentModel.clear();
+                        studentsPage.offset = 0;
+                        studentsPage.pageNumber = 1
+                        // cond : base_id period_id class_id name lastname
+                        studentsPage.studentsCount = dbMan.getStudentsCount(stepCB.currentValue, cond);
+                        studentCountLbl.text = studentsPage.studentsCount + " نفر "
+                        var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
+
+                        for(var obj of jsondata){
+                            studentModel.append(obj);
+                        }
+
+                        studentSearchDrawer.close();
+
                     }
 
-                    Rectangle{width: parent.width; height: 4; color:"mediumvioletred"; anchors.bottom: parent.bottom}
+                    Rectangle{width: parent.width; height: 4; color:"darkcyan"; anchors.bottom: parent.bottom}
                 }
             }
         }
