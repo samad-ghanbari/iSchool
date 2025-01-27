@@ -10,7 +10,7 @@ Page {
     id: studentsPage
     required property StackView appStackView;
 
-    property bool fieldBased
+    property bool fieldBased : false
     property int limit : 25
     property int offset: 0
     property int studentsCount
@@ -158,6 +158,7 @@ Page {
                             studentModel.clear();
 
                             filterModel.clear();
+                            filter_fieldModel.clear();
                             filter_baseModel.clear();
                             filter_periodModel.clear();
                             filter_classModel.clear();
@@ -169,7 +170,7 @@ Page {
                             studentsPage.pageNumber = 1
 
                             var step_id = stepCB.currentValue;
-                            studentsPage.fieldBased = stepModel.get(stepCB.currentIndex)---
+                            studentsPage.fieldBased = stepModel.get(stepCB.currentIndex)["field_based"];
 
                             studentsPage.studentsCount = dbMan.getStudentsCount(step_id, cond);
                             studentCountLbl.text = studentsPage.studentsCount + " نفر "
@@ -179,25 +180,52 @@ Page {
                                 studentModel.append(obj);
                             }
 
-                            // upadate base-period-class
-                            //base
-                            jsondata = dbMan.getStepBases(stepCB.currentValue, false);
-                            //b.id, b.step_id, b.field_id, s.branch_id, b.base_name, b.enabled, s.step_name, s.field_based, s.numeric_graded, f.field_name, br.branch_name, br.city, b.sort_priority
                             var temp;
-                            for(obj of jsondata)
+                            // upadate base-period-class
+                            if(studentsPage.fieldBased)
                             {
-                                filter_baseModel.append({value: obj.id,  text: obj.base_name })
+                                jsondata = dbMan.getFields(stepCB.currentValue);
+                                //id, step_id, field_name, enabled, sort_priority
+
+                                for(obj of jsondata)
+                                {
+                                    filter_fieldModel.append({value: obj.id,  text: obj.field_name})
+                                }
+
+                                //period
+                                jsondata = dbMan.getStepPeriods(step_id, false);
+                                for(obj of jsondata)
+                                {
+                                    //p.period_id, p.step_id, p.period_name, p.passed, s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
+                                    filter_periodModel.append({value: obj.period_id,  text: obj.period_name })
+                                }
+
+
+                                filter_fieldCB.currentIndex = -1;
+                                filter_periodCB.currentIndex = -1;
                             }
-                            //period
-                            jsondata = dbMan.getStepPeriods(step_id, false);
-                            for(obj of jsondata)
+                            else
                             {
-                                //p.period_id, p.step_id, p.period_name, p.passed, s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
-                                filter_periodModel.append({value: obj.period_id,  text: obj.period_name })
+
+                                //base
+                                jsondata = dbMan.getStepBases(stepCB.currentValue, false);
+                                //b.id, b.step_id, b.field_id, s.branch_id, b.base_name, b.enabled, s.step_name, s.field_based, s.numeric_graded, f.field_name, br.branch_name, br.city, b.sort_priority
+                                for(obj of jsondata)
+                                {
+                                    filter_baseModel.append({value: obj.id,  text: obj.base_name })
+                                }
+                                //period
+                                jsondata = dbMan.getStepPeriods(step_id, false);
+                                for(obj of jsondata)
+                                {
+                                    //p.period_id, p.step_id, p.period_name, p.passed, s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
+                                    filter_periodModel.append({value: obj.period_id,  text: obj.period_name })
+                                }
+
+                                filter_baseCB.currentIndex = -1;
+                                filter_periodCB.currentIndex = -1;
                             }
 
-                            filter_baseCB.currentIndex = -1;
-                            filter_periodCB.currentIndex = -1;
                         }
 
                     }
@@ -300,13 +328,23 @@ Page {
                                     _type: delg.model._type
                                     widgetHeight: 32
                                     onRemoveSignal: (_type)=>{
-                                        if(_type === "base"){
+                                        if(_type === "field"){
+                                            filter_fieldCB.currentIndex = -1;
                                             filter_baseCB.currentIndex = -1;
                                             filter_classCB.currentIndex = -1;
+
+                                            filter_baseModel.clear();
+                                            filter_classModel.clear();
+                                        }
+                                        else if(_type === "base"){
+                                            filter_baseCB.currentIndex = -1;
+                                            filter_classCB.currentIndex = -1;
+                                            filter_classModel.clear();
                                         }
                                         else if(_type === "period"){
                                             filter_periodCB.currentIndex = -1;
                                             filter_classCB.currentIndex = -1;
+                                            filter_classModel.clear();
                                         }
                                         else if(_type === "class")
                                             filter_classCB.currentIndex = -1;
@@ -346,7 +384,7 @@ Page {
                             studentModel.clear();
 
                             var cond = {}
-                            studentsPage.offset = studentsPage.offset - 24;
+                            studentsPage.offset = studentsPage.offset - studentsPage.limit;
                             studentsPage.pageNumber = studentsPage.pageNumber - 1;
                             if(studentsPage.offset  < 0 ) { studentsPage.offset = 0; studentsPage.pageNumber = 1;}
                             var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
@@ -372,7 +410,7 @@ Page {
 
                     Button
                     {
-                        visible: (studentsPage.offset + 24 >= studentsPage.studentsCount)? false : true;
+                        visible: (studentsPage.offset + studentsPage.limit >= studentsPage.studentsCount)? false : true;
                         Layout.preferredWidth: 40
                         Layout.preferredHeight: 40
                         background: Item{}
@@ -385,9 +423,9 @@ Page {
                         {
                             studentModel.clear();
 
-                            studentsPage.offset = studentsPage.offset + 24;
+                            studentsPage.offset = studentsPage.offset + studentsPage.limit;
                             studentsPage.pageNumber = studentsPage.pageNumber + 1;
-                            if(studentsPage.offset >= studentsPage.studentsCount ){ studentsPage.offset = studentsPage.offset - 24; studentsPage.pageNumber = studentsPage.pageNumber - 1;}
+                            if(studentsPage.offset >= studentsPage.studentsCount ){ studentsPage.offset = studentsPage.offset - studentsPage.limit; studentsPage.pageNumber = studentsPage.pageNumber - 1;}
 
                             var cond = {}
                             var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
@@ -729,6 +767,47 @@ Page {
                         Layout.alignment: Qt.AlignHCenter
                         font.bold: true
                         color:"white"
+                    }
+                }
+
+                // field
+                Text {
+                    text: "رشته تحصیلی"
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    color: "darkcyan"
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignLeft
+                    Layout.leftMargin: 10
+                    visible: studentsPage.fieldBased
+                }
+                ComboBox{
+                    id: filter_fieldCB
+                    model: ListModel{id: filter_fieldModel;}
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 40
+                    Layout.margins: 10
+                    Layout.topMargin: -5
+                    textRole: "text"
+                    valueRole: "value"
+                    visible: studentsPage.fieldBased
+
+                    onActivated: {
+                        // update base - period
+                        filter_baseModel.clear();
+
+                        var jsondata = dbMan.getFieldBases(filter_fieldCB.currentValue, false);
+                        //b.id, b.step_id, b.field_id, s.branch_id, b.base_name, b.enabled, s.step_name, s.field_based, s.numeric_graded, f.field_name, br.branch_name, br.city, b.sort_priority
+                        var temp;
+                        for(var obj of jsondata)
+                        {
+                            filter_baseModel.append({value: obj.id,  text: obj.base_name })
+                        }
+
+                        filter_baseCB.currentIndex = -1;
+                        filter_classCB.currentIndex = -1;
                     }
                 }
 

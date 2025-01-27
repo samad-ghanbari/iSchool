@@ -3,12 +3,19 @@ function loadStudents(){
     filterModel.clear();
 
     var cond = {};
+    var field_id = -1;
+    if(studentsPage.fieldBased)
+        field_id = filter_fieldCB.currentValue
     var base_id = filter_baseCB.currentValue;
     var period_id = filter_periodCB.currentValue;
     var class_id = filter_classCB.currentValue;
     var name = nameTF.text;
     var lastname = lastnameTF.text;
 
+    if(field_id > -1){
+        cond["field_id"] = field_id;
+        filterModel.append({_key: "رشته‌تحصیلی", _value: filter_fieldCB.currentText, _type: "field"})
+    }
     if(base_id > -1){
         cond["base_id"] = base_id;
         filterModel.append({_key: "پایه‌تحصیلی", _value: filter_baseCB.currentText, _type: "base"})
