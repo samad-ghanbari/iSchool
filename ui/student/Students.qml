@@ -477,6 +477,19 @@ Page {
             {
                 anchors.fill: parent
                 hoverEnabled: true
+                onClicked:{
+                    studentsPage.appStackView.push(registrationsComponent, {
+                                                       student_id: rec.model.id,
+                                                       name: rec.model.name,
+                                                       lastname: rec.model.lastname,
+                                                       fathername: rec.model.fathername,
+                                                       gender: rec.model.gender,
+                                                       birthday: rec.model.birthday,
+                                                       photo: rec.model.photo,
+                                                       enabled: rec.model.enabled
+                                                   }
+                                                   );
+                }
                 onHoveredChanged:{
                     if(containsMouse){
                         parent.opacity=1;
@@ -536,7 +549,7 @@ Page {
                     Row{
                         Layout.alignment: Qt.AlignRight
                         Layout.preferredHeight: 40
-                        Layout.preferredWidth: 120
+                        Layout.preferredWidth: 80
                         Button
                         {
                             width: 40
@@ -590,32 +603,32 @@ Page {
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                         }
-                        Button
-                        {
-                            width: 40
-                            height: 32
-                            background: Item{}
-                            icon.source: "qrc:/assets/images/folders.png"
-                            icon.width: 32
-                            icon.height: 32
-                            icon.color:"transparent"
-                            opacity: 0.5
-                            onClicked: {
-                                studentsPage.appStackView.push(registrationsComponent, {
-                                                                   student_id: rec.model.id,
-                                                                   name: rec.model.name,
-                                                                   lastname: rec.model.lastname,
-                                                                   fathername: rec.model.fathername,
-                                                                   gender: rec.model.gender,
-                                                                   birthday: rec.model.birthday,
-                                                                   photo: rec.model.photo,
-                                                                   enabled: rec.model.enabled
-                                                               }
-                                                               );
-                            }
-                            hoverEnabled: true
-                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-                        }
+                        // Button
+                        // {
+                        //     width: 40
+                        //     height: 32
+                        //     background: Item{}
+                        //     icon.source: "qrc:/assets/images/folders.png"
+                        //     icon.width: 32
+                        //     icon.height: 32
+                        //     icon.color:"transparent"
+                        //     opacity: 0.5
+                        //     onClicked: {
+                        //         studentsPage.appStackView.push(registrationsComponent, {
+                        //                                            student_id: rec.model.id,
+                        //                                            name: rec.model.name,
+                        //                                            lastname: rec.model.lastname,
+                        //                                            fathername: rec.model.fathername,
+                        //                                            gender: rec.model.gender,
+                        //                                            birthday: rec.model.birthday,
+                        //                                            photo: rec.model.photo,
+                        //                                            enabled: rec.model.enabled
+                        //                                        }
+                        //                                        );
+                        //     }
+                        //     hoverEnabled: true
+                        //     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                        // }
                     }
                 }
 

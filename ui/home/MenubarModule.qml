@@ -136,33 +136,33 @@ MenuBar {
             icon.source: "qrc:/assets/images/student.png";
             icon.width: 24;icon.height:24;icon.color:"transparent"
         }
-        // MenuSeparator { }
-        // Action {
-        //     text: "ارزیابی‌ها";
-        //     onTriggered:
-        //     {
-        //         if(menubarId.appStackView.currentItem.objectName === "evalsON")
-        //         menubarId.appStackView.pop();
+        MenuSeparator { }
+        Action {
+            text: "ارزیابی‌ها";
+            onTriggered:
+            {
+                if(menubarId.appStackView.currentItem.objectName === "evalsON")
+                menubarId.appStackView.pop();
 
-        //         menubarId.appStackView.push(evalsComponent, {objectName: "evalsON"});
-        //     }
-        //     icon.source: "qrc:/assets/images/evaluation.png";
-        //     icon.width: 24;icon.height:24;icon.color:"transparent"
-        // }
-        // MenuSeparator { }
-        // Action {
-        //     text: "لیست کاربران";
-        //     enabled: superAdmin
+                menubarId.appStackView.push(evalsComponent, {objectName: "evalsON"});
+            }
+            icon.source: "qrc:/assets/images/evaluation.png";
+            icon.width: 24;icon.height:24;icon.color:"transparent"
+        }
+        MenuSeparator { }
+        Action {
+            text: "لیست کاربران";
+            enabled: superAdmin
 
-        //     onTriggered:
-        //     {
-        //         if(menubarId.appStackView.currentItem.objectName === "listUserON")
-        //         menubarId.appStackView.pop();
+            onTriggered:
+            {
+                if(menubarId.appStackView.currentItem.objectName === "listUserON")
+                menubarId.appStackView.pop();
 
-        //         menubarId.appStackView.push(listUserPageComponent,{objectName: "listUserON"});
-        //     }
-        //     icon.source: "qrc:/assets/images/users.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
-        // }
+                menubarId.appStackView.push(listUserPageComponent,{objectName: "listUserON"});
+            }
+            icon.source: "qrc:/assets/images/users.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
+        }
 
         // MenuSeparator { }
 
