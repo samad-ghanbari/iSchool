@@ -1,105 +1,103 @@
 pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
 import "./../public" as DialogBox
-import "./Evals.js" as Methods
 
 Page {
     id: insertPage
 
-    required property string branch
-    required property string step
-    required property string base
-    required property string period
-
-    required property int step_id
-    required property int base_id
-    required property int period_id
-
-    required property string eval_cat
-    required property int eval_cat_id
-    required property bool test_flag
-    required property bool final_flag
-
     signal popStackSignal();
     signal insertedSignal();
 
-    property var allBaseClasses : dbMan.getClasses(insertPage.step_id, insertPage.base_id, insertPage.period_id);
+    required property int step_id;
+    required property int base_id;
+    required property int period_id;
+    required property bool field_based;
 
-    background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
+    required property string branch;
+    required property string step;
+    required property string field;
+    required property string base;
+    required property string period;
 
-    GridLayout
+    background: Rectangle{anchors.fill: parent; color: "honeydew"}
+
+    ColumnLayout
     {
-        columns: 2
         anchors.fill: parent
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: insertPage.popStackSignal();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "ثبت ارزیابی جدید"
+            text: "افزودن ارزیابی جدید"
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
 
-        ScrollView
-        {
-            Layout.columnSpan: 2
-            Layout.fillWidth: true
+        Flickable{
             Layout.fillHeight: true
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+            Layout.fillWidth: true
+            clip: true
+            contentHeight: centerBox.implicitHeight
 
             Rectangle
             {
                 width: (parent.width > 700)? 700 : parent.width
-                implicitHeight : centerBox.implicitHeight + 40
+                height:  centerBox.implicitHeight + 100
                 anchors.horizontalCenter : parent.horizontalCenter
                 color: "snow"
+                anchors.margins: 10
 
-                GridLayout
-                {
+                Column{
                     id: centerBox
-                    anchors.fill: parent
-                    anchors.margins: 20
-                    columns: 2
+                    width : parent.width
+                    anchors.margins: 10
 
                     Image
                     {
-                        Layout.columnSpan: 2
-                        Layout.preferredWidth: 128
-                        Layout.preferredHeight: 128
-                        Layout.alignment: Qt.AlignHCenter
+                        width: 64
+                        height: 64
+                        anchors.horizontalCenter: parent.horizontalCenter
                         source:  "qrc:/assets/images/evaluation.png"
+                        NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
                     }
 
-                    // branch
+                    //branch
                     Text {
-                        text: "شعبه" + " " + insertPage.branch
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 50
+                        text: "شعبه " + insertPage.branch + " - " + insertPage.step
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text: (insertPage.field_based) ? "رشته " + insertPage.field + "  " +  insertPage.base :  insertPage.base
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text: "سال تحصیلی " + insertPage.period
+                        width: parent.width
+                        height: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
@@ -108,288 +106,184 @@ Page {
                         color: "black"
                     }
 
-                    // step base
-                    Text {
-                        text: {
-                            if(insertPage.base.indexOf("پایه") == -1)
-                            return insertPage.step + " - پایه " + insertPage.base;
-                            else
-                            return insertPage.step + " - " + insertPage.base;
+                    // eval name
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "نام ارزیابی"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
                         }
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-
-                    // period
-                    Text {
-                        text: "سال تحصیلی" + " " + insertPage.period
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    // eval cat
-                    Text {
-                        text:  insertPage.eval_cat
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 20
-                        font.bold: true
-                        color: "mediumvioletred"
-                    }
-
-                    // course
-                    Text {
-                        text: "درس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    ComboBox
-                    {
-                        id: courseCB
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        model:ListModel { id: courseCBoxModel; }
-                        textRole: "text"
-                        valueRole: "value"
-                        Component.onCompleted: {
-                            Methods.updateCourseCB(insertPage.step_id, insertPage.base_id, insertPage.period_id);
-                            courseCBoxModel.append({ value: -1, text:"همه دروس"});
-                        }
-                        onActivated:{
-                            var course_id = courseCB.currentValue;
-                            if(course_id > -1)
-                            {
-
-                                if(dbMan.isStepCourse(course_id))
-                                    classCBoxModel.append({ value: -1, text:"ارزیابی پایه"});
-                                else
-                                {
-                                    Methods.updateClassCB(course_id);
-                                    classCBoxModel.append({ value: 0, text:"همه کلاس‌ها"});
-                                }
-                            }
-                            else
-                            {
-                                classCBoxModel.clear();
-                                var jsondata = insertPage.allBaseClasses
-                                for(var obj of jsondata)
-                                {
-                                    classCBoxModel.append({value: obj.id,  text: obj.class_name });
-                                }
-                                classCBoxModel.append({ value: 0, text:"همه کلاس‌ها"});
-                            }
-                        }
-                    }
-
-                    //class
-                    Text {
-                        text: "کلاس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                        visible: (insertPage.base_id > -1)? true : false;
-                    }
-                    ComboBox
-                    {
-                        id: classCB
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        model:ListModel { id: classCBoxModel; }
-                        textRole: "text"
-                        valueRole: "value"
-                        visible: (insertPage.base_id > -1)? true : false;
-                    }
-
-                    // eval time
-                    Text {
-                        text: "زمان ارزیابی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                        visible : (courseCB.currentValue > -1)? true : false
-                    }
-                    TextField
-                    {
-                        id: evaltimeTF
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        placeholderText: "1403/08/10"
-                        validator: RegularExpressionValidator
+                        TextField
                         {
-                            regularExpression: /^\d{4}\/\d{2}\/\d{2}$/
-                            // Regex pattern to match date in yyyy/MM/dd format
-                        }
-                        visible : (courseCB.currentValue > -1)? true : false
-                    }
-
-                    //max value
-                    Text {
-                        text: "بالاترین نمره"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    TextField
-                    {
-                        id: maxGradeTF
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        placeholderText: "مقدار عددی مانند ۲۰"
-                        validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
-                            regularExpression: /^-?\d*\.?\d+$/
+                            id: evalNameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            placeholderText: "نام ارزیابی"
                         }
                     }
-
-                    //report included
-                    Text {
-                        text: "تاثیر در ارزیابی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Switch
+                    Item
                     {
-                        id: includedSW
-                        Layout.preferredWidth: 100
-                        Layout.preferredHeight: 50
-                        Layout.alignment: Qt.AlignLeft
-                        checked: true
+                        width: parent.width
+                        height: 10
+                    }
 
+                    // max grade
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "بیشترین نمره"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        TextField
+                        {
+                            id: maxGradeTF
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text: "20"
+                            placeholderText: "بیشترین نمره"
+                            validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }
 
                     Item
                     {
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 10
                     }
+
+                    // course flag
+                    Switch{
+                        id: courseFlagSW
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی واحد درسی"
+                        checked: true
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        onClicked: {
+                            if(checked)
+                                testFlagSW.checked = false;
+                        }
+                    }
+
+                    // test flag
+                    Switch{
+                        id: testFlagSW
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی واحد تستی"
+                        checked: false
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        onClicked: {
+                            if(checked)
+                                courseFlagSW.checked = false;
+                        }
+                    }
+
+                    // final flag
+                    Switch{
+                        id: finalFlagSW
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی نهایی "
+                        checked: false
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                    }
+
+                    Item
+                    {
+                        width: parent.width
+                        height: 10
+                    }
+
+                    // sort priority
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "اولویت نمایش"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        SpinBox
+                        {
+                            id: sortSB
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            value: dbMan.getEvalMaxSort(insertPage.step_id, insertPage.base_id, insertPage.period_id) + 1;
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                    }
+
+                    Item{width: parent.width; height: 50;}
+
 
                     Button
                     {
                         text: "تایید"
-                        Layout.columnSpan: 2
-                        Layout.preferredWidth: 200
-                        Layout.preferredHeight: 50
-                        Layout.alignment: Qt.AlignHCenter
+                        width: 200
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
-                        enabled: {
-                            var stepFlag;
-                            if( (insertPage.base_id > -1) && (classCB.currentValue > -1) )
-                            stepFlag = true;
-                            else
-                            stepFlag = false;
-
-                            if(  (maxGradeTF.text !== "") && stepFlag )
-                            return true;
-                            else
-                            return false;
-                        }
                         onClicked:
                         {
-                            var Eval = {};
-                            Eval["eval_cat_id"] = insertPage.eval_cat_id
-                            Eval["course_id"] = courseCB.currentValue
-                            // class
-                            // -1 : step eval
-                            // 0  : all class
-                            if(insertPage.base_id > -1)
-                            Eval["class_id"] = classCB.currentValue
-                            else
-                            Eval["class_id"] = -1;
-                            if(courseCB.currentValue > -1)
-                                Eval["eval_time"] = evaltimeTF.text
-                            else
-                                Eval["eval_time"] = ""
+                            var eval = {};
+                            eval["step_id"] = insertPage.step_id
+                            eval["base_id"] = insertPage.base_id
+                            eval["period_id"] = insertPage.period_id
 
-                            Eval["max_grade"] = parseFloat(maxGradeTF.text)
-                            Eval["included"] = includedSW.checked
+                            eval["eval_name"] = evalNameTF.text
+                            var grade = maxGradeTF.text
+                            eval["max_grade"] = parseFloat(grade)
+                            eval["course_flag"] = courseFlagSW.checked
+                            eval["test_flag"] = testFlagSW.checked
+                            eval["final_flag"] = finalFlagSW.checked
+                            eval["sort_priority"] = sortSB.value
 
-                            // all class ids
-                            var allClassId = [];
-                            for (var c of insertPage.allBaseClasses)
+
+
+                            if(dbMan.insertEval(eval))
                             {
-                                allClassId.push(c.id);
-                            }
-
-                            Eval["all_class"] = allClassId;
-
-                            if(dbMan.evalInsert(Eval))
-                            {
-                                // insert student_evals : student_id, eval_id
-                                var eval_id = dbMan.getLastInsertedId();
-                                // student of class
-                                var class_id = classCB.currentValue
-
-                                if(dbMan.StudentEvalEvaluationInsert(eval_id, class_id))
-                                {
-                                    successDialogId.dialogText = "ارزیابی جدید با موفقیت افزوده شد." + "\n" + "ارزیابی دانش‌آموزان کلاس بروز گردید."
-                                    successDialogId.open();
-                                }
-                                else
-                                {
-                                    successDialogId.dialogText = "ارزیابی جدید با موفقیت افزوده شد."
-                                    successDialogId.open();
-                                }
+                                insertPage.insertedSignal();
+                                successDialogId.open();
                             }
                             else
                             {
@@ -404,12 +298,9 @@ Page {
 
                     Item
                     {
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 5
                     }
-
-
                 }
             }
         }
@@ -432,7 +323,6 @@ Page {
         onDialogAccepted: function(){
             successDialogId.close();
             insertPage.popStackSignal();
-            insertPage.insertedSignal();
         }
 
     }

@@ -259,7 +259,7 @@ MenuBar {
     Component
     {
         id: evalsComponent
-        EvalModule.EvalCats{appStackView: menubarId.appStackView;}
+        EvalModule.Evals{appStackView: menubarId.appStackView;}
     }
 
 

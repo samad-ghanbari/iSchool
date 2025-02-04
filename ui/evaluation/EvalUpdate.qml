@@ -1,59 +1,41 @@
 pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
 import "./../public" as DialogBox
-import "Evals.js" as Methods
 
 Page {
     id: updatePage
 
-    required property string branch
-    required property string step
-    required property string base
-    required property string period
-
-    required property int    step_id;
-    required property int    base_id;
-    required property int    period_id;
-
-    required property string eval_cat;
-    required property int    course_id
-    required property int    class_id
-    required property int eval_id;
-    required property string eval_time;
-    required property double max_grade;
-    required property bool test_flag;
-    required property bool final_flag;
-    required property bool included;
-
-
     signal popStackSignal();
     signal updatedSignal();
 
+    required property int step_id;
+    required property int base_id;
+    required property int period_id;
+    required property bool field_based;
 
-    background: Rectangle{anchors.fill: parent; color: "mintcream"}
+    required property string branch;
+    required property string step;
+    required property string field;
+    required property string base;
+    required property string period;
 
-    GridLayout
+    required property string eval_name;
+    required property real max_grade;
+    required property bool course_flag;
+    required property bool test_flag;
+    required property bool final_flag;
+    required property bool sort_priority;
+
+    background: Rectangle{anchors.fill: parent; color: "honeydew"}
+
+    ColumnLayout
     {
-        columns: 2
         anchors.fill: parent
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: updatePage.popStackSignal();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
@@ -63,48 +45,66 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
 
-       ScrollView
-        {
-            Layout.columnSpan: 2
-            Layout.fillWidth: true
+        Flickable{
             Layout.fillHeight: true
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+            Layout.fillWidth: true
+            clip: true
+            contentHeight: centerBox.implicitHeight
 
             Rectangle
             {
                 width: (parent.width > 700)? 700 : parent.width
-                implicitHeight : centerBox.implicitHeight + 40
+                height:  centerBox.implicitHeight + 100
                 anchors.horizontalCenter : parent.horizontalCenter
                 color: "snow"
+                anchors.margins: 10
 
-                GridLayout
-                {
+                Column{
                     id: centerBox
-                    anchors.fill: parent
-                    anchors.margins: 20
-                    columns: 2
+                    width : parent.width
+                    anchors.margins: 10
 
                     Image
                     {
-                        Layout.columnSpan: 2
-                        Layout.preferredWidth: 128
-                        Layout.preferredHeight: 128
-                        Layout.alignment: Qt.AlignHCenter
+                        width: 64
+                        height: 64
+                        anchors.horizontalCenter: parent.horizontalCenter
                         source:  "qrc:/assets/images/evaluation.png"
+                        NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
                     }
 
-                    // branch
+                    //branch
                     Text {
-                        text: "شعبه" + " " + updatePage.branch
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 50
+                        text: "شعبه " + updatePage.branch + " - " + updatePage.step
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text: (updatePage.field_based) ? "رشته " + updatePage.field + "  " +  updatePage.base :  updatePage.base
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text: "سال تحصیلی " + updatePage.period
+                        width: parent.width
+                        height: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
@@ -113,218 +113,185 @@ Page {
                         color: "black"
                     }
 
-                    //step
-                    Text {
-                        text: {
-                            if(updatePage.base.indexOf("پایه") == -1)
-                            return updatePage.step + " - پایه " + updatePage.base;
-                            else
-                            return updatePage.step + " - " + updatePage.base;
+                    // eval name
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "نام ارزیابی"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
                         }
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-
-
-                    //period
-                    Text {
-                        text: "سال تحصیلی" + " " + updatePage.period
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-
-
-                    Text {
-                        text: "عنوان درس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    ComboBox
-                    {
-                        id: courseCB
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        model:ListModel { id: courseCBoxModel; }
-                        textRole: "text"
-                        valueRole: "value"
-                        Component.onCompleted:{
-                            Methods.updateCourseCB(updatePage.step_id, updatePage.base_id, updatePage.period_id);
-                            courseCB.currentIndex = courseCB.indexOfValue(updatePage.course_id)
-                        }
-                    }
-
-                    //class
-                    Text {
-                        text: "کلاس"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                        visible: (updatePage.base_id > -1)? true : false;
-                    }
-                    ComboBox
-                    {
-                        id: classCB
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        model:ListModel { id: classCBoxModel; }
-                        textRole: "text"
-                        valueRole: "value"
-                        visible: (updatePage.base_id > -1)? true : false;
-                        Component.onCompleted:{
-                            Methods.updateClassCB(updatePage.course_id);
-                            classCB.currentIndex = classCB.indexOfValue(updatePage.class_id)
-                        }
-                    }
-
-
-                    //eval time
-                    Text {
-                        text: "زمان ارزیابی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    TextField
-                    {
-                        id: evaltimeTF
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        placeholderText: "1403/08/10"
-                        validator: RegularExpressionValidator
+                        TextField
                         {
-                            regularExpression: /^\d{4}\/\d{2}\/\d{2}$/
-                            // Regex pattern to match date in yyyy/MM/dd format
+                            id: evalNameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            placeholderText: "نام ارزیابی"
                         }
-                        text: updatePage.eval_time
+                    }
+                    Item
+                    {
+                        width: parent.width
+                        height: 10
                     }
 
-                    //max grade
-                    Text {
-                        text: "بالاترین نمره"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    TextField
-                    {
-                        id: maxGradeTF
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        placeholderText: "مقدار عددی مانند ۲۰"
-                        validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
-                            regularExpression: /^-?\d*\.?\d+$/
+                    // max grade
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "بیشترین نمره"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
                         }
-                        text: updatePage.max_grade
-                    }
-
-
-
-                    //report included
-                    Text {
-                        text: "تاثیر در ارزیابی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Switch
-                    {
-                        id: includedSW
-                        Layout.preferredWidth: 100
-                        Layout.preferredHeight: 50
-                        Layout.alignment: Qt.AlignLeft
-                        checked: updatePage.included
-
+                        TextField
+                        {
+                            id: maxGradeTF
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text: "20"
+                            placeholderText: "بیشترین نمره"
+                            validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }
 
                     Item
                     {
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 10
                     }
+
+                    // course flag
+                    Switch{
+                        id: courseFlagSW
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی واحد درسی"
+                        checked: true
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        onClicked: {
+                            if(checked)
+                                testFlagSW.checked = false;
+                        }
+                    }
+
+                    // test flag
+                    Switch{
+                        id: testFlagSW
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی واحد تستی"
+                        checked: false
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        onClicked: {
+                            if(checked)
+                                courseFlagSW.checked = false;
+                        }
+                    }
+
+                    // final flag
+                    Switch{
+                        id: finalFlagSW
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی نهایی "
+                        checked: false
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                    }
+
+                    Item
+                    {
+                        width: parent.width
+                        height: 10
+                    }
+
+                    // sort priority
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "اولویت نمایش"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        SpinBox
+                        {
+                            id: sortSB
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            value: dbMan.getEvalMaxSort(updatePage.step_id, updatePage.base_id, updatePage.period_id) + 1;
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                    }
+
+                    Item{width: parent.width; height: 50;}
+
 
                     Button
                     {
                         text: "تایید"
-                        Layout.columnSpan: 2
-                        Layout.preferredWidth: 200
-                        Layout.preferredHeight: 50
-                        Layout.alignment: Qt.AlignHCenter
+                        width: 200
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
                         onClicked:
                         {
+                            var eval = {};
+                            eval["step_id"] = updatePage.step_id
+                            eval["base_id"] = updatePage.base_id
+                            eval["period_id"] = updatePage.period_id
 
-                            var Eval = {};
-                            Eval["id"] = updatePage.eval_id;
-                            Eval["course_id"] =courseCB.currentValue
-                            if(updatePage.base_id > -1)
-                            Eval["class_id"] = classCB.currentValue
-                            else
-                            Eval["class_id"] = -1;
-                            Eval["eval_time"] = evaltimeTF.text
-                            Eval["max_grade"] = parseFloat(maxGradeTF.text)
-                            Eval["included"] = includedSW.checked
+                            eval["eval_name"] = evalNameTF.text
+                            var grade = maxGradeTF.text
+                            eval["max_grade"] = parseFloat(grade)
+                            eval["course_flag"] = courseFlagSW.checked
+                            eval["test_flag"] = testFlagSW.checked
+                            eval["final_flag"] = finalFlagSW.checked
+                            eval["sort_priority"] = sortSB.value
 
 
-                            if(dbMan.evalUpdate(Eval))
+
+                            if(dbMan.insertEval(eval))
+                            {
+                                updatePage.updatedSignal();
                                 successDialogId.open();
+                            }
                             else
                             {
                                 var errorString = dbMan.getLastError();
@@ -338,12 +305,9 @@ Page {
 
                     Item
                     {
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 5
                     }
-
-
                 }
             }
         }
@@ -361,12 +325,11 @@ Page {
     {
         id: successDialogId
         dialogTitle: "عملیات موفق"
-        dialogText: "ویرایس ارزیابی با موفقیت افزوده شد."
+        dialogText: "ویرایش ارزیابی با موفقیت انجام شد."
         dialogSuccess: true
         onDialogAccepted: function(){
             successDialogId.close();
             updatePage.popStackSignal();
-            updatePage.updatedSignal();
         }
 
     }
