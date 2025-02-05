@@ -49,15 +49,51 @@ qt_add_qml_module(appiSchool
     RESOURCES assets.qrc
 
     QML_FILES
-    # LOGIN
-        ui/login/LoginWindow.qml
-        ui/login/InitialLogin.qml
-        ui/login/LoginForm.qml
-        ui/login/NewRelease.qml
-        ui/login/NoConnection.qml
-        ui/login/OnMaintenance.qml
-    #PUBLIC
-        ui/public/BaseDialog.qml
+    # BASE
+        ui/base/Base.qml
+        ui/base/Base.js
+        ui/base/BaseWidget.qml
+        ui/base/BaseInsert.qml
+        ui/base/BaseUpdate.qml
+        ui/base/BaseDelete.qml
+
+    #BRANCH
+        ui/branch/Branches.qml
+        ui/branch/Branches.js
+        ui/branch/BranchWidget.qml
+        ui/branch/BranchInsert.qml
+        ui/branch/BranchDelete.qml
+        ui/branch/UpdateBranch.qml
+
+    #Class
+        ui/class/Class.qml
+        ui/class/Class.js
+        ui/class/ClassInsert.qml
+        ui/class/ClassDelete.qml
+        ui/class/ClassUpdate.qml
+        ui/class/ClassCourses.qml
+        ui/class/ClassStudents.qml
+
+    #COURSES
+        ui/course/Courses.qml
+        ui/course/Course.js
+        ui/course/CourseInsert.qml
+        ui/course/CourseUpdate.qml
+        ui/course/CourseDelete.qml
+
+    #EVALUATION
+        ui/evaluation/Evals.js
+        ui/evaluation/Evals.qml
+        ui/evaluation/EvalInsert.qml
+        ui/evaluation/EvalDelete.qml
+        ui/evaluation/EvalUpdate.qml
+
+    # Field
+        ui/field/Fields.qml
+        ui/field/FieldInsert.qml
+        ui/field/FieldUpdate.qml
+        ui/field/FieldDelete.qml
+
     #HOME
         ui/home/HomeWindow.qml
         ui/home/HomePage.qml
@@ -78,30 +114,24 @@ qt_add_qml_module(appiSchool
         ui/home/Rank.qml
         ui/home/ClassReport.qml
 
+    # LOGIN
+        ui/login/LoginWindow.qml
+        ui/login/InitialLogin.qml
+        ui/login/LoginForm.qml
+        ui/login/NewRelease.qml
+        ui/login/NoConnection.qml
+        ui/login/OnMaintenance.qml
 
-    #USER
-        ui/user/Users.qml
-        ui/user/Users.js
+    #PERIOD
+        ui/period/Periods.qml
+        ui/period/Period.js
+        ui/period/PeriodWidget.qml
+        ui/period/PeriodInsert.qml
+        ui/period/PeriodUpdate.qml
+        ui/period/PeriodDelete.qml
 
-        #ui/user/UsersListWidget.qml
-        ui/user/InsertUser.qml
-        ui/user/InsertUser.js
-        ui/user/User.qml
-        ui/user/User.js
-        ui/user/ChangePassDialogBox.qml
-
-        ui/user/DeleteUser.qml
-        ui/user/UpdateUser.qml
-        ui/user/UserModify.js
-        ui/user/FilterDelegate.qml
-
-    #BRANCH
-        ui/branch/Branches.qml
-        ui/branch/Branches.js
-        ui/branch/BranchWidget.qml
-        ui/branch/BranchInsert.qml
-        ui/branch/BranchDelete.qml
-        ui/branch/UpdateBranch.qml
+    #PUBLIC
+        ui/public/BaseDialog.qml
 
     #STEP
         ui/step/Steps.qml
@@ -110,41 +140,6 @@ qt_add_qml_module(appiSchool
         ui/step/StepInsert.qml
         ui/step/StepUpdate.qml
         ui/step/StepDelete.qml
-
-    # Field
-        ui/field/Fields.qml
-        ui/field/FieldInsert.qml
-        ui/field/FieldUpdate.qml
-        ui/field/FieldDelete.qml
-
-
-    # STUDY BASE
-        ui/base/Base.qml
-        ui/base/Base.js
-        ui/base/BaseWidget.qml
-        ui/base/BaseInsert.qml
-        ui/base/BaseUpdate.qml
-        ui/base/BaseDelete.qml
-
-    #STUDY PERIOD
-        ui/period/Periods.qml
-        ui/period/Period.js
-        ui/period/PeriodWidget.qml
-        ui/period/PeriodInsert.qml
-        ui/period/PeriodUpdate.qml
-        ui/period/PeriodDelete.qml
-
-    #Class
-        ui/class/Class.qml
-        ui/class/Class.js
-        ui/class/ClassInsert.qml
-        ui/class/ClassDelete.qml
-        ui/class/ClassUpdate.qml
-        ui/class/ClassCourses.qml
-        ui/class/ClassStudents.qml
-        #ui/class/ClassDetailInsert.qml
-        #ui/class/ClassDetailDelete.qml
-        #ui/class/ClassDetailUpdate.qml
 
     #STUDENT
         ui/student/Students.qml
@@ -157,42 +152,46 @@ qt_add_qml_module(appiSchool
         ui/student/Registrations.qml
         ui/student/Register.qml
         ui/student/RegisterDelete.qml
-
-    #COURSES
-        ui/course/Courses.qml
-        ui/course/Course.js
-        ui/course/CourseInsert.qml
-        ui/course/CourseUpdate0.qml
-        ui/course/CourseUpdate.qml
-        ui/course/CourseDelete.qml
-
-
-    #EVALUATION
-        #ui/evaluation/EvalCats.qml
-        #ui/evaluation/EvalCatInsert.qml
-        #ui/evaluation/EvalCatDelete.qml
-        #ui/evaluation/EvalCatUpdate.qml
-
-
-        ui/evaluation/Evals.js
-        ui/evaluation/Evals.qml
-        ui/evaluation/EvalInsert.qml
-        ui/evaluation/EvalDelete.qml
-        ui/evaluation/EvalUpdate.qml
-
-        #ui/evaluation/EvalStudents.qml
-        #ui/evaluation/Evals_copy.qml
-
-
-    #STUDENT EVALS
-        ui/student_evals/StudentsEvals.qml
-        ui/student_evals/StudentsEvals.js
         ui/student/StudentCourses.qml
         ui/student/StudentCourseInsert.qml
         ui/student/StudentCourseDelete.qml
         ui/student/StudentCourseEval.qml
         ui/student/FilterDelegate.qml
-        #QML_FILES ui/user/Users_copy.qml
+
+
+    #USER
+        ui/user/Users.qml
+        ui/user/Users.js
+        ui/user/InsertUser.qml
+        ui/user/InsertUser.js
+        ui/user/User.qml
+        ui/user/User.js
+        ui/user/ChangePassDialogBox.qml
+
+        ui/user/DeleteUser.qml
+        ui/user/UpdateUser.qml
+        ui/user/UserModify.js
+        ui/user/FilterDelegate.qml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #STUDENT EVALS
+        ui/student_evals/StudentsEvals.qml
+        ui/student_evals/StudentsEvals.js
+
 )
 
 

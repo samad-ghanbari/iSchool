@@ -156,10 +156,10 @@ MenuBar {
 
             onTriggered:
             {
-                if(menubarId.appStackView.currentItem.objectName === "listUserON")
+                if(menubarId.appStackView.currentItem.objectName === "usersON")
                 menubarId.appStackView.pop();
 
-                menubarId.appStackView.push(listUserPageComponent,{objectName: "listUserON"});
+                menubarId.appStackView.push(usersComponent,{objectName: "usersON"});
             }
             icon.source: "qrc:/assets/images/users.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
         }
@@ -178,29 +178,10 @@ MenuBar {
     }
 
 
-    // Menu {
-    //     id: menuReportId
-    //     title: "گزارشات"
-    //     font.family: "Kalameh"
-    //     font.pixelSize: 16
-    //     Action {
-    //         text: "گزارش آماری";
-    //         onTriggered:
-    //         {
-    //             if(menubarId.appStackView.currentItem.objectName === "listUserON")
-    //             menubarId.appStackView.pop();
-
-    //             //menubarId.appStackView.push(listUserPageComponent,{objectName: "listUserON"});
-    //         }
-    //         icon.source: "qrc:/assets/images/report.png"; icon.width: 24;icon.height:24;icon.color:"transparent"
-    //     }
-    // }
-
-
 
     Component
     {
-        id: listUserPageComponent
+        id: usersComponent
         UserModule.Users{ appStackView: menubarId.appStackView;}
     }
 
