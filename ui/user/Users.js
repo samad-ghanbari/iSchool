@@ -9,8 +9,8 @@ function loadUsers(){
     var gender = genderCB.currentText;
     var nat_id = natIdTF.text;
     var jobPosition = jobPositionTF.text;
-    var telephone = telephone.text;
-    var enabled = enabledSW.checked;
+    var telephone = telephoneTF.text;
+    var enabled = enabledCB.currentValue
     var admin = adminCB.currentValue; // -1  0  1
     var superadmin = superadminCB.currentValue;
 
@@ -40,17 +40,20 @@ function loadUsers(){
         filterModel.append({_key: "شماره تماس", _value: telephone, _type: "telephone"})
     }
 
-    cond["enabled"] = enabled;
-    var stat = (enabnled)? "فعال" : "غیرفعال";
-    filterModel.append({_key: "وضعیت کاربر", _value: stat, _type: "enabled"})
-
+    if(enabled > -1){
+        cond["enabled"] = (enabled === 1)? true : false;
+        let stat = (enabled)? "فعال" : "غیرفعال";
+        filterModel.append({_key: "وضعیت کاربر", _value: stat, _type: "enabled"})
+    }
     if(admin  > -1){
-        cond["admin"] = admin;
-        filterModel.append({_key: "سطح دسترسی", _value: "کاربر ادمین", _type: "admin"})
+        cond["admin"] = (admin === 1)? true : false;
+        let stat = (admin > 0)? "کاربر ادمین" : "عیرادمین";
+        filterModel.append({_key: "سطح دسترسی", _value: stat, _type: "admin"})
     }
     if(superadmin  > -1){
-        cond["admin"] = admin;
-        filterModel.append({_key: "سطح دسترسی", _value: "کاربر سوپرادمین", _type: "superadmin"})
+        cond["superadmin"] = (superadmin === 1)? true : false;
+        let stat = (superadmin > 0)? "کاربر سوپرادمین" : "غیر سوپرادمین";
+        filterModel.append({_key: "سطح دسترسی", _value: stat, _type: "superadmin"})
     }
 
     usersModel.clear();
@@ -60,7 +63,7 @@ function loadUsers(){
     usersPage.usersCount = dbMan.getUsersCount(cond);
     usersCountLbl.text = usersPage.usersCount + " نفر "
     var jsondata = dbMan.getUsers( cond, usersPage.limit, usersPage.offset);
-
+    //id, name, lastname, gender, nat_id, job_position, telephone, permissions, enabled, admin, superadmin
     for(var obj of jsondata){
         usersModel.append(obj);
     }

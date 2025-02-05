@@ -13,7 +13,6 @@ import "./../class" as ClassModule
 import "./../student" as StudentModule
 import "./../course" as CourseModule
 import "./../evaluation" as EvalModule
-// import "./../about" as AboutModule
 
 
 MenuBar {

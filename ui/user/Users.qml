@@ -27,7 +27,7 @@ Page {
             Layout.preferredHeight: 64
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignLeft
-            text: "مدیریت دانش‌آموزان"
+            text: "مدیریت کاربران سامانه"
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
@@ -54,25 +54,24 @@ Page {
                     Button
                     {
                         background: Item{}
-                        visible: (stepCB.currentIndex >=0)? true : false;
                         Layout.preferredHeight: 64
                         Layout.alignment: Qt.AlignLeft
                         icon.source: "qrc:/assets/images/add.png"
                         icon.width: 40
                         icon.height: 40
-                        text: "دانش‌آموز جدید"
+                        text: "کاربر جدید"
                         font.pixelSize: 14
                         font.family: "Kalameh"
                         display: AbstractButton.TextUnderIcon
                         font.bold: true
                         icon.color:"transparent"
                         opacity: 0.5
-                        onClicked:  usersPage.appStackView.push(insertComponent);
+                        //onClicked:  usersPage.appStackView.push(insertComponent);
                         hoverEnabled: true
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                     }
                     Label{
-                        id: userCountLbl
+                        id: usersCountLbl
                         font.family: "Kalameh"
                         font.pixelSize: 14
                         font.bold: true
@@ -86,7 +85,6 @@ Page {
 
                     Button
                     {
-                        visible: (stepCB.currentIndex >=0)? true : false;
                         Layout.preferredHeight: 64
                         Layout.alignment: Qt.AlignRight
                         background: Item{}
@@ -122,7 +120,7 @@ Page {
 
                             Repeater{
                                 model: ListModel{id:filterModel}
-                                delegate: FilterDelegate{
+                                delegate: UserFilterDelegate{
                                     id:delg
                                     required property var model;
                                     _key : delg.model._key
@@ -142,7 +140,12 @@ Page {
                                         jobPositionTF.text = "";
                                         else if(_type === "telephone")
                                         telephoneTF.text = "";
-
+                                        else if(_type === "admin")
+                                        adminCB.currentIndex = -1;
+                                        else if(_type === "superadmin")
+                                        superadminCB.currentIndex = -1;
+                                        else if(_type === "enabled")
+                                        enabledCB.currentIndex = -1;
 
                                         searchBtn.clicked();
                                     }
@@ -157,7 +160,6 @@ Page {
                 {
                     height:   40
                     width:  parent.width
-                    visible: (stepCB.currentIndex >=0)? true : false;
                     Item{Layout.fillWidth: true; Layout.preferredHeight: 10;}
                     Button
                     {
@@ -197,6 +199,7 @@ Page {
                         verticalAlignment: Label.AlignVCenter
                         horizontalAlignment: Label.AlignHCenter
                         text: usersPage.pageNumber
+                        visible: (usersPage.usersCount > 25)? true : false;
                     }
 
                     Button
@@ -243,6 +246,7 @@ Page {
                     model: ListModel{id: usersModel}
                     delegate: userDelegate
                     layoutDirection: Qt.LeftToRight
+                    Component.onCompleted: JS.loadUsers();
                 }
             }
         }
@@ -268,22 +272,22 @@ Page {
             {
                 anchors.fill: parent
                 hoverEnabled: true
-                onClicked:{
-                    usersPage.appStackView.push(userComponent, {
-                                                    id: rec.model.id,
-                                                    name: rec.model.name,
-                                                    lastname: rec.model.lastname,
-                                                    gender: rec.model.gender,
-                                                    nat_id  : rec.model.nat_id,
-                                                    job_position: rec.model.job_position,
-                                                    telephone: rec.model.telephone,
-                                                    permissions: rec.model.permissions,
-                                                    enabled: rec.model.enabled,
-                                                    admin: rec.model.admin,
-                                                    superadmin: rec.model.superadmin
-                                                }
-                                                );
-                }
+                // onClicked:{
+                //     usersPage.appStackView.push(userComponent, {
+                //                                     id: rec.model.id,
+                //                                     name: rec.model.name,
+                //                                     lastname: rec.model.lastname,
+                //                                     gender: rec.model.gender,
+                //                                     nat_id  : rec.model.nat_id,
+                //                                     job_position: rec.model.job_position,
+                //                                     telephone: rec.model.telephone,
+                //                                     permissions: rec.model.permissions,
+                //                                     enabled: rec.model.enabled,
+                //                                     admin: rec.model.admin,
+                //                                     superadmin: rec.model.superadmin
+                //                                 }
+                //                                 );
+                // }
                 onHoveredChanged:{
                     if(containsMouse){
                         parent.opacity=1;
@@ -308,8 +312,8 @@ Page {
 
                     Image {
                         source: "qrc:/assets/images/user.png";
-                        Layout.preferredWidth: 100
-                        Layout.preferredHeight: 120
+                        Layout.preferredWidth: 64
+                        Layout.preferredHeight: 64
                         Layout.alignment: Qt.AlignHCenter
                     }
                     Text {
@@ -378,22 +382,22 @@ Page {
                             icon.height: 32
                             icon.color:"transparent"
                             opacity: 0.5
-                            onClicked: {
-                                usersPage.appStackView.push(deleteComponent, {
-                                                                id: rec.model.id,
-                                                                name: rec.model.name,
-                                                                lastname: rec.model.lastname,
-                                                                gender: rec.model.gender,
-                                                                nat_id  : rec.model.nat_id,
-                                                                job_position: rec.model.job_position,
-                                                                telephone: rec.model.telephone,
-                                                                permissions: rec.model.permissions,
-                                                                enabled: rec.model.enabled,
-                                                                admin: rec.model.admin,
-                                                                superadmin: rec.model.superadmin
-                                                            }
-                                                            );
-                            }
+                            // onClicked: {
+                            //     usersPage.appStackView.push(deleteComponent, {
+                            //                                     id: rec.model.id,
+                            //                                     name: rec.model.name,
+                            //                                     lastname: rec.model.lastname,
+                            //                                     gender: rec.model.gender,
+                            //                                     nat_id  : rec.model.nat_id,
+                            //                                     job_position: rec.model.job_position,
+                            //                                     telephone: rec.model.telephone,
+                            //                                     permissions: rec.model.permissions,
+                            //                                     enabled: rec.model.enabled,
+                            //                                     admin: rec.model.admin,
+                            //                                     superadmin: rec.model.superadmin
+                            //                                 }
+                            //                                 );
+                            // }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                         }
@@ -407,23 +411,23 @@ Page {
                             icon.height: 32
                             icon.color:"transparent"
                             opacity: 0.5
-                            onClicked: {
+                            // onClicked: {
 
-                                usersPage.appStackView.push(updateComponent, {
-                                                                id: rec.model.id,
-                                                                name: rec.model.name,
-                                                                lastname: rec.model.lastname,
-                                                                gender: rec.model.gender,
-                                                                nat_id  : rec.model.nat_id,
-                                                                job_position: rec.model.job_position,
-                                                                telephone: rec.model.telephone,
-                                                                permissions: rec.model.permissions,
-                                                                enabled: rec.model.enabled,
-                                                                admin: rec.model.admin,
-                                                                superadmin: rec.model.superadmin
-                                                            }
-                                                            );
-                            }
+                            //     usersPage.appStackView.push(updateComponent, {
+                            //                                     id: rec.model.id,
+                            //                                     name: rec.model.name,
+                            //                                     lastname: rec.model.lastname,
+                            //                                     gender: rec.model.gender,
+                            //                                     nat_id  : rec.model.nat_id,
+                            //                                     job_position: rec.model.job_position,
+                            //                                     telephone: rec.model.telephone,
+                            //                                     permissions: rec.model.permissions,
+                            //                                     enabled: rec.model.enabled,
+                            //                                     admin: rec.model.admin,
+                            //                                     superadmin: rec.model.superadmin
+                            //                                 }
+                            //                                 );
+                            // }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                         }
@@ -436,89 +440,89 @@ Page {
         }
     }
 
-    //user
-    Component
-    {
-        id: userComponent
-        // InsertUser
-        // {
-        //     step_id : stepCB.currentValue
-        //     step: stepCB.currentText
-        //     branch: branchCB.currentText
-        //     onPopStackSignal: usersPage.appStackView.pop();
-        //     onInsertedSignal: JS.loadUsers();
-        // }
-    }
+    // //user
+    // Component
+    // {
+    //     id: userComponent
+    //     // InsertUser
+    //     // {
+    //     //     step_id : stepCB.currentValue
+    //     //     step: stepCB.currentText
+    //     //     branch: branchCB.currentText
+    //     //     onPopStackSignal: usersPage.appStackView.pop();
+    //     //     onInsertedSignal: JS.loadUsers();
+    //     // }
+    // }
 
-    //Insert
-    Component
-    {
-        id: insertComponent
-        // InsertUser
-        // {
-        //     step_id : stepCB.currentValue
-        //     step: stepCB.currentText
-        //     branch: branchCB.currentText
-        //     onPopStackSignal: usersPage.appStackView.pop();
-        //     onInsertedSignal: JS.loadUsers();
-        // }
-    }
+    // //Insert
+    // Component
+    // {
+    //     id: insertComponent
+    //     // InsertUser
+    //     // {
+    //     //     step_id : stepCB.currentValue
+    //     //     step: stepCB.currentText
+    //     //     branch: branchCB.currentText
+    //     //     onPopStackSignal: usersPage.appStackView.pop();
+    //     //     onInsertedSignal: JS.loadUsers();
+    //     // }
+    // }
 
-    //update
-    Component
-    {
-        id: updateComponent
-        // UpdateUser
-        // {
-        //     step: stepCB.currentText
-        //     branch: branchCB.currentText
-        //     onPopStackSignal: usersPage.appStackView.pop();
-        //     onUpdatedSignal:
-        //     {
-        //         JS.loadStudents();
-        //         // usersModel.clear();
-        //         // var cond = {}
-        //         // usersPage.offset = 0;
-        //         // usersPage.pageNumber = 1
+    // //update
+    // Component
+    // {
+    //     id: updateComponent
+    //     // UpdateUser
+    //     // {
+    //     //     step: stepCB.currentText
+    //     //     branch: branchCB.currentText
+    //     //     onPopStackSignal: usersPage.appStackView.pop();
+    //     //     onUpdatedSignal:
+    //     //     {
+    //     //         JS.loadStudents();
+    //     //         // usersModel.clear();
+    //     //         // var cond = {}
+    //     //         // usersPage.offset = 0;
+    //     //         // usersPage.pageNumber = 1
 
-        //         // usersPage.usersCount = dbMan.getusersCount(stepCB.currentValue, cond);
-        //         // userCountLbl.text = usersPage.usersCount + " نفر "
-        //         // var jsondata = dbMan.getStudents(stepCB.currentValue, cond, usersPage.limit, usersPage.offset);
+    //     //         // usersPage.usersCount = dbMan.getusersCount(stepCB.currentValue, cond);
+    //     //         // userCountLbl.text = usersPage.usersCount + " نفر "
+    //     //         // var jsondata = dbMan.getStudents(stepCB.currentValue, cond, usersPage.limit, usersPage.offset);
 
-        //         // for(var obj of jsondata){
-        //         //     usersModel.append(obj);
-        //         // }
-        //     }
-        // }
-    }
+    //     //         // for(var obj of jsondata){
+    //     //         //     usersModel.append(obj);
+    //     //         // }
+    //     //     }
+    //     // }
+    // }
 
-    // delete
-    Component
-    {
-        id: deleteComponent
-        // DeleteUser
-        // {
-        //     step: stepCB.currentText
-        //     branch: branchCB.currentText
-        //     onPopStackSignal: usersPage.appStackView.pop();
-        //     onDeletedSignal:
-        //     {
-        //         JS.loadStudents();
-        //         // usersModel.clear();
-        //         // var cond = {}
-        //         // usersPage.offset = 0;
-        //         // usersPage.pageNumber = 1
+    // // delete
+    // Component
+    // {
+    //     id: deleteComponent
+    //     // DeleteUser
+    //     // {
+    //     //     step: stepCB.currentText
+    //     //     branch: branchCB.currentText
+    //     //     onPopStackSignal: usersPage.appStackView.pop();
+    //     //     onDeletedSignal:
+    //     //     {
+    //     //         JS.loadStudents();
+    //     //         // usersModel.clear();
+    //     //         // var cond = {}
+    //     //         // usersPage.offset = 0;
+    //     //         // usersPage.pageNumber = 1
 
-        //         // usersPage.usersCount = dbMan.getusersCount(stepCB.currentValue, cond);
-        //         // userCountLbl.text = usersPage.usersCount + " نفر "
-        //         // var jsondata = dbMan.getStudents(stepCB.currentValue, cond, usersPage.limit, usersPage.offset);
+    //     //         // usersPage.usersCount = dbMan.getusersCount(stepCB.currentValue, cond);
+    //     //         // userCountLbl.text = usersPage.usersCount + " نفر "
+    //     //         // var jsondata = dbMan.getStudents(stepCB.currentValue, cond, usersPage.limit, usersPage.offset);
 
-        //         // for(var obj of jsondata){
-        //         //     usersModel.append(obj);
-        //         // }
-        //     }
-        // }
-    }
+    //     //         // for(var obj of jsondata){
+    //     //         //     usersModel.append(obj);
+    //     //         // }
+    //     //     }
+    //     // }
+    // }
 
     //drawer
     Drawer
@@ -637,9 +641,10 @@ Page {
                     valueRole: "value"
                     Component.onCompleted:
                     {
-                        genderModel.push({text: "", value:""});
-                        genderModel.push({text: "آقا", value:"آقا"});
-                        genderModel.push({text: "خانم", value:"خانم"});
+                        genderModel.clear();
+                        genderModel.append({text: "", value:""});
+                        genderModel.append({text: "آقا", value:"آقا"});
+                        genderModel.append({text: "خانم", value:"خانم"});
                     }
                 }
 
@@ -711,17 +716,34 @@ Page {
                 }
 
                 // enabled
-                Switch{
-                    id: enabledSW
-                    width: parent.width
-                    height: 50
-                    text: "کاربر فعال"
-                    checked: true
+                Text {
+                    text: "وضعیت کاربر"
                     font.family: "Kalameh"
                     font.pixelSize: 16
-                    onClicked: {
-                        if(checked)
-                            testFlagSW.checked = false;
+                    color: "darkcyan"
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignLeft
+                    Layout.leftMargin: 10
+                }
+                ComboBox
+                {
+                    id: enabledCB
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 40
+                    Layout.margins: 10
+                    Layout.topMargin: -5
+                    editable: false
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    model: ListModel{id: enabledModel}
+                    textRole: "text"
+                    valueRole: "value"
+                    Component.onCompleted:
+                    {
+                        enabledModel.clear();
+                        enabledModel.append({text: "", value:-1});
+                        enabledModel.append({text: "فعال", value: 1});
+                        enabledModel.append({text: "غیرفعال", value: 0});
                     }
                 }
 
@@ -751,9 +773,11 @@ Page {
                     valueRole: "value"
                     Component.onCompleted:
                     {
-                        adminModel.push({text: "", value:-1});
-                        adminModel.push({text: "غیر ادمین", value:0});
-                        adminModel.push({text: "ادمین", value:1});
+                        adminModel.clear();
+                        adminModel.append({text: "", value:-1});
+                        adminModel.append({text: "ادمین", value:1});
+                        adminModel.append({text: "غیر ادمین", value:0});
+
                     }
                 }
 
@@ -783,9 +807,11 @@ Page {
                     valueRole: "value"
                     Component.onCompleted:
                     {
-                        superadminModel.push({text: "", value:-1});
-                        superadminModel.push({text: "غیر سوپرادمین", value:0});
-                        superadminModel.push({text: "سوپرادمین", value:1});
+                        superadminModel.clear();
+                        superadminModel.append({text: "", value:-1});
+                        superadminModel.append({text: "سوپرادمین", value:1});
+                        superadminModel.append({text: "غیر سوپرادمین", value:0});
+
                     }
                 }
 

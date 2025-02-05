@@ -158,34 +158,10 @@ qt_add_qml_module(appiSchool
         ui/student/StudentCourseEval.qml
         ui/student/FilterDelegate.qml
 
-
     #USER
-        ui/user/Users.qml
-        ui/user/Users.js
-        ui/user/InsertUser.qml
-        ui/user/InsertUser.js
-        ui/user/User.qml
-        ui/user/User.js
-        ui/user/ChangePassDialogBox.qml
-
-        ui/user/DeleteUser.qml
-        ui/user/UpdateUser.qml
-        ui/user/UserModify.js
-        ui/user/FilterDelegate.qml
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            ui/user/Users.qml
+            ui/user/UserFilterDelegate.qml
+            ui/user/Users.js
 
 
     #STUDENT EVALS
@@ -325,19 +301,6 @@ qt_add_resources(appiSchool "assets"
 
 )
 
-# qt_target_qml_sources(appiSchool
-#     PREFIX "/"
-#     #QML_FILES     ui/login/LoginWindow.qml
-
-# )
-
-# qt_add_qml_module(appDbManModule
-#     URI dbman
-#     VERSION 1.0
-#     SOURCES
-#         lib/database/dbman.h
-#         lib/database/dbman.cpp
-# )
 
 # database support
 find_package(Qt6 REQUIRED COMPONENTS Sql)
