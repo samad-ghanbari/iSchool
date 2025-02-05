@@ -80,18 +80,20 @@ qt_add_qml_module(appiSchool
 
 
     #USER
-        ui/user/ListUser.qml
-        ui/user/ListUser.js
-        ui/user/UsersListWidget.qml
-        ui/user/NewUser.qml
-        ui/user/NewUserJS.js
+        ui/user/Users.qml
+        ui/user/Users.js
+
+        #ui/user/UsersListWidget.qml
+        ui/user/InsertUser.qml
+        ui/user/InsertUser.js
         ui/user/User.qml
         ui/user/User.js
         ui/user/ChangePassDialogBox.qml
 
-        ui/user/UserDelete.qml
-        ui/user/UserModify.qml
+        ui/user/DeleteUser.qml
+        ui/user/UpdateUser.qml
         ui/user/UserModify.js
+        ui/user/FilterDelegate.qml
 
     #BRANCH
         ui/branch/Branches.qml
@@ -190,6 +192,7 @@ qt_add_qml_module(appiSchool
         ui/student/StudentCourseDelete.qml
         ui/student/StudentCourseEval.qml
         ui/student/FilterDelegate.qml
+        #QML_FILES ui/user/Users_copy.qml
 )
 
 

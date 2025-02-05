@@ -201,7 +201,7 @@ MenuBar {
     Component
     {
         id: listUserPageComponent
-        UserModule.ListUser{ appStackView: menubarId.appStackView;}
+        UserModule.Users{ appStackView: menubarId.appStackView;}
     }
 
     Component

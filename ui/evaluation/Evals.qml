@@ -284,7 +284,7 @@ Page {
                     model: ListModel{id: evalsModel}
                     highlight: Item{}
                     delegate: Rectangle{
-                    //e.id, e.eval_name, e.step_id, e.base_id, e.period_id, e.course_flag, e.test_flag, e.final_flag, e.max_grade, e.sort_priority
+                        //e.id, e.eval_name, e.step_id, e.base_id, e.period_id, e.course_flag, e.test_flag, e.final_flag, e.max_grade, e.sort_priority
 
                         id: recdel;
                         required property var model;
@@ -384,7 +384,14 @@ Page {
                                     opacity: 0.5
                                     onClicked: {
 
-                                        evalsPage.appStackView.push(deleteComponent);
+                                        evalsPage.appStackView.push(deleteComponent, {
+                                                                        id: recdel.model.id,
+                                                                        eval_name: recdel.model.eval_name,
+                                                                        max_grade: recdel.model.max_grade,
+                                                                        course_flag: recdel.model.course_flag,
+                                                                        test_flag: recdel.model.test_flag,
+                                                                        final_flag: recdel.model.final_flag
+                                                                    });
                                     }
                                     hoverEnabled: true
                                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -400,7 +407,15 @@ Page {
                                     icon.color:"transparent"
                                     opacity: 0.5
                                     onClicked: {
-                                        evalsPage.appStackView.push(updateComponent);
+                                        evalsPage.appStackView.push(updateComponent, {
+                                                                        id: recdel.model.id,
+                                                                        eval_name: recdel.model.eval_name,
+                                                                        max_grade: recdel.model.max_grade,
+                                                                        course_flag: recdel.model.course_flag,
+                                                                        test_flag: recdel.model.test_flag,
+                                                                        final_flag: recdel.model.final_flag,
+                                                                        sort_priority: recdel.model.sort_priority
+                                                                    });
                                     }
                                     hoverEnabled: true
                                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -442,13 +457,39 @@ Page {
     Component
     {
         id: deleteComponent
-        Item{}
+        EvalDelete{
+            onPopStackSignal: evalsPage.appStackView.pop();
+            onDeletedSignal: Methods.updateEvals(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue);
+
+            base_id: baseCB.currentValue
+
+            branch: branchCB.currentText
+            step: stepCB.currentText
+            field_based: stepModel.get(stepCB.currentIndex)["field_based"];
+            field: fieldCB.currentText
+            base: (base_id > 0)? baseCB.currentText : "";
+            period: periodCB.currentText
+        }
     }
 
     //update
     Component
     {
         id: updateComponent
-        Item{}
+        EvalUpdate{
+            onPopStackSignal: evalsPage.appStackView.pop();
+            onUpdatedSignal: Methods.updateEvals(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue);
+
+            step_id: stepCB.currentValue
+            base_id: baseCB.currentValue
+            period_id: periodCB.currentValue
+
+            branch: branchCB.currentText
+            step: stepCB.currentText
+            field_based: stepModel.get(stepCB.currentIndex)["field_based"];
+            field: fieldCB.currentText
+            base: (base_id > 0)? baseCB.currentText : "";
+            period: periodCB.currentText
+        }
     }
 }

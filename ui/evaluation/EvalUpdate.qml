@@ -23,12 +23,13 @@ Page {
     required property string base;
     required property string period;
 
+    required property int id;
     required property string eval_name;
     required property real max_grade;
     required property bool course_flag;
     required property bool test_flag;
     required property bool final_flag;
-    required property bool sort_priority;
+    required property int sort_priority;
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
@@ -137,6 +138,7 @@ Page {
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             placeholderText: "نام ارزیابی"
+                            text: updatePage.eval_name
                         }
                     }
                     Item
@@ -169,7 +171,7 @@ Page {
                             Layout.preferredHeight: 50
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            text: "20"
+                            text: updatePage.max_grade
                             placeholderText: "بیشترین نمره"
                             validator: RegularExpressionValidator{regularExpression: /^-?\d*\.?\d+$/ }
                         }
@@ -188,7 +190,7 @@ Page {
                         width: parent.width
                         height: 50
                         text: "ارزیابی واحد درسی"
-                        checked: true
+                        checked: updatePage.course_flag
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         onClicked: {
@@ -203,7 +205,7 @@ Page {
                         width: parent.width
                         height: 50
                         text: "ارزیابی واحد تستی"
-                        checked: false
+                        checked: updatePage.test_flag
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         onClicked: {
@@ -218,7 +220,7 @@ Page {
                         width: parent.width
                         height: 50
                         text: "ارزیابی نهایی "
-                        checked: false
+                        checked: updatePage.final_flag
                         font.family: "Kalameh"
                         font.pixelSize: 16
                     }
@@ -253,7 +255,7 @@ Page {
                             Layout.preferredHeight: 50
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            value: dbMan.getEvalMaxSort(updatePage.step_id, updatePage.base_id, updatePage.period_id) + 1;
+                            value: updatePage.sort_priority
                         }
                         Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }
@@ -273,9 +275,7 @@ Page {
                         onClicked:
                         {
                             var eval = {};
-                            eval["step_id"] = updatePage.step_id
-                            eval["base_id"] = updatePage.base_id
-                            eval["period_id"] = updatePage.period_id
+                            eval["id"] = updatePage.id
 
                             eval["eval_name"] = evalNameTF.text
                             var grade = maxGradeTF.text
@@ -287,7 +287,7 @@ Page {
 
 
 
-                            if(dbMan.insertEval(eval))
+                            if(dbMan.updateEval(eval))
                             {
                                 updatePage.updatedSignal();
                                 successDialogId.open();

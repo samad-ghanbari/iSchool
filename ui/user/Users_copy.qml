@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "ListUser.js" as ListUserJS
+import "Users.js" as ListUserJS
 
 Page {
     id: userListPage

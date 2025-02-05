@@ -1,4 +1,5 @@
 pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -8,46 +9,31 @@ import "./../public" as DialogBox
 Page {
     id: deletePage
 
-    required property string branch
-    required property string step
-    required property string base
-    required property string period
-
-    required property string course_name
-    required property string eval_cat;
-    required property int eval_id;
-    required property string eval_time;
-    required property double max_grade;
-    required property bool test_flag;
-    required property bool final_flag;
-    required property bool included;
-
-
     signal popStackSignal();
     signal deletedSignal();
 
+    required property int base_id;
+    required property bool field_based;
+
+    required property string branch;
+    required property string step;
+    required property string field;
+    required property string base;
+    required property string period;
+
+    required property int id;
+    required property string eval_name;
+    required property real max_grade;
+    required property bool course_flag;
+    required property bool test_flag;
+    required property bool final_flag;
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
-    GridLayout
+    ColumnLayout
     {
-        columns: 2
         anchors.fill: parent
 
-        Button
-        {
-            Layout.preferredHeight: 64
-            Layout.preferredWidth: 64
-            background: Item{}
-            icon.source: "qrc:/assets/images/arrow-right.png"
-            icon.width: 64
-            icon.height: 64
-            icon.color:"transparent"
-            opacity: 0.5
-            onClicked: deletePage.popStackSignal();
-            hoverEnabled: true
-            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
@@ -57,51 +43,66 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
 
-
-
-
-        ScrollView
-        {
-            Layout.columnSpan: 2
-            Layout.fillWidth: true
+        Flickable{
             Layout.fillHeight: true
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+            Layout.fillWidth: true
+            clip: true
+            contentHeight: centerBox.implicitHeight
 
             Rectangle
             {
                 width: (parent.width > 700)? 700 : parent.width
-                implicitHeight : centerBox.implicitHeight + 40
+                height:  centerBox.implicitHeight + 100
                 anchors.horizontalCenter : parent.horizontalCenter
                 color: "snow"
+                anchors.margins: 10
 
-                GridLayout
-                {
+                Column{
                     id: centerBox
-                    anchors.fill: parent
-                    anchors.margins: 20
-                    columns: 2
+                    width : parent.width
+                    anchors.margins: 10
 
                     Image
                     {
-                        Layout.columnSpan: 2
-                        Layout.preferredWidth: 128
-                        Layout.preferredHeight: 128
-                        Layout.alignment: Qt.AlignHCenter
+                        width: 64
+                        height: 64
+                        anchors.horizontalCenter: parent.horizontalCenter
                         source:  "qrc:/assets/images/evaluation.png"
+                        NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
                     }
 
-                    // branch
+                    //branch
                     Text {
-                        text: "شعبه" + " " + deletePage.branch
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 50
+                        text: "شعبه " + deletePage.branch + " - " + deletePage.step
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text: (deletePage.field_based) ? "رشته " + deletePage.field + "  " +  deletePage.base :  deletePage.base
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+                    Text {
+                        text: "سال تحصیلی " + deletePage.period
+                        width: parent.width
+                        height: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
@@ -110,235 +111,150 @@ Page {
                         color: "black"
                     }
 
-                    //step base
-                    Text {
-                        text: {
-                            if(deletePage.base.indexOf("پایه") == -1)
-                            return deletePage.step + " - پایه " + deletePage.base;
-                            else
-                            return deletePage.step + " - " + deletePage.base;
+                    // eval name
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "نام ارزیابی"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
                         }
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
+                        Text
+                        {
+                            id: evalNameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text: deletePage.eval_name
+                        }
                     }
-
-
-                   //period
-                    Text {
-                        text: "سال تحصیلی" + " " + deletePage.period
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-
-                    // eval cat
-                    Text {
-                        text: "دسته ارزیابی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
+                    Item
                     {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        text: deletePage.eval_cat
+                        width: parent.width
+                        height: 10
                     }
 
-                    //course
-                     Text {
-                         text: "عنوان درس"
-                         Layout.minimumWidth: 150
-                         Layout.maximumWidth: 150
-                         Layout.preferredHeight: 50
-                         verticalAlignment: Text.AlignVCenter
-                         horizontalAlignment: Text.AlignLeft
-                         font.family: "Kalameh"
-                         font.pixelSize: 16
-                         font.bold: true
-                         color: "black"
-                     }
-                     Text
-                     {
-                         Layout.fillWidth: true
-                         Layout.preferredHeight: 50
-                         verticalAlignment: Text.AlignVCenter
-                         horizontalAlignment: Text.AlignLeft
-                         font.family: "Kalameh"
-                         font.pixelSize: 16
-                         text: deletePage.course_name
-                     }
-
-
-                   //eval time
-                    Text {
-                        text: "زمان ارزیابی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
-                    {
-                        id: evaltimeTF
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        text: deletePage.eval_time
-                    }
-
-                    //max grade
-                    Text {
-                        text: "بالاترین نمره"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Text
-                    {
-                        id: maxGradeTF
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        text: deletePage.max_grade
-                    }
-
-
-                    //test
-                    Text {
-                        text: "آزمون تستی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Switch
-                    {
-                        enabled: false
-                        Layout.preferredWidth: 100
-                        Layout.preferredHeight: 50
-                        Layout.alignment: Qt.AlignLeft
-                        checked: deletePage.test_flag
-                    }
-
-                    //final
-                    Text {
-                        text: "آزمون نهایی"
-                        Layout.minimumWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.preferredHeight: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
-                    Switch
-                    {
-                        enabled: false
-                        Layout.preferredWidth: 100
-                        Layout.preferredHeight: 50
-                        Layout.alignment: Qt.AlignLeft
-                        checked: deletePage.final_flag
+                    // max grade
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "بیشترین نمره"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        Text
+                        {
+                            id: maxGradeTF
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text: deletePage.max_grade
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }
 
                     Item
                     {
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 10
                     }
+
+                    // course flag
+                    Switch{
+                        id: courseFlagSW
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی واحد درسی"
+                        checked: deletePage.course_flag
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        onClicked: courseFlagSW.checked = deletePage.course_flag
+                    }
+
+                    // test flag
+                    Switch{
+                        id: testFlagSW
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی واحد تستی"
+                        checked: deletePage.test_flag
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        onClicked: testFlagSW.checked = deletePage.test_flag
+                    }
+
+                    // final flag
+                    Switch{
+                        id: finalFlagSW
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی نهایی "
+                        checked: deletePage.final_flag
+                        onClicked: finalFlagSW.checked = deletePage.final_flag
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                    }
+
+                    Item{width: parent.width; height: 50;}
 
                     Button
                     {
                         text: "تایید"
-                        Layout.columnSpan: 2
-                        Layout.preferredWidth: 200
-                        Layout.preferredHeight: 50
-                        Layout.alignment: Qt.AlignHCenter
+                        width: 200
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
                         font.family: "Kalameh"
                         font.pixelSize: 16
-                        Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
-                        onClicked: delDialog.open();
+                        Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                        onClicked:
+                        {
+                            var id = deletePage.id
+
+                            if(dbMan.deleteEval(id))
+                            {
+                                deletePage.deletedSignal();
+                                successDialogId.open();
+                            }
+                            else
+                            {
+                                var errorString = dbMan.getLastError();
+                                infoDialogId.dialogText = errorString
+                                infoDialogId.width = parent.width
+                                infoDialogId.height = 500
+                                infoDialogId.open();
+                            }
+                        }
                     }
 
                     Item
                     {
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        Layout.preferredHeight: 50
+                        width: parent.width
+                        height: 5
                     }
-
-
                 }
-            }
-        }
-    }
-
-    DialogBox.BaseDialog
-    {
-        id: delDialog
-        dialogTitle:  "حذف ارزیابی"
-        dialogText: "آیا از حذف ارزیابی مطمئن می‌باشید؟"
-        acceptVisible: true
-        rejectVisible: true
-
-        onDialogAccepted: {
-            if(dbMan.evalDelete(deletePage.eval_id))
-                successDialogId.open();
-            else
-            {
-                var errorString = dbMan.getLastError();
-                infoDialogId.dialogText = errorString
-                infoDialogId.width = parent.width
-                infoDialogId.height = 500
-                infoDialogId.open();
             }
         }
     }
@@ -360,7 +276,6 @@ Page {
         onDialogAccepted: function(){
             successDialogId.close();
             deletePage.popStackSignal();
-            deletePage.deletedSignal();
         }
 
     }
