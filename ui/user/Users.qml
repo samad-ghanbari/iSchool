@@ -66,7 +66,7 @@ Page {
                         font.bold: true
                         icon.color:"transparent"
                         opacity: 0.5
-                        //onClicked:  usersPage.appStackView.push(insertComponent);
+                        onClicked:  usersPage.appStackView.push(insertComponent);
                         hoverEnabled: true
                         onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                     }
@@ -272,22 +272,22 @@ Page {
             {
                 anchors.fill: parent
                 hoverEnabled: true
-                // onClicked:{
-                //     usersPage.appStackView.push(userComponent, {
-                //                                     id: rec.model.id,
-                //                                     name: rec.model.name,
-                //                                     lastname: rec.model.lastname,
-                //                                     gender: rec.model.gender,
-                //                                     nat_id  : rec.model.nat_id,
-                //                                     job_position: rec.model.job_position,
-                //                                     telephone: rec.model.telephone,
-                //                                     permissions: rec.model.permissions,
-                //                                     enabled: rec.model.enabled,
-                //                                     admin: rec.model.admin,
-                //                                     superadmin: rec.model.superadmin
-                //                                 }
-                //                                 );
-                // }
+                onClicked:{
+                    usersPage.appStackView.push(userComponent, {
+                                                    user_id: rec.model.id,
+                                                    name: rec.model.name,
+                                                    lastname: rec.model.lastname,
+                                                    gender: rec.model.gender,
+                                                    nat_id  : rec.model.nat_id,
+                                                    job_position: rec.model.job_position,
+                                                    telephone: rec.model.telephone,
+                                                    permissions: rec.model.permissions,
+                                                    enabled: rec.model.enabled,
+                                                    admin: rec.model.admin,
+                                                    superadmin: rec.model.superadmin
+                                                }
+                                                );
+                }
                 onHoveredChanged:{
                     if(containsMouse){
                         parent.opacity=1;
@@ -382,22 +382,21 @@ Page {
                             icon.height: 32
                             icon.color:"transparent"
                             opacity: 0.5
-                            // onClicked: {
-                            //     usersPage.appStackView.push(deleteComponent, {
-                            //                                     id: rec.model.id,
-                            //                                     name: rec.model.name,
-                            //                                     lastname: rec.model.lastname,
-                            //                                     gender: rec.model.gender,
-                            //                                     nat_id  : rec.model.nat_id,
-                            //                                     job_position: rec.model.job_position,
-                            //                                     telephone: rec.model.telephone,
-                            //                                     permissions: rec.model.permissions,
-                            //                                     enabled: rec.model.enabled,
-                            //                                     admin: rec.model.admin,
-                            //                                     superadmin: rec.model.superadmin
-                            //                                 }
-                            //                                 );
-                            // }
+                            onClicked: {
+                                usersPage.appStackView.push(deleteComponent, {
+                                                                user_id: rec.model.id,
+                                                                name: rec.model.name,
+                                                                lastname: rec.model.lastname,
+                                                                gender: rec.model.gender,
+                                                                nat_id  : rec.model.nat_id,
+                                                                job_position: rec.model.job_position,
+                                                                telephone: rec.model.telephone,
+                                                                enabled: rec.model.enabled,
+                                                                admin: rec.model.admin,
+                                                                superadmin: rec.model.superadmin
+                                                            }
+                                                            );
+                            }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                         }
@@ -411,23 +410,23 @@ Page {
                             icon.height: 32
                             icon.color:"transparent"
                             opacity: 0.5
-                            // onClicked: {
+                            onClicked: {
 
-                            //     usersPage.appStackView.push(updateComponent, {
-                            //                                     id: rec.model.id,
-                            //                                     name: rec.model.name,
-                            //                                     lastname: rec.model.lastname,
-                            //                                     gender: rec.model.gender,
-                            //                                     nat_id  : rec.model.nat_id,
-                            //                                     job_position: rec.model.job_position,
-                            //                                     telephone: rec.model.telephone,
-                            //                                     permissions: rec.model.permissions,
-                            //                                     enabled: rec.model.enabled,
-                            //                                     admin: rec.model.admin,
-                            //                                     superadmin: rec.model.superadmin
-                            //                                 }
-                            //                                 );
-                            // }
+                                usersPage.appStackView.push(updateComponent, {
+                                                                user_id: rec.model.id,
+                                                                name: rec.model.name,
+                                                                lastname: rec.model.lastname,
+                                                                gender: rec.model.gender,
+                                                                nat_id  : rec.model.nat_id,
+                                                                job_position: rec.model.job_position,
+                                                                telephone: rec.model.telephone,
+                                                                permissions: rec.model.permissions,
+                                                                enabled: rec.model.enabled,
+                                                                admin: rec.model.admin,
+                                                                superadmin: rec.model.superadmin
+                                                            }
+                                                            );
+                            }
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                         }
@@ -440,89 +439,51 @@ Page {
         }
     }
 
-    // //user
-    // Component
-    // {
-    //     id: userComponent
-    //     // InsertUser
-    //     // {
-    //     //     step_id : stepCB.currentValue
-    //     //     step: stepCB.currentText
-    //     //     branch: branchCB.currentText
-    //     //     onPopStackSignal: usersPage.appStackView.pop();
-    //     //     onInsertedSignal: JS.loadUsers();
-    //     // }
-    // }
+    //user
+    Component
+    {
+        id: userComponent
+        User
+        {
+            appStackView: usersPage.appStackView;
+            onUpdatedSignal: JS.loadUsers();
+            onDeletedSignal: JS.loadUsers();
+        }
+    }
 
-    // //Insert
-    // Component
-    // {
-    //     id: insertComponent
-    //     // InsertUser
-    //     // {
-    //     //     step_id : stepCB.currentValue
-    //     //     step: stepCB.currentText
-    //     //     branch: branchCB.currentText
-    //     //     onPopStackSignal: usersPage.appStackView.pop();
-    //     //     onInsertedSignal: JS.loadUsers();
-    //     // }
-    // }
+    //Insert
+    Component
+    {
+        id: insertComponent
+        InsertUser
+        {
+            onPopSignal: usersPage.appStackView.pop();
+            onInsertedSignal: JS.loadUsers();
+        }
+    }
 
-    // //update
-    // Component
-    // {
-    //     id: updateComponent
-    //     // UpdateUser
-    //     // {
-    //     //     step: stepCB.currentText
-    //     //     branch: branchCB.currentText
-    //     //     onPopStackSignal: usersPage.appStackView.pop();
-    //     //     onUpdatedSignal:
-    //     //     {
-    //     //         JS.loadStudents();
-    //     //         // usersModel.clear();
-    //     //         // var cond = {}
-    //     //         // usersPage.offset = 0;
-    //     //         // usersPage.pageNumber = 1
+    //update
+    Component
+    {
+        id: updateComponent
+        UpdateUser
+        {
+            onPopSignal: usersPage.appStackView.pop();
+            onUpdatedSignal:
+            {
+                JS.loadUsers();
+            }
+        }
+    }
 
-    //     //         // usersPage.usersCount = dbMan.getusersCount(stepCB.currentValue, cond);
-    //     //         // userCountLbl.text = usersPage.usersCount + " نفر "
-    //     //         // var jsondata = dbMan.getStudents(stepCB.currentValue, cond, usersPage.limit, usersPage.offset);
-
-    //     //         // for(var obj of jsondata){
-    //     //         //     usersModel.append(obj);
-    //     //         // }
-    //     //     }
-    //     // }
-    // }
-
-    // // delete
-    // Component
-    // {
-    //     id: deleteComponent
-    //     // DeleteUser
-    //     // {
-    //     //     step: stepCB.currentText
-    //     //     branch: branchCB.currentText
-    //     //     onPopStackSignal: usersPage.appStackView.pop();
-    //     //     onDeletedSignal:
-    //     //     {
-    //     //         JS.loadStudents();
-    //     //         // usersModel.clear();
-    //     //         // var cond = {}
-    //     //         // usersPage.offset = 0;
-    //     //         // usersPage.pageNumber = 1
-
-    //     //         // usersPage.usersCount = dbMan.getusersCount(stepCB.currentValue, cond);
-    //     //         // userCountLbl.text = usersPage.usersCount + " نفر "
-    //     //         // var jsondata = dbMan.getStudents(stepCB.currentValue, cond, usersPage.limit, usersPage.offset);
-
-    //     //         // for(var obj of jsondata){
-    //     //         //     usersModel.append(obj);
-    //     //         // }
-    //     //     }
-    //     // }
-    // }
+    Component
+    {
+        id: deleteComponent
+        DeleteUser{
+            onPopSignal: usersPage.appStackView.pop();
+            onDeletedSignal: JS.loadUsers();
+        }
+    }
 
     //drawer
     Drawer

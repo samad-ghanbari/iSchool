@@ -162,6 +162,12 @@ qt_add_qml_module(appiSchool
             ui/user/Users.qml
             ui/user/UserFilterDelegate.qml
             ui/user/Users.js
+            ui/user/User.qml
+            ui/user/ChangePassDialogBox.qml
+            ui/user/InsertUser.qml
+            ui/user/User.js
+            ui/user/DeleteUser.qml
+            ui/user/UpdateUser.qml
 
 
     #STUDENT EVALS

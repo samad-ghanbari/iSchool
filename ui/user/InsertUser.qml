@@ -5,645 +5,635 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "./../public" as DialogBox
-
-import "NewUserJS.js" as UserMethods
+import "./User.js" as JS
 
 Page {
-    id: addNewUserPageId
-
-    property var stepPerm:[]
-    property var studyBasePerm:[]
-
+    id: insertPage
     property var selectedBranches:[]
     property var selectedSteps:[]
     property var selectedBases:[]
 
 
-    required property StackView appStackView;
-    signal userInsertedSignal();
+    signal popSignal();
+    signal insertedSignal();
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
-    Item{
+
+    ColumnLayout
+    {
         anchors.fill: parent
-        anchors.margins: 5
 
-        GridLayout
-        {
-            id: newUserGridLayout
-            anchors.fill: parent
-            columns: 2
+        Text {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 64
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignLeft
+            text: "افزودن کاربر جدید"
+            font.family: "Kalameh"
+            font.pixelSize: 24
+            font.bold: true
+            color: "darkcyan"
+            style: Text.Outline
+            styleColor: "white"
+        }
 
+        Flickable{
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            clip: true
+            contentHeight: centerBox.implicitHeight
 
-            Button
+            Rectangle
             {
-                id: userListBackBtnId
-                Layout.preferredHeight: 64
-                Layout.preferredWidth: 64
-                background: Item{}
-                icon.source: "qrc:/assets/images/arrow-right.png"
-                icon.width: 64
-                icon.height: 64
-                icon.color:"transparent"
-                opacity: 0.5
-                onClicked: addNewUserPageId.appStackView.pop();
-                hoverEnabled: true
-                onHoveredChanged: userListBackBtnId.opacity=(hovered)? 1 : 0.5;
-            }
-            Text {
-                id: userListTitle
-                text: "ایجاد کاربر جدید سامانه"
-                Layout.fillWidth: true
-                horizontalAlignment: Text.AlignHCenter
-                font.family: "Kalameh"
-                font.pixelSize: 24
-                font.bold: true
-                color: "mediumvioletred"
-            }
+                width: (parent.width > 700)? 700 : parent.width
+                height:  centerBox.implicitHeight + 100
+                anchors.horizontalCenter : parent.horizontalCenter
+                color: "snow"
+                anchors.margins: 10
 
-            //id, name, lastname, gender, nat_id, password, job_position, telephone, permissions, enabled, admin
-            //permission {
-            // branch:[], base_study:[], step:[]
-            //}
+                Column{
+                    id: centerBox
+                    width : parent.width
+                    anchors.margins: 10
+                    spacing: 10
 
-            ScrollView
-            {
-                Layout.columnSpan: 2
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                contentHeight : newUserFormGW.implicitHeight
+                    Item{
+                        width: parent.width
+                        height: 64
+                        Image {
+                            source: "qrc:/assets/images/newUser.png"
+                            height: 64
+                            width: 64
+                            anchors.centerIn: parent
+                            NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
+                        }
+                    }
 
-                Rectangle
-                {
-
-                    height: parent.height
-                    width: (parent.width > 700)? 700 : parent.width;
-                    color: "white"
-                    radius: 5
-                    anchors.horizontalCenter: parent.horizontalCenter
-
-                    Item
+                    // name
+                    RowLayout
                     {
-                        id: centerBoxRec
-                        anchors.fill: parent
-                        anchors.margins : 5
+                        width: parent.width
+                        height: 50
 
-                        GridLayout
+                        Text {
+                            text: "نام‌کاربر "
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
                         {
-                            id: newUserFormGW
-                            width : centerBoxRec.width
-                            //height : centerBoxRec.height
-                            columns: 2
-                            rowSpacing: 20
-                            columnSpacing: 10
+                            id: nameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Qt.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                        }
+                    }
 
-                            Image {
-                                Layout.columnSpan: 2
-                                source: "qrc:/assets/images/newUser.png"
-                                Layout.margins: 20
-                                Layout.preferredHeight: 128
-                                Layout.preferredWidth: 128
-                                Layout.alignment: Qt.AlignHCenter
-                                NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
-                            }
+                    // lastname
+                    RowLayout
+                    {
+                        width: parent.width
+                        height: 50
+
+                        Text {
+                            text: "نام‌خانوادگی"
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: lastnameTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Qt.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                        }
+                    }
+
+                    // gender
+                    RowLayout
+                    {
+                        width: parent.width
+                        height: 50
+
+                        Text {
+                            text: "جنسیت"
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        ComboBox
+                        {
+                            id: genderCB
+                            Layout.preferredHeight:  50
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 200
+                            editable: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            model: ["خانم", "آقا"]
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                    }
+
+                    // nat_id
+                    RowLayout
+                    {
+                        width: parent.width
+                        height: 50
+
+                        Text {
+                            text: "کدملی"
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: natIdTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Qt.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                        }
+                    }
+
+                    // job_position
+                    RowLayout
+                    {
+                        width: parent.width
+                        height: 50
+
+                        Text {
+                            text: "پست کاربر"
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: jobPositionTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Qt.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                        }
+                    }
+
+                    // telephone
+                    RowLayout
+                    {
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "شماره تماس"
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: telephoneTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Qt.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                        }
+                    }
+
+                    // password
+                    RowLayout
+                    {
+                        width: parent.width
+                        height: 50
+
+                        Text {
+                            text: "رمز عبور کاربر"
+                            Layout.preferredWidth:  150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: passwordTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            placeholderText: "رمز عبور"
+                            echoMode: TextField.Password
+                        }
+                    }
+
+                    // confirm password
+                    RowLayout
+                    {
+                        width: parent.width
+                        height: 50
+
+                        Text {
+                            text: "تکرار رمز عبور"
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: confirmTF
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            placeholderText: "تکرار رمز عبور"
+                            echoMode: TextField.Password
+                        }
+                    }
 
 
-                            Text {
-                                text: "نام‌کاربر "
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            TextField
-                            {
-                                id: newUserNameId
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                placeholderText: "نام‌کاربر"
+                    //enabled
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //enabled
+                        Text {
+                            text: "وضعیت فعال/غیرفعال"
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        Switch
+                        {
+                            id: enabledSW
+                            checked: true
+                            text: checked? "فعال" : "غیرفعال";
+                            font.family: "Kalameh"
+                            palette.highlight: "darkcyan"
+                            palette.text: "gray"
+                            Layout.preferredHeight: 50
+                            Layout.fillWidth: true
+                        }
+                        Item{Layout.preferredHeight: 1; Layout.fillWidth: true;}
+                    }
 
-                            }
+                    //admin
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //enabled
+                        Text {
+                            text: "ادمین شعبه"
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        Switch
+                        {
+                            id: adminSW
+                            checked: true
+                            text: checked? "ادمین" : "غیرادمین";
+                            font.family: "Kalameh"
+                            palette.highlight: "darkcyan"
+                            palette.text: "gray"
+                            Layout.preferredHeight: 50
+                            Layout.fillWidth: true
+                        }
+                        Item{Layout.preferredHeight: 1; Layout.fillWidth: true;}
+                    }
 
-                            Text {
-                                text: "نام‌خانوادگی"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            TextField
-                            {
-                                id: newUserLastNameId
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                placeholderText: "نام خانوادگی"
-                            }
+                    // Permissions
+                    Rectangle
+                    {
+                        width: parent.width
+                        height: 1
+                        color: "darkcyan"
+                    }
 
-                            Text {
-                                text: "جنسیت"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            ComboBox {
-                                id: newUserGenderId
-                                editable: false
-                                model: ["خانم", "آقا"]
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                Layout.preferredHeight: 50
-                            }
+                    Text {
+                        width: parent.width
+                        height: 25
+                        text: "دسترسی‌های کاربر"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "darkcyan"
+                    }
 
-                            Text {
-                                text: "کدملی"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            TextField
-                            {
-                                id: newUserNatidId
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                placeholderText: "کد ملی کاربر"
-                            }
+                    // branches
+                    Text {
+                        text: "شعبه‌ها"
+                        width: parent.width
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "darkslategray"
+                    }
+                    Flow
+                    {
+                        spacing: 20
+                        flow: Flow.TopToBottom
+                        height: branchesRp.count*70
+                        width: parent.width
 
-                            Text {
-                                text: "رمز عبور کاربر"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
+                        Repeater
+                        {
+                            id: branchesRp
+                            model: ListModel {id: branchModel }
+                            delegate:
+                            Switch{
+                                required property var model
+                                checked: (insertPage.selectedBranches.indexOf(model.id) > -1)? true : false;
+                                width: parent.width
+                                height: 50;
+                                text: model.city + " - " + model.branch_name
                                 font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            TextField
-                            {
-                                id: newUserPassId
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                placeholderText: "رمز عبور"
-                                echoMode: TextField.Password
-                            }
-                            Text {
-                                text: "تکرار رمز عبور"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            TextField
-                            {
-                                id: newUserPassConfirmId
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                placeholderText: "تکرار رمز عبور"
-                                echoMode: TextField.Password
-                            }
-
-                            Text {
-                                text: "پست کاربر"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            TextField
-                            {
-                                id: newUserPositionId
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                placeholderText: "پست کاربر"
-                            }
-
-                            Text {
-                                text: "شماره تماس"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            TextField
-                            {
-                                id: newUserTelId
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                placeholderText: "شماره تماس"
-                            }
-
-                            //enabled
-                            Text {
-                                text: "فعال بودن کاربر"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            Switch
-                            {
-                                id: newUserEnabledId
-                                checked: true
-                            }
-
-                            // //admin
-                            Text {
-                                text: "ادمین شعبه"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "crimson"
-                            }
-                            Switch
-                            {
-                                id: newUserAdminId
-                                checked: false
-                                onCheckedChanged:
+                                palette.highlight: "darkcyan"
+                                font.pixelSize: 14
+                                onToggled:
                                 {
-                                    //newUserAccPermId.visible=(checked)? false : true;
-                                    adminWarningMessage.visible=(checked)? true : false;
-                                }
-                            }
-                            Text {
-                                id: adminWarningMessage
-                                visible: false
-                                text: "هشدار! کاربر ادمین، دسترسی کامل به مدیریت شعبه دارد"
-                                Layout.columnSpan: 2
-                                Layout.alignment: Qt.AlignLeft
-                                font.family: "Kalameh"
-                                Layout.topMargin: -10
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "orange"
-                            }
+                                    var index = insertPage.selectedBranches.indexOf(model.id);
 
-                            //PERMISSION
-                            GridLayout
-                            {
-                                id: newUserAccPermId
-                                Layout.columnSpan: 2
-                                Layout.fillWidth: true
-                                columns: 2
-                                rows: 11
-                                rowSpacing: 20
-                                columnSpacing: 10
-                                /*
-                            {
-                                "branch":[1,2,3],
-                                "base":[1,2,3],
-                                "step":[1]
-                            }
-                            */
-
-                                Text {
-                                    text: "دسترسی‌های کاربر"
-                                    Layout.columnSpan: 2
-                                    Layout.alignment: Qt.AlignHCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 24
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-
-                                Rectangle
-                                {
-                                    Layout.columnSpan: 2
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 1
-                                    color: "dodgerblue"
-                                }
-
-                                // branches
-                                Text {
-                                    text: "شعبه‌ها"
-                                    Layout.columnSpan: 2
-                                    Layout.alignment: Qt.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-
-                                Flow
-                                {
-                                    spacing: 20
-                                    Layout.columnSpan: 2
-                                    flow: Flow.TopToBottom
-                                    Layout.preferredHeight: newUserBranchesId.count*70
-
-                                    Repeater
+                                    if(checked)
                                     {
-                                        id: newUserBranchesId
-                                        model: ListModel {id: branchModel }
-                                        delegate:
-                                        Switch{
-                                            required property var model
-                                            checked: (addNewUserPageId.selectedBranches.indexOf(model.id) > -1)? true : false;
-                                            height: 50;
-                                            text: model.city + " - " + model.branch_name
-                                            font.family: "Kalameh"
-                                            font.pixelSize: 14
-                                            onToggled:
-                                            {
-                                                var index = addNewUserPageId.selectedBranches.indexOf(model.id);
-
-                                                if(checked)
-                                                {
-                                                    //push step
-                                                    if(index < 0)
-                                                    addNewUserPageId.selectedBranches.push(model.id);
-                                                }
-                                                else
-                                                {
-                                                    if(index > -1)
-                                                    addNewUserPageId.selectedBranches.splice(index, 1);
-                                                }
-
-                                                UserMethods.checkBranch();
-
-                                                UserMethods.updateStep();
-                                                UserMethods.updateStudyBase();
-                                            }
-                                        }
-                                    }
-                                    Component.onCompleted:
-                                    {
-                                        UserMethods.updateBranches()
-                                    }
-                                }
-
-                                // read study step
-                                Text {
-                                    text: "دوره‌ها"
-                                    visible:(newUserAdminId.checked)? false : true;
-                                    Layout.columnSpan: 2
-                                    Layout.alignment: Qt.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Flow
-                                {
-                                    spacing: 20
-                                    visible:(newUserAdminId.checked)? false : true;
-                                    Layout.columnSpan: 2
-                                    flow: Flow.TopToBottom
-                                    Layout.preferredHeight: newUserStepId.count*70
-
-                                    Repeater
-                                    {
-                                        id: newUserStepId
-                                        model: ListModel {id: stepModel }
-                                        delegate:
-                                        Switch{
-                                            required property var model
-                                            text: model.branch_name +" - "+ model.step_name
-                                            checked: (addNewUserPageId.stepPerm.indexOf(model.id) > -1)? true : false;
-                                            font.family: "Kalameh"
-                                            font.pixelSize: 14
-                                            onToggled:
-                                            {
-                                                var index = addNewUserPageId.stepPerm.indexOf(model.id);
-                                                if(checked)
-                                                {
-                                                    if(index < 0)
-                                                    addNewUserPageId.stepPerm.push(model.id);
-                                                }
-                                                else
-                                                {
-                                                    if(index > -1)
-                                                    addNewUserPageId.stepPerm.splice(index, 1);
-                                                }
-
-                                                // write steps
-                                                var index = addNewUserPageId.selectedSteps.indexOf(model.id);
-                                                if(checked)
-                                                {
-                                                    if(index < 0)
-                                                        addNewUserPageId.selectedSteps.push(model.id);
-                                                }
-                                                else
-                                                {
-                                                    if(index > -1)
-                                                        addNewUserPageId.selectedSteps.splice(index, 1);
-                                                }
-
-                                                UserMethods.updateStep();
-
-                                            }
-                                        }
-                                    }
-                                }
-
-
-                                Text {
-                                    text: "پایه‌های تحصیلی"
-                                    visible:(newUserAdminId.checked)? false : true;
-                                    Layout.columnSpan: 2
-                                    Layout.alignment: Qt.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Flow
-                                {
-                                    spacing: 20
-                                    visible:(newUserAdminId.checked)? false : true;
-                                    Layout.columnSpan: 2
-                                    flow: Flow.TopToBottom
-                                    Layout.preferredHeight: newUserBasisId.count*70
-
-                                    Repeater
-                                    {
-                                        id: newUserBasisId
-                                        model: ListModel {id: baseModel }
-                                        delegate:
-                                        Switch{
-                                            required property var model
-                                            text: model.city +" - "+model.branch_name +" - "+model.study_base
-                                            checked: (addNewUserPageId.studyBasePerm.indexOf(model.id) > -1)? true : false;
-                                            font.family: "Kalameh"
-                                            font.pixelSize: 14
-                                            onToggled:
-                                            {
-                                                var index = addNewUserPageId.studyBasePerm.indexOf(model.id)
-
-                                                if(checked)
-                                                {
-                                                    if(index < 0)
-                                                    addNewUserPageId.studyBasePerm.push(model.id);
-                                                }
-                                                else
-                                                {
-                                                    if(index > -1)
-                                                    addNewUserPageId.studyBasePerm.splice(index, 1);
-
-                                                }
-
-                                                // write bases
-                                                var index = addNewUserPageId.selectedBases.indexOf(model.id);
-                                                if(checked)
-                                                {
-                                                    if(index < 0)
-                                                    addNewUserPageId.selectedBases.push(model.id);
-                                                }
-                                                else
-                                                {
-                                                    if(index > -1)
-                                                    addNewUserPageId.selectedBases.splice(index, 1);
-                                                }
-
-                                                UserMethods.updateStudyBase();
-                                            }
-                                        }
-                                    }
-                                }
-
-                                Rectangle
-                                {
-                                    Layout.columnSpan: 2
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 1
-                                    color: "dodgerblue"
-                                }
-                            }
-
-                            Button
-                            {
-                                Layout.columnSpan: 2
-                                Layout.margins: 20
-                                text: "تایید"
-                                Layout.preferredWidth: 200
-                                Layout.preferredHeight: 50
-                                Layout.alignment: Qt.AlignHCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
-                                onClicked:
-                                {
-                                    var user = {};
-                                    user["name"] = newUserNameId.text;
-                                    user["lastname"] = newUserLastNameId.text;
-                                    user["nat_id"] = newUserNatidId.text;
-                                    user["password"] = newUserPassId.text;
-                                    user["passwordConfirm"] = newUserPassConfirmId.text;
-                                    user["job_position"] = newUserPositionId.text
-                                    user["telephone"] = newUserTelId.text;
-
-                                    var permission = {"branch":[], "step":[], "study_base":[]}
-                                    var b = addNewUserPageId.selectedBranches
-                                    var s = addNewUserPageId.stepPerm;
-                                    var sb = addNewUserPageId.studyBasePerm;
-
-                                    permission["branch"]  = b;
-                                    permission["step"] = s;
-                                    permission["study_base"] = sb;
-
-                                    user["permissions"] = permission;
-
-                                    user["enabled"] = newUserEnabledId.checked
-                                    user["admin"] = newUserAdminId.checked
-                                    user["gender"] = newUserGenderId.currentText
-
-                                    if(newUserAdminId.checked)
-                                    {
-                                        permission["step"] = [];
-                                        permission["study_base"] = [];
-                                    }
-
-                                    var check = true
-                                    // check entries
-                                    if(!UserMethods.checkFormEntries(user))
-                                    {
-                                        newUserInfoDialogId.open();
-                                        return;
-                                    }
-
-                                    if(dbMan.insertUser(user))
-                                    {
-                                        addNewUserPageId.userInsertedSignal();
-                                        newUserSuccessDialogId.open();
+                                        //push step
+                                        if(index < 0)
+                                        insertPage.selectedBranches.push(model.id);
                                     }
                                     else
                                     {
-                                        var errorString = dbMan.getLastError();
-                                        newUserInfoDialogId.dialogTitle = "خطا"
-                                        newUserInfoDialogId.dialogText = errorString
-                                        newUserInfoDialogId.width = parent.width
-                                        newUserInfoDialogId.height = 500
-                                        newUserInfoDialogId.dialogSuccess = false
-                                        newUserInfoDialogId.open();
+                                        if(index > -1)
+                                        insertPage.selectedBranches.splice(index, 1);
+                                    }
+
+                                    selectedSteps = dbMan.filterSteps(selectedBranches, selectedSteps);
+                                    selectedBases = dbMan.filterBases(selectedSteps, selectedBases);
+                                    JS.updateStep();
+                                    JS.updateBases();
+                                }
+                            }
+                        }
+                        Component.onCompleted:
+                        {
+                            JS.updateBranches()
+                        }
+                    }
+
+                    //steps
+                    Text {
+                        text: "دوره‌ها"
+                        visible:(adminSW.checked)? false : true;
+                        width: parent.width
+                        height: 50
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "darkslategray"
+                    }
+                    Flow
+                    {
+                        spacing: 20
+                        visible:(adminSW.checked)? false : true;
+                        flow: Flow.TopToBottom
+                        height: stepsRp.count*70
+                        width: parent.width
+
+                        Repeater
+                        {
+                            id: stepsRp
+                            model: ListModel {id: stepModel }
+                            delegate:
+                            Switch{
+                                required property var model
+                                //s.id, s.branch_id, s.step_name, b.city, b.branch_name, s.field_based, s.numeric_graded
+                                text: model.branch_name +" - "+ model.step_name
+                                checked: (insertPage.selectedSteps.indexOf(model.id) > -1)? true : false;
+                                width: parent.width
+                                height: 50
+                                font.family: "Kalameh"
+                                palette.highlight: "darkcyan"
+                                font.pixelSize: 14
+                                onToggled:
+                                {
+                                    var index = insertPage.selectedSteps.indexOf(model.id);
+                                    if(checked)
+                                    {
+                                        if(index < 0)
+                                        insertPage.selectedSteps.push(model.id);
+                                    }
+                                    else
+                                    {
+                                        if(index > -1)
+                                        insertPage.selectedSteps.splice(index, 1);
+                                    }
+
+                                    selectedBases = dbMan.filterBases(selectedSteps, selectedBases);
+                                    JS.updateBases();
+                                }
+                            }
+                        }
+                    }
+
+                    //bases
+                    Text {
+                        text: "پایه‌های تحصیلی"
+                        visible:(adminSW.checked)? false : true;
+                        width: parent.width
+                        height: 50
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "darkslategray"
+                    }
+                    Flow
+                    {
+                        spacing: 20
+                        visible:(adminSW.checked)? false : true;
+                        flow: Flow.TopToBottom
+                        height: basesRp.count*70
+                        width: parent.width
+
+                        Repeater
+                        {
+                            id: basesRp
+                            model: ListModel {id: baseModel }
+                            delegate:
+                            Switch{
+                                required property var model
+                                // id text
+                                text: model.text
+                                checked: (insertPage.selectedBases.indexOf(model.id) > -1)? true : false;
+                                width: parent.width
+                                height: 50
+                                font.family: "Kalameh"
+                                palette.highlight: "darkcyan"
+                                font.pixelSize: 14
+                                onToggled:
+                                {
+                                    var index = insertPage.selectedBases.indexOf(model.id);
+                                    if(checked)
+                                    {
+                                        if(index < 0)
+                                        insertPage.selectedBases.push(model.id);
+                                    }
+                                    else
+                                    {
+                                        if(index > -1)
+                                        insertPage.selectedBases.splice(index, 1);
                                     }
                                 }
                             }
-
-
                         }
+                    }
 
+                    Item{
+                        width: parent.width
+                        height: 20
+                    }
+
+                    Button
+                    {
+                        text: "تایید"
+                        width: 200
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                        onClicked:
+                        {
+                            var user = {};
+                            user["name"] = nameTF.text;
+                            user["lastname"] = lastnameTF.text;
+                            user["nat_id"] = natIdTF.text;
+                            user["password"] = passwordTF.text;
+                            user["confirm"] = confirmTF.text;
+                            user["job_position"] = jobPositionTF.text
+                            user["telephone"] = telephoneTF.text;
+
+                            var permission = {"branch":[], "step":[], "base":[]}
+                            var br = insertPage.selectedBranches;
+                            var ss = insertPage.selectedSteps;
+                            var sb = insertPage.selectedBases;
+
+                            permission["branch"]  = br;
+                            permission["step"] = ss;
+                            permission["base"] = sb;
+
+                            user["permissions"] = permission;
+
+                            user["enabled"] = enabledSW.checked
+                            user["admin"] = adminSW.checked
+                            user["gender"] = genderCB.currentText
+
+                            if(adminSW.checked)
+                            {
+                                permission["step"] = [];
+                                permission["base"] = [];
+                            }
+
+                            var check = true
+                            // check entries
+                            if(!JS.checkFormEntries(user))
+                            {
+                                infoDialogId.open();
+                                return;
+                            }
+
+                            if(dbMan.insertUser(user))
+                            {
+                                insertPage.insertedSignal();
+                                successDialogId.open();
+                            }
+                            else
+                            {
+                                var errorString = dbMan.getLastError();
+                                infoDialogId.dialogTitle = "خطا"
+                                infoDialogId.dialogText = errorString
+                                infoDialogId.width = parent.width
+                                infoDialogId.height = 500
+                                infoDialogId.dialogSuccess = false
+                                infoDialogId.open();
+                            }
+                        }
                     }
                 }
             }
-
         }
-
     }
+
     DialogBox.BaseDialog
     {
-        id: newUserInfoDialogId
+        id:infoDialogId
         dialogTitle: "خطا"
         dialogText: "ورود فیلد الزامی می‌باشد"
         dialogSuccess: false
@@ -651,11 +641,11 @@ Page {
 
     DialogBox.BaseDialog
     {
-        id: newUserSuccessDialogId
+        id: successDialogId
         dialogTitle: "عملیات موفق"
         dialogText: "کاربر جدید با موفقیت به دیتابیس افزوده شد"
         dialogSuccess: true
-        onDialogAccepted: {newUserSuccessDialogId.close(); addNewUserPageId.appStackView.pop();}
+        onDialogAccepted: {successDialogId.close(); insertPage.insertedSignal(); insertPage.popSignal();}
 
     }
 

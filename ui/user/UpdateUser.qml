@@ -4,641 +4,611 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "./../public"  as DialogBox
-
-import "UserModify.js" as UserMethods
+import "./../public" as DialogBox
+import "./User.js" as JS
 
 Page {
-    id: userModifyPageId
-    property var user;
-    property var perm  : userModifyPageId.user["permissions"];
+    id: updatePage
 
-    property var branchPerm: userModifyPageId.perm["branch"];
-    property var stepPerm: userModifyPageId.perm["step"];
-    property var studyBasePerm:userModifyPageId.perm["study_base"];
+    required property int user_id;
+    required property string name;
+    required property string lastname;
+    required property string gender;
+    required property string nat_id;
+    required property string job_position;
+    required property string telephone;
+    required property var permissions;
+    required property bool enabled;
+    required property bool admin;
+    required property bool superadmin;
 
-    property var selectedSteps:userModifyPageId.perm["step"];
-    property var selectedBases:userModifyPageId.perm["study_base"];
+    property var selectedBranches : permissions["branch"];
+    property var selectedSteps: permissions["step"];
+    property var selectedBases: permissions["base"];
 
-    required property StackView appStackView;
 
-    signal userUpdated();
+    signal popSignal();
+    signal updatedSignal();
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
-    Item{
+
+    ColumnLayout
+    {
         anchors.fill: parent
-        anchors.margins: 5
 
-        GridLayout
-        {
-            id: updateUserGridLayout
-            anchors.fill: parent
-            columns: 2
+        Text {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 64
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignLeft
+            text: "ویرایش کاربر"
+            font.family: "Kalameh"
+            font.pixelSize: 24
+            font.bold: true
+            color: "darkcyan"
+            style: Text.Outline
+            styleColor: "white"
+        }
 
+        Flickable{
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            clip: true
+            contentHeight: centerBox.implicitHeight
 
-            Button
+            Rectangle
             {
-                Layout.preferredHeight: 64
-                Layout.preferredWidth: 64
-                background: Item{}
-                icon.source: "qrc:/assets/images/arrow-right.png"
-                icon.width: 64
-                icon.height: 64
-                icon.color:"transparent"
-                opacity: 0.5
-                onClicked: userModifyPageId.appStackView.pop();
-                hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-            }
-            Text {
-                id: userListTitle
-                text: "ویرایش کاربر"
-                Layout.fillWidth: true
-                horizontalAlignment: Text.AlignHCenter
-                font.family: "Kalameh"
-                font.pixelSize: 24
-                font.bold: true
-                color: "mediumvioletred"
-            }
+                width: (parent.width > 700)? 700 : parent.width
+                height:  centerBox.implicitHeight + 100
+                anchors.horizontalCenter : parent.horizontalCenter
+                color: "snow"
+                anchors.margins: 10
 
-            //id, name, lastname, gender, nat_id, password, job_position, telephone, permissions, enabled, admin
-            //permission {
-            //  branch:[] , step:[], study_base:[]
-            //}
+                Column{
+                    id: centerBox
+                    width : parent.width
+                    anchors.margins: 10
+                    spacing: 10
 
-            ScrollView
-            {
-                Layout.columnSpan: 2
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                contentHeight : updateUserFormGW.implicitHeight
+                    Item{
+                        width: parent.width
+                        height: 64
+                        Image {
+                            source: "qrc:/assets/images/edit.png"
+                            height: 64
+                            width: 64
+                            anchors.centerIn: parent
+                            NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
+                        }
+                    }
 
-
-                Rectangle
-                {
-
-                    height: parent.height
-                    width: (parent.width > 700)? 700 : parent.width;
-                    color: "white"
-                    radius: 5
-                    anchors.horizontalCenter: parent.horizontalCenter
-
-                    Item
+                    // name
+                    RowLayout
                     {
-                        id: centerBoxRec
-                        anchors.fill: parent
-                        anchors.margins : 5
+                        width: parent.width
+                        height: 50
 
-                        GridLayout
+                        Text {
+                            text: "نام‌کاربر "
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
                         {
-                            id: updateUserFormGW
-                            width : centerBoxRec.width
-                            //height : centerBoxRec.height
-                            columns: 2
-                            rowSpacing: 20
-                            columnSpacing: 10
+                            id: nameTF
+                            text : updatePage.name
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Qt.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                        }
+                    }
 
-                            Image {
-                                Layout.columnSpan: 2
-                                source: "qrc:/assets/images/edit.png"
-                                Layout.margins: 20
-                                Layout.preferredHeight: 128
-                                Layout.preferredWidth: 128
-                                Layout.alignment: Qt.AlignHCenter
-                                NumberAnimation on scale { from: 0; to: 1; duration: 2000;}
-                            }
+                    // lastname
+                    RowLayout
+                    {
+                        width: parent.width
+                        height: 50
 
+                        Text {
+                            text: "نام‌خانوادگی"
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: lastnameTF
+                            text : updatePage.lastname
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Qt.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                        }
+                    }
 
-                            Text {
-                                text: "نام‌کاربر "
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            TextField
-                            {
-                                id: updateUserNameId
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                placeholderText: "نام‌کاربر"
-                                text: userModifyPageId.user["name"]
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
+                    // gender
+                    RowLayout
+                    {
+                        width: parent.width
+                        height: 50
 
-                            }
+                        Text {
+                            text: "جنسیت"
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        ComboBox
+                        {
+                            id: genderCB
+                            Layout.preferredHeight:  50
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 200
+                            editable: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            model: ["خانم", "آقا"]
 
-                            Text {
-                                text: "نام‌خانوادگی"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            TextField
-                            {
-                                id: updateUserLastNameId
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                placeholderText: "نام خانوادگی"
-                                text: userModifyPageId.user["lastname"]
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                            }
+                            Component.onCompleted: genderCB.currentIndex = genderCB.find(updatePage.gender)
+                        }
+                        Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                    }
 
-                            Text {
-                                text: "جنسیت"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            ComboBox {
-                                id: updateUserGenderId
-                                editable: false
-                                model: ["خانم", "آقا"]
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                Layout.preferredHeight: 50
-                                Component.onCompleted: updateUserGenderId.currentIndex = find(userModifyPageId.user["gender"])
-                            }
+                    // nat_id
+                    RowLayout
+                    {
+                        width: parent.width
+                        height: 50
 
-                            Text {
-                                text: "کدملی"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            TextField
-                            {
-                                id: updateUserNatidId
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                placeholderText: "کد ملی کاربر"
-                                text: userModifyPageId.user["nat_id"]
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                            }
+                        Text {
+                            text: "کدملی"
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: natIdTF
+                            text : updatePage.nat_id
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Qt.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                        }
+                    }
 
-                            Text {
-                                text: "پست کاربر"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            TextField
-                            {
-                                id: updateUserPositionId
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                placeholderText: "پست کاربر"
-                                text: userModifyPageId.user["job_position"]
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                            }
+                    // job_position
+                    RowLayout
+                    {
+                        width: parent.width
+                        height: 50
 
-                            Text {
-                                text: "شماره تماس"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            TextField
-                            {
-                                id: updateUserTelId
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                placeholderText: "شماره تماس"
-                                text: userModifyPageId.user["telephone"]
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                            }
+                        Text {
+                            text: "پست کاربر"
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: jobPositionTF
+                            text : updatePage.job_position
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Qt.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                        }
+                    }
 
-                            //enabled
-                            Text {
-                                text: "فعال بودن کاربر"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "royalblue"
-                            }
-                            Switch
-                            {
-                                id: updateUserEnabledId
-                                checked: (userModifyPageId.user["enabled"])? true : false
-                            }
+                    // telephone
+                    RowLayout
+                    {
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "شماره تماس"
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        TextField
+                        {
+                            id: telephoneTF
+                            text : updatePage.telephone
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Qt.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                        }
+                    }
 
-                            // //admin
-                            Text {
-                                text: "ادمین شعبه"
-                                Layout.minimumWidth: 150
-                                Layout.maximumWidth: 150
-                                Layout.preferredHeight: 50
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
+                    //enabled
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //enabled
+                        Text {
+                            text: "وضعیت فعال/غیرفعال"
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        Switch
+                        {
+                            id: enabledSW
+                            checked: updatePage.enabled
+                            text: checked? "فعال" : "غیرفعال";
+                            font.family: "Kalameh"
+                            palette.highlight: "darkcyan"
+                            palette.text: "gray"
+                            Layout.preferredHeight: 50
+                            Layout.fillWidth: true
+                        }
+                        Item{Layout.preferredHeight: 1; Layout.fillWidth: true;}
+                    }
+
+                    //admin
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        //enabled
+                        Text {
+                            text: "ادمین شعبه"
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        Switch
+                        {
+                            id: adminSW
+                            checked: updatePage.admin
+                            text: checked? "ادمین" : "غیرادمین";
+                            font.family: "Kalameh"
+                            palette.highlight: "darkcyan"
+                            palette.text: "gray"
+                            Layout.preferredHeight: 50
+                            Layout.fillWidth: true
+                        }
+                        Item{Layout.preferredHeight: 1; Layout.fillWidth: true;}
+                    }
+
+                    // Permissions
+                    Rectangle
+                    {
+                        width: parent.width
+                        height: 1
+                        color: "darkcyan"
+                    }
+
+                    Text {
+                        width: parent.width
+                        height: 25
+                        text: "دسترسی‌های کاربر"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "darkcyan"
+                    }
+
+                    // branches
+                    Text {
+                        text: "شعبه‌ها"
+                        width: parent.width
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "darkslategray"
+                    }
+                    Flow
+                    {
+                        spacing: 20
+                        flow: Flow.TopToBottom
+                        height: branchesRp.count*70
+                        width: parent.width
+
+                        Repeater
+                        {
+                            id: branchesRp
+                            model: ListModel {id: branchModel }
+                            delegate:
+                            Switch{
+                                required property var model
+                                checked: (updatePage.selectedBranches.indexOf(model.id) > -1)? true : false;
+                                width: parent.width
+                                height: 50;
+                                text: model.city + " - " + model.branch_name
                                 font.family: "Kalameh"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "crimson"
-                            }
-                            Switch
-                            {
-                                id: updateUserAdminId
-                                checked:  (userModifyPageId.user["admin"])? true : false
-                                onCheckedChanged:
+                                palette.highlight: "darkcyan"
+                                font.pixelSize: 14
+                                onToggled:
                                 {
-                                    //updateUserAccPermId.visible=(checked)? false : true;
-                                    adminWarningMessage.visible=(checked)? true : false;
-                                }
-                            }
-                            Text {
-                                id: adminWarningMessage
-                                visible:  (userModifyPageId.user["admin"])? true : false
-                                text: "هشدار! کاربر ادمین، دسترسی کامل به مدیریت سامانه دارد"
-                                Layout.columnSpan: 2
-                                Layout.alignment: Qt.AlignLeft
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                font.family: "Kalameh"
-                                Layout.topMargin: -10
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "orange"
-                            }
+                                    var index = updatePage.selectedBranches.indexOf(model.id);
 
-                            //PERMISSION
-                            GridLayout
-                            {
-                                id: updateUserAccPermId
-                                Layout.columnSpan: 2
-                                Layout.fillWidth: true
-                                columns: 2
-                                //rows: 11
-                                rowSpacing: 20
-                                columnSpacing: 10
-
-                                Text {
-                                    text: "دسترسی‌های کاربر"
-                                    Layout.columnSpan: 2
-                                    Layout.alignment: Qt.AlignHCenter
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 24
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-
-                                Rectangle
-                                {
-                                    Layout.columnSpan: 2
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 1
-                                    color: "dodgerblue"
-                                }
-
-                                // branches
-                                Text {
-                                    text: "شعبه‌ها"
-                                    Layout.columnSpan: 2
-                                    Layout.alignment: Qt.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-
-                                Flow
-                                {
-                                    spacing: 20
-                                    Layout.columnSpan: 2
-                                    flow: Flow.TopToBottom
-                                    Layout.preferredHeight: updateUserBranchesId.count*70
-
-                                    Repeater
+                                    if(checked)
                                     {
-                                        id: updateUserBranchesId
-                                        model: ListModel {id: branchModel }
-                                        delegate:
-                                        Switch{
-                                            required property var model
-                                            checked: (userModifyPageId.branchPerm.indexOf(model.id) > -1)? true : false;
-                                            height: 50;
-                                            text: model.city + " - " + model.branch_name
-                                            font.family: "Kalameh"
-                                            font.pixelSize: 14
-                                            onToggled:
-                                            {
-                                                var index = userModifyPageId.branchPerm.indexOf(model.id);
-
-                                                if(checked)
-                                                {
-                                                    //push step
-                                                    if(index < 0)
-                                                    userModifyPageId.branchPerm.push(model.id);
-                                                }
-                                                else
-                                                {
-                                                    if(index > -1)
-                                                    userModifyPageId.branchPerm.splice(index, 1);
-                                                }
-
-                                                UserMethods.checkBranch();
-
-                                                UserMethods.updateStep()
-                                                UserMethods.updateStudyBase()
-
-                                            }
-                                        }
-                                    }
-                                }
-
-                                //  study step
-                                Text {
-                                    text: "دوره‌ها"
-                                    visible: (updateUserAdminId.checked)? false : true;
-                                    Layout.columnSpan: 2
-                                    Layout.alignment: Qt.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                }
-                                Flow
-                                {
-                                    spacing: 20
-                                    visible: (updateUserAdminId.checked)? false : true;
-                                    Layout.columnSpan: 2
-                                    flow: Flow.TopToBottom
-                                    Layout.preferredHeight: updateUserStepId.count*70
-
-                                    Repeater
-                                    {
-                                        id: updateUserStepId
-                                        model: ListModel {id: stepModel }
-                                        delegate:
-                                        Switch{
-                                            required property var model
-                                            text: model.branch_name +" - "+ model.step_name
-                                            checked: (userModifyPageId.stepPerm.indexOf(model.id) > -1)? true : false;
-                                            font.family: "Kalameh"
-                                            font.pixelSize: 14
-                                            onToggled:
-                                            {
-                                                var index = userModifyPageId.stepPerm.indexOf(model.id);
-                                                if(checked)
-                                                {
-                                                    if(index < 0)
-                                                    userModifyPageId.stepPerm.push(model.id);
-                                                }
-                                                else
-                                                {
-                                                    if(index > -1)
-                                                    userModifyPageId.stepPerm.splice(index, 1);
-                                                }
-
-                                                // write steps
-                                                var index = userModifyPageId.selectedSteps.indexOf(model.id);
-                                                if(checked)
-                                                {
-                                                    if(index < 0)
-                                                        userModifyPageId.selectedSteps.push(model.id);
-                                                }
-                                                else
-                                                {
-                                                    if(index > -1)
-                                                        userModifyPageId.selectedSteps.splice(index, 1);
-
-                                                    UserMethods.checkStep();
-                                                }
-
-                                                UserMethods.updateStep();
-
-                                            }
-                                        }
-                                    }
-                                }
-
-                                //  study base
-
-                                Text {
-                                    text: "پایه‌های تحصیلی"
-                                    Layout.columnSpan: 2
-                                    Layout.alignment: Qt.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    color: "royalblue"
-                                    visible: (updateUserAdminId.checked)? false : true;
-                                }
-                                Flow
-                                {
-                                    spacing: 20
-                                    Layout.columnSpan: 2
-                                    flow: Flow.TopToBottom
-                                    Layout.preferredHeight: updateUserReadBasisId.count*70
-                                    visible: (updateUserAdminId.checked)? false : true;
-
-                                    Repeater
-                                    {
-                                        id: updateUserReadBasisId
-                                        model: ListModel {id: baseModel }
-                                        delegate:
-                                        Switch{
-                                            required property var model
-                                            text: model.city +" - "+model.branch_name +" - "+model.study_base
-                                            checked: (userModifyPageId.studyBasePerm.indexOf(model.id) > -1)? true : false;
-                                            font.family: "Kalameh"
-                                            font.pixelSize: 14
-                                            onToggled:
-                                            {
-                                                var index = userModifyPageId.studyBasePerm.indexOf(model.id)
-
-                                                if(checked)
-                                                {
-                                                    if(index < 0)
-                                                    userModifyPageId.studyBasePerm.push(model.id);
-                                                }
-                                                else
-                                                {
-                                                    if(index > -1)
-                                                    userModifyPageId.studyBasePerm.splice(index, 1);
-                                                }
-
-                                                UserMethods.updateStudyBase();
-                                            }
-                                        }
-                                    }
-
-                                }
-
-
-                                Rectangle
-                                {
-                                    Layout.columnSpan: 2
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 1
-                                    color: "dodgerblue"
-                                }
-
-                                Component.onCompleted:
-                                {
-                                    UserMethods.updateBranches()
-                                    UserMethods.updateStep()
-                                    UserMethods.updateStudyBase()
-
-
-                                }
-
-                            }
-
-
-                            Button
-                            {
-                                Layout.columnSpan: 2
-                                Layout.margins: 20
-                                text: "تایید"
-                                Layout.preferredWidth: 200
-                                Layout.preferredHeight: 50
-                                Layout.alignment: Qt.AlignHCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
-                                onClicked:
-                                {
-                                    var user = {};
-                                    user["id"] = userModifyPageId.user["id"];
-                                    user["name"] = updateUserNameId.text;
-                                    user["lastname"] = updateUserLastNameId.text;
-                                    user["nat_id"] = updateUserNatidId.text;
-                                    user["job_position"] = updateUserPositionId.text
-                                    user["telephone"] = updateUserTelId.text;
-
-
-                                    var permission = {"branch":[], "step":[], "study_base":[]}
-                                    var b = userModifyPageId.branchPerm;
-                                    var s = userModifyPageId.stepPerm;
-                                    var sb = userModifyPageId.studyBasePerm;
-
-                                    permission["branch"]  = b;
-                                    permission["step"] = s;
-                                    permission["study_base"] = sb;
-
-                                    user["permissions"] = permission;
-
-                                    user["enabled"] = updateUserEnabledId.checked
-                                    user["gender"] = updateUserGenderId.currentText
-                                    user["admin"] = updateUserAdminId.checked
-
-                                    if(updateUserAdminId.checked){
-                                        permission["step"] = [];
-                                        permission["study_base"] = [];
-                                    }
-
-                                    var check = true
-                                    // check entries
-                                    if(!UserMethods.checkFormEntries(user))
-                                    {
-                                        updateUserInfoDialogId.open();
-                                        return;
-                                    }
-
-                                    if(dbMan.updateUser(user))
-                                    {
-                                        //userModifyPageId.userUpdated(user);
-                                        updateUserSuccessDialogId.open();
+                                        //push step
+                                        if(index < 0)
+                                        updatePage.selectedBranches.push(model.id);
                                     }
                                     else
                                     {
-                                        var errorString = dbMan.getLastError();
-                                        updateUserInfoDialogId.dialogTitle = "خطا"
-                                        updateUserInfoDialogId.dialogText = errorString
-                                        updateUserInfoDialogId.width = parent.width
-                                        updateUserInfoDialogId.height = 500
-                                        updateUserInfoDialogId.dialogSuccess = false
-                                        updateUserInfoDialogId.open();
+                                        if(index > -1)
+                                        updatePage.selectedBranches.splice(index, 1);
+                                    }
+
+                                    selectedSteps = dbMan.filterSteps(selectedBranches, selectedSteps);
+                                    selectedBases = dbMan.filterBases(selectedSteps, selectedBases);
+                                    JS.updateStep();
+                                    JS.updateBases();
+                                }
+                            }
+                        }
+                        Component.onCompleted:
+                        {
+                            JS.updateBranches()
+                        }
+                    }
+
+                    //steps
+                    Text {
+                        text: "دوره‌ها"
+                        visible:(adminSW.checked)? false : true;
+                        width: parent.width
+                        height: 50
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "darkslategray"
+                    }
+                    Flow
+                    {
+                        spacing: 20
+                        visible:(adminSW.checked)? false : true;
+                        flow: Flow.TopToBottom
+                        height: stepsRp.count*70
+                        width: parent.width
+
+                        Repeater
+                        {
+                            id: stepsRp
+                            model: ListModel {id: stepModel }
+                            delegate:
+                            Switch{
+                                required property var model
+                                //s.id, s.branch_id, s.step_name, b.city, b.branch_name, s.field_based, s.numeric_graded
+                                text: model.branch_name +" - "+ model.step_name
+                                checked: (updatePage.selectedSteps.indexOf(model.id) > -1)? true : false;
+                                width: parent.width
+                                height: 50
+                                font.family: "Kalameh"
+                                palette.highlight: "darkcyan"
+                                font.pixelSize: 14
+                                onToggled:
+                                {
+                                    var index = updatePage.selectedSteps.indexOf(model.id);
+                                    if(checked)
+                                    {
+                                        if(index < 0)
+                                        updatePage.selectedSteps.push(model.id);
+                                    }
+                                    else
+                                    {
+                                        if(index > -1)
+                                        updatePage.selectedSteps.splice(index, 1);
+                                    }
+
+                                    selectedBases = dbMan.filterBases(selectedSteps, selectedBases);
+                                    JS.updateBases();
+                                }
+                            }
+                        }
+
+                        Component.onCompleted: JS.updateStep();
+                    }
+
+                    //bases
+                    Text {
+                        text: "پایه‌های تحصیلی"
+                        visible:(adminSW.checked)? false : true;
+                        width: parent.width
+                        height: 50
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "darkslategray"
+                    }
+                    Flow
+                    {
+                        spacing: 20
+                        visible:(adminSW.checked)? false : true;
+                        flow: Flow.TopToBottom
+                        height: basesRp.count*70
+                        width: parent.width
+
+                        Repeater
+                        {
+                            id: basesRp
+                            model: ListModel {id: baseModel }
+                            delegate:
+                            Switch{
+                                required property var model
+                                // id text
+                                text: model.text
+                                checked: (updatePage.selectedBases.indexOf(model.id) > -1)? true : false;
+                                width: parent.width
+                                height: 50
+                                font.family: "Kalameh"
+                                palette.highlight: "darkcyan"
+                                font.pixelSize: 14
+                                onToggled:
+                                {
+                                    var index = updatePage.selectedBases.indexOf(model.id);
+                                    if(checked)
+                                    {
+                                        if(index < 0)
+                                        updatePage.selectedBases.push(model.id);
+                                    }
+                                    else
+                                    {
+                                        if(index > -1)
+                                        updatePage.selectedBases.splice(index, 1);
                                     }
                                 }
                             }
-
-
                         }
 
+                        Component.onCompleted: JS.updateBases();
+                    }
+
+                    Item{
+                        width: parent.width
+                        height: 20
+                    }
+
+                    Button
+                    {
+                        text: "تایید"
+                        width: 200
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "forestgreen"}
+                        onClicked:
+                        {
+                            var user = {};
+                            user["id"] = updatePage.user_id;
+                            user["name"] = nameTF.text;
+                            user["lastname"] = lastnameTF.text;
+                            user["nat_id"] = natIdTF.text;
+                            user["job_position"] = jobPositionTF.text
+                            user["telephone"] = telephoneTF.text;
+
+                            var permission = {"branch":[], "step":[], "base":[]}
+                            var br = updatePage.selectedBranches;
+                            var ss = updatePage.selectedSteps;
+                            var sb = updatePage.selectedBases;
+
+                            permission["branch"]  = br;
+                            permission["step"] = ss;
+                            permission["base"] = sb;
+
+                            user["permissions"] = permission;
+
+                            user["enabled"] = enabledSW.checked
+                            user["admin"] = adminSW.checked
+                            user["gender"] = genderCB.currentText
+
+                            if(adminSW.checked)
+                            {
+                                permission["step"] = [];
+                                permission["base"] = [];
+                            }
+
+                            var check = true
+                            // check entries
+                            if(!JS.checkFormEntries(user, false))
+                            {
+                                infoDialogId.open();
+                                return;
+                            }
+
+                            if(dbMan.updateUser(user))
+                            {
+                                updatePage.updatedSignal();
+                                successDialogId.open();
+                            }
+                            else
+                            {
+                                var errorString = dbMan.getLastError();
+                                infoDialogId.dialogTitle = "خطا"
+                                infoDialogId.dialogText = errorString
+                                infoDialogId.width = parent.width
+                                infoDialogId.height = 500
+                                infoDialogId.dialogSuccess = false
+                                infoDialogId.open();
+                            }
+                        }
                     }
                 }
             }
-
         }
-
     }
+
     DialogBox.BaseDialog
     {
-        id: updateUserInfoDialogId
+        id:infoDialogId
         dialogTitle: "خطا"
         dialogText: "ورود فیلد الزامی می‌باشد"
         dialogSuccess: false
-        modal: true
     }
 
     DialogBox.BaseDialog
     {
-        id: updateUserSuccessDialogId
+        id: successDialogId
         dialogTitle: "عملیات موفق"
-        dialogText: "ویرایش کاربر با موفقیت انجام گرفت."
+        dialogText: "ویرایش کاربر با موفقیت انجام شد."
         dialogSuccess: true
-        modal: true   
-        onDialogAccepted:
-        {
-            updateUserSuccessDialogId.close();
-            userModifyPageId.appStackView.pop();
-            userModifyPageId.userUpdated();
-        }
+        onDialogAccepted: {successDialogId.close(); updatePage.updatedSignal(); updatePage.popSignal();}
     }
-
 }
