@@ -27,12 +27,7 @@ ApplicationWindow {
 
     StackView {
         id: homeStackViewId
-        initialItem: HomePage{
-            objectName: "homePageON"
-            onBranchSelected:(branch_var)=>{
-                homeStackViewId.push(stepComponent, {branch: branch_var, objectName: "stepsON"})
-            };
-        }
+        initialItem: (resetPassword)? resetComponent : homeComponent
         anchors.fill: parent
     }
 
@@ -43,6 +38,26 @@ ApplicationWindow {
         }
     }
 
+
+    Component
+    {
+        id: homeComponent
+        HomePage{
+                    objectName: "homePageON"
+                    onBranchSelected:(branch_var)=>{
+                        homeStackViewId.push(stepComponent, {branch: branch_var, objectName: "stepsON"})
+                    };
+                }
+    }
+
+    Component
+    {
+        id: resetComponent
+        ResetPassword{
+            user : dbMan.getUser();
+            onHomeSignal: homeStackViewId.push(homeComponent);
+        }
+    }
 }
 
 

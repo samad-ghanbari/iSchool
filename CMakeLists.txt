@@ -113,6 +113,7 @@ qt_add_qml_module(appiSchool
         ui/home/BaseAvg.qml
         ui/home/Rank.qml
         ui/home/ClassReport.qml
+        ui/home/ResetPassword.qml
 
     # LOGIN
         ui/login/LoginWindow.qml

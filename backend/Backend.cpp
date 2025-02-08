@@ -64,5 +64,6 @@ void Backend::loadHome()
     bool superAdmin = dbMan->isUserSuperAdmin();
     engine.rootContext()->setContextProperty("admin", admin);
     engine.rootContext()->setContextProperty("superAdmin", superAdmin);
+    engine.rootContext()->setContextProperty("resetPassword", dbMan->resetPasswordNeeded());
     engine.loadFromModule("iSchool", "HomeWindow");
 }
