@@ -21,6 +21,7 @@ MenuBar {
     property bool toolbarView: true
     font.family: "Kalameh"
     font.pixelSize: 16
+    visible: admin
 
     required property StackView appStackView;
 
@@ -101,6 +102,7 @@ MenuBar {
         MenuSeparator { }
         Action {
             text: "کلاس‌ها";
+            enabled: admin;
             onTriggered:{
                 if(menubarId.appStackView.currentItem.objectName === "classON")
                 menubarId.appStackView.pop();
@@ -112,6 +114,7 @@ MenuBar {
         MenuSeparator { }
         Action {
             text: "درس‌ها";
+            enabled: admin;
             onTriggered:
             {
                 if(menubarId.appStackView.currentItem.objectName === "courseON")
@@ -125,6 +128,7 @@ MenuBar {
         MenuSeparator { }
         Action {
             text: "دانش‌آموزان";
+            enabled: admin;
             onTriggered:
             {
                 if(menubarId.appStackView.currentItem.objectName === "studentsON")
@@ -138,6 +142,7 @@ MenuBar {
         MenuSeparator { }
         Action {
             text: "ارزیابی‌ها";
+            enabled: superAdmin;
             onTriggered:
             {
                 if(menubarId.appStackView.currentItem.objectName === "evalsON")

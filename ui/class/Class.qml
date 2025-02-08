@@ -195,6 +195,8 @@ Page {
                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                 }
 
+                Item{width: parent.width; height: 20;}
+
                 // gridview
                 GridView
                 {

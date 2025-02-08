@@ -48,14 +48,13 @@ Page {
         anchors.topMargin: 20
         opacity: 0
         spacing: 20
-
         clip: true
         delegate: Rectangle{
             id: recdel;
             required property var model;
             width: branchLV.width
             height: 100
-            color: "transparent";
+            color: "#aafff0f5"
             Label{
                 width: parent.width
                 height: 50
@@ -85,7 +84,7 @@ Page {
                 anchors.fill: parent
                 hoverEnabled: true
                 onEntered: parent.color = "lavenderblush";
-                onExited: parent.color = "transparent";
+                onExited: parent.color = "#aafff0f5"
                 onClicked: {
                     // step page
                     var branch_id = recdel.model.id;
@@ -96,7 +95,7 @@ Page {
             }
         }
 
-        NumberAnimation on opacity { to: 1; duration: 2000 }
+        NumberAnimation on opacity { to: 1; duration: 3000 }
 
         Component.onCompleted: {
             var jsondata = dbMan.getBranches();
