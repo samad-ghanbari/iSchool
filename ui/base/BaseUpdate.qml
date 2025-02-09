@@ -20,20 +20,6 @@ Page {
     {
         anchors.fill: parent
 
-        // Button
-        // {
-        //     Layout.preferredHeight: 64
-        //     Layout.preferredWidth: 64
-        //     background: Item{}
-        //     icon.source: "qrc:/assets/images/arrow-right.png"
-        //     icon.width: 64
-        //     icon.height: 64
-        //     icon.color:"transparent"
-        //     opacity: 0.5
-        //     onClicked: updateBasePage.appStackView.pop();
-        //     hoverEnabled: true
-        //     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-        // }
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
@@ -43,7 +29,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -98,15 +84,15 @@ Page {
 
                                 Text {
                                     text: "شعبه"
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 Text
                                 {
@@ -123,15 +109,15 @@ Page {
 
                                 Text {
                                     text: "نام پایه تحصیلی "
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 TextField
                                 {
@@ -147,13 +133,13 @@ Page {
 
                                 Label
                                 {
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     text:" انتخاب رشته"
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                     font.bold: true
                                     horizontalAlignment: Label.AlignLeft
                                     verticalAlignment: Label.AlignVCenter
@@ -197,18 +183,20 @@ Page {
                                     Layout.alignment: Qt.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
+                                    palette.highlight: "darkcyan"
+                                    palette.text: "black"
                                 }
 
                                 Text {
                                     text: "اولویت نمایش"
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 SpinBox
                                 {

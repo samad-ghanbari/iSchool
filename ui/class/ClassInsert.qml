@@ -33,7 +33,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -78,7 +78,7 @@ Page {
                     font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
-                    color: "royalblue"
+                    color: "darkcyan"
                 }
                 Text {
                     text: insertPage.step
@@ -89,7 +89,7 @@ Page {
                     font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
-                    color: "royalblue"
+                    color: "darkcyan"
                 }
 
                 Text {
@@ -101,7 +101,7 @@ Page {
                     font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
-                    color: "royalblue"
+                    color: "darkcyan"
                 }
 
                 RowLayout{
@@ -117,7 +117,7 @@ Page {
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
-                        color: "royalblue"
+                        color: "darkcyan"
                     }
                     TextField
                     {
@@ -145,7 +145,7 @@ Page {
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
-                        color: "royalblue"
+                        color: "darkcyan"
                     }
                     ComboBox
                     {
@@ -197,7 +197,7 @@ Page {
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
-                        color: "royalblue"
+                        color: "darkcyan"
                     }
                     ComboBox
                     {
@@ -242,7 +242,7 @@ Page {
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
-                        color: "royalblue"
+                        color: "darkcyan"
                     }
                     TextField
                     {
@@ -266,7 +266,7 @@ Page {
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
-                        color: "royalblue"
+                        color: "darkcyan"
                     }
                     SpinBox
                     {

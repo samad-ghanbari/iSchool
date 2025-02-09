@@ -31,7 +31,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -84,6 +84,7 @@ Page {
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
+                                    color:"darkcyan"
                                     font.pixelSize: 16
                                 }
                                 Text
@@ -106,6 +107,7 @@ Page {
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
+                                    color:"darkcyan"
                                     font.pixelSize: 16
                                 }
                                 Text
@@ -129,6 +131,7 @@ Page {
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
+                                    color:"darkcyan"
                                     font.pixelSize: 16
                                 }
                                 Text
@@ -151,6 +154,7 @@ Page {
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
+                                    color:"darkcyan"
                                     font.pixelSize: 16
                                 }
                                 Text

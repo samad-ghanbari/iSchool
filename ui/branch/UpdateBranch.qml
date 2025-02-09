@@ -32,7 +32,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -95,7 +95,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 TextField
                                 {
@@ -118,7 +118,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 TextField
                                 {
@@ -140,7 +140,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 TextField
                                 {

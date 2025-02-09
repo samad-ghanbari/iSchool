@@ -30,7 +30,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -77,13 +77,14 @@ Page {
 
                                 Text {
                                     text: "شعبه "
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
+                                    color: "darkcyan"
                                 }
                                 Text
                                 {
@@ -101,13 +102,14 @@ Page {
 
                                 Text {
                                     text: "دوره "
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
+                                    color: "darkcyan"
                                 }
                                 Text
                                 {
@@ -127,16 +129,39 @@ Page {
                                     font.bold: true
                                 }
 
-
                                 Text {
-                                    text: "نام پایه تحصیلی"
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    text: "رشته تحصیلی"
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
+                                    color: "darkcyan"
+                                }
+                                Text
+                                {
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "Kalameh"
+                                    font.pixelSize: 16
+                                    text: baseDeletePage.model.field_name
+                                    font.bold: true
+                                }
+
+                                Text {
+                                    text: "نام پایه تحصیلی"
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    font.family: "Kalameh"
+                                    font.pixelSize: 16
+                                    color: "darkcyan"
                                 }
                                 Text
                                 {
@@ -150,19 +175,8 @@ Page {
                                     font.bold: true
                                 }
 
-                                Text {
-                                    Layout.columnSpan: 2
-                                    text: "رشته " + baseDeletePage.model.field_name
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 50
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 20
-                                    font.bold: true
-                                    color: "royalblue"
-                                    visible: baseDeletePage.model.field_based
-                                }
+
+
 
                             }
 

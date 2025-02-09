@@ -26,7 +26,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -43,6 +43,7 @@ Page {
                 Layout.preferredWidth: 100
                 text:" انتخاب شعبه"
                 font.family: "Kalameh"
+                color: "darkcyan"
                 font.pixelSize: 16
                 font.bold: true
                 horizontalAlignment: Label.AlignLeft
@@ -92,6 +93,7 @@ Page {
                 Layout.preferredWidth: 100
                 text:" انتخاب دوره"
                 font.family: "Kalameh"
+                color: "darkcyan"
                 font.pixelSize: 16
                 font.bold: true
                 horizontalAlignment: Label.AlignLeft

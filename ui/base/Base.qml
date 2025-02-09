@@ -26,7 +26,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -47,6 +47,7 @@ Page {
                 font.bold: true
                 horizontalAlignment: Label.AlignLeft
                 verticalAlignment: Label.AlignVCenter
+                color: "darkcyan"
             }
             ComboBox
             {
@@ -96,6 +97,7 @@ Page {
                 font.bold: true
                 horizontalAlignment: Label.AlignLeft
                 verticalAlignment: Label.AlignVCenter
+                color: "darkcyan"
             }
             ComboBox
             {

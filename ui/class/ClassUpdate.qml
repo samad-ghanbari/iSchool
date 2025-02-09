@@ -40,7 +40,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
         }
 
         Flickable{
@@ -77,7 +77,7 @@ Page {
                         font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
-                        color: "royalblue"
+                        color: "darkcyan"
                     }
                     Text {
                         text:{
@@ -100,7 +100,7 @@ Page {
                         font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
-                        color: "royalblue"
+                        color: "darkcyan"
                     }
                     Text {
                         text: "سال تحصیلی " + updateClassPage.period
@@ -111,7 +111,7 @@ Page {
                         font.family: "Kalameh"
                         font.pixelSize: 18
                         font.bold: true
-                        color: "royalblue"
+                        color: "darkcyan"
                     }
 
 
@@ -128,7 +128,7 @@ Page {
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
-                            color: "royalblue"
+                            color: "darkcyan"
                         }
                         TextField
                         {
@@ -154,7 +154,7 @@ Page {
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
-                            color: "royalblue"
+                            color: "darkcyan"
                         }
                         TextField
                         {
@@ -179,7 +179,7 @@ Page {
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
-                            color: "royalblue"
+                            color: "darkcyan"
                         }
                         SpinBox
                         {

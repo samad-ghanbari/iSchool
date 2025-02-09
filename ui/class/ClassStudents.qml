@@ -43,7 +43,7 @@ Page {
                     font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
-                    color: "darkmagenta"
+                    color: "darkcyan"
                 }
             }
 
@@ -57,7 +57,7 @@ Page {
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
-                color: "darkmagenta"
+                color: "darkcyan"
             }
 
             Text {
@@ -69,7 +69,7 @@ Page {
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
-                color: "darkmagenta"
+                color: "darkcyan"
             }
 
             Rectangle{
@@ -94,7 +94,7 @@ Page {
                     font.family: "Kalameh"
                     font.pixelSize: 20
                     font.bold: true
-                    color: "mediumvioletred"
+                    color: "darkcyan"
                 }
 
                 Button
@@ -277,7 +277,7 @@ Page {
         header: Rectangle{
             width: parent.width;
             height: 50;
-            color: "royalblue";
+            color: "darkcyan";
             Text{ text: "افزودن دانش‌آموز به کلاس"; anchors.centerIn: parent; color: "white";font.bold:true; font.family: "Kalameh"; font.pixelSize: 16}
         }
 
@@ -294,7 +294,7 @@ Page {
                 font.family: "Kalameh"
                 font.pixelSize: 14
                 wrapMode: Text.WrapAnywhere
-                color: "royalblue"
+                color: "darkcyan"
             }
 
             RowLayout{
@@ -310,7 +310,7 @@ Page {
                     font.family: "Kalameh"
                     font.pixelSize: 14
                     wrapMode: Text.WrapAnywhere
-                    color: "royalblue"
+                    color: "darkcyan"
                 }
                 TextField
                 {
@@ -358,7 +358,7 @@ Page {
                     font.family: "Kalameh"
                     font.pixelSize: 14
                     wrapMode: Text.WrapAnywhere
-                    color: "royalblue"
+                    color: "darkcyan"
                 }
                 ComboBox
                 {

@@ -35,7 +35,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -59,7 +59,7 @@ Page {
                     font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
-                    color: "royalblue"
+                    color: "darkcyan"
                 }
                 Text {
                     text:{
@@ -82,7 +82,7 @@ Page {
                     font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
-                    color: "royalblue"
+                    color: "darkcyan"
                 }
                 Text {
                     text:  "سال تحصیلی " + classCoursesPage.period + " - " + " کلاس " + classCoursesPage.class_name
@@ -93,7 +93,7 @@ Page {
                     font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
-                    color: "royalblue"
+                    color: "darkcyan"
                 }
 
                 Rectangle{

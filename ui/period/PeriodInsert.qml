@@ -31,7 +31,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -102,7 +102,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
 
 
@@ -115,7 +115,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 TextField
                                 {
@@ -138,6 +138,8 @@ Page {
                                     Layout.alignment: Qt.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
+                                    palette.text: "black"
+                                    palette.highlight: "darkcyan"
                                 }
 
                                 Text {
@@ -149,7 +151,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 SpinBox
                                 {
@@ -161,6 +163,44 @@ Page {
                                     font.pixelSize: 16
                                     value:  1;
                                 }
+
+                                // pattern
+                                Text {
+                                    text: "الگو"
+                                    Layout.minimumWidth: 100
+                                    Layout.maximumWidth: 100
+                                    Layout.preferredHeight: 50
+                                    verticalAlignment: Text.AlignVCenter
+                                    font.family: "Kalameh"
+                                    font.pixelSize: 16
+                                    font.bold: true
+                                    color: "darkcyan"
+                                }
+                                ComboBox
+                                {
+                                    id: patternCB
+                                    Layout.preferredHeight:  50
+                                    Layout.fillWidth: true
+                                    Layout.maximumWidth: 400
+                                    editable: false
+                                    font.family: "Kalameh"
+                                    font.pixelSize: 16
+                                    model: ListModel{id: patternModel}
+                                    textRole: "text"
+                                    valueRole: "value"
+                                    Component.onCompleted:
+                                    {
+                                        var jsondata = dbMan.getStepPeriods(insertPeriodPage.step_id, true);
+                                        // p.id, p.step_id, p.period_name, p.passed, s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
+                                        patternModel.clear();
+                                        patternModel.append({"text": "سال‌تحصیلی خالی", "value": 0 });
+                                        for(var obj of jsondata){
+                                            patternModel.append({"text": obj.period_name, "value": obj.period_id });
+                                        }
+                                        patternCB.currentIndex = 0;
+                                    }
+                                }
+
 
                             }
 
@@ -185,6 +225,7 @@ Page {
                                     period["step_id"] = insertPeriodPage.step_id
                                     period["period_name"] = periodTF.text
                                     period["passed"] = enabledSW.checked
+                                    period["pattern"] = patternCB.currentValue;
                                     period["sort_priority"] = sortSB.value
 
 

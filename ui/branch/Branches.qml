@@ -31,7 +31,7 @@ Page {
                 font.family: "Kalameh"
                 font.pixelSize: 24
                 font.bold: true
-                color: "mediumvioletred"
+                color: "darkcyan"
                 style: Text.Outline
                 styleColor: "white"
             }

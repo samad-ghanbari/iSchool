@@ -29,7 +29,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -81,7 +81,7 @@ Page {
                             font.family: "Kalameh"
                             font.pixelSize: 18
                             font.bold: true
-                            color: "royalblue"
+                            color: "darkcyan"
                         }
 
                         Text {
@@ -94,7 +94,7 @@ Page {
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
-                            color: "royalblue"
+                            color: "darkcyan"
                         }
                         TextField
                         {
@@ -110,12 +110,15 @@ Page {
 
                         Switch{
                             id: enabledSW
+                            Layout.columnSpan: 2
                             Layout.preferredHeight:  50
                             text: "فعال بودن رشته تحصیلی"
                             checked: true
                             Layout.alignment: Qt.AlignLeft
                             font.family: "Kalameh"
                             font.pixelSize: 16
+                            palette.highlight: "darkcyan"
+                            palette.text: (checked)?"black" : "gray"
                         }
 
                         Text {
@@ -127,7 +130,7 @@ Page {
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
-                            color: "royalblue"
+                            color: "darkcyan"
                         }
                         SpinBox
                         {

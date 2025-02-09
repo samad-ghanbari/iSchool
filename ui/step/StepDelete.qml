@@ -35,7 +35,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -90,7 +90,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 20
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
 
 
@@ -103,6 +103,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
+                                    color:"darkcyan"
                                 }
                                 Text
                                 {
@@ -122,10 +123,13 @@ Page {
                                 Layout.preferredHeight:  50
                                 text: "ارزیابی مبتنی بر عدد"
                                 checked: stepDeletePage.numeric_graded
+                                onClicked: checked = stepDeletePage.numeric_graded
                                 Layout.alignment: Qt.AlignLeft
                                 font.family: "Kalameh"
                                 checkable: false
                                 font.pixelSize: 16
+                                palette.highlight: "darkcyan"
+                                palette.text: "black"
                             }
 
                             Switch{
@@ -134,6 +138,9 @@ Page {
                                 text: "دوره مبتنی بر رشته"
                                 checked: stepDeletePage.field_based
                                 Layout.alignment: Qt.AlignLeft
+                                palette.highlight: "darkcyan"
+                                palette.text: "black"
+                                onClicked: stepDeletePage.field_based
                                 checkable: false
                                 font.family: "Kalameh"
                                 font.pixelSize: 16

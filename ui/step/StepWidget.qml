@@ -74,7 +74,9 @@ SwipeDelegate
                 anchors.horizontalCenter: parent.horizontalCenter
                 checkable: false
                 font.family: "Kalameh"
-                font.pixelSize: 16
+                font.pixelSize: 16.
+                palette.highlight: "darkcyan"
+                palette.text: "black"
             }
 
             Switch{
@@ -86,6 +88,8 @@ SwipeDelegate
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.family: "Kalameh"
                 font.pixelSize: 16
+                palette.highlight: "darkcyan"
+                palette.text: "black"
             }
 
             Rectangle{width: 400; height:5; color: (stepDelegate.highlighted)? "mediumvioletred" : "whitesmoke"; anchors.horizontalCenter: parent.horizontalCenter }

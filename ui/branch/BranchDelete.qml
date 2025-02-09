@@ -35,7 +35,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -70,44 +70,6 @@ Page {
                         {
                             id: branchDeleteCL
                             width: parent.width
-                            Text
-                            {
-                                text: "حذف"
-                                font.family: "Kalameh"
-                                font.pixelSize: 24
-                                font.bold: true
-                                color: "crimson"
-                                Layout.preferredWidth: parent.width
-                                Layout.preferredHeight: 50
-                                horizontalAlignment: Qt.AlignHCenter
-                                verticalAlignment: Qt.AlignVCenter
-                            }
-                            Button
-                            {
-                                background: Item{}
-                                icon.source: "qrc:/assets/images/trash3.png"
-                                icon.width: 64
-                                icon.height: 64
-                                Layout.preferredHeight: 64
-                                Layout.preferredWidth: 64
-                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                opacity: 0.5
-                                onClicked: branchDelDialog.open();
-                                hoverEnabled: true
-                                onHoveredChanged:
-                                {
-                                    if(hovered)
-                                    {
-                                        this.opacity = 1
-                                        this.scale = 1.1
-                                    }
-                                    else
-                                    {
-                                        this.opacity = 0.8
-                                        this.scale = 1
-                                    }
-                                }
-                            }
 
                             GridLayout
                             {
@@ -129,7 +91,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 Text
                                 {
@@ -154,7 +116,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 Text
                                 {
@@ -178,7 +140,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 Text
                                 {
@@ -193,6 +155,42 @@ Page {
                                 }
 
 
+                            }
+
+                            Item
+                            {
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                            }
+
+                            Button
+                            {
+                                background: Item{}
+                                Layout.preferredWidth: 64
+                                Layout.preferredHeight:  64
+                                font.pixelSize: 16
+                                font.family: "Kalameh"
+                                display: AbstractButton.TextUnderIcon
+                                icon.source: "qrc:/assets/images/trash3.png"
+                                icon.width: 64
+                                icon.height: 64
+                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                opacity: 0.5
+                                onClicked: branchDelDialog.open();
+                                hoverEnabled: true
+                                onHoveredChanged:
+                                {
+                                    if(hovered)
+                                    {
+                                        this.opacity = 1
+                                        this.scale = 1.1
+                                    }
+                                    else
+                                    {
+                                        this.opacity = 0.8
+                                        this.scale = 1
+                                    }
+                                }
                             }
 
                             Item

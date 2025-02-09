@@ -12,18 +12,15 @@ ApplicationWindow {
     visibility: Window.Maximized
     visible: true
     color: "lavender"
-    title: qsTr("مدرسه غیر دولتی روشنگران")
+    font.family: "Kalameh"
+    font.pixelSize: 14
+    title: qsTr("مدرسه غیر دولتی روشنگران")    
     LayoutMirroring.enabled: true
     LayoutMirroring.childrenInherit: true
     //flags: Qt.WindowSystemMenuHint | ~Qt.WindowCloseButtonHint;
 
     menuBar: MenubarModule{ id: menubarId; appStackView: homeStackViewId; }
     header : ToolbarModule{id:toolbarId; appStackView: homeStackViewId; }
-    // header: Loader{
-    //     id: toolbarLoader
-    //     source: {"qrc:/resources/ToolbarModule.qml" ; appStackView: homeStackViewId }
-
-    // }
 
     StackView {
         id: homeStackViewId

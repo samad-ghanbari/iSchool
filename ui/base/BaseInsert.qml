@@ -33,7 +33,7 @@ Page {
             font.family: "Kalameh"
             font.pixelSize: 24
             font.bold: true
-            color: "mediumvioletred"
+            color: "darkcyan"
             style: Text.Outline
             styleColor: "white"
         }
@@ -96,20 +96,20 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 18
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
 
                                 Text {
                                     text: "نام پایه تحصیلی"
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment:  Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 TextField
                                 {
@@ -125,14 +125,14 @@ Page {
 
                                 Label
                                 {
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     text:" انتخاب رشته"
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                     horizontalAlignment: Label.AlignLeft
                                     verticalAlignment: Label.AlignVCenter
                                     visible: insertBasePage.field_based
@@ -174,18 +174,20 @@ Page {
                                     Layout.alignment: Qt.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
+                                    palette.highlight: "darkcyan"
+                                    palette.text: "black"
                                 }
 
                                 Text {
                                     text: "اولویت نمایش"
-                                    Layout.minimumWidth: 100
-                                    Layout.maximumWidth: 100
+                                    Layout.minimumWidth: 150
+                                    Layout.maximumWidth: 150
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
-                                    color: "royalblue"
+                                    color: "darkcyan"
                                 }
                                 SpinBox
                                 {
