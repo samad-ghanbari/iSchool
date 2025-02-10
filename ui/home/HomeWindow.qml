@@ -52,7 +52,7 @@ ApplicationWindow {
         id: resetComponent
         ResetPassword{
             user : dbMan.getUser();
-            onHomeSignal: homeStackViewId.push(homeComponent);
+            onHomeSignal: homeStackViewId.replace(homeComponent);
         }
     }
 }
