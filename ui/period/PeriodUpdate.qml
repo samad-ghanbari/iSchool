@@ -8,11 +8,17 @@ import "./../public" as DialogBox
 import "Period.js" as Methods
 
 Page {
-    id: updatePeriodPage
-    property var model
+    id: updatePage
+    required property int period_id
+    required property int step_id
+    required property string period_name
+    required property string city
+    required property string branch_name
+    required property bool passed
+    required property int sort_priority
 
-    required property StackView appStackView;
-    signal periodUpdatedSignal(var period);
+    signal popSignal();
+    signal periodUpdatedSignal();
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
@@ -103,7 +109,7 @@ Page {
                                     font.pixelSize: 16
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    text: updatePeriodPage.model.city + " - " + updatePeriodPage.model.branch_name
+                                    text: updatePage.city + " - " + updatePage.branch_name
                                 }
 
                                 Text {
@@ -127,7 +133,7 @@ Page {
                                     font.pixelSize: 16
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    text: updatePeriodPage.model.step_name
+                                    text: updatePage.step_name
 
                                 }
 
@@ -152,7 +158,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "سال تحصیلی"
-                                    text: updatePeriodPage.model.period_name
+                                    text: updatePage.period_name
                                 }
 
                                 Switch{
@@ -160,7 +166,7 @@ Page {
                                     Layout.columnSpan: 2
                                     Layout.preferredHeight:  50
                                     text: "اتمام سال تحصیلی"
-                                    checked: updatePeriodPage.model.passed
+                                    checked: updatePage.passed
                                     Layout.alignment: Qt.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
@@ -187,7 +193,7 @@ Page {
                                     Layout.maximumWidth: 400
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    value:  updatePeriodPage.model.sort_priority;
+                                    value:  updatePage.sort_priority;
                                 }
 
                             }
@@ -210,7 +216,7 @@ Page {
                                 onClicked:
                                 {
                                     var period = {};
-                                    period["id"] = updatePeriodPage.model.period_id;
+                                    period["id"] = updatePage.model.period_id;
                                     period["period_name"] = periodTF.text;
                                     period["passed"] = enabledSW.checked;
                                     period["sort_priority"] = sortSB.value
@@ -225,8 +231,7 @@ Page {
 
                                     if(dbMan.periodUpdate(period))
                                     {
-                                        period = dbMan.getPeriod(period["id"]);
-                                        updatePeriodPage.periodUpdatedSignal(period);
+                                        updatePage.periodUpdatedSignal();
                                         periodSuccessDialogId.open();
 
                                     }
@@ -268,7 +273,7 @@ Page {
             dialogTitle: "عملیات موفق"
             dialogText: "اطلاعات سال تحصیلی با موفقیت بروزرسانی شد"
             dialogSuccess: true
-            onDialogAccepted: function(){periodSuccessDialogId.close(); updatePeriodPage.appStackView.pop();}
+            onDialogAccepted: function(){periodSuccessDialogId.close(); updatePage.popSignal();}
         }
     }
 }

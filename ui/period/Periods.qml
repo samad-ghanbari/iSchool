@@ -68,16 +68,16 @@ Page {
                 }
 
                 onActivated: {
-                        stepCBoxModel.clear();
-                        periodsModel.clear();
-                        var jsondata = dbMan.getBranchSteps(branchCB.currentValue);
-                        //s.id, s.branch_id, s.step_name, s.field_based, s.numeric_graded, b.city, b.branch_name
-                        var temp;
-                        for(var obj of jsondata)
-                        {
-                            temp = obj.step_name;
-                            stepCBoxModel.append({ value: obj.id, text: temp })
-                        }
+                    stepCBoxModel.clear();
+                    periodsModel.clear();
+                    var jsondata = dbMan.getBranchSteps(branchCB.currentValue);
+                    //s.id, s.branch_id, s.step_name, s.field_based, s.numeric_graded, b.city, b.branch_name
+                    var temp;
+                    for(var obj of jsondata)
+                    {
+                        temp = obj.step_name;
+                        stepCBoxModel.append({ value: obj.id, text: temp })
+                    }
                 }
             }
         }
@@ -146,7 +146,7 @@ Page {
                     {
                         var sid = stepCB.currentValue;
                         if(sid >= 0)
-                        periodsPage.appStackView.push(periodInsertComponent, {step_id: sid, branch: branchCB.currentText, step: stepCB.currentText });
+                        periodsPage.appStackView.push(insertComponent, {step_id: sid, branch: branchCB.currentText, step: stepCB.currentText });
                         else
                         insertInfoDialogId.open();
                     }
@@ -155,43 +155,19 @@ Page {
                 }
 
 
-                ListView
+                GridView
                 {
-                    id: periodsLV
+                    id: periodsGV
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     Layout.margins: 10
                     flickableDirection: Flickable.AutoFlickDirection
                     clip: true
-                    spacing: 5
+                    cellWidth: 300
+                    cellHeight: 300
                     model: ListModel{id: periodsModel} //Id BranchId periodName BranchName BranchDescription
                     highlight: Item{}
-                    delegate: PeriodWidget{
-                        required property var model;
-                        appStackView: periodsPage.appStackView
-                        index: model.index;
-
-                        width: periodsLV.width
-                        onPressed: { periodsLV.currentIndex = model.index; periodsLV.closeSwipeHandler();}
-                        highlighted: (model.index === periodsLV.currentIndex)? true: false;
-                        onPeriodDeleted: (pindex)=>{periodsModel.remove(pindex);}
-
-                        periodModel: model
-                    }
-
-                    function closeSwipeHandler()
-                    {
-                        for (var i = 0; i <= periodsLV.count; i++)
-                        {
-                            var item = periodsLV.contentItem.children[i];
-                            if(item.swipe)
-                            {
-                                item.swipe.close();
-                                item.checked = false;
-                            }
-                        }
-                    }
-
+                    delegate: delegateComponent
                 }
             }
         }
@@ -199,10 +175,156 @@ Page {
 
     Component
     {
-        id: periodInsertComponent
+        id: delegateComponent
+        Rectangle
+        {
+            // p.id, p.step_id, p.period_name, p.passed, s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
+            id: periodDelegate
+            required property var model;
+            required property int index
+
+            property bool boxHovered : false
+
+            signal periodDeleted(var index);
+
+            clip: true
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: parent.boxHovered = true;
+                onExited: parent.boxHovered = false;
+            }
+
+            color: {
+                if(periodDelegate.model["passed"])
+                {
+                    if(periodDelegate.boxHovered) return "lightpink"; else return "lavenderblush";
+                }
+                else
+                {
+                    if(periodDelegate.boxHovered) return "snow"; else return "whitesmoke";
+                }
+            }
+
+            Column
+            {
+                id: periodDelegateCol
+                anchors.fill: parent
+
+                spacing: 0
+                Label {
+                    text: "سال‌تحصیلی " + periodDelegate.periodModel.period_name
+                    padding: 0
+                    font.family: "Kalameh"
+                    font.pixelSize: (periodDelegate.highlighted)? 20 :16
+                    font.bold: (periodDelegate.highlighted)? true : false
+                    color: (periodDelegate.highlighted)? "royalblue":"black"
+                    horizontalAlignment: Label.AlignHCenter
+                    width: parent.width
+                    height: 50
+                    elide: Text.ElideRight
+                }
+                Label {
+                    text: "شعبه " + periodDelegate.periodModel.city + " - " + periodDelegate.periodModel.branch_name
+                    padding: 0
+                    font.family: "Kalameh"
+                    font.pixelSize: 14
+                    font.bold: (periodDelegate.highlighted)? true : false
+                    color: (periodDelegate.highlighted)? "darkcyan": "black"
+                    width: parent.width
+                    height: 50
+                    horizontalAlignment: Label.AlignHCenter
+                    elide: Text.ElideRight
+                }
+
+                Label {
+                    text:{
+                        var temp = periodDelegate.periodModel.step_name ;
+                        if(temp.includes("دوره"))
+                        return temp;
+                        else
+                        return "دوره " + periodDelegate.periodModel.step_name
+                    }
+                    padding: 0
+                    font.family: "Kalameh"
+                    font.pixelSize: 14
+                    font.bold: (periodDelegate.highlighted)? true : false
+                    color: (periodDelegate.highlighted)? "darkcyan": "black"
+                    width: parent.width
+                    height: 50
+                    horizontalAlignment: Label.AlignHCenter
+                    elide: Text.ElideRight
+                }
+
+                Rectangle{width: 400; height:5; color: (periodDelegate.highlighted)? "mediumvioletred" : "whitesmoke"; anchors.horizontalCenter: parent.horizontalCenter }
+
+
+
+                Row{
+                    width: 150
+                    height: 150
+                    anchors.left: parent.left
+
+                    Button
+                    {
+                        height: 150
+                        width: 75
+                        background: Rectangle{id:trashBtnBg; color: "crimson"}
+                        hoverEnabled: true
+                        onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
+                        text: "حذف"
+                        font.bold: true
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        palette.buttonText:  "white"
+                        icon.source: "qrc:/assets/images/trash.png"
+                        icon.width: 32
+                        icon.height: 32
+                        icon.color:"transparent"
+                        display: AbstractButton.TextUnderIcon
+                        SwipeDelegate.onClicked:
+                        {
+                            if(periodDelegate.swipe.complete)
+                            periodDelegate.swipe.close();
+                            periodDelegate.appStackView.push(deletePeriodComponent, { periodIndex: periodDelegate.index, model: periodDelegate.periodModel});
+                        }
+                    }
+                    Button
+                    {
+                        height: 150
+                        width: 75
+                        background:  Rectangle{id:editBtnBg; color: "royalblue"}
+                        hoverEnabled: true
+                        onHoveredChanged: editBtnBg.color=(hovered)? Qt.darker("royalblue", 1.1):"royalblue"
+                        text: "ویرایش"
+                        font.bold: true
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        palette.buttonText:  "white"
+                        icon.source: "qrc:/assets/images/edit.png"
+                        icon.width: 32
+                        icon.height: 32
+                        icon.color:"transparent"
+                        display: AbstractButton.TextUnderIcon
+                        SwipeDelegate.onClicked:
+                        {
+                            if(periodDelegate.swipe.complete)
+                            periodDelegate.swipe.close();
+                            periodDelegate.appStackView.push(updatePeriodComponent, {model: periodDelegate.periodModel });
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    Component
+    {
+        id: insertComponent
         PeriodInsert{
-            appStackView: periodsPage.appStackView;
-            onPeriodInsertedSignal: (sId)=> Methods.periodsUpdate(sId);
+            onPopSignal: periodsPage.appStackView.pop();
+            onInsertedSignal: Methods.periodsUpdate(stepCB.currentValue)
         }
     }
     DialogBox.BaseDialog
@@ -211,5 +333,22 @@ Page {
         dialogTitle: "خطا"
         dialogText: "شعبه مورد نظر خود را انتخاب نمایید"
         dialogSuccess: false
+    }
+
+    Component
+    {
+        id: updateComponent
+        PeriodUpdate{
+            onPopSignal: periodsPage.appStackView.pop();
+            onPeriodUpdatedSignal: Methods.periodsUpdate(stepCB.currentValue)
+        }
+    }
+    Component
+    {
+        id: deleteComponent
+        PeriodDelete{
+            onPopSignal: periodsPage.appStackView.pop();
+            onDeletedSignal: Methods.periodsUpdate(stepCB.currentValue)
+        }
     }
 }

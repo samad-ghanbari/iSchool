@@ -6,15 +6,15 @@ import "./../public" as DialogBox
 import "Period.js" as Methods
 
 Page {
-    id: insertPeriodPage
+    id: insertPage
 
     property int step_id;
     property string branch
     property string step
 
 
-    required property StackView appStackView
-    signal periodInsertedSignal(var step_id);
+    signal popSignal();
+    signal insertedSignal();
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
@@ -88,11 +88,11 @@ Page {
                                     Layout.columnSpan: 2
                                     text:{
 
-                                        var temp = insertPeriodPage.step
+                                        var temp = insertPage.step
                                         if(temp.includes("دوره"))
-                                            return "شعبه " + insertPeriodPage.branch + " - " + insertPeriodPage.step
+                                            return "شعبه " + insertPage.branch + " - " + insertPage.step
                                         else
-                                            return "شعبه " + insertPeriodPage.branch + " - "+ "دوره " + insertPeriodPage.step
+                                            return "شعبه " + insertPage.branch + " - "+ "دوره " + insertPage.step
                                     }
                                     Layout.fillWidth: true
                                     Layout.maximumWidth: 400
@@ -161,7 +161,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    value:  1;
+                                    value:  dbMan.getPeriodMaxSortPriority(insertPage.step_id)+1;
                                 }
 
                                 // pattern
@@ -190,7 +190,7 @@ Page {
                                     valueRole: "value"
                                     Component.onCompleted:
                                     {
-                                        var jsondata = dbMan.getStepPeriods(insertPeriodPage.step_id, true);
+                                        var jsondata = dbMan.getStepPeriods(insertPage.step_id, true);
                                         // p.id, p.step_id, p.period_name, p.passed, s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
                                         patternModel.clear();
                                         patternModel.append({"text": "سال‌تحصیلی خالی", "value": 0 });
@@ -222,7 +222,7 @@ Page {
                                 onClicked:
                                 {
                                     var period = {};
-                                    period["step_id"] = insertPeriodPage.step_id
+                                    period["step_id"] = insertPage.step_id
                                     period["period_name"] = periodTF.text
                                     period["passed"] = enabledSW.checked
                                     period["pattern"] = patternCB.currentValue;
@@ -239,7 +239,7 @@ Page {
 
                                     if(dbMan.periodInsert(period))
                                     {
-                                        insertPeriodPage.periodInsertedSignal(insertPeriodPage.step_id);
+                                        insertPage.insertedSignal();
                                         periodSuccessDialogId.open();
 
                                     }
@@ -283,7 +283,7 @@ Page {
         dialogTitle: "عملیات موفق"
         dialogText: "سال تحصیلی جدید با موفقیت افزوده شد."
         dialogSuccess: true
-        onDialogAccepted: function(){periodSuccessDialogId.close(); insertPeriodPage.appStackView.pop();}
+        onDialogAccepted: function(){periodSuccessDialogId.close(); insertPage.popSignal();}
 
     }
 }

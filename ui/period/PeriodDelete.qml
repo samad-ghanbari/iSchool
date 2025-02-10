@@ -7,14 +7,18 @@ import QtQuick.Layouts
 import "./../public" as DialogBox
 
 Page {
-    id: periodDeletePage
+    id: deletePage
 
-    property int periodIndex
-    property var model
+    required property int period_id
+    required property int step_id
+    required property string period_name
+    required property string city
+    required property string branch_name
+    required property bool passed
+    required property int sort_priority
 
-    required property StackView appStackView;
-
-    signal periodDeleted(var index);
+    signal deletedSignal();
+    signal popSignal();
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
@@ -95,7 +99,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: periodDeletePage.model.city + " - " + periodDeletePage.model.branch_name
+                                    text: deletePage.city + " - " + deletePage.branch_name
                                     font.bold: true
                                 }
 
@@ -118,7 +122,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: periodDeletePage.model.step_name
+                                    text: deletePage.step_name
                                     font.bold: true
                                 }
 
@@ -142,7 +146,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: periodDeletePage.model.period_name
+                                    text: deletePage.period_name
                                     font.bold: true
                                 }
 
@@ -165,7 +169,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: (periodDeletePage.model.passed)? "سال تحصیلی مختومه" : "سال تحصیلی جاری"
+                                    text: (deletePage.passed)? "سال تحصیلی مختومه" : "سال تحصیلی جاری"
                                     font.bold: true
                                 }
 
@@ -230,8 +234,10 @@ Page {
         rejectVisible: true
 
         onDialogAccepted: function(){
-            if(dbMan.periodDelete(periodDeletePage.model.period_id))
+            if(dbMan.periodDelete(deletePage.period_id)){
+                deletePage.deletedSignal();
                 periodSuccessDelDialog.open();
+            }
             else
                 periodErrorDelDialog.open();
         }
@@ -245,8 +251,8 @@ Page {
         acceptVisible: true
         dialogSuccess: true
         onDialogAccepted: function(){
-            periodDeletePage.periodDeleted(periodDeletePage.periodIndex);
-            periodDeletePage.appStackView.pop();
+            periodSuccessDelDialog.close();
+            deletePage.popSignal();
         }
     }
 

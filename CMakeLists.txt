@@ -126,7 +126,7 @@ qt_add_qml_module(appiSchool
     #PERIOD
         ui/period/Periods.qml
         ui/period/Period.js
-        ui/period/PeriodWidget.qml
+
         ui/period/PeriodInsert.qml
         ui/period/PeriodUpdate.qml
         ui/period/PeriodDelete.qml
