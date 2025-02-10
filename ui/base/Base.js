@@ -24,6 +24,17 @@ function basesUpdate(stepId)
     }
 }
 
+function basesUpdate(step_id, field_id)
+{
+    baseModel.clear();
+    var jsondata = dbMan.getStepBases(step_id, field_id, true);
+    // b.id, b.step_id, b.field_id, b.base_name, b.enabled, s.step_name, s.field_based, s.numeric_graded, f.field_name
+    var temp;
+    for(var obj of jsondata)
+    {
+        baseModel.append(obj)
+    }
+}
 
 function checkBaseInsertEntries(Base)
 {

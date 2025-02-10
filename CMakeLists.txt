@@ -52,7 +52,7 @@ qt_add_qml_module(appiSchool
     # BASE
         ui/base/Base.qml
         ui/base/Base.js
-        ui/base/BaseWidget.qml
+
         ui/base/BaseInsert.qml
         ui/base/BaseUpdate.qml
         ui/base/BaseDelete.qml
@@ -60,7 +60,7 @@ qt_add_qml_module(appiSchool
     #BRANCH
         ui/branch/Branches.qml
         ui/branch/Branches.js
-        ui/branch/BranchWidget.qml
+
         ui/branch/BranchInsert.qml
         ui/branch/BranchDelete.qml
         ui/branch/UpdateBranch.qml
@@ -137,7 +137,7 @@ qt_add_qml_module(appiSchool
     #STEP
         ui/step/Steps.qml
         ui/step/Step.js
-        ui/step/StepWidget.qml
+
         ui/step/StepInsert.qml
         ui/step/StepUpdate.qml
         ui/step/StepDelete.qml

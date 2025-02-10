@@ -9,13 +9,14 @@ import "./../public" as DialogBox
 import "Branches.js" as BMethods
 
 Page {
-    id: updateBranchPage
+    id: updatePage
     property int branchId
     property string branchCity
     property string branchName
     property string branchAddress
 
-    required property StackView appStackView;
+    signal popSignal();
+    signal updatedSignal();
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
@@ -105,7 +106,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "شهر"
-                                    text: updateBranchPage.branchCity
+                                    text: updatePage.branchCity
 
                                 }
 
@@ -128,7 +129,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "شعبه"
-                                    text: updateBranchPage.branchName
+                                    text: updatePage.branchName
                                 }
 
                                 Text {
@@ -150,7 +151,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "آدرس"
-                                    text: updateBranchPage.branchAddress
+                                    text: updatePage.branchAddress
                                 }
 
 
@@ -174,7 +175,7 @@ Page {
                                 onClicked:
                                 {
                                     var Branch = {};
-                                    Branch["id"] = updateBranchPage.branchId;
+                                    Branch["id"] = updatePage.branchId;
                                     Branch["city"] = branchCityTF.text;
                                     Branch["branch_name"] = branchNameTF.text;
                                     Branch["branch_address"] = branchAddressTF.text;
@@ -189,10 +190,8 @@ Page {
 
                                     if(dbMan.updateBranch(Branch))
                                     {
-                                        Branch = dbMan.getBranchJson(Branch["id"]);
-                                        branchDelegate.branchUpdated(Branch);
+                                        updatePage.updatedSignal();
                                         branchSuccessDialogId.open();
-
                                     }
                                     else
                                     {
@@ -234,7 +233,7 @@ Page {
         dialogTitle: "عملیات موفق"
         dialogText: "اطلاعات شعبه با موفقیت بروزرسانی شد"
         dialogSuccess: true
-        onDialogAccepted: function(){branchSuccessDialogId.close(); updateBranchPage.appStackView.pop();}
+        onDialogAccepted: function(){branchSuccessDialogId.close(); updatePage.popSignal();}
 
     }
 }

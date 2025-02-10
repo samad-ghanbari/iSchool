@@ -6,13 +6,13 @@ import "./../public" as DialogBox
 import "Step.js" as Methods
 
 Page {
-    id: insertStepPage
+    id: insertPage
 
     property int branchId;
     property string branchText
 
-    required property StackView appStackView
-    signal stepInsertedSignal(var branchId);
+    signal popSignal();
+    signal insertedSignal();
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
@@ -86,7 +86,7 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "شعبه " + insertStepPage.branchText
+                                    text: "شعبه " + insertPage.branchText
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -166,7 +166,7 @@ Page {
                                 onClicked:
                                 {
                                     var Step = {};
-                                    Step["branch_id"] = insertStepPage.branchId
+                                    Step["branch_id"] = insertPage.branchId
                                     Step["step_name"] = stepNameTF.text
                                     Step["numeric_graded"] = numericGradedSW.checked
                                     Step["field_based"] = fielsBasedSW.checked
@@ -181,7 +181,7 @@ Page {
 
                                     if(dbMan.insertStep(Step))
                                     {
-                                        insertStepPage.stepInsertedSignal(insertStepPage.branchId);
+                                        insertPage.insertedSignal();
                                         stepSuccessDialogId.open();
 
                                     }
@@ -225,7 +225,7 @@ Page {
         dialogTitle: "عملیات موفق"
         dialogText: "دوره جدید با موفقیت افزوده شد."
         dialogSuccess: true
-        onDialogAccepted: function(){stepSuccessDialogId.close(); insertStepPage.appStackView.pop();}
+        onDialogAccepted: function(){stepSuccessDialogId.close(); insertPage.popSignal();}
 
     }
 }

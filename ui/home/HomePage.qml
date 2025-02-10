@@ -52,16 +52,17 @@ Page {
         delegate: Rectangle{
             id: recdel;
             required property var model;
+            property bool boxHovered : false;
             width: branchLV.width
             height: 100
-            color: "#aafff0f5"
+            color: (boxHovered)? "lavenderblush" : "#aafff0f5";
             Label{
                 width: parent.width
                 height: 50
                 font.family: "Kalameh"
                 font.pixelSize: 20
                 font.bold: true
-                color: "darkmagenta"
+                color: (parent.boxHovered)? "darkmagenta" : "#CC8b008b"
                 text: "شعبه " + recdel.model.city + " " + recdel.model.branch_name
                 horizontalAlignment: Label.AlignHCenter
                 verticalAlignment: Label.AlignVCenter
@@ -73,7 +74,7 @@ Page {
                 font.family: "Kalameh"
                 font.pixelSize: 20
                 font.bold: true
-                color: "darkslategray"
+                color: (parent.boxHovered)? "darkslategray"  : "#CC2f4f4f";
                 text: recdel.model.branch_address
                 horizontalAlignment: Label.AlignHCenter
                 verticalAlignment: Label.AlignVCenter
@@ -83,8 +84,8 @@ Page {
             MouseArea{
                 anchors.fill: parent
                 hoverEnabled: true
-                onEntered: parent.color = "lavenderblush";
-                onExited: parent.color = "#aafff0f5"
+                onEntered: parent.boxHovered = true;
+                onExited: parent.boxHovered = false;
                 onClicked: {
                     // step page
                     var branch_id = recdel.model.id;
@@ -93,6 +94,9 @@ Page {
                     homePageId.branchSelected(branch);
                 }
             }
+
+            Rectangle{width: parent.width/2; height: 1; color: "deeppink"; visible: (parent.boxHovered)?true: false; anchors.bottom: parent.bottom; anchors.horizontalCenter: parent.horizontalCenter;}
+
         }
 
         NumberAnimation on opacity { to: 1; duration: 3000 }

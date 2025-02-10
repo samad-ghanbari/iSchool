@@ -98,7 +98,7 @@ Page {
                     {
                         var bid = branchCB.currentValue;
                         if(bid >= 0)
-                        stepsPage.appStackView.push(stepInsertComponent, {branchId: bid, branchText: branchCB.currentText });
+                        stepsPage.appStackView.push(insertComponent, {branchId: bid, branchText: branchCB.currentText });
                         else
                         insertInfoDialogId.open();
                     }
@@ -107,49 +107,19 @@ Page {
                 }
 
 
-                ListView
+                GridView
                 {
-                    id: stepsLV
+                    id: stepsGV
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     Layout.margins: 10
                     flickableDirection: Flickable.AutoFlickDirection
                     clip: true
-                    spacing: 5
+                    cellWidth: 320
+                    cellHeight: 320
                     model: ListModel{id: stepsModel} //Id BranchId StepName BranchName BranchDescription
                     highlight: Item{}
-                    delegate: StepWidget{
-                        required property var model;
-                        appStackView: stepsPage.appStackView
-                        index: model.index;
-
-                        width: stepsLV.width
-                        onPressed: { stepsLV.currentIndex = model.index; stepsLV.closeSwipeHandler();}
-                        highlighted: (model.index === stepsLV.currentIndex)? true: false;
-                        onStepDeleted: (sindex)=>{stepsModel.remove(sindex);}
-
-                        stepId: model.id;
-                        branchId: model.branch_id;
-                        stepName: model.step_name;
-                        branchCity: model.branch_city;
-                        branchName: model.branch_name;
-                        numeric_graded: model.numeric_graded;
-                        field_based: model.field_based;
-                    }
-
-                    function closeSwipeHandler()
-                    {
-                        for (var i = 0; i <= stepsLV.count; i++)
-                        {
-                            var item = stepsLV.contentItem.children[i];
-                            if(item.swipe)
-                            {
-                                item.swipe.close();
-                                item.checked = false;
-                            }
-                        }
-                    }
-
+                    delegate: delegateComponent
                 }
             }
         }
@@ -157,12 +127,176 @@ Page {
 
     Component
     {
-        id: stepInsertComponent
-        StepInsert{
-            appStackView: stepsPage.appStackView;
-            onStepInsertedSignal: (bId)=> Methods.stepsUpdate(bId);
+        id: delegateComponent
+        Rectangle
+        {
+            //s.id, s.branch_id, s.step_name, b.city, b.branch_name
+            id: stepDelegate
+            required property var model;
+            required property int index
+            //property bool boxHovered : false;
+
+            width: 300
+            height: 300
+
+            color:  "snow"
+            border.width: 1
+            border.color: "hotpink"
+
+
+            ColumnLayout
+            {
+                anchors.fill: parent
+
+                spacing: 0
+                Label {
+                    text: stepDelegate.model["step_name"]
+                    padding: 0
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    font.bold: true
+                    color: "darkcyan"
+                    horizontalAlignment: Label.AlignHCenter
+                    Layout.preferredWidth:  parent.width
+                    Layout.preferredHeight:  50
+                    elide: Text.ElideRight
+                }
+                Label {
+                    text: stepDelegate.model["branch_city"] + " - " + stepDelegate.model["branch_name"]
+                    padding: 0
+                    font.family: "Kalameh"
+                    font.pixelSize: 14
+                    font.bold: false
+                    color: "darkcyan"
+                    Layout.preferredWidth:  parent.width
+                    Layout.preferredHeight:  50
+                    horizontalAlignment: Label.AlignHCenter
+                    elide: Text.ElideRight
+                }
+
+                Switch{
+                    id: numericGradedSW
+                    Layout.preferredWidth:  parent.width
+                    Layout.preferredHeight:  50
+                    text: "ارزیابی مبتنی بر عدد"
+                    checked: stepDelegate.model["numeric_graded"]
+                    onClicked: numericGradedSW.checked = stepDelegate.model["numeric_graded"]
+                    checkable: false
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    palette.highlight: "darkcyan"
+                    palette.text: "black"
+                }
+
+                Switch{
+                    id: fielsbasedSW
+                    Layout.preferredWidth:  parent.width
+                    Layout.preferredHeight:  50
+                    text: "دوره مبتنی بر رشته"
+                    checked: stepDelegate.model["field_based"]
+                    onClicked: fielsbasedSW.checked = stepDelegate.model["field_based"]
+                    checkable: false
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    palette.highlight: "darkcyan"
+                    palette.text: "black"
+
+                }
+
+                Rectangle{Layout.preferredWidth:  parent.width/2; Layout.preferredHeight: 2; color:  "darkslategray"; Layout.alignment: Qt.AlignHCenter; }
+
+
+
+                RowLayout{
+                    Layout.preferredWidth:  100
+                    Layout.preferredHeight:  50
+
+
+                    Button
+                    {
+                        Layout.preferredWidth:  50
+                        Layout.preferredHeight:  50
+                        background: Item{}
+                        hoverEnabled: true
+                        opacity : 0.5
+                        onHoveredChanged: opacity =(hovered)?1:0.5
+                        icon.source: "qrc:/assets/images/trash.png"
+                        icon.width: 32
+                        icon.height: 32
+                        icon.color:"transparent"
+                        onClicked:
+                        {
+                            var branchText =  stepDelegate.model["branch_city"] + " - " + stepDelegate.model["branch_name"];
+                            stepsPage.appStackView.push(deleteComponent, {
+                                                               stepId: stepDelegate.model["id"],
+                                                               stepIndex: stepDelegate.index,
+                                                               stepName: stepDelegate.model["step_name"],
+                                                               branchText: branchText,
+                                                               numeric_graded: stepDelegate.model.numeric_graded,
+                                                               field_based: stepDelegate.model.field_based
+
+                                                           });
+                        }
+                    }
+                    Button
+                    {
+                        Layout.preferredWidth:  50
+                        Layout.preferredHeight:  50
+                        background:  Item{}
+                        hoverEnabled: true
+                        opacity : 0.5
+                        onHoveredChanged:opacity=(hovered)? 1:0.5
+                        icon.source: "qrc:/assets/images/edit.png"
+                        icon.width: 32
+                        icon.height: 32
+                        icon.color:"transparent"
+                        onClicked:
+                        {
+                            var branchText =  stepDelegate.model["branch_city"] + " - " + stepDelegate.model["branch_name"];
+                            stepsPage.appStackView.push(updateComponent, {
+                                                               stepId: stepDelegate.model["id"],
+                                                               step: stepDelegate.model["step_name"],
+                                                               branch: branchText,
+                                                               numeric_graded: stepDelegate.model["numeric_graded"],
+                                                               field_based: stepDelegate.model["field_based"]
+
+                                                           });
+                        }
+                    }
+
+                    Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
+                }
+            }
         }
     }
+
+    Component
+    {
+        id: insertComponent
+        StepInsert{
+            onPopSignal: stepsPage.appStackView.pop();
+            onInsertedSignal: Methods.stepsUpdate(branchCB.currentValue)
+        }
+    }
+
+    Component
+    {
+        id: updateComponent
+        StepUpdate{
+            onPopSignal: stepsPage.appStackView.pop();
+            onUpdatedSignal: Methods.stepsUpdate(branchCB.currentValue)
+        }
+    }
+
+    Component
+    {
+        id: deleteComponent
+        StepDelete{
+            onPopSignal: stepsPage.appStackView.pop();
+            onDeletedSignal: Methods.stepsUpdate(branchCB.currentValue)
+        }
+    }
+
     DialogBox.BaseDialog
     {
         id: insertInfoDialogId

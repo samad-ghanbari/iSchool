@@ -7,7 +7,7 @@ import QtQuick.Layouts
 import "./../public" as DialogBox
 
 Page {
-    id: deleteBranchPage
+    id: deletedPage
     property int branchId
     property int branchIndex
     property string branchCity
@@ -15,9 +15,8 @@ Page {
     property string branchDescription
     property string branchAddress
 
-    required property StackView appStackView;
-
-    signal branchDeleted(var index);
+    signal deletedSignal();
+    signal popSignal();
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
@@ -102,7 +101,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: deleteBranchPage.branchCity
+                                    text: deletedPage.branchCity
 
                                 }
 
@@ -127,7 +126,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: deleteBranchPage.branchName
+                                    text: deletedPage.branchName
                                 }
 
                                 Text {
@@ -151,7 +150,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: deleteBranchPage.branchAddress
+                                    text: deletedPage.branchAddress
                                 }
 
 
@@ -216,8 +215,10 @@ Page {
         rejectVisible: true
 
         onDialogAccepted: function(){
-            if(dbMan.deleteBranch(deleteBranchPage.branchId))
+            if(dbMan.deleteBranch(deletedPage.branchId)){
+                deletedPage.deletedSignal();
                 branchSuccessDelDialog.open();
+            }
             else
                 branchErrorDelDialog.open();
         }
@@ -231,8 +232,8 @@ Page {
         acceptVisible: true
         dialogSuccess: true
         onDialogAccepted: function(){
-            deleteBranchPage.appStackView.pop();
-            deleteBranchPage.branchDeleted(deleteBranchPage.branchIndex);
+            branchSuccessDelDialog.close();
+            deletedPage.popSignal();
         }
     }
 

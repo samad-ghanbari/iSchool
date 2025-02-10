@@ -9,10 +9,21 @@ import "Base.js" as Methods
 
 Page {
     id: updateBasePage
-    required property var model
+    required property int base_id;
+    required property string city;
+    required property string branch_name;
+    required property string step_id;
+    required property string step_name;
+    required property bool field_based;
+    required property int field_id;
+    required property string field_name;
+    required property string base_name;
+    required property bool enabled;
+    required property int sort_priority;
 
-    required property StackView appStackView;
-    signal baseUpdatedSignal(var Base);
+
+    signal updatedSignal();
+    signal popSignal();
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
@@ -103,7 +114,7 @@ Page {
                                     font.pixelSize: 16
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
-                                    text: updateBasePage.model.city + " "+ updateBasePage.model.branch_name + " - " + updateBasePage.model.step_name
+                                    text: updateBasePage.city + " "+ updateBasePage.branch_name + " - " + updateBasePage.step_name
 
                                 }
 
@@ -128,7 +139,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "پایه تحصیلی"
-                                    text: updateBasePage.model.base_name
+                                    text: updateBasePage.base_name
                                 }
 
                                 Label
@@ -143,7 +154,7 @@ Page {
                                     font.bold: true
                                     horizontalAlignment: Label.AlignLeft
                                     verticalAlignment: Label.AlignVCenter
-                                    visible: updateBasePage.model.field_based
+                                    visible: updateBasePage.field_based
                                 }
                                 ComboBox
                                 {
@@ -151,7 +162,7 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     Layout.maximumWidth: 400
-                                    visible: updateBasePage.model.field_based
+                                    visible: updateBasePage.field_based
                                     editable: false
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
@@ -161,7 +172,7 @@ Page {
                                     Component.onCompleted:
                                     {
                                         fieldCBoxModel.clear();
-                                        var jsondata = dbMan.getFields(updateBasePage.model.step_id);
+                                        var jsondata = dbMan.getFields(updateBasePage.step_id);
                                         //id, field_name
                                         var temp;
                                         for(var obj of jsondata)
@@ -169,7 +180,7 @@ Page {
                                             fieldCBoxModel.append({ value: obj.id, text: obj.field_name })
                                         }
 
-                                        fieldCB.currentIndex = fieldCB.indexOfValue(updateBasePage.model.field_id)
+                                        fieldCB.currentIndex = fieldCB.indexOfValue(updateBasePage.field_id)
                                     }
                                 }
 
@@ -179,7 +190,7 @@ Page {
                                     Layout.columnSpan: 2
                                     Layout.preferredHeight:  50
                                     text: "فعال بودن پایه تحصیلی"
-                                    checked: updateBasePage.model.enabled
+                                    checked: updateBasePage.enabled
                                     Layout.alignment: Qt.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
@@ -206,7 +217,7 @@ Page {
                                     Layout.maximumWidth: 400
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    value:  updateBasePage.model.sort_priority;
+                                    value:  updateBasePage.sort_priority;
                                 }
 
                             }
@@ -229,9 +240,9 @@ Page {
                                 onClicked:
                                 {
                                     var Base = {};
-                                    Base["id"] = updateBasePage.model.id;
+                                    Base["id"] = updateBasePage.base_id;
                                     Base["base_name"] = baseTF.text
-                                    Base["field_based"] = updateBasePage.model.field_based
+                                    Base["field_based"] = updateBasePage.field_based
                                     Base["field_id"] = fieldCB.currentValue
                                     Base["enabled"] = enabledSW.checked
                                     Base["sort_priority"] = sortSB.value
@@ -247,8 +258,7 @@ Page {
 
                                     if(dbMan.updateBase(Base))
                                     {
-                                        Base = dbMan.getBase(Base["id"]);
-                                        updateBasePage.baseUpdatedSignal(Base);
+                                        updateBasePage.updatedSignal();
                                         baseSuccessDialogId.open();
 
                                     }
@@ -292,6 +302,6 @@ Page {
         dialogTitle: "عملیات موفق"
         dialogText: "اطلاعات دوره با موفقیت بروزرسانی شد"
         dialogSuccess: true
-        onDialogAccepted: function(){baseSuccessDialogId.close(); updateBasePage.appStackView.pop();}
+        onDialogAccepted: function(){baseSuccessDialogId.close(); updateBasePage.popSignal();}
     }
 }

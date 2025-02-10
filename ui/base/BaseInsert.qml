@@ -13,9 +13,8 @@ Page {
     required property string step
     required property bool field_based
 
-
-    required property StackView appStackView
-    signal baseInsertedSignal(var step_id);
+    signal insertedSignal();
+    signal popSignal();
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
@@ -163,6 +162,8 @@ Page {
 
                                         fieldCB.currentIndex = -1
                                     }
+
+                                    onActivated: sortSB.value = dbMan.getMaxBaseSortPriority(insertBasePage.step_id, fieldCB.currentValue) + 1;
                                 }
 
                                 Switch{
@@ -197,7 +198,7 @@ Page {
                                     Layout.maximumWidth: 400
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    value:  1;
+                                    value: dbMan.getMaxBaseSortPriority(insertBasePage.step_id, -1) + 1;
                                 }
                             }
 
@@ -236,7 +237,7 @@ Page {
 
                                     if(dbMan.insertBase(Base))
                                     {
-                                        insertBasePage.baseInsertedSignal(insertBasePage.step_id);
+                                        insertBasePage.insertedSignal();
                                         baseSuccessDialogId.open();
 
                                     }
@@ -280,7 +281,7 @@ Page {
         dialogTitle: "عملیات موفق"
         dialogText: "دوره جدید با موفقیت افزوده شد."
         dialogSuccess: true
-        onDialogAccepted: function(){baseSuccessDialogId.close(); insertBasePage.appStackView.pop();}
+        onDialogAccepted: function(){baseSuccessDialogId.close(); insertBasePage.popSignal();}
 
     }
 }

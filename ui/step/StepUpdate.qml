@@ -8,15 +8,15 @@ import "./../public" as DialogBox
 import "Step.js" as Methods
 
 Page {
-    id: updateStepPage
+    id: updatePage
     required property int stepId
     required property string branch
     required property string step
     required property bool field_based
     required property bool numeric_graded
 
-    required property StackView appStackView;
-    signal stepUpdatedSignal(var step);
+    signal popSignal();
+    signal updatedSignal();
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
@@ -105,7 +105,7 @@ Page {
                                     Layout.preferredHeight: 50
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: updateStepPage.branch
+                                    text: updatePage.branch
 
                                 }
 
@@ -128,7 +128,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     placeholderText: "دوره"
-                                    text: updateStepPage.step
+                                    text: updatePage.step
                                 }
 
                                 Switch{
@@ -136,7 +136,7 @@ Page {
                                     Layout.columnSpan: 2
                                     Layout.preferredHeight:  50
                                     text: "ارزیابی مبتنی بر عدد"
-                                    checked: updateStepPage.numeric_graded
+                                    checked: updatePage.numeric_graded
                                     Layout.alignment: Qt.AlignHCenter
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
@@ -149,7 +149,7 @@ Page {
                                     Layout.preferredHeight:  50
                                     Layout.columnSpan: 2
                                     text: "دوره مبتنی بر رشته"
-                                    checked: updateStepPage.field_based
+                                    checked: updatePage.field_based
                                     Layout.alignment: Qt.AlignHCenter
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
@@ -177,7 +177,7 @@ Page {
                                 onClicked:
                                 {
                                     var step = {};
-                                    step["id"] = updateStepPage.stepId;
+                                    step["id"] = updatePage.stepId;
                                     step["step_name"] = stepNameTF.text;
                                     step["field_based"] = fieldsBasedSW.checked;
                                     step["numeric_graded"] = numericGradedSW.checked;
@@ -192,8 +192,8 @@ Page {
 
                                     if(dbMan.updateStep(step))
                                     {
-                                        step = dbMan.getStepJson(step["id"]);
-                                        updateStepPage.stepUpdatedSignal(step);
+
+                                        updatePage.updatedSignal();
                                         stepSuccessDialogId.open();
 
                                     }
@@ -237,6 +237,6 @@ Page {
         dialogTitle: "عملیات موفق"
         dialogText: "اطلاعات دوره با موفقیت بروزرسانی شد"
         dialogSuccess: true
-        onDialogAccepted: function(){stepSuccessDialogId.close(); updateStepPage.appStackView.pop();}
+        onDialogAccepted: function(){stepSuccessDialogId.close(); updatePage.popSignal();}
     }
 }

@@ -8,12 +8,15 @@ import "./../public" as DialogBox
 
 Page {
     id: baseDeletePage
-    required property int baseIndex
-    required property var model;
+    required property int base_id;
+    required property string city;
+    required property string branch_name;
+    required property string step_name;
+    required property string field_name;
+    required property string base_name;
 
-    required property StackView appStackView;
-
-    signal baseDeleted(var index);
+    signal baseDeleted();
+    signal popSignal();
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
@@ -94,7 +97,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: "شعبه " + baseDeletePage.model.city + " " + baseDeletePage.model.branch_name
+                                    text: "شعبه " + baseDeletePage.city + " " + baseDeletePage.branch_name
                                     font.bold: true
                                 }
 
@@ -120,7 +123,7 @@ Page {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     text:{
-                                        var temp = baseDeletePage.model.step_name;
+                                        var temp = baseDeletePage.step_name;
                                         if(temp.includes("دوره"))
                                         return temp;
                                         else
@@ -148,7 +151,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: baseDeletePage.model.field_name
+                                    text: baseDeletePage.field_name
                                     font.bold: true
                                 }
 
@@ -171,7 +174,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: baseDeletePage.model.base_name
+                                    text: baseDeletePage.base_name
                                     font.bold: true
                                 }
 
@@ -232,7 +235,7 @@ Page {
         rejectVisible: true
 
         onDialogAccepted: function(){
-            if(dbMan.deleteBase(baseDeletePage.model.id))
+            if(dbMan.deleteBase(baseDeletePage.base_id))
                 baseSuccessDelDialog.open();
             else
                 baseErrorDelDialog.open();
@@ -247,8 +250,8 @@ Page {
         acceptVisible: true
         dialogSuccess: true
         onDialogAccepted: function(){
-            baseDeletePage.baseDeleted(baseDeletePage.baseIndex);
-            baseDeletePage.appStackView.pop();
+            baseDeletePage.baseDeleted();
+            baseDeletePage.popSignal();
         }
     }
 

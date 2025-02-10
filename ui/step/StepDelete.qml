@@ -7,7 +7,7 @@ import QtQuick.Layouts
 import "./../public" as DialogBox
 
 Page {
-    id: stepDeletePage
+    id: deletePage
     required property int stepId
     required property int stepIndex
     required property string stepName
@@ -15,9 +15,8 @@ Page {
     required property bool field_based
     required property bool numeric_graded
 
-    required property StackView appStackView;
-
-    signal stepDeleted(var index);
+    signal deletedSignal();
+    signal popSignal();
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
@@ -82,7 +81,7 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "شعبه " + stepDeletePage.branchText
+                                    text: "شعبه " + deletePage.branchText
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -113,7 +112,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: stepDeletePage.stepName
+                                    text: deletePage.stepName
                                     font.bold: true
                                 }
                             }
@@ -122,8 +121,8 @@ Page {
                                 id: numericGradedSW
                                 Layout.preferredHeight:  50
                                 text: "ارزیابی مبتنی بر عدد"
-                                checked: stepDeletePage.numeric_graded
-                                onClicked: checked = stepDeletePage.numeric_graded
+                                checked: deletePage.numeric_graded
+                                onClicked: checked = deletePage.numeric_graded
                                 Layout.alignment: Qt.AlignLeft
                                 font.family: "Kalameh"
                                 checkable: false
@@ -136,11 +135,11 @@ Page {
                                 id: fieldsBasedSW
                                 Layout.preferredHeight:  50
                                 text: "دوره مبتنی بر رشته"
-                                checked: stepDeletePage.field_based
+                                checked: deletePage.field_based
+                                onClicked: checked = deletePage.field_based
                                 Layout.alignment: Qt.AlignLeft
                                 palette.highlight: "darkcyan"
                                 palette.text: "black"
-                                onClicked: stepDeletePage.field_based
                                 checkable: false
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
@@ -151,18 +150,7 @@ Page {
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
                             }
-                            // Text
-                            // {
-                            //     text: "حذف"
-                            //     font.family: "Kalameh"
-                            //     font.pixelSize: 24
-                            //     font.bold: true
-                            //     color: "crimson"
-                            //     Layout.preferredWidth: parent.width
-                            //     Layout.preferredHeight: 50
-                            //     horizontalAlignment: Qt.AlignHCenter
-                            //     verticalAlignment: Qt.AlignVCenter
-                            // }
+
                             Button
                             {
                                 background: Item{}
@@ -209,8 +197,10 @@ Page {
         rejectVisible: true
 
         onDialogAccepted: function(){
-            if(dbMan.deleteStep(stepDeletePage.stepId))
+            if(dbMan.deleteStep(deletePage.stepId)){
+                deletePage.deletedSignal();
                 stepSuccessDelDialog.open();
+            }
             else
                 stepErrorDelDialog.open();
         }
@@ -224,8 +214,8 @@ Page {
         acceptVisible: true
         dialogSuccess: true
         onDialogAccepted: function(){
-            stepDeletePage.stepDeleted(stepDeletePage.stepIndex);
-            stepDeletePage.appStackView.pop();
+            stepSuccessDelDialog.close();
+            deletePage.popSignal();
         }
     }
 

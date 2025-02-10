@@ -8,10 +8,10 @@ import "./../public" as DialogBox
 import "Branches.js" as BMethods
 
 Page {
-    id: insertBranchPage
+    id: insertedPage
 
-    required property StackView appStackView
-    signal branchInsertedSignal();
+    signal popSignal();
+    signal insertedSignal();
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
@@ -180,7 +180,7 @@ Page {
 
                                     if(dbMan.insertBranch(Branch))
                                     {
-                                        insertBranchPage.branchInsertedSignal();
+                                        insertedPage.insertedSignal();
                                         branchSuccessDialogId.open();
                                     }
                                     else
@@ -223,6 +223,6 @@ Page {
         dialogTitle : "عملیات موفق"
         dialogText: "شعبه جدید با موفقیت افزوده شد."
         dialogSuccess: true
-        onDialogAccepted : function(){branchSuccessDialogId.close(); insertBranchPage.appStackView.pop();}
+        onDialogAccepted : function(){branchSuccessDialogId.close(); insertedPage.popSignal();}
     }
 }
