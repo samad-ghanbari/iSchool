@@ -11,6 +11,7 @@ Page {
     id: updatePage
     required property int period_id
     required property int step_id
+    required property string step_name
     required property string period_name
     required property string city
     required property string branch_name
@@ -18,7 +19,7 @@ Page {
     required property int sort_priority
 
     signal popSignal();
-    signal periodUpdatedSignal();
+    signal updatedSignal();
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
 
@@ -216,7 +217,7 @@ Page {
                                 onClicked:
                                 {
                                     var period = {};
-                                    period["id"] = updatePage.model.period_id;
+                                    period["id"] = updatePage.period_id;
                                     period["period_name"] = periodTF.text;
                                     period["passed"] = enabledSW.checked;
                                     period["sort_priority"] = sortSB.value
@@ -231,7 +232,7 @@ Page {
 
                                     if(dbMan.periodUpdate(period))
                                     {
-                                        updatePage.periodUpdatedSignal();
+                                        updatePage.updatedSignal();
                                         periodSuccessDialogId.open();
 
                                     }

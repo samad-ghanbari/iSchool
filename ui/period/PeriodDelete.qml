@@ -12,10 +12,10 @@ Page {
     required property int period_id
     required property int step_id
     required property string period_name
+    required property string step_name
     required property string city
     required property string branch_name
     required property bool passed
-    required property int sort_priority
 
     signal deletedSignal();
     signal popSignal();

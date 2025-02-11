@@ -180,11 +180,14 @@ Page {
         {
             // p.id, p.step_id, p.period_name, p.passed, s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
             id: periodDelegate
+            width : 280
+            height: 280
+            border.width: 1
+            border.color: "pink"
             required property var model;
             required property int index
 
             property bool boxHovered : false
-
             signal periodDeleted(var index);
 
             clip: true
@@ -198,7 +201,7 @@ Page {
             color: {
                 if(periodDelegate.model["passed"])
                 {
-                    if(periodDelegate.boxHovered) return "lightpink"; else return "lavenderblush";
+                    if(periodDelegate.boxHovered) return "#fff0f5"; else return "#AAfff0f5";
                 }
                 else
                 {
@@ -206,116 +209,132 @@ Page {
                 }
             }
 
-            Column
+            ColumnLayout
             {
-                id: periodDelegateCol
                 anchors.fill: parent
 
                 spacing: 0
+                Row{
+                    Layout.preferredHeight:  50
+                    Layout.alignment: Qt.AlignHCenter
+
                 Label {
-                    text: "سال‌تحصیلی " + periodDelegate.periodModel.period_name
+                    text: "سال‌تحصیلی "
                     padding: 0
                     font.family: "Kalameh"
-                    font.pixelSize: (periodDelegate.highlighted)? 20 :16
-                    font.bold: (periodDelegate.highlighted)? true : false
-                    color: (periodDelegate.highlighted)? "royalblue":"black"
+                    font.pixelSize: 16
+                    font.bold: true
+                    color: (periodDelegate.boxHovered)? "darkcyan":"black"
                     horizontalAlignment: Label.AlignHCenter
-                    width: parent.width
                     height: 50
                     elide: Text.ElideRight
                 }
+                    Label {
+                        text: periodDelegate.model["period_name"]
+                        padding: 0
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: (periodDelegate.boxHovered)? "darkcyan":"black"
+                        horizontalAlignment: Label.AlignHCenter
+                        height: 50
+                        elide: Text.ElideRight
+                    }
+                }
                 Label {
-                    text: "شعبه " + periodDelegate.periodModel.city + " - " + periodDelegate.periodModel.branch_name
+                    text: "شعبه " + periodDelegate.model['city'] + " - " + periodDelegate.model['branch_name']
                     padding: 0
                     font.family: "Kalameh"
                     font.pixelSize: 14
-                    font.bold: (periodDelegate.highlighted)? true : false
-                    color: (periodDelegate.highlighted)? "darkcyan": "black"
-                    width: parent.width
-                    height: 50
+                    font.bold: true
+                    color: (periodDelegate.boxHovered)? "dodgerblue": "darkslategray"
+                    Layout.fillWidth: true
+                    Layout.preferredHeight:  50
                     horizontalAlignment: Label.AlignHCenter
                     elide: Text.ElideRight
                 }
 
                 Label {
                     text:{
-                        var temp = periodDelegate.periodModel.step_name ;
+                        var temp = periodDelegate.model['step_name'] ;
                         if(temp.includes("دوره"))
                         return temp;
                         else
-                        return "دوره " + periodDelegate.periodModel.step_name
+                        return "دوره " + periodDelegate.modfel['step_name']
                     }
                     padding: 0
                     font.family: "Kalameh"
                     font.pixelSize: 14
-                    font.bold: (periodDelegate.highlighted)? true : false
-                    color: (periodDelegate.highlighted)? "darkcyan": "black"
-                    width: parent.width
-                    height: 50
+                    font.bold: true
+                    color: (periodDelegate.boxHovered)? "darkcyan": "darkslategray"
+                    Layout.fillWidth: true
+                    Layout.preferredHeight:  50
                     horizontalAlignment: Label.AlignHCenter
                     elide: Text.ElideRight
                 }
 
-                Rectangle{width: 400; height:5; color: (periodDelegate.highlighted)? "mediumvioletred" : "whitesmoke"; anchors.horizontalCenter: parent.horizontalCenter }
+                Rectangle{Layout.preferredWidth: parent.width/2; Layout.preferredHeight: 4; color: (periodDelegate.boxHovered)? "darkcyan" : "darkgray"; Layout.alignment: Qt.AlignHCenter; }
 
+                Item{Layout.fillHeight: true; Layout.preferredWidth: 1;}
 
-
-                Row{
-                    width: 150
-                    height: 150
-                    anchors.left: parent.left
+               Row{
+                    Layout.preferredWidth:100
+                    Layout.preferredHeight:  50
+                    Layout.alignment: Qt.AlignRight
 
                     Button
                     {
-                        height: 150
-                        width: 75
-                        background: Rectangle{id:trashBtnBg; color: "crimson"}
+                        height: 50
+                        width: 50
+                        background: Item{}
+                        opacity: 0.5
                         hoverEnabled: true
-                        onHoveredChanged: trashBtnBg.color=(hovered)? Qt.darker("crimson", 1.1):"crimson"
-                        text: "حذف"
-                        font.bold: true
-                        font.family: "Kalameh"
-                        font.pixelSize: 14
-                        palette.buttonText:  "white"
+                        onHoveredChanged: opacity = (hovered)? 1 : 0.5
                         icon.source: "qrc:/assets/images/trash.png"
                         icon.width: 32
                         icon.height: 32
                         icon.color:"transparent"
-                        display: AbstractButton.TextUnderIcon
-                        SwipeDelegate.onClicked:
+                        onClicked:
                         {
-                            if(periodDelegate.swipe.complete)
-                            periodDelegate.swipe.close();
-                            periodDelegate.appStackView.push(deletePeriodComponent, { periodIndex: periodDelegate.index, model: periodDelegate.periodModel});
+                            periodsPage.appStackView.push(deleteComponent, {
+                                                              period_id: periodDelegate.model['period_id'],
+                                                              step_id: periodDelegate.model['step_id'],
+                                                              step_name: periodDelegate.model['step_name'],
+                                                              period_name: periodDelegate.model['period_name'],
+                                                              city: periodDelegate.model['city'],
+                                                              branch_name: periodDelegate.model['branch_name'],
+                                                              passed: periodDelegate.model['passed']                                                          });
                         }
                     }
                     Button
                     {
-                        height: 150
-                        width: 75
-                        background:  Rectangle{id:editBtnBg; color: "royalblue"}
+                        height: 50
+                        width: 50
+                        background: Item{}
                         hoverEnabled: true
-                        onHoveredChanged: editBtnBg.color=(hovered)? Qt.darker("royalblue", 1.1):"royalblue"
-                        text: "ویرایش"
-                        font.bold: true
-                        font.family: "Kalameh"
-                        font.pixelSize: 14
-                        palette.buttonText:  "white"
+                        opacity : 0.5
+                        onHoveredChanged: opacity  = (hovered)? 1 : 0.5;
                         icon.source: "qrc:/assets/images/edit.png"
                         icon.width: 32
                         icon.height: 32
                         icon.color:"transparent"
-                        display: AbstractButton.TextUnderIcon
-                        SwipeDelegate.onClicked:
-                        {
-                            if(periodDelegate.swipe.complete)
-                            periodDelegate.swipe.close();
-                            periodDelegate.appStackView.push(updatePeriodComponent, {model: periodDelegate.periodModel });
-                        }
+                        onClicked: periodsPage.appStackView.push(updateComponent, {
+                                                                     period_id: periodDelegate.model['period_id'],
+                                                                     step_id: periodDelegate.model['step_id'],
+                                                                     step_name: periodDelegate.model['step_name'],
+                                                                     period_name: periodDelegate.model['period_name'],
+                                                                     city: periodDelegate.model['city'],
+                                                                     branch_name: periodDelegate.model['branch_name'],
+                                                                     passed: periodDelegate.model['passed'],
+                                                                     sort_priority: periodDelegate.model['sort_priority']
+
+                                                                 });
+
                     }
                 }
 
             }
+            Rectangle{width: parent.width/2; height: 2; color:  "deeppink" ;visible:(periodDelegate.boxHovered)? true: false; anchors.bottom: parent.bottom; anchors.horizontalCenter: parent.horizontalCenter; }
         }
     }
 
@@ -340,7 +359,7 @@ Page {
         id: updateComponent
         PeriodUpdate{
             onPopSignal: periodsPage.appStackView.pop();
-            onPeriodUpdatedSignal: Methods.periodsUpdate(stepCB.currentValue)
+            onUpdatedSignal: Methods.periodsUpdate(stepCB.currentValue)
         }
     }
     Component

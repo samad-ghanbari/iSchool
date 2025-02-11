@@ -27,28 +27,24 @@ Page {
             id: cspCL
             anchors.fill: parent
 
-            Rectangle{
+            Text {
+                width: parent.width
+                height: parent.height
+                Layout.preferredHeight: 30
                 Layout.fillWidth: true
-                Layout.preferredHeight: 64
-                color:"transparent"
-                Text {
-                    width: parent.width
-                    height: parent.height
-                    Layout.preferredHeight: 64
-                    verticalAlignment: Qt.AlignVCenter
-                    horizontalAlignment: Qt.AlignHCenter
-                    text: "شعبه " + classStudentsPageId.branch + " - " + classStudentsPageId.step
-                    font.family: "Kalameh"
-                    font.pixelSize: 18
-                    font.bold: true
-                    color: "darkmagenta"
-                }
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: "شعبه " + classStudentsPageId.branch + " - " + classStudentsPageId.step
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
             }
 
 
             Text {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 25
+                Layout.preferredHeight: 30
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: (classStudentsPageId.field_based) ? "رشته " + classStudentsPageId.field + " - " + " پایه " + classStudentsPageId.base :  " پایه " + classStudentsPageId.base
@@ -58,16 +54,39 @@ Page {
                 color: "darkmagenta"
             }
 
-            Text {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 25
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: " سال تحصیلی " +  classStudentsPageId.period + " - " + " کلاس " + classStudentsPageId.class_name
-                font.family: "Kalameh"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkmagenta"
+            Row{
+                Layout.preferredHeight: 30
+                Layout.alignment: Qt.AlignHCenter
+                Text {
+                    height: 30
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    text: " سال تحصیلی "
+                    font.family: "Kalameh"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                }
+                Text {
+                    height: 30
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    text:  classStudentsPageId.period
+                    font.family: "Kalameh"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                }
+                Text {
+                    height: 25
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    text: " - " + " کلاس " + classStudentsPageId.class_name
+                    font.family: "Kalameh"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                }
             }
 
             Rectangle{

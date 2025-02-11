@@ -25,16 +25,15 @@ Page {
     ColumnLayout
     {
         anchors.fill: parent
-
         Rectangle{
             Layout.fillWidth: true
-            Layout.preferredHeight: 64
+            Layout.preferredHeight:  50
+            Layout.margins: 0
             color:"transparent"
 
             Text {
                 width: parent.width
-                height: parent.height
-                Layout.preferredHeight: 64
+                height: 50
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: "شعبه " + studentCoursesPageId.branch + " - " + studentCoursesPageId.step
@@ -46,13 +45,13 @@ Page {
 
             Button
             {
-                height: 64
-                width: 64
+                height: 50
+                width: 50
                 anchors.right: parent.right
                 background: Item{}
                 icon.source: "qrc:/assets/images/refresh.png"
-                icon.width: 64
-                icon.height: 64
+                icon.width: 50
+                icon.height: 50
                 icon.color:"transparent"
                 opacity: 0.5
                 onClicked: {
@@ -81,17 +80,17 @@ Page {
 
         RowLayout{
             Layout.fillWidth: true
-            Layout.preferredHeight:  150
+            Layout.preferredHeight:  100
 
             Image {
                 source:studentCoursesPageId.student_photo
-                Layout.preferredWidth: 150
-                Layout.preferredHeight: 150
+                Layout.preferredWidth: 100
+                Layout.preferredHeight: 100
                 Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
             }
             Column{
                 Layout.fillWidth: true
-                Layout.preferredHeight: 150
+                Layout.preferredHeight: 100
 
                 Text {
                     width: parent.width
@@ -116,20 +115,46 @@ Page {
                     font.bold: true
                     color: "darkmagenta"
                 }
-
-                Text {
-                    width: parent.width
-                    height: 50
-                    verticalAlignment: Qt.AlignVCenter
-                    horizontalAlignment: Qt.AlignLeft
-                    text: " سال تحصیلی " +  studentCoursesPageId.period + " - " + " کلاس " + studentCoursesPageId.class_name
-                    font.family: "Kalameh"
-                    font.pixelSize: 18
-                    font.bold: true
-                    color: "darkmagenta"
-                }
             }
         }
+
+
+        Row{
+            Layout.preferredHeight:  30
+            Layout.alignment: Qt.AlignHCenter
+            Layout.margins: 0
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignLeft
+                text: " سال تحصیلی "
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignLeft
+                text:   studentCoursesPageId.period
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignLeft
+                text:  " - " + " کلاس " + studentCoursesPageId.class_name
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
+        }
+
 
 
 

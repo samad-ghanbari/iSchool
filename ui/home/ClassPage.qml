@@ -20,29 +20,21 @@ Page {
     {
         anchors.fill: parent
 
-        Rectangle{
+        Text {
+            Layout.preferredHeight: 30
             Layout.fillWidth: true
-            Layout.preferredHeight: 64
-            color:"transparent"
-
-            Text {
-                width: parent.width
-                height: parent.height
-                Layout.preferredHeight: 64
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + classPageId.branch + " - " + classPageId.step
-                font.family: "Kalameh"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkmagenta"
-            }
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            text: "شعبه " + classPageId.branch + " - " + classPageId.step
+            font.family: "Kalameh"
+            font.pixelSize: 18
+            font.bold: true
+            color: "darkmagenta"
         }
-
 
         Text {
             Layout.fillWidth: true
-            Layout.preferredHeight: 25
+            Layout.preferredHeight: 30
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: (classPageId.field_based) ? "رشته " + classPageId.field + " - " + " پایه " + classPageId.base :  " پایه " + classPageId.base
@@ -52,16 +44,29 @@ Page {
             color: "darkmagenta"
         }
 
-        Text {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 25
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            text: " سال تحصیلی " +  classPageId.period
-            font.family: "Kalameh"
-            font.pixelSize: 18
-            font.bold: true
-            color: "darkmagenta"
+        Row{
+            Layout.preferredHeight: 30
+            Layout.alignment: Qt.AlignHCenter
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: " سال تحصیلی "
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: classPageId.period
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
         }
 
         Rectangle{
@@ -164,10 +169,10 @@ Page {
                         //acceptedButtons: Qt.NoButton
                         onClicked:{
                             classPageId.appStackView.push(classStudentsComponent, {
-                                                             objectName:"classStudentsON",
-                                                             class_name: recdel.model.class_name,
-                                                             class_id: recdel.model.id
-                                                         });
+                                                              objectName:"classStudentsON",
+                                                              class_name: recdel.model.class_name,
+                                                              class_id: recdel.model.id
+                                                          });
                         }
                     }
 
@@ -201,10 +206,10 @@ Page {
                             background: Item{}
                             onClicked: {
                                 classPageId.appStackView.push(classStudentsComponent, {
-                                                                 objectName:"classStudentsON",
-                                                                 class_name: recdel.model.class_name,
-                                                                 class_id: recdel.model.id
-                                                             });
+                                                                  objectName:"classStudentsON",
+                                                                  class_name: recdel.model.class_name,
+                                                                  class_id: recdel.model.id
+                                                              });
                             }
                         }
                         Button{
@@ -218,10 +223,10 @@ Page {
                             background: Item{}
                             onClicked: {
                                 classPageId.appStackView.push(classCoursesComponent, {
-                                                                 objectName:"classCoursesON",
-                                                                 class_name: recdel.model.class_name,
-                                                                 class_id: recdel.model.id
-                                                             });
+                                                                  objectName:"classCoursesON",
+                                                                  class_name: recdel.model.class_name,
+                                                                  class_id: recdel.model.id
+                                                              });
                             }
                         }
                     }
@@ -232,7 +237,7 @@ Page {
                 Component.onCompleted: {
                     var jsondata = dbMan.getClasses();
                     classModel.clear();
-                     //c.id, c.base_id, c.period_id, c.class_name, c.class_desc, b.field_id
+                    //c.id, c.base_id, c.period_id, c.class_name, c.class_desc, b.field_id
                     for(var obj of jsondata)
                     {
                         classModel.append(obj);

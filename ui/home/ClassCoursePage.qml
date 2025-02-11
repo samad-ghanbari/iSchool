@@ -22,38 +22,18 @@ Page {
     {
         anchors.fill: parent
 
-        Rectangle{
+        Text {
+            Layout.preferredHeight: 30
             Layout.fillWidth: true
-            Layout.preferredHeight: 64
-            color:"transparent"
-            // Button
-            // {
-            //     height: 64
-            //     width: 64
-            //     anchors.left: parent.left
-            //     background: Item{}
-            //     icon.source: "qrc:/assets/images/arrow-right.png"
-            //     icon.width: 64
-            //     icon.height: 64
-            //     icon.color:"transparent"
-            //     opacity: 0.5
-            //     onClicked: classCoursePageId.appStackView.pop();
-            //     hoverEnabled: true
-            //     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-            // }
-            Text {
-                width: parent.width
-                height: parent.height
-                Layout.preferredHeight: 64
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + classCoursePageId.branch + " - " + classCoursePageId.step
-                font.family: "Kalameh"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkmagenta"
-            }
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            text: "شعبه " + classCoursePageId.branch + " - " + classCoursePageId.step
+            font.family: "Kalameh"
+            font.pixelSize: 18
+            font.bold: true
+            color: "darkmagenta"
         }
+
 
 
         Text {
@@ -68,16 +48,40 @@ Page {
             color: "darkmagenta"
         }
 
-        Text {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 25
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            text: " سال تحصیلی " +  classCoursePageId.period + " - " + " کلاس " + classCoursePageId.class_name
-            font.family: "Kalameh"
-            font.pixelSize: 18
-            font.bold: true
-            color: "darkmagenta"
+        Row{
+            Layout.preferredHeight: 30
+            Layout.alignment: Qt.AlignHCenter
+
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: " سال تحصیلی "
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text:   classCoursePageId.period
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text:  " - " + " کلاس " + classCoursePageId.class_name
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
         }
 
         Rectangle{
@@ -214,7 +218,7 @@ Page {
                 Component.onCompleted: {
                     var jsondata = dbMan.getClassCoursesArray(classCoursePageId.class_id);
                     classCourseModel.clear();
-                     //id, course_name, step_id, base_id, period_id, course_coefficient, test_coefficient, shared_coefficient, final_weight, shared_weight
+                    //id, course_name, step_id, base_id, period_id, course_coefficient, test_coefficient, shared_coefficient, final_weight, shared_weight
                     for(var obj of jsondata)
                     {
                         classCourseModel.append(obj);

@@ -25,43 +25,40 @@ Page {
     {
         anchors.fill: parent
 
-        Rectangle{
+
+        Text {
             Layout.fillWidth: true
-            Layout.preferredHeight: 64
-            color:"transparent"
-            Text {
-                width: parent.width
-                height: parent.height
-                Layout.preferredHeight: 64
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + courseStudentsPageId.branch + " - " + courseStudentsPageId.step
-                font.family: "Kalameh"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkmagenta"
-            }
+            height: parent.height
+            Layout.preferredHeight: 30
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            text: "شعبه " + courseStudentsPageId.branch + " - " + courseStudentsPageId.step
+            font.family: "Kalameh"
+            font.pixelSize: 18
+            font.bold: true
+            color: "darkmagenta"
         }
+
 
         Column{
             Layout.fillWidth: true
-            Layout.preferredHeight: 150
+            Layout.preferredHeight: 100
 
             Text {
                 width: parent.width
-                height: 50
+                height: 30
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: courseStudentsPageId.course_name
                 font.family: "Kalameh"
                 font.pixelSize: 24
                 font.bold: true
-                color: "darkmagenta"
+                color: "mediumvioletred"
             }
 
             Text {
                 width: parent.width
-                height: 50
+                height: 30
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: (courseStudentsPageId.field_based) ? "رشته " + courseStudentsPageId.field + " - " + " پایه " + courseStudentsPageId.base :  " پایه " + courseStudentsPageId.base
@@ -71,17 +68,42 @@ Page {
                 color: "darkmagenta"
             }
 
-            Text {
-                width: parent.width
-                height: 50
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: " سال تحصیلی " +  courseStudentsPageId.period + " - " + " کلاس " + courseStudentsPageId.class_name
-                font.family: "Kalameh"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkmagenta"
+            Row{
+                height: 30
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Text {
+                    height: 30
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    text: " سال تحصیلی "
+                    font.family: "Kalameh"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                }
+                Text {
+                    height: 30
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    text: courseStudentsPageId.period
+                    font.family: "Kalameh"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                }
+                Text {
+                    height: 30
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    text: " - " + " کلاس " + courseStudentsPageId.class_name
+                    font.family: "Kalameh"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                }
             }
+
         }
 
 
@@ -538,78 +560,78 @@ Page {
             color: "transparent"
 
             ColumnLayout{
-                        id: baseDialogCLId
-                        anchors.fill: parent
+                id: baseDialogCLId
+                anchors.fill: parent
 
-                        Item{Layout.preferredHeight:  10; Layout.preferredWidth: parent.width;}
+                Item{Layout.preferredHeight:  10; Layout.preferredWidth: parent.width;}
 
-                        Label{
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 30
-                            verticalAlignment: Label.AlignVCenter
-                            horizontalAlignment: Label.AlignLeft
-                            text: " انتخاب ارزیابی "
-                            font.family: "Kalameh"
-                            font.pixelSize: 18
-                            font.bold: true
-                            color: "teal"
-                        }
-                        ComboBox{
-                            id: evalCB
-                            Layout.preferredHeight:  50
-                            Layout.fillWidth: true
-                            editable: false
-                            font.family: "Kalameh"
-                            font.pixelSize: 16
-                            model: ListModel{id: evalCBoxModel}
-                            textRole: "text"
-                            valueRole: "value"
-                            Component.onCompleted:
-                            {
-                                var jsondata = dbMan.getEvals(courseStudentsPageId.class_id);
-                                // id, eval_name, base_id, period_id, test_flag, final_flag, max_grade
-                                evalCBoxModel.clear();
-                                for(var obj of jsondata){
-                                    var text = obj["eval_name"];
-                                    var id = obj["id"]
-                                    var max = obj["max_grade"]
-                                    evalCBoxModel.append({"text": text, "value": id, "max": max});
-                                }
-
-                                evalCB.currentIndex = -1
-                            }
-                            onActivated: setGradeDialog.maxValue = evalCBoxModel.get(evalCB.currentIndex)["max"];
+                Label{
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 30
+                    verticalAlignment: Label.AlignVCenter
+                    horizontalAlignment: Label.AlignLeft
+                    text: " انتخاب ارزیابی "
+                    font.family: "Kalameh"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "teal"
+                }
+                ComboBox{
+                    id: evalCB
+                    Layout.preferredHeight:  50
+                    Layout.fillWidth: true
+                    editable: false
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    model: ListModel{id: evalCBoxModel}
+                    textRole: "text"
+                    valueRole: "value"
+                    Component.onCompleted:
+                    {
+                        var jsondata = dbMan.getEvals(courseStudentsPageId.class_id);
+                        // id, eval_name, base_id, period_id, test_flag, final_flag, max_grade
+                        evalCBoxModel.clear();
+                        for(var obj of jsondata){
+                            var text = obj["eval_name"];
+                            var id = obj["id"]
+                            var max = obj["max_grade"]
+                            evalCBoxModel.append({"text": text, "value": id, "max": max});
                         }
 
-                        Label{
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 30
-                            verticalAlignment: Label.AlignVCenter
-                            horizontalAlignment: Label.AlignLeft
-                            text: " نمره "
-                            font.family: "Kalameh"
-                            font.pixelSize: 18
-                            font.bold: true
-                            color: "teal"
-                        }
-                        TextField{
-                            id: gradeTF
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                            verticalAlignment: Label.AlignVCenter
-                            horizontalAlignment: Label.AlignLeft
-                            placeholderText: "مقدار نمره "
-                            font.family: "Kalameh"
-                            font.pixelSize: 18
-                            font.bold: true
-                            color: "teal"
-                            validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
-                                regularExpression: /^-?\d*\.?\d+$/
-                            }
-                        }
-
-                        Item{Layout.fillHeight: true; Layout.preferredWidth: parent.width;}
+                        evalCB.currentIndex = -1
                     }
+                    onActivated: setGradeDialog.maxValue = evalCBoxModel.get(evalCB.currentIndex)["max"];
+                }
+
+                Label{
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 30
+                    verticalAlignment: Label.AlignVCenter
+                    horizontalAlignment: Label.AlignLeft
+                    text: " نمره "
+                    font.family: "Kalameh"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "teal"
+                }
+                TextField{
+                    id: gradeTF
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 50
+                    verticalAlignment: Label.AlignVCenter
+                    horizontalAlignment: Label.AlignLeft
+                    placeholderText: "مقدار نمره "
+                    font.family: "Kalameh"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "teal"
+                    validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
+                        regularExpression: /^-?\d*\.?\d+$/
+                    }
+                }
+
+                Item{Layout.fillHeight: true; Layout.preferredWidth: parent.width;}
+            }
         }
 
         footer:Item{
