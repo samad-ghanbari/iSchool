@@ -26,7 +26,7 @@ Page {
                 height: parent.height
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + basePageId.branch + " - " + basePageId.step
+                text: basePageId.branch + " - " + basePageId.step
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
@@ -39,7 +39,7 @@ Page {
             Layout.preferredHeight: 25
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "رشته " + basePageId.field
+            text: basePageId.field
             font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
@@ -90,14 +90,14 @@ Page {
                     id: recdel;
                     required property var model;
                     width: 320
-                    height: 200
+                    height: 150
                     border.width: 2
                     border.color: "mediumvioletred"
                     color: "slategray";
                     radius: 5
                     Label{
                         width: parent.width
-                        height: 200
+                        height: 150
                         font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
@@ -115,11 +115,9 @@ Page {
                         onExited: parent.color = "slategray";
                         onClicked: {
                             dbMan.setBase(recdel.model.id);
-                            var base_var = recdel.model.base_name
-                            base_var = base_var.replace("پایه", "");
                             basePageId.appStackView.push(periodComponent, {
                                                              objectName:"periodsON",
-                                                             base: base_var,
+                                                             base: recdel.model.base_name,
                                                          });
                         }
                     }

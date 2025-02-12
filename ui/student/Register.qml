@@ -66,7 +66,7 @@ Page {
 
                     //branch-step
                     Text {
-                        text: "شعبه " + registerPage.branch + " - " + registerPage.step
+                        text:  registerPage.branch + " - " + registerPage.step
                         width: parent.width
                         height: 50
                         verticalAlignment: Text.AlignVCenter

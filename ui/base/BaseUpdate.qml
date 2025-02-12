@@ -217,7 +217,7 @@ Page {
                                     Layout.maximumWidth: 400
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    value:  updateBasePage.sort_priority;
+                                    value: updateBasePage.sort_priority;
                                 }
 
                             }

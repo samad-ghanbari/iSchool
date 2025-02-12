@@ -100,7 +100,7 @@ Page {
                                 Layout.preferredHeight: 200
                                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                                 source:{
-                                    if(studentCEPage.student.photo == "")
+                                    if(studentCEPage.student.photo === "")
                                     {
                                         if(studentCEPage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
                                     }
@@ -140,7 +140,7 @@ Page {
 
                                 // branch step
                                 Text {
-                                    text: "شعبه " + " : " + studentCEPage.registerModel.City + " - " + studentCEPage.registerModel.Branch_name + " - " + studentCEPage.registerModel.Step_name + " - " + studentCEPage.registerModel.Study_base
+                                    text:  studentCEPage.registerModel.City + " - " + studentCEPage.registerModel.Branch_name + " - " + studentCEPage.registerModel.Step_name + " - " + studentCEPage.registerModel.Study_base
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
@@ -152,10 +152,12 @@ Page {
                                     elide: Text.ElideLeft
                                 }
 
-                                Text {
-                                    text: "سال تحصیلی " + " : " + studentCEPage.registerModel.Study_period
+                                Row{
                                     height: 50
-                                    width: parent.width
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                Text {
+                                    text: "سال تحصیلی "
+                                    height: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "Kalameh"
@@ -163,11 +165,23 @@ Page {
                                     font.bold: true
                                     color: "royalblue"
                                     elide: Text.ElideLeft
+                                }
+                                    Text {
+                                        text:  studentCEPage.registerModel.Study_period
+                                        height: 50
+                                        verticalAlignment: Text.AlignVCenter
+                                        horizontalAlignment: Text.AlignHCenter
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        font.bold: true
+                                        color: "royalblue"
+                                        elide: Text.ElideLeft
+                                    }
                                 }
 
                                 // class
                                 Text {
-                                    text: "کلاس " + " : " + studentCEPage.registerModel.Class_name
+                                    text: studentCEPage.registerModel.Class_name
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
@@ -181,7 +195,7 @@ Page {
 
                                 // course
                                 Text {
-                                    text: "درس:‌ " + studentCEPage.studentCourseModel.Course_name + " ( " + studentCEPage.studentCourseModel.Teacher + " ) "
+                                    text:  studentCEPage.studentCourseModel.Course_name + " ( " + studentCEPage.studentCourseModel.Teacher + " ) "
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter

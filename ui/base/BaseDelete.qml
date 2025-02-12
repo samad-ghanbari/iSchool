@@ -97,7 +97,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text: "شعبه " + baseDeletePage.city + " " + baseDeletePage.branch_name
+                                    text: baseDeletePage.city + " " + baseDeletePage.branch_name
                                     font.bold: true
                                 }
 
@@ -122,13 +122,7 @@ Page {
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
-                                    text:{
-                                        var temp = baseDeletePage.step_name;
-                                        if(temp.includes("دوره"))
-                                        return temp;
-                                        else
-                                        return "دوره " + temp;
-                                    }
+                                    text:baseDeletePage.step_name
                                     font.bold: true
                                 }
 
@@ -177,10 +171,6 @@ Page {
                                     text: baseDeletePage.base_name
                                     font.bold: true
                                 }
-
-
-
-
                             }
 
                             Item

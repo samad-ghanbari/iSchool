@@ -69,7 +69,7 @@ Page {
                     }
 
                     Text {
-                        text: "شعبه " + updateClassPage.branch +" - " + updateClassPage.step
+                        text: updateClassPage.branch +" - " + updateClassPage.step
                         width: parent.width
                         height: 50
                         verticalAlignment: Text.AlignVCenter
@@ -82,16 +82,10 @@ Page {
                     Text {
                         text:{
                             var base = updateClassPage.base
-                            if(!base.includes("پایه")) base = "پایه " + base;
-
-                            if(updateClassPage.field_based){
-
-                                return "رشته " + updateClassPage.field + " - " +  base
-                            }
-                            else{
-
+                            if(updateClassPage.field_based)
+                                return  updateClassPage.field + " - " +  base
+                            else
                                 return base;
-                            }
                         }
                         width: parent.width
                         height: 50

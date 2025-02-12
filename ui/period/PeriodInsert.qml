@@ -86,14 +86,7 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text:{
-
-                                        var temp = insertPage.step
-                                        if(temp.includes("دوره"))
-                                            return "شعبه " + insertPage.branch + " - " + insertPage.step
-                                        else
-                                            return "شعبه " + insertPage.branch + " - "+ "دوره " + insertPage.step
-                                    }
+                                    text:insertPage.branch + " - " + insertPage.step
                                     Layout.fillWidth: true
                                     Layout.maximumWidth: 400
                                     Layout.preferredHeight: 50

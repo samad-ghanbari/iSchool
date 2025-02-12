@@ -23,27 +23,13 @@ Page {
             Layout.fillWidth: true
             Layout.preferredHeight: 64
             color:"transparent"
-            // Button
-            // {
-            //     height: 64
-            //     width: 64
-            //     anchors.left: parent.left
-            //     background: Item{}
-            //     icon.source: "qrc:/assets/images/arrow-right.png"
-            //     icon.width: 64
-            //     icon.height: 64
-            //     icon.color:"transparent"
-            //     opacity: 0.5
-            //     onClicked: periodPageId.appStackView.pop();
-            //     hoverEnabled: true
-            //     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-            // }
+
             Text {
                 width: parent.width
                 height: 64
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + periodPageId.branch + " - " + periodPageId.step
+                text:  periodPageId.branch + " - " + periodPageId.step
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
@@ -57,7 +43,7 @@ Page {
             Layout.preferredHeight: 25
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: (periodPageId.field_based) ? "رشته " + periodPageId.field + " - " + " پایه " + periodPageId.base :  " پایه " + periodPageId.base
+            text: (periodPageId.field_based) ?  periodPageId.field + " - " +  periodPageId.base :  periodPageId.base
             font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true

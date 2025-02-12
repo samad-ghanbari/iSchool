@@ -87,7 +87,7 @@ Page {
 
                                 Text {
                                     Layout.columnSpan: 2
-                                    text: "شعبه " + insertBasePage.branch + " - " + "دوره " + insertBasePage.step
+                                    text: insertBasePage.branch + " - "  + insertBasePage.step
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     verticalAlignment: Text.AlignVCenter
@@ -264,7 +264,6 @@ Page {
                 }
             }
         }
-
     }
 
     DialogBox.BaseDialog

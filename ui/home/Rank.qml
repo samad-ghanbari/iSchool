@@ -22,43 +22,46 @@ Page {
     {
         anchors.fill: parent
 
-        Rectangle{
-            Layout.fillWidth: true
-            Layout.preferredHeight: 64
-            color:"transparent"
             Text {
-                width: parent.width
-                height: parent.height
+                Layout.fillWidth: true
                 Layout.preferredHeight: 64
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + rankPage.branch + " - " + rankPage.step
+                text: rankPage.branch + " - " + rankPage.step
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
             }
 
-        }
 
-        Rectangle{
-            Layout.fillWidth: true
-            Layout.preferredHeight: 64
-            color:"transparent"
+            Row{
+                Layout.preferredHeight: 30
+                Layout.alignment: Qt.AlignHCenter
+
             Text {
-                width: parent.width
-                height: parent.height
-                Layout.preferredHeight: 64
+                height: 30
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: (rankPage.field_based) ? "رشته " + rankPage.field + " - " + " سال‌تحصیلی " + rankPage.period :  " سال‌تحصیلی " + rankPage.period
+                text: (rankPage.field_based) ?  rankPage.field + " - " + " سال‌تحصیلی "  :  " سال‌تحصیلی "
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
             }
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: rankPage.period
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
+            }
 
-        }
+
 
         Rectangle{
             Layout.preferredHeight: 1
@@ -73,7 +76,7 @@ Page {
             Layout.preferredHeight: 25
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "رتبه‌بندی دانش‌آموزان پایه" + rankPage.base
+            text: "رتبه‌بندی دانش‌آموزان " + rankPage.base
             font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true

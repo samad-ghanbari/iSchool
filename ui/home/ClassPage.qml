@@ -25,7 +25,7 @@ Page {
             Layout.fillWidth: true
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "شعبه " + classPageId.branch + " - " + classPageId.step
+            text:  classPageId.branch + " - " + classPageId.step
             font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
@@ -37,7 +37,7 @@ Page {
             Layout.preferredHeight: 30
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: (classPageId.field_based) ? "رشته " + classPageId.field + " - " + " پایه " + classPageId.base :  " پایه " + classPageId.base
+            text: (classPageId.field_based) ?  classPageId.field + " - " +  classPageId.base :  classPageId.base
             font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
@@ -183,7 +183,7 @@ Page {
                         font.pixelSize: 20
                         font.bold: true
                         color: "white"
-                        text: "کلاس " + recdel.model.class_name + "\n" + recdel.model.class_desc
+                        text: recdel.model.class_name + "\n" + recdel.model.class_desc
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
                         anchors.top: parent.top

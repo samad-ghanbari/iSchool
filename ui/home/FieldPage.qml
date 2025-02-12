@@ -23,7 +23,7 @@ Page {
                 height: parent.height
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + fieldPageId.branch + " - " + fieldPageId.step
+                text: fieldPageId.branch + " - " + fieldPageId.step
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
@@ -88,7 +88,7 @@ Page {
                         font.pixelSize: 20
                         font.bold: true
                         color: "white"
-                        text: "رشته " + recdel.model.field_name
+                        text: recdel.model.field_name
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
                         anchors.top: parent.top

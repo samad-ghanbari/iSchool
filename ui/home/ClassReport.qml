@@ -24,17 +24,37 @@ Page {
     {
         anchors.fill: parent
 
-        Rectangle{
+        Text {
             Layout.fillWidth: true
-            Layout.preferredHeight: 64
-            color:"transparent"
+            Layout.preferredHeight: 30
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            text: classReportPage.branch + " - " + classReportPage.step
+            font.family: "Kalameh"
+            font.pixelSize: 18
+            font.bold: true
+            color: "darkmagenta"
+        }
+
+        Row{
+            Layout.preferredHeight: 30
+            Layout.alignment: Qt.AlignHCenter
+
             Text {
-                width: parent.width
-                height: parent.height
-                Layout.preferredHeight: 64
+                height: 30
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + classReportPage.branch + " - " + classReportPage.step
+                text: (classReportPage.field_based) ? classReportPage.field + " - " + " سال‌تحصیلی "  :  " سال‌تحصیلی "
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: classReportPage.period
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
@@ -43,24 +63,7 @@ Page {
 
         }
 
-        Rectangle{
-            Layout.fillWidth: true
-            Layout.preferredHeight: 64
-            color:"transparent"
-            Text {
-                width: parent.width
-                height: parent.height
-                Layout.preferredHeight: 64
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: (classReportPage.field_based) ? "رشته " + classReportPage.field + " - " + " سال‌تحصیلی " + classReportPage.period :  " سال‌تحصیلی " + classReportPage.period
-                font.family: "Kalameh"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkmagenta"
-            }
 
-        }
 
         Rectangle{
             Layout.preferredHeight: 1
@@ -75,7 +78,7 @@ Page {
             Layout.preferredHeight: 25
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "گزارش کلی دانش‌آموزان کلاس " + classReportPage.class_name
+            text: "گزارش کلی دانش‌آموزان " + classReportPage.class_name
             font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true

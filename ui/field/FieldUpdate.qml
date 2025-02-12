@@ -78,7 +78,7 @@ Page {
 
                         Text {
                             Layout.columnSpan: 2
-                            text: "شعبه " + updatePage.branch + " - " +  updatePage.step
+                            text:  updatePage.branch + " - " +  updatePage.step
                             Layout.fillWidth: true
                             Layout.preferredHeight: 50
                             verticalAlignment: Text.AlignVCenter

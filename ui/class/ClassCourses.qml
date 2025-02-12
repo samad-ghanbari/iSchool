@@ -51,7 +51,7 @@ Page {
                 width: parent.width
 
                 Text {
-                    text: "شعبه " + classCoursesPage.branch + " - " + classCoursesPage.step
+                    text: classCoursesPage.branch + " - " + classCoursesPage.step
                     width: parent.width
                     height: 50
                     verticalAlignment: Text.AlignVCenter
@@ -64,16 +64,10 @@ Page {
                 Text {
                     text:{
                         var base = classCoursesPage.base
-                        if(!base.includes("پایه")) base = "پایه " + base;
-
-                        if(classCoursesPage.field_based){
-
-                            return "رشته " + classCoursesPage.field + " - " +  base
-                        }
-                        else{
-
+                        if(classCoursesPage.field_based)
+                            return  classCoursesPage.field + " - " +  base
+                        else
                             return base;
-                        }
                     }
                     width: parent.width
                     height: 50
@@ -84,8 +78,12 @@ Page {
                     font.bold: true
                     color: "darkcyan"
                 }
+                Row{
+                    height: 50
+                    anchors.horizontalCenter: parent.horizontalCenter
+
                 Text {
-                    text:  "سال تحصیلی " + classCoursesPage.period + " - " + " کلاس " + classCoursesPage.class_name
+                    text:  "سال تحصیلی "
                     width: parent.width
                     height: 50
                     verticalAlignment: Text.AlignVCenter
@@ -94,6 +92,29 @@ Page {
                     font.pixelSize: 18
                     font.bold: true
                     color: "darkcyan"
+                }
+                    Text {
+                        text: classCoursesPage.period
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "darkcyan"
+                    }
+                    Text {
+                        text: classCoursesPage.class_name
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "darkcyan"
+                    }
                 }
 
                 Rectangle{

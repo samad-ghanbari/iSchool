@@ -83,7 +83,7 @@ Page {
                     Text {
                         width: parent.width
                         height: 50
-                        text: "شعبه " + updatePage.branch + " - " + updatePage.step
+                        text:  updatePage.branch + " - " + updatePage.step
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
@@ -92,7 +92,7 @@ Page {
                         color: "black"
                     }
                     Text {
-                        text: (updatePage.field_based) ? "رشته " + updatePage.field + "  " +  updatePage.base :  updatePage.base
+                        text: (updatePage.field_based) ?  updatePage.field + "  " +  updatePage.base :  updatePage.base
                         width: parent.width
                         height: 50
                         verticalAlignment: Text.AlignVCenter
@@ -102,9 +102,11 @@ Page {
                         font.bold: true
                         color: "black"
                     }
+                    Row{
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
                     Text {
-                        text: "سال تحصیلی " + updatePage.period
-                        width: parent.width
+                        text: "سال تحصیلی "
                         height: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
@@ -112,6 +114,17 @@ Page {
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
+                    }
+                        Text {
+                            text: updatePage.period
+                            height: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
                     }
 
                     // eval name

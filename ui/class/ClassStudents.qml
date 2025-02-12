@@ -39,7 +39,7 @@ Page {
                     Layout.preferredHeight: 64
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignHCenter
-                    text: "شعبه " + classStudentsPageId.branch + " - " + classStudentsPageId.step
+                    text: classStudentsPageId.branch + " - " + classStudentsPageId.step
                     font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
@@ -53,23 +53,47 @@ Page {
                 Layout.preferredHeight: 25
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: (classStudentsPageId.field_based) ? "رشته " + classStudentsPageId.field + " - " + " پایه " + classStudentsPageId.base :  " پایه " + classStudentsPageId.base
+                text: (classStudentsPageId.field_based) ?  classStudentsPageId.field + " - " + classStudentsPageId.base : classStudentsPageId.base
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkcyan"
             }
 
-            Text {
-                Layout.fillWidth: true
+            Row{
                 Layout.preferredHeight: 25
+                Layout.alignment: Qt.AlignHCenter
+
+            Text {
+                height: 25
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: " سال تحصیلی " +  classStudentsPageId.period + " - " + " کلاس " + classStudentsPageId.class_name
+                text: " سال تحصیلی "
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkcyan"
+            }
+            Text {
+                height: 25
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: classStudentsPageId.period
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkcyan"
+            }
+            Text {
+                height: 25
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: " - " + classStudentsPageId.class_name
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkcyan"
+            }
             }
 
             Rectangle{

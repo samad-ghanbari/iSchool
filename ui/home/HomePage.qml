@@ -63,7 +63,7 @@ Page {
                 font.pixelSize: 20
                 font.bold: true
                 color: (parent.boxHovered)? "darkmagenta" : "#CC8b008b"
-                text: "شعبه " + recdel.model.city + " " + recdel.model.branch_name
+                text: recdel.model.city + " - " + recdel.model.branch_name
                 horizontalAlignment: Label.AlignHCenter
                 verticalAlignment: Label.AlignVCenter
                 anchors.top: parent.top
@@ -89,7 +89,7 @@ Page {
                 onClicked: {
                     // step page
                     var branch_id = recdel.model.id;
-                    var branch = recdel.model.city + " " + recdel.model.branch_name
+                    var branch = recdel.model.city + " - " + recdel.model.branch_name
                     dbMan.setBranch(branch_id);
                     homePageId.branchSelected(branch);
                 }

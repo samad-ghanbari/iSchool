@@ -78,7 +78,7 @@ Page {
 
                     //branch-step
                     Text {
-                        text: "شعبه " + deleteRegPage.branch + " - " + deleteRegPage.step
+                        text: deleteRegPage.branch + " - " + deleteRegPage.step
                         width: parent.width
                         height: 50
                         verticalAlignment: Text.AlignVCenter

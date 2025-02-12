@@ -73,7 +73,7 @@ Page {
                         Layout.fillWidth: true
                         //branch-step
                         Text {
-                            text: "شعبه " + registersPage.branch + " - " + registersPage.step
+                            text:  registersPage.branch + " - " + registersPage.step
                             width: parent.width
                             height: 50
                             verticalAlignment: Text.AlignVCenter
@@ -190,7 +190,7 @@ Page {
                                 elide: Text.ElideRight
                             }
                             Label {
-                                text: (registersPage.field_based)? "رشته " + rec.model.field_name + " - " +  rec.model.base_name : " " + rec.model.base_name
+                                text: (registersPage.field_based)? rec.model.field_name + " - " +  rec.model.base_name : " " + rec.model.base_name
                                 padding: 0
                                 font.family: "Kalameh"
                                 font.pixelSize: (rec.highlighted)? 18 :16
@@ -204,7 +204,7 @@ Page {
                             }
 
                             Label {
-                                text: "کلاس " + rec.model.class_name
+                                text:  rec.model.class_name
                                 padding: 0
                                 font.family: "Kalameh"
                                 font.pixelSize: 16

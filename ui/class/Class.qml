@@ -297,14 +297,10 @@ Page {
                     Label {
                         text: {
                             var temp = rec.model.base_name;
-                            if(!temp.includes("پایه")) temp = "پایه " + temp;
-
-                            if(rec.model.field_based){
+                            if(rec.model.field_based)
                                 return rec.model.field_name + " - " + temp;
-                            }
-                            else{
+                            else
                                 return temp;
-                            }
                         }
                         padding: 0
                         font.family: "Kalameh"

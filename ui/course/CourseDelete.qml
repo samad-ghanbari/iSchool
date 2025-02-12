@@ -79,7 +79,7 @@ Page {
                     Text {
                         width: parent.width
                         height: 50
-                        text: "شعبه " + deletePage.branch + " - " + deletePage.step
+                        text: deletePage.branch + " - " + deletePage.step
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
@@ -88,7 +88,7 @@ Page {
                         color: "black"
                     }
                     Text {
-                        text: (deletePage.field_based) ? "رشته " + deletePage.field + " - " +  deletePage.base :  deletePage.base
+                        text: (deletePage.field_based) ? deletePage.field + " - " +  deletePage.base :  deletePage.base
                         width: parent.width
                         height: 50
                         verticalAlignment: Text.AlignVCenter
@@ -98,9 +98,11 @@ Page {
                         font.bold: true
                         color: "black"
                     }
+                    Row{
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
                     Text {
-                        text: "سال تحصیلی " + deletePage.period
-                        width: parent.width
+                        text: "سال تحصیلی "
                         height: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
@@ -108,6 +110,17 @@ Page {
                         font.pixelSize: 16
                         font.bold: true
                         color: "black"
+                    }
+                        Text {
+                            text:  deletePage.period
+                            height: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
                     }
 
                     // course name

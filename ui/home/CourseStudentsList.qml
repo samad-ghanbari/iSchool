@@ -32,7 +32,7 @@ Page {
             Layout.preferredHeight: 30
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "شعبه " + courseStudentsPageId.branch + " - " + courseStudentsPageId.step
+            text: courseStudentsPageId.branch + " - " + courseStudentsPageId.step
             font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
@@ -61,7 +61,7 @@ Page {
                 height: 30
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: (courseStudentsPageId.field_based) ? "رشته " + courseStudentsPageId.field + " - " + " پایه " + courseStudentsPageId.base :  " پایه " + courseStudentsPageId.base
+                text: (courseStudentsPageId.field_based) ? courseStudentsPageId.field + " - " +  courseStudentsPageId.base :  courseStudentsPageId.base
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
@@ -96,7 +96,7 @@ Page {
                     height: 30
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignHCenter
-                    text: " - " + " کلاس " + courseStudentsPageId.class_name
+                    text: " - " +  courseStudentsPageId.class_name
                     font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true

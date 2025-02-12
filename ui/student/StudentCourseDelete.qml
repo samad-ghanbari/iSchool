@@ -102,7 +102,7 @@ Page {
                     }
             // branch step
                     Text {
-                        text: "شعبه " + " : " + studentCourseDeletePage.registerModel.City + " - " + studentCourseDeletePage.registerModel.Branch_name + " - " + studentCourseDeletePage.registerModel.Step_name + " - " + studentCourseDeletePage.registerModel.Study_base
+                        text:  studentCourseDeletePage.registerModel.City + " - " + studentCourseDeletePage.registerModel.Branch_name + " - " + studentCourseDeletePage.registerModel.Step_name + " - " + studentCourseDeletePage.registerModel.Study_base
                         height: 50
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
@@ -113,16 +113,29 @@ Page {
                         color: "royalblue"
                     }
             // base period
-                    Text {
-                        text:  studentCourseDeletePage.registerModel.Study_period
+                    Row{
                         height: 50
-                        width: parent.width
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    Text {
+                        text:  "سال ‌تحصیلی "
+                        height: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
                         font.family: "Kalameh"
                         font.pixelSize: 20
                         font.bold: true
                         color: "darkcyan"
+                    }
+                        Text {
+                            text:  studentCourseDeletePage.registerModel.Study_period
+                            height: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 20
+                            font.bold: true
+                            color: "darkcyan"
+                        }
                     }
                 }
             }

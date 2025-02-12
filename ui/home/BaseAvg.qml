@@ -21,38 +21,44 @@ Page {
 
         Text {
             Layout.fillWidth: true
-            Layout.preferredHeight: 64
+            Layout.preferredHeight: 30
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text:{
-                var temp = baseAvgPage.step
-                if(! temp.includes("دوره"))
-                    temp = " دوره " + baseAvgPage.step
-
-                return "شعبه " + baseAvgPage.branch + " - " + temp
+            text:baseAvgPage.branch + " - " + baseAvgPage.step
+            font.family: "Kalameh"
+            font.pixelSize: 18
+            font.bold: true
+            color: "darkmagenta"
+        }
+        Row{
+            Layout.preferredHeight: 30
+            Layout.alignment: Qt.AlignHCenter
+        Text {
+            Layout.preferredHeight: 30
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            text: {
+                if(baseAvgPage.field_based)
+                    return baseAvgPage.field + " - " + "سال‌تحصیلی "
+                else
+                    return  "سال‌تحصیلی "
             }
+
             font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
             color: "darkmagenta"
         }
         Text {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 64
+            Layout.preferredHeight: 30
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: {
-                var temp = "رشته " +  baseAvgPage.field
-                if(baseAvgPage.field_based)
-                    return temp + "سال‌تحصیلی " + baseAvgPage.period
-                else
-                    return  "سال‌تحصیلی " + baseAvgPage.period
-            }
-
+            text: baseAvgPage.period
             font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
             color: "darkmagenta"
+        }
         }
 
         Rectangle{

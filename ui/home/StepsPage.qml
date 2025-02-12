@@ -23,7 +23,7 @@ Page {
                 height:parent.height
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + stepPageId.branch
+                text: stepPageId.branch
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true

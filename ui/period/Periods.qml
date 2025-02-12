@@ -242,7 +242,7 @@ Page {
                     }
                 }
                 Label {
-                    text: "شعبه " + periodDelegate.model['city'] + " - " + periodDelegate.model['branch_name']
+                    text: periodDelegate.model['city'] + " - " + periodDelegate.model['branch_name']
                     padding: 0
                     font.family: "Kalameh"
                     font.pixelSize: 14
@@ -255,13 +255,7 @@ Page {
                 }
 
                 Label {
-                    text:{
-                        var temp = periodDelegate.model['step_name'] ;
-                        if(temp.includes("دوره"))
-                        return temp;
-                        else
-                        return "دوره " + periodDelegate.modfel['step_name']
-                    }
+                    text:periodDelegate.modfel['step_name']
                     padding: 0
                     font.family: "Kalameh"
                     font.pixelSize: 14

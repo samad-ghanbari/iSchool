@@ -92,7 +92,7 @@ Page {
                                 Layout.preferredHeight: 128
                                 Layout.alignment: Qt.AlignLeft
                                 source:{
-                                    if(studentCoursesPage.student.photo == "")
+                                    if(studentCoursesPage.student.photo === "")
                                     {
                                         if(studentCoursesPage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
                                     }
@@ -129,7 +129,7 @@ Page {
                                 }
                                 // branch step
                                 Text {
-                                    text: "شعبه " + " : " + studentCoursesPage.model.City + " - " + studentCoursesPage.model.Branch_name + " - " + studentCoursesPage.model.Step_name + " - " + studentCoursesPage.model.Study_base
+                                    text:  studentCoursesPage.model.City + " - " + studentCoursesPage.model.Branch_name + " - " + studentCoursesPage.model.Step_name + " - " + studentCoursesPage.model.Study_base
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
@@ -141,7 +141,7 @@ Page {
                                 }
                                 // class
                                 Text {
-                                    text: "کلاس " + " : " + studentCoursesPage.model.Class_name
+                                    text: studentCoursesPage.model.Class_name
                                     height: 50
                                     width: parent.width
                                     verticalAlignment: Text.AlignVCenter
@@ -151,16 +151,29 @@ Page {
                                     font.bold: true
                                     color: "royalblue"
                                 }
-                                Text {
-                                    text: "سال تحصیلی " + " : " + studentCoursesPage.model.Study_period
+                                Row{
                                     height: 50
-                                    width: parent.width
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                Text {
+                                    text: "سال تحصیلی "
+                                    height: 50
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignLeft
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     font.bold: true
                                     color: "royalblue"
+                                }
+                                    Text {
+                                        text: studentCoursesPage.model.Study_period
+                                        height: 50
+                                        verticalAlignment: Text.AlignVCenter
+                                        horizontalAlignment: Text.AlignLeft
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        font.bold: true
+                                        color: "royalblue"
+                                    }
                                 }
                             }
                         }

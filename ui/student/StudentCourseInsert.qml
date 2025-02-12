@@ -74,7 +74,7 @@ Page {
                     Layout.preferredHeight: 128
                     Layout.alignment: Qt.AlignLeft
                     source:{
-                        if(insertPage.student.photo == "")
+                        if(insertPage.student.photo === "")
                         {
                             if(insertPage.isFemale) return "qrc:/assets/images/female.png"; else return "qrc:/assets/images/user.png";
                         }
@@ -111,7 +111,7 @@ Page {
                     }
                     // branch step
                     Text {
-                        text: "شعبه " + " : " + insertPage.registerModel.City + " - " + insertPage.registerModel.Branch_name + " - " + insertPage.registerModel.Step_name + " - " + insertPage.registerModel.Study_base
+                        text:  insertPage.registerModel.City + " - " + insertPage.registerModel.Branch_name + " - " + insertPage.registerModel.Step_name + " - " + insertPage.registerModel.Study_base
                         height: 50
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
@@ -123,7 +123,7 @@ Page {
                     }
                     // class
                     Text {
-                        text: "کلاس " + " : " + insertPage.registerModel.Class_name
+                        text: insertPage.registerModel.Class_name
                         height: 50
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
@@ -133,8 +133,12 @@ Page {
                         font.bold: true
                         color: "royalblue"
                     }
+                    Row{
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
+
                     Text {
-                        text: "سال تحصیلی " + " : " + insertPage.registerModel.Study_period
+                        text: "سال تحصیلی "
                         height: 50
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
@@ -143,6 +147,18 @@ Page {
                         font.pixelSize: 16
                         font.bold: true
                         color: "royalblue"
+                    }
+                        Text {
+                            text: insertPage.registerModel.Study_period
+                            height: 50
+                            width: parent.width
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "royalblue"
+                        }
                     }
                 }
             }

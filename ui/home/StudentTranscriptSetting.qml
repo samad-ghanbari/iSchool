@@ -45,38 +45,31 @@ Page {
     {
         anchors.fill: parent
 
-        Rectangle{
+        Text {
             Layout.fillWidth: true
-            Layout.preferredHeight: 64
-            color:"transparent"
-            Text {
-                width: parent.width
-                height: parent.height
-                Layout.preferredHeight: 64
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + studentResultSettingPage.branch + " - " + studentResultSettingPage.step
-                font.family: "Kalameh"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkmagenta"
-            }
-
+            Layout.preferredHeight: 30
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            text: studentResultSettingPage.branch + " - " + studentResultSettingPage.step
+            font.family: "Kalameh"
+            font.pixelSize: 18
+            font.bold: true
+            color: "darkmagenta"
         }
 
         RowLayout{
             Layout.fillWidth: true
-            Layout.preferredHeight:  150
+            Layout.preferredHeight:  100
 
             Image {
                 source:studentResultSettingPage.student_photo
-                Layout.preferredWidth: 150
-                Layout.preferredHeight: 150
+                Layout.preferredWidth: 100
+                Layout.preferredHeight: 100
                 Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
             }
             Column{
                 Layout.fillWidth: true
-                Layout.preferredHeight: 150
+                Layout.preferredHeight: 100
 
                 Text {
                     width: parent.width
@@ -95,19 +88,7 @@ Page {
                     height: 50
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignLeft
-                    text: (studentResultSettingPage.field_based) ? "رشته " + studentResultSettingPage.field + " - " + " پایه " + studentResultSettingPage.base :  " پایه " + studentResultSettingPage.base
-                    font.family: "Kalameh"
-                    font.pixelSize: 18
-                    font.bold: true
-                    color: "darkmagenta"
-                }
-
-                Text {
-                    width: parent.width
-                    height: 50
-                    verticalAlignment: Qt.AlignVCenter
-                    horizontalAlignment: Qt.AlignLeft
-                    text: " سال تحصیلی " +  studentResultSettingPage.period + " - " + " کلاس " + studentResultSettingPage.class_name
+                    text: (studentResultSettingPage.field_based) ? studentResultSettingPage.field + " - " + studentResultSettingPage.base :   studentResultSettingPage.base
                     font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
@@ -115,8 +96,31 @@ Page {
                 }
             }
         }
+        Row{
+            Layout.preferredHeight: 30
+            Layout.alignment: Qt.AlignHCenter
 
-
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignLeft
+                text: studentResultSettingPage.class_name + " - " + "سال‌تحصیلی "
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignLeft
+                text: studentResultSettingPage.period
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
+        }
 
         Rectangle{
             Layout.preferredHeight: 1

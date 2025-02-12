@@ -292,10 +292,7 @@ Page {
                 spacing: 0
                 Label {
                     id: baseLbl
-                    text:{
-                        var temp = baseDelegate.model["base_name"];
-                        (temp.includes("پایه"))? temp : "پایه " + temp
-                    }
+                    text:baseDelegate.model["base_name"];
                     padding: 0
                     font.family: "Kalameh"
                     font.pixelSize: 16
@@ -308,14 +305,11 @@ Page {
                 Label {
                     text:{
                         var temp = baseDelegate.model["field_based"];
-                        var text = "رشته " + baseDelegate.model["field_name"];
+                        var text = baseDelegate.model["field_name"];
                         if(temp)
                         return text;
                         else{
                             temp = baseDelegate.model["step_name"];
-                            if(!temp.includes("دوره"))
-                            temp = "دوره " + baseDelegate.model["step_name"];
-
                             return temp;
                         }
                     }

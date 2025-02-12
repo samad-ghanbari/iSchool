@@ -43,45 +43,55 @@ Page {
         anchors.fill: parent
 
 
-            Text {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 64
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: "شعبه " + classTranscriptsSettingPage.branch + " - " + classTranscriptsSettingPage.step
-                font.family: "Kalameh"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkmagenta"
-            }
+        Text {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 30
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            text:  classTranscriptsSettingPage.branch + " - " + classTranscriptsSettingPage.step
+            font.family: "Kalameh"
+            font.pixelSize: 18
+            font.bold: true
+            color: "darkmagenta"
+        }
 
 
-            Text {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 64
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: (classTranscriptsSettingPage.field_based) ? "رشته " + classTranscriptsSettingPage.field + " - " + " پایه " + classTranscriptsSettingPage.base :  " پایه " + classTranscriptsSettingPage.base
-                font.family: "Kalameh"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkmagenta"
-            }
+        Text {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 30
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            text: (classTranscriptsSettingPage.field_based) ?  classTranscriptsSettingPage.field + " - " +  classTranscriptsSettingPage.base :   classTranscriptsSettingPage.base
+            font.family: "Kalameh"
+            font.pixelSize: 18
+            font.bold: true
+            color: "darkmagenta"
+        }
 
+        Row{
+            Layout.preferredHeight: 30
+            Layout.alignment: Qt.AlignHCenter
             Text {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 64
+                height: 30
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: " سال تحصیلی " +  classTranscriptsSettingPage.period + " - " + " کلاس " + classTranscriptsSettingPage.class_name
+                text: " سال تحصیلی "
                 font.family: "Kalameh"
                 font.pixelSize: 20
                 font.bold: true
                 color: "darkmagenta"
             }
-
-
-
+            Text {
+                height: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: classTranscriptsSettingPage.period
+                font.family: "Kalameh"
+                font.pixelSize: 20
+                font.bold: true
+                color: "darkmagenta"
+            }
+        }
 
         Rectangle{
             Layout.preferredHeight: 1
@@ -96,7 +106,7 @@ Page {
             Layout.preferredHeight: 25
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "کارنامه دانش‌آموزان کلاس"
+            text: "کارنامه دانش‌آموزان "  + classTranscriptsSettingPage.class_name
             font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true

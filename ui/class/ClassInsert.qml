@@ -70,7 +70,7 @@ Page {
                 }
 
                 Text {
-                    text: "شعبه " + insertPage.branch
+                    text: insertPage.branch
                     width: parent.width
                     height: 50
                     verticalAlignment: Text.AlignVCenter

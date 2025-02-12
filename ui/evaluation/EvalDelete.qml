@@ -89,7 +89,7 @@ Page {
                         color: "black"
                     }
                     Text {
-                        text: (deletePage.field_based) ? "رشته " + deletePage.field + "  " +  deletePage.base :  deletePage.base
+                        text: (deletePage.field_based) ?  deletePage.field + "  " +  deletePage.base :  deletePage.base
                         width: parent.width
                         height: 50
                         verticalAlignment: Text.AlignVCenter
@@ -99,18 +99,30 @@ Page {
                         font.bold: true
                         color: "black"
                     }
-                    Text {
-                        text: "سال تحصیلی " + deletePage.period
-                        width: parent.width
+                    Row{
                         height: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Text {
+                            text: "سال تحصیلی "
+                            height: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        Text {
+                            text: deletePage.period
+                            height: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
                     }
-
                     // eval name
                     RowLayout{
                         width: parent.width
