@@ -20,9 +20,8 @@ Page {
 
     required property StackView appStackView;
 
-    property int activeId;
     property string activeEval;
-    required property var sceIds; // { mostamar:[], final:[], test:[]}
+    required property var sceIds; // { mostamar:[], final:[], test:[]} one-student all-course
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -506,6 +505,11 @@ Page {
 
                                                 }
 
+                                                Keys.onEscapePressed: {
+                                                    evalRecDel.edit = false
+                                                    te.text = (evalRecDel.value > -1000)? evalRecDel.value : ""
+                                                }
+
                                                 Button{
                                                     height: 24
                                                     width: 24
@@ -568,8 +572,7 @@ Page {
                                                     anchors.fill: parent
                                                     onDoubleClicked:{
                                                         evalRecDel.edit = true
-                                                        te.focus = true;
-                                                        studentCoursesPageId.activeId = parseInt(evalRecDel.model["student_course_eval_id"]);
+                                                        te.forceActiveFocus();
                                                         studentCoursesPageId.activeEval = evalRecDel.model["eval_name"];
                                                     }
                                                 }
