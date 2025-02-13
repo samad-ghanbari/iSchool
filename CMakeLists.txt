@@ -4,6 +4,10 @@
 # Postgresql:   16.6
 # find . -type f -name "*.qml" -exec sed -i 's/B Yekan/Kalameh/g' {} +
 
+# QXlsx
+# cmake ./../QXlsx/ -DCMAKE_INSTALL_PREFIX=/opt/Qt/6.5.3  -DCMAKE_BUILD_TYPE=Release
+# cmake --build .
+# cmake --install .
 
 cmake_minimum_required(VERSION 3.16)
 
@@ -13,8 +17,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(ICON_SOURCES icon.ico)
 set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/icon.rc")
-
-    
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
@@ -319,8 +321,9 @@ target_link_libraries(appiSchool PRIVATE Qt6::Sql)
 find_package(Qt6 REQUIRED COMPONENTS  PrintSupport)
 target_link_libraries(appiSchool PRIVATE  Qt6::PrintSupport)
 
-#target_link_libraries(appiSchool PRIVATE Qt6::Widgets)
-#find_package(Qt6 REQUIRED COMPONENTS Widgets)
+# QXlsx
+find_package(QXlsxQt6 REQUIRED) # or  QXlsxQt5
+target_link_libraries(appiSchool PRIVATE QXlsx::QXlsx)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -332,6 +335,7 @@ set_target_properties(appiSchool PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+
 
 target_link_libraries(appiSchool
     PRIVATE Qt6::Quick
