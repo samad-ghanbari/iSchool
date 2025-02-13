@@ -20,7 +20,26 @@ Page {
 
     required property StackView appStackView;
 
+    property int activeId;
+    property string activeEval;
+    required property var sceIds; // { mostamar:[], final:[], test:[]}
+
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
+
+    function findItemRecursive(parent, propertyName, propertyValue) {
+        for (var i = 0; i < parent.children.length; i++) {
+            var child = parent.children[i];
+            if (child[propertyName] === propertyValue) {
+                return child;
+            }
+            // Recursively search in the child's children
+            var found = findItemRecursive(child, propertyName, propertyValue);
+            if (found) {
+                return found;
+            }
+        }
+        return null; // Return null if no item is found
+    }
 
     ColumnLayout
     {
@@ -188,6 +207,7 @@ Page {
             color: "transparent"
 
             Flickable{
+                id: flk
                 anchors.fill: parent
                 contentHeight: lv.contentHeight
                 contentWidth: lv.contentWidth
@@ -195,7 +215,8 @@ Page {
                 ListView
                 {
                     id: lv
-                    anchors.fill: parent
+                    width: parent.width
+                    height: parent.height
                     model: ListModel{id: lvModel;}
                     clip: true
                     delegate:lvDelegate
@@ -330,11 +351,14 @@ Page {
                             // evals
                             Repeater{
                                 id: rowEvalRep
+                                property int modelIndex : recdel.model.index
                                 model: (typeof recdel.model["evals"] != "undefined")? recdel.model["evals"] : [] // [{},{}]
                                 delegate:
                                     Rectangle{
                                     id: evalRecDel
                                     required property var model;
+                                    property int sceID : (typeof evalRecDel.model["student_course_eval_id"] != "undefined")? parseInt(evalRecDel.model["student_course_eval_id"]) : -1;
+                                    property alias cell : te
                                     Layout.alignment: Qt.AlignLeft
                                     Layout.preferredHeight: 50
                                     Layout.preferredWidth:titlerec.implicitWidth + 120
@@ -436,7 +460,51 @@ Page {
 
                                                 //onEditingFinished:parent.doneEdit();
                                                 //onFocusChanged: parent.doneEdit();
-                                                Keys.onReturnPressed: parent.doneEdit();
+                                                Keys.onTabPressed: {
+                                                    parent.doneEdit();
+                                                    var scei = parseInt(evalRecDel.model["student_course_eval_id"]);
+                                                    var eval_name = evalRecDel.model["eval_name"];
+                                                    var array = studentCoursesPageId.sceIds[eval_name]; // array
+                                                    // find index
+                                                    var index = array.indexOf(scei) + 1;
+                                                    var nextScei = array[index];
+                                                    if(nextScei === undefined) return;
+                                                    // find record in repeater with property sceID equal to nextscei
+                                                    var item = studentCoursesPageId.findItemRecursive(lv, "sceID", nextScei);
+                                                    if(item){
+                                                        item.edit = true;
+                                                        item.cell.forceActiveFocus();
+
+                                                        item = lv.itemAtIndex(rowEvalRep.modelIndex)
+                                                        if (item) {
+                                                            flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
+                                                        }
+                                                    }
+
+                                                }
+
+                                                Keys.onReturnPressed: {
+                                                    parent.doneEdit();
+                                                    var scei = parseInt(evalRecDel.model["student_course_eval_id"]);
+                                                    var eval_name = evalRecDel.model["eval_name"];
+                                                    var array = studentCoursesPageId.sceIds[eval_name]; // array
+                                                    // find index
+                                                    var index = array.indexOf(scei) + 1;
+                                                    var nextScei = array[index];
+                                                    if(nextScei === undefined) return;
+                                                    // find record in repeater with property sceID equal to nextscei
+                                                    var item = studentCoursesPageId.findItemRecursive(lv, "sceID", nextScei);
+                                                    if(item){
+                                                        item.edit = true;
+                                                        item.cell.forceActiveFocus();
+
+                                                        item = lv.itemAtIndex(rowEvalRep.modelIndex)
+                                                        if (item) {
+                                                            flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
+                                                        }
+                                                    }
+
+                                                }
 
                                                 Button{
                                                     height: 24
@@ -500,7 +568,9 @@ Page {
                                                     anchors.fill: parent
                                                     onDoubleClicked:{
                                                         evalRecDel.edit = true
-                                                        te.focus = true
+                                                        te.focus = true;
+                                                        studentCoursesPageId.activeId = parseInt(evalRecDel.model["student_course_eval_id"]);
+                                                        studentCoursesPageId.activeEval = evalRecDel.model["eval_name"];
                                                     }
                                                 }
                                             }
@@ -509,7 +579,6 @@ Page {
 
                                     }
                                 }
-
 
 
                             }
@@ -522,7 +591,6 @@ Page {
             }
 
             Rectangle{width: parent.width; height: 5; color: "gainsboro"; anchors.bottom: parent.bottom;}
-
         }
     }
 

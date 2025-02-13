@@ -79,7 +79,7 @@ Page {
             color: "transparent"
 
             GridView{
-                id: baseGV
+                id: periodGV
                 model: ListModel{id: periodModel;}
                 anchors.fill: parent
                 anchors.topMargin: 20
