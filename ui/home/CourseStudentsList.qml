@@ -160,17 +160,54 @@ Page {
                 icon.color:"transparent"
                 text: "ثبت نمره"
                 font.family: "Kalameh"
-                font.pixelSize: 16
-                font.bold: true
+                font.pixelSize: 14
+                font.bold: false
                 display: AbstractButton.TextUnderIcon
-                opacity: 0.5
+                opacity: 0.8
                 onClicked: {
                     setGradeDialog.evalCBox.currentIndex=-1
                     setGradeDialog.gradeValue=""
                     setGradeDialog.open();
                 }
                 hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.8;
+            }
+
+            Button
+            {
+                height: 50
+                background: Item{}
+                icon.source: "qrc:/assets/images/upload.png"
+                icon.width: 32
+                icon.height: 32
+                text: "بارگزاری فایل اکسل"
+                font.family: "Kalameh"
+                font.pixelSize: 14
+                font.bold: false
+                display: AbstractButton.TextUnderIcon
+                icon.color:"transparent"
+                opacity: 0.8
+                onClicked: {}
+                hoverEnabled: true
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.85;
+            }
+            Button
+            {
+                height: 50
+                background: Item{}
+                icon.source: "qrc:/assets/images/download.png"
+                icon.width: 32
+                icon.height: 32
+                text: "دریافت فایل اکسل"
+                font.family: "Kalameh"
+                font.pixelSize: 14
+                font.bold: false
+                display: AbstractButton.TextUnderIcon
+                icon.color:"transparent"
+                opacity: 0.8
+                onClicked: {}
+                hoverEnabled: true
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.8;
             }
             Button
             {
@@ -181,11 +218,11 @@ Page {
                 icon.height: 32
                 text: "بروزرسانی ارزیابی‌ها"
                 font.family: "Kalameh"
-                font.pixelSize: 16
-                font.bold: true
+                font.pixelSize: 14
+                font.bold: false
                 display: AbstractButton.TextUnderIcon
                 icon.color:"transparent"
-                opacity: 0.5
+                opacity: 0.8
                 onClicked: {
                     if(dbMan.refreshCourseEvals(courseStudentsPageId.class_id, courseStudentsPageId.course_id))
                     {
@@ -210,7 +247,7 @@ Page {
                     }
                 }
                 hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.8;
             }
         }
 

@@ -301,6 +301,8 @@ qt_add_resources(appiSchool "assets"
         assets/images/report.png
         assets/images/pdf.png
         assets/images/excel.png
+        assets/images/download.png
+        assets/images/upload.png
 
     #design
     assets/images/design1.png
