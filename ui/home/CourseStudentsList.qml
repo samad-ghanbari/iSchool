@@ -20,6 +20,7 @@ Page {
     required property StackView appStackView;
 
     property string activeEval;
+    property bool onEditing : false;
     required property var sceIds; // { mostamar:[], final:[], test:[]} one-course all-students
 
     function findItemRecursive(parent, propertyName, propertyValue) {
@@ -345,6 +346,16 @@ Page {
                                     required property var model;
                                     property int sceID : (typeof evalRecDel.model["student_course_eval_id"] != "undefined")? parseInt(evalRecDel.model["student_course_eval_id"]) : -1;
                                     property alias cell : te
+                                    property bool edit : false
+                                    property real value : {
+                                        if(typeof evalRecDel.model["grade"] != "undefined"){
+                                            if(evalRecDel.model["grade"] !== "")
+                                                return evalRecDel.model["grade"];
+                                            else
+                                                return -1000;
+                                        }
+                                        else return -1000;
+                                    }
 
                                     Layout.alignment: Qt.AlignLeft
                                     Layout.preferredHeight: 50
@@ -356,16 +367,8 @@ Page {
                                     border.color: "gray"
 
 
-                                    property bool edit : false
-                                    property real value : {
-                                        if(typeof evalRecDel.model["grade"] != "undefined"){
-                                            if(evalRecDel.model["grade"] !== "")
-                                                return evalRecDel.model["grade"];
-                                            else
-                                                return -1000;
-                                        }
-                                        else return -1000;
-                                    }
+
+
 
                                     Row{
                                         anchors.fill: parent
@@ -392,7 +395,7 @@ Page {
                                             function doneEdit()
                                             {
                                                 evalRecDel.edit = false
-                                                evalRecDel.edit = false
+                                                courseStudentsPageId.onEditing = false
                                                 var v = parseFloat(te.text);
                                                 var scei = parseInt(evalRecDel.model["student_course_eval_id"]);
                                                 if(v > evalRecDel.model.max_grade)
@@ -457,6 +460,7 @@ Page {
                                                 Keys.onEscapePressed: {
                                                     evalRecDel.edit = false
                                                     te.text = (evalRecDel.value > -1000)? evalRecDel.value : ""
+                                                    courseStudentsPageId.onEditing = false;
                                                 }
                                                 Keys.onTabPressed: {
                                                     parent.doneEdit();
@@ -472,6 +476,7 @@ Page {
                                                     if(item){
                                                         item.edit = true;
                                                         item.cell.forceActiveFocus();
+                                                        courseStudentsPageId.onEditing = true;
 
                                                         item = lv.itemAtIndex(rowEvalRep.modelIndex)
                                                         if (item) {
@@ -495,6 +500,7 @@ Page {
                                                     if(item){
                                                         item.edit = true;
                                                         item.cell.forceActiveFocus();
+                                                        courseStudentsPageId.onEditing = true;
 
                                                         item = lv.itemAtIndex(rowEvalRep.modelIndex)
                                                         if (item) {
@@ -514,7 +520,6 @@ Page {
                                                     icon.color:"transparent"
                                                     opacity: 0.5
                                                     onClicked: parent.parent.doneEdit();
-
                                                     hoverEnabled: true
                                                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                                                     anchors.right:parent.right
@@ -531,6 +536,7 @@ Page {
                                                     opacity: 0.5
                                                     onClicked: {
                                                         evalRecDel.edit = false
+                                                        courseStudentsPageId.onEditing = false
                                                         te.text = (evalRecDel.value > -1000)? evalRecDel.value : ""
                                                     }
                                                     hoverEnabled: true
@@ -566,7 +572,34 @@ Page {
                                                 MouseArea{
                                                     anchors.fill: parent
                                                     onDoubleClicked:{
+                                                        if(courseStudentsPageId.onEditing)
+                                                        {
+                                                            // find 2clicked items and save them before
+                                                            var item = courseStudentsPageId.findItemRecursive(lv, "edit", true);
+                                                            while(item)
+                                                            {
+                                                                var scei = item.sceID;
+                                                                var val = item.cell.text;
+                                                                item.edit = false;
+                                                                if(!dbMan.setStudentCourseEvalGrade(scei, val))
+                                                                {
+                                                                    infoDialogId.dialogText = "انجام عملیات با خطا مواجه شد."
+                                                                    infoDialogId.dialogTitle = "خطا"
+                                                                    infoDialogId.dialogSuccess = false
+                                                                    infoDialogId.open();
+                                                                }
+                                                                else
+                                                                {
+                                                                    item.value = val;
+                                                                }
+
+                                                                item = courseStudentsPageId.findItemRecursive(lv, "edit", true);
+                                                            }
+
+                                                        }
+
                                                         evalRecDel.edit = true
+                                                        courseStudentsPageId.onEditing = true
                                                         te.forceActiveFocus();
                                                         courseStudentsPageId.activeEval = evalRecDel.model["eval_name"];
                                                     }

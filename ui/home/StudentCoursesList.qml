@@ -21,6 +21,7 @@ Page {
     required property StackView appStackView;
 
     property string activeEval;
+    property bool onEditing : false
     required property var sceIds; // { mostamar:[], final:[], test:[]} one-student all-course
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
@@ -404,7 +405,7 @@ Page {
                                             function doneEdit()
                                             {
                                                 evalRecDel.edit = false
-                                                evalRecDel.edit = false
+                                                studentCoursesPageId.onEditing = false
                                                 var v = parseFloat(te.text);
                                                 var scei = parseInt(evalRecDel.model["student_course_eval_id"]);
                                                 if(v > evalRecDel.model.max_grade)
@@ -472,6 +473,7 @@ Page {
                                                     var item = studentCoursesPageId.findItemRecursive(lv, "sceID", nextScei);
                                                     if(item){
                                                         item.edit = true;
+                                                        studentCoursesPageId.onEditing = true
                                                         item.cell.forceActiveFocus();
 
                                                         item = lv.itemAtIndex(rowEvalRep.modelIndex)
@@ -495,6 +497,7 @@ Page {
                                                     var item = studentCoursesPageId.findItemRecursive(lv, "sceID", nextScei);
                                                     if(item){
                                                         item.edit = true;
+                                                        studentCoursesPageId.onEditing = true
                                                         item.cell.forceActiveFocus();
 
                                                         item = lv.itemAtIndex(rowEvalRep.modelIndex)
@@ -507,6 +510,7 @@ Page {
 
                                                 Keys.onEscapePressed: {
                                                     evalRecDel.edit = false
+                                                    studentCoursesPageId.onEditing = false
                                                     te.text = (evalRecDel.value > -1000)? evalRecDel.value : ""
                                                 }
 
@@ -536,6 +540,7 @@ Page {
                                                     opacity: 0.5
                                                     onClicked: {
                                                         evalRecDel.edit = false
+                                                        studentCoursesPageId.onEditing = false
                                                         te.text = (evalRecDel.value > -1000)? evalRecDel.value : ""
                                                     }
                                                     hoverEnabled: true
@@ -571,7 +576,35 @@ Page {
                                                 MouseArea{
                                                     anchors.fill: parent
                                                     onDoubleClicked:{
+
+                                                        if(studentCoursesPageId.onEditing)
+                                                        {
+                                                            // find 2clicked items and save them before
+                                                            var item = studentCoursesPageId.findItemRecursive(lv, "edit", true);
+                                                            while(item)
+                                                            {
+                                                                var scei = item.sceID;
+                                                                var val = item.cell.text;
+                                                                item.edit = false;
+                                                                if(!dbMan.setStudentCourseEvalGrade(scei, val))
+                                                                {
+                                                                    infoDialogId.dialogText = "انجام عملیات با خطا مواجه شد."
+                                                                    infoDialogId.dialogTitle = "خطا"
+                                                                    infoDialogId.dialogSuccess = false
+                                                                    infoDialogId.open();
+                                                                }
+                                                                else
+                                                                {
+                                                                    item.value = val;
+                                                                }
+
+                                                                item = studentCoursesPageId.findItemRecursive(lv, "edit", true);
+                                                            }
+
+                                                        }
+
                                                         evalRecDel.edit = true
+                                                        studentCoursesPageId.onEditing = true
                                                         te.forceActiveFocus();
                                                         studentCoursesPageId.activeEval = evalRecDel.model["eval_name"];
                                                     }
