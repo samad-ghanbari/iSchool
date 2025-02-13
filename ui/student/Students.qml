@@ -464,14 +464,21 @@ Page {
         Rectangle {
             id: rec
             required property var model;
-
+            property bool boxHovered : false;
             width: 256
             height: 300
-            color:(rec.model.enabled)? "white" : "lightpink"
-            opacity: 0.8
+            color:{
+                if(rec.model.enabled)
+                    if(rec.boxHovered) return "snow"; else return "whitesmoke";
+                else
+                    if(rec.boxHovered) return "#fff0f5"; else return "#55fff0f5";
+
+
+            }
+            opacity: (rec.boxHovered)? 1 : 0.8
             radius: 10
-            border.width: 2
-            border.color: "lavenderblush"
+            border.width: 1
+            border.color: (rec.boxHovered)? "hotpink":"pink"
 
             MouseArea
             {
@@ -490,18 +497,8 @@ Page {
                                                    }
                                                    );
                 }
-                onHoveredChanged:{
-                    if(containsMouse){
-                        parent.opacity=1;
-                        rec.border.color = "pink"
-                    }
-                    else
-                    {
-                        rec.border.color = "lavenderblush"
-                        parent.opacity=0.8
-                    }
-                }
-
+                onEntered: rec.boxHovered = true
+                onExited: rec.boxHovered = false
             }
 
             Item
@@ -523,13 +520,14 @@ Page {
                         font.family: "Kalameh"
                         font.pixelSize: 16
                         font.bold: true
-                        color: "darkcyan"
+                        color: (rec.boxHovered)? "darkcyan" : "darkslategray"
                         Layout.preferredWidth: parent.width
                         horizontalAlignment: Text.AlignHCenter
                     }
                     Text {
                         text: "نام پدر" + " : " + rec.model.fathername
                         font.family: "Kalameh"
+                        color: (rec.boxHovered)? "black" : "darkslategray"
                         font.pixelSize: 14
                         font.bold: true
                         Layout.alignment: Qt.AlignLeft
@@ -539,6 +537,7 @@ Page {
                         text: "تاریخ تولد" + " : " + rec.model.birthday
                         font.family: "Kalameh"
                         font.pixelSize: 14
+                        color: (rec.boxHovered)? "black" : "darkslategray"
                         font.bold: true
                         Layout.alignment: Qt.AlignLeft
                         Layout.fillWidth: true

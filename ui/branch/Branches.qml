@@ -219,7 +219,7 @@ Page {
                         onClicked: branchesPage.appStackView.push(updateComponent, {
                                                                                     branchId: branchDelegate.model["id"],
                                                                                     branchCity: branchDelegate.model["city"],
-                                                                                    branchName:branchDelegate.model["branch_name"],
+                                                                                    branchName:branchDelegate.model["branch"],
                                                                                     branchAddress: branchDelegate.model["branch_address"]
                                                                                 });
                     }

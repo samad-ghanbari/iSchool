@@ -255,7 +255,7 @@ Page {
                             var branchText =  stepDelegate.model["branch_city"] + " - " + stepDelegate.model["branch_name"];
                             stepsPage.appStackView.push(updateComponent, {
                                                                stepId: stepDelegate.model["id"],
-                                                               step: stepDelegate.model["step_name"],
+                                                               step: stepDelegate.model["step"],
                                                                branch: branchText,
                                                                numeric_graded: stepDelegate.model["numeric_graded"],
                                                                field_based: stepDelegate.model["field_based"]

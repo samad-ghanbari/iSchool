@@ -196,7 +196,7 @@ Page {
                             anchors.fill: parent
                             spacing: 0
                             Label {
-                                text: "رشته " + rec.model.field_name
+                                text: rec.model.field_name
                                 padding: 0
                                 font.family: "Kalameh"
                                 font.pixelSize: (rec.highlighted)? 20 :16
@@ -248,7 +248,7 @@ Page {
 
                                         fieldsPage.appStackView.push(updateComponent, {
                                                                          id: rec.model.id,
-                                                                         field_name: rec.model.field_name,
+                                                                         field_name: rec.model.field,
                                                                          sort_priority: rec.model.sort_priority,
                                                                          enabled: rec.model.enabled
                                                                      });

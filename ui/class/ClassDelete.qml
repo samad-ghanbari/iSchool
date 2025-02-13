@@ -96,9 +96,11 @@ Page {
                         font.bold: true
                         color: "darkcyan"
                     }
+                    Row{
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        height: 50
                     Text {
-                        text: "سال تحصیلی " +  deleteClassPage.period
-                        width: parent.width
+                        text: "سال تحصیلی "
                         height: 50
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
@@ -106,6 +108,17 @@ Page {
                         font.pixelSize: 18
                         font.bold: true
                         color: "darkcyan"
+                    }
+                    Text {
+                        text:  deleteClassPage.period
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: "darkcyan"
+                    }
                     }
 
                     RowLayout{
@@ -117,7 +130,7 @@ Page {
                             Layout.preferredWidth:  150
                             Layout.preferredHeight: 50
                             verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
+                            horizontalAlignment: Text.AlignLeft
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true
@@ -145,7 +158,7 @@ Page {
                             Layout.preferredWidth:  150
                             Layout.preferredHeight: 50
                             verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
+                            horizontalAlignment: Text.AlignLeft
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             font.bold: true

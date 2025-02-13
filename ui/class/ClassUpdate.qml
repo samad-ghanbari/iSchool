@@ -96,16 +96,29 @@ Page {
                         font.bold: true
                         color: "darkcyan"
                     }
-                    Text {
-                        text: "سال تحصیلی " + updateClassPage.period
-                        width: parent.width
+                    Row{
                         height: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: "darkcyan"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Text {
+                            text: "سال تحصیلی "
+                            height: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "darkcyan"
+                        }
+                        Text {
+                            text: updateClassPage.period
+                            height: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "darkcyan"
+                        }
                     }
 
 

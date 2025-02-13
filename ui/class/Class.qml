@@ -132,7 +132,6 @@ Page {
                     }
                 }
 
-
                 // period
                 Rectangle
                 {
@@ -200,34 +199,52 @@ Page {
 
                 Item{width: parent.width; height: 20;}
 
-                // gridview
-                GridView
-                {
-                    id: classGV
-                    height: classGV.contentHeight + 100
+                ListView{
+                    id: categorisedList
+                    height: categorisedList.contentHeight + 100
                     width: parent.width
                     anchors.margins: 10
-                    flickableDirection: Flickable.AutoFlickDirection
-                    clip: true
-                    cellWidth: 320
-                    cellHeight: 250
-                    model: ListModel{id: classModel}
-                    highlight: Item{}
-                    delegate: classDelegate
-
-                    function closeSwipeHandler()
-                    {
-                        for (var i = 0; i <= classGV.count; i++)
-                        {
-                            var item = classGV.contentItem.children[i];
-                            if(item.swipe)
-                            {
-                                item.swipe.close();
-                                item.checked = false;
-                            }
+                    clip: true;
+                    model:  ListModel{id: catModel; }
+                    delegate: Column{
+                        id: catLV
+                        required property var model;
+                        width: categorisedList.width
+                        Label{
+                            text: catLV.model["cat"];
+                            width: parent.width;
+                            height: 50
+                            horizontalAlignment: Label.AlignHCenter
+                            verticalAlignment: Label.AlignVCenter
+                            background: Rectangle{color: "darkcyan"; }
+                            color: "white"
+                            font.family: "Kalameh"
+                            font.bold: true
+                            font.pixelSize: 16
                         }
-                    }
 
+                        Item{height: 20; width: parent.width;}
+
+                        // gridview
+                        GridView
+                        {
+                            id: classGV
+                            height: classGV.contentHeight + 100
+                            width: parent.width
+                            anchors.margins: 10
+                            flickableDirection: Flickable.AutoFlickDirection
+                            clip: true
+                            cellWidth: 320
+                            cellHeight: 320
+                            model: catLV.model["classes"];
+                            highlight: Item{}
+                            delegate: classDelegate
+                        }
+
+                        Item{height: 20; width: parent.width;}
+
+
+                    }
                 }
             }
         }
@@ -238,139 +255,126 @@ Page {
     Component
     {
         id: classDelegate
-        SwipeDelegate
+        Rectangle
         {
             id: rec
             required property var model;
+            property bool boxHovered : false;
 
             //cl.id, cl.base_id, b.step_id, s.step_name, s.field_based, b.base_name, b.field_id, f.field_name, cl.period_id, cl.class_name, cl.class_desc, cl.sort_priority "\
 
-            height: 220
+            height: 300
             width: 300
-            checkable: true
-            checked: rec.swipe.complete
-            onCheckedChanged: { if(!rec.checked) rec.swipe.close();}
             clip: true
+            color: (rec.boxHovered)? "snow" : "whitesmoke";
+            border.color: "pink";
+            border.width: (rec.boxHovered)? 2 : 1 ;
 
-            background: Rectangle{
-                color: (rec.highlighted)? "snow" : "whitesmoke";
-                border.color: "lightgray";
-                border.width: (rec.highlighted)? 4 : 0 ;
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: rec.boxHovered = true
+                onExited: rec.boxHovered = false
             }
 
-            padding: 0
-            contentItem: Rectangle
+            ColumnLayout
             {
-                color: (rec.highlighted)? "snow" : "whitesmoke";
-                //border.color: (rec.highlighted)? "mediumvioletred" : "lightgray"
-
-                Column
-                {
-                    id: recCol
-                    anchors.fill: parent
-                    Item{
-                        width: parent.width
-                        height: 48
-                        Image {
-                            source: "qrc:/assets/images/classroom2.png"
-                            anchors.centerIn: parent
-                            height:  48
-                            width:  48
-                        }
+                id: recCol
+                spacing: 0
+                anchors.fill: parent;
+                Item{
+                    Layout.fillWidth: true
+                    Layout.preferredHeight:  50
+                    Image {
+                        source: "qrc:/assets/images/classroom2.png"
+                        anchors.centerIn: parent
+                        height:  50
+                        width:  50
                     }
-
-
-                    Item{ width: parent.width;height: 10;}
-                    spacing: 0
-                    Label {
-                        text: "کلاس " + rec.model.class_name
-                        padding: 0
-                        font.family: "Kalameh"
-                        font.pixelSize: (rec.highlighted)? 20 :16
-                        font.bold: (rec.highlighted)? true : false
-                        color: (rec.highlighted)? "darkmagenta":"black"
-                        horizontalAlignment: Label.AlignHCenter
-                        width: parent.width
-                        height: 50
-                        elide: Text.ElideRight
-                    }
-                    Label {
-                        text: {
-                            var temp = rec.model.base_name;
-                            if(rec.model.field_based)
-                                return rec.model.field_name + " - " + temp;
-                            else
-                                return temp;
-                        }
-                        padding: 0
-                        font.family: "Kalameh"
-                        font.pixelSize: (rec.highlighted)? 20 :16
-                        font.bold: (rec.highlighted)? true : false
-                        color: (rec.highlighted)? "darkmagenta":"black"
-                        horizontalAlignment: Label.AlignHCenter
-                        width: parent.width
-                        height: 50
-                        elide: Text.ElideRight
-                    }
-
-                    Label {
-                        text: rec.model.class_desc
-                        padding: 0
-                        font.family: "Kalameh"
-                        font.pixelSize: (rec.highlighted)? 20 :16
-                        font.bold: (rec.highlighted)? true : false
-                        color: (rec.highlighted)? "royalblue":"black"
-                        horizontalAlignment: Label.AlignHCenter
-                        width: parent.width
-                        height: 50
-                        elide: Text.ElideRight
-                    }
-                    Item{ width: parent.width;height: 10;}
                 }
+
+                Item{ Layout.fillWidth: true; Layout.preferredHeight:  10}
+
+                Label {
+                    text: rec.model.class_name
+                    padding: 0
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    font.bold: false
+                    color: (rec.boxHovered)? "darkmagenta":"black"
+                    horizontalAlignment: Label.AlignHCenter
+                    Layout.fillWidth: true
+                    Layout.preferredHeight:  50
+                    elide: Text.ElideRight
+                }
+                Label {
+                    text: {
+                        var temp = rec.model.base_name;
+                        if(rec.model.field_based)
+                        return rec.model.field_name + " - " + temp;
+                        else
+                        return temp;
+                    }
+                    padding: 0
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    font.bold: false
+                    color: (rec.boxHovered)? "darkmagenta":"black"
+                    horizontalAlignment: Label.AlignHCenter
+                    Layout.fillWidth: true
+                    Layout.preferredHeight:  50
+                    elide: Text.ElideRight
+                }
+                Label {
+                    text: rec.model.class_desc
+                    padding: 0
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    font.bold:  false
+                    color: (rec.boxHovered)? "royalblue":"black"
+                    horizontalAlignment: Label.AlignHCenter
+                    Layout.fillWidth: true
+                    Layout.preferredHeight:  50
+                    elide: Text.ElideRight
+                }
+
+                Item{ Layout.fillWidth: true; Layout.preferredHeight: 10;}
 
                 // bottom bar
                 Rectangle{
-                    height: 5;
-                    width: rec.width;
-                    anchors.bottom: parent.bottom;
-                    anchors.margins: 0
-                    color: "darkmagenta";
+                    Layout.preferredWidth: parent.width/2
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.preferredHeight:  4
+                    color: (rec.boxHovered)?"darkmagenta" : "gray";
                 }
-            }
 
-            onClicked: {rec.swipe.close();}
-            onPressed: { classGV.currentIndex = model.index; classGV.closeSwipeHandler();}
-            highlighted: (model.index === classGV.currentIndex)? true: false;
+                Item{Layout.fillHeight: true; Layout.preferredWidth: parent.width;}
 
-            swipe.right:
-            Rectangle{
-                width: 40
-                height: 220
-                anchors.left: rec.left
-                color: "darkmagenta"
-                Column{
-                    anchors.fill: parent
+                RowLayout{
+                    Layout.fillWidth: true
+                    Layout.preferredHeight:  32
+
+                    Item{Layout.fillWidth: true; Layout.preferredHeight: 32;}
+
                     // class student
                     Button
                     {
-                        height: 40
-                        width: 40
+                        Layout.preferredHeight: 32;
+                        Layout.preferredWidth:  32;
                         hoverEnabled: true
                         icon.source: "qrc:/assets/images/users.png"
-                        icon.width: 40
-                        icon.height: 40
+                        icon.width: 32
+                        icon.height: 32
                         icon.color:"transparent"
-                        display: AbstractButton.TextUnderIcon
-                        SwipeDelegate.onClicked:
+                        background: Item{}
+                        opacity: 0.5
+                        onHoveredChanged: opacity = (rec.boxHovered)? 1 : 0.5
+                        onClicked:
                         {
-                            if(rec.swipe.complete)
-                            rec.swipe.close();
-
                             classPage.appStackView.push(classStudentsComponent, {
                                                             base: rec.model.base_name,
                                                             field_based: rec.model.field_based,
                                                             field: rec.model.field_name,
-
                                                             class_id: rec.model.class_id,
                                                             class_name: rec.model.class_name
                                                         } );
@@ -380,19 +384,18 @@ Page {
 
                     Button
                     {
-                        height: 40
-                        width: 40
+                        Layout.preferredHeight: 32;
+                        Layout.preferredWidth:  32;
                         hoverEnabled: true
                         icon.source: "qrc:/assets/images/course.png"
-                        icon.width: 40
-                        icon.height: 40
+                        icon.width: 32
+                        icon.height: 32
                         icon.color:"transparent"
-                        display: AbstractButton.TextUnderIcon
-                        SwipeDelegate.onClicked:
+                        background: Item{}
+                        opacity: 0.5
+                        onHoveredChanged: opacity = (rec.boxHovered)? 1 : 0.5
+                        onClicked:
                         {
-                            if(rec.swipe.complete)
-                            rec.swipe.close();
-
                             classPage.appStackView.push(classCoursesComponent, {
                                                             base: rec.model.base_name,
                                                             field_based: rec.model.field_based,
@@ -402,32 +405,29 @@ Page {
                                                             class_name: rec.model.class_name,
 
                                                         });
-
                         }
                     }
 
                     Button
                     {
-                        height: 40
-                        width: 40
+                        Layout.preferredHeight: 32;
+                        Layout.preferredWidth:  32;
                         hoverEnabled: true
                         icon.source: "qrc:/assets/images/edit.png"
-                        icon.width: 40
-                        icon.height: 40
+                        icon.width: 32
+                        icon.height: 32
                         icon.color:"transparent"
                         visible : classPage.admin
-                        display: AbstractButton.TextUnderIcon
-                        SwipeDelegate.onClicked:
+                        background: Item{}
+                        opacity: 0.5
+                        onHoveredChanged: opacity = (rec.boxHovered)? 1 : 0.5
+                        onClicked:
                         {
-                            if(rec.swipe.complete)
-                            rec.swipe.close();
-
                             classPage.appStackView.push(updateClassComponent, {
                                                             class_id: rec.model.class_id,
-                                                            class_name: rec.model.class_name,
+                                                            class_name: rec.model["class"],
                                                             class_desc : rec.model.class_desc,
                                                             sort_priority : rec.model.sort_priority,
-
                                                             field_based: rec.model.field_based,
                                                             field: rec.model.field_name,
                                                             base: rec.model.base_name
@@ -439,8 +439,8 @@ Page {
 
                     Button
                     {
-                        height: 40
-                        width: 40
+                        Layout.preferredHeight: 32;
+                        Layout.preferredWidth:  32;
                         hoverEnabled: true
                         font.bold: true
                         visible : classPage.admin
@@ -448,15 +448,14 @@ Page {
                         font.pixelSize: 14
                         palette.buttonText:  "white"
                         icon.source: "qrc:/assets/images/trash.png"
-                        icon.width: 40
-                        icon.height: 40
+                        icon.width: 32
+                        icon.height: 32
                         icon.color:"transparent"
-                        display: AbstractButton.TextUnderIcon
-                        SwipeDelegate.onClicked:
+                        background: Item{}
+                        opacity: 0.5
+                        onHoveredChanged: opacity = (rec.boxHovered)? 1 : 0.5
+                        onClicked:
                         {
-                            if(rec.swipe.complete)
-                            rec.swipe.close();
-
                             classPage.appStackView.push(deleteClassComponent, {
                                                             class_id: rec.model.class_id,
                                                             class_name: rec.model.class_name,
@@ -469,8 +468,8 @@ Page {
                         }
                     }
                 }
-            }
 
+            }
         }
     }
 
@@ -538,7 +537,6 @@ Page {
     Component{
         id: classStudentsComponent
         ClassStudents{
-
             branch: branchCB.currentText;
             step: stepCB.currentText
             step_id: stepCB.currentValue

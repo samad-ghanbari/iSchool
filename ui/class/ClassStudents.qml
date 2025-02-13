@@ -29,33 +29,26 @@ Page {
             id: cspCL
             anchors.fill: parent
 
-            Rectangle{
+            Text {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 64
-                color:"transparent"
-                Text {
-                    width: parent.width
-                    height: parent.height
-                    Layout.preferredHeight: 64
-                    verticalAlignment: Qt.AlignVCenter
-                    horizontalAlignment: Qt.AlignHCenter
-                    text: classStudentsPageId.branch + " - " + classStudentsPageId.step
-                    font.family: "Kalameh"
-                    font.pixelSize: 18
-                    font.bold: true
-                    color: "darkcyan"
-                }
+                Layout.preferredHeight: 30
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: classStudentsPageId.branch + " - " + classStudentsPageId.step
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkcyan"
             }
-
 
             Text {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 25
+                Layout.preferredHeight: 30
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
                 text: (classStudentsPageId.field_based) ?  classStudentsPageId.field + " - " + classStudentsPageId.base : classStudentsPageId.base
                 font.family: "Kalameh"
-                font.pixelSize: 18
+                font.pixelSize: 16
                 font.bold: true
                 color: "darkcyan"
             }
@@ -64,36 +57,36 @@ Page {
                 Layout.preferredHeight: 25
                 Layout.alignment: Qt.AlignHCenter
 
-            Text {
-                height: 25
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: " سال تحصیلی "
-                font.family: "Kalameh"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkcyan"
-            }
-            Text {
-                height: 25
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: classStudentsPageId.period
-                font.family: "Kalameh"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkcyan"
-            }
-            Text {
-                height: 25
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: " - " + classStudentsPageId.class_name
-                font.family: "Kalameh"
-                font.pixelSize: 18
-                font.bold: true
-                color: "darkcyan"
-            }
+                Text {
+                    height: 30
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    text: " سال تحصیلی "
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    font.bold: true
+                    color: "darkcyan"
+                }
+                Text {
+                    height: 30
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    text: classStudentsPageId.period
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    font.bold: true
+                    color: "darkcyan"
+                }
+                Text {
+                    height: 30
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    text: " - " + classStudentsPageId.class_name
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    font.bold: true
+                    color: "darkcyan"
+                }
             }
 
             Rectangle{
@@ -314,7 +307,7 @@ Page {
                 Layout.preferredHeight: 50
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                text: "افزودن دانش‌آموز به کلاس " + classStudentsPageId.class_name
+                text: "افزودن دانش‌آموز به " + classStudentsPageId.class_name
                 font.family: "Kalameh"
                 font.pixelSize: 14
                 wrapMode: Text.WrapAnywhere
@@ -616,9 +609,6 @@ Page {
                         for(var obj of jsondata){
                             classModel.append(obj);
                         }
-
-                        branchCB.currentIndex = -1
-
                     }
 
                 }

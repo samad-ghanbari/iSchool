@@ -28,7 +28,7 @@ Page {
 
         Text {
             Layout.fillWidth: true
-            Layout.preferredHeight: 64
+            Layout.preferredHeight: 30
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             text: "دروس کلاس"
@@ -53,67 +53,64 @@ Page {
                 Text {
                     text: classCoursesPage.branch + " - " + classCoursesPage.step
                     width: parent.width
-                    height: 50
+                    height: 30
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     font.family: "Kalameh"
-                    font.pixelSize: 18
+                    font.pixelSize: 16
                     font.bold: true
-                    color: "darkcyan"
+                    color: "darkslategray"
                 }
                 Text {
                     text:{
                         var base = classCoursesPage.base
                         if(classCoursesPage.field_based)
-                            return  classCoursesPage.field + " - " +  base
+                        return  classCoursesPage.field + " - " +  base
                         else
-                            return base;
+                        return base;
                     }
                     width: parent.width
-                    height: 50
+                    height: 30
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     font.family: "Kalameh"
-                    font.pixelSize: 18
+                    font.pixelSize: 16
                     font.bold: true
-                    color: "darkcyan"
+                    color: "darkslategray"
                 }
                 Row{
-                    height: 50
+                    height: 30
                     anchors.horizontalCenter: parent.horizontalCenter
 
-                Text {
-                    text:  "سال تحصیلی "
-                    width: parent.width
-                    height: 50
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    font.family: "Kalameh"
-                    font.pixelSize: 18
-                    font.bold: true
-                    color: "darkcyan"
-                }
                     Text {
-                        text: classCoursesPage.period
-                        width: parent.width
-                        height: 50
+                        text:  "سال تحصیلی "
+                        height: 30
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
-                        font.pixelSize: 18
+                        font.pixelSize: 16
                         font.bold: true
-                        color: "darkcyan"
+                        color: "darkslategray"
                     }
                     Text {
-                        text: classCoursesPage.class_name
-                        width: parent.width
-                        height: 50
+                        text: classCoursesPage.period
+                        height: 30
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         font.family: "Kalameh"
-                        font.pixelSize: 18
+                        font.pixelSize: 16
                         font.bold: true
-                        color: "darkcyan"
+                        color: "darkslategray"
+                    }
+                    Text {
+                        text: " - " + classCoursesPage.class_name
+                        height: 30
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "darkslategray"
                     }
                 }
 
@@ -208,10 +205,18 @@ Page {
         {
             id: recDelg
             required property var model;
-            color: (recDelg.highlighted)? "snow" : "whitesmoke";
-            border.color: (recDelg.highlighted)? "mediumvioletred" : "lightgray"
+            property bool boxHovered : false;
+            color: (recDelg.boxHovered)? "snow" : "whitesmoke";
+            border.color: (recDelg.boxHovered)? "darkcyan" : "lightgray"
             width: 300
             height: 100
+
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: recDelg.boxHovered =  true
+                onExited:  recDelg.boxHovered =  false;
+            }
 
             //id, course_name, step_id, base_id, period_id, course_coefficient, test_coefficient, shared_coefficient, final_weight, shared_weight
             Column
@@ -225,9 +230,9 @@ Page {
                     text:  recDelg.model.course_name
                     padding: 0
                     font.family: "Kalameh"
-                    font.pixelSize: (recDelg.highlighted)? 20 :16
-                    font.bold: (recDelg.highlighted)? true : false
-                    color: (recDelg.highlighted)? "royalblue":"black"
+                    font.pixelSize: (recDelg.boxHovered)? 20 :16
+                    font.bold: (recDelg.boxHovered)? true : false
+                    color: (recDelg.boxHovered)? "royalblue":"black"
                     horizontalAlignment: Label.AlignHCenter
                     width: parent.width
                     height: 50

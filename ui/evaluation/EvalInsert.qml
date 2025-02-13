@@ -84,7 +84,7 @@ Page {
                         color: "black"
                     }
                     Text {
-                        text: (insertPage.field_based) ? insertPage.field + "  " +  insertPage.base :  insertPage.base
+                        text: (insertPage.field_based) ? insertPage.field + " - " +  insertPage.base :  insertPage.base
                         width: parent.width
                         height: 50
                         verticalAlignment: Text.AlignVCenter

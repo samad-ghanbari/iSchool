@@ -89,7 +89,7 @@ Page {
                         color: "black"
                     }
                     Text {
-                        text: (deletePage.field_based) ?  deletePage.field + "  " +  deletePage.base :  deletePage.base
+                        text: (deletePage.field_based) ?  deletePage.field + " - " +  deletePage.base :  deletePage.base
                         width: parent.width
                         height: 50
                         verticalAlignment: Text.AlignVCenter

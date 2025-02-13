@@ -92,7 +92,7 @@ Page {
                         color: "black"
                     }
                     Text {
-                        text: (updatePage.field_based) ?  updatePage.field + "  " +  updatePage.base :  updatePage.base
+                        text: (updatePage.field_based) ?  updatePage.field + " - " +  updatePage.base :  updatePage.base
                         width: parent.width
                         height: 50
                         verticalAlignment: Text.AlignVCenter

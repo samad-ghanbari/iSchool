@@ -347,7 +347,7 @@ Page {
                                                                    branch_name: baseDelegate.model.branch_name,
                                                                    step_name: baseDelegate.model.step_name,
                                                                    field_name: baseDelegate.model.field_name,
-                                                                   base_name: baseDelegate.model.base_name
+                                                                   base_name: baseDelegate.model.base
                                                                });
 
                     }

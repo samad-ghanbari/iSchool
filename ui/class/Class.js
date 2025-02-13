@@ -4,7 +4,8 @@ function updateBranchCB()
     stepCBoxModel.clear();
     periodCBoxModel.clear();
 
-    classModel.clear();
+    catModel.clear();
+    //classModel.clear();
 
     var jsondata = dbMan.getBranches();
     //id, city, branch_name, address
@@ -21,7 +22,8 @@ function updateStepCB(branchId)
     stepCBoxModel.clear();
     periodCB.currentIndex = -1
 
-    classModel.clear();
+    catModel.clear();
+    //classModel.clear();
 
     var jsondata = dbMan.getBranchSteps(branchId);
     //s.id, s.branch_id, s.step_name, s.field_based, s.numeric_graded, b.city, b.branch_name
@@ -36,7 +38,8 @@ function updateStepCB(branchId)
 function updatePeriodCB(step_id)
 {
     periodCBoxModel.clear();
-    classModel.clear();
+    catModel.clear();
+    //classModel.clear();
     var jsondata = dbMan.getStepPeriods(step_id, false);
     var temp;
     for(var obj of jsondata)
@@ -48,13 +51,14 @@ function updatePeriodCB(step_id)
 
 function updateClassModel(step_id, period_id)
 {
-    classModel.clear();
-    var jsondata = dbMan.getClasses(step_id, period_id);
-    //
+    catModel.clear();
+    //classModel.clear();
+    var jsondata = dbMan.getClassesCategorised(step_id, period_id); // [{cat classes}, {}]
     for(var obj of jsondata)
     {
+        // obj[cat, classes[]]
         //cl.id, cl.base_id, b.step_id, b.base_name, b.field_id, f.field_name, cl.period_id, cl.class_name, cl.class_desc, cl.sort_priority
-        classModel.append(obj)
+        catModel.append(obj)
     }
 }
 
