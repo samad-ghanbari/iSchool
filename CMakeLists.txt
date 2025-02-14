@@ -135,6 +135,7 @@ qt_add_qml_module(appiSchool
 
     #PUBLIC
         ui/public/BaseDialog.qml
+        ui/public/EvalDialog.qml
 
     #STEP
         ui/step/Steps.qml
@@ -176,6 +177,7 @@ qt_add_qml_module(appiSchool
     #STUDENT EVALS
         ui/student_evals/StudentsEvals.qml
         ui/student_evals/StudentsEvals.js
+
 
 )
 
@@ -326,6 +328,12 @@ target_link_libraries(appiSchool PRIVATE  Qt6::PrintSupport)
 # QXlsx
 find_package(QXlsxQt6 REQUIRED) # or  QXlsxQt5
 target_link_libraries(appiSchool PRIVATE QXlsx::QXlsx)
+
+#QJalaliCalendar
+# QCalendar inside core module and QJalali inside core private
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core)
+target_link_libraries(appiSchool PRIVATE Qt6::Core)
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

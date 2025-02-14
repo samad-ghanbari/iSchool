@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
+
 import "./../public" as DialogBox
 
 Page {
@@ -17,6 +19,7 @@ Page {
     required property int student_id;
     required property string student;
     required property string student_photo;
+    required property var class_evals; // [{eval-1}, {}, ] // id, eval_name, course_flag, test_flag, final_flag
 
     required property StackView appStackView;
 
@@ -231,7 +234,11 @@ Page {
                 display: AbstractButton.TextUnderIcon
                 icon.color:"transparent"
                 opacity: 0.8
-                onClicked: {}
+                onClicked:
+                {
+                    evalSelectionDialog.fillComboBox();
+                    evalSelectionDialog.open();
+                }
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.8;
             }
@@ -677,5 +684,51 @@ Page {
         dialogTitle: "خطا"
         dialogText: "عملیات با خطا مواجه شد."
         dialogSuccess: false
+    }
+    //dialog error
+    DialogBox.BaseDialog
+    {
+        id: successDialogId
+        dialogTitle: "موفق"
+        dialogText: "عملیات با موفقیت انجام شد."
+        dialogSuccess: true
+    }
+
+    // eval Selection
+    DialogBox.EvalDialog
+    {
+        id: evalSelectionDialog
+        model : studentCoursesPageId.class_evals
+        onEvalSelected: (eval_id)=>{
+                            saveFileDialog.eval_id = eval_id;
+                            saveFileDialog.open();
+                            evalSelectionDialog.close();
+                        }
+    }
+
+    // file dialog
+    FileDialog {
+        id: saveFileDialog
+        title: "محل ذخیره فایل اکسل"
+        currentFolder: "file:///home/samad/share/Desktop/"
+        //currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
+        fileMode: FileDialog.SaveFile
+
+        property int eval_id;
+
+        onAccepted:{
+            if(dbMan.generateStudentCoursesXlsx(selectedFile, studentCoursesPageId.student_id, studentCoursesPageId.class_id, saveFileDialog.eval_id))
+            {
+                successDialogId.width = 500
+                successDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile
+                successDialogId.open();
+            }
+            else
+            {
+                infoDialogId.open();
+            }
+        }
+        onRejected: saveFileDialog.close();
     }
 }

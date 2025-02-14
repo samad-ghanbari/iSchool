@@ -337,6 +337,7 @@ Page {
             period: classStudentsPageId.period
             class_name: classStudentsPageId.class_name
             class_id: classStudentsPageId.class_id
+            class_evals : dbMan.getClassEvalsArray(classStudentsPageId.class_id)
         }
     }
 

@@ -62,11 +62,18 @@ Page {
                 font.family: "Kalameh"
                 font.pixelSize: 20
                 font.bold: true
-                color: (parent.boxHovered)? "darkmagenta" : "#CC8b008b"
+                color: "darkmagenta"
                 text: recdel.model.city + " - " + recdel.model.branch_name
                 horizontalAlignment: Label.AlignHCenter
                 verticalAlignment: Label.AlignVCenter
                 anchors.top: parent.top
+
+                ColorAnimation on color {
+                           from: "royalblue"
+                           to: "darkmagenta"
+                           duration: 200
+                           running: recdel.boxHovered
+                       }
             }
             Label{
                 width: parent.width
@@ -74,7 +81,7 @@ Page {
                 font.family: "Kalameh"
                 font.pixelSize: 20
                 font.bold: true
-                color: (parent.boxHovered)? "darkslategray"  : "#CC2f4f4f";
+                color:  "darkslategray"
                 text: recdel.model.branch_address
                 horizontalAlignment: Label.AlignHCenter
                 verticalAlignment: Label.AlignVCenter
@@ -95,7 +102,20 @@ Page {
                 }
             }
 
-            Rectangle{width: parent.width/2; height: 1; color: "deeppink"; visible: (parent.boxHovered)?true: false; anchors.bottom: parent.bottom; anchors.horizontalCenter: parent.horizontalCenter;}
+            Rectangle{
+                width:(recdel.boxHovered)? parent.width/2 : parent.width/3;
+                height: (recdel.boxHovered)? 2 : 1;
+                color: "deeppink";
+                anchors.bottom: parent.bottom;
+                anchors.horizontalCenter: parent.horizontalCenter;
+                Behavior on width {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.InOutQuad
+                        }
+                }
+
+            }
 
         }
 
