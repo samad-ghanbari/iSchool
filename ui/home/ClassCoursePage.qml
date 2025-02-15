@@ -210,7 +210,6 @@ Page {
                                                                     course_id: recdel.model.id,
                                                                     course_name: recdel.model.course_name,
                                                                     sceIds : dbMan.getCategorisedCourseSCEIds(classCoursePageId.class_id, recdel.model.id)
-
                                                                 });
                         }
                     }
@@ -242,6 +241,7 @@ Page {
             period: classCoursePageId.period
             class_name: classCoursePageId.class_name
             class_id: classCoursePageId.class_id
+            class_evals : dbMan.getClassEvalsArray(classCoursePageId.class_id)
         }
     }
 }

@@ -17,6 +17,8 @@ Page {
     required property int class_id;
     required property int course_id;
     required property string course_name;
+    required property var class_evals; // [{eval-1}, {}, ] // id, eval_name, course_flag, test_flag, final_flag
+
 
     required property StackView appStackView;
 
@@ -188,7 +190,9 @@ Page {
                 display: AbstractButton.TextUnderIcon
                 icon.color:"transparent"
                 opacity: 0.8
-                onClicked: {}
+                onClicked: {
+                    openFileDialog.open();
+                }
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.85;
             }
@@ -206,7 +210,10 @@ Page {
                 display: AbstractButton.TextUnderIcon
                 icon.color:"transparent"
                 opacity: 0.8
-                onClicked: {}
+                onClicked: {
+                    evalSelectionDialog.fillComboBox();
+                    evalSelectionDialog.open();
+                }
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.8;
             }
@@ -674,6 +681,15 @@ Page {
         dialogSuccess: false
     }
 
+    //dialog error
+    DialogBox.BaseDialog
+    {
+        id: successDialogId
+        dialogTitle: "موفق"
+        dialogText: "عملیات با موفقیت انجام شد."
+        dialogSuccess: true
+    }
+
     // set grade of all students in once
     Dialog{
         id: setGradeDialog
@@ -845,7 +861,7 @@ Page {
     DialogBox.EvalDialog
     {
         id: evalSelectionDialog
-        model : studentCoursesPageId.class_evals
+        model : courseStudentsPageId.class_evals
         onEvalSelected: (eval_id)=>{
                             saveFileDialog.eval_id = eval_id;
                             saveFileDialog.open();
@@ -865,7 +881,7 @@ Page {
         property int eval_id;
 
         onAccepted:{
-            if(dbMan.generateCourseStudentsGradeXlsx(selectedFile, courseStudentsPageId.class_id, courseStudentsPageId.course_id. saveFileDialog.eval_id))
+            if(dbMan.generateCourseStudentsGradeXlsx(selectedFile, courseStudentsPageId.class_id, courseStudentsPageId.course_id, saveFileDialog.eval_id))
             {
                 successDialogId.width = 500
                 successDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile
