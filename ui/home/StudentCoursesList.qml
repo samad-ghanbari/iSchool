@@ -216,7 +216,9 @@ Page {
                 display: AbstractButton.TextUnderIcon
                 icon.color:"transparent"
                 opacity: 0.8
-                onClicked: {}
+                onClicked: {
+                    openFileDialog.open();
+                }
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.8;
             }
@@ -730,5 +732,39 @@ Page {
             }
         }
         onRejected: saveFileDialog.close();
+    }
+
+    // file dialog
+    FileDialog {
+        id: openFileDialog
+        title: "انتخاب فایل اکسل"
+        currentFolder: "file:///home/samad/share/Desktop/"
+        //currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
+        fileMode: FileDialog.OpenFile
+
+        onAccepted:{
+            if(dbMan.updateStudentCoursesByXlsx(selectedFile, studentCoursesPageId.student_id, studentCoursesPageId.class_id))
+            {
+                successDialogId.width = 300
+                successDialogId.dialogText = "نمرات دانش‌آموز با موفقیت بروز گردید."
+                successDialogId.open();
+
+                lvModel.clear();
+                var register_id = dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
+                var jsonarray = dbMan.getStudentCourses_evals(register_id);
+                for(var obj of jsonarray)
+                {
+                    lvModel.append(obj);
+                }
+            }
+            else
+            {
+                infoDialogId.width = 400
+                infoDialogId.dialogText = dbMan.getLastError();
+                infoDialogId.open();
+            }
+        }
+        onRejected: openFileDialog.close();
     }
 }

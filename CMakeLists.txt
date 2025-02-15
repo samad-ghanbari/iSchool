@@ -4,10 +4,15 @@
 # Postgresql:   16.6
 # find . -type f -name "*.qml" -exec sed -i 's/B Yekan/Kalameh/g' {} +
 
-# QXlsx
-# cmake ./../QXlsx/ -DCMAKE_INSTALL_PREFIX=/opt/Qt/6.5.3  -DCMAKE_BUILD_TYPE=Release
-# cmake --build .
-# cmake --install .
+# QXlsx v1.5
+# https://github.com/QtExcel/QXlsx/releases
+#INSTALL
+#    cmake ./../QXlsx/ -DCMAKE_INSTALL_PREFIX=/opt/Qt/6.5.3  -DCMAKE_BUILD_TYPE=Release
+#    cmake --build .
+#    cmake --install .
+#INCLUDE
+#    add_subdirectory(QXlsx)
+#    target_link_libraries(appiSchool PRIVATE QXlsx::QXlsx)
 
 cmake_minimum_required(VERSION 3.16)
 
@@ -326,7 +331,11 @@ find_package(Qt6 REQUIRED COMPONENTS  PrintSupport)
 target_link_libraries(appiSchool PRIVATE  Qt6::PrintSupport)
 
 # QXlsx
-find_package(QXlsxQt6 REQUIRED) # or  QXlsxQt5
+# with installed
+#find_package(QXlsxQt6 REQUIRED) # or  QXlsxQt5
+#target_link_libraries(appiSchool PRIVATE QXlsx::QXlsx)
+# without installation
+add_subdirectory(lib/QXlsx)
 target_link_libraries(appiSchool PRIVATE QXlsx::QXlsx)
 
 #QJalaliCalendar

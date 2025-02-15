@@ -1,7 +1,5 @@
 #include "Backend.h"
 #include "lib/database/dbman.h"
-#include <QXlsxQt6/xlsxdocument.h>
-#include <QXlsxQt6/xlsxworkbook.h>
 #include <QJsonObject>
 #include <QFontDatabase>
 
