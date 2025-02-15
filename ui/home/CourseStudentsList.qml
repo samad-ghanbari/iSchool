@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
 import "./../public" as DialogBox
 
 Page {
@@ -838,5 +839,76 @@ Page {
             }
         }
 
+    }
+
+    // eval Selection
+    DialogBox.EvalDialog
+    {
+        id: evalSelectionDialog
+        model : studentCoursesPageId.class_evals
+        onEvalSelected: (eval_id)=>{
+                            saveFileDialog.eval_id = eval_id;
+                            saveFileDialog.open();
+                            evalSelectionDialog.close();
+                        }
+    }
+
+    // file dialog
+    FileDialog {
+        id: saveFileDialog
+        title: "محل ذخیره فایل اکسل"
+        currentFolder: "file:///home/samad/share/Desktop/"
+        //currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
+        fileMode: FileDialog.SaveFile
+
+        property int eval_id;
+
+        onAccepted:{
+            if(dbMan.generateCourseStudentsGradeXlsx(selectedFile, courseStudentsPageId.class_id, courseStudentsPageId.course_id. saveFileDialog.eval_id))
+            {
+                successDialogId.width = 500
+                successDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile
+                successDialogId.open();
+            }
+            else
+            {
+                infoDialogId.open();
+            }
+        }
+        onRejected: saveFileDialog.close();
+    }
+
+    // file dialog
+    FileDialog {
+        id: openFileDialog
+        title: "انتخاب فایل اکسل"
+        currentFolder: "file:///home/samad/share/Desktop/"
+        //currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
+        fileMode: FileDialog.OpenFile
+
+        onAccepted:{
+            if(dbMan.updateCourseStudentsGradeByXlsx(selectedFile, courseStudentsPageId.class_id, courseStudentsPageId.class_id,))
+            {
+                successDialogId.width = 300
+                successDialogId.dialogText = "نمرات دانش‌آموزان با موفقیت بروز گردید."
+                successDialogId.open();
+
+                lvModel.clear();
+                var jsonarray = dbMan.getCourseStudents_evals(courseStudentsPageId.class_id, courseStudentsPageId.course_id);
+                for(var obj of jsonarray)
+                {
+                    lvModel.append(obj);
+                }
+            }
+            else
+            {
+                infoDialogId.width = 400
+                infoDialogId.dialogText = dbMan.getLastError();
+                infoDialogId.open();
+            }
+        }
+        onRejected: openFileDialog.close();
     }
 }

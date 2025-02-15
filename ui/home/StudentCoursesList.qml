@@ -720,7 +720,7 @@ Page {
         property int eval_id;
 
         onAccepted:{
-            if(dbMan.generateStudentCoursesXlsx(selectedFile, studentCoursesPageId.student_id, studentCoursesPageId.class_id, saveFileDialog.eval_id))
+            if(dbMan.generateStudentCoursesGradeXlsx(selectedFile, studentCoursesPageId.student_id, studentCoursesPageId.class_id, saveFileDialog.eval_id))
             {
                 successDialogId.width = 500
                 successDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile
@@ -744,7 +744,7 @@ Page {
         fileMode: FileDialog.OpenFile
 
         onAccepted:{
-            if(dbMan.updateStudentCoursesByXlsx(selectedFile, studentCoursesPageId.student_id, studentCoursesPageId.class_id))
+            if(dbMan.updateStudentCoursesGradeByXlsx(selectedFile, studentCoursesPageId.student_id, studentCoursesPageId.class_id))
             {
                 successDialogId.width = 300
                 successDialogId.dialogText = "نمرات دانش‌آموز با موفقیت بروز گردید."
