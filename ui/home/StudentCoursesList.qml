@@ -215,12 +215,12 @@ Page {
                 font.bold: false
                 display: AbstractButton.TextUnderIcon
                 icon.color:"transparent"
-                opacity: 0.8
+                opacity: 0.5
                 onClicked: {
                     openFileDialog.open();
                 }
                 hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.8;
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
             }
             Button
             {
@@ -235,14 +235,14 @@ Page {
                 font.bold: false
                 display: AbstractButton.TextUnderIcon
                 icon.color:"transparent"
-                opacity: 0.8
+                opacity: 0.5
                 onClicked:
                 {
                     evalSelectionDialog.fillComboBox();
                     evalSelectionDialog.open();
                 }
                 hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.8;
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
             }
         }
 

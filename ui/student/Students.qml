@@ -3,8 +3,10 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
 
 import "./Students.js" as JS
+import "./../public" as DialogBox
 
 Page {
     id: studentsPage
@@ -278,6 +280,52 @@ Page {
                     }
 
                     Item{Layout.fillWidth: true}
+
+                    Button
+                    {
+                        visible: (stepCB.currentIndex >=0)? true : false;
+                        height: 50
+                        background: Item{}
+                        icon.source: "qrc:/assets/images/upload.png"
+                        icon.width: 32
+                        icon.height: 32
+                        text: "بارگزاری فایل اکسل"
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        font.bold: false
+                        display: AbstractButton.TextUnderIcon
+                        icon.color:"transparent"
+                        opacity: 0.5
+                        onClicked: {
+                            openFileDialog.open();
+                        }
+                        hoverEnabled: true
+                        onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                    }
+                    Button
+                    {
+                        visible: (stepCB.currentIndex >=0)? true : false;
+                        height: 50
+                        background: Item{}
+                        icon.source: "qrc:/assets/images/download.png"
+                        icon.width: 32
+                        icon.height: 32
+                        text: "دریافت فایل اکسل"
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        font.bold: false
+                        display: AbstractButton.TextUnderIcon
+                        icon.color:"transparent"
+                        opacity: 0.5
+                        onClicked:
+                        {
+                            saveFileDialog.open();
+                        }
+                        hoverEnabled: true
+                        onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                    }
+
+
                     Button
                     {
                         visible: (stepCB.currentIndex >=0)? true : false;
@@ -978,5 +1026,80 @@ Page {
                 }
             }
         }
+    }
+
+    // file dialog
+    FileDialog {
+        id: saveFileDialog
+        title: "محل ذخیره فایل اکسل"
+        currentFolder: "file:///home/samad/share/Desktop/"
+        //currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
+        fileMode: FileDialog.SaveFile
+
+        onAccepted:{
+            if(dbMan.generateStudentsExcel(selectedFile, stepCB.currentValue))
+            {
+                successDialogId.width = 500
+                successDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile
+                successDialogId.open();
+            }
+            else
+            {
+                infoDialogId.open();
+            }
+        }
+        onRejected: saveFileDialog.close();
+    }
+
+    // file dialog
+    FileDialog {
+        id: openFileDialog
+        title: "انتخاب فایل اکسل"
+        currentFolder: "file:///home/samad/share/Desktop/"
+        //currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
+        fileMode: FileDialog.OpenFile
+
+        onAccepted:{
+            if(dbMan.insertStudentsByExcel(selectedFile, stepCB.currentValue))
+            {
+                successDialogId.width = 300
+                successDialogId.dialogText = "لیست دانش‌آموزان با موفقیت در دیتابیس درج گردید."
+                successDialogId.open();
+
+                lvModel.clear();
+                var register_id = dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
+                var jsonarray = dbMan.getStudentCourses_evals(register_id);
+                for(var obj of jsonarray)
+                {
+                    lvModel.append(obj);
+                }
+            }
+            else
+            {
+                infoDialogId.width = 400
+                infoDialogId.dialogText = dbMan.getLastError();
+                infoDialogId.open();
+            }
+        }
+        onRejected: openFileDialog.close();
+    }
+
+    //dialog error
+    DialogBox.BaseDialog
+    {
+        id: infoDialogId
+        dialogTitle: "خطا"
+        dialogText: "عملیات با خطا مواجه شد."
+        dialogSuccess: false
+    }
+    //dialog error
+    DialogBox.BaseDialog
+    {
+        id: successDialogId
+        dialogTitle: "موفق"
+        dialogText: "عملیات با موفقیت انجام شد."
+        dialogSuccess: true
     }
 }
