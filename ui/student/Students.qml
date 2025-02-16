@@ -1064,16 +1064,21 @@ Page {
         onAccepted:{
             if(dbMan.insertStudentsByExcel(selectedFile, stepCB.currentValue))
             {
-                successDialogId.width = 300
+                successDialogId.width = 500
                 successDialogId.dialogText = "لیست دانش‌آموزان با موفقیت در دیتابیس درج گردید."
                 successDialogId.open();
 
-                lvModel.clear();
-                var register_id = dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
-                var jsonarray = dbMan.getStudentCourses_evals(register_id);
-                for(var obj of jsonarray)
-                {
-                    lvModel.append(obj);
+                studentModel.clear();
+
+                studentsPage.offset = studentsPage.offset + studentsPage.limit;
+                studentsPage.pageNumber = studentsPage.pageNumber + 1;
+                if(studentsPage.offset >= studentsPage.studentsCount ){ studentsPage.offset = studentsPage.offset - studentsPage.limit; studentsPage.pageNumber = studentsPage.pageNumber - 1;}
+
+                var cond = {}
+                var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
+
+                for(var obj of jsondata){
+                    studentModel.append(obj);
                 }
             }
             else
