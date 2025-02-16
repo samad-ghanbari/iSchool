@@ -905,7 +905,7 @@ Page {
         fileMode: FileDialog.OpenFile
 
         onAccepted:{
-            if(dbMan.updateCourseStudentsGradeByXlsx(selectedFile, courseStudentsPageId.class_id, courseStudentsPageId.class_id,))
+            if(dbMan.updateCourseStudentsGradeByXlsx(selectedFile, courseStudentsPageId.class_id, courseStudentsPageId.course_id))
             {
                 successDialogId.width = 300
                 successDialogId.dialogText = "نمرات دانش‌آموزان با موفقیت بروز گردید."
