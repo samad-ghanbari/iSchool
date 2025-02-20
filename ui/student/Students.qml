@@ -1070,11 +1070,15 @@ Page {
 
                 studentModel.clear();
 
+
                 studentsPage.offset = studentsPage.offset + studentsPage.limit;
                 studentsPage.pageNumber = studentsPage.pageNumber + 1;
                 if(studentsPage.offset >= studentsPage.studentsCount ){ studentsPage.offset = studentsPage.offset - studentsPage.limit; studentsPage.pageNumber = studentsPage.pageNumber - 1;}
 
                 var cond = {}
+                studentsPage.studentsCount = dbMan.getStudentsCount(stepCB.currentValue, cond);
+                studentCountLbl.text = studentsPage.studentsCount + " نفر "
+
                 var jsondata = dbMan.getStudents(stepCB.currentValue, cond, studentsPage.limit, studentsPage.offset);
 
                 for(var obj of jsondata){
