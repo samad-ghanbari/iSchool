@@ -2,8 +2,11 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
 
 import "Course.js" as Methods
+import "./../public" as DialogBox
+
 
 Page {
     id: coursesPage
@@ -249,14 +252,61 @@ Page {
                     anchors.bottomMargin: 10
                 }
 
-                Item{
+                RowLayout{
                     width: parent.width
                     height: 64
+
+                    Item{Layout.fillWidth: true; Layout.preferredHeight: 64;}
+
                     Button
                     {
-                        width: 64
-                        height: 64
-                        anchors.right: parent.right
+                        visible: (periodCB.currentIndex >=0)? true : false;
+                        Layout.preferredHeight:64
+                        background: Item{}
+                        icon.source: "qrc:/assets/images/upload.png"
+                        icon.width: 32
+                        icon.height: 32
+                        text: "بارگزاری فایل اکسل"
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        font.bold: false
+                        display: AbstractButton.TextUnderIcon
+                        icon.color:"transparent"
+                        opacity: 0.5
+                        onClicked: {
+                            openFileDialog.open();
+                        }
+                        hoverEnabled: true
+                        onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                    }
+                    Button
+                    {
+                        visible: (periodCB.currentIndex >=0)? true : false;
+                        Layout.preferredHeight:64
+                        background: Item{}
+                        icon.source: "qrc:/assets/images/download.png"
+                        icon.width: 32
+                        icon.height: 32
+                        text: "دریافت فایل اکسل"
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        font.bold: false
+                        display: AbstractButton.TextUnderIcon
+                        icon.color:"transparent"
+                        opacity: 0.5
+                        onClicked:
+                        {
+                            saveFileDialog.open();
+                        }
+                        hoverEnabled: true
+                        onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                    }
+
+
+                    Button
+                    {
+                        Layout.preferredWidth:  64
+                        Layout.preferredHeight: 64
                         visible: ( (periodCB.currentValue > -1) && (coursesPage.admin) )? true : false;
                         background: Item{}
                         icon.source: "qrc:/assets/images/add.png"
@@ -269,6 +319,8 @@ Page {
                         enabled: coursesPage.admin
                     }
                 }
+
+                Item{ width: parent.width; height: 20;}
 
                 GridView
                 {
@@ -510,5 +562,80 @@ Page {
             period_id: periodCB.currentValue
 
         }
+    }
+
+
+    // excel
+
+
+    // file dialog
+    FileDialog {
+        id: saveFileDialog
+        title: "محل ذخیره فایل اکسل"
+        currentFolder: "file:///home/samad/share/Desktop/"
+        //currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
+        fileMode: FileDialog.SaveFile
+
+        onAccepted:{
+            if(dbMan.generateCourseExcel(selectedFile, stepCB.currentValue, baseCB.currentValue, periodCB.currentValue))
+            {
+                successDialogId.width = 500
+                successDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile
+                successDialogId.open();
+            }
+            else
+            {
+                infoDialogId.open();
+            }
+        }
+        onRejected: saveFileDialog.close();
+    }
+
+    // file dialog
+    FileDialog {
+        id: openFileDialog
+        title: "انتخاب فایل اکسل"
+        currentFolder: "file:///home/samad/share/Desktop/"
+        //currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
+        fileMode: FileDialog.OpenFile
+
+        onAccepted:{
+            if(dbMan.insertCoursesByExcel(selectedFile, stepCB.currentValue, baseCB.currentValue, periodCB.currentValue))
+            {
+                successDialogId.width = 500
+                successDialogId.dialogText = "لیست دروس با موفقیت در دیتابیس درج گردید." + "\n" + "در صورت نیاز نسبت به اصلاح ضرایب اقدام فرمایید.";
+                successDialogId.open();
+
+                 Methods.updateCourse(stepCB.currentValue, baseCB.currentValue, periodCB.currentValue);
+
+            }
+            else
+            {
+                infoDialogId.width = 400
+                infoDialogId.height = 400
+                infoDialogId.dialogText = dbMan.getLastError();
+                infoDialogId.open();
+            }
+        }
+        onRejected: openFileDialog.close();
+    }
+
+    //dialog error
+    DialogBox.BaseDialog
+    {
+        id: infoDialogId
+        dialogTitle: "خطا"
+        dialogText: "عملیات با خطا مواجه شد."
+        dialogSuccess: false
+    }
+    //dialog error
+    DialogBox.BaseDialog
+    {
+        id: successDialogId
+        dialogTitle: "موفق"
+        dialogText: "عملیات با موفقیت انجام شد."
+        dialogSuccess: true
     }
 }

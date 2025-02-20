@@ -284,7 +284,7 @@ Page {
                     Button
                     {
                         visible: (stepCB.currentIndex >=0)? true : false;
-                        height: 50
+                        Layout.preferredHeight: 64
                         background: Item{}
                         icon.source: "qrc:/assets/images/upload.png"
                         icon.width: 32
@@ -305,7 +305,7 @@ Page {
                     Button
                     {
                         visible: (stepCB.currentIndex >=0)? true : false;
-                        height: 50
+                        Layout.preferredHeight:64
                         background: Item{}
                         icon.source: "qrc:/assets/images/download.png"
                         icon.width: 32
