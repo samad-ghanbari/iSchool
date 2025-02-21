@@ -182,6 +182,7 @@ qt_add_qml_module(appiSchool
     #STUDENT EVALS
         ui/student_evals/StudentsEvals.qml
         ui/student_evals/StudentsEvals.js
+        QML_FILES ui/home/CourseRank.qml
 
 
 )

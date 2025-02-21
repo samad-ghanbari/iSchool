@@ -6,7 +6,7 @@ import QtQuick.Dialogs
 import "./../public" as DialogBox
 
 Page {
-    id: classReportPage
+    id: courseRankPage
 
     required property string branch;
     required property string step;
@@ -14,8 +14,6 @@ Page {
     required property string base;
     required property bool field_based;
     required property string period;
-    required property string class_name;
-    required property int class_id;
 
     signal popSignal();
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
@@ -24,27 +22,28 @@ Page {
     {
         anchors.fill: parent
 
-        Text {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 30
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            text: classReportPage.branch + " - " + classReportPage.step
-            font.family: "Kalameh"
-            font.pixelSize: 18
-            font.bold: true
-            color: "darkmagenta"
-        }
+            Text {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 64
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                text: courseRankPage.branch + " - " + courseRankPage.step
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color: "darkmagenta"
+            }
 
-        Row{
-            Layout.preferredHeight: 30
-            Layout.alignment: Qt.AlignHCenter
+
+            Row{
+                Layout.preferredHeight: 30
+                Layout.alignment: Qt.AlignHCenter
 
             Text {
                 height: 30
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: (classReportPage.field_based) ? classReportPage.field + " - " + " سال‌تحصیلی "  :  " سال‌تحصیلی "
+                text: (courseRankPage.field_based) ?  courseRankPage.field + " - " + " سال‌تحصیلی "  :  " سال‌تحصیلی "
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
@@ -54,14 +53,13 @@ Page {
                 height: 30
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: classReportPage.period
+                text: courseRankPage.period
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
             }
-
-        }
+            }
 
 
 
@@ -78,7 +76,7 @@ Page {
             Layout.preferredHeight: 25
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "گزارش کلی دانش‌آموزان " + classReportPage.class_name
+            text: "رتبه‌بندی مبتنی بر دروس دانش‌آموزان " + courseRankPage.base
             font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
@@ -109,10 +107,11 @@ Page {
                         verticalAlignment: Label.AlignVCenter
                         font.family: "Kalameh"
                         font.pixelSize: 16
-                        text:"تنظیمات گزارش"
+                        text:"تنظیمات رتبه‌بندی"
                         color: "slategray"
                     }
 
+                    // course
                     RowLayout{
                         width: parent.width
                         height: 50
@@ -124,7 +123,42 @@ Page {
                             verticalAlignment: Label.AlignVCenter
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            text:"آزمون مرجع: "
+                            text:"انتخاب درس"
+                        }
+                        ComboBox{
+                            id: courseCB
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.bold: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            model: ListModel{id: courseModel}
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted:
+                            {
+                                courseModel.append({text: "همه دروس" , value: 0});
+                                var jsondata = dbMan.getCourses();
+                                for(var obj of jsondata)
+                                    courseModel.append(obj);
+
+                                courseCB.currentIndex = 0;
+                            }
+                        }
+                    }
+                    // ref
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Label{
+                            Layout.preferredHeight: 50
+                            Layout.preferredWidth: 300
+                            Layout.alignment: Qt.AlignLeft
+                            horizontalAlignment: Label.AlignLeft
+                            verticalAlignment: Label.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text:"مرجع مقایسه نمره و رتبه: "
                         }
                         ComboBox{
                             id: compareRef
@@ -152,6 +186,42 @@ Page {
                                         finalValue = obj.id
                                 }
                                 compareRef.currentIndex = compareRef.indexOfValue(finalValue)
+                            }
+                        }
+                    }
+                    // count
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Label{
+                            Layout.preferredHeight: 50
+                            Layout.preferredWidth: 300
+                            Layout.alignment: Qt.AlignLeft
+                            horizontalAlignment: Label.AlignLeft
+                            verticalAlignment: Label.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text:"تعداد نفرات برتر"
+                        }
+                        ComboBox{
+                            id: countCB
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.bold: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            model: ListModel{id: countModel}
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted:
+                            {
+                                countModel.append({text:"اولین دانش‌آموز برتر", value:1});
+                                countModel.append({text:"سه دانش‌آموز برتر", value:3});
+                                countModel.append({text:"پنج دانش‌آموز برتر", value:5});
+                                countModel.append({text:"ده دانش‌آموز برتر", value:10});
+                                countModel.append({text:"همه دانش‌آموزان", value:0});
+
+                                countCB.currentIndex = countCB.indexOfValue(3)
                             }
                         }
                     }
@@ -211,6 +281,15 @@ Page {
                         }
                     }
 
+                    Switch{
+                        id: testSW
+                        width: parent.width
+                        height: 50
+                        text: "درصد تست"
+                        checked: true
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                    }
 
                     Switch{
                         id: photoSW
@@ -315,7 +394,7 @@ Page {
                                 contentFSModel.append({text: "18", value: 18});
                                 contentFSModel.append({text: "20", value: 20});
 
-                                contentFontSizeCB.currentIndex = contentFontSizeCB.indexOfValue(12)
+                                contentFontSizeCB.currentIndex = contentFontSizeCB.indexOfValue(14)
                             }
                         }
                     }
@@ -353,7 +432,7 @@ Page {
                                 titrFontModel.append({text: "18 Bold", value: 18});
                                 titrFontModel.append({text: "20 Bold", value: 20});
 
-                                titrFontSizeCB.currentIndex = titrFontSizeCB.indexOfValue(10)
+                                titrFontSizeCB.currentIndex = titrFontSizeCB.indexOfValue(12)
                             }
                         }
                     }
@@ -416,7 +495,7 @@ Page {
                             Layout.preferredWidth:  100
                             font.family: "Kalameh"
                             font.pixelSize: 14
-                            onClicked: { classReportPage.popSignal();}
+                            onClicked: { courseRankPage.popSignal();}
                             Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
                         }
                         Button
@@ -462,7 +541,7 @@ Page {
         dialogTitle: "عملیات موفق"
         dialogText: ""
         dialogSuccess: true
-        onDialogAccepted: classReportPage.popSignal();
+        onDialogAccepted: courseRankPage.popSignal();
     }
 
     // file dialog
@@ -476,14 +555,19 @@ Page {
         onAccepted:{
             var compare_ref_id = compareRef.currentValue
             var compare_ref = compareRef.currentText
+            var course_ref_id = courseCB.currentValue
+            var course_ref = courseCB.currentText;
+            var topCount = countCB.currentValue
 
             var params = {
-                "eval_id": compare_ref_id,
-                "eval" : compare_ref,
-                "class_id": classReportPage.class_id,
-                "class_name": classReportPage.class_name,
+                "topCount": topCount,
+                "course_ref_id": course_ref_id,
+                "course_ref": course_ref,
+                "compare_ref_id": compare_ref_id,
+                "compare_ref" : compare_ref,
                 "semester": semesterNumberTF.text,
                 "date": dateTE.text,
+                "include_test" : testSW.checked,
                 "include_photo" : photoSW.checked,
                 "include_fathername" : fathernameSW.checked,
                 "paperSize": paperSizeCB.currentValue,
@@ -492,7 +576,7 @@ Page {
                 "titrFontSize": titrFontSizeCB.currentValue
             }
 
-            if(dbMan.generateClassReportPdf(selectedFile, params))
+            if(dbMan.generateCourseRankPdf(selectedFile, params))
             {
                 successDialogId.width = 500
                 successDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile

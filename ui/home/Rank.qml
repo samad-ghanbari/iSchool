@@ -76,7 +76,7 @@ Page {
             Layout.preferredHeight: 25
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "رتبه‌بندی دانش‌آموزان " + rankPage.base
+            text: "رتبه‌بندی مبتنی بر معدل دانش‌آموزان " + rankPage.base
             font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
@@ -197,7 +197,7 @@ Page {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 50
                             placeholderText: "1403/11/11"
-                            text: ""
+                            text: dbMan.getCurrentDate();
                             font.bold: false
                             font.family: "Kalameh"
                             font.pixelSize: 16
