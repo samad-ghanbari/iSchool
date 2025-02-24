@@ -328,6 +328,7 @@ Page {
             field : classPageId.field
             field_based: classPageId.field_based
             period: classPageId.period
+            class_id: 0
 
             onPopSignal: classPageId.appStackView.pop();
         }

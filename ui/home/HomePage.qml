@@ -32,13 +32,13 @@ Page {
     }
 
     MultiEffect {
-            source: logoHomePage
-            anchors.fill: logoHomePage
-            blurEnabled: true
-            blur: 5
-            blurMax: 10
-        }
-
+        id: blurEffect
+        source: logoHomePage
+        anchors.fill: logoHomePage
+        blurEnabled: true
+        blur: 5
+        blurMax: 10
+    }
 
 
     ListView{
@@ -69,11 +69,11 @@ Page {
                 anchors.top: parent.top
 
                 ColorAnimation on color {
-                           from: "royalblue"
-                           to: "darkmagenta"
-                           duration: 200
-                           running: recdel.boxHovered
-                       }
+                    from: "royalblue"
+                    to: "darkmagenta"
+                    duration: 200
+                    running: recdel.boxHovered
+                }
             }
             Label{
                 width: parent.width
@@ -91,8 +91,13 @@ Page {
             MouseArea{
                 anchors.fill: parent
                 hoverEnabled: true
-                onEntered: parent.boxHovered = true;
-                onExited: parent.boxHovered = false;
+                onEntered: {
+                    parent.boxHovered = true;
+                }
+                onExited:
+                {
+                    parent.boxHovered = false;
+                }
                 onClicked: {
                     // step page
                     var branch_id = recdel.model.id;
@@ -109,10 +114,10 @@ Page {
                 anchors.bottom: parent.bottom;
                 anchors.horizontalCenter: parent.horizontalCenter;
                 Behavior on width {
-                        NumberAnimation {
-                            duration: 500
-                            easing.type: Easing.InOutQuad
-                        }
+                    NumberAnimation {
+                        duration: 500
+                        easing.type: Easing.InOutQuad
+                    }
                 }
 
             }

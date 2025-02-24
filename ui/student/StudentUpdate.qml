@@ -349,7 +349,7 @@ Page {
         title: "انتخاب تصویر"
         currentFolder: "file:///home/samad/"
         //  currentFolder: "C:/Users/YourUsername/Documents"
-        nameFilters: ["Images (*.png *.jpg)"]
+        nameFilters: ["Images (*.png *.jpg *.jpeg)"]
         onAccepted: photoPath.text = selectedFile;
         onRejected: photoBrows.close();
         }

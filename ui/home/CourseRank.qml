@@ -14,6 +14,8 @@ Page {
     required property string base;
     required property bool field_based;
     required property string period;
+    required property int class_id;
+
 
     signal popSignal();
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
@@ -123,7 +125,7 @@ Page {
                             verticalAlignment: Label.AlignVCenter
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            text:"انتخاب درس"
+                            text:"انتخاب درس: "
                         }
                         ComboBox{
                             id: courseCB
@@ -143,6 +145,18 @@ Page {
                                     courseModel.append(obj);
 
                                 courseCB.currentIndex = 0;
+                            }
+
+                            onActivated: {
+                                var val = courseCB.currentValue
+                                if(val > 0)
+                                {
+                                    perPageSW.visible = false
+                                }
+                                else
+                                {
+                                    perPageSW.visible = true
+                                }
                             }
                         }
                     }
@@ -201,7 +215,7 @@ Page {
                             verticalAlignment: Label.AlignVCenter
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            text:"تعداد نفرات برتر"
+                            text:"تعداد نفرات برتر: "
                         }
                         ComboBox{
                             id: countCB
@@ -282,6 +296,26 @@ Page {
                     }
 
                     Switch{
+                        id: perPageSW
+                        width: parent.width
+                        height: 50
+                        text: "صفحه جدید برای هر درس"
+                        checked: true
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                    }
+
+                    Switch{
+                        id: courseColSW
+                        width: parent.width
+                        height: 50
+                        text: "ستون عنوان درس"
+                        checked: false
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                    }
+
+                    Switch{
                         id: testSW
                         width: parent.width
                         height: 50
@@ -305,7 +339,7 @@ Page {
                         id: fathernameSW
                         width: parent.width
                         height: 50
-                        text: "نام پدر"
+                        text: "نام پدر دانش‌آموز"
                         checked: false
                         font.family: "Kalameh"
                         font.pixelSize: 16
@@ -557,7 +591,10 @@ Page {
             var compare_ref = compareRef.currentText
             var course_ref_id = courseCB.currentValue
             var course_ref = courseCB.currentText;
-            var topCount = countCB.currentValue
+            var topCount = countCB.currentValue;
+            var per_page = perPageSW.checked;
+            var course_column = courseColSW.checked
+            var class_id = courseRankPage.class_id
 
             var params = {
                 "topCount": topCount,
@@ -573,7 +610,10 @@ Page {
                 "paperSize": paperSizeCB.currentValue,
                 "fontFamily" : fontCB.currentValue,
                 "contentFontSize": contentFontSizeCB.currentValue,
-                "titrFontSize": titrFontSizeCB.currentValue
+                "titrFontSize": titrFontSizeCB.currentValue,
+                "per_page": per_page,
+                "course_column" : course_column,
+                "class_id" : class_id
             }
 
             if(dbMan.generateCourseRankPdf(selectedFile, params))

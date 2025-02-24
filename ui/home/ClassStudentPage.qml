@@ -104,7 +104,7 @@ Page {
 
                 Text {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 25
+                    Layout.preferredHeight: 64
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignLeft
                     text: " دانش‌آموزان کلاس "
@@ -116,8 +116,7 @@ Page {
 
                 Button
                 {
-                    Layout.preferredWidth: 100
-                    Layout.preferredHeight:  100
+                    Layout.preferredHeight:  64
                     background: Item{}
                     display: AbstractButton.TextUnderIcon
                     icon.source: "qrc:/assets/images/evaluation.png"
@@ -134,8 +133,7 @@ Page {
                 }
                 Button
                 {
-                    Layout.preferredWidth: 100
-                    Layout.preferredHeight:  100
+                    Layout.preferredHeight:  64
                     background: Item{}
                     display: AbstractButton.TextUnderIcon
                     icon.source: "qrc:/assets/images/report.png"
@@ -150,6 +148,24 @@ Page {
                     hoverEnabled: true
                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                 }
+                Button
+                {
+                    Layout.preferredHeight:  64
+                    background: Item{}
+                    icon.source: "qrc:/assets/images/stat.png"
+                    text: "رتبه‌بندی درسی"
+                    font.family: "Kalameh"
+                    font.pixelSize: 16
+                    icon.width: 32
+                    icon.height: 32
+                    display: AbstractButton.TextUnderIcon
+                    icon.color:"transparent"
+                    opacity: 0.5
+                    onClicked: appStackView.push(courseRankComponent);
+                    hoverEnabled: true
+                    onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                }
+
             }
 
 
@@ -390,4 +406,19 @@ Page {
         }
     }
 
+    // course rank component
+    Component{
+        id:courseRankComponent
+        CourseRank{
+            branch: classPageId.branch
+            step: classPageId.step
+            base: classPageId.base
+            field : classPageId.field
+            field_based: classPageId.field_based
+            period: classPageId.period
+            class_id: classStudentsPageId.class_id
+
+            onPopSignal: classPageId.appStackView.pop();
+        }
+    }
 }
