@@ -303,7 +303,7 @@ Page {
                         id: fieldBasedSW
                         width: parent.width
                         height: 50
-                        text: "گزارش مبتنی بر رشته " + studentResultSettingPage.field
+                        text: "گزارش مبتنی بر " + studentResultSettingPage.field
                         checked: studentResultSettingPage.field_based
                         visible: studentResultSettingPage.field_based
                         font.family: "Kalameh"

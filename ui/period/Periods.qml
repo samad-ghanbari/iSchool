@@ -255,7 +255,7 @@ Page {
                 }
 
                 Label {
-                    text:periodDelegate.modfel['step_name']
+                    text:periodDelegate.model['step_name']
                     padding: 0
                     font.family: "Kalameh"
                     font.pixelSize: 14

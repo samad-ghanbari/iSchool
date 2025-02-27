@@ -204,6 +204,7 @@ Page {
             Item{Layout.fillWidth: true; Layout.preferredHeight: 50;}
             Button
             {
+                visible: !dbMan.idPeriodPassed()
                 height: 50
                 background: Item{}
                 icon.source: "qrc:/assets/images/upload.png"
@@ -224,6 +225,7 @@ Page {
             }
             Button
             {
+                visible: !dbMan.idPeriodPassed()
                 height: 50
                 background: Item{}
                 icon.source: "qrc:/assets/images/download.png"
@@ -623,6 +625,7 @@ Page {
                                                 }
                                                 visible: !evalRecDel.edit
                                                 MouseArea{
+                                                    visible: !dbMan.idPeriodPassed()
                                                     anchors.fill: parent
                                                     onDoubleClicked:{
 

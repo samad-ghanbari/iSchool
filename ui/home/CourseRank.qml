@@ -15,6 +15,7 @@ Page {
     required property bool field_based;
     required property string period;
     required property int class_id;
+    required property string class_name;
 
 
     signal popSignal();
@@ -78,7 +79,7 @@ Page {
             Layout.preferredHeight: 25
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "رتبه‌بندی مبتنی بر دروس دانش‌آموزان " + courseRankPage.base
+            text: (courseRankPage.class_id > 0)? "رتبه‌بندی مبتنی بر دروس دانش‌آموزان " + courseRankPage.base + " - " + courseRankPage.class_name : "رتبه‌بندی مبتنی بر دروس دانش‌آموزان " + courseRankPage.base
             font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true

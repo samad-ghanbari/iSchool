@@ -96,6 +96,7 @@ Page {
 
             Button
             {
+                visible: !dbMan.idPeriodPassed()
                 Layout.preferredHeight:  64
                 background: Item{}
                 icon.source: "qrc:/assets/images/grade.png"
@@ -329,6 +330,7 @@ Page {
             field_based: classPageId.field_based
             period: classPageId.period
             class_id: 0
+            class_name: ""
 
             onPopSignal: classPageId.appStackView.pop();
         }

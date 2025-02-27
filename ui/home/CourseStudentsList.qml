@@ -155,6 +155,7 @@ Page {
 
             Button
             {
+                visible: !dbMan.idPeriodPassed()
                 Layout.preferredHeight:  50
                 background: Item{}
                 icon.source: "qrc:/assets/images/grade.png"
@@ -166,18 +167,19 @@ Page {
                 font.pixelSize: 14
                 font.bold: false
                 display: AbstractButton.TextUnderIcon
-                opacity: 0.8
+                opacity: 0.5
                 onClicked: {
                     setGradeDialog.evalCBox.currentIndex=-1
                     setGradeDialog.gradeValue=""
                     setGradeDialog.open();
                 }
                 hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.8;
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
             }
 
             Button
             {
+                visible: !dbMan.idPeriodPassed()
                 height: 50
                 background: Item{}
                 icon.source: "qrc:/assets/images/upload.png"
@@ -198,6 +200,7 @@ Page {
             }
             Button
             {
+                visible: !dbMan.idPeriodPassed()
                 height: 50
                 background: Item{}
                 icon.source: "qrc:/assets/images/download.png"
@@ -411,10 +414,6 @@ Page {
                                     border.width: 1
                                     border.color: "gray"
 
-
-
-
-
                                     Row{
                                         anchors.fill: parent
                                         anchors.margins: 5
@@ -615,6 +614,7 @@ Page {
                                                 }
                                                 visible: !evalRecDel.edit
                                                 MouseArea{
+                                                    visible: !dbMan.idPeriodPassed()
                                                     anchors.fill: parent
                                                     onDoubleClicked:{
                                                         if(courseStudentsPageId.onEditing)

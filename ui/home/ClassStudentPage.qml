@@ -417,6 +417,7 @@ Page {
             field_based: classPageId.field_based
             period: classPageId.period
             class_id: classStudentsPageId.class_id
+            class_name: classStudentsPageId.class_name
 
             onPopSignal: classPageId.appStackView.pop();
         }
