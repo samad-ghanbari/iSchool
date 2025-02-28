@@ -237,6 +237,10 @@ Page {
                 onClicked: {
                     if(dbMan.refreshCourseEvals(courseStudentsPageId.class_id, courseStudentsPageId.course_id))
                     {
+                        courseStudentsPageId.class_evals = dbMan.getClassEvalsArray(courseStudentsPageId.class_id)
+                        courseStudentsPageId.sceIds = dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id)
+
+
                         infoDialogId.dialogSuccess = true
                         infoDialogId.dialogTitle = "عملیات موفق"
                         infoDialogId.dialogText = "آزمون‌های درس برای دانش‌آموزان بروزرسانی شد.";

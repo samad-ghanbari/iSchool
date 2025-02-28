@@ -64,40 +64,6 @@ Page {
                 font.bold: true
                 color: "darkmagenta"
             }
-
-            Button
-            {
-                height: 50
-                width: 50
-                anchors.right: parent.right
-                background: Item{}
-                icon.source: "qrc:/assets/images/refresh.png"
-                icon.width: 50
-                icon.height: 50
-                icon.color:"transparent"
-                opacity: 0.5
-                onClicked: {
-                    if(dbMan.refreshStudentEvals(studentCoursesPageId.class_id, studentCoursesPageId.student_id))
-                    {
-                        infoDialogId.dialogSuccess = true
-                        infoDialogId.dialogTitle = "عملیات موفق"
-                        infoDialogId.dialogText = "آزمون‌های دانش‌آموز با موفقیت به روزرسانی شد."
-                        infoDialogId.open();
-
-                        lvModel.clear();
-                        var register_id = dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
-                        var jsonarray = dbMan.getStudentCourses_evals(register_id);
-                        for(var obj of jsonarray)
-                        {
-                            lvModel.append(obj);
-                        }
-                    }
-                    else
-                        infoDialogId.open();
-                }
-                hoverEnabled: true
-                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
-            }
         }
 
         RowLayout{
@@ -242,6 +208,48 @@ Page {
                 {
                     evalSelectionDialog.fillComboBox();
                     evalSelectionDialog.open();
+                }
+                hoverEnabled: true
+                onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+            }
+            Button
+            {
+                visible: !dbMan.idPeriodPassed()
+                height: 50
+                background: Item{}
+                icon.source: "qrc:/assets/images/refresh.png"
+                icon.width: 32
+                icon.height: 32
+                text: "بروزرسانی ارزیابی‌ها"
+                font.family: "Kalameh"
+                font.pixelSize: 14
+                font.bold: false
+                display: AbstractButton.TextUnderIcon
+                icon.color:"transparent"
+                opacity: 0.5
+                onClicked:
+                {
+                    if(dbMan.refreshStudentEvals(studentCoursesPageId.class_id, studentCoursesPageId.student_id))
+                    {
+                        studentCoursesPageId.class_evals = dbMan.getClassEvalsArray(studentCoursesPageId.class_id);
+                        studentCoursesPageId.sceIds = dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id)
+
+
+                        infoDialogId.dialogSuccess = true
+                        infoDialogId.dialogTitle = "عملیات موفق"
+                        infoDialogId.dialogText = "آزمون‌های دانش‌آموز با موفقیت به روزرسانی شد."
+                        infoDialogId.open();
+
+                        lvModel.clear();
+                        var register_id = dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
+                        var jsonarray = dbMan.getStudentCourses_evals(register_id);
+                        for(var obj of jsonarray)
+                        {
+                            lvModel.append(obj);
+                        }
+                    }
+                    else
+                        infoDialogId.open();
                 }
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
