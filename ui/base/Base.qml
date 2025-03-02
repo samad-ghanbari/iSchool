@@ -5,7 +5,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "./../public" as DialogBox;
-import "Base.js" as Methods
+import "./Base.js" as Methods
 
 Page {
     id: basesPage
@@ -119,7 +119,7 @@ Page {
                         fieldBox.visible = true;
                         fieldModel.clear();
                         baseModel.clear();
-                        var jsondata = dbMan.getFields(stepCB.currentValue);
+                        let jsondata = dbMan.getFields(stepCB.currentValue);
                         //
                         for(var obj of jsondata)
                         {
@@ -133,8 +133,6 @@ Page {
                         fieldBox.visible = false;
                         Methods.basesUpdate(stepCB.currentValue)
                     }
-
-
                 }
             }
         }
@@ -170,7 +168,7 @@ Page {
                 model: ListModel{id: fieldModel}
                 textRole: "text"
                 valueRole: "value"
-                onActivated: Methods.basesUpdate(stepCB.currentValue, fieldCB.currentValue)
+                onActivated: Methods.basesUpdateByField(stepCB.currentValue, fieldCB.currentValue)
             }
         }
 
@@ -236,7 +234,7 @@ Page {
             onInsertedSignal:{
                 var field_base = stepCBoxModel.get(stepCB.currentIndex)["field_based"];
                 if(field_base)
-                    Methods.basesUpdate(stepCB.currentValue, fieldCB.currentValue)
+                    Methods.basesUpdateByField(stepCB.currentValue, fieldCB.currentValue)
                 else
                     Methods.basesUpdate(stepCB.currentValue)
             }
@@ -391,7 +389,7 @@ Page {
             onUpdatedSignal:{
                 var field_base = stepCBoxModel.get(stepCB.currentIndex)["field_based"];
                 if(field_base)
-                    Methods.basesUpdate(stepCB.currentValue, fieldCB.currentValue)
+                    Methods.basesUpdateByField(stepCB.currentValue, fieldCB.currentValue)
                 else
                     Methods.basesUpdate(stepCB.currentValue)
             }
@@ -405,7 +403,7 @@ Page {
             onBaseDeleted: {
                 var field_base = stepCBoxModel.get(stepCB.currentIndex)["field_based"];
                 if(field_base)
-                    Methods.basesUpdate(stepCB.currentValue, fieldCB.currentValue)
+                    Methods.basesUpdateByField(stepCB.currentValue, fieldCB.currentValue)
                 else
                     Methods.basesUpdate(stepCB.currentValue)
             }

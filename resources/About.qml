@@ -119,6 +119,24 @@ Page {
                            }
                 }
 
+                // help
+                Button
+                {
+                    background: Item{}
+                    Layout.preferredWidth: 64
+                    Layout.preferredHeight: 64
+                    Layout.alignment: Qt.AlignHCenter
+                    icon.source: "qrc:/assets/images/help.png"
+                    icon.width: 64
+                    icon.height: 64
+                    hoverEnabled: true
+                    opacity: 0.5
+                    onHoveredChanged: opacity = (hovered)? 1 : 0.5;
+                    onClicked:
+                    {
+                        dbMan.openHelpFile();
+                    }
+                }
 
                 Item{
                     Layout.fillHeight: true; Layout.preferredWidth: 1;

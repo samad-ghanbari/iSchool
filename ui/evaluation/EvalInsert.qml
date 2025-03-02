@@ -199,7 +199,10 @@ Page {
                         font.pixelSize: 16
                         onClicked: {
                             if(checked)
+                            {
                                 testFlagSW.checked = false;
+                                maxGradeTF.text = "20"
+                            }
                         }
                     }
 
@@ -214,7 +217,10 @@ Page {
                         font.pixelSize: 16
                         onClicked: {
                             if(checked)
+                            {
                                 courseFlagSW.checked = false;
+                                maxGradeTF.text = "100"
+                            }
                         }
                     }
 

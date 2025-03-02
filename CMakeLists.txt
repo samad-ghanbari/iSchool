@@ -238,6 +238,7 @@ qt_add_resources(appiSchool "assets"
         assets/images/toolbox.png
         assets/images/refresh.png
         assets/images/info.png
+        assets/images/help.png
         assets/images/stop.png
         assets/images/stop32.png
         assets/images/reject.png
@@ -254,6 +255,7 @@ qt_add_resources(appiSchool "assets"
         assets/images/toRight.png
         assets/images/filter.png
 
+        lib/help.pdf
 
     #LOGO
     FILES
