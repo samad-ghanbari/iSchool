@@ -13,6 +13,12 @@
 #INCLUDE
 #    add_subdirectory(QXlsx)
 #    target_link_libraries(appiSchool PRIVATE QXlsx::QXlsx)
+#
+# build
+# in release folder copy appiSchool.exe and folder named iSchool which contains qmls and place in folder named setup
+# C:\Qt\6.5.3\bin\windeployqt.exe --qmldir iSchool appiSchool.exe
+# copy all dll and lib files inside psql/bin folder and place in setup folder
+# open inno software and give exe and setup folder  and compile it to create setup
 
 cmake_minimum_required(VERSION 3.16)
 
