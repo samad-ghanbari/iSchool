@@ -90,6 +90,9 @@ Page {
                          refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
                 }
             }
+
+            if(refModel.count > 0)
+                compareRef.currentIndex = 0;
         }
         else{
 
@@ -111,7 +114,11 @@ Page {
                     }
                 }
             }
-            compareRef.currentIndex = compareRef.indexOfValue(finalValue)
+
+            if(finalValue > -1)
+                compareRef.currentIndex = compareRef.indexOfValue(finalValue)
+            else if(refModel.count > 0)
+                compareRef.currentIndex = 0;
         }
     }
 

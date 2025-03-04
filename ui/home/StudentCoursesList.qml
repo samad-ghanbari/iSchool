@@ -403,11 +403,10 @@ Page {
                         height: 50
                         color: "transparent"
                         anchors.bottom: parent.bottom
-
                         RowLayout{
-                            height: parent.height
-                            width: parent.width
+                            anchors.fill: parent
                             // evals
+
                             Repeater{
                                 id: rowEvalRep
                                 property int modelIndex : recdel.model.index
@@ -679,9 +678,11 @@ Page {
 
                             }
 
+
                             Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
 
                         }
+
                     }
                 }
             }
