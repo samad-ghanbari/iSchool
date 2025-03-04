@@ -38,8 +38,82 @@ Page {
     required property StackView appStackView;
 
     property var evals: []
+    property bool per_month_transcript : false;
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
+
+    function updateEvalsModel(){
+        let per_month = studentResultSettingPage.per_month_transcript;
+        let obj;
+        evalsModel.clear();
+
+        if(per_month){
+            let jsondata = dbMan.getEvals();
+            //id, eval_name, base_id, period_id, test_flag, final_flag, per_month, max_grade
+            for(obj of jsondata)
+            {
+                if(obj.per_month){
+                    studentResultSettingPage.evals.push(obj.id)
+                    evalsModel.append(obj);
+                }
+            }
+        }
+        else{
+            let jsondata = dbMan.getEvals();
+            //id, eval_name, base_id, period_id, test_flag, final_flag, per_month, max_grade
+            for(obj of jsondata)
+            {
+                if(!obj.per_month){
+                    studentResultSettingPage.evals.push(obj.id)
+                    evalsModel.append(obj);
+                }
+            }
+        }
+    }
+
+    function updateRefModel(){
+        let per_month = studentResultSettingPage.per_month_transcript;
+        refModel.clear();
+        let obj, jsondata;
+        let finalValue = -1
+
+        if(per_month){
+            //compareRef.currentIndex = -1
+            refModel.clear();
+            jsondata = dbMan.getEvals();
+
+            //id, eval_name, base_id, period_id, test_flag, final_flag, per_month, max_grade
+            for( obj of jsondata)
+            {
+                if( (obj.per_month === true) && (obj.test_flag === false) ){
+                    if(studentResultSettingPage.evals.includes(obj.id))
+                         refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+                }
+            }
+        }
+        else{
+
+            refModel.clear();
+            jsondata = dbMan.getEvals();
+            //id, eval_name, base_id, period_id, test_flag, final_flag, per_month, max_gradet
+            if(semesterColumnSW.checked)
+                refModel.append({text: "ارزیابی نیمسال " , value: 0});
+            for(obj of jsondata)
+            {
+                if(obj.per_month === false)
+                {
+                    if(studentResultSettingPage.evals.includes(obj.id))
+                    {
+                        if(obj.test_flag === false)
+                            refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+                        if(obj.final_flag === true)
+                            finalValue = obj.id
+                    }
+                }
+            }
+            compareRef.currentIndex = compareRef.indexOfValue(finalValue)
+        }
+    }
 
     ColumnLayout
     {
@@ -170,13 +244,35 @@ Page {
                         color: "slategray"
                     }
 
+                    Switch{
+                        id: perMonthEval
+                        width: parent.width
+                        height: 80
+                        text: "کارنامه ماهیانه"
+                        checked: false
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        palette.highlight: "darkmagenta"
+                        palette.text: (this.checked)? "darkmagenta" : "gray"
+                        onToggled: {
+                            if(checked)
+                                studentResultSettingPage.per_month_transcript = true
+                            else
+                                studentResultSettingPage.per_month_transcript = false
+
+                            studentResultSettingPage.evals = [];
+                            studentResultSettingPage.updateEvalsModel();
+                            studentResultSettingPage.updateRefModel();
+                        }
+                    }
+
                     Repeater
                     {
                         id: evalsRp
                         model: ListModel{id: evalsModel;}
                         delegate:Switch{
                             required property var model
-                            checked: (studentResultSettingPage.evals.indexOf(model.id) > -1)? true : false;
+                            checked: (studentResultSettingPage.evals.includes(model.id))? true : false;
                             width: parent.width
                             height: 50
                             text: " ارزیابی " + model.eval_name;
@@ -199,29 +295,29 @@ Page {
                                     else
                                         this.checked = true
                                 }
+
+
+                                studentResultSettingPage.updateRefModel();
                             }
                         }
 
-                        Component.onCompleted:{
-                            var jsondata = dbMan.getEvals();
-                            //id, eval_name, base_id, period_id, test_flag, final_flag, max_grade
-                            for(var obj of jsondata)
-                            {
-                                studentResultSettingPage.evals.push(obj.id)
-                                evalsModel.append(obj);
-                            }
+                        Component.onCompleted: {
+                            studentResultSettingPage.updateEvalsModel();
+                            studentResultSettingPage.updateRefModel();
                         }
+
                     }
 
                     Switch{
                         id: semesterColumnSW
                         width: parent.width
                         height: 50
-
+                        visible: !studentResultSettingPage.per_month_transcript
                         text: "ارزیابی نیمسال"
-                        checked: true
+                        checked: !studentResultSettingPage.per_month_transcript
                         font.family: "Kalameh"
                         font.pixelSize: 16
+                        onToggled: studentResultSettingPage.updateRefModel();
                     }
 
                     Rectangle{width: parent.width;  height: 1; color: "slategray";}
@@ -333,23 +429,7 @@ Page {
                             model: ListModel{id: refModel}
                             textRole: "text"
                             valueRole: "value"
-                            Component.onCompleted:
-                            {
-                                //compareRef.currentIndex = -1
-                                refModel.clear();
-                                var jsondata = dbMan.getEvals();
-                                var finalValue = -1
-                                //id, eval_name, base_id, period_id, test_flag, final_flag, max_grade
-                                refModel.append({text: "ارزیابی نیمسال " , value: 0});
-                                for(var obj of jsondata)
-                                {
-                                    if(obj.test_flag === false)
-                                        refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
-                                    if(obj.final_flag === true)
-                                        finalValue = obj.id
-                                }
-                                compareRef.currentIndex = compareRef.indexOfValue(finalValue)
-                            }
+                            Component.onCompleted: studentResultSettingPage.updateRefModel();
                         }
                     }
 
@@ -698,6 +778,7 @@ Page {
             var student_id = studentResultSettingPage.student_id
             var class_id = studentResultSettingPage.class_id
             var evals = studentResultSettingPage.evals
+            var per_month = studentResultSettingPage.per_month_transcript;
             var semester_flag = semesterColumnSW.checked
             var semester_value = semesterNumberTF.text
             var baseRank_flag = baseRankSW.checked
@@ -708,6 +789,14 @@ Page {
             var compare_ref_id = compareRef.currentValue
             var compare_ref = compareRef.currentText
             var predefined_base_avg = predefinedBaseAvgSW.checked
+
+            // test only print error
+            // if((compare_ref_id === -1) || (compare_ref === "") || (compare_ref_id === undefined ) )
+            // {
+            //     infoDialogId.dialogText = "لطفا مرجع مقایسه را انتخاب نمایید.";
+            //     infoDialogId.open();
+            //     return;
+            // }
 
             var params = {
                 "student_id": student_id,
@@ -740,6 +829,7 @@ Page {
             }
             else
             {
+                infoDialogId.dialogText = "عملیات با خطا مواجه شد.";
                 infoDialogId.open();
             }
         }

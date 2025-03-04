@@ -284,21 +284,21 @@ Page {
                     model: ListModel{id: evalsModel}
                     highlight: Item{}
                     delegate: Rectangle{
-                        //e.id, e.eval_name, e.step_id, e.base_id, e.period_id, e.course_flag, e.test_flag, e.final_flag, e.max_grade, e.sort_priority
+                        //e.id, e.eval_name, e.step_id, e.base_id, e.period_id, e.course_flag, e.test_flag, e.final_flag, per_month, e.max_grade, e.sort_priority
 
                         id: recdel;
                         required property var model;
                         width: 320
                         height: 200
                         border.width: 2
-                        border.color: "darkcyan"
-                        color: "slategray";
+                        border.color: (recdel.model.per_month)? "darkcyan" : "darkmagenta"
+                        color: (recdel.model.per_month)? "slategray" : "darkslategray";
                         radius: 5
                         MouseArea{
                             anchors.fill: parent
                             hoverEnabled: true
-                            onEntered: parent.color = "darkcyan";
-                            onExited: parent.color = "slategray";
+                            onEntered: parent.color = (recdel.model.per_month)? "darkcyan" : "darkmagenta";
+                            onExited: parent.color = (recdel.model.per_month)? "slategray" : "darkslategray";
                         }
                         ColumnLayout{
                             width: parent.width
@@ -362,6 +362,18 @@ Page {
                                 font.pixelSize: 14
                                 font.bold: true
                                 color: "lightgray"
+                                text: "ارزیابی ماهیانه"
+                                visible: recdel.model.per_month
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                            }
+                            Label{
+                                Layout.fillWidth: true
+                                Layout.preferredHeight:  20
+                                font.family: "Kalameh"
+                                font.pixelSize: 14
+                                font.bold: true
+                                color: "lightgray"
                                 text: "بیشترین نمره: " + recdel.model.max_grade
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
@@ -390,7 +402,8 @@ Page {
                                                                         max_grade: recdel.model.max_grade,
                                                                         course_flag: recdel.model.course_flag,
                                                                         test_flag: recdel.model.test_flag,
-                                                                        final_flag: recdel.model.final_flag
+                                                                        final_flag: recdel.model.final_flag,
+                                                                        per_month : recdel.model.per_month
                                                                     });
                                     }
                                     hoverEnabled: true
@@ -414,6 +427,7 @@ Page {
                                                                         course_flag: recdel.model.course_flag,
                                                                         test_flag: recdel.model.test_flag,
                                                                         final_flag: recdel.model.final_flag,
+                                                                        per_month : recdel.model.per_month,
                                                                         sort_priority: recdel.model.sort_priority
                                                                     });
                                     }

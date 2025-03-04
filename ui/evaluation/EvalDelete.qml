@@ -27,6 +27,7 @@ Page {
     required property bool course_flag;
     required property bool test_flag;
     required property bool final_flag;
+    required property bool per_month;
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
@@ -226,6 +227,17 @@ Page {
                         text: "ارزیابی نهایی "
                         checked: deletePage.final_flag
                         onClicked: finalFlagSW.checked = deletePage.final_flag
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                    }
+
+                    // permonth flag
+                    Switch{
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی ماهیانه "
+                        checked: deletePage.per_month
+                        onClicked: finalFlagSW.checked = deletePage.per_month
                         font.family: "Kalameh"
                         font.pixelSize: 16
                     }

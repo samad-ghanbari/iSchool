@@ -29,6 +29,7 @@ Page {
     required property bool course_flag;
     required property bool test_flag;
     required property bool final_flag;
+    required property bool per_month;
     required property int sort_priority;
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
@@ -238,6 +239,21 @@ Page {
                         font.pixelSize: 16
                     }
 
+                    // perMonth flag
+                    Switch{
+                        id: perMonthFlagSW
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی ماهیانه"
+                        checked: updatePage.per_month
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        onClicked: {
+                            if(checked)
+                                maxGradeTF.text = 20;
+                        }
+                    }
+
                     Item
                     {
                         width: parent.width
@@ -296,6 +312,7 @@ Page {
                             eval["course_flag"] = courseFlagSW.checked
                             eval["test_flag"] = testFlagSW.checked
                             eval["final_flag"] = finalFlagSW.checked
+                            eval["per_month"] = perMonthFlagSW.checked
                             eval["sort_priority"] = sortSB.value
 
 

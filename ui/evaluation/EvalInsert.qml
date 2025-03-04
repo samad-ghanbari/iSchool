@@ -235,6 +235,23 @@ Page {
                         font.pixelSize: 16
                     }
 
+                    // per month flag
+                    Switch{
+                        id: perMonthFlagSW
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی ماهیانه"
+                        checked: false
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        onClicked: {
+                            if(checked)
+                            {
+                                maxGradeTF.text = "20"
+                            }
+                        }
+                    }
+
                     Item
                     {
                         width: parent.width
@@ -295,6 +312,7 @@ Page {
                             eval["course_flag"] = courseFlagSW.checked
                             eval["test_flag"] = testFlagSW.checked
                             eval["final_flag"] = finalFlagSW.checked
+                            eval["per_month"] = perMonthFlagSW.checked
                             eval["sort_priority"] = sortSB.value
 
 

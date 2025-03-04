@@ -341,6 +341,7 @@ Page {
         }
 
     }
+
     Component{
         id: studentCoursesComponent
         StudentCoursesList{

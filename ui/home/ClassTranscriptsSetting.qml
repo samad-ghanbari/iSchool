@@ -35,8 +35,84 @@ Page {
     required property StackView appStackView;
 
     property var evals: []
+    property bool per_month_transcript : false;
+
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
+
+    function updateEvalsModel(){
+        let per_month = classTranscriptsSettingPage.per_month_transcript;
+        let obj;
+        evalsModel.clear();
+
+        if(per_month){
+            let jsondata = dbMan.getEvals();
+            //id, eval_name, base_id, period_id, test_flag, final_flag, per_month, max_grade
+            for(obj of jsondata)
+            {
+                if(obj.per_month){
+                    classTranscriptsSettingPage.evals.push(obj.id)
+                    evalsModel.append(obj);
+                }
+            }
+        }
+        else{
+            let jsondata = dbMan.getEvals();
+            //id, eval_name, base_id, period_id, test_flag, final_flag, per_month, max_grade
+            for(obj of jsondata)
+            {
+                if(!obj.per_month){
+                    classTranscriptsSettingPage.evals.push(obj.id)
+                    evalsModel.append(obj);
+                }
+            }
+        }
+    }
+
+    function updateRefModel(){
+        let per_month = classTranscriptsSettingPage.per_month_transcript;
+        refModel.clear();
+        let obj, jsondata;
+        let finalValue = -1
+
+        if(per_month){
+            //compareRef.currentIndex = -1
+            refModel.clear();
+            jsondata = dbMan.getEvals();
+
+            //id, eval_name, base_id, period_id, test_flag, final_flag, per_month, max_grade
+            for( obj of jsondata)
+            {
+                if( (obj.per_month === true) && (obj.test_flag === false) ){
+                    if(classTranscriptsSettingPage.evals.includes(obj.id))
+                         refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+                }
+            }
+        }
+        else{
+
+            refModel.clear();
+            jsondata = dbMan.getEvals();
+            //id, eval_name, base_id, period_id, test_flag, final_flag, per_month, max_gradet
+            if(semesterColumnSW.checked)
+                refModel.append({text: "ارزیابی نیمسال " , value: 0});
+            for(obj of jsondata)
+            {
+                if(obj.per_month === false)
+                {
+                    if(classTranscriptsSettingPage.evals.includes(obj.id))
+                    {
+                        if(obj.test_flag === false)
+                            refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+                        if(obj.final_flag === true)
+                            finalValue = obj.id
+                    }
+                }
+            }
+            compareRef.currentIndex = compareRef.indexOfValue(finalValue)
+        }
+    }
+
 
     ColumnLayout
     {
@@ -141,6 +217,28 @@ Page {
                         color: "slategray"
                     }
 
+                    Switch{
+                        id: perMonthEval
+                        width: parent.width
+                        height: 80
+                        text: "کارنامه ماهیانه"
+                        checked: false
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        palette.highlight: "darkmagenta"
+                        palette.text: (this.checked)? "darkmagenta" : "gray"
+                        onToggled: {
+                            if(checked)
+                                classTranscriptsSettingPage.per_month_transcript = true
+                            else
+                                classTranscriptsSettingPage.per_month_transcript = false
+
+                            classTranscriptsSettingPage.evals = [];
+                            classTranscriptsSettingPage.updateEvalsModel();
+                            classTranscriptsSettingPage.updateRefModel();
+                        }
+                    }
+
                     Repeater
                     {
                         id: evalsRp
@@ -170,17 +268,15 @@ Page {
                                     else
                                         this.checked = true
                                 }
+
+
+                                classTranscriptsSettingPage.updateRefModel();
                             }
                         }
 
                         Component.onCompleted:{
-                            var jsondata = dbMan.getEvals();
-                            //id, eval_name, base_id, period_id, test_flag, final_flag, max_grade
-                            for(var obj of jsondata)
-                            {
-                                classTranscriptsSettingPage.evals.push(obj.id)
-                                evalsModel.append(obj);
-                            }
+                            classTranscriptsSettingPage.updateEvalsModel();
+                            classTranscriptsSettingPage.updateRefModel();
                         }
                     }
 
@@ -188,7 +284,8 @@ Page {
                         id: semesterColumnSW
                         width: parent.width
                         height: 50
-
+                        visible: !classTranscriptsSettingPage.per_month_transcript
+                        onToggled: classTranscriptsSettingPage.updateRefModel();
                         text: "ارزیابی نیمسال"
                         checked: true
                         font.family: "Kalameh"
@@ -304,23 +401,7 @@ Page {
                             model: ListModel{id: refModel}
                             textRole: "text"
                             valueRole: "value"
-                            Component.onCompleted:
-                            {
-                                //compareRef.currentIndex = -1
-                                refModel.clear();
-                                var jsondata = dbMan.getEvals();
-                                var finalValue = -1
-                                //id, eval_name, base_id, period_id, test_flag, final_flag, max_grade
-                                refModel.append({text: "ارزیابی نیمسال " , value: 0});
-                                for(var obj of jsondata)
-                                {
-                                    if(obj.test_flag === false)
-                                        refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
-                                    if(obj.final_flag === true)
-                                        finalValue = obj.id
-                                }
-                                compareRef.currentIndex = compareRef.indexOfValue(finalValue)
-                            }
+                            Component.onCompleted: classTranscriptsSettingPage.updateRefModel();
                         }
                     }
 
@@ -676,6 +757,13 @@ Page {
             var compare_ref_id = compareRef.currentValue
             var compare_ref = compareRef.currentText
             var predefined_base_avg = predefinedBaseAvgSW.checked
+
+            if((compare_ref_id === -1) || (compare_ref === "") || (compare_ref_id === undefined ) )
+            {
+                infoDialogId.dialogText = "لطفا مرجع مقایسه را انتخاب نمایید.";
+                infoDialogId.open();
+                return;
+            }
 
             var params = {
                 "class_id": class_id,
