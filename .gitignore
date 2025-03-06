@@ -1,6 +1,7 @@
 
 /lib
 /backup
+/help
 /build
 /CMakeLists.txt.user
 /CMakeLists.*.user
