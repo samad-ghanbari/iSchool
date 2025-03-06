@@ -106,7 +106,7 @@ function updateEvals(stepId, baseId, periodId)
     evalsModel.clear();
 
     var jsondata = dbMan.getEvals(stepId, baseId, periodId);
-    //e.id, e.eval_name, e.step_id, e.base_id, e.period_id, e.course_flag, e.test_flag, e.final_flag, e.max_grade, e.sort_priority
+    //e.id, e.eval_name, e.step_id, e.base_id, e.period_id, e.course_flag, e.test_flag, e.final_flag, midterm, semester, e.max_grade, e.sort_priority
 
     for(var obj of jsondata)
     {

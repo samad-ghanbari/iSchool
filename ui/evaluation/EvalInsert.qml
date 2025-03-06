@@ -97,16 +97,16 @@ Page {
                     Row{
                         height: 50
                         anchors.horizontalCenter: parent.horizontalCenter
-                    Text {
-                        text: "سال تحصیلی "
-                        height: 50
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        font.bold: true
-                        color: "black"
-                    }
+                        Text {
+                            text: "سال تحصیلی "
+                            height: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
                         Text {
                             text:  insertPage.period
                             height: 50
@@ -116,6 +116,36 @@ Page {
                             font.pixelSize: 16
                             font.bold: true
                             color: "black"
+                        }
+                    }
+
+                    // semester
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Text {
+                            text: "نیمسال"
+                            Layout.minimumWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.preferredHeight: 50
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            font.bold: true
+                            color: "black"
+                        }
+                        ComboBox
+                        {
+                            id: semesterCB
+                            Layout.preferredHeight:  50
+                            Layout.fillWidth: true
+                            editable: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            model: ["نیمسال اول", "نیمسال دوم"]
+                            Component.onCompleted: semesterCB.currentIndex = 0
+                            onActivated: sortSB.value = dbMan.getEvalMaxSort(insertPage.step_id, insertPage.base_id, insertPage.period_id, semesterCB.currentText) + 1;
                         }
                     }
 
@@ -188,70 +218,154 @@ Page {
                         height: 10
                     }
 
-                    // course flag
-                    Switch{
-                        id: courseFlagSW
+                    ButtonGroup{
+                        id: courseTestBG
+                    }
+
+                    GroupBox{
+                        height: 120
                         width: parent.width
-                        height: 50
-                        text: "ارزیابی واحد درسی"
-                        checked: true
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        onClicked: {
-                            if(checked)
-                            {
-                                testFlagSW.checked = false;
-                                maxGradeTF.text = "20"
+
+                        //title: "ارزیابی واحد درسی / تستی"
+                        // course flag
+                        Switch{
+                            id: courseFlagSW
+                            width: parent.width
+                            height: 50
+                            anchors.topMargin: 10
+                            ButtonGroup.group: courseTestBG
+                            text: "ارزیابی واحد درسی"
+                            checked: true
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            onClicked: {
+                                if(checked)
+                                {
+                                    //testFlagSW.checked = false;
+                                    maxGradeTF.text = "20"
+                                }
+                            }
+
+                            onCheckedChanged:{
+                                if(!courseFlagSW.checked)
+                                {
+                                    if(!testFlagSW.checked)
+                                    courseFlagSW.checked = true;
+                                    else
+                                    courseFlagSW.checked = false;
+                                }
                             }
                         }
-                    }
 
-                    // test flag
-                    Switch{
-                        id: testFlagSW
-                        width: parent.width
-                        height: 50
-                        text: "ارزیابی واحد تستی"
-                        checked: false
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        onClicked: {
-                            if(checked)
-                            {
-                                courseFlagSW.checked = false;
-                                maxGradeTF.text = "100"
+                        // test flag
+                        Switch{
+                            id: testFlagSW
+                            width: parent.width
+                            height: 50
+                            anchors.top: courseFlagSW.bottom
+                            ButtonGroup.group: courseTestBG
+                            text: "ارزیابی واحد تستی"
+                            checked: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            onClicked: {
+                                if(checked)
+                                {
+                                    //courseFlagSW.checked = false;
+                                    maxGradeTF.text = "100"
+                                }
+                            }
+                            onCheckedChanged:{
+                                if(!testFlagSW.checked)
+                                {
+                                    if(!courseFlagSW.checked)
+                                    testFlagSW.checked = true;
+                                    else
+                                    testFlagSW.checked = false;
+                                }
                             }
                         }
+
                     }
 
-                    // final flag
-                    Switch{
-                        id: finalFlagSW
+                    Item
+                    {
                         width: parent.width
-                        height: 50
-                        text: "ارزیابی نهایی "
-                        checked: false
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
+                        height: 10
                     }
 
-                    // per month flag
-                    Switch{
-                        id: perMonthFlagSW
+                    ButtonGroup{
+                        id: monthMidFormFinalBG
+                    }
+
+                    GroupBox{
                         width: parent.width
-                        height: 50
-                        text: "ارزیابی ماهیانه"
-                        checked: false
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                        onClicked: {
-                            if(checked)
-                            {
-                                maxGradeTF.text = "20"
+                        height: 220
+                        //title : "نوع ارزیابی"
+
+                        // per month flag
+                        RadioButton{
+                            id: perMonthFlagSW
+                            width: parent.width
+                            height: 50
+                            anchors.topMargin: 10;
+                            ButtonGroup.group: monthMidFormFinalBG
+                            text: "ارزیابی ماهیانه"
+                            checked: true
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            onClicked: {
+                                if(checked){
+                                    maxGradeTF.text = 20;
+                                }
                             }
                         }
-                    }
 
+                        // midterm flag
+                        RadioButton{
+                            id: midtermFlagSW
+                            width: parent.width
+                            height: 50
+                            anchors.top : perMonthFlagSW.bottom
+                            ButtonGroup.group: monthMidFormFinalBG
+                            text: "ارزیابی میان‌ترم"
+                            checked: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                        }
+
+                        // mostamar flag
+                        RadioButton{
+                            id: formativeFlagSW
+                            width: parent.width
+                            height: 50
+                            anchors.top : midtermFlagSW.bottom
+                            ButtonGroup.group: monthMidFormFinalBG
+                            text: "ارزیابی مستمر یا تکویتی"
+                            checked: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            onClicked: {
+                                if(checked){
+                                    maxGradeTF.text = 20;
+                                }
+                            }
+                        }
+
+                        // final flag
+                        RadioButton{
+                            id: finalFlagSW
+                            width: parent.width
+                            height: 50
+                            anchors.top: formativeFlagSW.bottom
+                            ButtonGroup.group: monthMidFormFinalBG
+                            text: "ارزیابی نهایی "
+                            checked: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+
+                        }
+                    }
                     Item
                     {
                         width: parent.width
@@ -282,7 +396,7 @@ Page {
                             Layout.preferredHeight: 50
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            value: dbMan.getEvalMaxSort(insertPage.step_id, insertPage.base_id, insertPage.period_id) + 1;
+                            value: dbMan.getEvalMaxSort(insertPage.step_id, insertPage.base_id, insertPage.period_id, semesterCB.currentText) + 1;
                         }
                         Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }
@@ -311,8 +425,12 @@ Page {
                             eval["max_grade"] = parseFloat(grade)
                             eval["course_flag"] = courseFlagSW.checked
                             eval["test_flag"] = testFlagSW.checked
-                            eval["final_flag"] = finalFlagSW.checked
                             eval["per_month"] = perMonthFlagSW.checked
+                            eval["midterm"] = midtermFlagSW.checked
+                            eval["formative"] = formativeFlagSW.checked
+                            eval["final_flag"] = finalFlagSW.checked
+                            eval["semester"] = semesterCB.currentText
+
                             eval["sort_priority"] = sortSB.value
 
 

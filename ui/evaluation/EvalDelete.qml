@@ -28,6 +28,9 @@ Page {
     required property bool test_flag;
     required property bool final_flag;
     required property bool per_month;
+    required property bool midterm;
+    required property bool formative;
+    required property string semester;
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
@@ -100,6 +103,20 @@ Page {
                         font.bold: true
                         color: "black"
                     }
+
+                    //semester
+                    Text {
+                        text:  deletePage.semester
+                        width: parent.width
+                        height: 50
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: "black"
+                    }
+
                     Row{
                         height: 50
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -124,6 +141,7 @@ Page {
                             color: "black"
                         }
                     }
+
                     // eval name
                     RowLayout{
                         width: parent.width
@@ -202,9 +220,10 @@ Page {
                         height: 50
                         text: "ارزیابی واحد درسی"
                         checked: deletePage.course_flag
+                        visible: deletePage.course_flag
                         font.family: "Kalameh"
                         font.pixelSize: 16
-                        onClicked: courseFlagSW.checked = deletePage.course_flag
+                        onCheckedChanged: this.checked = deletePage.course_flag
                     }
 
                     // test flag
@@ -214,9 +233,47 @@ Page {
                         height: 50
                         text: "ارزیابی واحد تستی"
                         checked: deletePage.test_flag
+                        visible: deletePage.test_flag
                         font.family: "Kalameh"
                         font.pixelSize: 16
-                        onClicked: testFlagSW.checked = deletePage.test_flag
+                        onCheckedChanged: this.checked = deletePage.test_flag
+                    }
+
+
+
+                    // permonth flag
+                    Switch{
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی ماهیانه "
+                        checked: deletePage.per_month
+                        visible : deletePage.per_month
+                        onCheckedChanged: this.checked = deletePage.per_month
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                    }
+
+                    // midterm
+                    Switch{
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی میان‌ترم"
+                        checked: deletePage.midterm
+                        visible: deletePage.midterm
+                        onCheckedChanged: this.checked = deletePage.midterm
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
+                    }
+                    // formative
+                    Switch{
+                        width: parent.width
+                        height: 50
+                        text: "ارزیابی مستمر یا تکوینی"
+                        checked: deletePage.formative
+                        visible: deletePage.formative
+                        onCheckedChanged: this.checked = deletePage.formative
+                        font.family: "Kalameh"
+                        font.pixelSize: 16
                     }
 
                     // final flag
@@ -226,18 +283,8 @@ Page {
                         height: 50
                         text: "ارزیابی نهایی "
                         checked: deletePage.final_flag
-                        onClicked: finalFlagSW.checked = deletePage.final_flag
-                        font.family: "Kalameh"
-                        font.pixelSize: 16
-                    }
-
-                    // permonth flag
-                    Switch{
-                        width: parent.width
-                        height: 50
-                        text: "ارزیابی ماهیانه "
-                        checked: deletePage.per_month
-                        onClicked: finalFlagSW.checked = deletePage.per_month
+                        visible: deletePage.final_flag
+                        onCheckedChanged: this.checked = deletePage.final_flag
                         font.family: "Kalameh"
                         font.pixelSize: 16
                     }

@@ -279,7 +279,7 @@ Page {
                     anchors.margins: 20
                     flickableDirection: Flickable.AutoFlickDirection
                     cellWidth: 350  // 20 spacing
-                    cellHeight: 220
+                    cellHeight: 310
                     clip: true
                     model: ListModel{id: evalsModel}
                     highlight: Item{}
@@ -288,22 +288,37 @@ Page {
 
                         id: recdel;
                         required property var model;
+                        property bool boxHovered : false
+                        property bool sem1 : (recdel.model.semester === "نیمسال اول") ? true : false;
                         width: 320
-                        height: 200
-                        border.width: 2
-                        border.color: (recdel.model.per_month)? "darkcyan" : "darkmagenta"
-                        color: (recdel.model.per_month)? "slategray" : "darkslategray";
+                        height: 300
+                        border.width: (recdel.boxHovered)? 5 : 2
+                        border.color: (recdel.sem1)? "#008b8b" : "#c71585"
+                        color: (recdel.boxHovered)? "#2f4f4f" : "#DD2f4f4f";
                         radius: 5
                         MouseArea{
                             anchors.fill: parent
                             hoverEnabled: true
-                            onEntered: parent.color = (recdel.model.per_month)? "darkcyan" : "darkmagenta";
-                            onExited: parent.color = (recdel.model.per_month)? "slategray" : "darkslategray";
+                            onEntered: recdel.boxHovered = true
+                            onExited: recdel.boxHovered = false
                         }
                         ColumnLayout{
                             width: parent.width
                             height: parent.height
                             anchors.margins: 5
+
+                            Label{
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 32
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "white"
+                                background: Rectangle{color: (recdel.sem1)? "#008b8b" : "#c71585"; anchors.fill: parent;}
+                                text: recdel.model.semester
+                                horizontalAlignment: Label.AlignHCenter
+                                verticalAlignment: Label.AlignVCenter
+                            }
 
                             Label{
                                 Layout.fillWidth: true
@@ -326,7 +341,7 @@ Page {
                                 font.pixelSize: 14
                                 font.bold: true
                                 color: "lightgray"
-                                text: "ارزیابی واحد درسی"
+                                text: "  " + "ارزیابی واحد درسی"
                                 visible: recdel.model.course_flag
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
@@ -338,11 +353,12 @@ Page {
                                 font.pixelSize: 14
                                 font.bold: true
                                 color: "lightgray"
-                                text: "ارزیابی واحد تستی"
+                                text: "  " + "ارزیابی واحد تستی"
                                 visible: recdel.model.test_flag
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
                             }
+
                             Label{
                                 Layout.fillWidth: true
                                 Layout.preferredHeight:  20
@@ -350,19 +366,7 @@ Page {
                                 font.pixelSize: 14
                                 font.bold: true
                                 color: "lightgray"
-                                text: "ارزیابی نهایی"
-                                visible: recdel.model.final_flag
-                                horizontalAlignment: Label.AlignLeft
-                                verticalAlignment: Label.AlignVCenter
-                            }
-                            Label{
-                                Layout.fillWidth: true
-                                Layout.preferredHeight:  20
-                                font.family: "Kalameh"
-                                font.pixelSize: 14
-                                font.bold: true
-                                color: "lightgray"
-                                text: "ارزیابی ماهیانه"
+                                text: "  " + "ارزیابی ماهیانه"
                                 visible: recdel.model.per_month
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
@@ -374,7 +378,43 @@ Page {
                                 font.pixelSize: 14
                                 font.bold: true
                                 color: "lightgray"
-                                text: "بیشترین نمره: " + recdel.model.max_grade
+                                text: "  " + "ارزیابی میان‌ترم"
+                                visible: recdel.model.midterm
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                            }
+                            Label{
+                                Layout.fillWidth: true
+                                Layout.preferredHeight:  20
+                                font.family: "Kalameh"
+                                font.pixelSize: 14
+                                font.bold: true
+                                color: "lightgray"
+                                text: "  " + "ارزیابی مستمر"
+                                visible: recdel.model.formative
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                            }
+                            Label{
+                                Layout.fillWidth: true
+                                Layout.preferredHeight:  20
+                                font.family: "Kalameh"
+                                font.pixelSize: 14
+                                font.bold: true
+                                color: "lightgray"
+                                text: "  " + "ارزیابی نهایی"
+                                visible: recdel.model.final_flag
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                            }
+                            Label{
+                                Layout.fillWidth: true
+                                Layout.preferredHeight:  20
+                                font.family: "Kalameh"
+                                font.pixelSize: 14
+                                font.bold: true
+                                color: "lightgray"
+                                text: "  " + "بیشترین نمره: " + recdel.model.max_grade
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
                             }
@@ -403,7 +443,10 @@ Page {
                                                                         course_flag: recdel.model.course_flag,
                                                                         test_flag: recdel.model.test_flag,
                                                                         final_flag: recdel.model.final_flag,
-                                                                        per_month : recdel.model.per_month
+                                                                        per_month : recdel.model.per_month,
+                                                                        midterm: recdel.model.midterm,
+                                                                        formative: recdel.model.formative,
+                                                                        semester: recdel.model.semester
                                                                     });
                                     }
                                     hoverEnabled: true
@@ -428,6 +471,9 @@ Page {
                                                                         test_flag: recdel.model.test_flag,
                                                                         final_flag: recdel.model.final_flag,
                                                                         per_month : recdel.model.per_month,
+                                                                        midterm: recdel.model.midterm,
+                                                                        formative: recdel.model.formative,
+                                                                        semester: recdel.model.semester,
                                                                         sort_priority: recdel.model.sort_priority
                                                                     });
                                     }
