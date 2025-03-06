@@ -23,6 +23,14 @@ Page {
 
     required property StackView appStackView;
 
+    property bool per_month: true;
+    property bool midterm: true;
+    property bool formative: true;
+    property bool final_flag: true;
+    property bool semester_1: true;
+    property bool course_flag: true;
+    property bool test_flag: false;
+
     property string activeEval;
     property bool onEditing : false
     required property var sceIds; // { mostamar:[], final:[], test:[]} one-student all-course
@@ -44,8 +52,101 @@ Page {
         return null; // Return null if no item is found
     }
 
+
+    function refreshAllEvals() {
+        if(dbMan.refreshStudentEvals(studentCoursesPageId.class_id, studentCoursesPageId.student_id))
+        {
+            studentCoursesPageId.class_evals = dbMan.getClassEvalsArray(studentCoursesPageId.class_id);
+            studentCoursesPageId.sceIds = dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id)
+
+
+            infoDialogId.dialogSuccess = true
+            infoDialogId.dialogTitle = "عملیات موفق"
+            infoDialogId.dialogText = "آزمون‌های دانش‌آموز با موفقیت به روزرسانی شد."
+            infoDialogId.open();
+
+            lvModel.clear();
+            var register_id = dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
+            var jsonarray = dbMan.getStudentCourses_evals(register_id);
+            for(var obj of jsonarray)
+            {
+                lvModel.append(obj);
+            }
+        }
+        else
+            infoDialogId.open();
+    }
+
+    function refreshEval(eval_id){
+        if(dbMan.refreshStudentEval(studentCoursesPageId.class_id, studentCoursesPageId.student_id, eval_id))
+        {
+            studentCoursesPageId.class_evals = dbMan.getClassEvalsArray(studentCoursesPageId.class_id);
+            studentCoursesPageId.sceIds = dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id)
+
+
+            infoDialogId.dialogSuccess = true
+            infoDialogId.dialogTitle = "عملیات موفق"
+            infoDialogId.dialogText = "آزمون منتخب دانش‌آموز با موفقیت به روزرسانی شد."
+            infoDialogId.open();
+
+            lvModel.clear();
+            var register_id = dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
+            var jsonarray = dbMan.getStudentCourses_evals(register_id);
+            for(var obj of jsonarray)
+            {
+                lvModel.append(obj);
+            }
+        }
+        else
+            infoDialogId.open();
+    }
+
+    function checkVisibility(model)
+    {
+        let PER_MONTH = model["per_month"];
+        let MIDTERM = model["midterm"];
+        let FORMATIVE = model["formative"];
+        let FINAL_FLAG = model["final_flag"];
+        let SEMESTER = model["semester"];
+        let COURSE_FLAG = model["course_flag"];
+        let TEST_FLAG = model["test_flag"];
+
+
+        if(COURSE_FLAG)
+            if(!studentCoursesPageId.course_flag)
+                return false;
+
+        if(TEST_FLAG)
+            if(!studentCoursesPageId.test_flag)
+                return false;
+
+
+        if(SEMESTER === "نیمسال اول")
+            if(!studentCoursesPageId.semester_1)
+                return false;
+
+        if(PER_MONTH)
+            if(studentCoursesPageId.per_month)
+                return true;
+
+        if(MIDTERM)
+            if(studentCoursesPageId.midterm)
+                return true;
+
+        if(FORMATIVE)
+            if(studentCoursesPageId.formative)
+                return true;
+
+        if(FINAL_FLAG)
+            if(studentCoursesPageId.final_flag)
+                return true;
+
+        return false;
+    }
+
     ColumnLayout
     {
+        id: clayout
         anchors.fill: parent
         Rectangle{
             Layout.fillWidth: true
@@ -220,42 +321,211 @@ Page {
                 icon.source: "qrc:/assets/images/refresh.png"
                 icon.width: 32
                 icon.height: 32
-                text: "بروزرسانی ارزیابی‌ها"
+                text: "ارزیابی‌ها"
                 font.family: "Kalameh"
                 font.pixelSize: 14
                 font.bold: false
                 display: AbstractButton.TextUnderIcon
                 icon.color:"transparent"
                 opacity: 0.5
-                onClicked:
-                {
-                    if(dbMan.refreshStudentEvals(studentCoursesPageId.class_id, studentCoursesPageId.student_id))
-                    {
-                        studentCoursesPageId.class_evals = dbMan.getClassEvalsArray(studentCoursesPageId.class_id);
-                        studentCoursesPageId.sceIds = dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id)
-
-
-                        infoDialogId.dialogSuccess = true
-                        infoDialogId.dialogTitle = "عملیات موفق"
-                        infoDialogId.dialogText = "آزمون‌های دانش‌آموز با موفقیت به روزرسانی شد."
-                        infoDialogId.open();
-
-                        lvModel.clear();
-                        var register_id = dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
-                        var jsonarray = dbMan.getStudentCourses_evals(register_id);
-                        for(var obj of jsonarray)
-                        {
-                            lvModel.append(obj);
-                        }
-                    }
-                    else
-                        infoDialogId.open();
+                onClicked: {
+                    evalSelectionRefreshDialog.fillComboBox();
+                    evalSelectionRefreshDialog.open(); // studentCoursesPageId.refreshAllEvals();
                 }
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
             }
         }
 
+        // filter
+        Flickable
+        {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 50
+            contentWidth: innerFilterBox.width
+
+            Rectangle
+            {
+                id: innerFilterBox
+                width: (clayout.width > innerFilterBoxRow.implicitWidth)? clayout.width : innerFilterBoxRow.implicitWidth
+                height: 50
+                color: "snow"
+                Row{
+                    id: innerFilterBoxRow
+                    height: 50
+                    anchors.left: parent.left
+
+                    Image {
+                        source:"qrc:/assets/images/filter.png"
+                        width: 32
+                        height: 32
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    //semester
+                    ButtonGroup{
+                        id: semesterBG
+                    }
+                    GroupBox{
+                        width: innerBox.implicitWidth;
+                        height: 50
+                        padding: 0
+
+
+                        Row{
+                            id: innerBox
+                            height: 50
+                            anchors.margins: 0;
+
+                            RadioButton{
+                                height: 50
+                                anchors.verticalCenter: parent.verticalCenter
+                                ButtonGroup.group: semesterBG
+                                text: "نیمسال اول"
+                                palette.text: (this.checked)? "steelblue" : "gray"
+                                palette.buttonText:  (this.checked)? "steelblue" : "gray"
+                                checked: true
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                onCheckedChanged: {
+                                    studentCoursesPageId.semester_1  = (this.checked)? true: false;
+                                }
+                            }
+                            RadioButton{
+                                height: 50
+                                anchors.verticalCenter: parent.verticalCenter
+                                ButtonGroup.group: semesterBG
+                                text: "نیمسال دوم"
+                                palette.text:  (this.checked)? "steelblue" : "gray"
+                                palette.buttonText:  (this.checked)? "steelblue" : "gray"
+                                checked: false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                            }
+                        }
+                    }
+
+                    ButtonGroup{
+                        id: testCourseBG
+                    }
+
+                    GroupBox{
+                        width: innerTestCourseBox.implicitWidth;
+                        height: 50
+                        padding: 0
+                        Row{
+                            id: innerTestCourseBox
+                            height: 50
+                            anchors.margins: 0;
+                            RadioButton{
+                                //width: parent.width
+                                height: 50
+                                text: "ارزیابی تستی"
+                                palette.text: (this.checked)? "steelblue" : "gray"
+                                palette.buttonText:  (this.checked)? "steelblue" : "gray"
+                                ButtonGroup.group: testCourseBG
+                                checked: studentCoursesPageId.test_flag
+                                font.family: "Kalameh"
+                                font.pixelSize: 14
+                                onCheckedChanged:{
+                                    if(this.checked)
+                                        studentCoursesPageId.test_flag = true;
+                                    else
+                                        studentCoursesPageId.test_flag = false;
+                                }
+                            }
+                            RadioButton{
+                                //width: parent.width
+                                height: 50
+                                text: "ارزیابی تشریحی"
+                                palette.text: (this.checked)? "steelblue" : "gray"
+                                palette.buttonText:  (this.checked)? "steelblue" : "gray"
+                                ButtonGroup.group: testCourseBG
+                                checked: studentCoursesPageId.course_flag
+                                font.family: "Kalameh"
+                                font.pixelSize: 14
+                                onCheckedChanged:{
+                                    if(this.checked)
+                                        studentCoursesPageId.course_flag = true;
+                                    else
+                                        studentCoursesPageId.course_flag = false;
+                                }
+                            }
+                        }
+                    }
+
+                    //per_month
+                    Switch{
+                        //width: parent.width
+                        height: 50
+                        text: "ارزیابی ماهیانه"
+                        palette.text: (this.checked)? "steelblue" : "gray"
+                        palette.highlight: (this.checked)? "steelblue" : "gray"
+                        checked: studentCoursesPageId.per_month
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        onCheckedChanged:{
+                            if(this.checked)
+                                studentCoursesPageId.per_month = true;
+                            else
+                                studentCoursesPageId.per_month = false;
+                        }
+                    }
+                    //midterm
+                    Switch{
+                        //width: parent.width
+                        height: 50
+                        text: "ارزیابی میان‌ترم"
+                        palette.text: (this.checked)? "steelblue" : "gray"
+                        palette.highlight: (this.checked)? "steelblue" : "gray"
+                        checked: studentCoursesPageId.midterm
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        onCheckedChanged:{
+                            if(this.checked)
+                                studentCoursesPageId.midterm = true;
+                            else
+                                studentCoursesPageId.midterm = false;
+                        }
+                    }
+                    //formative
+                    Switch{
+                        //width: parent.width
+                        height: 50
+                        text: "ارزیابی مستمر"
+                        palette.text: (this.checked)? "steelblue" : "gray"
+                        palette.highlight: (this.checked)? "steelblue" : "gray"
+                        checked: studentCoursesPageId.formative
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        onCheckedChanged:{
+                            if(this.checked)
+                                studentCoursesPageId.formative = true;
+                            else
+                                studentCoursesPageId.formative = false;
+                        }
+                    }
+                    //final
+                    Switch{
+                        //width: parent.width
+                        height: 50
+                        text: "ارزیابی نهایی"
+                        palette.text: (this.checked)? "steelblue" : "gray"
+                        palette.highlight: (this.checked)? "steelblue" : "gray"
+                        checked: studentCoursesPageId.final_flag
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        onCheckedChanged:{
+                            if(this.checked)
+                                studentCoursesPageId.final_flag = true;
+                            else
+                                studentCoursesPageId.final_flag = false;
+                        }
+                    }
+
+                }
+            }
+        }
 
         Rectangle{
             id: mainBox
@@ -285,7 +555,7 @@ Page {
                         var jsonarray = dbMan.getStudentCourses_evals(register_id);
                         //0sc.id, 1sc.register_id, 2sc.course_id, 3co.course_name, 4co.step_id, 5co.base_id, 6co.period_id,
                         //7co.course_coefficient, 8co.test_coefficient, 9co.shared_coefficient, 10co.final_weight, 11co.shared_weight
-                        // evals [{}, {}] : {sce.student_course_eval_id, sce.student_course_id, sce.eval_id, e.eval_name, e.base_id, e.period_id, e.test_flag, e.final_flag,e.max_grade, sce.grade, sce.eval_time, sce.included}
+                        // evals [{}, {}] : {sce.student_course_eval_id, sce.student_course_id, sce.eval_id, e.eval_name, e.base_id, e.period_id, e.test_flag, e.final_flag, e.per_month, e.midterm, e.formative, e.semester, e.max_grade, sce.grade, sce.eval_time, sce.included}
                         for(var obj of jsonarray)
                         {
                             lvModel.append(obj);
@@ -304,19 +574,30 @@ Page {
 
     Component{
         id: lvDelegate
-        Rectangle{
+        Flickable{
             id: recdel;
             height: 110
             width: lv.width
-
+            contentWidth: dlgRec.width
             required property var model;
+
+        Rectangle{
+            id: dlgRec
+            height: parent.height
+            width: (dlgRow.implicitWidth > lv.width)? dlgRow.implicitWidth  : lv.width
+            anchors.left: parent.left
+
+
             color: (recdel.model.index % 2 == 0)? "aliceblue" : "mintcream"
-            RowLayout{
+            Row{
+                id: dlgRow
                 spacing: 10
-                anchors.fill: parent
+                height : 100
+                anchors.left: parent.left
+
                 Rectangle{
-                    Layout.preferredWidth: 300
-                    Layout.preferredHeight: 100
+                    width: 300
+                    height: 100
                     color: "transparent"
                     Label{
                         anchors.fill: parent
@@ -331,19 +612,23 @@ Page {
                 }
 
                 Rectangle{
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 100
+                    width: coeffRec.width + evalGradeRec.width
+                    height: 100
                     color: "transparent"
                     Rectangle{
-                        width: parent.width
+                        id: coeffRec
+                        width: coeffRow.implicitWidth
                         height: 50
+                        anchors.left: parent.left
                         color: "transparent"
                         anchors.top: parent.top
-                        RowLayout{
-                            anchors.fill: parent
+                        Row{
+                            id: coeffRow
+                            height: parent.height
+                            anchors.left: parent.left
                             spacing: 20
                             Label{
-                                Layout.preferredHeight: 50
+                                height: 50
                                 font.family: "Kalameh"
                                 font.pixelSize: 14
                                 font.bold: true
@@ -354,7 +639,7 @@ Page {
                                 visible: (recdel.model.course_coefficient > 0)? true : false
                             }
                             Label{
-                                Layout.preferredHeight: 50
+                                height: 50
                                 font.family: "Kalameh"
                                 font.pixelSize: 14
                                 font.bold: true
@@ -365,7 +650,7 @@ Page {
                                 visible: (recdel.model.test_coefficient > 0)? true : false
                             }
                             Label{
-                                Layout.preferredHeight: 50
+                                height: 50
                                 font.family: "Kalameh"
                                 font.pixelSize: 14
                                 font.bold: true
@@ -376,7 +661,7 @@ Page {
                                 visible: (recdel.model.final_weight > 0)? true : false
                             }
                             Label{
-                                Layout.preferredHeight: 50
+                                height: 50
                                 font.family: "Kalameh"
                                 font.pixelSize: 14
                                 font.bold: true
@@ -386,8 +671,6 @@ Page {
                                 color: "darkslategray"
                                 visible: (recdel.model.shared_weight > 0)? true : false
                             }
-
-                            Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                         }
 
                         Rectangle{
@@ -399,12 +682,16 @@ Page {
                     }
                     // evals & grade
                     Rectangle{
-                        width: parent.width
+                        id: evalGradeRec
+                        width: evalGradeRow.implicitWidth
+                        anchors.left: parent.left
                         height: 50
                         color: "transparent"
                         anchors.bottom: parent.bottom
-                        RowLayout{
-                            anchors.fill: parent
+                        Row{
+                            id: evalGradeRow
+                            height: parent.height
+                            anchors.left: parent.left
                             // evals
 
                             Repeater{
@@ -417,10 +704,10 @@ Page {
                                     required property var model;
                                     property int sceID : (typeof evalRecDel.model["student_course_eval_id"] != "undefined")? parseInt(evalRecDel.model["student_course_eval_id"]) : -1;
                                     property alias cell : te
-                                    Layout.alignment: Qt.AlignLeft
-                                    Layout.preferredHeight: 50
-                                    Layout.preferredWidth:titlerec.implicitWidth + 120
+                                    height: 50
+                                    width:titlerec.implicitWidth + 120
                                     Layout.margins: 0
+                                    visible: studentCoursesPageId.checkVisibility(evalRecDel.model);
 
                                     color:"floralwhite"
                                     border.width: 1
@@ -689,6 +976,7 @@ Page {
 
             Rectangle{width: parent.width; height: 5; color: "gainsboro"; anchors.bottom: parent.bottom;}
         }
+        }
     }
 
     //dialog error
@@ -720,6 +1008,16 @@ Page {
                         }
     }
 
+    // eval Selection for refresh
+    DialogBox.EvalDialog
+    {
+        id: evalSelectionRefreshDialog
+        model : studentCoursesPageId.class_evals
+        onEvalSelected: (eval_id)=>{
+                            studentCoursesPageId.refreshEval(eval_id);
+                            evalSelectionRefreshDialog.close();
+                        }
+    }
     // file dialog
     FileDialog {
         id: saveFileDialog

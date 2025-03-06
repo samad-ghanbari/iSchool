@@ -341,7 +341,7 @@ Page {
                                 font.pixelSize: 14
                                 font.bold: true
                                 color: "lightgray"
-                                text: "  " + "ارزیابی واحد درسی"
+                                text: "  " + "ارزیابی تشریحی"
                                 visible: recdel.model.course_flag
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
@@ -353,7 +353,7 @@ Page {
                                 font.pixelSize: 14
                                 font.bold: true
                                 color: "lightgray"
-                                text: "  " + "ارزیابی واحد تستی"
+                                text: "  " + "ارزیابی تستی"
                                 visible: recdel.model.test_flag
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter

@@ -218,7 +218,7 @@ Page {
                         id: courseFlagSW
                         width: parent.width
                         height: 50
-                        text: "ارزیابی واحد درسی"
+                        text: "ارزیابی تشریحی"
                         checked: deletePage.course_flag
                         visible: deletePage.course_flag
                         font.family: "Kalameh"
@@ -231,7 +231,7 @@ Page {
                         id: testFlagSW
                         width: parent.width
                         height: 50
-                        text: "ارزیابی واحد تستی"
+                        text: "ارزیابی تستی"
                         checked: deletePage.test_flag
                         visible: deletePage.test_flag
                         font.family: "Kalameh"

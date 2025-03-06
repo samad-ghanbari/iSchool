@@ -261,7 +261,7 @@ qt_add_resources(appiSchool "assets"
         assets/images/toRight.png
         assets/images/filter.png
 
-        lib/help.pdf
+        help/help2.0.0.pdf
 
     #LOGO
     FILES

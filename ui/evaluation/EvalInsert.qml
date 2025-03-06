@@ -234,7 +234,7 @@ Page {
                             height: 50
                             anchors.topMargin: 10
                             ButtonGroup.group: courseTestBG
-                            text: "ارزیابی واحد درسی"
+                            text: "ارزیابی تشریحی"
                             checked: true
                             font.family: "Kalameh"
                             font.pixelSize: 16
@@ -264,7 +264,7 @@ Page {
                             height: 50
                             anchors.top: courseFlagSW.bottom
                             ButtonGroup.group: courseTestBG
-                            text: "ارزیابی واحد تستی"
+                            text: "ارزیابی تستی"
                             checked: false
                             font.family: "Kalameh"
                             font.pixelSize: 16
