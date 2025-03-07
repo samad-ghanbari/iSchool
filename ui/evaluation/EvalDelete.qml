@@ -30,7 +30,7 @@ Page {
     required property bool per_month;
     required property bool midterm;
     required property bool formative;
-    required property string semester;
+    required property string semester_title;
 
     background: Rectangle{anchors.fill: parent; color: "lavenderblush"}
 
@@ -106,7 +106,7 @@ Page {
 
                     //semester
                     Text {
-                        text:  deletePage.semester
+                        text:  deletePage.semester_title
                         width: parent.width
                         height: 50
                         verticalAlignment: Text.AlignVCenter

@@ -24,10 +24,10 @@ Page {
     required property StackView appStackView;
 
     property bool per_month: true;
-    property bool midterm: true;
-    property bool formative: true;
-    property bool final_flag: true;
-    property bool semester_1: true;
+    property bool midterm: false;
+    property bool formative: false;
+    property bool final_flag: false;
+    property bool semester_1: false;
     property bool course_flag: true;
     property bool test_flag: false;
 

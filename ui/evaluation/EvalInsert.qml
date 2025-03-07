@@ -143,9 +143,16 @@ Page {
                             editable: false
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            model: ["نیمسال اول", "نیمسال دوم"]
-                            Component.onCompleted: semesterCB.currentIndex = 0
-                            onActivated: sortSB.value = dbMan.getEvalMaxSort(insertPage.step_id, insertPage.base_id, insertPage.period_id, semesterCB.currentText) + 1;
+                            model: ListModel{id: semModel;}
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted: {
+                                semModel.append({text:"نیمسال اول", value: 1});
+                                semModel.append({text:"نیمسال دوم", value: 2});
+                                semesterCB.currentIndex = 0;
+                            }
+
+                            onActivated: sortSB.value = dbMan.getEvalMaxSort(insertPage.step_id, insertPage.base_id, insertPage.period_id, semesterCB.currentValue) + 1;
                         }
                     }
 
@@ -429,7 +436,7 @@ Page {
                             eval["midterm"] = midtermFlagSW.checked
                             eval["formative"] = formativeFlagSW.checked
                             eval["final_flag"] = finalFlagSW.checked
-                            eval["semester"] = semesterCB.currentText
+                            eval["semester"] = semesterCB.currentValue
 
                             eval["sort_priority"] = sortSB.value
 

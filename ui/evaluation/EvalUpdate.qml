@@ -32,7 +32,7 @@ Page {
     required property bool per_month;
     required property bool midterm;
     required property bool formative;
-    required property string semester;
+    required property int semester;
     required property int sort_priority;
 
     background: Rectangle{anchors.fill: parent; color: "honeydew"}
@@ -155,8 +155,14 @@ Page {
                             editable: false
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            model: ["نیمسال اول", "نیمسال دوم"]
-                            Component.onCompleted: semesterCB.currentIndex = semesterCB.model.indexOf(updatePage.semester)
+                            model: ListModel{id: semModel;}
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted: {
+                                semModel.append({text:"نیمسال اول", value: 1});
+                                semModel.append({text:"نیمسال دوم", value: 2});
+                                semesterCB.currentIndex = semesterCB.indexOfValue(updatePage.semester)
+                            }
                         }
                     }
 
@@ -433,7 +439,7 @@ Page {
                             eval["midterm"] = midtermFlagSW.checked
                             eval["formative"] = formativeFlagSW.checked
                             eval["final_flag"] = finalFlagSW.checked
-                            eval["semester"] = semesterCB.currentText
+                            eval["semester"] = semesterCB.currentValue
                             eval["sort_priority"] = sortSB.value
 
 

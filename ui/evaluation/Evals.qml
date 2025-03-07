@@ -289,11 +289,10 @@ Page {
                         id: recdel;
                         required property var model;
                         property bool boxHovered : false
-                        property bool sem1 : (recdel.model.semester === "نیمسال اول") ? true : false;
                         width: 320
                         height: 300
                         border.width: (recdel.boxHovered)? 5 : 2
-                        border.color: (recdel.sem1)? "#008b8b" : "#c71585"
+                        border.color: (recdel.model.semester === 1)? "#008b8b" : "#c71585"
                         color: (recdel.boxHovered)? "#2f4f4f" : "#DD2f4f4f";
                         radius: 5
                         MouseArea{
@@ -314,8 +313,8 @@ Page {
                                 font.pixelSize: 16
                                 font.bold: true
                                 color: "white"
-                                background: Rectangle{color: (recdel.sem1)? "#008b8b" : "#c71585"; anchors.fill: parent;}
-                                text: recdel.model.semester
+                                background: Rectangle{color: (recdel.model.semester === 1)? "#008b8b" : "#c71585"; anchors.fill: parent;}
+                                text: recdel.model.semester_title
                                 horizontalAlignment: Label.AlignHCenter
                                 verticalAlignment: Label.AlignVCenter
                             }
@@ -446,7 +445,7 @@ Page {
                                                                         per_month : recdel.model.per_month,
                                                                         midterm: recdel.model.midterm,
                                                                         formative: recdel.model.formative,
-                                                                        semester: recdel.model.semester
+                                                                        semester_title: recdel.model.semester_title
                                                                     });
                                     }
                                     hoverEnabled: true
