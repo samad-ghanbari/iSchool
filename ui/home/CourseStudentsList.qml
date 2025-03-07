@@ -558,13 +558,14 @@ Page {
             Flickable{
                 id: flk
                 anchors.fill: parent
-                contentHeight: lv.contentHeight
-                contentWidth: lv.contentWidth
+                contentHeight: lv.height
+                contentWidth: lv.width
 
                 ListView
                 {
                     id: lv
-                    anchors.fill: parent
+                    width : Math.max(lv.contentWidth, flk.width, mainBox.width)
+                    height: Math.max(lv.contentHeight, flk.width, mainBox.height)
                     model: ListModel{id: lvModel;}
                     clip: true
                     delegate:lvDelegate
@@ -576,6 +577,12 @@ Page {
                         {
                             lvModel.append(obj);
                         }
+
+                        lv.width  = Math.max(lv.contentWidth, flk.width, mainBox.width)
+                        lv.height = Math.max(lv.contentHeight, flk.height, mainBox.height)
+
+                        flk.contentHeight = lv.height
+                        flk.contentWidth = lv.width
                     }
                     populate: Transition {
                         //NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 1000 }
@@ -593,24 +600,28 @@ Page {
         Rectangle{
             id: recdel;
             height: 110
-            width: lv.width
+            width: Math.max(lv.width, dlgRow.implicitWidth)
 
             required property var model;
             color: (recdel.model.index % 2 == 0)? "aliceblue" : "mintcream"
-            RowLayout{
+            Row{
+                id:dlgRow
                 //user
                 spacing: 10
-                anchors.fill: parent
+                height: parent.height
+                anchors.left: parent.left
+
                 Image {
                     source:recdel.model.photo
-                    Layout.preferredWidth: 100
-                    Layout.preferredHeight: 100
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                    width: 100
+                    height: 100
+                    anchors.verticalCenter: parent.verticalCenter
+                    //anchors.left: parent.left
                 }
 
                 Rectangle{
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 100
+                    width: rpRow.implicitWidth
+                    height: 100
                     color: "transparent"
                     Rectangle{
                         width: parent.width
@@ -660,14 +671,14 @@ Page {
                     // bottom rect
                     //evals & grade
                     Rectangle{
-                        width: parent.width
+                        width: rpRow.implicitWidth
                         height: 50
                         color: "transparent"
                         anchors.bottom: parent.bottom
 
-                        RowLayout{
+                        Row{
+                            id: rpRow
                             height: parent.height
-                            width: parent.width
                             // evals
                             Repeater{
                                 id: rowEvalRep
@@ -692,21 +703,21 @@ Page {
 
                                     visible: courseStudentsPageId.checkVisibility(evalRecDel.model);
 
-                                    Layout.alignment: Qt.AlignLeft
-                                    Layout.preferredHeight: 50
-                                    Layout.preferredWidth:titlerec.implicitWidth + 120
-                                    Layout.margins: 0
+                                    //anchors.left: parent.left
+                                    height: 50
+                                    width:titlegradeRow.implicitWidth
+                                    anchors.margins: 0
 
                                     color:"floralwhite"
                                     border.width: 1
                                     border.color: "gray"
 
                                     Row{
+                                        id: titlegradeRow
                                         anchors.fill: parent
                                         anchors.margins: 5
                                         //title
                                         Label{
-                                            id: titlerec
                                             height: 50
                                             horizontalAlignment: Text.AlignRight
                                             verticalAlignment: Text.AlignVCenter

@@ -541,16 +541,16 @@ Page {
                 height: parent.height
                 contentHeight: lv.height
                 contentWidth: lv.width
-                clip: true
 
 
                 ListView
                 {
                     id: lv
-                    width: Math.max(lv.contentWidth , flk.width)
-                    height: Math.max(lv.contentHeight , flk.height)
+                    width: Math.max(lv.contentWidth , flk.width, mainBox.width)
+                    height: Math.max(lv.contentHeight , flk.height, mainBox.height)
                     model: ListModel{id: lvModel;}
                     delegate:lvDelegate
+                    clip: true
                     Component.onCompleted: {
                         lvModel.clear();
                         let cnt;
@@ -564,8 +564,8 @@ Page {
                             lvModel.append(obj);
                         }
 
-                        lv.width = Math.max(lv.contentWidth , lv.width)
-                        lv.height = Math.max(lv.contentHeight , flk.height)
+                        lv.width = Math.max(lv.contentWidth , flk.width, mainBox.width)
+                        lv.height = Math.max(lv.contentHeight , flk.height, mainBox.height)
 
                         flk.contentWidth = Math.max(lv.width, 1500)
                         flk.contentHeight = lv.height
