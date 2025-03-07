@@ -166,8 +166,8 @@ Page {
                 anchors.topMargin: 20
                 clip: true
                 flickableDirection: Flickable.AutoFlickDirection
-                cellWidth: 350
-                cellHeight: 250
+                cellWidth: 340
+                cellHeight: 220
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 delegate: Rectangle{

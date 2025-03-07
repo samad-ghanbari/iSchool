@@ -83,7 +83,7 @@ Page {
                 clip: true
                 flickableDirection: Flickable.AutoFlickDirection
                 cellWidth: 350
-                cellHeight: 250
+                cellHeight: 170
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 delegate: Rectangle{

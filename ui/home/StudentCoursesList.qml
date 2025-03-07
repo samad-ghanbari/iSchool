@@ -537,20 +537,23 @@ Page {
 
             Flickable{
                 id: flk
-                anchors.fill: parent
-                contentHeight: lv.contentHeight
-                contentWidth: lv.contentWidth
+                width: parent.width
+                height: parent.height
+                contentHeight: lv.height
+                contentWidth: lv.width
+                clip: true
+
 
                 ListView
                 {
                     id: lv
-                    width: parent.width
-                    height: parent.height
+                    width: Math.max(lv.contentWidth , flk.width)
+                    height: Math.max(lv.contentHeight , flk.height)
                     model: ListModel{id: lvModel;}
-                    clip: true
                     delegate:lvDelegate
                     Component.onCompleted: {
                         lvModel.clear();
+                        let cnt;
                         var register_id = dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
                         var jsonarray = dbMan.getStudentCourses_evals(register_id);
                         //0sc.id, 1sc.register_id, 2sc.course_id, 3co.course_name, 4co.step_id, 5co.base_id, 6co.period_id,
@@ -560,6 +563,12 @@ Page {
                         {
                             lvModel.append(obj);
                         }
+
+                        lv.width = Math.max(lv.contentWidth , lv.width)
+                        lv.height = Math.max(lv.contentHeight , flk.height)
+
+                        flk.contentWidth = Math.max(lv.width, 1500)
+                        flk.contentHeight = lv.height
                     }
                     populate: Transition {
                         // NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 1000 }
@@ -574,19 +583,11 @@ Page {
 
     Component{
         id: lvDelegate
-        Flickable{
-            id: recdel;
-            height: 110
-            width: lv.width
-            contentWidth: dlgRec.width
-            required property var model;
-
         Rectangle{
-            id: dlgRec
-            height: parent.height
-            width: (dlgRow.implicitWidth > lv.width)? dlgRow.implicitWidth  : lv.width
-            anchors.left: parent.left
-
+            id: recdel
+            required property var model;
+            height: 110
+            width:  Math.max(lv.width, dlgRow.implicitWidth)
 
             color: (recdel.model.index % 2 == 0)? "aliceblue" : "mintcream"
             Row{
@@ -612,7 +613,7 @@ Page {
                 }
 
                 Rectangle{
-                    width: coeffRec.width + evalGradeRec.width
+                    width: Math.max( evalGradeRec.width, coeffRec.width)
                     height: 100
                     color: "transparent"
                     Rectangle{
@@ -975,7 +976,6 @@ Page {
             }
 
             Rectangle{width: parent.width; height: 5; color: "gainsboro"; anchors.bottom: parent.bottom;}
-        }
         }
     }
 
