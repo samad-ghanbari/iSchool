@@ -1018,6 +1018,7 @@ Page {
                             evalSelectionRefreshDialog.close();
                         }
     }
+
     // file dialog
     FileDialog {
         id: saveFileDialog

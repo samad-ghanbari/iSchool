@@ -19,8 +19,15 @@ Page {
     required property string course_name;
     required property var class_evals; // [{eval-1}, {}, ] // id, eval_name, course_flag, test_flag, final_flag
 
-
     required property StackView appStackView;
+
+    property bool per_month: true;
+    property bool midterm: true;
+    property bool formative: true;
+    property bool final_flag: true;
+    property bool semester_1: true;
+    property bool course_flag: true;
+    property bool test_flag: false;
 
     property string activeEval;
     property bool onEditing : false;
@@ -41,10 +48,114 @@ Page {
         return null; // Return null if no item is found
     }
 
+    function refreshAllEvals()
+    {
+
+        if(dbMan.refreshCourseEvals(courseStudentsPageId.class_id, courseStudentsPageId.course_id))
+        {
+            courseStudentsPageId.class_evals = dbMan.getClassEvalsArray(courseStudentsPageId.class_id)
+            courseStudentsPageId.sceIds = dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id)
+
+
+            infoDialogId.dialogSuccess = true
+            infoDialogId.dialogTitle = "عملیات موفق"
+            infoDialogId.dialogText = "آزمون‌های درس برای دانش‌آموزان بروزرسانی شد.";
+            infoDialogId.open();
+            // update model
+            lvModel.clear();
+            var jsonarray = dbMan.getCourseStudents_evals(courseStudentsPageId.class_id, courseStudentsPageId.course_id);
+            for(var obj of jsonarray)
+            {
+                lvModel.append(obj);
+            }
+
+        }
+        else{
+            infoDialogId.dialogText = "انجام عملیات با خطا مواجه شد."
+            infoDialogId.dialogTitle = "خطا"
+            infoDialogId.dialogSuccess = false
+            infoDialogId.open();
+        }
+
+    }
+    function refreshEval(eval_id)
+    {
+        if(dbMan.refreshCourseEval(courseStudentsPageId.class_id, courseStudentsPageId.course_id, eval_id))
+        {
+            courseStudentsPageId.class_evals = dbMan.getClassEvalsArray(courseStudentsPageId.class_id)
+            courseStudentsPageId.sceIds = dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id)
+
+
+            infoDialogId.dialogSuccess = true
+            infoDialogId.dialogTitle = "عملیات موفق"
+            infoDialogId.dialogText = "آزمون‌های درس برای دانش‌آموزان بروزرسانی شد.";
+            infoDialogId.open();
+            // update model
+            lvModel.clear();
+            var jsonarray = dbMan.getCourseStudents_evals(courseStudentsPageId.class_id, courseStudentsPageId.course_id);
+            for(var obj of jsonarray)
+            {
+                lvModel.append(obj);
+            }
+
+        }
+        else{
+            infoDialogId.dialogText = "انجام عملیات با خطا مواجه شد."
+            infoDialogId.dialogTitle = "خطا"
+            infoDialogId.dialogSuccess = false
+            infoDialogId.open();
+        }
+    }
+
+
+    function checkVisibility(model)
+    {
+        let PER_MONTH = model["per_month"];
+        let MIDTERM = model["midterm"];
+        let FORMATIVE = model["formative"];
+        let FINAL_FLAG = model["final_flag"];
+        let SEMESTER = model["semester"];
+        let COURSE_FLAG = model["course_flag"];
+        let TEST_FLAG = model["test_flag"];
+
+
+        if(COURSE_FLAG)
+            if(!courseStudentsPageId.course_flag)
+                return false;
+
+        if(TEST_FLAG)
+            if(!courseStudentsPageId.test_flag)
+                return false;
+
+
+        if(SEMESTER === "نیمسال اول")
+            if(!courseStudentsPageId.semester_1)
+                return false;
+
+        if(PER_MONTH)
+            if(courseStudentsPageId.per_month)
+                return true;
+
+        if(MIDTERM)
+            if(courseStudentsPageId.midterm)
+                return true;
+
+        if(FORMATIVE)
+            if(courseStudentsPageId.formative)
+                return true;
+
+        if(FINAL_FLAG)
+            if(courseStudentsPageId.final_flag)
+                return true;
+
+        return false;
+    }
+
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
     ColumnLayout
     {
+        id: clayout
         anchors.fill: parent
 
 
@@ -227,44 +338,214 @@ Page {
                 icon.source: "qrc:/assets/images/refresh.png"
                 icon.width: 32
                 icon.height: 32
-                text: "بروزرسانی ارزیابی‌ها"
+                text: "ارزیابی‌ها"
                 font.family: "Kalameh"
                 font.pixelSize: 14
                 font.bold: false
                 display: AbstractButton.TextUnderIcon
                 icon.color:"transparent"
                 opacity: 0.5
-                onClicked: {
-                    if(dbMan.refreshCourseEvals(courseStudentsPageId.class_id, courseStudentsPageId.course_id))
-                    {
-                        courseStudentsPageId.class_evals = dbMan.getClassEvalsArray(courseStudentsPageId.class_id)
-                        courseStudentsPageId.sceIds = dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id)
-
-
-                        infoDialogId.dialogSuccess = true
-                        infoDialogId.dialogTitle = "عملیات موفق"
-                        infoDialogId.dialogText = "آزمون‌های درس برای دانش‌آموزان بروزرسانی شد.";
-                        infoDialogId.open();
-                        // update model
-                        lvModel.clear();
-                        var jsonarray = dbMan.getCourseStudents_evals(courseStudentsPageId.class_id, courseStudentsPageId.course_id);
-                        for(var obj of jsonarray)
-                        {
-                            lvModel.append(obj);
-                        }
-
-                    }
-                    else{
-                        infoDialogId.dialogText = "انجام عملیات با خطا مواجه شد."
-                        infoDialogId.dialogTitle = "خطا"
-                        infoDialogId.dialogSuccess = false
-                        infoDialogId.open();
-                    }
+                onClicked:
+                {
+                    //courseStudentsPageId.refreshAllEvals();
+                    evalSelectionRefreshDialog.fillComboBox();
+                    evalSelectionRefreshDialog.open();
                 }
                 hoverEnabled: true
                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
             }
         }
+
+        // filter
+        Flickable
+        {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 50
+            contentWidth: innerFilterBox.width
+
+            Rectangle
+            {
+                id: innerFilterBox
+                width: (clayout.width > innerFilterBoxRow.implicitWidth)? clayout.width : innerFilterBoxRow.implicitWidth
+                height: 50
+                color: "snow"
+                Row{
+                    id: innerFilterBoxRow
+                    height: 50
+                    anchors.left: parent.left
+
+                    Image {
+                        source:"qrc:/assets/images/filter.png"
+                        width: 32
+                        height: 32
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    //semester
+                    ButtonGroup{
+                        id: semesterBG
+                    }
+                    GroupBox{
+                        width: innerBox.implicitWidth;
+                        height: 50
+                        padding: 0
+
+
+                        Row{
+                            id: innerBox
+                            height: 50
+                            anchors.margins: 0;
+
+                            RadioButton{
+                                height: 50
+                                anchors.verticalCenter: parent.verticalCenter
+                                ButtonGroup.group: semesterBG
+                                text: "نیمسال اول"
+                                palette.text: (this.checked)? "steelblue" : "gray"
+                                palette.buttonText:  (this.checked)? "steelblue" : "gray"
+                                checked: true
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                onCheckedChanged: {
+                                    courseStudentsPageId.semester_1  = (this.checked)? true: false;
+                                }
+                            }
+                            RadioButton{
+                                height: 50
+                                anchors.verticalCenter: parent.verticalCenter
+                                ButtonGroup.group: semesterBG
+                                text: "نیمسال دوم"
+                                palette.text:  (this.checked)? "steelblue" : "gray"
+                                palette.buttonText:  (this.checked)? "steelblue" : "gray"
+                                checked: false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                            }
+                        }
+                    }
+
+                    ButtonGroup{
+                        id: testCourseBG
+                    }
+
+                    GroupBox{
+                        width: innerTestCourseBox.implicitWidth;
+                        height: 50
+                        padding: 0
+                        Row{
+                            id: innerTestCourseBox
+                            height: 50
+                            anchors.margins: 0;
+                            RadioButton{
+                                //width: parent.width
+                                height: 50
+                                text: "ارزیابی تستی"
+                                palette.text: (this.checked)? "steelblue" : "gray"
+                                palette.buttonText:  (this.checked)? "steelblue" : "gray"
+                                ButtonGroup.group: testCourseBG
+                                checked: courseStudentsPageId.test_flag
+                                font.family: "Kalameh"
+                                font.pixelSize: 14
+                                onCheckedChanged:{
+                                    if(this.checked)
+                                        courseStudentsPageId.test_flag = true;
+                                    else
+                                        courseStudentsPageId.test_flag = false;
+                                }
+                            }
+                            RadioButton{
+                                //width: parent.width
+                                height: 50
+                                text: "ارزیابی تشریحی"
+                                palette.text: (this.checked)? "steelblue" : "gray"
+                                palette.buttonText:  (this.checked)? "steelblue" : "gray"
+                                ButtonGroup.group: testCourseBG
+                                checked: courseStudentsPageId.course_flag
+                                font.family: "Kalameh"
+                                font.pixelSize: 14
+                                onCheckedChanged:{
+                                    if(this.checked)
+                                        courseStudentsPageId.course_flag = true;
+                                    else
+                                        courseStudentsPageId.course_flag = false;
+                                }
+                            }
+                        }
+                    }
+
+                    //per_month
+                    Switch{
+                        //width: parent.width
+                        height: 50
+                        text: "ارزیابی ماهیانه"
+                        palette.text: (this.checked)? "steelblue" : "gray"
+                        palette.highlight: (this.checked)? "steelblue" : "gray"
+                        checked: courseStudentsPageId.per_month
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        onCheckedChanged:{
+                            if(this.checked)
+                                courseStudentsPageId.per_month = true;
+                            else
+                                courseStudentsPageId.per_month = false;
+                        }
+                    }
+                    //midterm
+                    Switch{
+                        //width: parent.width
+                        height: 50
+                        text: "ارزیابی میان‌ترم"
+                        palette.text: (this.checked)? "steelblue" : "gray"
+                        palette.highlight: (this.checked)? "steelblue" : "gray"
+                        checked: courseStudentsPageId.midterm
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        onCheckedChanged:{
+                            if(this.checked)
+                                courseStudentsPageId.midterm = true;
+                            else
+                                courseStudentsPageId.midterm = false;
+                        }
+                    }
+                    //formative
+                    Switch{
+                        //width: parent.width
+                        height: 50
+                        text: "ارزیابی مستمر"
+                        palette.text: (this.checked)? "steelblue" : "gray"
+                        palette.highlight: (this.checked)? "steelblue" : "gray"
+                        checked: courseStudentsPageId.formative
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        onCheckedChanged:{
+                            if(this.checked)
+                                courseStudentsPageId.formative = true;
+                            else
+                                courseStudentsPageId.formative = false;
+                        }
+                    }
+                    //final
+                    Switch{
+                        //width: parent.width
+                        height: 50
+                        text: "ارزیابی نهایی"
+                        palette.text: (this.checked)? "steelblue" : "gray"
+                        palette.highlight: (this.checked)? "steelblue" : "gray"
+                        checked: courseStudentsPageId.final_flag
+                        font.family: "Kalameh"
+                        font.pixelSize: 14
+                        onCheckedChanged:{
+                            if(this.checked)
+                                courseStudentsPageId.final_flag = true;
+                            else
+                                courseStudentsPageId.final_flag = false;
+                        }
+                    }
+
+                }
+            }
+        }
+
 
         Rectangle{
             id: mainBox
@@ -408,6 +689,8 @@ Page {
                                         }
                                         else return -1000;
                                     }
+
+                                    visible: courseStudentsPageId.checkVisibility(evalRecDel.model);
 
                                     Layout.alignment: Qt.AlignLeft
                                     Layout.preferredHeight: 50
@@ -870,6 +1153,17 @@ Page {
                             saveFileDialog.eval_id = eval_id;
                             saveFileDialog.open();
                             evalSelectionDialog.close();
+                        }
+    }
+
+    // eval Selection for refresh
+    DialogBox.EvalDialog
+    {
+        id: evalSelectionRefreshDialog
+        model : courseStudentsPageId.class_evals
+        onEvalSelected: (eval_id)=>{
+                            courseStudentsPageId.refreshEval(eval_id);
+                            evalSelectionRefreshDialog.close();
                         }
     }
 
