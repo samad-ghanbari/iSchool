@@ -138,62 +138,129 @@ Page {
 
     function updateRefModel(){
 
-
-
-
-
-
-
-
-
-        let per_month = studentResultSettingPage.per_month_transcript;
         refModel.clear();
-        let obj, jsondata;
-        let finalValue = -1
+        let PER_MONTH, MIDTERM, FORMATIVE, FINAL, SEMESTER;
+        let final_value = -1;
 
-        if(per_month){
-            //compareRef.currentIndex = -1
-            refModel.clear();
-            jsondata = dbMan.getEvals();
+        if(semester_Number == 0)
+        {
+            FORMATIVE = true;
+            FINAL = true;
 
-            //id, eval_name, base_id, period_id, test_flag, final_flag, per_month, max_grade
-            for( obj of jsondata)
+            refModel.append({text: "میانگین نهایی اول/دوم", value: 0});
+            refModel.append({text: "میانگین نیمسال اول/دوم", value: -2});
+
+            for( var obj of allEvals)
             {
-                if( (obj.per_month === true) && (obj.test_flag === false) ){
-                    if(studentResultSettingPage.evals.includes(obj.id))
-                        refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
-                }
-            }
-
-            if(refModel.count > 0)
-                compareRef.currentIndex = 0;
-        }
-        else{
-
-            refModel.clear();
-            jsondata = dbMan.getEvals();
-            //id, eval_name, base_id, period_id, test_flag, final_flag, per_month, max_grade
-            if(semesterColumnSW.checked)
-                refModel.append({text: "ارزیابی نیمسال " , value: 0});
-            for(obj of jsondata)
-            {
-                if(obj.per_month === false)
+                if( (obj["test_flag"] === false) )
                 {
-                    if(studentResultSettingPage.evals.includes(obj.id))
+                    if( (obj["formative"] === true) || (obj["final_flag"] === true) )
                     {
-                        if(obj.test_flag === false)
-                            refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
-                        if(obj.final_flag === true)
-                            finalValue = obj.id
+                        if(studentResultSettingPage.evals.includes(obj.id))
+                        {
+                            if(obj["semester"] === 1)
+                                refModel.append({text: "آزمون " + obj.eval_name +" نیمسال اول ", value: obj.id});
+                            else
+                                refModel.append({text: "آزمون " + obj.eval_name +" نیمسال دوم ", value: obj.id});
+                        }
+
+
+
                     }
                 }
             }
 
-            if(finalValue > -1)
-                compareRef.currentIndex = compareRef.indexOfValue(finalValue)
-            else if(refModel.count > 0)
-                compareRef.currentIndex = 0;
+
         }
+        else
+        {
+            if(per_month_transcript)
+            {
+                PER_MONTH = true;
+                SEMESTER = semester_Number;
+
+                for(obj of allEvals)
+                {
+                    if( (obj["test_flag"] === false) )
+                    {
+                        if( (obj["per_month"] === true) && (obj["semester"] === SEMESTER) )
+                        {
+                            if(final_value == -1)
+                                if((obj["per_month"] === true))
+                                    final_value = obj["id"];
+
+                            if(studentResultSettingPage.evals.includes(obj.id))
+                                refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+
+                        }
+                    }
+                }
+            }
+            else if(midterm_transcript)
+            {
+                PER_MONTH = true;
+                MIDTERM = true;
+                SEMESTER = semester_Number;
+
+                for(obj of allEvals)
+                {
+                    if( (obj["test_flag"] === false) )
+                    {
+                        if(obj["semester"] === SEMESTER)
+                        {
+                            if( (obj["per_month"] === true) ||  (obj["midterm"] === true))
+                            {
+                                if(studentResultSettingPage.evals.includes(obj.id))
+                                    refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+
+                                if(final_value == -1)
+                                    if((obj["midterm"] === true))
+                                        final_value = obj["id"];
+                            }
+                        }
+                    }
+                }
+
+
+            }
+            else if(semester_transcript)
+            {
+                FORMATIVE = true;
+                FINAL = true;
+                SEMESTER = semester_Number;
+
+                if(SEMESTER === 1)
+                    refModel.append({text: "نیمسال اول", value: 0});
+                else
+                    refModel.append({text: "نیمسال دوم", value: 0});
+
+                for(obj of allEvals)
+                {
+                    if( (obj["test_flag"] === false) )
+                    {
+                        if(obj["semester"] === SEMESTER)
+                        {
+                            if( (obj["formative"] === true) ||  (obj["final_flag"] === true))
+                            {
+                                if(studentResultSettingPage.evals.includes(obj.id))
+                                    refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+
+
+                                if(final_value == -1)
+                                    if((obj["final_flag"] === true))
+                                        final_value = obj["id"];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(refModel.count > 0)
+            compareRef.currentIndex = 0;
+
+        if(final_value > -1)
+            compareRef.currentIndex = compareRef.indexOfValue(final_value)
     }
 
     ColumnLayout
@@ -597,19 +664,19 @@ Page {
                                             required property var model
                                             checked: (studentResultSettingPage.evals.includes(model.id))? true : false;
                                             width: parent.width
-                                            palette.highlight: "royalblue"
-                                            palette.text: (checked)? "royalblue" : "gray"
+                                            palette.highlight: (checked)? "royalblue" : "gray"
+                                            palette.text:(checked)? "royalblue" : "gray"
                                             height: 50
                                             text: {
                                                 if(studentResultSettingPage.semester_Number == 0)
                                                 {
                                                     if(model.semester === 1)
-                                                        return " ارزیابی " + model.eval_name + " نیمسال اول "
+                                                        return  model.eval_name + " نیمسال اول "
                                                     else
-                                                        return " ارزیابی " + model.eval_name + " نیمسال دوم "
+                                                        return  model.eval_name + " نیمسال دوم "
                                                 }
                                                 else
-                                                    return " ارزیابی " + model.eval_name;
+                                                    return  model.eval_name;
                                             }
                                             font.family: "Kalameh"
                                             font.pixelSize: 16
@@ -642,14 +709,15 @@ Page {
 
                                     }
 
+                                    // semester
                                     Switch{
                                         id: semesterColumnSW
                                         width: parent.width
                                         height: 50
                                         palette.highlight: "royalblue"
                                         palette.text: (checked)? "royalblue" : "gray"
-                                        visible: (studentResultSettingPage.semester_transcript || StudentTranscriptSetting.period_transcript)? true : false
-                                        text: "ارزیابی نیمسال"
+                                        visible: (studentResultSettingPage.semester_transcript || studentResultSettingPage.period_transcript)? true : false
+                                        text: (studentResultSettingPage.period_transcript)? "نیمسال اول/دوم" : "نیمسال"
                                         checked: !studentResultSettingPage.per_month_transcript
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
@@ -665,8 +733,8 @@ Page {
                                 width: parent.width
                                 height: paramCol.implicitHeight + 50
                                 label: Label{
-                                    color: "darkslategray"
-                                    text: "سنجش‌های کارنامه"
+                                    color: "indianred"
+                                    text: "معیارهای سنجش"
                                     width: parent.width
                                     horizontalAlignment: Label.AlignLeft
                                 }
@@ -677,8 +745,8 @@ Page {
                                     Switch{
                                         id: baseRankSW
                                         width: parent.width
-                                        palette.highlight: "darkslategray"
-                                        palette.text: (this.checked)? "darkslategray" : "gray"
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
                                         height: 50
                                         text: "رتبه در پایه "
                                         checked: true
@@ -689,8 +757,8 @@ Page {
                                     Switch{
                                         id: classRankSW
                                         width: parent.width
-                                        palette.highlight: "darkslategray"
-                                        palette.text: (this.checked)? "darkslategray" : "gray"
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
                                         height: 50
                                         text: "رتبه در کلاس "
                                         checked: true
@@ -701,8 +769,8 @@ Page {
                                     Switch{
                                         id: baseAvgSW
                                         width: parent.width
-                                        palette.highlight: "darkslategray"
-                                        palette.text: (this.checked)? "darkslategray" : "gray"
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
                                         height: 50
                                         text: "میانگین پایه"
                                         checked: true
@@ -720,8 +788,8 @@ Page {
                                         id: maxGradeSW
                                         width: parent.width
                                         height: 50
-                                        palette.highlight: "darkslategray"
-                                        palette.text: (this.checked)? "darkslategray" : "gray"
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
                                         text: "بالاترین نمره پایه"
                                         checked: true
                                         font.family: "Kalameh"
