@@ -13,8 +13,10 @@ Dialog
     function fillComboBox(){
         //
         evalModel.clear();
+        let sem;
         for(var obj of evalDialogBox.model){
-            evalModel.append({"text": obj.eval_name, "value": obj.id });
+            sem = (obj.semester === 1)? "نیمسال اول" : "نیمسال دوم";
+            evalModel.append({"text": obj.eval_name + " - " + sem, "value": obj.id });
         }
         cb.currentIndex = -1;
         okBtn.enabled = false

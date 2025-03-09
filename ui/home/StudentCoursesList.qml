@@ -111,6 +111,13 @@ Page {
         let COURSE_FLAG = model["course_flag"];
         let TEST_FLAG = model["test_flag"];
 
+        if(SEMESTER === 1)
+            if(!studentCoursesPageId.semester_1)
+                return false;
+
+        if(SEMESTER === 2)
+            if(studentCoursesPageId.semester_1)
+                return false;
 
         if(COURSE_FLAG)
             if(!studentCoursesPageId.course_flag)
@@ -118,11 +125,6 @@ Page {
 
         if(TEST_FLAG)
             if(!studentCoursesPageId.test_flag)
-                return false;
-
-
-        if(SEMESTER === "نیمسال اول")
-            if(!studentCoursesPageId.semester_1)
                 return false;
 
         if(PER_MONTH)

@@ -364,18 +364,18 @@ Page {
             color: "mediumvioletred"
         }
 
-        Rectangle{
-            Layout.preferredWidth: (parent.width > 700)? 700 : parent.width
-            Layout.alignment: Qt.AlignHCenter
+        Flickable
+        {
             Layout.fillHeight: true
-
-            color:"snow"
-
-            Flickable
-            {
-                anchors.fill: parent
-                contentHeight: centerCol.implicitHeight
-                clip: true
+            Layout.fillWidth: true
+            contentHeight: centerCol.implicitHeight
+            clip: true
+            Rectangle{
+                id: centerRect
+                width: (parent.width > 700)? 700 : parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: centerCol.implicitHeight
+                color:"snow"
 
                 Column{
                     id: centerCol
@@ -1171,6 +1171,7 @@ Page {
 
                     Item{   width: parent.width;  height: 50; }
                 }
+
             }
         }
 
