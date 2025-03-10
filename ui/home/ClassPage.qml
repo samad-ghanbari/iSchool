@@ -185,7 +185,8 @@ Page {
                         hoverEnabled: true
                         onEntered: parent.color = "mediumvioletred";
                         onExited: parent.color = "slategray";
-                        //acceptedButtons: Qt.NoButton
+                        //ToolTip.text: "دانش‌آموزان کلاس"
+                        //onHoveredChanged: ToolTip.visible = hovered
                         onClicked:{
                             classPageId.appStackView.push(classStudentsComponent, {
                                                               objectName:"classStudentsON",
@@ -213,29 +214,15 @@ Page {
                         color:"transparent"
                         anchors.bottom: parent.bottom
 
-                        Button{
-                            width: 50
-                            height: 50
-                            visible: false
-                            anchors.left: parent.left
-                            icon.source: "qrc:/assets/images/student.png"
-                            icon.width: 50
-                            icon.height: 50
-                            icon.color:"transparent"
-                            background: Item{}
-                            onClicked: {
-                                classPageId.appStackView.push(classStudentsComponent, {
-                                                                  objectName:"classStudentsON",
-                                                                  class_name: recdel.model.class_name,
-                                                                  class_id: recdel.model.id
-                                                              });
-                            }
-                        }
+
                         Button{
                             width: 50
                             height: 50
                             anchors.right: parent.right
                             icon.source: "qrc:/assets/images/course.png"
+                            ToolTip.text: "دروس کلاس"
+                            hoverEnabled: true
+                            onHoveredChanged: ToolTip.visible = hovered
                             icon.width: 50
                             icon.height: 50
                             icon.color:"transparent"

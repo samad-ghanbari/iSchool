@@ -27,7 +27,7 @@ Page {
     property bool midterm: false;
     property bool formative: false;
     property bool final_flag: false;
-    property bool semester_1: false;
+    property bool semester_1: true;
     property bool course_flag: true;
     property bool test_flag: false;
 

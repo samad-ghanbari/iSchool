@@ -1,6 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
+
+import "./../public" as DialogBox
 
 Page {
     id: classStudentsPageId
@@ -166,6 +169,51 @@ Page {
                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                 }
 
+                Button
+                {
+                    visible: !dbMan.idPeriodPassed()
+                    height: 50
+                    background: Item{}
+                    icon.source: "qrc:/assets/images/upload.png"
+                    icon.width: 32
+                    icon.height: 32
+                    text: "بارگزاری نظر مشاور"
+                    font.family: "Kalameh"
+                    font.pixelSize: 14
+                    font.bold: false
+                    display: AbstractButton.TextUnderIcon
+                    icon.color:"transparent"
+                    opacity: 0.5
+                    onClicked: {
+                        openFileDialog.open();
+                    }
+                    hoverEnabled: true
+                    onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                }
+                Button
+                {
+                    visible: !dbMan.idPeriodPassed()
+                    height: 50
+                    background: Item{}
+                    icon.source: "qrc:/assets/images/download.png"
+                    icon.width: 32
+                    icon.height: 32
+                    text: "اکسل نظر مشاور"
+                    font.family: "Kalameh"
+                    font.pixelSize: 14
+                    font.bold: false
+                    display: AbstractButton.TextUnderIcon
+                    icon.color:"transparent"
+                    opacity: 0.5
+                    onClicked:
+                    {
+                      saveCommentsFileDialog.open();
+                    }
+                    hoverEnabled: true
+                    onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                }
+
+
             }
 
 
@@ -198,6 +246,14 @@ Page {
                         border.color: "mediumvioletred"
                         color: "slategray";
                         radius: 5
+                        MouseArea{
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: parent.color = "mediumvioletred";
+                            onExited: parent.color = "slategray";
+                            acceptedButtons: Qt.NoButton
+                        }
+
                         ColumnLayout
                         {
                             anchors.fill: parent
@@ -262,6 +318,9 @@ Page {
                                         width: 48
                                         background: Item{}
                                         icon.source: "qrc:/assets/images/course.png"
+                                        ToolTip.text: "دروس دانش‌آموز"
+                                        hoverEnabled: true
+                                        onHoveredChanged: ToolTip.visible = hovered
                                         icon.width: 48
                                         icon.height: 48
                                         icon.color:"transparent"
@@ -291,6 +350,9 @@ Page {
                                         width: 48
                                         background: Item{}
                                         icon.source: "qrc:/assets/images/evaluation.png"
+                                        hoverEnabled: true
+                                        onHoveredChanged: ToolTip.visible = hovered
+                                        ToolTip.text: "کارنامه دانش‌آموز"
                                         icon.width: 48
                                         icon.height: 48
                                         icon.color:"transparent"
@@ -310,19 +372,40 @@ Page {
                                                                                       student_photo: photo
                                                                                   });
                                         }
-
+                                    }
+                                    Button
+                                    {
+                                        height: 48
+                                        width: 48
+                                        background: Item{}
+                                        icon.source: "qrc:/assets/images/comment.png"
+                                        hoverEnabled: true
+                                        onHoveredChanged: ToolTip.visible = hovered
+                                        ToolTip.text: "نظر مشاور"
+                                        icon.width: 48
+                                        icon.height: 48
+                                        icon.color:"transparent"
+                                        opacity: 1
+                                        onClicked:{
+                                            var photo = recdel.model.photo;
+                                            if(photo === "")
+                                            {
+                                                if(recdel.isFemale)
+                                                    photo = "qrc:/assets/images/female.png";
+                                                else
+                                                    photo = "qrc:/assets/images/user.png";
+                                            }
+                                            classStudentsPageId.appStackView.push(commentsComponent, {
+                                                                                      student: recdel.model.name + " " + recdel.model.lastname,
+                                                                                      student_id: recdel.model.id,
+                                                                                      student_photo: photo
+                                                                                  });
+                                        }
                                     }
                                 }
                             }
                         }
 
-                        MouseArea{
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onEntered: parent.color = "mediumvioletred";
-                            onExited: parent.color = "slategray";
-                            acceptedButtons: Qt.NoButton
-                        }
                     }
 
                     Component.onCompleted: {
@@ -362,6 +445,22 @@ Page {
     Component{
         id: studentResultComponent
         StudentTranscriptSetting{
+            appStackView: classStudentsPageId.appStackView
+            branch: classStudentsPageId.branch
+            step: classStudentsPageId.step
+            base: classStudentsPageId.base
+            field : classStudentsPageId.field
+            field_based: classStudentsPageId.field_based
+            period: classStudentsPageId.period
+            class_name: classStudentsPageId.class_name
+            class_id: classStudentsPageId.class_id
+        }
+    }
+
+    // comments
+    Component{
+        id: commentsComponent
+        Comments{
             appStackView: classStudentsPageId.appStackView
             branch: classStudentsPageId.branch
             step: classStudentsPageId.step
@@ -422,5 +521,76 @@ Page {
 
             onPopSignal: classPageId.appStackView.pop();
         }
+    }
+
+    // file dialog
+    FileDialog {
+        id: saveCommentsFileDialog
+        title: "محل ذخیره فایل اکسل"
+        currentFolder: "file:///home/samad/"
+        //currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
+        fileMode: FileDialog.SaveFile
+
+        property int eval_id;
+
+        onAccepted:{
+            if(dbMan.generateStudentCommentsXlsx(selectedFile, classStudentsPageId.class_id))
+            {
+                successDialogId.width = 500
+                successDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile
+                successDialogId.open();
+            }
+            else
+            {
+                infoDialogId.open();
+            }
+        }
+        onRejected: saveFileDialog.close();
+    }
+
+    // file dialog
+    FileDialog {
+        id: openFileDialog
+        title: "انتخاب فایل اکسل"
+        currentFolder: "file:///home/samad/"
+        //currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
+        fileMode: FileDialog.OpenFile
+
+        onAccepted:{
+            if(dbMan.updateStudentCoursesGradeByXlsx(selectedFile, studentCoursesPageId.student_id, studentCoursesPageId.class_id))
+            {
+                successDialogId.width = 300
+                successDialogId.dialogText = "نظر مشاور برای دانش‌آموزان کلاس ثبت گردید."
+                successDialogId.open();
+
+            }
+            else
+            {
+                infoDialogId.width = 400
+                infoDialogId.dialogText = dbMan.getLastError();
+                infoDialogId.open();
+            }
+        }
+        onRejected: openFileDialog.close();
+    }
+
+    //dialog error
+    DialogBox.BaseDialog
+    {
+        id: infoDialogId
+        dialogTitle: "خطا"
+        dialogText: "عملیات با خطا مواجه شد."
+        dialogSuccess: false
+    }
+
+    //dialog error
+    DialogBox.BaseDialog
+    {
+        id: successDialogId
+        dialogTitle: "موفق"
+        dialogText: "عملیات با موفقیت انجام شد."
+        dialogSuccess: true
     }
 }

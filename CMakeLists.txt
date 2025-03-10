@@ -189,6 +189,9 @@ qt_add_qml_module(appiSchool
         ui/student_evals/StudentsEvals.qml
         ui/student_evals/StudentsEvals.js
         QML_FILES ui/home/CourseRank.qml
+        QML_FILES ui/home/Comments.qml
+        QML_FILES ui/home/CommentInsert.qml
+        QML_FILES ui/public/DeleteDialog.qml
 
 )
 
@@ -260,6 +263,7 @@ qt_add_resources(appiSchool "assets"
         assets/images/toLeft.png
         assets/images/toRight.png
         assets/images/filter.png
+        assets/images/comment.png
 
         help/help2.0.0.pdf
 
