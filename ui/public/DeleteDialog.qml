@@ -70,7 +70,7 @@ Dialog
                         width: 10
                         height: 10
                         anchors.centerIn: parent
-                        color: confirmChB.checked ? "green" : "red"
+                        color: confirmChB.checked ? "green" : "white"
                     }
                 }
 

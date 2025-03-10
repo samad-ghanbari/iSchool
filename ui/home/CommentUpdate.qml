@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import "./../public" as DialogBox
 
 Page {
-    id: insertPageId
+    id: updatePageId
 
     required property string branch;
     required property string step;
@@ -18,10 +18,15 @@ Page {
     required property int student_id;
     required property string student;
     required property string student_photo;
+
+    required property int id;
     required property string jDate;
+    required property string advisor;
+    required property string comment;
+    required property int semester;
 
     signal popSignal();
-    signal insertedSignal();
+    signal updatedSignal();
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -35,7 +40,7 @@ Page {
             Layout.preferredHeight: 30
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: insertPageId.branch + " - " + insertPageId.step
+            text: updatePageId.branch + " - " + updatePageId.step
             font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
@@ -47,7 +52,7 @@ Page {
             Layout.preferredHeight:  100
 
             Image {
-                source:insertPageId.student_photo
+                source:updatePageId.student_photo
                 Layout.preferredWidth: 100
                 Layout.preferredHeight: 100
                 Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
@@ -61,7 +66,7 @@ Page {
                     height: 50
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignLeft
-                    text: insertPageId.student
+                    text: updatePageId.student
                     font.family: "Kalameh"
                     font.pixelSize: 20
                     font.bold: true
@@ -73,7 +78,7 @@ Page {
                     height: 50
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignLeft
-                    text: (insertPageId.field_based) ? insertPageId.field + " - " + insertPageId.base :   insertPageId.base
+                    text: (updatePageId.field_based) ? updatePageId.field + " - " + updatePageId.base :   updatePageId.base
                     font.family: "Kalameh"
                     font.pixelSize: 18
                     font.bold: true
@@ -89,7 +94,7 @@ Page {
                 height: 30
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
-                text: insertPageId.class_name + " - " + "سال‌تحصیلی "
+                text: updatePageId.class_name + " - " + "سال‌تحصیلی "
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
@@ -99,7 +104,7 @@ Page {
                 height: 30
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
-                text: insertPageId.period
+                text: updatePageId.period
                 font.family: "Kalameh"
                 font.pixelSize: 18
                 font.bold: true
@@ -125,7 +130,7 @@ Page {
                 Layout.preferredHeight: 50
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                text: "افزودن نظر مشاور"
+                text: "ویرایش نظر مشاور"
                 font.family: "Kalameh"
                 font.pixelSize: 20
                 font.bold: true
@@ -155,7 +160,7 @@ Page {
 
                     //date-advisor-comment
                     Image {
-                        source: "qrc:/assets/images/add.png"
+                        source: "qrc:/assets/images/edit.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                         height:  64
                         width:  64
@@ -187,7 +192,7 @@ Page {
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             placeholderText: "فرمت تاریخ 1403/12/20"
-                            text: insertPageId.jDate
+                            text: updatePageId.jDate
 
                             property var dateRegex: /^\d{4}\/\d{2}\/\d{2}$/
                             onTextChanged: {
@@ -233,12 +238,7 @@ Page {
                                 semesterModel.append({"text": "نیمسال اول", "value": 1 });
                                 semesterModel.append({"text": "نیمسال دوم", "value": 2 });
 
-                                if (dateTF.dateRegex.test(insertPageId.jDate))
-                                {
-                                    var sem = dbMan.getDateSemester(insertPageId.jDate)
-                                    semesterCB.currentIndex = semesterCB.indexOfValue(sem)
-                                }
-
+                                semesterCB.currentIndex = semesterCB.indexOfValue(updatePageId.semester)
                             }
                         }
 
@@ -269,7 +269,7 @@ Page {
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             placeholderText: "نام مشاور"
-                            text:"";
+                            text: updatePageId.advisor;
                         }
                     }
 
@@ -287,14 +287,14 @@ Page {
                     TextArea{
                         id: commentTA
                         width: parent.width - 100
-                        horizontalAlignment: Qt.AlignLeft
+                        horizontalAlignment: Qt.AlignRight
                         height: 400
                         readOnly: false
                         font.pixelSize: 20
                         font.bold: false
                         font.family: "Zar"
                         wrapMode: TextArea.Wrap
-                        text: ""
+                        text: updatePageId.comment
                         background: Rectangle {
                             color: "#f3f3f3"
                             border.width: 1
@@ -320,7 +320,7 @@ Page {
                             font.family: "Kalameh"
                             font.pixelSize: 16
                             Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "indianred"}
-                            onClicked: insertPageId.popSignal();
+                            onClicked: updatePageId.popSignal();
                         }
 
                         Button
@@ -342,14 +342,14 @@ Page {
                                 let advisor = advisorTF.text;
                                 let comment = commentTA.text;
 
-                                let student_id = insertPageId.student_id
-                                let class_id = insertPageId.class_id
+                                let student_id = updatePageId.student_id
+                                let class_id = updatePageId.class_id
                                 let semester = semesterCB.currentValue
 
-                                if(dbMan.insertComment(student_id, class_id, jdate, semester, advisor, comment))
+                                if(dbMan.updateComment(id, jdate, semester, advisor, comment))
                                 {
-                                    insertPageId.insertedSignal();
-                                    insertPageId.popSignal();
+                                    updatePageId.updatedSignal();
+                                    updatePageId.popSignal();
                                 }
                                 else
                                     errorDialogId.open();

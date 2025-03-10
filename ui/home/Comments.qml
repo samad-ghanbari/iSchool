@@ -266,7 +266,15 @@ Page {
                                 icon.color:"transparent"
                                 opacity: 0.5
                                 onClicked: {
-                                    commentsPageId.appStackView.push(updateComponent, {});
+                                    commentsPageId.appStackView.push(updateComponent, {
+
+                                                                         id: recdel.model.id,
+                                                                         jDate: recdel.model.date,
+                                                                         semester: recdel.model.semester,
+                                                                         advisor: recdel.model.advisor,
+                                                                         comment: recdel.model.comment
+
+                                                                     });
                                 }
                                 hoverEnabled: true
                                 onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
@@ -339,9 +347,20 @@ Component
 Component
 {
     id: updateComponent
-    Item{
-        //onPopSignal: periodsPage.appStackView.pop();
-        //onInsertedSignal: Methods.periodsUpdate(stepCB.currentValue)
+    CommentUpdate{
+        onPopSignal: commentsPageId.appStackView.pop();
+        onUpdatedSignal: commentsPageId.updateCommentsModel();
+        branch: commentsPageId.branch
+        step: commentsPageId.step
+        base: commentsPageId.base
+        field : commentsPageId.field
+        field_based: commentsPageId.field_based
+        period: commentsPageId.period
+        class_name: commentsPageId.class_name
+        class_id: commentsPageId.class_id
+        student_id: commentsPageId.student_id
+        student: commentsPageId.student
+        student_photo: commentsPageId.student_photo
     }
 }
 
