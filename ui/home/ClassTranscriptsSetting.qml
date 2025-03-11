@@ -44,6 +44,8 @@ Page {
     property bool semester_transcript : false
     property bool period_transcript : false
 
+    property bool advisorComment : false;
+
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
     function updateEvalsModel(){
@@ -260,6 +262,22 @@ Page {
             compareRef.currentIndex = compareRef.indexOfValue(final_value)
     }
 
+    function uncheckMonthSwitch()
+    {
+        farSW.checked = false;
+        ordSW.checked = false;
+        khoSW.checked = false;
+        tirSW.checked = false;
+        morSW.checked = false;
+        shaSW.checked = false;
+        mehSW.checked = false;
+        abaSW.checked = false;
+        azaSW.checked = false;
+        deySW.checked = false;
+        bahSW.checked = false;
+        esfSW.checked = false;
+    }
+
     ColumnLayout
     {
         anchors.fill: parent
@@ -356,10 +374,10 @@ Page {
                     ButtonGroup{
                         id: semesterGB;
                     }
+
                     ButtonGroup{
                         id: transcriptBG;
                     }
-
 
                     GroupBox{
                         width: parent.width
@@ -836,6 +854,233 @@ Page {
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                     }
+                                }
+                            }
+
+                            GroupBox{
+                                width: parent.width
+                                height:advisorCol.implicitHeight + 50
+                                label: Label{
+                                    color: "midnightblue"
+                                    text: "نظر مشاور"
+                                    width: parent.width
+                                    horizontalAlignment: Label.AlignLeft
+                                }
+                                Column
+                                {
+                                    id: advisorCol
+                                    width: parent.width
+
+                                    RowLayout{
+                                        width: parent.width
+                                        height: 20
+                                        CheckBox {
+                                            id: advisorChB
+                                            Layout.preferredHeight: 20
+                                            Layout.preferredWidth:  20
+                                            checked: classTranscriptsSettingPage.advisorComment
+                                            indicator: Rectangle {
+                                                width: 20
+                                                height: 20
+                                                radius: 2
+                                                color: "white"
+                                                border.width: 1
+                                                border.color:"gray"
+
+                                                Rectangle{
+                                                    width: 10
+                                                    height: 10
+                                                    anchors.centerIn: parent
+                                                    color: advisorChB.checked ? "midnightblue" : "white"
+                                                }
+                                            }
+
+                                            onCheckedChanged:{
+                                                if(!checked)
+                                                    classTranscriptsSettingPage.uncheckMonthSwitch();
+
+                                                classTranscriptsSettingPage.advisorComment = advisorChB.checked
+                                            }
+                                        }
+                                        Label
+                                        {
+                                            Layout.preferredHeight: 25
+                                            verticalAlignment: Label.AlignVCenter
+                                            text: "درج نظر مشاور"
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 14
+                                            color:"midnightblue";
+                                            MouseArea{
+                                                anchors.fill: parent
+                                                onClicked: advisorChB.toggle();
+                                            }
+                                        }
+
+                                        Item{Layout.fillWidth: true; Layout.preferredHeight: 20}
+                                    }
+
+                                    Flow{
+                                        width: parent.width
+                                        visible: classTranscriptsSettingPage.advisorComment
+
+                                        Switch{
+                                            id: farSW
+                                            height:  50
+                                            width: 160
+                                            text: "فروردین ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: ordSW
+                                            height:  50
+                                            width: 160
+                                            text: "اردیبهشت ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: khoSW
+                                            height:  50
+                                            width: 160
+                                            text: "خرداد ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: tirSW
+                                            height:  50
+                                            width: 160
+                                            text: "تیر ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: morSW
+                                            height:  50
+                                            width: 160
+                                            text: "مرداد ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: shaSW
+                                            height:  50
+                                            width: 160
+                                            text: "شهریور ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: mehSW
+                                            height:  50
+                                            width: 160
+                                            text: "مهر ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: abaSW
+                                            height:  50
+                                            width: 160
+                                            text: "آبان ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: azaSW
+                                            height:  50
+                                            width: 160
+                                            text: "آذر ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: deySW
+                                            height:  50
+                                            width: 160
+                                            text: "دی ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: bahSW
+                                            height:  50
+                                            width: 160
+                                            text: "بهمن ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: esfSW
+                                            height:  50
+                                            width: 160
+                                            text: "اسفند ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                    }
+
                                 }
                             }
                         }

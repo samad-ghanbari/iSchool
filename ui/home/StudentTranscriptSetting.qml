@@ -47,6 +47,8 @@ Page {
     property bool semester_transcript : false
     property bool period_transcript : false
 
+    property bool advisorComment : false;
+
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
     function updateEvalsModel(){
@@ -195,6 +197,8 @@ Page {
                         }
                     }
                 }
+
+                refModel.append({text: "میانگین ماهیانه", value: 0});
             }
             else if(midterm_transcript)
             {
@@ -221,6 +225,7 @@ Page {
                     }
                 }
 
+                refModel.append({text: "میانگین ماهیانه", value: 0});
 
             }
             else if(semester_transcript)
@@ -261,6 +266,22 @@ Page {
 
         if(final_value > -1)
             compareRef.currentIndex = compareRef.indexOfValue(final_value)
+    }
+
+    function uncheckMonthSwitch()
+    {
+        farSW.checked = false;
+        ordSW.checked = false;
+        khoSW.checked = false;
+        tirSW.checked = false;
+        morSW.checked = false;
+        shaSW.checked = false;
+        mehSW.checked = false;
+        abaSW.checked = false;
+        azaSW.checked = false;
+        deySW.checked = false;
+        bahSW.checked = false;
+        esfSW.checked = false;
     }
 
     ColumnLayout
@@ -709,21 +730,7 @@ Page {
 
                                     }
 
-                                    // semester
-                                    Switch{
-                                        id: semesterColumnSW
-                                        width: parent.width
-                                        height: 50
-                                        palette.highlight: "royalblue"
-                                        palette.text: (checked)? "royalblue" : "gray"
-                                        visible: (studentResultSettingPage.semester_transcript || studentResultSettingPage.period_transcript)? true : false
-                                        text: (studentResultSettingPage.period_transcript)? "نیمسال اول/دوم" : "نیمسال"
-                                        checked: !studentResultSettingPage.per_month_transcript
-                                        font.family: "Kalameh"
-                                        font.pixelSize: 16
-                                        onToggled: studentResultSettingPage.updateRefModel();
                                     }
-                                }
 
 
                             }
@@ -791,6 +798,73 @@ Page {
                                         palette.highlight: "indianred"
                                         palette.text: (this.checked)? "indianred" : "gray"
                                         text: "بالاترین نمره پایه"
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                    }
+
+                                    // semester
+                                    Switch{
+                                        id: semesterSW
+                                        width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (checked)? "indianred" : "gray"
+                                        visible: (studentResultSettingPage.semester_transcript || studentResultSettingPage.period_transcript)? true : false
+                                        text: (studentResultSettingPage.period_transcript)? "نیمسال اول/دوم" : "نیمسال"
+                                        checked: !studentResultSettingPage.per_month_transcript
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: studentResultSettingPage.updateRefModel();
+                                    }
+
+                                    Switch{
+                                        id: semesterAvgSW
+                                        width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین نمیسال اول / دوم"
+                                        visible: (studentResultSettingPage.period_transcript)? true : false
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                    }
+
+                                    Switch{
+                                        id: finalAvgSW
+                                        width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین نهایی اول/ دوم"
+                                        visible: (studentResultSettingPage.period_transcript)? true : false
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                    }
+
+                                    Switch{
+                                        id: formativeAvgSW
+                                        width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین مستمر اول / دوم"
+                                        visible: (studentResultSettingPage.period_transcript)? true : false
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                    }
+
+                                    Switch{
+                                        id: perMonthAvgSW
+                                        width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین ماهیانه"
+                                        visible: (studentResultSettingPage.per_month_transcript || studentResultSettingPage.midterm_transcript )? true : false
                                         checked: true
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
@@ -865,6 +939,233 @@ Page {
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                     }
+                                }
+                            }
+
+                            GroupBox{
+                                width: parent.width
+                                height:advisorCol.implicitHeight + 50
+                                label: Label{
+                                    color: "midnightblue"
+                                    text: "نظر مشاور"
+                                    width: parent.width
+                                    horizontalAlignment: Label.AlignLeft
+                                }
+                                Column
+                                {
+                                    id: advisorCol
+                                    width: parent.width
+
+                                    RowLayout{
+                                        width: parent.width
+                                        height: 20
+                                        CheckBox {
+                                            id: advisorChB
+                                            Layout.preferredHeight: 20
+                                            Layout.preferredWidth:  20
+                                            checked: studentResultSettingPage.advisorComment
+                                            indicator: Rectangle {
+                                                width: 20
+                                                height: 20
+                                                radius: 2
+                                                color: "white"
+                                                border.width: 1
+                                                border.color:"gray"
+
+                                                Rectangle{
+                                                    width: 10
+                                                    height: 10
+                                                    anchors.centerIn: parent
+                                                    color: advisorChB.checked ? "midnightblue" : "white"
+                                                }
+                                            }
+
+                                            onCheckedChanged:{
+                                                if(!checked)
+                                                    studentResultSettingPage.uncheckMonthSwitch();
+
+                                                studentResultSettingPage.advisorComment = advisorChB.checked
+                                            }
+                                        }
+                                        Label
+                                        {
+                                            Layout.preferredHeight: 25
+                                            verticalAlignment: Label.AlignVCenter
+                                            text: "درج نظر مشاور"
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 14
+                                            color:"midnightblue";
+                                            MouseArea{
+                                                anchors.fill: parent
+                                                onClicked: advisorChB.toggle();
+                                            }
+                                        }
+
+                                        Item{Layout.fillWidth: true; Layout.preferredHeight: 20}
+                                    }
+
+                                    Flow{
+                                        width: parent.width
+                                        visible: studentResultSettingPage.advisorComment
+
+                                        Switch{
+                                            id: farSW
+                                            height:  50
+                                            width: 160
+                                            text: "فروردین ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: ordSW
+                                            height:  50
+                                            width: 160
+                                            text: "اردیبهشت ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: khoSW
+                                            height:  50
+                                            width: 160
+                                            text: "خرداد ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: tirSW
+                                            height:  50
+                                            width: 160
+                                            text: "تیر ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: morSW
+                                            height:  50
+                                            width: 160
+                                            text: "مرداد ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: shaSW
+                                            height:  50
+                                            width: 160
+                                            text: "شهریور ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: mehSW
+                                            height:  50
+                                            width: 160
+                                            text: "مهر ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: abaSW
+                                            height:  50
+                                            width: 160
+                                            text: "آبان ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: azaSW
+                                            height:  50
+                                            width: 160
+                                            text: "آذر ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: deySW
+                                            height:  50
+                                            width: 160
+                                            text: "دی ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: bahSW
+                                            height:  50
+                                            width: 160
+                                            text: "بهمن ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                        Switch{
+                                            id: esfSW
+                                            height:  50
+                                            width: 160
+                                            text: "اسفند ماه"
+                                            checked: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            palette.highlight: "midnightblue"
+                                            palette.text: (checked)? "midnightblue" : "gray"
+                                            onCheckedChanged:  {}
+                                        }
+
+                                    }
+
                                 }
                             }
                         }
@@ -1210,44 +1511,82 @@ Page {
             var student_id = studentResultSettingPage.student_id
             var class_id = studentResultSettingPage.class_id
             var evals = studentResultSettingPage.evals
-            var per_month = studentResultSettingPage.per_month_transcript;
-            var semester_flag = semesterColumnSW.checked
-            var semester_value = semesterNumberTF.text
-            var baseRank_flag = baseRankSW.checked
-            var classRank_flag = classRankSW.checked
-            var baseAvg_flag = baseAvgSW.checked
-            var fieldBased_flag = fieldBasedSW.checked
-            var maxGrade_flag = maxGradeSW.checked
-            var compare_ref_id = compareRef.currentValue
-            var compare_ref = compareRef.currentText
-            var predefined_base_avg = predefinedBaseAvgSW.checked
+
+            var field_based = fieldBasedSW.checked;
+            var compare_ref_id = compareRef.currentValue;
+            var compare_ref = compareRef.currentText;
+            var predefined_base_avg = predefinedBaseAvgSW.checked;
+            var transcript = {per_month: studentResultSettingPage.per_month_transcript, midterm : studentResultSettingPage.midterm_transcript, semester: studentResultSettingPage.semester_transcript, period: studentResultSettingPage.period_transcript}
+            var advisorComment_flag = studentResultSettingPage.advisorComment
+            var month = [];
+            if(advisorComment_flag)
+            {
+                if(farSW.checked)
+                    month.push(1);
+                if(ordSW.checked)
+                    month.push(2);
+                if(khoSW.checked)
+                    month.push(3);
+                if(tirSW.checked)
+                    month.push(4);
+                if(morSW.checked)
+                    month.push(5);
+                if(shaSW.checked)
+                    month.push(6);
+                if(mehSW.checked)
+                    month.push(7);
+                if(abaSW.checked)
+                    month.push(8);
+                if(azaSW.checked)
+                    month.push(9);
+                if(deySW.checked)
+                    month.push(10);
+                if(bahSW.checked)
+                    month.push(11);
+                if(esfSW.checked)
+                    month.push(12);
+            }
+
+
 
             // test only print error
-            // if((compare_ref_id === -1) || (compare_ref === "") || (compare_ref_id === undefined ) )
-            // {
-            //     infoDialogId.dialogText = "لطفا مرجع مقایسه را انتخاب نمایید.";
-            //     infoDialogId.open();
-            //     return;
-            // }
+            if((compare_ref_id === -1) || (compare_ref === "") || (compare_ref_id === undefined ) )
+            {
+                infoDialogId.dialogText = "لطفا مرجع مقایسه را انتخاب نمایید.";
+                infoDialogId.open();
+                return;
+            }
 
             var params = {
                 "student_id": student_id,
                 "class_id": class_id,
                 "evals": evals,
-                "semester_flag": semester_flag,
-                "semester_value": semester_value,
-                "baseRank_flag" : baseRank_flag,
-                "classRank_flag" : classRank_flag,
-                "baseAvg_flag" : baseAvg_flag,
-                "fieldBased_flag" : fieldBased_flag,
-                "maxGrade_flag" : maxGrade_flag,
+                "fields" : {
+                    "base_rank": baseRankSW.checked,
+                    "class_rank": classRankSW.checked,
+
+                    "base_avg" : baseAvgSW.checked,
+                    "max_grade": maxGradeSW.checked,
+                    "semester": true,
+                    "semester_avg": true,
+                    "per_month_avg": true,
+                    "formative_avg" : true,
+                    "final_avg" : true
+                }
+                ,
+                "fieldBased_flag" : studentResultSettingPage.fieldBased_flag,
                 "compare_ref_id": compare_ref_id,
                 "compare_ref" : compare_ref,
                 "predefined_base_avg": predefined_base_avg,
-                "paperSize": paperSizeCB.currentValue,
-                "fontFamily" : fontCB.currentValue,
-                "contentFontSize": contentFontSizeCB.currentValue,
-                "titrFontSize": titrFontSizeCB.currentValue
+                "transcript" : transcript,
+                "advisor": advisorComment_flag,
+                "comment_month": month,
+                "print":{
+                    "paperSize": paperSizeCB.currentValue,
+                    "fontFamily" : fontCB.currentValue,
+                    "contentFontSize": contentFontSizeCB.currentValue,
+                    "titrFontSize": titrFontSizeCB.currentValue
+                }
             }
 
             //var result = dbMan.getStudentTranscript(params);
