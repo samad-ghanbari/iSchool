@@ -559,7 +559,7 @@ Page {
         fileMode: FileDialog.OpenFile
 
         onAccepted:{
-            if(dbMan.updateStudentCoursesGradeByXlsx(selectedFile, studentCoursesPageId.student_id, studentCoursesPageId.class_id))
+            if(dbMan.importCommentsByExcel(selectedFile,  classStudentsPageId.class_id))
             {
                 successDialogId.width = 300
                 successDialogId.dialogText = "نظر مشاور برای دانش‌آموزان کلاس ثبت گردید."

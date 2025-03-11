@@ -232,6 +232,7 @@ Page {
                             {
                                 semesterModel.append({"text": "نیمسال اول", "value": 1 });
                                 semesterModel.append({"text": "نیمسال دوم", "value": 2 });
+                                semesterModel.append({"text": "نیمسال تابستان", "value": 3 });
 
                                 if (dateTF.dateRegex.test(insertPageId.jDate))
                                 {
@@ -288,6 +289,7 @@ Page {
                         id: commentTA
                         width: parent.width - 100
                         horizontalAlignment: Qt.AlignLeft
+                        anchors.right: parent.right
                         height: 400
                         readOnly: false
                         font.pixelSize: 20

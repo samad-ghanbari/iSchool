@@ -219,7 +219,16 @@ Page {
                             font.pixelSize: 14
                             font.bold: true
                             color: "skyblue"
-                            text: (recdel.model.semester === 1)? "نیمسال اول" : "نیمسال دوم";
+                            text:
+                            {
+                                if(recdel.model.semester === 1)
+                                    return "نیمسال اول";
+                                else if(recdel.model.semester === 2)
+                                    return "نیمسال دوم";
+                                else
+                                    return "نیمسال تابستان";
+
+                            }
                             horizontalAlignment: Label.AlignLeft
                             verticalAlignment: Label.AlignVCenter
                         }
