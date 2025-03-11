@@ -36,6 +36,8 @@ Page {
 
     property var allEvals: dbMan.getEvals();
     property var evals: []
+    property var eids :{ "semester1": -601, "semester2": -602, "semester_avg":-612, "formative_avg": -400, "final_avg": -500, "per_month_avg":-12}
+
 
     property int semester_Number : 1 // 0 1 2      0:studyPeriod   1:semester1    2:semester2
 
@@ -71,8 +73,6 @@ Page {
                     evalsModel.append(obj);
                 }
             }
-
-
         }
         else  // 1-2
         {
@@ -146,8 +146,15 @@ Page {
             FORMATIVE = true;
             FINAL = true;
 
-            refModel.append({text: "میانگین نهایی اول/دوم", value: 0});
-            refModel.append({text: "میانگین نیمسال اول/دوم", value: -2});
+            if(finalAvgSW.checked)
+                refModel.append({text: "میانگین نهایی اول/دوم", value: -500});
+            if(semesterAvgSW.checked)
+                refModel.append({text: "میانگین نیمسال اول/دوم", value: -612});
+            if(semester12SW.checked)
+            {
+                refModel.append({text: "نیمسال اول", value: -601});
+                refModel.append({text: "نیمسال دوم", value: -602});
+            }
 
             for( var obj of allEvals)
             {
@@ -162,14 +169,9 @@ Page {
                             else
                                 refModel.append({text: "آزمون " + obj.eval_name +" نیمسال دوم ", value: obj.id});
                         }
-
-
-
                     }
                 }
             }
-
-
         }
         else
         {
@@ -194,6 +196,9 @@ Page {
                         }
                     }
                 }
+
+                if(perMonthAvgSW.checked)
+                   refModel.append({text: "میانگین ماهیانه", value: -12});
             }
             else if(midterm_transcript)
             {
@@ -220,6 +225,8 @@ Page {
                     }
                 }
 
+                if(perMonthAvgSW.checked)
+                    refModel.append({text: "میانگین ماهیانه", value: -12});
 
             }
             else if(semester_transcript)
@@ -228,10 +235,15 @@ Page {
                 FINAL = true;
                 SEMESTER = semester_Number;
 
-                if(SEMESTER === 1)
-                    refModel.append({text: "نیمسال اول", value: 0});
-                else
-                    refModel.append({text: "نیمسال دوم", value: 0});
+                if(semester12SW.checked)
+                {
+                    if(SEMESTER === 1)
+                        refModel.append({text: "نیمسال اول", value: -601});
+                    else
+                        refModel.append({text: "نیمسال دوم", value: -602});
+                }
+
+
 
                 for(obj of allEvals)
                 {
@@ -260,6 +272,9 @@ Page {
 
         if(final_value > -1)
             compareRef.currentIndex = compareRef.indexOfValue(final_value)
+
+        if(compareRef.currentIndex === -1)
+            compareRef.currentIndex = 0;
     }
 
     function uncheckMonthSwitch()
@@ -698,20 +713,6 @@ Page {
 
                                     }
 
-                                    // semester
-                                    Switch{
-                                        id: semesterColumnSW
-                                        width: parent.width
-                                        height: 50
-                                        palette.highlight: "royalblue"
-                                        palette.text: (checked)? "royalblue" : "gray"
-                                        visible: (classTranscriptsSettingPage.semester_transcript || classTranscriptsSettingPage.period_transcript)? true : false
-                                        text: (classTranscriptsSettingPage.period_transcript)? "نیمسال اول/دوم" : "نیمسال"
-                                        checked: !classTranscriptsSettingPage.per_month_transcript
-                                        font.family: "Kalameh"
-                                        font.pixelSize: 16
-                                        onToggled: classTranscriptsSettingPage.updateRefModel();
-                                    }
                                 }
 
 
@@ -783,6 +784,84 @@ Page {
                                         checked: true
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
+                                    }
+
+                                    // semester
+                                    Switch{
+                                        id: semester12SW
+                                        width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (checked)? "indianred" : "gray"
+                                        visible: (classTranscriptsSettingPage.semester_transcript || classTranscriptsSettingPage.period_transcript)? true : false
+                                        text: (classTranscriptsSettingPage.period_transcript)? "نیمسال اول/دوم" : "نیمسال"
+                                        checked: !classTranscriptsSettingPage.per_month_transcript
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: classTranscriptsSettingPage.updateRefModel();
+                                    }
+
+                                    Switch{
+                                        id: semesterAvgSW
+                                        width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین نمیسال اول / دوم"
+                                        visible: (classTranscriptsSettingPage.period_transcript)? true : false
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: classTranscriptsSettingPage.updateRefModel();
+                                    }
+
+                                    Switch{
+                                        id: finalAvgSW
+                                        width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین نهایی اول/ دوم"
+                                        visible: (classTranscriptsSettingPage.period_transcript)? true : false
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: classTranscriptsSettingPage.updateRefModel();
+                                    }
+
+                                    Switch{
+                                        id: formativeAvgSW
+                                        width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین مستمر اول / دوم"
+                                        visible: (classTranscriptsSettingPage.period_transcript)? true : false
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: classTranscriptsSettingPage.updateRefModel();
+                                    }
+
+                                    Switch{
+                                        id: perMonthAvgSW
+                                        width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین ماهیانه"
+                                        visible:{
+                                            if(classTranscriptsSettingPage.per_month_transcript || classTranscriptsSettingPage.midterm_transcript )
+                                            {
+                                                    return true;
+                                            }
+                                            else
+                                                return false;
+                                        }
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: classTranscriptsSettingPage.updateRefModel();
                                     }
                                 }
                             }

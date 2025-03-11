@@ -39,6 +39,7 @@ Page {
 
     property var allEvals: dbMan.getEvals();
     property var evals: [] // selected evals to transcript
+    property var eids :{ "semester1": -601, "semester2": -602, "semester_avg":-612, "formative_avg": -400, "final_avg": -500, "per_month_avg":-12}
 
     property int semester_Number : 1 // 0 1 2      0:studyPeriod   1:semester1    2:semester2
 
@@ -74,8 +75,6 @@ Page {
                     evalsModel.append(obj);
                 }
             }
-
-
         }
         else  // 1-2
         {
@@ -149,8 +148,15 @@ Page {
             FORMATIVE = true;
             FINAL = true;
 
-            refModel.append({text: "میانگین نهایی اول/دوم", value: 0});
-            refModel.append({text: "میانگین نیمسال اول/دوم", value: -2});
+            if(finalAvgSW.checked)
+                refModel.append({text: "میانگین نهایی اول/دوم", value: -500});
+            if(semesterAvgSW.checked)
+                refModel.append({text: "میانگین نیمسال اول/دوم", value: -612});
+            if(semester12SW.checked)
+            {
+                refModel.append({text: "نیمسال اول", value: -601});
+                refModel.append({text: "نیمسال دوم", value: -602});
+            }
 
             for( var obj of allEvals)
             {
@@ -165,14 +171,9 @@ Page {
                             else
                                 refModel.append({text: "آزمون " + obj.eval_name +" نیمسال دوم ", value: obj.id});
                         }
-
-
-
                     }
                 }
             }
-
-
         }
         else
         {
@@ -198,7 +199,8 @@ Page {
                     }
                 }
 
-                refModel.append({text: "میانگین ماهیانه", value: 0});
+                if(perMonthAvgSW.checked)
+                   refModel.append({text: "میانگین ماهیانه", value: -12});
             }
             else if(midterm_transcript)
             {
@@ -225,7 +227,8 @@ Page {
                     }
                 }
 
-                refModel.append({text: "میانگین ماهیانه", value: 0});
+                if(perMonthAvgSW.checked)
+                    refModel.append({text: "میانگین ماهیانه", value: -12});
 
             }
             else if(semester_transcript)
@@ -234,10 +237,15 @@ Page {
                 FINAL = true;
                 SEMESTER = semester_Number;
 
-                if(SEMESTER === 1)
-                    refModel.append({text: "نیمسال اول", value: 0});
-                else
-                    refModel.append({text: "نیمسال دوم", value: 0});
+                if(semester12SW.checked)
+                {
+                    if(SEMESTER === 1)
+                        refModel.append({text: "نیمسال اول", value: -601});
+                    else
+                        refModel.append({text: "نیمسال دوم", value: -602});
+                }
+
+
 
                 for(obj of allEvals)
                 {
@@ -266,6 +274,9 @@ Page {
 
         if(final_value > -1)
             compareRef.currentIndex = compareRef.indexOfValue(final_value)
+
+        if(compareRef.currentIndex === -1)
+            compareRef.currentIndex = 0;
     }
 
     function uncheckMonthSwitch()
@@ -805,7 +816,7 @@ Page {
 
                                     // semester
                                     Switch{
-                                        id: semesterSW
+                                        id: semester12SW
                                         width: parent.width
                                         height: 50
                                         palette.highlight: "indianred"
@@ -829,6 +840,7 @@ Page {
                                         checked: true
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
+                                        onToggled: studentResultSettingPage.updateRefModel();
                                     }
 
                                     Switch{
@@ -842,6 +854,7 @@ Page {
                                         checked: true
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
+                                        onToggled: studentResultSettingPage.updateRefModel();
                                     }
 
                                     Switch{
@@ -855,6 +868,7 @@ Page {
                                         checked: true
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
+                                        onToggled: studentResultSettingPage.updateRefModel();
                                     }
 
                                     Switch{
@@ -864,10 +878,18 @@ Page {
                                         palette.highlight: "indianred"
                                         palette.text: (this.checked)? "indianred" : "gray"
                                         text: "میانگین ماهیانه"
-                                        visible: (studentResultSettingPage.per_month_transcript || studentResultSettingPage.midterm_transcript )? true : false
+                                        visible:{
+                                            if(studentResultSettingPage.per_month_transcript || studentResultSettingPage.midterm_transcript )
+                                            {
+                                                    return true;
+                                            }
+                                            else
+                                                return false;
+                                        }
                                         checked: true
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
+                                        onToggled: studentResultSettingPage.updateRefModel();
                                     }
                                 }
                             }
@@ -1508,17 +1530,22 @@ Page {
         fileMode: FileDialog.SaveFile
         onAccepted:{
             // student_id   class_id  evals  semester  baseRank classRank  baseAvg max_grade field_based
-            var student_id = studentResultSettingPage.student_id
-            var class_id = studentResultSettingPage.class_id
-            var evals = studentResultSettingPage.evals
+            let student_id = studentResultSettingPage.student_id
+            let class_id = studentResultSettingPage.class_id
+            let evals = studentResultSettingPage.evals
+            let semester_number = studentResultSettingPage.semester_Number;
 
-            var field_based = fieldBasedSW.checked;
-            var compare_ref_id = compareRef.currentValue;
-            var compare_ref = compareRef.currentText;
-            var predefined_base_avg = predefinedBaseAvgSW.checked;
-            var transcript = {per_month: studentResultSettingPage.per_month_transcript, midterm : studentResultSettingPage.midterm_transcript, semester: studentResultSettingPage.semester_transcript, period: studentResultSettingPage.period_transcript}
-            var advisorComment_flag = studentResultSettingPage.advisorComment
-            var month = [];
+            let field_based = fieldBasedSW.checked;
+            let compare_ref_id = compareRef.currentValue;
+            let compare_ref = compareRef.currentText;
+            let predefined_base_avg = predefinedBaseAvgSW.checked;
+            let perMonthT  = studentResultSettingPage.per_month_transcript;
+            let midTermT = studentResultSettingPage.midterm_transcript;
+            let semesterT = studentResultSettingPage.semester_transcript;
+            let periodT = studentResultSettingPage.period_transcript;
+            let transcript = {"per_month": perMonthT , "midterm" : midTermT , "semester": semesterT, "period": periodT }
+            let advisorComment_flag = studentResultSettingPage.advisorComment
+            let month = [];
             if(advisorComment_flag)
             {
                 if(farSW.checked)
@@ -1547,7 +1574,27 @@ Page {
                     month.push(12);
             }
 
+            let semesterField = semester12SW.checked;
+            let semesterAvgField = semesterAvgSW.checked;
+            let perMonthAvgField = perMonthAvgSW.checked;
+            let formativeAvgField = formativeAvgSW.checked;
+            let finalAvgField = finalAvgSW.checked;
 
+            if(semester_Number > 0)
+            {
+                semesterAvgField = false;
+                perMonthAvgField = false;
+                formativeAvgField = false;
+                finalAvgField = false;
+            }
+
+            if(perMonthT || midTermT)
+            {
+                semesterField = false;
+                semesterAvgField = false;
+                formativeAvgField = false;
+                finalAvgField = false;
+            }
 
             // test only print error
             if((compare_ref_id === -1) || (compare_ref === "") || (compare_ref_id === undefined ) )
@@ -1561,24 +1608,25 @@ Page {
                 "student_id": student_id,
                 "class_id": class_id,
                 "evals": evals,
+                "semester_number": semester_Number,
+                "transcript" : transcript,
                 "fields" : {
                     "base_rank": baseRankSW.checked,
                     "class_rank": classRankSW.checked,
-
                     "base_avg" : baseAvgSW.checked,
                     "max_grade": maxGradeSW.checked,
-                    "semester": true,
-                    "semester_avg": true,
-                    "per_month_avg": true,
-                    "formative_avg" : true,
-                    "final_avg" : true
+
+                    "semester": semesterField,
+                    "semester_avg": semesterAvgField,
+                    "per_month_avg": perMonthAvgField,
+                    "formative_avg" : formativeAvgField,
+                    "final_avg" : finalAvgField
                 }
                 ,
                 "fieldBased_flag" : studentResultSettingPage.fieldBased_flag,
                 "compare_ref_id": compare_ref_id,
                 "compare_ref" : compare_ref,
                 "predefined_base_avg": predefined_base_avg,
-                "transcript" : transcript,
                 "advisor": advisorComment_flag,
                 "comment_month": month,
                 "print":{
@@ -1590,9 +1638,9 @@ Page {
             }
 
             //var result = dbMan.getStudentTranscript(params);
+            //dbMan.generatePdf(selectedFile, params, highlight1_Dialog.selectedColor, highlight2_Dialog.selectedColor, highlight3_Dialog.selectedColor, highlight4_Dialog.selectedColor )
 
-
-            if(dbMan.generatePdf(selectedFile, params, highlight1_Dialog.selectedColor, highlight2_Dialog.selectedColor, highlight3_Dialog.selectedColor, highlight4_Dialog.selectedColor ))
+            if(dbMan.printStudentTranscript(selectedFile, params, highlight1_Dialog.selectedColor, highlight2_Dialog.selectedColor, highlight3_Dialog.selectedColor, highlight4_Dialog.selectedColor))
             {
                 successDialogId.width = 500
                 successDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile
