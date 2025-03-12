@@ -39,7 +39,8 @@ Page {
 
     property var allEvals: dbMan.getEvals();
     property var evals: [] // selected evals to transcript
-    property var eids :{ "semester1": -601, "semester2": -602, "semester_avg":-612, "formative_avg": -400, "final_avg": -500, "per_month_avg":-12}
+    property var test_evals: []
+    property var eids :{ "semester1": -601, "semester2": -602, "semester_avg":-612, "formative_avg": -400, "final_avg": -500, "per_month_avg":-12, "class_rank": -24, "base_rank": -124, "test_avg":-10, "base_avg": -19, "max_grade": -20}
 
     property int semester_Number : 1 // 0 1 2      0:studyPeriod   1:semester1    2:semester2
 
@@ -54,6 +55,7 @@ Page {
 
     function updateEvalsModel(){
         evals = [];
+        test_evals = [];
         evalsModel.clear();
         let obj;
         // semester : 0 >> formative-final of each semester
@@ -140,6 +142,8 @@ Page {
     function updateRefModel(){
 
         refModel.clear();
+        testRefModel.clear();
+        test_evals = [];
         let PER_MONTH, MIDTERM, FORMATIVE, FINAL, SEMESTER;
         let final_value = -1;
 
@@ -200,7 +204,7 @@ Page {
                 }
 
                 if(perMonthAvgSW.checked)
-                   refModel.append({text: "میانگین ماهیانه", value: -12});
+                    refModel.append({text: "میانگین ماهیانه", value: -12});
             }
             else if(midterm_transcript)
             {
@@ -267,6 +271,35 @@ Page {
                     }
                 }
             }
+        }
+
+        //test
+        let id;
+        for(let obj of allEvals)
+        {
+            id = obj["id"];
+            if(obj["test_flag"])
+                if(evals.includes(id))
+                {
+                    testRefModel.append({"text": obj["eval_name"], value: obj["id"]})
+                    test_evals.push(id);
+                }
+        }
+
+        if(test_evals.length > 0)
+        {
+            testRefRow.visible = true
+            testCompareRef.currentIndex = 0;
+            testAvgSW.visible = true
+            if(testAvgSW.checked)
+                testRefModel.append({"text": "میانگین تست", value: -10})
+        }
+        else
+        {
+            testRefRow.visible = false;
+            testCompareRef.currentIndex = -1;
+            testAvgSW.visible = false
+            testAvgSW.checked = false
         }
 
         if(refModel.count > 0)
@@ -741,7 +774,7 @@ Page {
 
                                     }
 
-                                    }
+                                }
 
 
                             }
@@ -881,12 +914,33 @@ Page {
                                         visible:{
                                             if(studentResultSettingPage.per_month_transcript || studentResultSettingPage.midterm_transcript )
                                             {
-                                                    return true;
+                                                return true;
                                             }
                                             else
                                                 return false;
                                         }
-                                        checked: true
+                                        checked: false
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: studentResultSettingPage.updateRefModel();
+                                    }
+
+                                    Switch{
+                                        id: testAvgSW
+                                        width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین تست"
+                                        visible:{
+                                            if(studentResultSettingPage.test_evals.length > 0 )
+                                            {
+                                                return true;
+                                            }
+                                            else
+                                                return false;
+                                        }
+                                        checked: false
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         onToggled: studentResultSettingPage.updateRefModel();
@@ -932,7 +986,7 @@ Page {
                                             verticalAlignment: Label.AlignVCenter
                                             font.family: "Kalameh"
                                             font.pixelSize: 16
-                                            text:"مرجع مقایسه رتبه و میانگین: "
+                                            text:"مرجع مقایسه رتبه و میانگین دروس: "
                                             color: "steelblue"
                                         }
                                         ComboBox{
@@ -943,6 +997,36 @@ Page {
                                             font.family: "Kalameh"
                                             font.pixelSize: 16
                                             model: ListModel{id: refModel}
+                                            textRole: "text"
+                                            valueRole: "value"
+                                            Component.onCompleted: studentResultSettingPage.updateRefModel();
+                                        }
+                                    }
+
+                                    RowLayout{
+                                        id: testRefRow
+                                        visible: (studentResultSettingPage.test_evals.length > 0)? true : false;
+                                        width: parent.width
+                                        height: 50
+                                        Label{
+                                            Layout.preferredHeight: 50
+                                            Layout.preferredWidth: 300
+                                            Layout.alignment: Qt.AlignLeft
+                                            horizontalAlignment: Label.AlignLeft
+                                            verticalAlignment: Label.AlignVCenter
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            text:"مرجع مقایسه رتبه و میانگین تست: "
+                                            color: "steelblue"
+                                        }
+                                        ComboBox{
+                                            id: testCompareRef
+                                            Layout.fillWidth: true
+                                            Layout.preferredHeight: 50
+                                            font.bold: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            model: ListModel{id: testRefModel}
                                             textRole: "text"
                                             valueRole: "value"
                                             Component.onCompleted: studentResultSettingPage.updateRefModel();
@@ -1533,11 +1617,14 @@ Page {
             let student_id = studentResultSettingPage.student_id
             let class_id = studentResultSettingPage.class_id
             let evals = studentResultSettingPage.evals
+            let test_evals = studentResultSettingPage.test_evals;
             let semester_number = studentResultSettingPage.semester_Number;
 
             let field_based = fieldBasedSW.checked;
             let compare_ref_id = compareRef.currentValue;
             let compare_ref = compareRef.currentText;
+            let test_compare_ref_id = testCompareRef.currentValue;
+            let test_compare_ref = testCompareRef.currentText;
             let predefined_base_avg = predefinedBaseAvgSW.checked;
             let perMonthT  = studentResultSettingPage.per_month_transcript;
             let midTermT = studentResultSettingPage.midterm_transcript;
@@ -1579,6 +1666,10 @@ Page {
             let perMonthAvgField = perMonthAvgSW.checked;
             let formativeAvgField = formativeAvgSW.checked;
             let finalAvgField = finalAvgSW.checked;
+            let testAvgField = testAvgSW.checked
+
+            if(test_evals.length < 1)
+                testAvgField = false;
 
             if(semester_Number > 0)
             {
@@ -1599,15 +1690,26 @@ Page {
             // test only print error
             if((compare_ref_id === -1) || (compare_ref === "") || (compare_ref_id === undefined ) )
             {
-                infoDialogId.dialogText = "لطفا مرجع مقایسه را انتخاب نمایید.";
+                infoDialogId.dialogText = "لطفا مرجع مقایسه دروس را انتخاب نمایید.";
                 infoDialogId.open();
                 return;
+            }
+
+            if(test_evals.length > 0)
+            {
+                if((test_compare_ref_id === -1) || (test_compare_ref === "") || (test_compare_ref_id === undefined ) )
+                {
+                    infoDialogId.dialogText = "لطفا مرجع مقایسه تست را انتخاب نمایید.";
+                    infoDialogId.open();
+                    return;
+                }
             }
 
             var params = {
                 "student_id": student_id,
                 "class_id": class_id,
                 "evals": evals,
+                "test_evals": test_evals,
                 "semester_number": semester_Number,
                 "transcript" : transcript,
                 "fields" : {
@@ -1620,12 +1722,15 @@ Page {
                     "semester_avg": semesterAvgField,
                     "per_month_avg": perMonthAvgField,
                     "formative_avg" : formativeAvgField,
-                    "final_avg" : finalAvgField
+                    "final_avg" : finalAvgField,
+                    "test_avg" : testAvgField
                 }
                 ,
                 "fieldBased_flag" : studentResultSettingPage.fieldBased_flag,
                 "compare_ref_id": compare_ref_id,
                 "compare_ref" : compare_ref,
+                "test_compare_ref_id": test_compare_ref_id,
+                "test_compare_ref" : test_compare_ref,
                 "predefined_base_avg": predefined_base_avg,
                 "advisor": advisorComment_flag,
                 "comment_month": month,
