@@ -40,7 +40,7 @@ Page {
     property var allEvals: dbMan.getEvals();
     property var evals: [] // selected evals to transcript
     property var test_evals: []
-    property var eids :{ "semester1": -601, "semester2": -602, "semester_avg":-612, "formative_avg": -400, "final_avg": -500, "per_month_avg":-12, "class_rank": -24, "base_rank": -124, "test_avg":-10, "base_avg": -19, "max_grade": -20}
+    property var eids :{ "semester1": -601, "semester2": -602, "semester_avg":-612, "formative_avg": -400, "final_avg": -500, "per_month_avg":-12, "class_rank": -24, "base_rank": -124, "test_avg":-10, "midterm_avg": -5, "base_avg": -19, "max_grade": -20}
 
     property int semester_Number : 1 // 0 1 2      0:studyPeriod   1:semester1    2:semester2
 
