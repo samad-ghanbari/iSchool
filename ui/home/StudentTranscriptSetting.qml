@@ -1688,12 +1688,13 @@ Page {
             }
 
             // test only print error
-            if((compare_ref_id === -1) || (compare_ref === "") || (compare_ref_id === undefined ) )
-            {
-                infoDialogId.dialogText = "لطفا مرجع مقایسه دروس را انتخاب نمایید.";
-                infoDialogId.open();
-                return;
-            }
+                // if((compare_ref_id === -1) || (compare_ref === "") || (compare_ref_id === undefined ) )
+                // {
+                //     infoDialogId.dialogText = "لطفا مرجع مقایسه دروس را انتخاب نمایید.";
+                //     infoDialogId.open();
+                //     return;
+                // }
+
 
             if(test_evals.length > 0)
             {
