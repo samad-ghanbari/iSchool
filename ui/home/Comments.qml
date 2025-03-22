@@ -328,7 +328,8 @@ Page {
             visible: false;
         }
     }
-}
+
+    }
 
 // insert
 Component
