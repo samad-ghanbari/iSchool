@@ -290,7 +290,7 @@ Page {
                         width: parent.width - 100
                         horizontalAlignment: Qt.AlignLeft
                         anchors.right: parent.right
-                        height: 400
+                        height: contentHeight + 100
                         readOnly: false
                         font.pixelSize: 20
                         font.bold: false

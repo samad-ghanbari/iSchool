@@ -248,7 +248,7 @@ Page {
 
                     TextArea{
                         width: parent.width
-                        height: 150
+                        height: contentHeight+50
                         text: recdel.model.comment
                         readOnly: true
                         font.pixelSize: 16
