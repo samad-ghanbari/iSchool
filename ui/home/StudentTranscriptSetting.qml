@@ -328,6 +328,66 @@ Page {
         esfSW.checked = false;
     }
 
+    function monthVisibility()
+    {
+        var sem = studentResultSettingPage.semester_Number;
+        if(sem == 1)
+        {
+            farSW.visible = false;
+            ordSW.visible = false;
+            khoSW.visible = false;
+
+            tirSW.visible = false;
+            morSW.visible = false;
+            shaSW.visible = false;
+
+            mehSW.visible = true;
+            abaSW.visible = true;
+            azaSW.visible = true;
+
+            deySW.visible = true;
+            bahSW.visible = false;
+            esfSW.visible = false;
+
+        }
+        else if(sem == 2)
+        {
+            farSW.visible = true;
+            ordSW.visible = true;
+            khoSW.visible = true;
+
+            tirSW.visible = false;
+            morSW.visible = false;
+            shaSW.visible = false;
+
+            mehSW.visible = false;
+            abaSW.visible = false;
+            azaSW.visible = false;
+
+            deySW.visible = false;
+            bahSW.visible = true;
+            esfSW.visible = true;
+        }
+        else
+        {
+            farSW.visible = true;
+            ordSW.visible = true;
+            khoSW.visible = true;
+
+            tirSW.visible = true;
+            morSW.visible = true;
+            shaSW.visible = true;
+
+            mehSW.visible = true;
+            abaSW.visible = true;
+            azaSW.visible = true;
+
+            deySW.visible = true;
+            bahSW.visible = true;
+            esfSW.visible = true;
+        }
+    }
+
     ColumnLayout
     {
         anchors.fill: parent
@@ -513,6 +573,7 @@ Page {
                                             }
 
                                             studentResultSettingPage.updateEvalsModel();
+                                            studentResultSettingPage.monthVisibility();
                                         }
 
                                     }
@@ -548,6 +609,7 @@ Page {
                                             }
 
                                             studentResultSettingPage.updateEvalsModel();
+                                            studentResultSettingPage.monthVisibility();
                                         }
 
                                     }
@@ -582,6 +644,7 @@ Page {
                                             }
 
                                             studentResultSettingPage.updateEvalsModel();
+                                            studentResultSettingPage.monthVisibility();
                                         }
 
                                     }
@@ -1270,6 +1333,7 @@ Page {
                                             onCheckedChanged:  {}
                                         }
 
+                                        Component.onCompleted: studentResultSettingPage.monthVisibility();
                                     }
 
                                 }

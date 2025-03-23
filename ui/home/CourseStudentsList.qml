@@ -25,7 +25,7 @@ Page {
     property bool midterm: false;
     property bool formative: false;
     property bool final_flag: false;
-    property bool semester_1: false;
+    property bool semester_1: true;
     property bool course_flag: true;
     property bool test_flag: false;
 
@@ -558,7 +558,7 @@ Page {
             Layout.fillWidth: true
             Layout.minimumWidth: 600
             Layout.topMargin: 20
-            color: "transparent"
+            color: "mediumvioletred"
 
             Flickable{
                 id: flk
@@ -710,7 +710,7 @@ Page {
 
                                     //anchors.left: parent.left
                                     height: 50
-                                    width:titlegradeRow.implicitWidth
+                                    width:titlegradeRow.implicitWidth + 10
                                     anchors.margins: 0
 
                                     color:"floralwhite"
@@ -827,7 +827,8 @@ Page {
 
                                                         item = lv.itemAtIndex(rowEvalRep.modelIndex)
                                                         if (item) {
-                                                            flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
+                                                            //flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
+                                                            lv.positionViewAtIndex(rowEvalRep.modelIndex, ListView.Center)
                                                         }
                                                     }
 
@@ -851,7 +852,8 @@ Page {
 
                                                         item = lv.itemAtIndex(rowEvalRep.modelIndex)
                                                         if (item) {
-                                                            flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
+                                                            //flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
+                                                            lv.positionViewAtIndex(rowEvalRep.modelIndex, ListView.Center)
                                                         }
                                                     }
 
@@ -958,8 +960,6 @@ Page {
 
                                     }
                                 }
-
-
 
                             }
 

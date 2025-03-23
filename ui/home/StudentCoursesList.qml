@@ -535,21 +535,21 @@ Page {
             Layout.fillWidth: true
             Layout.minimumWidth: 600
             Layout.topMargin: 20
-            color: "transparent"
+            color: "mediumvioletred"
 
             Flickable{
                 id: flk
-                width: parent.width
-                height: parent.height
-                contentHeight: lv.height
-                contentWidth: lv.width
+                anchors.fill: parent
+                contentHeight: Math.max(lv.height, flk.height)
+                contentWidth: Math.max(lv.width, flk.width)
+                clip: true
 
 
                 ListView
                 {
                     id: lv
-                    width: Math.max(lv.contentWidth , flk.width, mainBox.width)
-                    height: Math.max(lv.contentHeight , flk.height, mainBox.height)
+                    width: Math.max(lv.contentWidth ,  mainBox.width)
+                    height: Math.max(lv.contentHeight ,  mainBox.height)
                     model: ListModel{id: lvModel;}
                     delegate:lvDelegate
                     clip: true
@@ -708,7 +708,7 @@ Page {
                                     property int sceID : (typeof evalRecDel.model["student_course_eval_id"] != "undefined")? parseInt(evalRecDel.model["student_course_eval_id"]) : -1;
                                     property alias cell : te
                                     height: 50
-                                    width:titlerec.implicitWidth + 120
+                                    width:contRow.implicitWidth + 10
                                     Layout.margins: 0
                                     visible: studentCoursesPageId.checkVisibility(evalRecDel.model);
 
@@ -729,11 +729,11 @@ Page {
                                     }
 
                                     Row{
+                                        id: contRow
                                         anchors.fill: parent
                                         anchors.margins: 5
                                         //title
                                         Label{
-                                            id: titlerec
                                             height: 50
                                             horizontalAlignment: Text.AlignRight
                                             verticalAlignment: Text.AlignVCenter
@@ -826,7 +826,8 @@ Page {
 
                                                         item = lv.itemAtIndex(rowEvalRep.modelIndex)
                                                         if (item) {
-                                                            flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
+                                                            //flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
+                                                            lv.positionViewAtIndex(rowEvalRep.modelIndex, ListView.Center)
                                                         }
                                                     }
 
@@ -850,10 +851,10 @@ Page {
 
                                                         item = lv.itemAtIndex(rowEvalRep.modelIndex)
                                                         if (item) {
-                                                            flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
+                                                            //flk.contentY += 50 //item.y - flk.height / 2 ; //+ item.height / 2
+                                                            lv.positionViewAtIndex(rowEvalRep.modelIndex, ListView.Center)
                                                         }
                                                     }
-
                                                 }
 
                                                 Keys.onEscapePressed: {
