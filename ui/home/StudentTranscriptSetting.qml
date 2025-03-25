@@ -886,8 +886,9 @@ Page {
                                         palette.highlight: "indianred"
                                         palette.text: (this.checked)? "indianred" : "gray"
                                         height: 50
+                                        visible: (studentResultSettingPage.semester_transcript || studentResultSettingPage.period_transcript )
                                         text: "میانگین پایه"
-                                        checked: true
+                                        checked: (studentResultSettingPage.semester_transcript || studentResultSettingPage.period_transcript )
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         onCheckedChanged: {
@@ -1104,7 +1105,8 @@ Page {
                                         palette.highlight: "steelblue"
                                         palette.text: (this.checked)? "steelblue" : "gray"
                                         text: "استفاده از میانگین پایه دروس ثبت شده"
-                                        checked: true
+                                        checked: (studentResultSettingPage.semester_transcript || studentResultSettingPage.period_transcript )
+                                        visible: (studentResultSettingPage.semester_transcript || studentResultSettingPage.period_transcript )
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                     }
