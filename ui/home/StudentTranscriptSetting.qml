@@ -1740,7 +1740,7 @@ Page {
             if(semester_Number > 0)
             {
                 semesterAvgField = false;
-                perMonthAvgField = false;
+                //perMonthAvgField = false;
                 formativeAvgField = false;
                 finalAvgField = false;
             }
