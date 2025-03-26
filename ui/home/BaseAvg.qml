@@ -304,6 +304,28 @@ Page {
                                 }
                             }
                         }
+                        function keyPressed()
+                        {
+                            this.doneEdit();
+                            // find next and focus
+                            let index = baseAvgPage.coursesId.indexOf(te1.coId) + 1;
+                            if(index < baseAvgPage.coursesId.length)
+                            {
+                                let newCoId = baseAvgPage.coursesId[index];
+                                let item = baseAvgPage.findItemRecursive(lv, newCoId, 1);
+
+                                if(item)
+                                {
+                                    item.onEditTF = true;
+                                    baseAvgPage.onEditing = true
+                                    item.forceActiveFocus();
+
+                                    item = lv.itemAtIndex(recdel.model.index +1)
+                                    if(item)
+                                        flk.contentY = ((flk.height+flk.contentY-100) <= item.y )? item.y : flk.contentY
+                                }
+                            }
+                        }
 
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter
@@ -319,51 +341,8 @@ Page {
                             regularExpression: /^-?\d*\.?\d+$/
                         }
 
-                        Keys.onReturnPressed:
-                        {
-                            this.doneEdit();
-                            // find next and focus
-                            let index = baseAvgPage.coursesId.indexOf(te1.coId) + 1;
-                            if(index < baseAvgPage.coursesId.length)
-                            {
-                                let newCoId = baseAvgPage.coursesId[index];
-                                let item = baseAvgPage.findItemRecursive(lv, newCoId, 1);
-
-                                if(item)
-                                {
-                                    item.onEditTF = true;
-                                    baseAvgPage.onEditing = true
-                                    item.forceActiveFocus();
-
-                                    item = lv.itemAtIndex(recdel.model.index +1)
-                                    if(item)
-                                        flk.contentY = (flk.height <= item.y )? item.y : flk.contentY
-                                }
-                            }
-
-                        }
-                        Keys.onTabPressed:
-                        {
-                            this.doneEdit();
-                            // find next and focus
-                            let index = baseAvgPage.coursesId.indexOf(te1.coId) + 1;
-                            if(index < baseAvgPage.coursesId.length)
-                            {
-                                let newCoId = baseAvgPage.coursesId[index];
-                                let item = baseAvgPage.findItemRecursive(lv, newCoId, 1);
-
-                                if(item)
-                                {
-                                    item.onEditTF = true;
-                                    baseAvgPage.onEditing = true
-                                    item.forceActiveFocus();
-
-                                    item = lv.itemAtIndex(recdel.model.index +1)
-                                    if(item)
-                                        flk.contentY = item.y
-                                }
-                            }
-                        }
+                        Keys.onReturnPressed: this.keyPressed()
+                        Keys.onTabPressed: this.keyPressed()
                         Keys.onEscapePressed: {
                             te1.onEditTF = false
                             baseAvgPage.onEditing = false
@@ -499,22 +478,7 @@ Page {
                                 }
                             }
                         }
-
-                        anchors.fill: parent
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        font.family: "Kalameh"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color:"darkmagenta"
-                        text:(avgRec2.value > -1000)? avgRec2.value :"";
-                        visible: te2.onEditTF
-                        Rectangle{height:2; width: parent.width; color: "olivedrab"; anchors.bottom:parent.bottom;}
-                        validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
-                            regularExpression: /^-?\d*\.?\d+$/
-                        }
-
-                        Keys.onReturnPressed:
+                        function keyPressed()
                         {
                             this.doneEdit();
                             // find next and focus
@@ -532,34 +496,29 @@ Page {
 
                                     item = lv.itemAtIndex(recdel.model.index +1)
                                     if(item)
-                                        flk.contentY = item.y
+                                        flk.contentY = ((flk.height+flk.contentY-100) <= item.y )? item.y : flk.contentY
 
                                 }
                             }
 
                         }
-                        Keys.onTabPressed:
-                        {
-                            this.doneEdit();
-                            // find next and focus
-                            let index = baseAvgPage.coursesId.indexOf(te2.coId) + 1;
-                            if(index < baseAvgPage.coursesId.length)
-                            {
-                                let newCoId = baseAvgPage.coursesId[index];
-                                let item = baseAvgPage.findItemRecursive(lv, newCoId, 2);
 
-                                if(item)
-                                {
-                                    item.onEditTF  = true;
-                                    baseAvgPage.onEditing = true
-                                    item.forceActiveFocus();
-
-                                    item = lv.itemAtIndex(recdel.model.index +1)
-                                    if(item)
-                                        flk.contentY = item.y
-                                }
-                            }
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color:"darkmagenta"
+                        text:(avgRec2.value > -1000)? avgRec2.value :"";
+                        visible: te2.onEditTF
+                        Rectangle{height:2; width: parent.width; color: "olivedrab"; anchors.bottom:parent.bottom;}
+                        validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
+                            regularExpression: /^-?\d*\.?\d+$/
                         }
+
+                        Keys.onReturnPressed: this.keyPressed();
+                        Keys.onTabPressed: this.keyPressed();
                         Keys.onEscapePressed: {
                             te2.onEditTF =  false
                             baseAvgPage.onEditing = false
