@@ -31,7 +31,6 @@ Page {
     property bool course_flag: true;
     property bool test_flag: false;
 
-    property string activeEval;
     property bool onEditing : false
     required property var sceIds; // { mostamar:[], final:[], test:[]} one-student all-course
 
@@ -51,7 +50,6 @@ Page {
         }
         return null; // Return null if no item is found
     }
-
 
     function refreshAllEvals() {
         if(dbMan.refreshStudentEvals(studentCoursesPageId.class_id, studentCoursesPageId.student_id))
@@ -146,6 +144,22 @@ Page {
         return false;
     }
 
+    function refreshPage()
+    {
+        if(studentCoursesPageId.onEditing)
+        {
+            // save
+            var item = studentCoursesPageId.findItemRecursive(lv, "editFlag", true);
+            while(item)
+            {
+                item.doneEdit();
+                item = studentCoursesPageId.findItemRecursive(lv, "editFlag", true);
+            }
+        }
+
+        studentCoursesPageId.onEditing = false;
+    }
+
     ColumnLayout
     {
         id: clayout
@@ -209,7 +223,6 @@ Page {
             }
         }
 
-
         Row{
             Layout.preferredHeight:  30
             Layout.alignment: Qt.AlignHCenter
@@ -245,9 +258,6 @@ Page {
                 color: "darkmagenta"
             }
         }
-
-
-
 
         Rectangle{
             Layout.preferredHeight: 1
@@ -391,6 +401,8 @@ Page {
                                 font.pixelSize: 16
                                 onCheckedChanged: {
                                     studentCoursesPageId.semester_1  = (this.checked)? true: false;
+                                    studentCoursesPageId.refreshPage();
+
                                 }
                             }
                             RadioButton{
@@ -471,6 +483,8 @@ Page {
                                 studentCoursesPageId.per_month = true;
                             else
                                 studentCoursesPageId.per_month = false;
+
+                            studentCoursesPageId.refreshPage();
                         }
                     }
                     //midterm
@@ -488,6 +502,8 @@ Page {
                                 studentCoursesPageId.midterm = true;
                             else
                                 studentCoursesPageId.midterm = false;
+
+                            studentCoursesPageId.refreshPage();
                         }
                     }
                     //formative
@@ -505,6 +521,8 @@ Page {
                                 studentCoursesPageId.formative = true;
                             else
                                 studentCoursesPageId.formative = false;
+
+                            studentCoursesPageId.refreshPage();
                         }
                     }
                     //final
@@ -522,6 +540,8 @@ Page {
                                 studentCoursesPageId.final_flag = true;
                             else
                                 studentCoursesPageId.final_flag = false;
+
+                            studentCoursesPageId.refreshPage();
                         }
                     }
 
@@ -705,8 +725,6 @@ Page {
                                     Rectangle{
                                     id: evalRecDel
                                     required property var model;
-                                    property int sceID : (typeof evalRecDel.model["student_course_eval_id"] != "undefined")? parseInt(evalRecDel.model["student_course_eval_id"]) : -1;
-                                    property alias cell : te
                                     height: 50
                                     width:contRow.implicitWidth + 10
                                     Layout.margins: 0
@@ -714,19 +732,7 @@ Page {
 
                                     color:"floralwhite"
                                     border.width: 1
-                                    border.color: "gray"
-
-
-                                    property bool edit : false
-                                    property real value : {
-                                        if(typeof evalRecDel.model["grade"] != "undefined"){
-                                            if(evalRecDel.model["grade"] !== "")
-                                                return evalRecDel.model["grade"];
-                                            else
-                                                return -1000;
-                                        }
-                                        else return -1000;
-                                    }
+                                    border.color: "gray"                                   
 
                                     Row{
                                         id: contRow
@@ -750,47 +756,91 @@ Page {
                                             width: 100
                                             color: "transparent"
 
-                                            function doneEdit()
-                                            {
-                                                evalRecDel.edit = false
-                                                studentCoursesPageId.onEditing = false
-                                                var v = parseFloat(te.text);
-                                                var scei = parseInt(evalRecDel.model["student_course_eval_id"]);
-                                                if(v > evalRecDel.model.max_grade)
-                                                {
-                                                    te.text = ""
-                                                    infoDialogId.dialogSuccess = false
-                                                    infoDialogId.dialogTitle = "خطا"
-                                                    infoDialogId.dialogText = "مقدار وارد شده از بیشترین نمره مجاز بالاتر است."
-                                                    infoDialogId.open();
-                                                    return;
-                                                }
-
-                                                if(te.text === "")
-                                                {
-                                                    if(!dbMan.setStudentCourseEvalGrade(scei))
-                                                    {
-                                                        infoDialogId.open();
-                                                    }
-                                                    else
-                                                    {
-                                                        evalRecDel.value = v;
-                                                    }
-                                                }
-                                                else{
-                                                    if(!dbMan.setStudentCourseEvalGrade(scei, v))
-                                                    {
-                                                        infoDialogId.open();
-                                                    }
-                                                    else
-                                                    {
-                                                        evalRecDel.value = v;
-                                                    }
-                                                }
-                                            }
-
                                             TextField{
                                                 id: te
+                                                property bool editFlag : false
+                                                property int sceID : (typeof evalRecDel.model["student_course_eval_id"] != "undefined")? parseInt(evalRecDel.model["student_course_eval_id"]) : -1;
+                                                property real value : {
+                                                    if(typeof evalRecDel.model["grade"] != "undefined"){
+                                                        if(evalRecDel.model["grade"] !== "")
+                                                            return evalRecDel.model["grade"];
+                                                        else
+                                                            return -1000;
+                                                    }
+                                                    else return -1000;
+                                                }
+
+                                                function doneEdit()
+                                                {
+                                                    this.editFlag = false
+                                                    studentCoursesPageId.onEditing = false
+                                                    var v = parseFloat(te.text);
+                                                    var scei = parseInt(evalRecDel.model["student_course_eval_id"]);
+                                                    if(v > evalRecDel.model.max_grade)
+                                                    {
+                                                        te.text = ""
+                                                        infoDialogId.dialogSuccess = false
+                                                        infoDialogId.dialogTitle = "خطا"
+                                                        infoDialogId.dialogText = "مقدار وارد شده از بیشترین نمره مجاز بالاتر است."
+                                                        infoDialogId.open();
+                                                        return;
+                                                    }
+
+                                                    if(te.text === "")
+                                                    {
+                                                        if(!dbMan.setStudentCourseEvalGrade(scei))
+                                                        {
+                                                            infoDialogId.open();
+                                                        }
+                                                        else
+                                                        {
+                                                            te.value = v;
+                                                        }
+                                                    }
+                                                    else{
+                                                        if(!dbMan.setStudentCourseEvalGrade(scei, v))
+                                                        {
+                                                            infoDialogId.open();
+                                                        }
+                                                        else
+                                                        {
+                                                            te.value = v;
+                                                        }
+                                                    }
+                                                }
+                                                function okPressed()
+                                                {
+                                                    te.doneEdit();
+                                                    let scei = parseInt(evalRecDel.model["student_course_eval_id"]);
+                                                    let eval_name = evalRecDel.model["eval_name"];
+                                                    let array = studentCoursesPageId.sceIds[eval_name]; // array
+                                                    // find index
+                                                    let index = array.indexOf(scei) + 1;
+                                                    let nextScei = array[index];
+                                                    if(index > array.length) nextScei =-1;
+                                                    if(nextScei === undefined) return;
+                                                    if(nextScei === -1) return;
+                                                    // find record in repeater with property sceID equal to nextscei
+                                                    let item = studentCoursesPageId.findItemRecursive(lv, "sceID", nextScei);
+                                                    if(item){
+                                                        item.editFlag = true;
+                                                        studentCoursesPageId.onEditing = true
+                                                        item.forceActiveFocus();
+
+                                                        item = lv.itemAtIndex(rowEvalRep.modelIndex)
+                                                        if (item) {
+                                                            //flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
+                                                            lv.positionViewAtIndex(rowEvalRep.modelIndex, ListView.Center)
+                                                        }
+                                                    }
+                                                }
+                                                function cancelPressed()
+                                                {
+                                                    te.editFlag = false
+                                                    studentCoursesPageId.onEditing = false
+                                                    te.text = (te.value > -1000)? te.value : ""
+                                                }
+
                                                 height: 40
                                                 width: 100
                                                 horizontalAlignment: Text.AlignHCenter
@@ -799,69 +849,16 @@ Page {
                                                 font.pixelSize: 18
                                                 font.bold: true
                                                 color:"darkmagenta"
-                                                text:(evalRecDel.value > -1000)? evalRecDel.value :"";
-                                                visible: evalRecDel.edit
+                                                text:(this.value > -1000)? this.value :"";
+                                                visible: this.editFlag
                                                 Rectangle{height:2; width: parent.width; color: "olivedrab"; anchors.bottom:parent.bottom;}
                                                 validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
                                                     regularExpression: /^-?\d*\.?\d+$/
                                                 }
 
-                                                //onEditingFinished:parent.doneEdit();
-                                                //onFocusChanged: parent.doneEdit();
-                                                Keys.onTabPressed: {
-                                                    parent.doneEdit();
-                                                    var scei = parseInt(evalRecDel.model["student_course_eval_id"]);
-                                                    var eval_name = evalRecDel.model["eval_name"];
-                                                    var array = studentCoursesPageId.sceIds[eval_name]; // array
-                                                    // find index
-                                                    var index = array.indexOf(scei) + 1;
-                                                    var nextScei = array[index];
-                                                    if(nextScei === undefined) return;
-                                                    // find record in repeater with property sceID equal to nextscei
-                                                    var item = studentCoursesPageId.findItemRecursive(lv, "sceID", nextScei);
-                                                    if(item){
-                                                        item.edit = true;
-                                                        studentCoursesPageId.onEditing = true
-                                                        item.cell.forceActiveFocus();
-
-                                                        item = lv.itemAtIndex(rowEvalRep.modelIndex)
-                                                        if (item) {
-                                                            //flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
-                                                            lv.positionViewAtIndex(rowEvalRep.modelIndex, ListView.Center)
-                                                        }
-                                                    }
-
-                                                }
-
-                                                Keys.onReturnPressed: {
-                                                    parent.doneEdit();
-                                                    var scei = parseInt(evalRecDel.model["student_course_eval_id"]);
-                                                    var eval_name = evalRecDel.model["eval_name"];
-                                                    var array = studentCoursesPageId.sceIds[eval_name]; // array
-                                                    // find index
-                                                    var index = array.indexOf(scei) + 1;
-                                                    var nextScei = array[index];
-                                                    if(nextScei === undefined) return;
-                                                    // find record in repeater with property sceID equal to nextscei
-                                                    var item = studentCoursesPageId.findItemRecursive(lv, "sceID", nextScei);
-                                                    if(item){
-                                                        item.edit = true;
-                                                        studentCoursesPageId.onEditing = true
-                                                        item.cell.forceActiveFocus();
-
-                                                        item = lv.itemAtIndex(rowEvalRep.modelIndex)
-                                                        if (item) {
-                                                            //flk.contentY += 50 //item.y - flk.height / 2 ; //+ item.height / 2
-                                                            lv.positionViewAtIndex(rowEvalRep.modelIndex, ListView.Center)
-                                                        }
-                                                    }
-                                                }
-
-                                                Keys.onEscapePressed: {
-                                                    evalRecDel.edit = false
-                                                    studentCoursesPageId.onEditing = false
-                                                    te.text = (evalRecDel.value > -1000)? evalRecDel.value : ""
-                                                }
+                                                Keys.onTabPressed: te.okPressed();
+                                                Keys.onReturnPressed: te.okPressed();
+                                                Keys.onEscapePressed: te.cancelPressed();
 
                                                 Button{
                                                     height: 24
@@ -872,7 +869,7 @@ Page {
                                                     icon.height: 24
                                                     icon.color:"transparent"
                                                     opacity: 0.5
-                                                    onClicked: parent.parent.doneEdit();
+                                                    onClicked: te.doneEdit();
                                                     hoverEnabled: true
                                                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                                                     anchors.right:parent.right
@@ -887,11 +884,7 @@ Page {
                                                     icon.height: 24
                                                     icon.color:"transparent"
                                                     opacity: 0.5
-                                                    onClicked: {
-                                                        evalRecDel.edit = false
-                                                        studentCoursesPageId.onEditing = false
-                                                        te.text = (evalRecDel.value > -1000)? evalRecDel.value : ""
-                                                    }
+                                                    onClicked: te.cancelPressed();
                                                     hoverEnabled: true
                                                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                                                     anchors.left:parent.left
@@ -910,65 +903,33 @@ Page {
                                                 color:"black"
                                                 background: Item{}
                                                 text:{
-                                                    if(evalRecDel.value > -1000)
+                                                    if(te.value > -1000)
                                                     {
                                                         if(evalRecDel.model["test_flag"])
                                                         {
-                                                            return evalRecDel.value + " % "
+                                                            return te.value + " % "
                                                         }
                                                         else
-                                                            return evalRecDel.value;
+                                                            return te.value;
                                                     }
                                                     else return ""
                                                 }
-                                                visible: !evalRecDel.edit
+                                                visible: !te.editFlag
                                                 MouseArea{
                                                     visible: !dbMan.idPeriodPassed()
                                                     anchors.fill: parent
                                                     onDoubleClicked:{
-
-                                                        if(studentCoursesPageId.onEditing)
-                                                        {
-                                                            // find 2clicked items and save them before
-                                                            var item = studentCoursesPageId.findItemRecursive(lv, "edit", true);
-                                                            while(item)
-                                                            {
-                                                                var scei = item.sceID;
-                                                                var val = item.cell.text;
-                                                                item.edit = false;
-                                                                if(!dbMan.setStudentCourseEvalGrade(scei, val))
-                                                                {
-                                                                    infoDialogId.dialogText = "انجام عملیات با خطا مواجه شد."
-                                                                    infoDialogId.dialogTitle = "خطا"
-                                                                    infoDialogId.dialogSuccess = false
-                                                                    infoDialogId.open();
-                                                                }
-                                                                else
-                                                                {
-                                                                    item.value = val;
-                                                                }
-
-                                                                item = studentCoursesPageId.findItemRecursive(lv, "edit", true);
-                                                            }
-
-                                                        }
-
-                                                        evalRecDel.edit = true
+                                                        studentCoursesPageId.refreshPage();
+                                                        te.editFlag = true
                                                         studentCoursesPageId.onEditing = true
                                                         te.forceActiveFocus();
-                                                        studentCoursesPageId.activeEval = evalRecDel.model["eval_name"];
                                                     }
                                                 }
                                             }
-
                                         }
-
                                     }
                                 }
-
-
                             }
-
 
                             Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
 

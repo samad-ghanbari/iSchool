@@ -172,7 +172,7 @@ Page {
                         {
                             if(obj["semester"] === 1)
                                 refModel.append({text: "آزمون " + obj.eval_name +" نیمسال اول ", value: obj.id});
-                            else
+                            else if(obj["semester"] === 2)
                                 refModel.append({text: "آزمون " + obj.eval_name +" نیمسال دوم ", value: obj.id});
                         }
                     }
@@ -197,7 +197,12 @@ Page {
                                     final_value = obj["id"];
 
                             if(studentResultSettingPage.evals.includes(obj.id))
-                                refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+                            {
+                                if(obj["semester"] === 1)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                else if(obj["semester"] === 2)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                            }
 
                         }
                     }
@@ -221,7 +226,12 @@ Page {
                             if( (obj["per_month"] === true) ||  (obj["midterm"] === true))
                             {
                                 if(studentResultSettingPage.evals.includes(obj.id))
-                                    refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+                                {
+                                    if(obj["semester"] === 1)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                    else if(obj["semester"] === 2)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                }
 
                                 if(final_value == -1)
                                     if((obj["midterm"] === true))
@@ -245,7 +255,7 @@ Page {
                 {
                     if(SEMESTER === 1)
                         refModel.append({text: "نیمسال اول", value: -601});
-                    else
+                    else if(SEMESTER === 2)
                         refModel.append({text: "نیمسال دوم", value: -602});
                 }
 
@@ -260,7 +270,12 @@ Page {
                             if( (obj["formative"] === true) ||  (obj["final_flag"] === true))
                             {
                                 if(studentResultSettingPage.evals.includes(obj.id))
-                                    refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+                                {
+                                    if(obj["semester"] === 1)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                    else if(obj["semester"] === 2)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم " , value: obj.id});
+                                }
 
 
                                 if(final_value == -1)
@@ -281,7 +296,11 @@ Page {
             if(obj["test_flag"])
                 if(evals.includes(id))
                 {
-                    testRefModel.append({"text": obj["eval_name"], value: obj["id"]})
+                    if(obj["semester"] === 1)
+                        testRefModel.append({text: obj.eval_name +" نیمسال اول ", value: obj.id});
+                    else if(obj["semester"] === 2)
+                        testRefModel.append({text: obj.eval_name +" نیمسال دوم ", value: obj.id});
+
                     test_evals.push(id);
                 }
         }
@@ -312,8 +331,7 @@ Page {
             compareRef.currentIndex = 0;
     }
 
-    function uncheckMonthSwitch()
-    {
+    function uncheckMonthSwitch(){
         farSW.checked = false;
         ordSW.checked = false;
         khoSW.checked = false;
@@ -328,8 +346,7 @@ Page {
         esfSW.checked = false;
     }
 
-    function monthVisibility()
-    {
+    function monthVisibility(){
         var sem = studentResultSettingPage.semester_Number;
         if(sem == 1)
         {
@@ -388,8 +405,7 @@ Page {
         }
     }
 
-    ColumnLayout
-    {
+    ColumnLayout{
         anchors.fill: parent
 
         Text {
@@ -1754,12 +1770,12 @@ Page {
             }
 
             // test only print error
-                // if((compare_ref_id === -1) || (compare_ref === "") || (compare_ref_id === undefined ) )
-                // {
-                //     infoDialogId.dialogText = "لطفا مرجع مقایسه دروس را انتخاب نمایید.";
-                //     infoDialogId.open();
-                //     return;
-                // }
+            // if((compare_ref_id === -1) || (compare_ref === "") || (compare_ref_id === undefined ) )
+            // {
+            //     infoDialogId.dialogText = "لطفا مرجع مقایسه دروس را انتخاب نمایید.";
+            //     infoDialogId.open();
+            //     return;
+            // }
 
 
             if(test_evals.length > 0)
@@ -1832,25 +1848,25 @@ Page {
     ColorDialog {
         id: highlight1_Dialog
         title: "انتخاب رنگ"
-        selectedColor: "#fcdadf"
+        selectedColor: "#fce3e3"
     }
     // highlight2
     ColorDialog {
         id: highlight2_Dialog
         title: "انتخاب رنگ"
-        selectedColor: "#f6aab6"
+        selectedColor: "#fcb5b5"
     }
     // highlight3
     ColorDialog {
         id: highlight3_Dialog
         title: "انتخاب رنگ"
-        selectedColor: "#f495a4"
+        selectedColor: "#ff8f8f"
     }
     //highlight4
     ColorDialog {
         id: highlight4_Dialog
         title: "انتخاب رنگ"
-        selectedColor: "#f17b8d"
+        selectedColor: "#ff6363"
     }
 
 }
