@@ -4,25 +4,16 @@ import QtQuick.Layouts
 import QtQuick.Dialogs
 
 import "./../public" as DialogBox
-/*
-    row
-    course name
-    coeff
-    evals
-    base rank
-    class rank
-    base avg
-    max grade
 
-    student count class/base
-    avg
-    avg rank class
-    avg rank base
-    course base avg
-
-*/
 Page {
-    id: classTranscriptsSettingPage
+    id: settingPage
+
+    required property bool student_class_transcript // student: false   class: true
+
+    required property int student_id;
+    required property string student;
+    required property string student_photo;
+
 
     required property string branch;
     required property string step;
@@ -32,12 +23,13 @@ Page {
     required property string period;
     required property string class_name;
     required property int class_id;
+
     required property StackView appStackView;
 
     property var allEvals: dbMan.getEvals();
-    property var evals: []
-    property var eids :{ "semester1": -601, "semester2": -602, "semester_avg":-612, "formative_avg": -400, "final_avg": -500, "per_month_avg":-12}
-
+    property var evals: [] // selected evals to transcript
+    property var test_evals: []
+    property var eids :{ "semester1": -601, "semester2": -602, "semester_avg":-612, "formative_avg": -400, "final_avg": -500, "per_month_avg":-12, "class_rank": -24, "base_rank": -124, "test_avg":-10, "midterm_avg": -5, "base_avg": -19, "max_grade": -20}
 
     property int semester_Number : 1 // 0 1 2      0:studyPeriod   1:semester1    2:semester2
 
@@ -52,6 +44,7 @@ Page {
 
     function updateEvalsModel(){
         evals = [];
+        test_evals = [];
         evalsModel.clear();
         let obj;
         // semester : 0 >> formative-final of each semester
@@ -69,7 +62,7 @@ Page {
             {
                 if( (obj["formative"] === true) || (obj["final_flag"] === true) )
                 {
-                    classTranscriptsSettingPage.evals.push(obj["id"]);
+                    settingPage.evals.push(obj["id"]);
                     evalsModel.append(obj);
                 }
             }
@@ -86,7 +79,7 @@ Page {
                     if( (obj["per_month"] === true) && (obj["semester"] === SEMESTER) )
                     {
                         if(evals.length == 0)
-                            classTranscriptsSettingPage.evals.push(obj["id"]);
+                            settingPage.evals.push(obj["id"]);
 
                         evalsModel.append(obj);
                     }
@@ -103,7 +96,7 @@ Page {
                     if(obj["semester"] === SEMESTER)
                     {
                         if(obj["midterm"] === true)
-                            classTranscriptsSettingPage.evals.push(obj["id"]);
+                            settingPage.evals.push(obj["id"]);
 
                         if( (obj["per_month"] === true) ||  (obj["midterm"] === true))
                             evalsModel.append(obj);
@@ -124,7 +117,7 @@ Page {
                     {
                         if( (obj["formative"] === true) ||  (obj["final_flag"] === true))
                         {
-                            classTranscriptsSettingPage.evals.push(obj["id"]);
+                            settingPage.evals.push(obj["id"]);
                             evalsModel.append(obj);
                         }
                     }
@@ -138,6 +131,8 @@ Page {
     function updateRefModel(){
 
         refModel.clear();
+        testRefModel.clear();
+        test_evals = [];
         let PER_MONTH, MIDTERM, FORMATIVE, FINAL, SEMESTER;
         let final_value = -1;
 
@@ -162,11 +157,11 @@ Page {
                 {
                     if( (obj["formative"] === true) || (obj["final_flag"] === true) )
                     {
-                        if(classTranscriptsSettingPage.evals.includes(obj.id))
+                        if(settingPage.evals.includes(obj.id))
                         {
                             if(obj["semester"] === 1)
                                 refModel.append({text: "آزمون " + obj.eval_name +" نیمسال اول ", value: obj.id});
-                            else
+                            else if(obj["semester"] === 2)
                                 refModel.append({text: "آزمون " + obj.eval_name +" نیمسال دوم ", value: obj.id});
                         }
                     }
@@ -190,15 +185,20 @@ Page {
                                 if((obj["per_month"] === true))
                                     final_value = obj["id"];
 
-                            if(classTranscriptsSettingPage.evals.includes(obj.id))
-                                refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+                            if(settingPage.evals.includes(obj.id))
+                            {
+                                if(obj["semester"] === 1)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                else if(obj["semester"] === 2)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                            }
 
                         }
                     }
                 }
 
                 if(perMonthAvgSW.checked)
-                   refModel.append({text: "میانگین ماهیانه", value: -12});
+                    refModel.append({text: "میانگین ماهیانه", value: -12});
             }
             else if(midterm_transcript)
             {
@@ -214,8 +214,13 @@ Page {
                         {
                             if( (obj["per_month"] === true) ||  (obj["midterm"] === true))
                             {
-                                if(classTranscriptsSettingPage.evals.includes(obj.id))
-                                    refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+                                if(settingPage.evals.includes(obj.id))
+                                {
+                                    if(obj["semester"] === 1)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                    else if(obj["semester"] === 2)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                }
 
                                 if(final_value == -1)
                                     if((obj["midterm"] === true))
@@ -239,7 +244,7 @@ Page {
                 {
                     if(SEMESTER === 1)
                         refModel.append({text: "نیمسال اول", value: -601});
-                    else
+                    else if(SEMESTER === 2)
                         refModel.append({text: "نیمسال دوم", value: -602});
                 }
 
@@ -253,8 +258,13 @@ Page {
                         {
                             if( (obj["formative"] === true) ||  (obj["final_flag"] === true))
                             {
-                                if(classTranscriptsSettingPage.evals.includes(obj.id))
-                                    refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
+                                if(settingPage.evals.includes(obj.id))
+                                {
+                                    if(obj["semester"] === 1)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                    else if(obj["semester"] === 2)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم " , value: obj.id});
+                                }
 
 
                                 if(final_value == -1)
@@ -267,6 +277,39 @@ Page {
             }
         }
 
+        //test
+        let id;
+        for(let obj of allEvals)
+        {
+            id = obj["id"];
+            if(obj["test_flag"])
+                if(evals.includes(id))
+                {
+                    if(obj["semester"] === 1)
+                        testRefModel.append({text: obj.eval_name +" نیمسال اول ", value: obj.id});
+                    else if(obj["semester"] === 2)
+                        testRefModel.append({text: obj.eval_name +" نیمسال دوم ", value: obj.id});
+
+                    test_evals.push(id);
+                }
+        }
+
+        if(test_evals.length > 0)
+        {
+            testRefRow.visible = true
+            testCompareRef.currentIndex = 0;
+            testAvgSW.visible = true
+            if(testAvgSW.checked)
+                testRefModel.append({"text": "میانگین تست", value: -10})
+        }
+        else
+        {
+            testRefRow.visible = false;
+            testCompareRef.currentIndex = -1;
+            testAvgSW.visible = false
+            testAvgSW.checked = false
+        }
+
         if(refModel.count > 0)
             compareRef.currentIndex = 0;
 
@@ -277,8 +320,7 @@ Page {
             compareRef.currentIndex = 0;
     }
 
-    function uncheckMonthSwitch()
-    {
+    function uncheckMonthSwitch(){
         farSW.checked = false;
         ordSW.checked = false;
         khoSW.checked = false;
@@ -293,56 +335,140 @@ Page {
         esfSW.checked = false;
     }
 
-    ColumnLayout
-    {
+    function monthVisibility(){
+        var sem = settingPage.semester_Number;
+        if(sem == 1)
+        {
+            farSW.visible = false;
+            ordSW.visible = false;
+            khoSW.visible = false;
+
+            tirSW.visible = false;
+            morSW.visible = false;
+            shaSW.visible = false;
+
+            mehSW.visible = true;
+            abaSW.visible = true;
+            azaSW.visible = true;
+
+            deySW.visible = true;
+            bahSW.visible = false;
+            esfSW.visible = false;
+
+        }
+        else if(sem == 2)
+        {
+            farSW.visible = true;
+            ordSW.visible = true;
+            khoSW.visible = true;
+
+            tirSW.visible = false;
+            morSW.visible = false;
+            shaSW.visible = false;
+
+            mehSW.visible = false;
+            abaSW.visible = false;
+            azaSW.visible = false;
+
+            deySW.visible = false;
+            bahSW.visible = true;
+            esfSW.visible = true;
+        }
+        else
+        {
+            farSW.visible = true;
+            ordSW.visible = true;
+            khoSW.visible = true;
+
+            tirSW.visible = true;
+            morSW.visible = true;
+            shaSW.visible = true;
+
+            mehSW.visible = true;
+            abaSW.visible = true;
+            azaSW.visible = true;
+
+            deySW.visible = true;
+            bahSW.visible = true;
+            esfSW.visible = true;
+        }
+    }
+
+    ColumnLayout{
         anchors.fill: parent
 
-
         Text {
             Layout.fillWidth: true
             Layout.preferredHeight: 30
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text:  classTranscriptsSettingPage.branch + " - " + classTranscriptsSettingPage.step
+            text: settingPage.branch + " - " + settingPage.step
             font.family: "Kalameh"
             font.pixelSize: 18
             font.bold: true
             color: "darkmagenta"
         }
 
-
-        Text {
+        RowLayout{
             Layout.fillWidth: true
-            Layout.preferredHeight: 30
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            text: (classTranscriptsSettingPage.field_based) ?  classTranscriptsSettingPage.field + " - " +  classTranscriptsSettingPage.base :   classTranscriptsSettingPage.base
-            font.family: "Kalameh"
-            font.pixelSize: 18
-            font.bold: true
-            color: "darkmagenta"
-        }
+            Layout.preferredHeight:  100
 
+            Image {
+                source:settingPage.student_photo
+                Layout.preferredWidth: 100
+                Layout.preferredHeight: 100
+                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+            }
+            Column{
+                Layout.fillWidth: true
+                Layout.preferredHeight: 100
+
+                Text {
+                    width: parent.width
+                    height: 50
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignLeft
+                    text: settingPage.student
+                    font.family: "Kalameh"
+                    font.pixelSize: 20
+                    font.bold: true
+                    color: "darkmagenta"
+                }
+
+                Text {
+                    width: parent.width
+                    height: 50
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignLeft
+                    text: (settingPage.field_based) ? settingPage.field + " - " + settingPage.base :   settingPage.base
+                    font.family: "Kalameh"
+                    font.pixelSize: 18
+                    font.bold: true
+                    color: "darkmagenta"
+                }
+            }
+        }
         Row{
             Layout.preferredHeight: 30
             Layout.alignment: Qt.AlignHCenter
+
             Text {
                 height: 30
                 verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: " سال تحصیلی "
+                horizontalAlignment: Qt.AlignLeft
+                text: settingPage.class_name + " - " + "سال‌تحصیلی "
                 font.family: "Kalameh"
-                font.pixelSize: 20
+                font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
             }
             Text {
                 height: 30
                 verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                text: classTranscriptsSettingPage.period
+                horizontalAlignment: Qt.AlignLeft
+                text: settingPage.period
                 font.family: "Kalameh"
-                font.pixelSize: 20
+                font.pixelSize: 18
                 font.bold: true
                 color: "darkmagenta"
             }
@@ -361,19 +487,19 @@ Page {
             Layout.preferredHeight: 25
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "کارنامه دانش‌آموزان "  + classTranscriptsSettingPage.class_name
+            text: "کارنامه دانش‌آموز"
             font.family: "Kalameh"
             font.pixelSize: 20
             font.bold: true
             color: "mediumvioletred"
         }
 
-        Flickable{
-            Layout.fillWidth: true
+        Flickable
+        {
             Layout.fillHeight: true
-            contentHeight: centerRect.height
+            Layout.fillWidth: true
+            contentHeight: centerCol.implicitHeight
             clip: true
-
             Rectangle{
                 id: centerRect
                 width: (parent.width > 700)? 700 : parent.width
@@ -389,10 +515,10 @@ Page {
                     ButtonGroup{
                         id: semesterGB;
                     }
-
                     ButtonGroup{
                         id: transcriptBG;
                     }
+
 
                     GroupBox{
                         width: parent.width
@@ -442,16 +568,17 @@ Page {
                                                     semester1RB.checked = true;
                                             }
 
-                                            classTranscriptsSettingPage.evals = []
+                                            settingPage.evals = []
                                             evalsModel.clear();
 
                                             if(checked){
-                                                classTranscriptsSettingPage.semester_Number = 1;
+                                                settingPage.semester_Number = 1;
                                                 perMonthTSW.checked = true
-                                                classTranscriptsSettingPage.per_month_transcript = true
+                                                settingPage.per_month_transcript = true
                                             }
 
-                                            classTranscriptsSettingPage.updateEvalsModel();
+                                            settingPage.updateEvalsModel();
+                                            settingPage.monthVisibility();
                                         }
 
                                     }
@@ -476,17 +603,18 @@ Page {
                                                     semester2RB.checked = true;
                                             }
 
-                                            classTranscriptsSettingPage.evals = []
+                                            settingPage.evals = []
                                             evalsModel.clear();
 
                                             if(checked)
                                             {
-                                                classTranscriptsSettingPage.semester_Number = 2;
+                                                settingPage.semester_Number = 2;
                                                 perMonthTSW.checked = true
-                                                classTranscriptsSettingPage.per_month_transcript = true
+                                                settingPage.per_month_transcript = true
                                             }
 
-                                            classTranscriptsSettingPage.updateEvalsModel();
+                                            settingPage.updateEvalsModel();
+                                            settingPage.monthVisibility();
                                         }
 
                                     }
@@ -510,17 +638,18 @@ Page {
                                                     periodRB.checked = true;
                                             }
 
-                                            classTranscriptsSettingPage.evals = []
+                                            settingPage.evals = []
                                             evalsModel.clear();
 
                                             if(checked)
                                             {
-                                                classTranscriptsSettingPage.semester_Number = 0;
+                                                settingPage.semester_Number = 0;
                                                 periodTSW.checked = true
-                                                classTranscriptsSettingPage.period_transcript = true
+                                                settingPage.period_transcript = true
                                             }
 
-                                            classTranscriptsSettingPage.updateEvalsModel();
+                                            settingPage.updateEvalsModel();
+                                            settingPage.monthVisibility();
                                         }
 
                                     }
@@ -550,7 +679,7 @@ Page {
                                         text: "کارنامه ماهیانه"
                                         checked: true
                                         ButtonGroup.group: transcriptBG
-                                        visible: (classTranscriptsSettingPage.semester_Number > 0)? true : false
+                                        visible: (settingPage.semester_Number > 0)? true : false
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         palette.highlight: "darkcyan"
@@ -563,8 +692,8 @@ Page {
                                                     perMonthTSW.checked = true;
                                             }
 
-                                            classTranscriptsSettingPage.per_month_transcript = checked
-                                            classTranscriptsSettingPage.updateEvalsModel();
+                                            settingPage.per_month_transcript = checked
+                                            settingPage.updateEvalsModel();
                                         }
                                     }
 
@@ -576,7 +705,7 @@ Page {
                                         ButtonGroup.group: transcriptBG
                                         text: "کارنامه میان‌ترم"
                                         checked: false
-                                        visible: (classTranscriptsSettingPage.semester_Number > 0)? true : false
+                                        visible: (settingPage.semester_Number > 0)? true : false
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         palette.highlight: "darkcyan"
@@ -588,8 +717,8 @@ Page {
                                                     midtermTSW.checked = true;
                                             }
 
-                                            classTranscriptsSettingPage.midterm_transcript = checked
-                                            classTranscriptsSettingPage.updateEvalsModel();
+                                            settingPage.midterm_transcript = checked
+                                            settingPage.updateEvalsModel();
                                         }
                                     }
 
@@ -601,7 +730,7 @@ Page {
                                         ButtonGroup.group: transcriptBG
                                         text: "کارنامه نیمسال"
                                         checked: false
-                                        visible: (classTranscriptsSettingPage.semester_Number > 0)? true : false
+                                        visible: (settingPage.semester_Number > 0)? true : false
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         palette.highlight: "darkcyan"
@@ -613,8 +742,8 @@ Page {
                                                     semesterTSW.checked = true;
                                             }
 
-                                            classTranscriptsSettingPage.semester_transcript = checked
-                                            classTranscriptsSettingPage.updateEvalsModel();
+                                            settingPage.semester_transcript = checked
+                                            settingPage.updateEvalsModel();
                                         }
                                     }
 
@@ -626,7 +755,7 @@ Page {
                                         ButtonGroup.group: transcriptBG
                                         text: "کارنامه سال‌تحصیلی"
                                         checked: false
-                                        visible: (classTranscriptsSettingPage.semester_Number == 0)? true : false
+                                        visible: (settingPage.semester_Number == 0)? true : false
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         palette.highlight: "darkcyan"
@@ -638,8 +767,8 @@ Page {
                                                     periodTSW.checked = true;
                                             }
 
-                                            classTranscriptsSettingPage.period_transcript = checked
-                                            classTranscriptsSettingPage.updateEvalsModel();
+                                            settingPage.period_transcript = checked
+                                            settingPage.updateEvalsModel();
                                         }
                                     }
                                 }
@@ -666,13 +795,13 @@ Page {
                                         model: ListModel{id: evalsModel;}
                                         delegate:Switch{
                                             required property var model
-                                            checked: (classTranscriptsSettingPage.evals.includes(model.id))? true : false;
+                                            checked: (settingPage.evals.includes(model.id))? true : false;
                                             width: parent.width
                                             palette.highlight: (checked)? "royalblue" : "gray"
                                             palette.text:(checked)? "royalblue" : "gray"
                                             height: 50
                                             text: {
-                                                if(classTranscriptsSettingPage.semester_Number == 0)
+                                                if(settingPage.semester_Number == 0)
                                                 {
                                                     if(model.semester === 1)
                                                         return  model.eval_name + " نیمسال اول "
@@ -686,29 +815,29 @@ Page {
                                             font.pixelSize: 16
                                             onToggled:
                                             {
-                                                var index = classTranscriptsSettingPage.evals.indexOf(model.id);
+                                                var index = settingPage.evals.indexOf(model.id);
 
                                                 if(checked)
                                                 {
                                                     //push
                                                     if(index < 0)
-                                                        classTranscriptsSettingPage.evals.push(model.id);
+                                                        settingPage.evals.push(model.id);
                                                 }
                                                 else
                                                 {
-                                                    if( index > -1 && (classTranscriptsSettingPage.evals.length > 1) )
-                                                        classTranscriptsSettingPage.evals.splice(index, 1);
+                                                    if( index > -1 && (settingPage.evals.length > 1) )
+                                                        settingPage.evals.splice(index, 1);
                                                     else
                                                         this.checked = true
                                                 }
 
 
-                                                classTranscriptsSettingPage.updateRefModel();
+                                                settingPage.updateRefModel();
                                             }
                                         }
 
                                         Component.onCompleted: {
-                                            classTranscriptsSettingPage.updateEvalsModel();
+                                            settingPage.updateEvalsModel();
                                         }
 
                                     }
@@ -762,8 +891,9 @@ Page {
                                         palette.highlight: "indianred"
                                         palette.text: (this.checked)? "indianred" : "gray"
                                         height: 50
+                                        visible: (settingPage.semester_transcript || settingPage.period_transcript )
                                         text: "میانگین پایه"
-                                        checked: true
+                                        checked: (settingPage.semester_transcript || settingPage.period_transcript )
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         onCheckedChanged: {
@@ -793,12 +923,12 @@ Page {
                                         height: 50
                                         palette.highlight: "indianred"
                                         palette.text: (checked)? "indianred" : "gray"
-                                        visible: (classTranscriptsSettingPage.semester_transcript || classTranscriptsSettingPage.period_transcript)? true : false
-                                        text: (classTranscriptsSettingPage.period_transcript)? "نیمسال اول/دوم" : "نیمسال"
-                                        checked: !classTranscriptsSettingPage.per_month_transcript
+                                        visible: (settingPage.semester_transcript || settingPage.period_transcript)? true : false
+                                        text: (settingPage.period_transcript)? "نیمسال اول/دوم" : "نیمسال"
+                                        checked: !settingPage.per_month_transcript
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
-                                        onToggled: classTranscriptsSettingPage.updateRefModel();
+                                        onToggled: settingPage.updateRefModel();
                                     }
 
                                     Switch{
@@ -808,11 +938,11 @@ Page {
                                         palette.highlight: "indianred"
                                         palette.text: (this.checked)? "indianred" : "gray"
                                         text: "میانگین نمیسال اول / دوم"
-                                        visible: (classTranscriptsSettingPage.period_transcript)? true : false
+                                        visible: (settingPage.period_transcript)? true : false
                                         checked: true
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
-                                        onToggled: classTranscriptsSettingPage.updateRefModel();
+                                        onToggled: settingPage.updateRefModel();
                                     }
 
                                     Switch{
@@ -822,11 +952,11 @@ Page {
                                         palette.highlight: "indianred"
                                         palette.text: (this.checked)? "indianred" : "gray"
                                         text: "میانگین نهایی اول/ دوم"
-                                        visible: (classTranscriptsSettingPage.period_transcript)? true : false
+                                        visible: (settingPage.period_transcript)? true : false
                                         checked: true
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
-                                        onToggled: classTranscriptsSettingPage.updateRefModel();
+                                        onToggled: settingPage.updateRefModel();
                                     }
 
                                     Switch{
@@ -836,11 +966,11 @@ Page {
                                         palette.highlight: "indianred"
                                         palette.text: (this.checked)? "indianred" : "gray"
                                         text: "میانگین مستمر اول / دوم"
-                                        visible: (classTranscriptsSettingPage.period_transcript)? true : false
+                                        visible: (settingPage.period_transcript)? true : false
                                         checked: true
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
-                                        onToggled: classTranscriptsSettingPage.updateRefModel();
+                                        onToggled: settingPage.updateRefModel();
                                     }
 
                                     Switch{
@@ -851,17 +981,38 @@ Page {
                                         palette.text: (this.checked)? "indianred" : "gray"
                                         text: "میانگین ماهیانه"
                                         visible:{
-                                            if(classTranscriptsSettingPage.per_month_transcript || classTranscriptsSettingPage.midterm_transcript )
+                                            if(settingPage.per_month_transcript || settingPage.midterm_transcript )
                                             {
-                                                    return true;
+                                                return true;
                                             }
                                             else
                                                 return false;
                                         }
-                                        checked: true
+                                        checked: false
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
-                                        onToggled: classTranscriptsSettingPage.updateRefModel();
+                                        onToggled: settingPage.updateRefModel();
+                                    }
+
+                                    Switch{
+                                        id: testAvgSW
+                                        width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین تست"
+                                        visible:{
+                                            if(settingPage.test_evals.length > 0 )
+                                            {
+                                                return true;
+                                            }
+                                            else
+                                                return false;
+                                        }
+                                        checked: false
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: settingPage.updateRefModel();
                                     }
                                 }
                             }
@@ -886,9 +1037,9 @@ Page {
                                         height: 50
                                         palette.highlight: "steelblue"
                                         palette.text: (this.checked)? "steelblue" : "gray"
-                                        text: "گزارش مبتنی بر " + classTranscriptsSettingPage.field
-                                        checked: classTranscriptsSettingPage.field_based
-                                        visible: classTranscriptsSettingPage.field_based
+                                        text: "گزارش مبتنی بر " + settingPage.field
+                                        checked: settingPage.field_based
+                                        visible: settingPage.field_based
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                     }
@@ -904,7 +1055,7 @@ Page {
                                             verticalAlignment: Label.AlignVCenter
                                             font.family: "Kalameh"
                                             font.pixelSize: 16
-                                            text:"مرجع مقایسه رتبه و میانگین: "
+                                            text:"مرجع مقایسه رتبه و میانگین دروس: "
                                             color: "steelblue"
                                         }
                                         ComboBox{
@@ -917,7 +1068,37 @@ Page {
                                             model: ListModel{id: refModel}
                                             textRole: "text"
                                             valueRole: "value"
-                                            Component.onCompleted: classTranscriptsSettingPage.updateRefModel();
+                                            Component.onCompleted: settingPage.updateRefModel();
+                                        }
+                                    }
+
+                                    RowLayout{
+                                        id: testRefRow
+                                        visible: (settingPage.test_evals.length > 0)? true : false;
+                                        width: parent.width
+                                        height: 50
+                                        Label{
+                                            Layout.preferredHeight: 50
+                                            Layout.preferredWidth: 300
+                                            Layout.alignment: Qt.AlignLeft
+                                            horizontalAlignment: Label.AlignLeft
+                                            verticalAlignment: Label.AlignVCenter
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            text:"مرجع مقایسه رتبه و میانگین تست: "
+                                            color: "steelblue"
+                                        }
+                                        ComboBox{
+                                            id: testCompareRef
+                                            Layout.fillWidth: true
+                                            Layout.preferredHeight: 50
+                                            font.bold: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            model: ListModel{id: testRefModel}
+                                            textRole: "text"
+                                            valueRole: "value"
+                                            Component.onCompleted: settingPage.updateRefModel();
                                         }
                                     }
 
@@ -929,7 +1110,8 @@ Page {
                                         palette.highlight: "steelblue"
                                         palette.text: (this.checked)? "steelblue" : "gray"
                                         text: "استفاده از میانگین پایه دروس ثبت شده"
-                                        checked: true
+                                        checked: (settingPage.semester_transcript || settingPage.period_transcript )
+                                        visible: (settingPage.semester_transcript || settingPage.period_transcript )
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                     }
@@ -957,7 +1139,7 @@ Page {
                                             id: advisorChB
                                             Layout.preferredHeight: 20
                                             Layout.preferredWidth:  20
-                                            checked: classTranscriptsSettingPage.advisorComment
+                                            checked: settingPage.advisorComment
                                             indicator: Rectangle {
                                                 width: 20
                                                 height: 20
@@ -976,9 +1158,9 @@ Page {
 
                                             onCheckedChanged:{
                                                 if(!checked)
-                                                    classTranscriptsSettingPage.uncheckMonthSwitch();
+                                                    settingPage.uncheckMonthSwitch();
 
-                                                classTranscriptsSettingPage.advisorComment = advisorChB.checked
+                                                settingPage.advisorComment = advisorChB.checked
                                             }
                                         }
                                         Label
@@ -1000,7 +1182,7 @@ Page {
 
                                     Flow{
                                         width: parent.width
-                                        visible: classTranscriptsSettingPage.advisorComment
+                                        visible: settingPage.advisorComment
 
                                         Switch{
                                             id: farSW
@@ -1158,6 +1340,7 @@ Page {
                                             onCheckedChanged:  {}
                                         }
 
+                                        Component.onCompleted: settingPage.monthVisibility();
                                     }
 
                                 }
@@ -1430,7 +1613,6 @@ Page {
                     // buttons
                     Item{   width: parent.width;  height: 50; }
 
-
                     RowLayout
                     {
                         width: parent.width
@@ -1445,7 +1627,7 @@ Page {
                             Layout.preferredWidth:  100
                             font.family: "Kalameh"
                             font.pixelSize: 14
-                            onClicked: { classTranscriptsSettingPage.appStackView.pop(); }
+                            onClicked: { settingPage.appStackView.pop(); }
                             Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
                         }
                         Button
@@ -1458,7 +1640,10 @@ Page {
                             font.pixelSize: 14
                             onClicked:
                             {
-                                saveFolderDialog.open();
+                                if(settingPage.student_class_transcript)
+                                    saveFolderDialog.open(); // class print
+                                else
+                                    saveFileDialog.open(); // student print
                             }
 
                             Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "darkcyan"}
@@ -1469,8 +1654,8 @@ Page {
                 }
 
             }
-
         }
+
     }
 
 
@@ -1490,7 +1675,164 @@ Page {
         dialogTitle: "عملیات موفق"
         dialogText: ""
         dialogSuccess: true
-        onDialogAccepted: classTranscriptsSettingPage.appStackView.pop();
+        onDialogAccepted: settingPage.appStackView.pop();
+    }
+
+    // file dialog
+    FileDialog {
+        id: saveFileDialog
+        title: "محل ذخیره گزارش"
+        currentFolder: "file:///home/samad"
+        //currentFolder: "C:/Users/YourUsername/Documents"
+        nameFilters: ["PDF Files (*.pdf)", "All Files (*)"]
+        fileMode: FileDialog.SaveFile
+        onAccepted:{
+            // student_id   class_id  evals  semester  baseRank classRank  baseAvg max_grade field_based
+            let student_id = settingPage.student_id
+            let class_id = settingPage.class_id
+            let evals = settingPage.evals
+            let test_evals = settingPage.test_evals;
+            let semester_number = settingPage.semester_Number;
+
+            let field_based = fieldBasedSW.checked;
+            let compare_ref_id = compareRef.currentValue;
+            let compare_ref = compareRef.currentText;
+            let test_compare_ref_id = testCompareRef.currentValue;
+            let test_compare_ref = testCompareRef.currentText;
+            let predefined_base_avg = predefinedBaseAvgSW.checked;
+            let perMonthT  = settingPage.per_month_transcript;
+            let midTermT = settingPage.midterm_transcript;
+            let semesterT = settingPage.semester_transcript;
+            let periodT = settingPage.period_transcript;
+            let transcript = {"per_month": perMonthT , "midterm" : midTermT , "semester": semesterT, "period": periodT }
+            let advisorComment_flag = settingPage.advisorComment
+            let month = [];
+            if(advisorComment_flag)
+            {
+                if(farSW.checked)
+                    month.push(1);
+                if(ordSW.checked)
+                    month.push(2);
+                if(khoSW.checked)
+                    month.push(3);
+                if(tirSW.checked)
+                    month.push(4);
+                if(morSW.checked)
+                    month.push(5);
+                if(shaSW.checked)
+                    month.push(6);
+                if(mehSW.checked)
+                    month.push(7);
+                if(abaSW.checked)
+                    month.push(8);
+                if(azaSW.checked)
+                    month.push(9);
+                if(deySW.checked)
+                    month.push(10);
+                if(bahSW.checked)
+                    month.push(11);
+                if(esfSW.checked)
+                    month.push(12);
+            }
+
+            let semesterField = semester12SW.checked;
+            let semesterAvgField = semesterAvgSW.checked;
+            let perMonthAvgField = perMonthAvgSW.checked;
+            let formativeAvgField = formativeAvgSW.checked;
+            let finalAvgField = finalAvgSW.checked;
+            let testAvgField = testAvgSW.checked
+
+            if(test_evals.length < 1)
+                testAvgField = false;
+
+            if(semester_Number > 0)
+            {
+                semesterAvgField = false;
+                //perMonthAvgField = false;
+                formativeAvgField = false;
+                finalAvgField = false;
+            }
+
+            if(perMonthT || midTermT)
+            {
+                semesterField = false;
+                semesterAvgField = false;
+                formativeAvgField = false;
+                finalAvgField = false;
+            }
+
+            // test only print error
+            // if((compare_ref_id === -1) || (compare_ref === "") || (compare_ref_id === undefined ) )
+            // {
+            //     infoDialogId.dialogText = "لطفا مرجع مقایسه دروس را انتخاب نمایید.";
+            //     infoDialogId.open();
+            //     return;
+            // }
+
+
+            if(test_evals.length > 0)
+            {
+                if((test_compare_ref_id === -1) || (test_compare_ref === "") || (test_compare_ref_id === undefined ) )
+                {
+                    infoDialogId.dialogText = "لطفا مرجع مقایسه تست را انتخاب نمایید.";
+                    infoDialogId.open();
+                    return;
+                }
+            }
+
+            var params = {
+                "student_id": student_id,
+                "class_id": class_id,
+                "evals": evals,
+                "test_evals": test_evals,
+                "semester_number": semester_Number,
+                "transcript" : transcript,
+                "fields" : {
+                    "base_rank": baseRankSW.checked,
+                    "class_rank": classRankSW.checked,
+                    "base_avg" : baseAvgSW.checked,
+                    "max_grade": maxGradeSW.checked,
+
+                    "semester": semesterField,
+                    "semester_avg": semesterAvgField,
+                    "per_month_avg": perMonthAvgField,
+                    "formative_avg" : formativeAvgField,
+                    "final_avg" : finalAvgField,
+                    "test_avg" : testAvgField
+                }
+                ,
+                "fieldBased_flag" : settingPage.fieldBased_flag,
+                "compare_ref_id": compare_ref_id,
+                "compare_ref" : compare_ref,
+                "test_compare_ref_id": test_compare_ref_id,
+                "test_compare_ref" : test_compare_ref,
+                "predefined_base_avg": predefined_base_avg,
+                "advisor": advisorComment_flag,
+                "comment_month": month,
+                "print":{
+                    "paperSize": paperSizeCB.currentValue,
+                    "fontFamily" : fontCB.currentValue,
+                    "contentFontSize": contentFontSizeCB.currentValue,
+                    "titrFontSize": titrFontSizeCB.currentValue
+                }
+            }
+
+            //var result = dbMan.getStudentTranscript(params);
+            //dbMan.generatePdf(selectedFile, params, highlight1_Dialog.selectedColor, highlight2_Dialog.selectedColor, highlight3_Dialog.selectedColor, highlight4_Dialog.selectedColor )
+
+            if(dbMan.printStudentTranscript(selectedFile, params, highlight1_Dialog.selectedColor, highlight2_Dialog.selectedColor, highlight3_Dialog.selectedColor, highlight4_Dialog.selectedColor))
+            {
+                successDialogId.width = 500
+                successDialogId.dialogText = "فایل در مسیر زیر ذخیره گردید." + "\n" + selectedFile
+                successDialogId.open();
+            }
+            else
+            {
+                infoDialogId.dialogText = "عملیات با خطا مواجه شد.";
+                infoDialogId.open();
+            }
+        }
+        onRejected: saveFileDialog.close();
     }
 
     // folder dialog
@@ -1563,25 +1905,25 @@ Page {
     ColorDialog {
         id: highlight1_Dialog
         title: "انتخاب رنگ"
-        selectedColor: "#fcdadf"
+        selectedColor: "#fce3e3"
     }
     // highlight2
     ColorDialog {
         id: highlight2_Dialog
         title: "انتخاب رنگ"
-        selectedColor: "#f6aab6"
+        selectedColor: "#fcb5b5"
     }
     // highlight3
     ColorDialog {
         id: highlight3_Dialog
         title: "انتخاب رنگ"
-        selectedColor: "#f495a4"
+        selectedColor: "#ff8f8f"
     }
     //highlight4
     ColorDialog {
         id: highlight4_Dialog
         title: "انتخاب رنگ"
-        selectedColor: "#f17b8d"
+        selectedColor: "#ff6363"
     }
 
 }
