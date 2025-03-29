@@ -1582,6 +1582,8 @@ Item {
             // student_id   class_id  evals  semester  baseRank classRank  baseAvg max_grade field_based
             let student_id = settingPage.student_id
             let class_id = settingPage.class_id
+            let class_name = settingPage.class_name
+            let period = settingPage.period
             let evals = settingPage.evals
             let test_evals = settingPage.test_evals;
             let semester_number = settingPage.semester_Number;
@@ -1675,6 +1677,8 @@ Item {
             var params = {
                 "student_id": student_id,
                 "class_id": class_id,
+                "class_name" : class_name,
+                "period" : period,
                 "evals": evals,
                 "test_evals": test_evals,
                 "semester_number": semester_Number,
@@ -1735,6 +1739,8 @@ Item {
         //currentFolder: "C:/Users/YourUsername/Documents"
         onAccepted:{
             let class_id = settingPage.class_id
+            let class_name = settingPage.class_name
+            let period = settingPage.period
             let evals = settingPage.evals
             let test_evals = settingPage.test_evals;
             let semester_number = settingPage.semester_Number;
@@ -1827,6 +1833,8 @@ Item {
 
             var params = {
                 "class_id": class_id,
+                "class_name" : class_name,
+                "period" : period,
                 "evals": evals,
                 "test_evals": test_evals,
                 "semester_number": semester_Number,
