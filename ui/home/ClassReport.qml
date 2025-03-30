@@ -17,8 +17,156 @@ Page {
     required property string class_name;
     required property int class_id;
 
+    property string evalType : "per_month" // midterm semester period
+    property int semester_number : 1
+
+    property var allEvals: dbMan.getEvals(); // [{eval-1}, {eval-2}]
+
+
     signal popSignal();
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
+
+
+    function updateRefModel(){
+
+        refModel.clear();
+
+        if(semester_number == 0)
+        {
+            if(finalAvgSW.checked)
+                refModel.append({text: "میانگین نهایی اول/دوم", value: -500});
+            if(semesterAvgSW.checked)
+                refModel.append({text: "میانگین نیمسال اول/دوم", value: -612});
+            if(semester12SW.checked)
+            {
+                refModel.append({text: "نیمسال اول", value: -601});
+                refModel.append({text: "نیمسال دوم", value: -602});
+            }
+
+            for( var obj of allEvals)
+            {
+                if( (obj["formative"] === true) || (obj["final_flag"] === true) )
+                {
+                    if(obj["semester"] === 1)
+                        refModel.append({text: "آزمون " + obj.eval_name +" نیمسال اول ", value: obj.id});
+                    else if(obj["semester"] === 2)
+                        refModel.append({text: "آزمون " + obj.eval_name +" نیمسال دوم ", value: obj.id});
+                }
+            }
+        }
+        else
+        {
+            if(evalType === "per_month")
+            {
+                for(obj of allEvals)
+                {
+                    if( (obj["per_month"] === true) && (obj["semester"] === semester_number) )
+                    {
+                            if(obj["semester"] === 1)
+                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                            else if(obj["semester"] === 2)
+                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                    }
+                }
+
+                refModel.append({text: "میانگین ماهیانه", value: -12});
+            }
+            else if(evalType === "midterm")
+            {
+                PER_MONTH = true;
+                MIDTERM = true;
+                SEMESTER = semester_number;
+
+                for(obj of allEvals)
+                {
+                    if( (obj["test_flag"] === false) )
+                    {
+                        if(obj["semester"] === SEMESTER)
+                        {
+                            if( (obj["per_month"] === true) ||  (obj["midterm"] === true))
+                            {
+                                if(classReportPage.evals.includes(obj.id))
+                                {
+                                    if(obj["semester"] === 1)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                    else if(obj["semester"] === 2)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                }
+
+                                if(final_value == -1)
+                                    if((obj["midterm"] === true))
+                                        final_value = obj["id"];
+                            }
+                        }
+                    }
+                }
+
+                if(perMonthAvgSW.checked)
+                    refModel.append({text: "میانگین ماهیانه", value: -12});
+
+            }
+            else if(semester_transcript)
+            {
+                FORMATIVE = true;
+                FINAL = true;
+                SEMESTER = semester_number;
+
+                if(semester12SW.checked)
+                {
+                    if(SEMESTER === 1)
+                        refModel.append({text: "نیمسال اول", value: -601});
+                    else if(SEMESTER === 2)
+                        refModel.append({text: "نیمسال دوم", value: -602});
+                }
+
+
+
+                for(obj of allEvals)
+                {
+                    if( (obj["test_flag"] === false) )
+                    {
+                        if(obj["semester"] === SEMESTER)
+                        {
+                            if( (obj["formative"] === true) ||  (obj["final_flag"] === true))
+                            {
+                                if(classReportPage.evals.includes(obj.id))
+                                {
+                                    if(obj["semester"] === 1)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                    else if(obj["semester"] === 2)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم " , value: obj.id});
+                                }
+
+
+                                if(final_value == -1)
+                                    if((obj["final_flag"] === true))
+                                        final_value = obj["id"];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        //test
+        let id;
+        for(let obj of allEvals)
+        {
+            id = obj["id"];
+            if(obj["test_flag"])
+                if(evals.includes(id))
+                {
+                    if(obj["semester"] === 1)
+                        testRefModel.append({text: obj.eval_name +" نیمسال اول ", value: obj.id});
+                    else if(obj["semester"] === 2)
+                        testRefModel.append({text: obj.eval_name +" نیمسال دوم ", value: obj.id});
+
+                    test_evals.push(id);
+                }
+        }
+
+    }
+
 
     ColumnLayout
     {
@@ -62,7 +210,6 @@ Page {
             }
 
         }
-
 
 
         Rectangle{
@@ -113,6 +260,229 @@ Page {
                         color: "slategray"
                     }
 
+                    ButtonGroup{
+                        id: semesterGB;
+                    }
+                    ButtonGroup{
+                        id: typeBG;
+                    }
+
+                    GroupBox{
+                        width: parent.width
+                        height: 80
+                        padding: 0
+                        label: Label{
+                            color: "darkmagenta"
+                            text: "مقطع زمانی"
+                            width: parent.width
+                            horizontalAlignment: Label.AlignLeft
+                        }
+
+                        RowLayout{
+                            width: parent.width
+                            height: 50
+
+                            // semester 1
+                            Switch{
+                                id: semester1RB
+                                Layout.preferredHeight:  50
+                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                ButtonGroup.group: semesterGB
+                                text: "نیمسال اول"
+                                checked: true
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                palette.highlight: "darkmagenta"
+                                palette.text: (checked)? "darkmagenta" : "gray"
+                                onCheckedChanged:  {
+                                    if(!checked)
+                                    {
+                                        if(!semester2RB.checked && !periodRB.checked)
+                                            semester1RB.checked = true;
+                                    }
+
+                                    if(checked){
+                                        classReportPage.semester_number = 1;
+                                        perMonthTSW.checked = true
+                                        classReportPage.evalType = "per_month"
+
+                                    }
+                                }
+                            }
+
+                            // semester 2
+                            Switch{
+                                id: semester2RB
+                                Layout.preferredHeight:  50
+                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                ButtonGroup.group: semesterGB
+                                text: "نیمسال دوم"
+                                checked: false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                palette.highlight: "darkmagenta"
+                                palette.text: (this.checked)? "darkmagenta" : "gray"
+                                onCheckedChanged:
+                                {
+                                    if(!checked)
+                                    {
+                                        if(!semester1RB.checked && !periodRB.checked)
+                                            semester2RB.checked = true;
+                                    }
+
+                                    if(checked)
+                                    {
+                                        classReportPage.semester_number = 2;
+                                        perMonthTSW.checked = true
+                                        classReportPage.evalType = "per_month"
+                                    }
+                                }
+                            }
+
+                            // study period
+                            Switch{
+                                id: periodRB
+                                Layout.preferredHeight:  50
+                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                ButtonGroup.group: semesterGB
+                                text: "سال‌تحصیلی"
+                                checked: false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                palette.highlight: "darkmagenta"
+                                palette.text: (this.checked)? "darkmagenta" : "gray"
+                                onCheckedChanged: {
+                                    if(!checked)
+                                    {
+                                        if(!semester1RB.checked && !semester2RB.checked)
+                                            periodRB.checked = true;
+                                    }
+
+                                    if(checked)
+                                    {
+                                        classReportPage.semester_number = 0;
+                                        periodTSW.checked = true
+                                        classReportPage.evalType = "period"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    GroupBox{
+                        width: parent.width
+                        height: 80
+                        padding: 0
+                        label: Label{
+                            color: "darkcyan"
+                            text: "نوع آزمون"
+                            width: parent.width
+                            horizontalAlignment: Label.AlignLeft
+                        }
+
+                        RowLayout{
+                            width: parent.width
+                            height: 50
+
+                            // per month
+                            Switch{
+                                id: perMonthTSW
+                                Layout.preferredHeight:  50
+                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                text: "آزمون‌های ماهیانه"
+                                checked: true
+                                ButtonGroup.group: typeBG
+                                visible: (classReportPage.semester_number > 0)? true : false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                palette.highlight: "darkcyan"
+                                palette.text: (this.checked)? "darkcyan" : "gray"
+                                onCheckedChanged:
+                                {
+                                    if(!checked)
+                                    {
+                                        if(!periodTSW.checked && !midtermTSW.checked && !semesterTSW.checked)
+                                            perMonthTSW.checked = true;
+                                    }
+                                    else
+                                        classReportPage.evalType = "per_month"
+                                }
+                            }
+
+                            // midterm
+                            Switch{
+                                id: midtermTSW
+                                Layout.preferredHeight:  50
+                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                ButtonGroup.group: typeBG
+                                text: "آزمون‌های میان‌ترم"
+                                checked: false
+                                visible: (classReportPage.semester_number > 0)? true : false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                palette.highlight: "darkcyan"
+                                palette.text: (this.checked)? "darkcyan" : "gray"
+                                onCheckedChanged:{
+                                    if(!checked)
+                                    {
+                                        if(!periodTSW.checked && !perMonthTSW.checked && !semesterTSW.checked)
+                                            midtermTSW.checked = true;
+                                    }
+                                    else
+                                        classReportPage.evalType = "midterm"
+                                }
+                            }
+
+                            // semester
+                            Switch{
+                                id: semesterTSW
+                                Layout.preferredHeight:  50
+                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                ButtonGroup.group: typeBG
+                                text: "آزمون‌های نیمسال"
+                                checked: false
+                                visible: (classReportPage.semester_number > 0)? true : false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                palette.highlight: "darkcyan"
+                                palette.text: (this.checked)? "darkcyan" : "gray"
+                                onCheckedChanged:{
+                                    if(!checked)
+                                    {
+                                        if(!periodTSW.checked && !midtermTSW.checked && !perMonthTSW.checked)
+                                            semesterTSW.checked = true;
+                                    }
+                                    else
+                                        classReportPage.evalType = "semester"
+                                }
+                            }
+
+                            // study period
+                            Switch{
+                                id: periodTSW
+                                Layout.preferredHeight:  50
+                                Layout.alignment:  Qt.AlignHCenter | Qt.AlignVCenter
+                                ButtonGroup.group: typeBG
+                                text: "آزمون‌های سال‌تحصیلی"
+                                checked: false
+                                visible: (classReportPage.semester_number === 0)? true : false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                palette.highlight: "darkcyan"
+                                palette.text: (this.checked)? "darkcyan" : "gray"
+                                onCheckedChanged:{
+                                    if(!checked)
+                                    {
+                                        if(!midtermTSW.checked && !semesterTSW.checked && !perMonthTSW.checked)
+                                            periodTSW.checked = true;
+                                    }
+                                    else
+                                        classReportPage.evalType = "period"
+                                }
+                            }
+                        }
+                    }
+
                     RowLayout{
                         width: parent.width
                         height: 50
@@ -136,48 +506,6 @@ Page {
                             model: ListModel{id: refModel}
                             textRole: "text"
                             valueRole: "value"
-                            Component.onCompleted:
-                            {
-                                //compareRef.currentIndex = -1
-                                refModel.clear();
-                                var jsondata = dbMan.getEvals();
-                                var finalValue = -1
-                                //id, eval_name, base_id, period_id, test_flag, final_flag, max_grade
-                                refModel.append({text: "ارزیابی نیمسال " , value: 0});
-                                for(var obj of jsondata)
-                                {
-                                    if(obj.test_flag === false)
-                                        refModel.append({text: "آزمون " + obj.eval_name, value: obj.id});
-                                    if(obj.final_flag === true)
-                                        finalValue = obj.id
-                                }
-                                compareRef.currentIndex = compareRef.indexOfValue(finalValue)
-                            }
-                        }
-                    }
-
-                    RowLayout{
-                        width: parent.width
-                        height: 50
-                        Label{
-                            Layout.preferredHeight: 50
-                            Layout.preferredWidth: 300
-                            Layout.alignment: Qt.AlignLeft
-                            horizontalAlignment: Label.AlignLeft
-                            verticalAlignment: Label.AlignVCenter
-                            font.family: "Kalameh"
-                            font.pixelSize: 16
-                            text:"نیمسال: "
-                        }
-                        TextField{
-                            id: semesterNumberTF
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 50
-                            placeholderText: "اول"
-                            text: "اول"
-                            font.bold: false
-                            font.family: "Kalameh"
-                            font.pixelSize: 16
                         }
                     }
 
@@ -211,7 +539,6 @@ Page {
                         }
                     }
 
-
                     Switch{
                         id: photoSW
                         width: parent.width
@@ -235,7 +562,6 @@ Page {
                     Item{width: parent.width; height: 10;}
                     Rectangle{width: parent.width; height: 2; color: "black";}
                     Item{width: parent.width; height: 10;}
-
 
                     // printer
 
@@ -444,7 +770,6 @@ Page {
             }
         }
     }
-
 
     //dialog error
     DialogBox.BaseDialog

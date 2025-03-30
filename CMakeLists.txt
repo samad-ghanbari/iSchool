@@ -193,7 +193,7 @@ qt_add_qml_module(appiSchool
         QML_FILES ui/home/CommentInsert.qml
         QML_FILES ui/public/DeleteDialog.qml
         QML_FILES ui/home/CommentUpdate.qml
-        QML_FILES ui/home/StudentTranscriptSetting0.qml
+        QML_FILES
         QML_FILES ui/home/TranscriptSetting.qml
 
 )
