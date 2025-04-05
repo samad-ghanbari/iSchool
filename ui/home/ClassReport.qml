@@ -30,18 +30,14 @@ Page {
     function updateRefModel(){
 
         refModel.clear();
+        var final_value = -1;
 
         if(semester_number == 0)
         {
-            if(finalAvgSW.checked)
-                refModel.append({text: "میانگین نهایی اول/دوم", value: -500});
-            if(semesterAvgSW.checked)
-                refModel.append({text: "میانگین نیمسال اول/دوم", value: -612});
-            if(semester12SW.checked)
-            {
-                refModel.append({text: "نیمسال اول", value: -601});
-                refModel.append({text: "نیمسال دوم", value: -602});
-            }
+            refModel.append({text: "میانگین نهایی اول/دوم", value: -500});
+            refModel.append({text: "میانگین نیمسال اول/دوم", value: -612});
+            refModel.append({text: "نیمسال اول", value: -601});
+            refModel.append({text: "نیمسال دوم", value: -602});
 
             for( var obj of allEvals)
             {
@@ -53,6 +49,8 @@ Page {
                         refModel.append({text: "آزمون " + obj.eval_name +" نیمسال دوم ", value: obj.id});
                 }
             }
+
+            compareRef.currentIndex = compareRef.indexOfValue(-500)
         }
         else
         {
@@ -62,111 +60,66 @@ Page {
                 {
                     if( (obj["per_month"] === true) && (obj["semester"] === semester_number) )
                     {
-                            if(obj["semester"] === 1)
-                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
-                            else if(obj["semester"] === 2)
-                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                        if(obj["semester"] === 1)
+                            refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                        else if(obj["semester"] === 2)
+                            refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
                     }
                 }
 
                 refModel.append({text: "میانگین ماهیانه", value: -12});
+                compareRef.currentIndex = 0
             }
             else if(evalType === "midterm")
             {
-                PER_MONTH = true;
-                MIDTERM = true;
-                SEMESTER = semester_number;
-
                 for(obj of allEvals)
                 {
-                    if( (obj["test_flag"] === false) )
+                    if(obj["semester"] === semester_number)
                     {
-                        if(obj["semester"] === SEMESTER)
+                        if( (obj["per_month"] === true) ||  (obj["midterm"] === true))
                         {
-                            if( (obj["per_month"] === true) ||  (obj["midterm"] === true))
-                            {
-                                if(classReportPage.evals.includes(obj.id))
-                                {
-                                    if(obj["semester"] === 1)
-                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
-                                    else if(obj["semester"] === 2)
-                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
-                                }
+                            if(obj["semester"] === 1)
+                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                            else if(obj["semester"] === 2)
+                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
 
-                                if(final_value == -1)
-                                    if((obj["midterm"] === true))
-                                        final_value = obj["id"];
-                            }
+                            if(final_value == -1)
+                                if((obj["midterm"] === true))
+                                    final_value = obj["id"];
                         }
                     }
                 }
 
-                if(perMonthAvgSW.checked)
-                    refModel.append({text: "میانگین ماهیانه", value: -12});
+                refModel.append({text: "میانگین ماهیانه", value: -12});
 
+                compareRef.currentIndex = compareRef.indexOfValue(final_value);
             }
-            else if(semester_transcript)
+            else if(evalType === "semester")
             {
-                FORMATIVE = true;
-                FINAL = true;
-                SEMESTER = semester_number;
-
-                if(semester12SW.checked)
-                {
-                    if(SEMESTER === 1)
-                        refModel.append({text: "نیمسال اول", value: -601});
-                    else if(SEMESTER === 2)
-                        refModel.append({text: "نیمسال دوم", value: -602});
-                }
-
-
+                final_value = -1;
 
                 for(obj of allEvals)
                 {
-                    if( (obj["test_flag"] === false) )
+                    if(obj["semester"] === semester_number)
                     {
-                        if(obj["semester"] === SEMESTER)
+                        if( (obj["formative"] === true) ||  (obj["final_flag"] === true) ||  ( (obj["per_month"] === false) && (obj["midterm"] === false) ) )
                         {
-                            if( (obj["formative"] === true) ||  (obj["final_flag"] === true))
-                            {
-                                if(classReportPage.evals.includes(obj.id))
-                                {
-                                    if(obj["semester"] === 1)
-                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
-                                    else if(obj["semester"] === 2)
-                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم " , value: obj.id});
-                                }
+                            if(obj["semester"] === 1)
+                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                            else if(obj["semester"] === 2)
+                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
 
-
-                                if(final_value == -1)
-                                    if((obj["final_flag"] === true))
-                                        final_value = obj["id"];
-                            }
+                            if(final_value == -1)
+                                if((obj["final_flag"] === true) && (obj["test_flag"] === false))
+                                    final_value = obj["id"];
                         }
                     }
                 }
+
+                compareRef.currentIndex = compareRef.indexOfValue(final_value);
             }
         }
-
-        //test
-        let id;
-        for(let obj of allEvals)
-        {
-            id = obj["id"];
-            if(obj["test_flag"])
-                if(evals.includes(id))
-                {
-                    if(obj["semester"] === 1)
-                        testRefModel.append({text: obj.eval_name +" نیمسال اول ", value: obj.id});
-                    else if(obj["semester"] === 2)
-                        testRefModel.append({text: obj.eval_name +" نیمسال دوم ", value: obj.id});
-
-                    test_evals.push(id);
-                }
-        }
-
     }
-
 
     ColumnLayout
     {
@@ -307,6 +260,8 @@ Page {
                                         classReportPage.evalType = "per_month"
 
                                     }
+
+                                    classReportPage.updateRefModel();
                                 }
                             }
 
@@ -336,6 +291,8 @@ Page {
                                         perMonthTSW.checked = true
                                         classReportPage.evalType = "per_month"
                                     }
+
+                                    classReportPage.updateRefModel();
                                 }
                             }
 
@@ -364,6 +321,8 @@ Page {
                                         periodTSW.checked = true
                                         classReportPage.evalType = "period"
                                     }
+
+                                    classReportPage.updateRefModel();
                                 }
                             }
                         }
@@ -406,6 +365,8 @@ Page {
                                     }
                                     else
                                         classReportPage.evalType = "per_month"
+
+                                    classReportPage.updateRefModel();
                                 }
                             }
 
@@ -430,6 +391,8 @@ Page {
                                     }
                                     else
                                         classReportPage.evalType = "midterm"
+
+                                    classReportPage.updateRefModel();
                                 }
                             }
 
@@ -454,6 +417,8 @@ Page {
                                     }
                                     else
                                         classReportPage.evalType = "semester"
+
+                                    classReportPage.updateRefModel();
                                 }
                             }
 
@@ -478,6 +443,8 @@ Page {
                                     }
                                     else
                                         classReportPage.evalType = "period"
+
+                                    classReportPage.updateRefModel();
                                 }
                             }
                         }
@@ -506,6 +473,8 @@ Page {
                             model: ListModel{id: refModel}
                             textRole: "text"
                             valueRole: "value"
+
+                            Component.onCompleted: classReportPage.updateRefModel();
                         }
                     }
 
@@ -807,7 +776,8 @@ Page {
                 "eval" : compare_ref,
                 "class_id": classReportPage.class_id,
                 "class_name": classReportPage.class_name,
-                "semester": semesterNumberTF.text,
+                "semester": classReportPage.semester_number,
+                "eval_type": classReportPage.evalType,
                 "date": dateTE.text,
                 "include_photo" : photoSW.checked,
                 "include_fathername" : fathernameSW.checked,
