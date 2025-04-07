@@ -26,10 +26,10 @@ Page {
     signal popSignal();
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
-
     function updateRefModel(){
 
         refModel.clear();
+        testRefModel.clear();
         var final_value = -1;
 
         if(semester_number == 0)
@@ -41,16 +41,28 @@ Page {
 
             for( var obj of allEvals)
             {
-                if( (obj["formative"] === true) || (obj["final_flag"] === true) )
+                if(obj["test_flag"] === false)
+                {
+                    if( (obj["formative"] === true) || (obj["final_flag"] === true) )
+                    {
+                        if(obj["semester"] === 1)
+                            refModel.append({text: "آزمون " + obj.eval_name +" نیمسال اول ", value: obj.id});
+                        else if(obj["semester"] === 2)
+                            refModel.append({text: "آزمون " + obj.eval_name +" نیمسال دوم ", value: obj.id});
+                    }
+                }
+                else
                 {
                     if(obj["semester"] === 1)
-                        refModel.append({text: "آزمون " + obj.eval_name +" نیمسال اول ", value: obj.id});
+                        testRefModel.append({text: "آزمون " + obj.eval_name +" نیمسال اول ", value: obj.id});
                     else if(obj["semester"] === 2)
-                        refModel.append({text: "آزمون " + obj.eval_name +" نیمسال دوم ", value: obj.id});
+                        testRefModel.append({text: "آزمون " + obj.eval_name +" نیمسال دوم ", value: obj.id});
                 }
             }
 
             compareRef.currentIndex = compareRef.indexOfValue(-500)
+            if(testRefModel.count > 0)
+                compareTestRef.currentIndex = 0;
         }
         else
         {
@@ -58,17 +70,31 @@ Page {
             {
                 for(obj of allEvals)
                 {
-                    if( (obj["per_month"] === true) && (obj["semester"] === semester_number) )
-                    {
-                        if(obj["semester"] === 1)
-                            refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
-                        else if(obj["semester"] === 2)
-                            refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
-                    }
+                        if( (obj["per_month"] === true) && (obj["semester"] === semester_number) )
+                        {
+                            if(obj["test_flag"] === false)
+                            {
+                                if(obj["semester"] === 1)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                else if(obj["semester"] === 2)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                            }
+                            else
+                            {
+                                if(obj["semester"] === 1)
+                                    testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                else if(obj["semester"] === 2)
+                                    testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                            }
+                        }
+
                 }
 
                 refModel.append({text: "میانگین ماهیانه", value: -12});
                 compareRef.currentIndex = 0
+
+                if(testRefModel.count > 0)
+                    compareTestRef.currentIndex = 0;
             }
             else if(evalType === "midterm")
             {
@@ -78,21 +104,33 @@ Page {
                     {
                         if( (obj["per_month"] === true) ||  (obj["midterm"] === true))
                         {
-                            if(obj["semester"] === 1)
-                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
-                            else if(obj["semester"] === 2)
-                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                            if(obj["test_flag"] === false)
+                            {
+                                if(obj["semester"] === 1)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                else if(obj["semester"] === 2)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
 
-                            if(final_value == -1)
-                                if((obj["midterm"] === true))
-                                    final_value = obj["id"];
+                                if(final_value == -1)
+                                    if((obj["midterm"] === true))
+                                        final_value = obj["id"];
+                            }
+                            else
+                            {
+                                if(obj["semester"] === 1)
+                                    testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                else if(obj["semester"] === 2)
+                                    testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                            }
                         }
                     }
                 }
 
                 refModel.append({text: "میانگین ماهیانه", value: -12});
-
                 compareRef.currentIndex = compareRef.indexOfValue(final_value);
+
+                if(testRefModel.count > 0)
+                    compareTestRef.currentIndex = 0;
             }
             else if(evalType === "semester")
             {
@@ -104,19 +142,33 @@ Page {
                     {
                         if( (obj["formative"] === true) ||  (obj["final_flag"] === true) ||  ( (obj["per_month"] === false) && (obj["midterm"] === false) ) )
                         {
-                            if(obj["semester"] === 1)
-                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
-                            else if(obj["semester"] === 2)
-                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                            if(obj["test_flag"] === false)
+                            {
+                                if(obj["semester"] === 1)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                else if(obj["semester"] === 2)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
 
-                            if(final_value == -1)
-                                if((obj["final_flag"] === true) && (obj["test_flag"] === false))
-                                    final_value = obj["id"];
+                                if(final_value == -1)
+                                    if((obj["final_flag"] === true) && (obj["test_flag"] === false))
+                                        final_value = obj["id"];
+                            }
+                            else
+                            {
+                                if(obj["semester"] === 1)
+                                    testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
+                                else if(obj["semester"] === 2)
+                                    testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                            }
+
                         }
                     }
                 }
 
                 compareRef.currentIndex = compareRef.indexOfValue(final_value);
+
+                if(testRefModel.count > 0)
+                    compareTestRef.currentIndex = 0;
             }
         }
     }
@@ -477,6 +529,33 @@ Page {
                             Component.onCompleted: classReportPage.updateRefModel();
                         }
                     }
+                    RowLayout{
+                        width: parent.width
+                        height: 50
+                        Label{
+                            Layout.preferredHeight: 50
+                            Layout.preferredWidth: 300
+                            Layout.alignment: Qt.AlignLeft
+                            horizontalAlignment: Label.AlignLeft
+                            verticalAlignment: Label.AlignVCenter
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            text: "مرجع تست: "
+                        }
+                        ComboBox{
+                            id: compareTestRef
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 50
+                            font.bold: false
+                            font.family: "Kalameh"
+                            font.pixelSize: 16
+                            model: ListModel{id: testRefModel}
+                            textRole: "text"
+                            valueRole: "value"
+
+                            Component.onCompleted: classReportPage.updateRefModel();
+                        }
+                    }
 
                     RowLayout{
                         width: parent.width
@@ -773,6 +852,7 @@ Page {
 
             var params = {
                 "eval_id": compare_ref_id,
+                "test_eval_id": compareTestRef.currentValue,
                 "eval" : compare_ref,
                 "class_id": classReportPage.class_id,
                 "class_name": classReportPage.class_name,
