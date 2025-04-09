@@ -507,6 +507,17 @@ Column {
     }
 
     Switch{
+        id: testSW
+        width: parent.width
+        height: 50
+        text: "معدل تست"
+        visible: (class_base_report === "base")? true : false
+        checked: (class_base_report === "base")? true : false
+        font.family: "Kalameh"
+        font.pixelSize: 16
+    }
+
+    Switch{
         id: photoSW
         width: parent.width
         height: 50
@@ -762,18 +773,18 @@ Column {
         nameFilters: ["PDF Files (*.pdf)", "All Files (*)"]
         fileMode: FileDialog.SaveFile
         onAccepted:{
-            var compare_ref_id = compareRef.currentValue
-            var compare_ref = compareRef.currentText
 
             var params = {
-                "eval_id": compare_ref_id,
+                "eval_id": compareRef.currentValue,
                 "test_eval_id": compareTestRef.currentValue,
-                "eval" : compare_ref,
+                "eval" : compareRef.currentText,
+                "test_eval" : compareTestRef.currentText,
                 "class_id": reportPage.class_id,
                 "class_name": reportPage.class_name,
                 "semester": reportPage.semester_number,
                 "eval_type": reportPage.evalType,
                 "date": dateTE.text,
+                "include_test": testSW.checked,
                 "include_photo" : photoSW.checked,
                 "include_fathername" : fathernameSW.checked,
                 "paperSize": paperSizeCB.currentValue,

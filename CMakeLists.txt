@@ -196,7 +196,8 @@ qt_add_qml_module(appiSchool
         QML_FILES
         QML_FILES ui/home/TranscriptSetting.qml
         QML_FILES ui/home/AverageReportModule.qml
-        QML_FILES ui/home/Rank_copy.qml
+        QML_FILES
+        QML_FILES ui/home/CourseRankModule.qml
 
 )
 
