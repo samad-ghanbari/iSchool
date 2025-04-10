@@ -8,6 +8,7 @@ import "./../public" as DialogBox
 Column {
     id: reportPage
 
+    spacing: 5
     required property string class_base_report;
     required property string branch;
     required property string step;
@@ -510,7 +511,7 @@ Column {
         id: testSW
         width: parent.width
         height: 50
-        text: "معدل تست"
+        text: "درج درصد تست"
         visible: (class_base_report === "base")? true : false
         checked: (class_base_report === "base")? true : false
         font.family: "Kalameh"
@@ -521,7 +522,7 @@ Column {
         id: photoSW
         width: parent.width
         height: 50
-        text: "تصویر دانش‌آموز"
+        text: "نمایش تصویر دانش‌آموز"
         checked: false
         font.family: "Kalameh"
         font.pixelSize: 16
@@ -531,7 +532,7 @@ Column {
         id: fathernameSW
         width: parent.width
         height: 50
-        text: "نام پدر"
+        text: "درج نام‌پدر دانش‌آموز"
         checked: false
         font.family: "Kalameh"
         font.pixelSize: 16
