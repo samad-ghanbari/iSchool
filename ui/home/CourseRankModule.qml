@@ -237,16 +237,16 @@ Column {
         id: typeBG;
     }
 
+    Label{
+        color: "darkmagenta"
+        text: "مقطع زمانی"
+        width: parent.width
+        horizontalAlignment: Label.AlignLeft
+    }
     GroupBox{
         width: parent.width
         height: 80
         padding: 0
-        label: Label{
-            color: "darkmagenta"
-            text: "مقطع زمانی"
-            width: parent.width
-            horizontalAlignment: Label.AlignLeft
-        }
 
         RowLayout{
             width: parent.width
@@ -345,16 +345,16 @@ Column {
         }
     }
 
+    Label{
+        color: "darkcyan"
+        text: "نوع آزمون"
+        width: parent.width
+        horizontalAlignment: Label.AlignLeft
+    }
     GroupBox{
         width: parent.width
         height: 80
         padding: 0
-        label: Label{
-            color: "darkcyan"
-            text: "نوع آزمون"
-            width: parent.width
-            horizontalAlignment: Label.AlignLeft
-        }
 
         RowLayout{
             width: parent.width

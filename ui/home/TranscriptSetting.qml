@@ -414,30 +414,30 @@ Item {
                 }
 
 
+                Label{
+                    color: "darkslategray"
+                    text: "تنظیمات کارنامه"
+                    width: parent.width
+                    horizontalAlignment: Label.AlignLeft
+                }
                 GroupBox{
                     width: parent.width
                     height: transCol.implicitHeight + 50
-                    label: Label{
-                        color: "darkslategray"
-                        text: "تنظیمات کارنامه"
-                        width: parent.width
-                        horizontalAlignment: Label.AlignLeft
-                    }
 
                     Column{
                         id: transCol
                         width: parent.width
 
+                        Label{
+                            color: "darkmagenta"
+                            text: "مقطع زمانی"
+                            width: parent.width
+                            horizontalAlignment: Label.AlignLeft
+                        }
                         GroupBox{
                             width: parent.width
                             height: 80
                             padding: 0
-                            label: Label{
-                                color: "darkmagenta"
-                                text: "مقطع زمانی"
-                                width: parent.width
-                                horizontalAlignment: Label.AlignLeft
-                            }
 
                             RowLayout{
                                 width: parent.width
@@ -550,16 +550,16 @@ Item {
                             }
                         }
 
+                        Label{
+                            color: "darkcyan"
+                            text: "نوع کارنامه"
+                            width: parent.width
+                            horizontalAlignment: Label.AlignLeft
+                        }
                         GroupBox{
                             width: parent.width
                             height: 80
                             padding: 0
-                            label: Label{
-                                color: "darkcyan"
-                                text: "نوع کارنامه"
-                                width: parent.width
-                                horizontalAlignment: Label.AlignLeft
-                            }
 
                             RowLayout{
                                 width: parent.width
@@ -668,16 +668,16 @@ Item {
                             }
                         }
 
+                        Label{
+                            color: "royalblue"
+                            text: "ارزیابی‌ها"
+                            width: parent.width
+                            horizontalAlignment: Label.AlignLeft
+                        }
                         GroupBox{
                             width: parent.width
                             height: evalCol.implicitHeight + 50
                             //title: "ارزیابی‌ها"
-                            label: Label{
-                                color: "royalblue"
-                                text: "ارزیابی‌ها"
-                                width: parent.width
-                                horizontalAlignment: Label.AlignLeft
-                            }
 
                             Column{
                                 id: evalCol
@@ -741,16 +741,16 @@ Item {
 
                         }
 
+                        Label{
+                            color: "indianred"
+                            text: "معیارهای سنجش"
+                            width: parent.width
+                            horizontalAlignment: Label.AlignLeft
+                        }
                         GroupBox{
 
                             width: parent.width
                             height: paramCol.implicitHeight + 50
-                            label: Label{
-                                color: "indianred"
-                                text: "معیارهای سنجش"
-                                width: parent.width
-                                horizontalAlignment: Label.AlignLeft
-                            }
 
                             Column{
                                 id: paramCol
@@ -911,15 +911,15 @@ Item {
                             }
                         }
 
+                        Label{
+                            color: "steelblue"
+                            text: "محاسبات"
+                            width: parent.width
+                            horizontalAlignment: Label.AlignLeft
+                        }
                         GroupBox{
                             width: parent.width
                             height:setCol.implicitHeight + 50
-                            label: Label{
-                                color: "steelblue"
-                                text: "محاسبات"
-                                width: parent.width
-                                horizontalAlignment: Label.AlignLeft
-                            }
 
                             Column{
                                 id: setCol
@@ -1012,15 +1012,15 @@ Item {
                             }
                         }
 
+                        Label{
+                            color: "midnightblue"
+                            text: "نظر مشاور"
+                            width: parent.width
+                            horizontalAlignment: Label.AlignLeft
+                        }
                         GroupBox{
                             width: parent.width
                             height:advisorCol.implicitHeight + 50
-                            label: Label{
-                                color: "midnightblue"
-                                text: "نظر مشاور"
-                                width: parent.width
-                                horizontalAlignment: Label.AlignLeft
-                            }
                             Column
                             {
                                 id: advisorCol
@@ -1245,15 +1245,15 @@ Item {
                 Item{   width: parent.width;  height: 50; }
                 // printer
 
+                Label{
+                    color: "darkslategray"
+                    text: "تنظیمات چاپ"
+                    width: parent.width
+                    horizontalAlignment: Label.AlignLeft
+                }
                 GroupBox{
                     width: parent.width
                     height: printCol.implicitHeight + 50
-                    label: Label{
-                        color: "darkslategray"
-                        text: "تنظیمات چاپ"
-                        width: parent.width
-                        horizontalAlignment: Label.AlignLeft
-                    }
 
                     Column{
                         id: printCol
