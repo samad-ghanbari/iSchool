@@ -177,7 +177,7 @@ Page {
                     icon.source: "qrc:/assets/images/upload.png"
                     icon.width: 32
                     icon.height: 32
-                    text: "بارگزاری نظر مشاور"
+                    text: "بارگذاری نظر مشاور"
                     font.family: "Kalameh"
                     font.pixelSize: 14
                     font.bold: false
@@ -546,7 +546,7 @@ Page {
                 infoDialogId.open();
             }
         }
-        onRejected: saveFileDialog.close();
+        onRejected: saveCommentsFileDialog.close();
     }
 
     // file dialog

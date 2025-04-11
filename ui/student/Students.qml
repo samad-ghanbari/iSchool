@@ -289,7 +289,7 @@ Page {
                         icon.source: "qrc:/assets/images/upload.png"
                         icon.width: 32
                         icon.height: 32
-                        text: "بارگزاری فایل اکسل"
+                        text: "بارگذاری فایل اکسل"
                         font.family: "Kalameh"
                         font.pixelSize: 14
                         font.bold: false

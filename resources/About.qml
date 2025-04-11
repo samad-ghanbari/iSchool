@@ -127,6 +127,7 @@ Page {
                     Layout.preferredHeight: 64
                     Layout.alignment: Qt.AlignHCenter
                     icon.source: "qrc:/assets/images/help.png"
+                    icon.color:"transparent"
                     icon.width: 64
                     icon.height: 64
                     hoverEnabled: true

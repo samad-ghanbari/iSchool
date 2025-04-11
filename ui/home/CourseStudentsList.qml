@@ -163,7 +163,6 @@ Page {
         id: clayout
         anchors.fill: parent
 
-
         Text {
             Layout.fillWidth: true
             height: parent.height
@@ -176,7 +175,6 @@ Page {
             font.bold: true
             color: "darkmagenta"
         }
-
 
         Column{
             Layout.fillWidth: true
@@ -262,7 +260,7 @@ Page {
                 Layout.alignment: Qt.AlignLeft
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
-                text: "ارزیابی درس دانش‌آموزان"
+                text: " ارزیابی درس دانش‌آموزان"
                 font.family: "Kalameh"
                 font.pixelSize: 20
                 font.bold: true
@@ -301,7 +299,7 @@ Page {
                 icon.source: "qrc:/assets/images/upload.png"
                 icon.width: 32
                 icon.height: 32
-                text: "بارگزاری فایل اکسل"
+                text: "بارگذاری فایل اکسل"
                 font.family: "Kalameh"
                 font.pixelSize: 14
                 font.bold: false
@@ -558,7 +556,7 @@ Page {
             Layout.fillWidth: true
             Layout.minimumWidth: 600
             Layout.topMargin: 20
-            color: "mediumvioletred"
+            color: "palevioletred"
 
             Flickable{
                 id: flk

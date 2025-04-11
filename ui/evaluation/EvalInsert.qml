@@ -403,7 +403,7 @@ Page {
                             Layout.preferredHeight: 50
                             font.family: "Kalameh"
                             font.pixelSize: 16
-                            value: dbMan.getEvalMaxSort(insertPage.step_id, insertPage.base_id, insertPage.period_id, semesterCB.currentText) + 1;
+                            value: dbMan.getEvalMaxSort(insertPage.step_id, insertPage.base_id, insertPage.period_id, semesterCB.currentValue) + 1;
                         }
                         Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                     }

@@ -118,7 +118,7 @@ Page {
                 Layout.preferredHeight:  64
                 background: Item{}
                 icon.source: "qrc:/assets/images/stat.png"
-                text: "رتبه‌بندی معدل"
+                text: "رتبه‌بندی پایه"
                 font.family: "Kalameh"
                 font.pixelSize: 16
                 icon.width: 32
