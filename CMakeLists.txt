@@ -49,7 +49,7 @@ qt_add_qml_module(appiSchool
         backend/Backend.cpp
         lib/database/dbman.h
         lib/database/dbman.cpp
-        lib/version.h
+        lib/constantsParams.h
         #pdf
         lib/export/jsontable.h
         lib/export/jsontable.cpp

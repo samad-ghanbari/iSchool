@@ -534,7 +534,7 @@ Page {
                             icon.height: 24
                             icon.color:"transparent"
                             opacity: 0.5
-                            onClicked: this.doneEdit();
+                            onClicked: te2.doneEdit();
                             hoverEnabled: true
                             onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                             anchors.right:parent.right

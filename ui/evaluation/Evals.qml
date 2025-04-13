@@ -261,6 +261,7 @@ Page {
                         visible: ( (periodCB.currentValue > -1) && (evalsPage.admin) )? true : false;
                         background: Item{}
                         icon.source: "qrc:/assets/images/add.png"
+                        icon.color: "transparent"
                         icon.width: 64
                         icon.height: 64
                         opacity: 0.5

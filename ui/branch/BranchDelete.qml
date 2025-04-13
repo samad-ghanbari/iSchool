@@ -171,6 +171,7 @@ Page {
                                 font.family: "Kalameh"
                                 display: AbstractButton.TextUnderIcon
                                 icon.source: "qrc:/assets/images/trash3.png"
+                                icon.color:"transparent"
                                 icon.width: 64
                                 icon.height: 64
                                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
