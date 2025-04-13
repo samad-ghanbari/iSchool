@@ -311,7 +311,7 @@ Page {
                         //title : "نوع ارزیابی"
 
                         // per month flag
-                        RadioButton{
+                        Switch{
                             id: perMonthFlagSW
                             width: parent.width
                             height: 50
@@ -326,10 +326,16 @@ Page {
                                     maxGradeTF.text = 20;
                                 }
                             }
+                            onCheckedChanged:{
+                                if(!perMonthFlagSW.checked && ! midtermFlagSW.checked && ! formativeFlagSW.checked && !finalFlagSW.checked)
+                                {
+                                    perMonthFlagSW.checked = true;
+                                }
+                            }
                         }
 
                         // midterm flag
-                        RadioButton{
+                        Switch{
                             id: midtermFlagSW
                             width: parent.width
                             height: 50
@@ -339,10 +345,16 @@ Page {
                             checked: false
                             font.family: "Kalameh"
                             font.pixelSize: 16
+                            onCheckedChanged:{
+                                if(!perMonthFlagSW.checked && ! midtermFlagSW.checked && ! formativeFlagSW.checked && !finalFlagSW.checked)
+                                {
+                                    midtermFlagSW.checked = true;
+                                }
+                            }
                         }
 
                         // mostamar flag
-                        RadioButton{
+                        Switch{
                             id: formativeFlagSW
                             width: parent.width
                             height: 50
@@ -357,10 +369,16 @@ Page {
                                     maxGradeTF.text = 20;
                                 }
                             }
+                            onCheckedChanged:{
+                                if(!perMonthFlagSW.checked && ! midtermFlagSW.checked && ! formativeFlagSW.checked && !finalFlagSW.checked)
+                                {
+                                    formativeFlagSW.checked = true;
+                                }
+                            }
                         }
 
                         // final flag
-                        RadioButton{
+                        Switch{
                             id: finalFlagSW
                             width: parent.width
                             height: 50
@@ -370,6 +388,12 @@ Page {
                             checked: false
                             font.family: "Kalameh"
                             font.pixelSize: 16
+                            onCheckedChanged:{
+                                if(!perMonthFlagSW.checked && ! midtermFlagSW.checked && ! formativeFlagSW.checked && !finalFlagSW.checked)
+                                {
+                                    finalFlagSW.checked = true;
+                                }
+                            }
 
                         }
                     }

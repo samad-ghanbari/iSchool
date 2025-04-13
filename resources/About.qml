@@ -7,6 +7,8 @@ import QtQuick.Layouts
 Page {
     id: aboutPage
 
+    property string app_version : dbMan.getAppVersion();
+
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"; Image{source:"qrc:/assets/images/bg.png"; anchors.fill: parent; opacity: 0.5}}
 
     ColumnLayout
@@ -51,7 +53,7 @@ Page {
                     color: "darkslategray"
                     horizontalAlignment : Qt.AlignHCenter
                     verticalAlignment: Qt.AlignVCenter
-                    text: "Roshangaran School Management Application \n This application was developed with \n Qt LTS 6.5 release "
+                    text: "iSchool Version " + aboutPage.app_version + " \n This application was developed with \n Qt LTS 6.5 release "
                     NumberAnimation on scale{
                         from: 0.1; to: 1;
                         duration: 1000
