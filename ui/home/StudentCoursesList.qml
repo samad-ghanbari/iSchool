@@ -23,13 +23,14 @@ Page {
 
     required property StackView appStackView;
 
-    property bool per_month: true;
-    property bool midterm: false;
-    property bool formative: false;
-    property bool final_flag: false;
-    property bool semester_1: true;
-    property bool course_flag: true;
-    property bool test_flag: false;
+    property var lastEvals : dbMan.getLastEvals();
+    property bool per_month: lastEvals["per_month"];
+    property bool midterm: lastEvals["midterm"];
+    property bool formative: lastEvals["formative"];
+    property bool final_flag: lastEvals["final"];
+    property bool semester_1: (lastEvals["semester"] === 1)? true : false;
+    property bool course_flag: !lastEvals["test"];
+    property bool test_flag: lastEvals["test"];
 
     property bool onEditing : false
     required property var sceIds; // { mostamar:[], final:[], test:[]} one-student all-course
@@ -390,19 +391,29 @@ Page {
                             anchors.margins: 0;
 
                             RadioButton{
+                                id: sem1RB
                                 height: 50
                                 anchors.verticalCenter: parent.verticalCenter
                                 ButtonGroup.group: semesterBG
                                 text: "نیمسال اول"
                                 palette.text: (this.checked)? "steelblue" : "gray"
                                 palette.buttonText:  (this.checked)? "steelblue" : "gray"
-                                checked: true
+                                checked: studentCoursesPageId.semester_1
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
                                 onCheckedChanged: {
-                                    studentCoursesPageId.semester_1  = (this.checked)? true: false;
-                                    studentCoursesPageId.refreshPage();
+                                    if(checked)
+                                    {
+                                        dbMan.setLastSemester(1);
+                                        studentCoursesPageId.semester_1 = true;
+                                    }
+                                    else
+                                    {
+                                        dbMan.setLastSemester(2);
+                                        studentCoursesPageId.semester_1 = false;
+                                    }
 
+                                    studentCoursesPageId.refreshPage();
                                 }
                             }
                             RadioButton{
@@ -412,9 +423,23 @@ Page {
                                 text: "نیمسال دوم"
                                 palette.text:  (this.checked)? "steelblue" : "gray"
                                 palette.buttonText:  (this.checked)? "steelblue" : "gray"
-                                checked: false
+                                checked: !sem1RB.checked
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
+                                onCheckedChanged: {
+                                    if(checked)
+                                    {
+                                        dbMan.setLastSemester(2);
+                                        studentCoursesPageId.semester_1 = false;
+                                    }
+                                    else
+                                    {
+                                        dbMan.setLastSemester(1);
+                                        studentCoursesPageId.semester_1 = true;
+                                    }
+
+                                    studentCoursesPageId.refreshPage();
+                                }
                             }
                         }
                     }
@@ -443,9 +468,17 @@ Page {
                                 font.pixelSize: 14
                                 onCheckedChanged:{
                                     if(this.checked)
+                                    {
                                         studentCoursesPageId.test_flag = true;
+                                        dbMan.setLastTest(true);
+                                    }
                                     else
+                                    {
                                         studentCoursesPageId.test_flag = false;
+                                        dbMan.setLastTest(false);
+                                    }
+
+                                    studentCoursesPageId.refreshPage();
                                 }
                             }
                             RadioButton{
@@ -460,9 +493,17 @@ Page {
                                 font.pixelSize: 14
                                 onCheckedChanged:{
                                     if(this.checked)
+                                    {
                                         studentCoursesPageId.course_flag = true;
+                                        dbMan.setLastTest(false);
+                                    }
                                     else
+                                    {
                                         studentCoursesPageId.course_flag = false;
+                                        dbMan.setLastTest(true);
+                                    }
+
+                                    studentCoursesPageId.refreshPage();
                                 }
                             }
                         }
@@ -480,9 +521,15 @@ Page {
                         font.pixelSize: 14
                         onCheckedChanged:{
                             if(this.checked)
+                            {
                                 studentCoursesPageId.per_month = true;
+                                dbMan.setLastPerMonth(true);
+                            }
                             else
+                            {
                                 studentCoursesPageId.per_month = false;
+                                dbMan.setLastPerMonth(false);
+                            }
 
                             studentCoursesPageId.refreshPage();
                         }
@@ -499,9 +546,15 @@ Page {
                         font.pixelSize: 14
                         onCheckedChanged:{
                             if(this.checked)
+                            {
                                 studentCoursesPageId.midterm = true;
+                                dbMan.setLastMidterm(true);
+                            }
                             else
+                            {
                                 studentCoursesPageId.midterm = false;
+                                dbMan.setLastMidterm(false);
+                            }
 
                             studentCoursesPageId.refreshPage();
                         }
@@ -518,9 +571,15 @@ Page {
                         font.pixelSize: 14
                         onCheckedChanged:{
                             if(this.checked)
+                            {
                                 studentCoursesPageId.formative = true;
+                                dbMan.setLastFormative(true);
+                            }
                             else
+                            {
                                 studentCoursesPageId.formative = false;
+                                dbMan.setLastFormative(false);
+                            }
 
                             studentCoursesPageId.refreshPage();
                         }
@@ -537,9 +596,15 @@ Page {
                         font.pixelSize: 14
                         onCheckedChanged:{
                             if(this.checked)
+                            {
                                 studentCoursesPageId.final_flag = true;
+                                dbMan.setLastFinal(true);
+                            }
                             else
+                            {
                                 studentCoursesPageId.final_flag = false;
+                                dbMan.setLastFinal(false);
+                            }
 
                             studentCoursesPageId.refreshPage();
                         }

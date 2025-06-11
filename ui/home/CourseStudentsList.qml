@@ -21,13 +21,14 @@ Page {
 
     required property StackView appStackView;
 
-    property bool per_month: true;
-    property bool midterm: false;
-    property bool formative: false;
-    property bool final_flag: false;
-    property bool semester_1: true;
-    property bool course_flag: true;
-    property bool test_flag: false;
+    property var lastEvals : dbMan.getLastEvals();
+    property bool per_month: lastEvals["per_month"];
+    property bool midterm: lastEvals["midterm"];
+    property bool formative: lastEvals["formative"];
+    property bool final_flag: lastEvals["final"];
+    property bool semester_1: (lastEvals["semester"] === 1)? true : false;
+    property bool course_flag: !lastEvals["test"];
+    property bool test_flag: lastEvals["test"];
 
     property string activeEval;
     property bool onEditing : false;
@@ -154,6 +155,25 @@ Page {
                 return true;
 
         return false;
+    }
+
+
+
+    function refreshPage()
+    {
+        if(courseStudentsPageId.onEditing)
+        {
+            // save
+            var item = courseStudentsPageId.findItemRecursive(lv, "onEditItem", true);
+            while(item)
+            {
+                item.doneEdit();
+                //item.edit = false;
+                item = courseStudentsPageId.findItemRecursive(lv, "onEditItem", true);
+            }
+        }
+
+        courseStudentsPageId.onEditing = false;
     }
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
@@ -400,6 +420,7 @@ Page {
                             anchors.margins: 0;
 
                             RadioButton{
+                                id: sem1RB
                                 height: 50
                                 anchors.verticalCenter: parent.verticalCenter
                                 ButtonGroup.group: semesterBG
@@ -410,7 +431,18 @@ Page {
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
                                 onCheckedChanged: {
-                                    courseStudentsPageId.semester_1  = (this.checked)? true: false;
+                                    if(checked)
+                                    {
+                                        dbMan.setLastSemester(1);
+                                        courseStudentsPageId.semester_1 = true;
+                                    }
+                                    else
+                                    {
+                                        dbMan.setLastSemester(2);
+                                        courseStudentsPageId.semester_1 = false;
+                                    }
+
+                                    courseStudentsPageId.refreshPage();
                                 }
                             }
                             RadioButton{
@@ -420,9 +452,24 @@ Page {
                                 text: "نیمسال دوم"
                                 palette.text:  (this.checked)? "steelblue" : "gray"
                                 palette.buttonText:  (this.checked)? "steelblue" : "gray"
-                                checked: false
+                                checked: !sem1RB.checked
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
+                                onCheckedChanged: {
+                                    if(checked)
+                                    {
+                                        dbMan.setLastSemester(2);
+                                        courseStudentsPageId.semester_1 = false;
+                                    }
+                                    else
+                                    {
+                                        dbMan.setLastSemester(1);
+                                        courseStudentsPageId.semester_1 = true;
+                                    }
+
+                                    courseStudentsPageId.refreshPage();
+                                }
+
                             }
                         }
                     }
@@ -451,10 +498,19 @@ Page {
                                 font.pixelSize: 14
                                 onCheckedChanged:{
                                     if(this.checked)
+                                    {
                                         courseStudentsPageId.test_flag = true;
+                                        dbMan.setLastTest(true);
+                                    }
                                     else
+                                    {
                                         courseStudentsPageId.test_flag = false;
+                                        dbMan.setLastTest(false);
+                                    }
+
+                                    courseStudentsPageId.refreshPage();
                                 }
+
                             }
                             RadioButton{
                                 //width: parent.width
@@ -468,9 +524,17 @@ Page {
                                 font.pixelSize: 14
                                 onCheckedChanged:{
                                     if(this.checked)
+                                    {
                                         courseStudentsPageId.course_flag = true;
+                                        dbMan.setLastTest(false);
+                                    }
                                     else
+                                    {
                                         courseStudentsPageId.course_flag = false;
+                                        dbMan.setLastTest(true);
+                                    }
+
+                                    courseStudentsPageId.refreshPage();
                                 }
                             }
                         }
@@ -488,9 +552,17 @@ Page {
                         font.pixelSize: 14
                         onCheckedChanged:{
                             if(this.checked)
+                            {
                                 courseStudentsPageId.per_month = true;
+                                dbMan.setLastPerMonth(true);
+                            }
                             else
+                            {
                                 courseStudentsPageId.per_month = false;
+                                dbMan.setLastPerMonth(false);
+                            }
+
+                            courseStudentsPageId.refreshPage();
                         }
                     }
                     //midterm
@@ -505,9 +577,17 @@ Page {
                         font.pixelSize: 14
                         onCheckedChanged:{
                             if(this.checked)
+                            {
                                 courseStudentsPageId.midterm = true;
+                                dbMan.setLastMidterm(true);
+                            }
                             else
+                            {
                                 courseStudentsPageId.midterm = false;
+                                dbMan.setLastMidterm(false);
+                            }
+
+                            courseStudentsPageId.refreshPage();
                         }
                     }
                     //formative
@@ -522,9 +602,17 @@ Page {
                         font.pixelSize: 14
                         onCheckedChanged:{
                             if(this.checked)
+                            {
                                 courseStudentsPageId.formative = true;
+                                dbMan.setLastFormative(true);
+                            }
                             else
+                            {
                                 courseStudentsPageId.formative = false;
+                                dbMan.setLastFormative(false);
+                            }
+
+                            courseStudentsPageId.refreshPage();
                         }
                     }
                     //final
@@ -539,9 +627,17 @@ Page {
                         font.pixelSize: 14
                         onCheckedChanged:{
                             if(this.checked)
+                            {
                                 courseStudentsPageId.final_flag = true;
+                                dbMan.setLastFinal(true);
+                            }
                             else
+                            {
                                 courseStudentsPageId.final_flag = false;
+                                dbMan.setLastFinal(false);
+                            }
+
+                            courseStudentsPageId.refreshPage();
                         }
                     }
 
@@ -736,6 +832,7 @@ Page {
                                             height: 50
                                             width: 100
                                             color: "transparent"
+                                            property bool onEditItem : evalRecDel.edit
 
                                             function doneEdit()
                                             {
