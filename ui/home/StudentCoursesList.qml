@@ -772,7 +772,7 @@ Page {
 
                                                 function doneEdit()
                                                 {
-                                                    this.editFlag = false
+                                                    te.editFlag = false
                                                     studentCoursesPageId.onEditing = false
                                                     var v = parseFloat(te.text);
                                                     var scei = parseInt(evalRecDel.model["student_course_eval_id"]);
@@ -810,7 +810,7 @@ Page {
                                                 }
                                                 function okPressed()
                                                 {
-                                                    te.doneEdit();
+                                                    this.doneEdit();
                                                     let scei = parseInt(evalRecDel.model["student_course_eval_id"]);
                                                     let eval_name = evalRecDel.model["eval_name"];
                                                     let array = studentCoursesPageId.sceIds[eval_name]; // array
@@ -850,7 +850,7 @@ Page {
                                                 font.bold: true
                                                 color:"darkmagenta"
                                                 text:(this.value > -1000)? this.value :"";
-                                                visible: this.editFlag
+                                                visible: te.editFlag
                                                 Rectangle{height:2; width: parent.width; color: "olivedrab"; anchors.bottom:parent.bottom;}
                                                 validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
                                                     regularExpression: /^-?\d*\.?\d+$/
@@ -858,6 +858,7 @@ Page {
 
                                                 Keys.onTabPressed: te.okPressed();
                                                 Keys.onReturnPressed: te.okPressed();
+                                                Keys.onEnterPressed: te.okPressed();
                                                 Keys.onEscapePressed: te.cancelPressed();
 
                                                 Button{

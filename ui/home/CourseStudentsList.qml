@@ -808,7 +808,7 @@ Page {
                                                     courseStudentsPageId.onEditing = false;
                                                 }
                                                 Keys.onTabPressed: {
-                                                    parent.doneEdit();
+                                                    te.parent.doneEdit();
                                                     var scei = parseInt(evalRecDel.model["student_course_eval_id"]);
                                                     var eval_name = evalRecDel.model["eval_name"];
                                                     var array = courseStudentsPageId.sceIds[eval_name]; // array
@@ -833,7 +833,32 @@ Page {
                                                 }
 
                                                 Keys.onReturnPressed: {
-                                                    parent.doneEdit();
+                                                    te.parent.doneEdit();
+                                                    var scei = parseInt(evalRecDel.model["student_course_eval_id"]);
+                                                    var eval_name = evalRecDel.model["eval_name"];
+                                                    var array = courseStudentsPageId.sceIds[eval_name]; // array
+                                                    // find index
+                                                    var index = array.indexOf(scei) + 1;
+                                                    var nextScei = array[index];
+                                                    if(nextScei === undefined) return;
+                                                    // find record in repeater with property sceID equal to nextscei
+                                                    var item = courseStudentsPageId.findItemRecursive(lv, "sceID", nextScei);
+                                                    if(item){
+                                                        item.edit = true;
+                                                        item.cell.forceActiveFocus();
+                                                        courseStudentsPageId.onEditing = true;
+
+                                                        item = lv.itemAtIndex(rowEvalRep.modelIndex)
+                                                        if (item) {
+                                                            //flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
+                                                            lv.positionViewAtIndex(rowEvalRep.modelIndex, ListView.Center)
+                                                        }
+                                                    }
+
+                                                }
+
+                                                Keys.onEnterPressed: {
+                                                    te.parent.doneEdit();
                                                     var scei = parseInt(evalRecDel.model["student_course_eval_id"]);
                                                     var eval_name = evalRecDel.model["eval_name"];
                                                     var array = courseStudentsPageId.sceIds[eval_name]; // array
@@ -866,7 +891,7 @@ Page {
                                                     icon.height: 24
                                                     icon.color:"transparent"
                                                     opacity: 0.5
-                                                    onClicked: parent.parent.doneEdit();
+                                                    onClicked: te.parent.doneEdit();
                                                     hoverEnabled: true
                                                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                                                     anchors.right:parent.right
