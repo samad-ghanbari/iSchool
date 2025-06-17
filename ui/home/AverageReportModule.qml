@@ -21,7 +21,7 @@ Column {
     required property int class_id;
 
     property string evalType : "per_month" // midterm semester period
-    property int semester_number : 1
+    property int semester_number : (dbMan.getCurrentSemester() === 1)? 1 : 2;
 
     property var allEvals: dbMan.getEvals(); // [{eval-1}, {eval-2}]
 
@@ -214,7 +214,7 @@ Column {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 ButtonGroup.group: semesterGB
                 text: "نیمسال اول"
-                checked: true
+                checked: (reportPage.semester_number === 1)? true : false;
                 font.family: "Kalameh"
                 font.pixelSize: 16
                 palette.highlight: "darkmagenta"
@@ -244,7 +244,7 @@ Column {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 ButtonGroup.group: semesterGB
                 text: "نیمسال دوم"
-                checked: false
+                checked: (reportPage.semester_number === 2)? true : false;
                 font.family: "Kalameh"
                 font.pixelSize: 16
                 palette.highlight: "darkmagenta"
@@ -275,7 +275,7 @@ Column {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 ButtonGroup.group: semesterGB
                 text: "سال‌تحصیلی"
-                checked: false
+                checked: (reportPage.semester_number === 0)? true : false;
                 font.family: "Kalameh"
                 font.pixelSize: 16
                 palette.highlight: "darkmagenta"
