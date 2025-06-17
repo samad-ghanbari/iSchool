@@ -1031,6 +1031,7 @@ Page {
     {
         id: evalSelectionDialog
         model : studentCoursesPageId.class_evals
+        selected_semester: studentCoursesPageId.semester_1? 1 : 2;
         onEvalSelected: (eval_id)=>{
                             saveFileDialog.eval_id = eval_id;
                             saveFileDialog.open();

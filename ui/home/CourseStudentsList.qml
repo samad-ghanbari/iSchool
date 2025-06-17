@@ -427,7 +427,7 @@ Page {
                                 text: "نیمسال اول"
                                 palette.text: (this.checked)? "steelblue" : "gray"
                                 palette.buttonText:  (this.checked)? "steelblue" : "gray"
-                                checked: true
+                                checked: courseStudentsPageId.semester_1
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
                                 onCheckedChanged: {
@@ -1285,6 +1285,7 @@ Page {
     {
         id: evalSelectionDialog
         model : courseStudentsPageId.class_evals
+        selected_semester: courseStudentsPageId.semester_1? 1 : 2;
         onEvalSelected: (eval_id)=>{
                             saveFileDialog.eval_id = eval_id;
                             saveFileDialog.open();

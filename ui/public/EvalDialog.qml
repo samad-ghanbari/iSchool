@@ -7,6 +7,7 @@ Dialog
     id : evalDialogBox
 
     required property var model; // [{}]
+    property int selected_semester : 1;
     closePolicy:Popup.NoAutoClose
     signal evalSelected(var eval_id);
 
@@ -16,7 +17,8 @@ Dialog
         let sem;
         for(var obj of evalDialogBox.model){
             sem = (obj.semester === 1)? "نیمسال اول" : "نیمسال دوم";
-            evalModel.append({"text": obj.eval_name + " - " + sem, "value": obj.id });
+            if( obj.semester === evalDialogBox.selected_semester )
+                evalModel.append({"text": obj.eval_name + " - " + sem, "value": obj.id });
         }
         cb.currentIndex = -1;
         okBtn.enabled = false

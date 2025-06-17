@@ -28,7 +28,7 @@ Item {
     property var test_evals: []
     property var eids :{ "semester1": -601, "semester2": -602, "semester_avg":-612, "formative_avg": -400, "final_avg": -500, "per_month_avg":-12, "class_rank": -24, "base_rank": -124, "test_avg":-10, "midterm_avg": -5, "base_avg": -19, "max_grade": -20}
 
-    property int semester_Number : 1 // 0 1 2      0:studyPeriod   1:semester1    2:semester2
+    property int semester_Number : (dbMan.getCurrentSemester() === 1)? 1 : 2; // 0 1 2      0:studyPeriod   1:semester1    2:semester2
 
     property bool per_month_transcript : true;
     property bool midterm_transcript : false
@@ -450,7 +450,7 @@ Item {
                                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                                     ButtonGroup.group: semesterGB
                                     text: "نیمسال اول"
-                                    checked: true
+                                    checked: (settingPage.semester_Number === 1)? true : false;
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     palette.highlight: "darkmagenta"
@@ -484,7 +484,7 @@ Item {
                                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                                     ButtonGroup.group: semesterGB
                                     text: "نیمسال دوم"
-                                    checked: false
+                                    checked: (settingPage.semester_Number === 2)? true : false;
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     palette.highlight: "darkmagenta"
@@ -520,7 +520,7 @@ Item {
                                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                                     ButtonGroup.group: semesterGB
                                     text: "سال‌تحصیلی"
-                                    checked: false
+                                    checked: (settingPage.semester_Number === 3)? true : false;
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     palette.highlight: "darkmagenta"
