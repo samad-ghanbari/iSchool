@@ -21,6 +21,9 @@
 # copy all dll and lib files inside psql/bin folder and place in setup folder
 # open inno software and give exe and setup folder  and compile it to create setup
 
+#tag
+# git tag -a Version-3.0.2 -m “Release on 1404-03-28 ”
+
 cmake_minimum_required(VERSION 3.16)
 
 project(iSchool VERSION 0.1 LANGUAGES CXX)
