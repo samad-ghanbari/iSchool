@@ -1,6 +1,6 @@
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Basic
 import QtQuick.Layouts
 
 ToolBar {
@@ -39,7 +39,7 @@ ToolBar {
             // text: "صفحه‌اصلی"
             // font.family: "Kalameh"
             // font.pixelSize: 16
-            background: Item{}
+            //background: Item{}
             onClicked:
             {
                 toolbarId.appStackView.pop(null);
@@ -58,7 +58,7 @@ ToolBar {
             Layout.preferredHeight:  64
             Layout.preferredWidth:  64
             Layout.alignment: Qt.AlignRight
-            background: Item{}
+            //background: Item{}
             icon.source: "qrc:/assets/images/info.png"
             icon.width: 32
             icon.height: 32

@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Dialogs
-import QtQuick.Controls
+import QtQuick.Controls.Fusion
 import QtQuick.Layouts
 
 import "./../public" as DialogBox

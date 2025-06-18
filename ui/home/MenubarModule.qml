@@ -1,7 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Fusion
 
 import "./../user/" as UserModule
 import "./../branch/"

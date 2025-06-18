@@ -1,5 +1,5 @@
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Fusion
 import QtQuick.Layouts
 import QtQuick.Dialogs
 
@@ -1044,6 +1044,7 @@ Page {
     {
         id: evalSelectionRefreshDialog
         model : studentCoursesPageId.class_evals
+        selected_semester: studentCoursesPageId.semester_1? 1 : 2;
         onEvalSelected: (eval_id)=>{
                             studentCoursesPageId.refreshEval(eval_id);
                             evalSelectionRefreshDialog.close();

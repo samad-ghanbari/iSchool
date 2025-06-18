@@ -1,5 +1,5 @@
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Fusion
 import QtQuick.Layouts
 import QtQuick.Dialogs
 
@@ -520,7 +520,7 @@ Item {
                                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                                     ButtonGroup.group: semesterGB
                                     text: "سال‌تحصیلی"
-                                    checked: (settingPage.semester_Number === 3)? true : false;
+                                    checked: (settingPage.semester_Number === 0)? true : false;
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                     palette.highlight: "darkmagenta"

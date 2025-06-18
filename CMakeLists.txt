@@ -3,6 +3,7 @@
 # Qt Version:   Qt 6.5.3
 # Postgresql:   16.6
 # find . -type f -name "*.qml" -exec sed -i 's/B Yekan/Kalameh/g' {} +
+# find . -type f -name "*.qml" -exec sed -i 's/import QtQuick.Controls.Basic/import QtQuick.Controls/g' {} +
 
 # QXlsx v1.5
 # https://github.com/QtExcel/QXlsx/releases
