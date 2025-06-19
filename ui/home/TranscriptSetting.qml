@@ -1574,8 +1574,8 @@ Item {
     FileDialog {
         id: saveFileDialog
         title: "محل ذخیره گزارش"
-        currentFolder: "file:///home/samad"
-        //currentFolder: "C:/Users/YourUsername/Documents"
+        //currentFolder: "file:///home/samad"
+        currentFolder: "C:/"
         nameFilters: ["PDF Files (*.pdf)", "All Files (*)"]
         fileMode: FileDialog.SaveFile
         onAccepted:{
@@ -1735,8 +1735,8 @@ Item {
     FolderDialog {
         id: saveFolderDialog
         title: "محل ذخیره گزارش"
-        currentFolder: "file:///home/samad"
-        //currentFolder: "C:/Users/YourUsername/Documents"
+        //currentFolder: "file:///home/samad"
+        currentFolder: "C:/"
         onAccepted:{
             let class_id = settingPage.class_id
             let class_name = settingPage.class_name
