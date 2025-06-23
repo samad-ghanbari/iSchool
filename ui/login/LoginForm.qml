@@ -194,4 +194,5 @@ Page {
 
     Component.onCompleted: usernameField.forceActiveFocus();
     Keys.onReturnPressed: loginBtnClicked();
+    Keys.onEnterPressed: loginBtnClicked();
 }
