@@ -208,8 +208,7 @@ Page {
                             classCoursePageId.appStackView.push(courseStudentsComponent,  {
                                                                     objectName: "courseStudentON",
                                                                     course_id: recdel.model.id,
-                                                                    course_name: recdel.model.course_name,
-                                                                    sceIds : dbMan.getCategorisedCourseSCEIds(classCoursePageId.class_id, recdel.model.id)
+                                                                    course_name: recdel.model.course_name
                                                                 });
                         }
                     }

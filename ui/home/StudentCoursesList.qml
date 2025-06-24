@@ -23,6 +23,7 @@ Page {
 
     required property StackView appStackView;
 
+    property int register_id :  dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
     property var lastEvals : dbMan.getLastEvals();
     property bool per_month: lastEvals["per_month"];
     property bool midterm: lastEvals["midterm"];
@@ -33,7 +34,7 @@ Page {
     property bool test_flag: lastEvals["test"];
 
     property bool onEditing : false
-    required property var sceIds; // { mostamar:[], final:[], test:[]} one-student all-course
+    property var sceIds: dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1)
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -56,7 +57,7 @@ Page {
         if(dbMan.refreshStudentEvals(studentCoursesPageId.class_id, studentCoursesPageId.student_id))
         {
             studentCoursesPageId.class_evals = dbMan.getClassEvalsArray(studentCoursesPageId.class_id);
-            studentCoursesPageId.sceIds = dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id)
+            studentCoursesPageId.sceIds = dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1)
 
 
             infoDialogId.dialogSuccess = true
@@ -80,7 +81,7 @@ Page {
         if(dbMan.refreshStudentEval(studentCoursesPageId.class_id, studentCoursesPageId.student_id, eval_id))
         {
             studentCoursesPageId.class_evals = dbMan.getClassEvalsArray(studentCoursesPageId.class_id);
-            studentCoursesPageId.sceIds = dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id)
+            studentCoursesPageId.sceIds = dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1)
 
 
             infoDialogId.dialogSuccess = true
@@ -159,6 +160,25 @@ Page {
         }
 
         studentCoursesPageId.onEditing = false;
+    }
+
+    function updateListViewModel()
+    {
+        let ind = lv.indexAt(lv.contentX, lv.contentY);
+        lvModel.clear();
+        lvModel.modelReset();
+
+        var register_id = studentCoursesPageId.register_id
+        var jsonarray = dbMan.getStudentCourses_evals(register_id);
+        //0sc.id, 1sc.register_id, 2sc.course_id, 3co.course_name, 4co.step_id, 5co.base_id, 6co.period_id,
+        //7co.course_coefficient, 8co.test_coefficient, 9co.shared_coefficient, 10co.final_weight, 11co.shared_weight
+        // evals [{}, {}] : {sce.student_course_eval_id, sce.student_course_id, sce.eval_id, e.eval_name, e.base_id, e.period_id, e.test_flag, e.final_flag, e.per_month, e.midterm, e.formative, e.semester, e.max_grade, sce.grade, sce.eval_time, sce.included}
+        for(var obj of jsonarray)
+        {
+            lvModel.append(obj);
+        }
+
+        lv.positionViewAtIndex(ind,ListView.Beginning);
     }
 
     ColumnLayout
@@ -406,11 +426,13 @@ Page {
                                     {
                                         dbMan.setLastSemester(1);
                                         studentCoursesPageId.semester_1 = true;
+                                        dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1)
                                     }
                                     else
                                     {
                                         dbMan.setLastSemester(2);
                                         studentCoursesPageId.semester_1 = false;
+                                        dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1)
                                     }
 
                                     studentCoursesPageId.refreshPage();
@@ -637,19 +659,11 @@ Page {
                     height: Math.max(lv.contentHeight ,  mainBox.height)
                     model: ListModel{id: lvModel;}
                     delegate:lvDelegate
+
                     clip: true
                     Component.onCompleted: {
-                        lvModel.clear();
-                        let cnt;
-                        var register_id = dbMan.getRegisterId(studentCoursesPageId.class_id, studentCoursesPageId.student_id);
-                        var jsonarray = dbMan.getStudentCourses_evals(register_id);
-                        //0sc.id, 1sc.register_id, 2sc.course_id, 3co.course_name, 4co.step_id, 5co.base_id, 6co.period_id,
-                        //7co.course_coefficient, 8co.test_coefficient, 9co.shared_coefficient, 10co.final_weight, 11co.shared_weight
-                        // evals [{}, {}] : {sce.student_course_eval_id, sce.student_course_id, sce.eval_id, e.eval_name, e.base_id, e.period_id, e.test_flag, e.final_flag, e.per_month, e.midterm, e.formative, e.semester, e.max_grade, sce.grade, sce.eval_time, sce.included}
-                        for(var obj of jsonarray)
-                        {
-                            lvModel.append(obj);
-                        }
+
+                        studentCoursesPageId.updateListViewModel();
 
                         lv.width = Math.max(lv.contentWidth , flk.width, mainBox.width)
                         lv.height = Math.max(lv.contentHeight , flk.height, mainBox.height)
@@ -663,8 +677,6 @@ Page {
                     }
                 }
             }
-
-
         }
     }
 
@@ -883,8 +895,16 @@ Page {
                                                     let index = array.indexOf(scei) + 1;
                                                     let nextScei = array[index];
                                                     if(index > array.length) nextScei =-1;
-                                                    if(nextScei === undefined) return;
-                                                    if(nextScei === -1) return;
+                                                    if(nextScei === undefined)
+                                                    {
+                                                        studentCoursesPageId.updateListViewModel();
+                                                        return;
+                                                    }
+                                                    if(nextScei === -1)
+                                                    {
+                                                        studentCoursesPageId.updateListViewModel();
+                                                        return;
+                                                    }
                                                     // find record in repeater with property sceID equal to nextscei
                                                     let item = studentCoursesPageId.findItemRecursive(lv, "sceID", nextScei);
                                                     if(item){
@@ -895,7 +915,7 @@ Page {
                                                         item = lv.itemAtIndex(rowEvalRep.modelIndex)
                                                         if (item) {
                                                             //flk.contentY = item.y - flk.height / 2  + 400; //+ item.height / 2
-                                                            lv.positionViewAtIndex(rowEvalRep.modelIndex, ListView.Center)
+                                                            lv.positionViewAtIndex(rowEvalRep.modelIndex, ListView.Beginning)
                                                         }
                                                     }
                                                 }
@@ -904,6 +924,7 @@ Page {
                                                     te.editFlag = false
                                                     studentCoursesPageId.onEditing = false
                                                     te.text = (te.value > -1000)? te.value : ""
+                                                    studentCoursesPageId.updateListViewModel();
                                                 }
 
                                                 height: 40
@@ -935,7 +956,11 @@ Page {
                                                     icon.height: 24
                                                     icon.color:"transparent"
                                                     opacity: 0.5
-                                                    onClicked: te.doneEdit();
+                                                    onClicked:
+                                                    {
+                                                        te.doneEdit();
+                                                        studentCoursesPageId.updateListViewModel();
+                                                    }
                                                     hoverEnabled: true
                                                     onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
                                                     anchors.right:parent.right

@@ -338,8 +338,7 @@ Page {
                                             classStudentsPageId.appStackView.push(studentCoursesComponent, {
                                                                                       student: recdel.model.name + " " + recdel.model.lastname,
                                                                                       student_id: recdel.model.id,
-                                                                                      student_photo: photo,
-                                                                                      sceIds : dbMan.getCategorisedSCEIds(classStudentsPageId.class_id, recdel.model.id)
+                                                                                      student_photo: photo
                                                                                   });
                                         }
 
