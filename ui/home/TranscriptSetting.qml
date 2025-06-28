@@ -294,6 +294,7 @@ Item {
             testRefRow.visible = true
             testCompareRef.currentIndex = 0;
             testAvgSW.visible = true
+            baseTestAvgSW.visible = true
             if(testAvgSW.checked)
                 testRefModel.append({"text": "میانگین تست", value: -10})
         }
@@ -303,6 +304,7 @@ Item {
             testCompareRef.currentIndex = -1;
             testAvgSW.visible = false
             testAvgSW.checked = false
+            baseTestAvgSW.visible = false
         }
 
         if(refModel.count > 0)
@@ -889,12 +891,32 @@ Item {
                                 }
 
                                 Switch{
+                                    id: baseTestAvgSW
+                                    width: parent.width
+                                    height: 50
+                                    palette.highlight: "indianred"
+                                    palette.text: (this.checked)? "indianred" : "gray"
+                                    text: "میانگین تست پایه"
+                                    visible:{
+                                        if(settingPage.test_evals.length > 0 )
+                                        {
+                                            return true;
+                                        }
+                                        else
+                                            return false;
+                                    }
+                                    checked: true
+                                    font.family: "Kalameh"
+                                    font.pixelSize: 16
+                                }
+
+                                Switch{
                                     id: testAvgSW
                                     width: parent.width
                                     height: 50
                                     palette.highlight: "indianred"
                                     palette.text: (this.checked)? "indianred" : "gray"
-                                    text: "میانگین تست"
+                                    text: "میانگین تست‌های یک درس"
                                     visible:{
                                         if(settingPage.test_evals.length > 0 )
                                         {
@@ -1635,9 +1657,13 @@ Item {
             let formativeAvgField = formativeAvgSW.checked;
             let finalAvgField = finalAvgSW.checked;
             let testAvgField = testAvgSW.checked
+            let baseTestAvgField = baseTestAvgSW.checked
 
             if(test_evals.length < 1)
+            {
                 testAvgField = false;
+                baseTestAvgField = false;
+            }
 
             if(semester_Number > 0)
             {
@@ -1694,7 +1720,8 @@ Item {
                     "per_month_avg": perMonthAvgField,
                     "formative_avg" : formativeAvgField,
                     "final_avg" : finalAvgField,
-                    "test_avg" : testAvgField
+                    "test_avg" : testAvgField,
+                    "base_test_avg": baseTestAvgField
                 }
                 ,
                 "fieldBased_flag" : settingPage.fieldBased_flag,
@@ -1791,10 +1818,14 @@ Item {
             let perMonthAvgField = perMonthAvgSW.checked;
             let formativeAvgField = formativeAvgSW.checked;
             let finalAvgField = finalAvgSW.checked;
-            let testAvgField = testAvgSW.checked
+            let testAvgField = testAvgSW.checked;
+            let baseTestAvgField = baseTestAvgSW.checked
 
             if(test_evals.length < 1)
+            {
                 testAvgField = false;
+                baseTestAvgField = false;
+            }
 
             if(semester_Number > 0)
             {
@@ -1850,7 +1881,8 @@ Item {
                     "per_month_avg": perMonthAvgField,
                     "formative_avg" : formativeAvgField,
                     "final_avg" : finalAvgField,
-                    "test_avg" : testAvgField
+                    "test_avg" : testAvgField,
+                    "base_test_avg": baseTestAvgField
                 }
                 ,
                 "fieldBased_flag" : settingPage.fieldBased_flag,
