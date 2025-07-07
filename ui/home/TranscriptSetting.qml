@@ -30,9 +30,9 @@ Item {
 
     property int semester_Number : (dbMan.getCurrentSemester() === 1)? 1 : 2; // 0 1 2      0:studyPeriod   1:semester1    2:semester2
 
-    property bool per_month_transcript : true;
+    property bool per_month_transcript : false;
     property bool midterm_transcript : false
-    property bool semester_transcript : false
+    property bool semester_transcript : true
     property bool period_transcript : false
 
     property bool advisorComment : false;
@@ -469,8 +469,8 @@ Item {
 
                                         if(checked){
                                             settingPage.semester_Number = 1;
-                                            perMonthTSW.checked = true
-                                            settingPage.per_month_transcript = true
+                                            semesterTSW.checked = true
+                                            settingPage.semester_transcript = true
                                         }
 
                                         settingPage.updateEvalsModel();
@@ -505,8 +505,8 @@ Item {
                                         if(checked)
                                         {
                                             settingPage.semester_Number = 2;
-                                            perMonthTSW.checked = true
-                                            settingPage.per_month_transcript = true
+                                            semesterTSW.checked = true
+                                            settingPage.semester_transcript = true
                                         }
 
                                         settingPage.updateEvalsModel();
@@ -573,7 +573,7 @@ Item {
                                     Layout.preferredHeight:  50
                                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                                     text: "کارنامه ماهیانه"
-                                    checked: true
+                                    checked: false
                                     ButtonGroup.group: transcriptBG
                                     visible: (settingPage.semester_Number > 0)? true : false
                                     font.family: "Kalameh"
@@ -625,7 +625,7 @@ Item {
                                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                                     ButtonGroup.group: transcriptBG
                                     text: "کارنامه نیمسال"
-                                    checked: false
+                                    checked: true
                                     visible: (settingPage.semester_Number > 0)? true : false
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
