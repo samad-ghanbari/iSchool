@@ -1435,6 +1435,50 @@ Item {
                             height: 50
                             Label{
                                 Layout.preferredHeight: 50
+                                Layout.preferredWidth: 300
+                                Layout.alignment: Qt.AlignLeft
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                color: "darkslategray"
+                                text:"اندازه ارتفاع سطرهای جدول: "
+                            }
+                            ComboBox{
+                                id: cellHeightCB
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                font.bold: false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                model: ListModel{id: cellHeightModel}
+                                textRole: "text"
+                                valueRole: "value"
+                                Component.onCompleted:
+                                {
+                                    cellHeightModel.append({text: "28", value: 28});
+                                    cellHeightModel.append({text: "30", value: 30});
+                                    cellHeightModel.append({text: "32", value: 32});
+                                    cellHeightModel.append({text: "34", value: 34});
+                                    cellHeightModel.append({text: "36", value: 36});
+                                    cellHeightModel.append({text: "38", value: 38});
+                                    cellHeightModel.append({text: "40", value: 40});
+                                    cellHeightModel.append({text: "42", value: 42});
+                                    cellHeightModel.append({text: "44", value: 44});
+                                    cellHeightModel.append({text: "46", value: 46});
+                                    cellHeightModel.append({text: "48", value: 48});
+                                    cellHeightModel.append({text: "50", value: 50});
+
+                                    cellHeightCB.currentIndex = cellHeightCB.indexOfValue(30)
+                                }
+                            }
+                        }
+
+                        RowLayout{
+                            width: parent.width
+                            height: 50
+                            Label{
+                                Layout.preferredHeight: 50
                                 Layout.fillWidth: true
                                 Layout.alignment: Qt.AlignLeft
                                 horizontalAlignment: Label.AlignLeft
@@ -1736,7 +1780,8 @@ Item {
                     "paperSize": paperSizeCB.currentValue,
                     "fontFamily" : fontCB.currentValue,
                     "contentFontSize": contentFontSizeCB.currentValue,
-                    "titrFontSize": titrFontSizeCB.currentValue
+                    "titrFontSize": titrFontSizeCB.currentValue,
+                    "cellHeight" : cellHeightCB.currentValue
                 }
             }
 
@@ -1897,7 +1942,8 @@ Item {
                     "paperSize": paperSizeCB.currentValue,
                     "fontFamily" : fontCB.currentValue,
                     "contentFontSize": contentFontSizeCB.currentValue,
-                    "titrFontSize": titrFontSizeCB.currentValue
+                    "titrFontSize": titrFontSizeCB.currentValue,
+                    "cellHeight" : cellHeightCB.currentValue
                 }
             }
 
