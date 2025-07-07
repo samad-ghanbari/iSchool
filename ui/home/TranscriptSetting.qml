@@ -1269,6 +1269,16 @@ Item {
 
                             }
                         }
+
+                        // postscript
+                        Label{
+                            color: "darkgray"
+                            text: "پی‌نوشت"
+                            width: parent.width
+                            horizontalAlignment: Label.AlignLeft
+                        }
+
+
                     }
                 }
 
