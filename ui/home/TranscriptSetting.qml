@@ -291,6 +291,10 @@ Item {
 
         if(test_evals.length > 0)
         {
+            testCellHeightRL.visible = true;
+            cellHeight1CB.currentIndex = cellHeight1CB.indexOfValue(10);
+            cellHeight2CB.currentIndex = cellHeight2CB.indexOfValue(10);
+
             testRefRow.visible = true
             testCompareRef.currentIndex = 0;
             testAvgSW.visible = true
@@ -300,6 +304,10 @@ Item {
         }
         else
         {
+            testCellHeightRL.visible = false;
+            cellHeight1CB.currentIndex = cellHeight1CB.indexOfValue(20);
+            cellHeight2CB.currentIndex = cellHeight2CB.indexOfValue(10);
+
             testRefRow.visible = false;
             testCompareRef.currentIndex = -1;
             testAvgSW.visible = false
@@ -1442,34 +1450,90 @@ Item {
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
                                 color: "darkslategray"
-                                text:"اندازه ارتفاع سطرهای جدول: "
+                                text:"ارتفاع سطرهای جدول: "
                             }
                             ComboBox{
-                                id: cellHeightCB
+                                id: cellHeight1CB
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 50
                                 font.bold: false
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
-                                model: ListModel{id: cellHeightModel}
+                                model: ListModel{id: cellHeight1Model}
                                 textRole: "text"
                                 valueRole: "value"
                                 Component.onCompleted:
                                 {
-                                    cellHeightModel.append({text: "28", value: 28});
-                                    cellHeightModel.append({text: "30", value: 30});
-                                    cellHeightModel.append({text: "32", value: 32});
-                                    cellHeightModel.append({text: "34", value: 34});
-                                    cellHeightModel.append({text: "36", value: 36});
-                                    cellHeightModel.append({text: "38", value: 38});
-                                    cellHeightModel.append({text: "40", value: 40});
-                                    cellHeightModel.append({text: "42", value: 42});
-                                    cellHeightModel.append({text: "44", value: 44});
-                                    cellHeightModel.append({text: "46", value: 46});
-                                    cellHeightModel.append({text: "48", value: 48});
-                                    cellHeightModel.append({text: "50", value: 50});
+                                    cellHeight1Model.append({text: "8", value: 8});
+                                    cellHeight1Model.append({text: "10", value: 10});
+                                    cellHeight1Model.append({text: "12", value: 12});
+                                    cellHeight1Model.append({text: "14", value: 14});
+                                    cellHeight1Model.append({text: "16", value: 16});
+                                    cellHeight1Model.append({text: "18", value: 18});
+                                    cellHeight1Model.append({text: "20", value: 20});
+                                    cellHeight1Model.append({text: "22", value: 22});
+                                    cellHeight1Model.append({text: "24", value: 24});
+                                    cellHeight1Model.append({text: "26", value: 26});
+                                    cellHeight1Model.append({text: "28", value: 28});
+                                    cellHeight1Model.append({text: "30", value: 30});
+                                    cellHeight1Model.append({text: "32", value: 32});
+                                    cellHeight1Model.append({text: "34", value: 34});
+                                    cellHeight1Model.append({text: "36", value: 36});
+                                    cellHeight1Model.append({text: "38", value: 38});
+                                    cellHeight1Model.append({text: "40", value: 40});
 
-                                    cellHeightCB.currentIndex = cellHeightCB.indexOfValue(30)
+                                    cellHeight1CB.currentIndex = cellHeight1CB.indexOfValue(10)
+                                }
+                            }
+                        }
+
+                        RowLayout{
+                            width: parent.width
+                            height: 50
+                            id: testCellHeightRL
+
+                            Label{
+                                Layout.preferredHeight: 50
+                                Layout.preferredWidth: 300
+                                Layout.alignment: Qt.AlignLeft
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                color: "darkslategray"
+                                text:"ارتفاع سطرهای جدول تست: "
+                            }
+                            ComboBox{
+                                id: cellHeight2CB
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 50
+                                font.bold: false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                model: ListModel{id: cellHeight2Model}
+                                textRole: "text"
+                                valueRole: "value"
+                                Component.onCompleted:
+                                {
+                                    cellHeight2Model.append({text: "8", value: 8});
+                                    cellHeight2Model.append({text: "10", value: 10});
+                                    cellHeight2Model.append({text: "12", value: 12});
+                                    cellHeight2Model.append({text: "14", value: 14});
+                                    cellHeight2Model.append({text: "16", value: 16});
+                                    cellHeight2Model.append({text: "18", value: 18});
+                                    cellHeight2Model.append({text: "20", value: 20});
+                                    cellHeight2Model.append({text: "22", value: 22});
+                                    cellHeight2Model.append({text: "24", value: 24});
+                                    cellHeight2Model.append({text: "26", value: 26});
+                                    cellHeight2Model.append({text: "28", value: 28});
+                                    cellHeight2Model.append({text: "30", value: 30});
+                                    cellHeight2Model.append({text: "32", value: 32});
+                                    cellHeight2Model.append({text: "34", value: 34});
+                                    cellHeight2Model.append({text: "36", value: 36});
+                                    cellHeight2Model.append({text: "38", value: 38});
+                                    cellHeight2Model.append({text: "40", value: 40});
+
+                                    cellHeight2CB.currentIndex = cellHeight2CB.indexOfValue(10)
                                 }
                             }
                         }
@@ -1781,7 +1845,8 @@ Item {
                     "fontFamily" : fontCB.currentValue,
                     "contentFontSize": contentFontSizeCB.currentValue,
                     "titrFontSize": titrFontSizeCB.currentValue,
-                    "cellHeight" : cellHeightCB.currentValue
+                    "cellHeight1" : cellHeight1CB.currentValue,
+                    "cellHeight2" : cellHeight2CB.currentValue
                 }
             }
 
@@ -1943,7 +2008,8 @@ Item {
                     "fontFamily" : fontCB.currentValue,
                     "contentFontSize": contentFontSizeCB.currentValue,
                     "titrFontSize": titrFontSizeCB.currentValue,
-                    "cellHeight" : cellHeightCB.currentValue
+                    "cellHeight1" : cellHeight1CB.currentValue,
+                    "cellHeight2" : cellHeight2CB.currentValue
                 }
             }
 
