@@ -1272,13 +1272,75 @@ Item {
 
                         // postscript
                         Label{
-                            color: "darkgray"
+                            color: "mediumorchid"
                             text: "پی‌نوشت"
                             width: parent.width
                             horizontalAlignment: Label.AlignLeft
                         }
+                        GroupBox{
+                            width: parent.width
+                            height:postSCol.implicitHeight + 50
 
+                            Column{
+                                id: postSCol
+                                width: parent.width
+                                spacing: 5
 
+                                RowLayout{
+                                    width: parent.width
+                                    height: 50
+                                    Label{
+                                        Layout.preferredHeight: 50
+                                        Layout.preferredWidth: 150
+                                        Layout.alignment: Qt.AlignLeft
+                                        horizontalAlignment: Label.AlignLeft
+                                        verticalAlignment: Label.AlignVCenter
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        text:"متن امضا: "
+                                        color: "mediumorchid"
+                                    }
+                                    TextField{
+                                        id: sigTF
+                                        Layout.fillWidth: true
+                                        Layout.preferredHeight: 50
+                                        font.bold: false
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        Component.onCompleted: {}
+                                    }
+                                }
+
+                                RowLayout{
+                                    width: parent.width
+                                    height: 300
+                                    Label{
+                                        Layout.preferredHeight: 50
+                                        Layout.preferredWidth: 150
+                                        Layout.alignment: Qt.AlignLeft
+                                        horizontalAlignment: Label.AlignLeft
+                                        verticalAlignment: Label.AlignVCenter
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        text:"اطلاعات پی‌نوشت: "
+                                        color: "mediumorchid"
+                                    }
+                                    TextArea{
+                                        id: infoPostSTA
+                                        Layout.fillWidth: true
+                                        Layout.preferredHeight: 300
+                                        font.bold: false
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        Component.onCompleted: {}
+                                        background: Rectangle {
+                                                    color: "#fff"
+                                                    border.color: "#888"
+                                                }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
