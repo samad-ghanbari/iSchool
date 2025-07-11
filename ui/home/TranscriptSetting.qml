@@ -1504,7 +1504,7 @@ Item {
                                     contentFSModel.append({text: "18", value: 18});
                                     contentFSModel.append({text: "20", value: 20});
 
-                                    contentFontSizeCB.currentIndex = contentFontSizeCB.indexOfValue(14)
+                                    contentFontSizeCB.currentIndex = contentFontSizeCB.indexOfValue(16)
                                 }
                             }
                         }
@@ -1543,7 +1543,7 @@ Item {
                                     titrFontModel.append({text: "18 Bold", value: 18});
                                     titrFontModel.append({text: "20 Bold", value: 20});
 
-                                    titrFontSizeCB.currentIndex = titrFontSizeCB.indexOfValue(12)
+                                    titrFontSizeCB.currentIndex = titrFontSizeCB.indexOfValue(14)
                                 }
                             }
                         }
