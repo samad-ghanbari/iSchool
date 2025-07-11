@@ -303,6 +303,7 @@ Item {
             testAvgSW.visible = true
             baseTestAvgSW.visible = true
             predefinedTestBaseAvgSW.visible = true
+            predefinedTestBaseAvgSW.checked = true
             if(testAvgSW.checked)
                 testRefModel.append({"text": "میانگین تست", value: -10})
         }
@@ -1322,7 +1323,7 @@ Item {
 
                         // postscript
                         Label{
-                            color: "mediumorchid"
+                            color: "mediumblue"
                             text: "پی‌نوشت"
                             width: parent.width
                             horizontalAlignment: Label.AlignLeft
@@ -1348,7 +1349,7 @@ Item {
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         text:"متن امضا: "
-                                        color: "mediumorchid"
+                                        color: "mediumblue"
                                     }
                                     TextField{
                                         id: sigTF
@@ -1373,7 +1374,7 @@ Item {
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         text:"اطلاعات پی‌نوشت: "
-                                        color: "mediumorchid"
+                                        color: "mediumblue"
                                     }
                                     TextArea{
                                         id: infoPostSTA
@@ -1400,12 +1401,12 @@ Item {
                                         verticalAlignment: Label.AlignVCenter
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
-                                        text:"حاشیه بالایی: "
-                                        color: "mediumorchid"
+                                        text:"حاشیه بالا: "
+                                        color: "mediumblue"
                                     }
                                     SpinBox{
                                         id: postScriptTMargin
-                                        Layout.fillWidth: true
+                                        Layout.preferredWidth: 100
                                         Layout.preferredHeight: 50
                                         font.bold: false
                                         font.family: "Kalameh"
@@ -1413,6 +1414,10 @@ Item {
                                         value: 10
                                         from: 0
                                         to: 200
+                                    }
+                                    Item{
+                                        Layout.fillWidth: true
+                                        Layout.preferredHeight: 50
                                     }
                                 }
                             }
@@ -1986,7 +1991,7 @@ Item {
                 "test_compare_ref_id": test_compare_ref_id,
                 "test_compare_ref" : test_compare_ref,
                 "predefined_base_avg": predefined_base_avg,
-                "predefined_test_base_avg": predefinedTestBaseAvgSW.checked,
+                "predefined_test_avg": predefinedTestBaseAvgSW.checked,
                 "advisor": advisorComment_flag,
                 "comment_month": month,
                 "postscript": {
@@ -2156,7 +2161,7 @@ Item {
                 "test_compare_ref_id": test_compare_ref_id,
                 "test_compare_ref" : test_compare_ref,
                 "predefined_base_avg": predefined_base_avg,
-                "predefined_test_base_avg": predefinedTestBaseAvgSW.checked,
+                "predefined_test_avg": predefinedTestBaseAvgSW.checked,
                 "advisor": advisorComment_flag,
                 "comment_month": month,
                 "postscript": {

@@ -18,15 +18,16 @@ Page {
     property int activeSemester : 0 // 1-2
     property var coursesId : []
 
-    function findItemRecursive(parent, courseId_property, semester_property) {
+    function findItemRecursive(parent, courseId_property, semester_property, test_property=false) {
         for (var i = 0; i < parent.children.length; i++) {
             var child = parent.children[i];
             if (child["coId"] === courseId_property) {
                 if(child["seId"] === semester_property)
-                    return child;
+                    if(child["test"] === test_property)
+                        return child;
             }
             // Recursively search in the child's children
-            var found = findItemRecursive(child, courseId_property, semester_property);
+            var found = findItemRecursive(child, courseId_property, semester_property, test_property);
             if (found) {
                 return found;
             }
@@ -118,12 +119,12 @@ Page {
 
         Row{
             Layout.preferredHeight: 80
-            Layout.preferredWidth: 650
+            Layout.preferredWidth: 950
             Layout.alignment: Qt.AlignHCenter
             spacing: 0
 
             Label{
-                width: 350
+                width: 300
                 height: 80
                 verticalAlignment: Label.AlignVCenter
                 horizontalAlignment: Label.AlignHCenter
@@ -133,6 +134,18 @@ Page {
                 color:"black"
                 background: Rectangle{color: "powderblue"; border.width: 1; border.color:"gray"}
                 text: "عنوان درس"
+            }
+            Label{
+                width: 50
+                height: 80
+                verticalAlignment: Label.AlignVCenter
+                horizontalAlignment: Label.AlignHCenter
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color:"black"
+                background: Rectangle{color: "powderblue"; border.width: 1; border.color:"gray"}
+                text: "ضریب"+"\n"+"درس"
             }
 
             Label{
@@ -147,6 +160,20 @@ Page {
                 background: Rectangle{color: "powderblue"; border.width: 1; border.color:"gray"}
                 text: "میانگین پایه" + "\n" + "نیمسال اول"
             }
+
+            Label{
+                width: 150
+                height: 80
+                verticalAlignment: Label.AlignVCenter
+                horizontalAlignment: Label.AlignHCenter
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color:"black"
+                background: Rectangle{color: "powderblue"; border.width: 1; border.color:"gray"}
+                text: "میانگین تست" + "\n" + "نیمسال اول"
+            }
+
             Label{
                 width: 150
                 height: 80
@@ -159,13 +186,26 @@ Page {
                 background: Rectangle{color: "powderblue"; border.width: 1; border.color:"gray"}
                 text: "میانگین پایه" + "\n" + "نیمسال دوم"
             }
+
+            Label{
+                width: 150
+                height: 80
+                verticalAlignment: Label.AlignVCenter
+                horizontalAlignment: Label.AlignHCenter
+                font.family: "Kalameh"
+                font.pixelSize: 18
+                font.bold: true
+                color:"black"
+                background: Rectangle{color: "powderblue"; border.width: 1; border.color:"gray"}
+                text: "میانگین تست" + "\n" + "نیمسال دوم"
+            }
         }
 
         Rectangle{
             id: mainBox
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.minimumWidth: 650
+            Layout.minimumWidth: 950
             Layout.topMargin: 0
             color: "transparent"
 
@@ -182,7 +222,7 @@ Page {
                 {
                     id: lv
                     height: lv.contentHeight
-                    width: 650
+                    width: 950
                     anchors.centerIn: parent
                     model: ListModel{id: lvModel;}
                     clip: true
@@ -201,8 +241,6 @@ Page {
                     }
                 }
             }
-
-
         }
     }
 
@@ -276,6 +314,7 @@ Page {
 
                         property int seId : 1
                         property int coId : recdel.model.id
+                        property bool test : false
                         property bool onEditTF : false
                         function doneEdit()
                         {
@@ -312,7 +351,7 @@ Page {
                             if(index < baseAvgPage.coursesId.length)
                             {
                                 let newCoId = baseAvgPage.coursesId[index];
-                                let item = baseAvgPage.findItemRecursive(lv, newCoId, 1);
+                                let item = baseAvgPage.findItemRecursive(lv, newCoId, 1, false);
 
                                 if(item)
                                 {
@@ -341,7 +380,8 @@ Page {
                             regularExpression: /^-?\d*\.?\d+$/
                         }
 
-                        Keys.onReturnPressed: this.keyPressed()
+                        Keys.onReturnPressed: this.keyPressed();
+                        Keys.onEnterPressed: this.keyPressed();
                         Keys.onTabPressed: this.keyPressed()
                         Keys.onEscapePressed: {
                             te1.onEditTF = false
@@ -424,6 +464,182 @@ Page {
                     }
 
                 }
+                // test 1
+                Rectangle{
+                    id: testRec1
+                    width: 150
+                    height: 50
+
+                    color:"transparent"
+                    border.width: 1
+                    border.color: "gray"
+
+                    property real value : {
+                        if(typeof recdel.model["base_test_1"] != "undefined"){
+                            if(recdel.model["base_test_1"] !== "")
+                                return recdel.model["base_test_1"];
+                            else
+                                return -1000;
+                        }
+                        else return -1000;
+                    }
+
+                    TextField{
+                        id: tte1
+
+                        property int seId : 1 // semester
+                        property int coId : recdel.model.id // course
+                        property bool test : true
+                        property bool onEditTF : false
+                        function doneEdit()
+                        {
+                            tte1.onEditTF =  false
+                            var v = parseFloat(tte1.text);
+
+                            if(tte1.text === "")
+                            {
+                                if(!dbMan.updateCourse_baseTestAverage(recdel.model.id, 1))
+                                {
+                                    infoDialogId.open();
+                                }
+                                else
+                                {
+                                    testRec1.value = v;
+                                }
+                            }
+                            else{
+                                if(!dbMan.updateCourse_baseTestAverage(recdel.model.id, 1, v))
+                                {
+                                    infoDialogId.open();
+                                }
+                                else
+                                {
+                                    testRec1.value = v;
+                                }
+                            }
+                        }
+                        function keyPressed()
+                        {
+                            this.doneEdit();
+                            // find next and focus
+                            let index = baseAvgPage.coursesId.indexOf(tte1.coId) + 1;
+                            if(index < baseAvgPage.coursesId.length)
+                            {
+                                let newCoId = baseAvgPage.coursesId[index];
+                                let item = baseAvgPage.findItemRecursive(lv, newCoId, 1, true);
+
+                                if(item)
+                                {
+                                    item.onEditTF = true;
+                                    baseAvgPage.onEditing = true
+                                    item.forceActiveFocus();
+
+                                    item = lv.itemAtIndex(recdel.model.index +1)
+                                    if(item)
+                                        flk.contentY = ((flk.height+flk.contentY-100) <= item.y )? item.y : flk.contentY
+                                }
+                            }
+                        }
+
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color:"darkmagenta"
+                        text:(testRec1.value > -1000)? testRec1.value :"";
+                        visible: tte1.onEditTF
+                        Rectangle{height:2; width: parent.width; color: "olivedrab"; anchors.bottom:parent.bottom;}
+                        validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
+                            regularExpression: /^-?\d*\.?\d+$/
+                        }
+
+                        Keys.onReturnPressed: this.keyPressed()
+                        Keys.onEnterPressed: this.keyPressed();
+                        Keys.onTabPressed: this.keyPressed()
+                        Keys.onEscapePressed: {
+                            tte1.onEditTF = false
+                            baseAvgPage.onEditing = false
+                            tte1.text = (testRec1.value > -1000)? testRec1.value : ""
+                        }
+
+                        Button{
+                            height: 24
+                            width: 24
+                            background: Rectangle{color:"transparent"}
+                            icon.source: "qrc:/assets/images/tick.png"
+                            icon.width: 24
+                            icon.height: 24
+                            icon.color:"transparent"
+                            opacity: 0.5
+                            onClicked: tte1.doneEdit();
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                            anchors.right:parent.right
+                            anchors.top: parent.top
+                        }
+                        Button{
+                            height: 24
+                            width: 24
+                            background: Rectangle{color:"transparent"}
+                            icon.source: "qrc:/assets/images/cross.png"
+                            icon.width: 24
+                            icon.height: 24
+                            icon.color:"transparent"
+                            opacity: 0.5
+                            onClicked: {
+                                tte1.onEditTF = false
+                                tte1.text = (testRec1.value > -1000)? testRec1.value : ""
+                            }
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                            anchors.left:parent.left
+                            anchors.top: parent.top
+                        }
+                    }
+
+                    Label{
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color:"black"
+                        background: Item{}
+                        text:{
+                            if(testRec1.value > -1000)
+                            {
+                                return testRec1.value;
+                            }
+                            else return ""
+                        }
+                        visible: !tte1.onEditTF
+                        MouseArea{
+                            anchors.fill: parent
+                            onDoubleClicked:{
+
+                                if(baseAvgPage.onEditing)
+                                {
+                                    var item = baseAvgPage.findTF(lv, "onEditTF", true);
+                                    while(item)
+                                    {
+                                        item.doneEdit();
+                                        item = baseAvgPage.findTF(lv, "onEditTF", true);
+                                    }
+                                }
+
+
+                                tte1.onEditTF = true
+                                baseAvgPage.onEditing = true
+                                tte1.focus = true
+                            }
+                        }
+                    }
+
+                }
+
                 // semester 2
                 Rectangle{
                     id: avgRec2
@@ -448,6 +664,7 @@ Page {
                         id: te2
                         property int seId : 2
                         property int coId : recdel.model.id
+                        property bool test : false
                         property bool onEditTF : false
                         function doneEdit()
                         {
@@ -486,7 +703,7 @@ Page {
                             if(index < baseAvgPage.coursesId.length)
                             {
                                 let newCoId = baseAvgPage.coursesId[index];
-                                let item = baseAvgPage.findItemRecursive(lv, newCoId, 2);
+                                let item = baseAvgPage.findItemRecursive(lv, newCoId, 2, false);
 
                                 if(item)
                                 {
@@ -518,6 +735,7 @@ Page {
                         }
 
                         Keys.onReturnPressed: this.keyPressed();
+                        Keys.onEnterPressed: this.keyPressed();
                         Keys.onTabPressed: this.keyPressed();
                         Keys.onEscapePressed: {
                             te2.onEditTF =  false
@@ -595,6 +813,182 @@ Page {
                                 te2.onEditTF =  true
                                 baseAvgPage.onEditing = true
                                 te2.focus = true
+                            }
+                        }
+                    }
+
+                }
+
+                // test 2
+                Rectangle{
+                    id: testRec2
+                    width: 150
+                    height: 50
+
+                    color:"transparent"
+                    border.width: 1
+                    border.color: "gray"
+
+                    property real value : {
+                        if(typeof recdel.model["base_test_2"] != "undefined"){
+                            if(recdel.model["base_test_2"] !== "")
+                                return recdel.model["base_test_2"];
+                            else
+                                return -1000;
+                        }
+                        else return -1000;
+                    }
+
+                    TextField{
+                        id: tte2
+
+                        property int seId : 2 // semester
+                        property int coId : recdel.model.id // course
+                        property bool test : true
+                        property bool onEditTF : false
+                        function doneEdit()
+                        {
+                            tte2.onEditTF =  false
+                            var v = parseFloat(tte2.text);
+
+                            if(tte2.text === "")
+                            {
+                                if(!dbMan.updateCourse_baseTestAverage(recdel.model.id, 2))
+                                {
+                                    infoDialogId.open();
+                                }
+                                else
+                                {
+                                    testRec2.value = v;
+                                }
+                            }
+                            else{
+                                if(!dbMan.updateCourse_baseTestAverage(recdel.model.id, 2, v))
+                                {
+                                    infoDialogId.open();
+                                }
+                                else
+                                {
+                                    testRec2.value = v;
+                                }
+                            }
+                        }
+                        function keyPressed()
+                        {
+                            this.doneEdit();
+                            // find next and focus
+                            let index = baseAvgPage.coursesId.indexOf(tte2.coId) + 1;
+                            if(index < baseAvgPage.coursesId.length)
+                            {
+                                let newCoId = baseAvgPage.coursesId[index];
+                                let item = baseAvgPage.findItemRecursive(lv, newCoId, 2, true);
+
+                                if(item)
+                                {
+                                    item.onEditTF = true;
+                                    baseAvgPage.onEditing = true
+                                    item.forceActiveFocus();
+
+                                    item = lv.itemAtIndex(recdel.model.index +1)
+                                    if(item)
+                                        flk.contentY = ((flk.height+flk.contentY-100) <= item.y )? item.y : flk.contentY
+                                }
+                            }
+                        }
+
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color:"darkmagenta"
+                        text:(testRec2.value > -1000)? testRec2.value :"";
+                        visible: tte2.onEditTF
+                        Rectangle{height:2; width: parent.width; color: "olivedrab"; anchors.bottom:parent.bottom;}
+                        validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
+                            regularExpression: /^-?\d*\.?\d+$/
+                        }
+
+                        Keys.onReturnPressed: this.keyPressed()
+                        Keys.onEnterPressed: this.keyPressed();
+                        Keys.onTabPressed: this.keyPressed()
+                        Keys.onEscapePressed: {
+                            tte2.onEditTF = false
+                            baseAvgPage.onEditing = false
+                            tte2.text = (testRec2.value > -1000)? testRec2.value : ""
+                        }
+
+                        Button{
+                            height: 24
+                            width: 24
+                            background: Rectangle{color:"transparent"}
+                            icon.source: "qrc:/assets/images/tick.png"
+                            icon.width: 24
+                            icon.height: 24
+                            icon.color:"transparent"
+                            opacity: 0.5
+                            onClicked: tte2.doneEdit();
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                            anchors.right:parent.right
+                            anchors.top: parent.top
+                        }
+                        Button{
+                            height: 24
+                            width: 24
+                            background: Rectangle{color:"transparent"}
+                            icon.source: "qrc:/assets/images/cross.png"
+                            icon.width: 24
+                            icon.height: 24
+                            icon.color:"transparent"
+                            opacity: 0.5
+                            onClicked: {
+                                tte2.onEditTF = false
+                                tte2.text = (testRec2.value > -1000)? testRec2.value : ""
+                            }
+                            hoverEnabled: true
+                            onHoveredChanged: this.opacity=(hovered)? 1 : 0.5;
+                            anchors.left:parent.left
+                            anchors.top: parent.top
+                        }
+                    }
+
+                    Label{
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: "Kalameh"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color:"black"
+                        background: Item{}
+                        text:{
+                            if(testRec2.value > -1000)
+                            {
+                                return testRec2.value;
+                            }
+                            else return ""
+                        }
+                        visible: !tte2.onEditTF
+                        MouseArea{
+                            anchors.fill: parent
+                            onDoubleClicked:{
+
+                                if(baseAvgPage.onEditing)
+                                {
+                                    var item = baseAvgPage.findTF(lv, "onEditTF", true);
+                                    while(item)
+                                    {
+                                        item.doneEdit();
+                                        item = baseAvgPage.findTF(lv, "onEditTF", true);
+                                    }
+                                }
+
+
+                                tte2.onEditTF = true
+                                baseAvgPage.onEditing = true
+                                tte2.focus = true
                             }
                         }
                     }
