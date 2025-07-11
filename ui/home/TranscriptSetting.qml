@@ -37,6 +37,9 @@ Item {
 
     property bool advisorComment : false;
 
+    property var postScript;
+    property bool compareReady : false;
+
     function updateEvalsModel(){
         evals = [];
         test_evals = [];
@@ -299,6 +302,7 @@ Item {
             testCompareRef.currentIndex = 0;
             testAvgSW.visible = true
             baseTestAvgSW.visible = true
+            predefinedTestBaseAvgSW.visible = true
             if(testAvgSW.checked)
                 testRefModel.append({"text": "میانگین تست", value: -10})
         }
@@ -313,13 +317,16 @@ Item {
             testAvgSW.visible = false
             testAvgSW.checked = false
             baseTestAvgSW.visible = false
+            predefinedTestBaseAvgSW.visible = false
         }
 
         if(refModel.count > 0)
             compareRef.currentIndex = 0;
 
         if(final_value > -1)
-            compareRef.currentIndex = compareRef.indexOfValue(final_value)
+        {
+            compareRef.currentIndex = compareRef.indexOfValue(final_value);
+        }
 
         if(compareRef.currentIndex === -1)
             compareRef.currentIndex = 0;
@@ -396,6 +403,33 @@ Item {
             deySW.visible = true;
             bahSW.visible = true;
             esfSW.visible = true;
+        }
+    }
+
+    function updatePostScript()
+    {
+        // output: signature, compare, test_compare, zero, shared[], count
+        if(settingPage.compareReady)
+        {
+            let cmp = compareRef.currentText
+            let tcmp = testCompareRef.currentText
+
+            if(!testRefRow.visible)
+                tcmp = "";
+            settingPage.postScript = dbMan.generatePostScript(settingPage.class_id, cmp, tcmp);
+
+            sigTF.text = settingPage.postScript["signature"];
+            let txt;
+            txt = settingPage.postScript["compare"];
+            txt = txt + "\n" + settingPage.postScript["zero"];
+            let array = settingPage.postScript["shared"];
+            array.forEach(function(item){
+                txt = txt + "\n" + item;
+            });
+
+            txt = txt + "\n" + settingPage.postScript["count"];
+
+            infoPostSTA.text = txt;
         }
     }
 
@@ -992,7 +1026,8 @@ Item {
                                         model: ListModel{id: refModel}
                                         textRole: "text"
                                         valueRole: "value"
-                                        Component.onCompleted: settingPage.updateRefModel();
+                                        Component.onCompleted: {settingPage.updateRefModel(); Qt.callLater(function(){settingPage.compareReady = true; settingPage.updatePostScript(); });}
+                                        onCurrentTextChanged: {settingPage.updatePostScript(); }
                                     }
                                 }
 
@@ -1022,7 +1057,8 @@ Item {
                                         model: ListModel{id: testRefModel}
                                         textRole: "text"
                                         valueRole: "value"
-                                        Component.onCompleted: settingPage.updateRefModel();
+                                        Component.onCompleted: {settingPage.updateRefModel(); }
+                                        onCurrentTextChanged: settingPage.updatePostScript();
                                     }
                                 }
 
@@ -1039,6 +1075,20 @@ Item {
                                     font.family: "Kalameh"
                                     font.pixelSize: 16
                                 }
+
+                                Switch{
+                                    id: predefinedTestBaseAvgSW
+                                    width: parent.width
+                                    height: 50
+                                    palette.highlight: "steelblue"
+                                    palette.text: (this.checked)? "steelblue" : "gray"
+                                    text: "استفاده از میانگین پایه تست ثبت شده"
+                                    checked: (settingPage.test_evals.length > 0)? true : false;
+                                    visible: (settingPage.test_evals.length > 0)? true : false;
+                                    font.family: "Kalameh"
+                                    font.pixelSize: 16
+                                }
+
                             }
                         }
 
@@ -1313,7 +1363,7 @@ Item {
 
                                 RowLayout{
                                     width: parent.width
-                                    height: 300
+                                    height: infoPostSTA.height + 50
                                     Label{
                                         Layout.preferredHeight: 50
                                         Layout.preferredWidth: 150
@@ -1328,15 +1378,41 @@ Item {
                                     TextArea{
                                         id: infoPostSTA
                                         Layout.fillWidth: true
-                                        Layout.preferredHeight: 300
+                                        Layout.preferredHeight: contentHeight + 50
                                         font.bold: false
                                         font.family: "Kalameh"
-                                        font.pixelSize: 16
-                                        Component.onCompleted: {}
+                                        font.pixelSize: 14
                                         background: Rectangle {
                                                     color: "#fff"
                                                     border.color: "#888"
                                                 }
+                                    }
+                                }
+
+                                RowLayout{
+                                    width: parent.width
+                                    height: 50
+                                    Label{
+                                        Layout.preferredHeight: 50
+                                        Layout.preferredWidth: 150
+                                        Layout.alignment: Qt.AlignLeft
+                                        horizontalAlignment: Label.AlignLeft
+                                        verticalAlignment: Label.AlignVCenter
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        text:"حاشیه بالایی: "
+                                        color: "mediumorchid"
+                                    }
+                                    SpinBox{
+                                        id: postScriptTMargin
+                                        Layout.fillWidth: true
+                                        Layout.preferredHeight: 50
+                                        font.bold: false
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 14
+                                        value: 10
+                                        from: 0
+                                        to: 200
                                     }
                                 }
                             }
@@ -1910,15 +1986,22 @@ Item {
                 "test_compare_ref_id": test_compare_ref_id,
                 "test_compare_ref" : test_compare_ref,
                 "predefined_base_avg": predefined_base_avg,
+                "predefined_test_base_avg": predefinedTestBaseAvgSW.checked,
                 "advisor": advisorComment_flag,
                 "comment_month": month,
+                "postscript": {
+                    "signature" : sigTF.text,
+                    "text": infoPostSTA.text
+                },
+
                 "print":{
                     "paperSize": paperSizeCB.currentValue,
                     "fontFamily" : fontCB.currentValue,
                     "contentFontSize": contentFontSizeCB.currentValue,
                     "titrFontSize": titrFontSizeCB.currentValue,
                     "cellHeight1" : cellHeight1CB.currentValue,
-                    "cellHeight2" : cellHeight2CB.currentValue
+                    "cellHeight2" : cellHeight2CB.currentValue,
+                    "postScript_topMargin" : postScriptTMargin.value
                 }
             }
 
@@ -2073,15 +2156,21 @@ Item {
                 "test_compare_ref_id": test_compare_ref_id,
                 "test_compare_ref" : test_compare_ref,
                 "predefined_base_avg": predefined_base_avg,
+                "predefined_test_base_avg": predefinedTestBaseAvgSW.checked,
                 "advisor": advisorComment_flag,
                 "comment_month": month,
+                "postscript": {
+                    "signature" : sigTF.text,
+                    "text": infoPostSTA.text
+                },
                 "print":{
                     "paperSize": paperSizeCB.currentValue,
                     "fontFamily" : fontCB.currentValue,
                     "contentFontSize": contentFontSizeCB.currentValue,
                     "titrFontSize": titrFontSizeCB.currentValue,
                     "cellHeight1" : cellHeight1CB.currentValue,
-                    "cellHeight2" : cellHeight2CB.currentValue
+                    "cellHeight2" : cellHeight2CB.currentValue,
+                    "postScript_topMargin" : postScriptTMargin.value
                 }
             }
 
