@@ -441,7 +441,8 @@ Item {
         clip: true
         Rectangle{
             id: centerRect
-            width: (parent.width > 700)? 700 : parent.width
+            //width: (parent.width > 700)? 700 : parent.width
+            width: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
             height: centerCol.implicitHeight
             color:"snow"
@@ -473,148 +474,170 @@ Item {
                         id: transCol
                         width: parent.width
 
-                        Label{
-                            color: "darkmagenta"
-                            text: "مقطع زمانی"
-                            width: parent.width
-                            horizontalAlignment: Label.AlignLeft
-                        }
+
                         GroupBox{
-                            width: parent.width
+                            width: periodFlowId.implicitWidth
                             height: 80
                             padding: 0
 
-                            RowLayout{
-                                width: parent.width
-                                height: 50
+                            Column{
+                                width: periodFlowId.implicitWidth
+                                height: 80
+                                Label{
+                                    color: "darkmagenta"
+                                    text: "مقطع زمانی"
+                                    height: 30
+                                    width: parent.width
+                                    horizontalAlignment: Label.AlignLeft
+                                }
+                                Flow{
+                                    id: periodFlowId
+                                    //width: parent.width
+                                    height: 50
+                                    spacing: 20
 
-                                // semester 1
-                                Switch{
-                                    id: semester1RB
-                                    Layout.preferredHeight:  50
-                                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                    ButtonGroup.group: semesterGB
-                                    text: "نیمسال اول"
-                                    checked: (settingPage.semester_Number === 1)? true : false;
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    palette.highlight: "darkmagenta"
-                                    palette.text: (checked)? "darkmagenta" : "gray"
-                                    onCheckedChanged:  {
-                                        if(!checked)
-                                        {
-                                            if(!semester2RB.checked && !periodRB.checked)
-                                                semester1RB.checked = true;
+
+                                    // semester 1
+                                    Switch{
+                                        id: semester1RB
+                                        height: 50
+                                        //Layout.preferredHeight:  50
+                                        //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                        ButtonGroup.group: semesterGB
+                                        text: "نیمسال اول"
+                                        checked: (settingPage.semester_Number === 1)? true : false;
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        palette.highlight: "darkmagenta"
+                                        palette.text: (checked)? "darkmagenta" : "gray"
+                                        onCheckedChanged:  {
+                                            if(!checked)
+                                            {
+                                                if(!semester2RB.checked && !periodRB.checked)
+                                                    semester1RB.checked = true;
+                                            }
+
+                                            settingPage.evals = []
+                                            evalsModel.clear();
+
+                                            if(checked){
+                                                settingPage.semester_Number = 1;
+                                                semesterTSW.checked = true
+                                                settingPage.semester_transcript = true
+                                            }
+
+                                            settingPage.updateEvalsModel();
+                                            settingPage.monthVisibility();
                                         }
 
-                                        settingPage.evals = []
-                                        evalsModel.clear();
-
-                                        if(checked){
-                                            settingPage.semester_Number = 1;
-                                            semesterTSW.checked = true
-                                            settingPage.semester_transcript = true
-                                        }
-
-                                        settingPage.updateEvalsModel();
-                                        settingPage.monthVisibility();
                                     }
 
-                                }
-
-                                // semester 2
-                                Switch{
-                                    id: semester2RB
-                                    Layout.preferredHeight:  50
-                                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                    ButtonGroup.group: semesterGB
-                                    text: "نیمسال دوم"
-                                    checked: (settingPage.semester_Number === 2)? true : false;
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    palette.highlight: "darkmagenta"
-                                    palette.text: (this.checked)? "darkmagenta" : "gray"
-                                    onCheckedChanged:
-                                    {
-                                        if(!checked)
+                                    // semester 2
+                                    Switch{
+                                        id: semester2RB
+                                        height: 50
+                                        //Layout.preferredHeight:  50
+                                        //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                        ButtonGroup.group: semesterGB
+                                        text: "نیمسال دوم"
+                                        checked: (settingPage.semester_Number === 2)? true : false;
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        palette.highlight: "darkmagenta"
+                                        palette.text: (this.checked)? "darkmagenta" : "gray"
+                                        onCheckedChanged:
                                         {
-                                            if(!semester1RB.checked && !periodRB.checked)
-                                                semester2RB.checked = true;
+                                            if(!checked)
+                                            {
+                                                if(!semester1RB.checked && !periodRB.checked)
+                                                    semester2RB.checked = true;
+                                            }
+
+                                            settingPage.evals = []
+                                            evalsModel.clear();
+
+                                            if(checked)
+                                            {
+                                                settingPage.semester_Number = 2;
+                                                semesterTSW.checked = true
+                                                settingPage.semester_transcript = true
+                                            }
+
+                                            settingPage.updateEvalsModel();
+                                            settingPage.monthVisibility();
                                         }
 
-                                        settingPage.evals = []
-                                        evalsModel.clear();
-
-                                        if(checked)
-                                        {
-                                            settingPage.semester_Number = 2;
-                                            semesterTSW.checked = true
-                                            settingPage.semester_transcript = true
-                                        }
-
-                                        settingPage.updateEvalsModel();
-                                        settingPage.monthVisibility();
                                     }
 
-                                }
+                                    // study period
+                                    Switch{
+                                        id: periodRB
+                                        height: 50
+                                        //Layout.preferredHeight:  50
+                                        //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                        ButtonGroup.group: semesterGB
+                                        text: "سال‌تحصیلی"
+                                        checked: (settingPage.semester_Number === 0)? true : false;
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        palette.highlight: "darkmagenta"
+                                        palette.text: (this.checked)? "darkmagenta" : "gray"
+                                        onCheckedChanged: {
+                                            if(!checked)
+                                            {
+                                                if(!semester1RB.checked && !semester2RB.checked)
+                                                    periodRB.checked = true;
+                                            }
 
-                                // study period
-                                Switch{
-                                    id: periodRB
-                                    Layout.preferredHeight:  50
-                                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                    ButtonGroup.group: semesterGB
-                                    text: "سال‌تحصیلی"
-                                    checked: (settingPage.semester_Number === 0)? true : false;
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    palette.highlight: "darkmagenta"
-                                    palette.text: (this.checked)? "darkmagenta" : "gray"
-                                    onCheckedChanged: {
-                                        if(!checked)
-                                        {
-                                            if(!semester1RB.checked && !semester2RB.checked)
-                                                periodRB.checked = true;
+                                            settingPage.evals = []
+                                            evalsModel.clear();
+
+                                            if(checked)
+                                            {
+                                                settingPage.semester_Number = 0;
+                                                periodTSW.checked = true
+                                                settingPage.period_transcript = true
+                                            }
+
+                                            settingPage.updateEvalsModel();
+                                            settingPage.monthVisibility();
                                         }
 
-                                        settingPage.evals = []
-                                        evalsModel.clear();
-
-                                        if(checked)
-                                        {
-                                            settingPage.semester_Number = 0;
-                                            periodTSW.checked = true
-                                            settingPage.period_transcript = true
-                                        }
-
-                                        settingPage.updateEvalsModel();
-                                        settingPage.monthVisibility();
                                     }
-
                                 }
+
                             }
                         }
 
-                        Label{
-                            color: "darkcyan"
-                            text: "نوع کارنامه"
-                            width: parent.width
-                            horizontalAlignment: Label.AlignLeft
-                        }
+
+
                         GroupBox{
-                            width: parent.width
+                            width: transcriptTypeId.implicitWidth
                             height: 80
                             padding: 0
 
-                            RowLayout{
-                                width: parent.width
+                            Column{
+                                width: transcriptTypeId.implicitWidth
+                                height: 80
+
+                                Label{
+                                    color: "darkcyan"
+                                    text: "نوع کارنامه"
+                                    width: parent.width
+                                    horizontalAlignment: Label.AlignLeft
+                                }
+
+                            Flow{
+                                id: transcriptTypeId
                                 height: 50
+                                spacing: 20
 
                                 // per month
                                 Switch{
                                     id: perMonthTSW
-                                    Layout.preferredHeight:  50
-                                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                    height: 50
+                                    //Layout.preferredHeight:  50
+                                    //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                                     text: "کارنامه ماهیانه"
                                     checked: false
                                     ButtonGroup.group: transcriptBG
@@ -639,8 +662,9 @@ Item {
                                 // midterm
                                 Switch{
                                     id: midtermTSW
-                                    Layout.preferredHeight:  50
-                                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                    height: 50
+                                    //Layout.preferredHeight:  50
+                                    //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                                     ButtonGroup.group: transcriptBG
                                     text: "کارنامه میان‌ترم"
                                     checked: false
@@ -664,8 +688,9 @@ Item {
                                 // semester
                                 Switch{
                                     id: semesterTSW
-                                    Layout.preferredHeight:  50
-                                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                    height: 50
+                                    //Layout.preferredHeight:  50
+                                    //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                                     ButtonGroup.group: transcriptBG
                                     text: "کارنامه نیمسال"
                                     checked: true
@@ -689,8 +714,9 @@ Item {
                                 // study period
                                 Switch{
                                     id: periodTSW
-                                    Layout.preferredHeight:  50
-                                    Layout.alignment:  Qt.AlignHCenter | Qt.AlignVCenter
+                                    height: 50
+                                    //Layout.preferredHeight:  50
+                                    //Layout.alignment:  Qt.AlignHCenter | Qt.AlignVCenter
                                     ButtonGroup.group: transcriptBG
                                     text: "کارنامه سال‌تحصیلی"
                                     checked: false
@@ -711,22 +737,31 @@ Item {
                                     }
                                 }
                             }
+                            }
                         }
 
-                        Label{
-                            color: "royalblue"
-                            text: "ارزیابی‌ها"
-                            width: parent.width
-                            horizontalAlignment: Label.AlignLeft
-                        }
+
                         GroupBox{
                             width: parent.width
                             height: evalCol.implicitHeight + 50
                             //title: "ارزیابی‌ها"
 
                             Column{
+                                width: evalCol.implicitWidth
+                                height: 80
+
+                                Label{
+                                    color: "royalblue"
+                                    text: "ارزیابی‌ها"
+                                    width: parent.width
+                                    horizontalAlignment: Label.AlignLeft
+                                }
+
+                            Flow{
                                 id: evalCol
                                 width: parent.width
+                                spacing: 20
+                                //anchors.horizontalCenter: parent.horizontalCenter
 
                                 Repeater
                                 {
@@ -735,7 +770,7 @@ Item {
                                     delegate:Switch{
                                         required property var model
                                         checked: (settingPage.evals.includes(model.id))? true : false;
-                                        width: parent.width
+                                        //width: parent.width
                                         palette.highlight: (checked)? "royalblue" : "gray"
                                         palette.text:(checked)? "royalblue" : "gray"
                                         height: 50
@@ -782,27 +817,36 @@ Item {
                                 }
 
                             }
+                            }
 
 
                         }
 
-                        Label{
-                            color: "indianred"
-                            text: "معیارهای سنجش"
-                            width: parent.width
-                            horizontalAlignment: Label.AlignLeft
-                        }
+
                         GroupBox{
 
                             width: parent.width
+                            spacing: 20
+                            //anchors.horizontalCenter: parent.horizontalCenter
                             height: paramCol.implicitHeight + 50
 
                             Column{
+                                width: paramCol.implicitWidth
+                                height: 80
+
+                                Label{
+                                    color: "indianred"
+                                    text: "معیارهای سنجش"
+                                    width: parent.width
+                                    horizontalAlignment: Label.AlignLeft
+                                }
+
+                            Flow{
                                 id: paramCol
                                 width: parent.width
                                 Switch{
                                     id: baseRankSW
-                                    width: parent.width
+                                    //width: parent.width
                                     palette.highlight: "indianred"
                                     palette.text: (this.checked)? "indianred" : "gray"
                                     height: 50
@@ -814,7 +858,7 @@ Item {
 
                                 Switch{
                                     id: classRankSW
-                                    width: parent.width
+                                    //width: parent.width
                                     palette.highlight: "indianred"
                                     palette.text: (this.checked)? "indianred" : "gray"
                                     height: 50
@@ -826,7 +870,7 @@ Item {
 
                                 Switch{
                                     id: baseAvgSW
-                                    width: parent.width
+                                    //width: parent.width
                                     palette.highlight: "indianred"
                                     palette.text: (this.checked)? "indianred" : "gray"
                                     height: 50
@@ -845,7 +889,7 @@ Item {
 
                                 Switch{
                                     id: maxGradeSW
-                                    width: parent.width
+                                    //width: parent.width
                                     height: 50
                                     palette.highlight: "indianred"
                                     palette.text: (this.checked)? "indianred" : "gray"
@@ -858,7 +902,7 @@ Item {
                                 // semester
                                 Switch{
                                     id: semester12SW
-                                    width: parent.width
+                                    //width: parent.width
                                     height: 50
                                     palette.highlight: "indianred"
                                     palette.text: (checked)? "indianred" : "gray"
@@ -872,7 +916,7 @@ Item {
 
                                 Switch{
                                     id: semesterAvgSW
-                                    width: parent.width
+                                    //width: parent.width
                                     height: 50
                                     palette.highlight: "indianred"
                                     palette.text: (this.checked)? "indianred" : "gray"
@@ -886,7 +930,7 @@ Item {
 
                                 Switch{
                                     id: finalAvgSW
-                                    width: parent.width
+                                    //width: parent.width
                                     height: 50
                                     palette.highlight: "indianred"
                                     palette.text: (this.checked)? "indianred" : "gray"
@@ -900,7 +944,7 @@ Item {
 
                                 Switch{
                                     id: formativeAvgSW
-                                    width: parent.width
+                                    //width: parent.width
                                     height: 50
                                     palette.highlight: "indianred"
                                     palette.text: (this.checked)? "indianred" : "gray"
@@ -914,7 +958,7 @@ Item {
 
                                 Switch{
                                     id: perMonthAvgSW
-                                    width: parent.width
+                                    //width: parent.width
                                     height: 50
                                     palette.highlight: "indianred"
                                     palette.text: (this.checked)? "indianred" : "gray"
@@ -935,7 +979,7 @@ Item {
 
                                 Switch{
                                     id: baseTestAvgSW
-                                    width: parent.width
+                                    //width: parent.width
                                     height: 50
                                     palette.highlight: "indianred"
                                     palette.text: (this.checked)? "indianred" : "gray"
@@ -955,7 +999,7 @@ Item {
 
                                 Switch{
                                     id: testAvgSW
-                                    width: parent.width
+                                    //width: parent.width
                                     height: 50
                                     palette.highlight: "indianred"
                                     palette.text: (this.checked)? "indianred" : "gray"
@@ -974,14 +1018,10 @@ Item {
                                     onToggled: settingPage.updateRefModel();
                                 }
                             }
+                            }
                         }
 
-                        Label{
-                            color: "steelblue"
-                            text: "محاسبات"
-                            width: parent.width
-                            horizontalAlignment: Label.AlignLeft
-                        }
+
                         GroupBox{
                             width: parent.width
                             height:setCol.implicitHeight + 50
@@ -989,6 +1029,13 @@ Item {
                             Column{
                                 id: setCol
                                 width: parent.width
+
+                                Label{
+                                    color: "steelblue"
+                                    text: "محاسبات"
+                                    width: parent.width
+                                    horizontalAlignment: Label.AlignLeft
+                                }
 
                                 Switch{
                                     id: fieldBasedSW
@@ -1093,12 +1140,7 @@ Item {
                             }
                         }
 
-                        Label{
-                            color: "midnightblue"
-                            text: "نظر مشاور"
-                            width: parent.width
-                            horizontalAlignment: Label.AlignLeft
-                        }
+
                         GroupBox{
                             width: parent.width
                             height:advisorCol.implicitHeight + 50
@@ -1106,6 +1148,13 @@ Item {
                             {
                                 id: advisorCol
                                 width: parent.width
+
+                                Label{
+                                    color: "midnightblue"
+                                    text: "نظر مشاور"
+                                    width: parent.width
+                                    horizontalAlignment: Label.AlignLeft
+                                }
 
                                 RowLayout{
                                     width: parent.width
@@ -1322,12 +1371,7 @@ Item {
                         }
 
                         // postscript
-                        Label{
-                            color: "mediumblue"
-                            text: "پی‌نوشت"
-                            width: parent.width
-                            horizontalAlignment: Label.AlignLeft
-                        }
+
                         GroupBox{
                             width: parent.width
                             height:postSCol.implicitHeight + 50
@@ -1337,6 +1381,12 @@ Item {
                                 width: parent.width
                                 spacing: 5
 
+                                Label{
+                                    color: "mediumblue"
+                                    text: "پی‌نوشت"
+                                    width: parent.width
+                                    horizontalAlignment: Label.AlignLeft
+                                }
                                 RowLayout{
                                     width: parent.width
                                     height: 50
@@ -1384,9 +1434,9 @@ Item {
                                         font.family: "Kalameh"
                                         font.pixelSize: 14
                                         background: Rectangle {
-                                                    color: "#fff"
-                                                    border.color: "#888"
-                                                }
+                                            color: "#fff"
+                                            border.color: "#888"
+                                        }
                                     }
                                 }
 

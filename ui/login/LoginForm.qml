@@ -34,7 +34,7 @@ Page {
 
     Image {
         id: backimageId
-        source: "qrc:/assets/images/background/back4.jpg"
+        source: "qrc:/assets/images/background/back1.jpg"
         anchors.fill: parent
         opacity: 1
     }
