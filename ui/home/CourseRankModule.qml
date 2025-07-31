@@ -19,7 +19,7 @@ Column {
     required property int class_id;
     required property string class_name;
 
-    property string evalType : "per_month" // midterm semester period
+    property string evalType : "semester" // per_month midterm semester period
     property int semester_number : (dbMan.getCurrentSemester() === 1)? 1 : 2;
     property var allEvals: dbMan.getEvals(); // [{eval-1}, {eval-2}]
 
@@ -273,8 +273,8 @@ Column {
 
                     if(checked){
                         crModule.semester_number = 1;
-                        perMonthTSW.checked = true
-                        crModule.evalType = "per_month"
+                        semesterTSW.checked = true
+                        crModule.evalType = "semester"
 
                     }
 
@@ -305,8 +305,8 @@ Column {
                     if(checked)
                     {
                         crModule.semester_number = 2;
-                        perMonthTSW.checked = true
-                        crModule.evalType = "per_month"
+                        semesterTSW.checked = true
+                        crModule.evalType = "semester"
                     }
 
                     crModule.updateRefModel();

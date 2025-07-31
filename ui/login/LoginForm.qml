@@ -36,6 +36,12 @@ Page {
         id: backimageId
         source: "qrc:/assets/images/background/back1.jpg"
         anchors.fill: parent
+        opacity: 0
+    }
+    Image {
+        id: bglogo
+        source: "qrc:/assets/images/logo/logo1024.png"
+        anchors.fill: parent
         opacity: 1
     }
 
@@ -48,7 +54,7 @@ Page {
             property: "color"
             duration: 200
             easing.type: Easing.InOutQuad
-            from: "#88DDCCFF"
+            from: "#AADDCCFF"
             to: "#3300FF00"
         }
 
@@ -58,7 +64,7 @@ Page {
             duration: 200
             easing.type: Easing.InOutQuad
             from: "#3300FF00"
-            to: "#88DDCCFF"
+            to: "#AADDCCFF"
         }
     }
 
@@ -68,10 +74,11 @@ Page {
         width: 400; // parent.width
         height:  500; //Qt.binding(function(){ return loginFormColumnId.height+100;})
         anchors.centerIn: parent
-        color: "#88DDCCFF"
-        radius: 5
+        color: "#AADDCCFF"
+        radius: 10
         border.width: 1
         border.color: "#555"
+        opacity: 0
 
 
         Column
@@ -97,7 +104,7 @@ Page {
                 width: parent.width
                 height: 40
                 text: "ورود به سامانه روشنگران"
-                color: "slategray"
+                color: "snow"
                 font.bold: true
                 font.pixelSize: 20
                 font.family: "Kalameh"
@@ -190,6 +197,17 @@ Page {
                     }
             }
         }
+
+        ParallelAnimation {
+                id: animation
+                running: true
+                animations: [
+                    NumberAnimation { target: bglogo; property: "opacity";from: 1; to: 0; duration: 2000; easing.type: Easing.InOutQuad },
+                    NumberAnimation { target: backimageId; property: "opacity";from:0; to: 1; duration: 2000;},
+                    NumberAnimation { target: loginFormRecId; property: "opacity"; from:0; to: 1; duration: 2000;easing.type: Easing.InOutQuad },
+                    NumberAnimation { target: loginFormRecId; property: "width"; from:0; to: 400; duration: 2000;easing.type: Easing.InOutQuad }
+                ]
+            }
     }
 
     Component.onCompleted: usernameField.forceActiveFocus();

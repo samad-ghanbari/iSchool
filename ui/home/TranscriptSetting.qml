@@ -40,6 +40,8 @@ Item {
     property var postScript;
     property bool compareReady : false;
 
+    property bool scrolledDown : false;
+
     function updateEvalsModel(){
         evals = [];
         test_evals = [];
@@ -436,9 +438,17 @@ Item {
 
     Flickable
     {
+        id: flickableId
         anchors.fill: parent
         contentHeight: centerCol.implicitHeight
         clip: true
+        onContentYChanged: {
+            if(contentY > 20)
+                settingPage.scrolledDown = true;
+            else
+                settingPage.scrolledDown = false;
+        }
+
         Rectangle{
             id: centerRect
             //width: (parent.width > 700)? 700 : parent.width
@@ -470,10 +480,10 @@ Item {
                     width: parent.width
                     height: transCol.implicitHeight + 50
 
-                    Column{
+                    Flow{
                         id: transCol
                         width: parent.width
-
+                        spacing: 20
 
                         GroupBox{
                             width: periodFlowId.implicitWidth
@@ -481,18 +491,19 @@ Item {
                             padding: 0
 
                             Column{
-                                width: periodFlowId.implicitWidth
-                                height: 80
+                                id: periodColId
+                                width: periodFlowId.width
+
                                 Label{
                                     color: "darkmagenta"
-                                    text: "مقطع زمانی"
+                                    text: " مقطع زمانی "
                                     height: 30
                                     width: parent.width
                                     horizontalAlignment: Label.AlignLeft
                                 }
                                 Flow{
                                     id: periodFlowId
-                                    //width: parent.width
+                                    //width: contentWidth
                                     height: 50
                                     spacing: 20
 
@@ -609,8 +620,6 @@ Item {
                             }
                         }
 
-
-
                         GroupBox{
                             width: transcriptTypeId.implicitWidth
                             height: 80
@@ -622,528 +631,537 @@ Item {
 
                                 Label{
                                     color: "darkcyan"
-                                    text: "نوع کارنامه"
+                                    text: " نوع کارنامه "
                                     width: parent.width
                                     horizontalAlignment: Label.AlignLeft
                                 }
 
-                            Flow{
-                                id: transcriptTypeId
-                                height: 50
-                                spacing: 20
+                                Flow{
+                                    id: transcriptTypeId
+                                    height: contentHeight
+                                    spacing: 20
 
-                                // per month
-                                Switch{
-                                    id: perMonthTSW
-                                    height: 50
-                                    //Layout.preferredHeight:  50
-                                    //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                    text: "کارنامه ماهیانه"
-                                    checked: false
-                                    ButtonGroup.group: transcriptBG
-                                    visible: (settingPage.semester_Number > 0)? true : false
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    palette.highlight: "darkcyan"
-                                    palette.text: (this.checked)? "darkcyan" : "gray"
-                                    onCheckedChanged:
-                                    {
-                                        if(!checked)
+                                    // per month
+                                    Switch{
+                                        id: perMonthTSW
+                                        height: 50
+                                        //Layout.preferredHeight:  50
+                                        //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                        text: "کارنامه ماهیانه"
+                                        checked: false
+                                        ButtonGroup.group: transcriptBG
+                                        visible: (settingPage.semester_Number > 0)? true : false
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        palette.highlight: "darkcyan"
+                                        palette.text: (this.checked)? "darkcyan" : "gray"
+                                        onCheckedChanged:
                                         {
-                                            if(!periodTSW.checked && !midtermTSW.checked && !semesterTSW.checked)
-                                                perMonthTSW.checked = true;
-                                        }
+                                            if(!checked)
+                                            {
+                                                if(!periodTSW.checked && !midtermTSW.checked && !semesterTSW.checked)
+                                                    perMonthTSW.checked = true;
+                                            }
 
-                                        settingPage.per_month_transcript = checked
-                                        settingPage.updateEvalsModel();
+                                            settingPage.per_month_transcript = checked
+                                            settingPage.updateEvalsModel();
+                                        }
+                                    }
+
+                                    // midterm
+                                    Switch{
+                                        id: midtermTSW
+                                        height: 50
+                                        //Layout.preferredHeight:  50
+                                        //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                        ButtonGroup.group: transcriptBG
+                                        text: "کارنامه میان‌ترم"
+                                        checked: false
+                                        visible: (settingPage.semester_Number > 0)? true : false
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        palette.highlight: "darkcyan"
+                                        palette.text: (this.checked)? "darkcyan" : "gray"
+                                        onCheckedChanged:{
+                                            if(!checked)
+                                            {
+                                                if(!periodTSW.checked && !perMonthTSW.checked && !semesterTSW.checked)
+                                                    midtermTSW.checked = true;
+                                            }
+
+                                            settingPage.midterm_transcript = checked
+                                            settingPage.updateEvalsModel();
+                                        }
+                                    }
+
+                                    // semester
+                                    Switch{
+                                        id: semesterTSW
+                                        height: 50
+                                        //Layout.preferredHeight:  50
+                                        //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                        ButtonGroup.group: transcriptBG
+                                        text: "کارنامه نیمسال"
+                                        checked: true
+                                        visible: (settingPage.semester_Number > 0)? true : false
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        palette.highlight: "darkcyan"
+                                        palette.text: (this.checked)? "darkcyan" : "gray"
+                                        onCheckedChanged:{
+                                            if(!checked)
+                                            {
+                                                if(!periodTSW.checked && !midtermTSW.checked && !perMonthTSW.checked)
+                                                    semesterTSW.checked = true;
+                                            }
+
+                                            settingPage.semester_transcript = checked
+                                            settingPage.updateEvalsModel();
+                                        }
+                                    }
+
+                                    // study period
+                                    Switch{
+                                        id: periodTSW
+                                        height: 50
+                                        //Layout.preferredHeight:  50
+                                        //Layout.alignment:  Qt.AlignHCenter | Qt.AlignVCenter
+                                        ButtonGroup.group: transcriptBG
+                                        text: "کارنامه سال‌تحصیلی"
+                                        checked: false
+                                        visible: (settingPage.semester_Number == 0)? true : false
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        palette.highlight: "darkcyan"
+                                        palette.text: (this.checked)? "darkcyan" : "gray"
+                                        onCheckedChanged:{
+                                            if(!checked)
+                                            {
+                                                if(!midtermTSW.checked && !semesterTSW.checked && !perMonthTSW.checked)
+                                                    periodTSW.checked = true;
+                                            }
+
+                                            settingPage.period_transcript = checked
+                                            settingPage.updateEvalsModel();
+                                        }
                                     }
                                 }
-
-                                // midterm
-                                Switch{
-                                    id: midtermTSW
-                                    height: 50
-                                    //Layout.preferredHeight:  50
-                                    //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                    ButtonGroup.group: transcriptBG
-                                    text: "کارنامه میان‌ترم"
-                                    checked: false
-                                    visible: (settingPage.semester_Number > 0)? true : false
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    palette.highlight: "darkcyan"
-                                    palette.text: (this.checked)? "darkcyan" : "gray"
-                                    onCheckedChanged:{
-                                        if(!checked)
-                                        {
-                                            if(!periodTSW.checked && !perMonthTSW.checked && !semesterTSW.checked)
-                                                midtermTSW.checked = true;
-                                        }
-
-                                        settingPage.midterm_transcript = checked
-                                        settingPage.updateEvalsModel();
-                                    }
-                                }
-
-                                // semester
-                                Switch{
-                                    id: semesterTSW
-                                    height: 50
-                                    //Layout.preferredHeight:  50
-                                    //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                    ButtonGroup.group: transcriptBG
-                                    text: "کارنامه نیمسال"
-                                    checked: true
-                                    visible: (settingPage.semester_Number > 0)? true : false
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    palette.highlight: "darkcyan"
-                                    palette.text: (this.checked)? "darkcyan" : "gray"
-                                    onCheckedChanged:{
-                                        if(!checked)
-                                        {
-                                            if(!periodTSW.checked && !midtermTSW.checked && !perMonthTSW.checked)
-                                                semesterTSW.checked = true;
-                                        }
-
-                                        settingPage.semester_transcript = checked
-                                        settingPage.updateEvalsModel();
-                                    }
-                                }
-
-                                // study period
-                                Switch{
-                                    id: periodTSW
-                                    height: 50
-                                    //Layout.preferredHeight:  50
-                                    //Layout.alignment:  Qt.AlignHCenter | Qt.AlignVCenter
-                                    ButtonGroup.group: transcriptBG
-                                    text: "کارنامه سال‌تحصیلی"
-                                    checked: false
-                                    visible: (settingPage.semester_Number == 0)? true : false
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    palette.highlight: "darkcyan"
-                                    palette.text: (this.checked)? "darkcyan" : "gray"
-                                    onCheckedChanged:{
-                                        if(!checked)
-                                        {
-                                            if(!midtermTSW.checked && !semesterTSW.checked && !perMonthTSW.checked)
-                                                periodTSW.checked = true;
-                                        }
-
-                                        settingPage.period_transcript = checked
-                                        settingPage.updateEvalsModel();
-                                    }
-                                }
-                            }
                             }
                         }
-
 
                         GroupBox{
                             width: parent.width
                             height: evalCol.implicitHeight + 50
-                            //title: "ارزیابی‌ها"
+                            padding: 0
 
                             Column{
-                                width: evalCol.implicitWidth
-                                height: 80
-
+                                width: parent.width
                                 Label{
                                     color: "royalblue"
-                                    text: "ارزیابی‌ها"
+                                    text: " ارزیابی‌ها "
                                     width: parent.width
                                     horizontalAlignment: Label.AlignLeft
                                 }
 
-                            Flow{
-                                id: evalCol
-                                width: parent.width
-                                spacing: 20
-                                //anchors.horizontalCenter: parent.horizontalCenter
+                                Flow{
+                                    id: evalCol
+                                    //height: 50
+                                    height:contentHeight
+                                    width: parent.width
+                                    spacing: 20
+                                    //anchors.horizontalCenter: parent.horizontalCenter
 
-                                Repeater
-                                {
-                                    id: evalsRp
-                                    model: ListModel{id: evalsModel;}
-                                    delegate:Switch{
-                                        required property var model
-                                        checked: (settingPage.evals.includes(model.id))? true : false;
-                                        //width: parent.width
-                                        palette.highlight: (checked)? "royalblue" : "gray"
-                                        palette.text:(checked)? "royalblue" : "gray"
-                                        height: 50
-                                        text: {
-                                            if(settingPage.semester_Number == 0)
-                                            {
-                                                if(model.semester === 1)
-                                                    return  model.eval_name + " نیمسال اول "
+                                    Repeater
+                                    {
+                                        id: evalsRp
+                                        model: ListModel{id: evalsModel;}
+                                        delegate:Switch{
+                                            required property var model
+                                            checked: (settingPage.evals.includes(model.id))? true : false;
+                                            //width: parent.width
+                                            palette.highlight: (checked)? "royalblue" : "gray"
+                                            palette.text:(checked)? "royalblue" : "gray"
+                                            height: 50
+                                            text: {
+                                                if(settingPage.semester_Number == 0)
+                                                {
+                                                    if(model.semester === 1)
+                                                        return  model.eval_name + " نیمسال اول "
+                                                    else
+                                                        return  model.eval_name + " نیمسال دوم "
+                                                }
                                                 else
-                                                    return  model.eval_name + " نیمسال دوم "
+                                                    return  model.eval_name;
                                             }
-                                            else
-                                                return  model.eval_name;
-                                        }
-                                        font.family: "Kalameh"
-                                        font.pixelSize: 16
-                                        onToggled:
-                                        {
-                                            var index = settingPage.evals.indexOf(model.id);
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            onToggled:
+                                            {
+                                                var index = settingPage.evals.indexOf(model.id);
 
-                                            if(checked)
-                                            {
-                                                //push
-                                                if(index < 0)
-                                                    settingPage.evals.push(model.id);
-                                            }
-                                            else
-                                            {
-                                                if( index > -1 && (settingPage.evals.length > 1) )
-                                                    settingPage.evals.splice(index, 1);
+                                                if(checked)
+                                                {
+                                                    //push
+                                                    if(index < 0)
+                                                        settingPage.evals.push(model.id);
+                                                }
                                                 else
-                                                    this.checked = true
+                                                {
+                                                    if( index > -1 && (settingPage.evals.length > 1) )
+                                                        settingPage.evals.splice(index, 1);
+                                                    else
+                                                        this.checked = true
+                                                }
+
+
+                                                settingPage.updateRefModel();
                                             }
-
-
-                                            settingPage.updateRefModel();
                                         }
-                                    }
 
-                                    Component.onCompleted: {
-                                        settingPage.updateEvalsModel();
+                                        Component.onCompleted: {
+                                            settingPage.updateEvalsModel();
+                                        }
+
                                     }
 
                                 }
-
-                            }
                             }
 
 
                         }
-
 
                         GroupBox{
 
                             width: parent.width
                             spacing: 20
+                            padding: 0
                             //anchors.horizontalCenter: parent.horizontalCenter
-                            height: paramCol.implicitHeight + 50
+                            height:paramCol.implicitHeight + 50
 
                             Column{
-                                width: paramCol.implicitWidth
-                                height: 80
+                                width: parent.width
+                                height: paramCol.implicitHeight
 
                                 Label{
                                     color: "indianred"
-                                    text: "معیارهای سنجش"
+                                    text: " معیارهای سنجش "
                                     width: parent.width
                                     horizontalAlignment: Label.AlignLeft
                                 }
 
-                            Flow{
-                                id: paramCol
-                                width: parent.width
-                                Switch{
-                                    id: baseRankSW
-                                    //width: parent.width
-                                    palette.highlight: "indianred"
-                                    palette.text: (this.checked)? "indianred" : "gray"
-                                    height: 50
-                                    text: "رتبه در پایه "
-                                    checked: true
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                }
+                                Flow{
+                                    id: paramCol
+                                    width: parent.width
+                                    height: contentHeight
+                                    spacing: 20
 
-                                Switch{
-                                    id: classRankSW
-                                    //width: parent.width
-                                    palette.highlight: "indianred"
-                                    palette.text: (this.checked)? "indianred" : "gray"
-                                    height: 50
-                                    text: "رتبه در کلاس "
-                                    checked: true
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                }
-
-                                Switch{
-                                    id: baseAvgSW
-                                    //width: parent.width
-                                    palette.highlight: "indianred"
-                                    palette.text: (this.checked)? "indianred" : "gray"
-                                    height: 50
-                                    visible: (settingPage.semester_transcript || settingPage.period_transcript )
-                                    text: "میانگین پایه"
-                                    checked: (settingPage.semester_transcript || settingPage.period_transcript )
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    onCheckedChanged: {
-                                        if(checked)
-                                            predefinedBaseAvgSW.visible = true
-                                        else
-                                            predefinedBaseAvgSW.visible = false
+                                    Switch{
+                                        id: baseRankSW
+                                        //width: parent.width
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        height: 50
+                                        text: "رتبه در پایه "
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
                                     }
-                                }
 
-                                Switch{
-                                    id: maxGradeSW
-                                    //width: parent.width
-                                    height: 50
-                                    palette.highlight: "indianred"
-                                    palette.text: (this.checked)? "indianred" : "gray"
-                                    text: "بالاترین نمره پایه"
-                                    checked: true
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                }
+                                    Switch{
+                                        id: classRankSW
+                                        //width: parent.width
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        height: 50
+                                        text: "رتبه در کلاس "
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                    }
 
-                                // semester
-                                Switch{
-                                    id: semester12SW
-                                    //width: parent.width
-                                    height: 50
-                                    palette.highlight: "indianred"
-                                    palette.text: (checked)? "indianred" : "gray"
-                                    visible: (settingPage.semester_transcript || settingPage.period_transcript)? true : false
-                                    text: (settingPage.period_transcript)? "نیمسال اول/دوم" : "نیمسال"
-                                    checked: !settingPage.per_month_transcript
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    onToggled: settingPage.updateRefModel();
-                                }
-
-                                Switch{
-                                    id: semesterAvgSW
-                                    //width: parent.width
-                                    height: 50
-                                    palette.highlight: "indianred"
-                                    palette.text: (this.checked)? "indianred" : "gray"
-                                    text: "میانگین نمیسال اول / دوم"
-                                    visible: (settingPage.period_transcript)? true : false
-                                    checked: true
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    onToggled: settingPage.updateRefModel();
-                                }
-
-                                Switch{
-                                    id: finalAvgSW
-                                    //width: parent.width
-                                    height: 50
-                                    palette.highlight: "indianred"
-                                    palette.text: (this.checked)? "indianred" : "gray"
-                                    text: "میانگین نهایی اول/ دوم"
-                                    visible: (settingPage.period_transcript)? true : false
-                                    checked: true
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    onToggled: settingPage.updateRefModel();
-                                }
-
-                                Switch{
-                                    id: formativeAvgSW
-                                    //width: parent.width
-                                    height: 50
-                                    palette.highlight: "indianred"
-                                    palette.text: (this.checked)? "indianred" : "gray"
-                                    text: "میانگین مستمر اول / دوم"
-                                    visible: (settingPage.period_transcript)? true : false
-                                    checked: true
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    onToggled: settingPage.updateRefModel();
-                                }
-
-                                Switch{
-                                    id: perMonthAvgSW
-                                    //width: parent.width
-                                    height: 50
-                                    palette.highlight: "indianred"
-                                    palette.text: (this.checked)? "indianred" : "gray"
-                                    text: "میانگین ماهیانه"
-                                    visible:{
-                                        if(settingPage.per_month_transcript || settingPage.midterm_transcript )
-                                        {
-                                            return true;
+                                    Switch{
+                                        id: baseAvgSW
+                                        //width: parent.width
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        height: 50
+                                        visible: (settingPage.semester_transcript || settingPage.period_transcript )
+                                        text: "میانگین پایه"
+                                        checked: (settingPage.semester_transcript || settingPage.period_transcript )
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onCheckedChanged: {
+                                            if(checked)
+                                                predefinedBaseAvgSW.visible = true
+                                            else
+                                                predefinedBaseAvgSW.visible = false
                                         }
-                                        else
-                                            return false;
                                     }
-                                    checked: false
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    onToggled: settingPage.updateRefModel();
-                                }
 
-                                Switch{
-                                    id: baseTestAvgSW
-                                    //width: parent.width
-                                    height: 50
-                                    palette.highlight: "indianred"
-                                    palette.text: (this.checked)? "indianred" : "gray"
-                                    text: "میانگین تست پایه"
-                                    visible:{
-                                        if(settingPage.test_evals.length > 0 )
-                                        {
-                                            return true;
-                                        }
-                                        else
-                                            return false;
+                                    Switch{
+                                        id: maxGradeSW
+                                        //width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "بالاترین نمره پایه"
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
                                     }
-                                    checked: true
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                }
 
-                                Switch{
-                                    id: testAvgSW
-                                    //width: parent.width
-                                    height: 50
-                                    palette.highlight: "indianred"
-                                    palette.text: (this.checked)? "indianred" : "gray"
-                                    text: "میانگین تست‌های یک درس"
-                                    visible:{
-                                        if(settingPage.test_evals.length > 0 )
-                                        {
-                                            return true;
-                                        }
-                                        else
-                                            return false;
+                                    // semester
+                                    Switch{
+                                        id: semester12SW
+                                        //width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (checked)? "indianred" : "gray"
+                                        visible: (settingPage.semester_transcript || settingPage.period_transcript)? true : false
+                                        text: (settingPage.period_transcript)? "نیمسال اول/دوم" : "نیمسال"
+                                        checked: !settingPage.per_month_transcript
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: settingPage.updateRefModel();
                                     }
-                                    checked: false
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                    onToggled: settingPage.updateRefModel();
+
+                                    Switch{
+                                        id: semesterAvgSW
+                                        //width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین نمیسال اول / دوم"
+                                        visible: (settingPage.period_transcript)? true : false
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: settingPage.updateRefModel();
+                                    }
+
+                                    Switch{
+                                        id: finalAvgSW
+                                        //width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین نهایی اول/ دوم"
+                                        visible: (settingPage.period_transcript)? true : false
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: settingPage.updateRefModel();
+                                    }
+
+                                    Switch{
+                                        id: formativeAvgSW
+                                        //width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین مستمر اول / دوم"
+                                        visible: (settingPage.period_transcript)? true : false
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: settingPage.updateRefModel();
+                                    }
+
+                                    Switch{
+                                        id: perMonthAvgSW
+                                        //width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین ماهیانه"
+                                        visible:{
+                                            if(settingPage.per_month_transcript || settingPage.midterm_transcript )
+                                            {
+                                                return true;
+                                            }
+                                            else
+                                                return false;
+                                        }
+                                        checked: false
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: settingPage.updateRefModel();
+                                    }
+
+                                    Switch{
+                                        id: baseTestAvgSW
+                                        //width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین تست پایه"
+                                        visible:{
+                                            if(settingPage.test_evals.length > 0 )
+                                            {
+                                                return true;
+                                            }
+                                            else
+                                                return false;
+                                        }
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                    }
+
+                                    Switch{
+                                        id: testAvgSW
+                                        //width: parent.width
+                                        height: 50
+                                        palette.highlight: "indianred"
+                                        palette.text: (this.checked)? "indianred" : "gray"
+                                        text: "میانگین تست‌های یک درس"
+                                        visible:{
+                                            if(settingPage.test_evals.length > 0 )
+                                            {
+                                                return true;
+                                            }
+                                            else
+                                                return false;
+                                        }
+                                        checked: false
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onToggled: settingPage.updateRefModel();
+                                    }
                                 }
-                            }
                             }
                         }
-
 
                         GroupBox{
                             width: parent.width
                             height:setCol.implicitHeight + 50
+                            padding: 0
 
                             Column{
-                                id: setCol
                                 width: parent.width
+                                height:setCol.implicitHeight
 
                                 Label{
                                     color: "steelblue"
-                                    text: "محاسبات"
+                                    text: " محاسبات "
                                     width: parent.width
                                     horizontalAlignment: Label.AlignLeft
                                 }
 
-                                Switch{
-                                    id: fieldBasedSW
+                                Flow{
+                                    id: setCol
                                     width: parent.width
-                                    height: 50
-                                    palette.highlight: "steelblue"
-                                    palette.text: (this.checked)? "steelblue" : "gray"
-                                    text: "گزارش مبتنی بر " + settingPage.field
-                                    checked: settingPage.field_based
-                                    visible: settingPage.field_based
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                }
+                                    height: contentHeight
+                                    spacing: 20
 
-                                RowLayout{
-                                    width: parent.width
-                                    height: 50
-                                    Label{
-                                        Layout.preferredHeight: 50
-                                        Layout.preferredWidth: 300
-                                        Layout.alignment: Qt.AlignLeft
-                                        horizontalAlignment: Label.AlignLeft
-                                        verticalAlignment: Label.AlignVCenter
+                                    Row{
+                                        height: 50
+                                        Label{
+                                            id: cmpLable
+                                            height: 50
+                                            //width: 300
+                                            horizontalAlignment: Label.AlignLeft
+                                            verticalAlignment: Label.AlignVCenter
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            text:"مرجع مقایسه رتبه و میانگین دروس: "
+                                            color: "steelblue"
+                                        }
+                                        ComboBox{
+                                            id: compareRef
+                                            width: 300
+                                            height: 50
+                                            font.bold: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            model: ListModel{id: refModel}
+                                            textRole: "text"
+                                            valueRole: "value"
+                                            Component.onCompleted: {settingPage.updateRefModel(); Qt.callLater(function(){settingPage.compareReady = true; settingPage.updatePostScript(); });}
+                                            onCurrentTextChanged: {settingPage.updatePostScript(); }
+                                        }
+                                    }
+
+                                    Row{
+                                        id: testRefRow
+                                        visible: (settingPage.test_evals.length > 0)? true : false;
+                                        height: 50
+                                        Label{
+                                            id: tcmpLable
+                                            height: 50
+                                            //width: 300
+                                            horizontalAlignment: Label.AlignLeft
+                                            verticalAlignment: Label.AlignVCenter
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            text:"مرجع مقایسه رتبه و میانگین تست: "
+                                            color: "steelblue"
+                                        }
+                                        ComboBox{
+                                            id: testCompareRef
+                                            width: 300
+                                            height: 50
+                                            font.bold: false
+                                            font.family: "Kalameh"
+                                            font.pixelSize: 16
+                                            model: ListModel{id: testRefModel}
+                                            textRole: "text"
+                                            valueRole: "value"
+                                            Component.onCompleted: {settingPage.updateRefModel(); }
+                                            onCurrentTextChanged: settingPage.updatePostScript();
+                                        }
+                                    }
+
+                                    Item{width: parent.width; height: 1; Rectangle{anchors.centerIn: parent; width: parent.width/2; height:1; color:"lightpink"; border.width:0;}}
+
+                                    Switch{
+                                        id: fieldBasedSW
+                                        //width: parent.width
+                                        height: 50
+                                        palette.highlight: "steelblue"
+                                        palette.text: (this.checked)? "steelblue" : "gray"
+                                        text: "گزارش مبتنی بر " + settingPage.field
+                                        checked: settingPage.field_based
+                                        visible: settingPage.field_based
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
-                                        text:"مرجع مقایسه رتبه و میانگین دروس: "
-                                        color: "steelblue"
                                     }
-                                    ComboBox{
-                                        id: compareRef
-                                        Layout.fillWidth: true
-                                        Layout.preferredHeight: 50
-                                        font.bold: false
+
+                                    Switch{
+                                        id: predefinedBaseAvgSW
+                                        //width: parent.width
+                                        height: 50
+                                        palette.highlight: "steelblue"
+                                        palette.text: (this.checked)? "steelblue" : "gray"
+                                        text: "استفاده از میانگین پایه دروس ثبت شده"
+                                        checked: (settingPage.semester_transcript || settingPage.period_transcript )
+                                        visible: (settingPage.semester_transcript || settingPage.period_transcript )
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
-                                        model: ListModel{id: refModel}
-                                        textRole: "text"
-                                        valueRole: "value"
-                                        Component.onCompleted: {settingPage.updateRefModel(); Qt.callLater(function(){settingPage.compareReady = true; settingPage.updatePostScript(); });}
-                                        onCurrentTextChanged: {settingPage.updatePostScript(); }
                                     }
-                                }
 
-                                RowLayout{
-                                    id: testRefRow
-                                    visible: (settingPage.test_evals.length > 0)? true : false;
-                                    width: parent.width
-                                    height: 50
-                                    Label{
-                                        Layout.preferredHeight: 50
-                                        Layout.preferredWidth: 300
-                                        Layout.alignment: Qt.AlignLeft
-                                        horizontalAlignment: Label.AlignLeft
-                                        verticalAlignment: Label.AlignVCenter
+                                    Switch{
+                                        id: predefinedTestBaseAvgSW
+                                        //width: parent.width
+                                        height: 50
+                                        palette.highlight: "steelblue"
+                                        palette.text: (this.checked)? "steelblue" : "gray"
+                                        text: "استفاده از میانگین پایه تست ثبت شده"
+                                        checked: (settingPage.test_evals.length > 0)? true : false;
+                                        visible: (settingPage.test_evals.length > 0)? true : false;
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
-                                        text:"مرجع مقایسه رتبه و میانگین تست: "
-                                        color: "steelblue"
                                     }
-                                    ComboBox{
-                                        id: testCompareRef
-                                        Layout.fillWidth: true
-                                        Layout.preferredHeight: 50
-                                        font.bold: false
-                                        font.family: "Kalameh"
-                                        font.pixelSize: 16
-                                        model: ListModel{id: testRefModel}
-                                        textRole: "text"
-                                        valueRole: "value"
-                                        Component.onCompleted: {settingPage.updateRefModel(); }
-                                        onCurrentTextChanged: settingPage.updatePostScript();
-                                    }
+
                                 }
-
-
-                                Switch{
-                                    id: predefinedBaseAvgSW
-                                    width: parent.width
-                                    height: 50
-                                    palette.highlight: "steelblue"
-                                    palette.text: (this.checked)? "steelblue" : "gray"
-                                    text: "استفاده از میانگین پایه دروس ثبت شده"
-                                    checked: (settingPage.semester_transcript || settingPage.period_transcript )
-                                    visible: (settingPage.semester_transcript || settingPage.period_transcript )
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                }
-
-                                Switch{
-                                    id: predefinedTestBaseAvgSW
-                                    width: parent.width
-                                    height: 50
-                                    palette.highlight: "steelblue"
-                                    palette.text: (this.checked)? "steelblue" : "gray"
-                                    text: "استفاده از میانگین پایه تست ثبت شده"
-                                    checked: (settingPage.test_evals.length > 0)? true : false;
-                                    visible: (settingPage.test_evals.length > 0)? true : false;
-                                    font.family: "Kalameh"
-                                    font.pixelSize: 16
-                                }
-
                             }
                         }
-
 
                         GroupBox{
                             width: parent.width
                             height:advisorCol.implicitHeight + 50
+                            padding: 0
+
                             Column
                             {
                                 id: advisorCol
@@ -1151,7 +1169,7 @@ Item {
 
                                 Label{
                                     color: "midnightblue"
-                                    text: "نظر مشاور"
+                                    text: " نظر مشاور "
                                     width: parent.width
                                     horizontalAlignment: Label.AlignLeft
                                 }
@@ -1383,7 +1401,7 @@ Item {
 
                                 Label{
                                     color: "mediumblue"
-                                    text: "پی‌نوشت"
+                                    text: " پی‌نوشت "
                                     width: parent.width
                                     horizontalAlignment: Label.AlignLeft
                                 }
@@ -1488,17 +1506,15 @@ Item {
                     width: parent.width
                     height: printCol.implicitHeight + 50
 
-                    Column{
+                    Flow{
                         id: printCol
                         width: parent.width
+                        spacing: 20
 
-                        RowLayout{
-                            width: parent.width
+                        Row{
                             height: 50
                             Label{
-                                Layout.preferredHeight: 50
-                                Layout.preferredWidth: 300
-                                Layout.alignment: Qt.AlignLeft
+                                height: 50
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
                                 font.family: "Kalameh"
@@ -1508,8 +1524,8 @@ Item {
                             }
                             ComboBox{
                                 id: paperSizeCB
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
+                                width: 300
+                                height: 50
                                 font.bold: false
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
@@ -1525,13 +1541,46 @@ Item {
                             }
                         }
 
-                        RowLayout{
-                            width: parent.width
+                        Row{
                             height: 50
                             Label{
-                                Layout.preferredHeight: 50
-                                Layout.preferredWidth: 300
+                                height: 50
                                 Layout.alignment: Qt.AlignLeft
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                color: "darkslategray"
+                                text:"فونت: "
+                            }
+                            ComboBox{
+                                id: fontCB
+                                width: 100
+                                height: 50
+                                font.bold: false
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                model: ListModel{id: fontModel}
+                                textRole: "text"
+                                valueRole: "value"
+                                Component.onCompleted:
+                                {
+                                    fontModel.append({text: "زر", value: "Zar"});
+                                    fontModel.append({text: "یکان", value: "B Yekan"});
+                                    fontModel.append({text: "تیتر", value: "Titr"});
+                                    fontModel.append({text: "کلمه", value: "Kalameh"});
+                                    fontModel.append({text: "نازنین", value: "B Nazanin"});
+                                    fontModel.append({text: "میترا", value: "Mitra"});
+
+                                    fontCB.currentIndex = fontCB.indexOfValue("Zar")
+                                }
+                            }
+                        }
+
+                        Row{
+                            height: 50
+                            Label{
+                                height: 50
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
                                 font.family: "Kalameh"
@@ -1541,8 +1590,8 @@ Item {
                             }
                             ComboBox{
                                 id: contentFontSizeCB
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
+                                width: 100
+                                height: 50
                                 font.bold: false
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
@@ -1564,13 +1613,10 @@ Item {
                             }
                         }
 
-                        RowLayout{
-                            width: parent.width
+                        Row{
                             height: 50
                             Label{
-                                Layout.preferredHeight: 50
-                                Layout.preferredWidth: 300
-                                Layout.alignment: Qt.AlignLeft
+                                height: 50
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
                                 font.family: "Kalameh"
@@ -1580,8 +1626,8 @@ Item {
                             }
                             ComboBox{
                                 id: titrFontSizeCB
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
+                                width: 100
+                                height: 50
                                 font.bold: false
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
@@ -1603,51 +1649,12 @@ Item {
                             }
                         }
 
-                        RowLayout{
-                            width: parent.width
+                        Item{width: parent.width; height: 1; Rectangle{anchors.centerIn: parent; width: parent.width/2; height:1; color:"lightpink"; border.width:0;}}
+
+                        Row{
                             height: 50
                             Label{
-                                Layout.preferredHeight: 50
-                                Layout.preferredWidth: 300
-                                Layout.alignment: Qt.AlignLeft
-                                horizontalAlignment: Label.AlignLeft
-                                verticalAlignment: Label.AlignVCenter
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                color: "darkslategray"
-                                text:"فونت"
-                            }
-                            ComboBox{
-                                id: fontCB
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
-                                font.bold: false
-                                font.family: "Kalameh"
-                                font.pixelSize: 16
-                                model: ListModel{id: fontModel}
-                                textRole: "text"
-                                valueRole: "value"
-                                Component.onCompleted:
-                                {
-                                    fontModel.append({text: "زر", value: "Zar"});
-                                    fontModel.append({text: "یکان", value: "B Yekan"});
-                                    fontModel.append({text: "تیتر", value: "Titr"});
-                                    fontModel.append({text: "کلمه", value: "Kalameh"});
-                                    fontModel.append({text: "نازنین", value: "B Nazanin"});
-                                    fontModel.append({text: "میترا", value: "Mitra"});
-
-                                    fontCB.currentIndex = fontCB.indexOfValue("Zar")
-                                }
-                            }
-                        }
-
-                        RowLayout{
-                            width: parent.width
-                            height: 50
-                            Label{
-                                Layout.preferredHeight: 50
-                                Layout.preferredWidth: 300
-                                Layout.alignment: Qt.AlignLeft
+                                height: 50
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
                                 font.family: "Kalameh"
@@ -1657,8 +1664,8 @@ Item {
                             }
                             ComboBox{
                                 id: cellHeight1CB
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
+                                width: 100
+                                height: 50
                                 font.bold: false
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
@@ -1690,14 +1697,12 @@ Item {
                             }
                         }
 
-                        RowLayout{
-                            width: parent.width
+                        Row{
                             height: 50
                             id: testCellHeightRL
 
                             Label{
-                                Layout.preferredHeight: 50
-                                Layout.preferredWidth: 300
+                                height: 50
                                 Layout.alignment: Qt.AlignLeft
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
@@ -1708,8 +1713,8 @@ Item {
                             }
                             ComboBox{
                                 id: cellHeight2CB
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 50
+                                width: 100
+                                height: 50
                                 font.bold: false
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
@@ -1741,13 +1746,12 @@ Item {
                             }
                         }
 
-                        RowLayout{
-                            width: parent.width
+                        Item{width: parent.width; height: 1; Rectangle{anchors.centerIn: parent; width: parent.width/2; height:1; color:"lightpink"; border.width:0;}}
+
+                        Row{
                             height: 50
                             Label{
-                                Layout.preferredHeight: 50
-                                Layout.fillWidth: true
-                                Layout.alignment: Qt.AlignLeft
+                                height: 50
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
                                 font.family: "Kalameh"
@@ -1757,20 +1761,17 @@ Item {
                             }
                             Button{
                                 id: btn17_15
-                                Layout.preferredWidth: 100
-                                Layout.preferredHeight: 50
+                                width: 50
+                                height: 50
                                 background: Rectangle{color: highlight1_Dialog.selectedColor; border.width: 1; border.color: "gray"}
                                 onClicked: highlight1_Dialog.open();
                             }
                         }
 
-                        RowLayout{
-                            width: parent.width
+                        Row{
                             height: 50
                             Label{
-                                Layout.preferredHeight: 50
-                                Layout.fillWidth: true
-                                Layout.alignment: Qt.AlignLeft
+                                height: 50
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
                                 font.family: "Kalameh"
@@ -1780,20 +1781,17 @@ Item {
                             }
                             Button{
                                 id: btn15_12
-                                Layout.preferredWidth: 100
-                                Layout.preferredHeight: 50
+                                width: 50
+                                height: 50
                                 background: Rectangle{color: highlight2_Dialog.selectedColor; border.width: 1; border.color: "gray"}
                                 onClicked: highlight2_Dialog.open();
                             }
                         }
 
-                        RowLayout{
-                            width: parent.width
+                        Row{
                             height: 50
                             Label{
-                                Layout.preferredHeight: 50
-                                Layout.fillWidth: true
-                                Layout.alignment: Qt.AlignLeft
+                                height: 50
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
                                 font.family: "Kalameh"
@@ -1803,20 +1801,17 @@ Item {
                             }
                             Button{
                                 id: btn12_10
-                                Layout.preferredWidth: 100
-                                Layout.preferredHeight: 50
+                                width: 50
+                                height: 50
                                 background: Rectangle{color: highlight3_Dialog.selectedColor; border.width: 1; border.color: "gray"}
                                 onClicked: highlight3_Dialog.open();
                             }
                         }
 
-                        RowLayout{
-                            width: parent.width
+                        Row{
                             height: 50
                             Label{
-                                Layout.preferredHeight: 50
-                                Layout.fillWidth: true
-                                Layout.alignment: Qt.AlignLeft
+                                height: 50
                                 horizontalAlignment: Label.AlignLeft
                                 verticalAlignment: Label.AlignVCenter
                                 font.family: "Kalameh"
@@ -1826,8 +1821,8 @@ Item {
                             }
                             Button{
                                 id: btn10
-                                Layout.preferredWidth: 100
-                                Layout.preferredHeight: 50
+                                width: 50
+                                height: 50
                                 background: Rectangle{color: highlight4_Dialog.selectedColor; border.width: 1; border.color: "gray"}
                                 onClicked: highlight4_Dialog.open();
                             }
@@ -1875,6 +1870,8 @@ Item {
 
                         Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "darkcyan"}
                     }
+
+                    Item{Layout.fillWidth: true; Layout.preferredHeight: 1;}
                 }
 
                 Item{   width: parent.width;  height: 50; }

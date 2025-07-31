@@ -20,7 +20,7 @@ Column {
     required property string class_name;
     required property int class_id;
 
-    property string evalType : "per_month" // midterm semester period
+    property string evalType : "semester" // per_month - midterm semester period
     property int semester_number : (dbMan.getCurrentSemester() === 1)? 1 : 2;
 
     property var allEvals: dbMan.getEvals(); // [{eval-1}, {eval-2}]
@@ -228,8 +228,8 @@ Column {
 
                     if(checked){
                         reportPage.semester_number = 1;
-                        perMonthTSW.checked = true
-                        reportPage.evalType = "per_month"
+                        semesterTSW.checked = true
+                        reportPage.evalType = "semester"
 
                     }
 
@@ -260,8 +260,8 @@ Column {
                     if(checked)
                     {
                         reportPage.semester_number = 2;
-                        perMonthTSW.checked = true
-                        reportPage.evalType = "per_month"
+                        semesterTSW.checked = true
+                        reportPage.evalType = "semester"
                     }
 
                     reportPage.updateRefModel();
@@ -322,7 +322,7 @@ Column {
                 Layout.preferredHeight:  50
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 text: "آزمون‌های ماهیانه"
-                checked: true
+                checked: false
                 ButtonGroup.group: typeBG
                 visible: (reportPage.semester_number > 0)? true : false
                 font.family: "Kalameh"
@@ -376,7 +376,7 @@ Column {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 ButtonGroup.group: typeBG
                 text: "آزمون‌های نیمسال"
-                checked: false
+                checked: true
                 visible: (reportPage.semester_number > 0)? true : false
                 font.family: "Kalameh"
                 font.pixelSize: 16

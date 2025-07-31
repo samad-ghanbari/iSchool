@@ -21,6 +21,8 @@ Page {
     required property string student_photo;
     required property StackView appStackView;
 
+    property bool infoVisibility : true;
+
     ColumnLayout{
         anchors.fill: parent
 
@@ -34,21 +36,34 @@ Page {
             font.pixelSize: 18
             font.bold: true
             color: "darkmagenta"
+            visible: studentResultSettingPage.infoVisibility
         }
 
         RowLayout{
             Layout.fillWidth: true
             Layout.preferredHeight:  100
 
-            Image {
-                source:studentResultSettingPage.student_photo
+            Rectangle
+            {
                 Layout.preferredWidth: 100
                 Layout.preferredHeight: 100
-                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                Layout.alignment: Qt.AlignCenter | Qt.AlignVCenter
+                radius: studentResultSettingPage.infoVisibility? 20 : 50
+
+
+                Image {
+                    anchors.fill: parent
+                    source:studentResultSettingPage.student_photo
+                    clip: true
+                    //fillMode: Image.PreserveAspectCrop
+                }
             }
+
+
             Column{
                 Layout.fillWidth: true
                 Layout.preferredHeight: 100
+                //visible: studentResultSettingPage.infoVisibility
 
                 Text {
                     width: parent.width
@@ -78,6 +93,7 @@ Page {
         Row{
             Layout.preferredHeight: 30
             Layout.alignment: Qt.AlignHCenter
+            visible: studentResultSettingPage.infoVisibility
 
             Text {
                 height: 30
@@ -119,6 +135,7 @@ Page {
             font.pixelSize: 20
             font.bold: true
             color: "mediumvioletred"
+            visible: studentResultSettingPage.infoVisibility
         }
 
         TranscriptSetting{
@@ -126,6 +143,13 @@ Page {
             Layout.fillHeight: true
 
             student_class_transcript: false // false:student   true:class
+
+            onScrolledDownChanged: {
+                if(scrolledDown)
+                    studentResultSettingPage.infoVisibility = false;
+                else
+                    studentResultSettingPage.infoVisibility = true;
+            }
 
             branch : studentResultSettingPage.branch
             step : studentResultSettingPage.step
