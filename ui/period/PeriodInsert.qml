@@ -135,6 +135,18 @@ Page {
                                     palette.highlight: "darkcyan"
                                 }
 
+                                Switch{
+                                    id: summerSW
+                                    Layout.columnSpan: 2
+                                    Layout.preferredHeight:  50
+                                    text: "نیمسال تابستان"
+                                    checked: false
+                                    Layout.alignment: Qt.AlignLeft
+                                    font.family: "Kalameh"
+                                    font.pixelSize: 16
+                                    palette.text: "black"
+                                    palette.highlight: "darkcyan"
+                                }
                                 Text {
                                     text: "اولویت نمایش"
                                     Layout.minimumWidth: 100
@@ -218,6 +230,7 @@ Page {
                                     period["step_id"] = insertPage.step_id
                                     period["period_name"] = periodTF.text
                                     period["passed"] = enabledSW.checked
+                                    period["summer"] = summerSW.checked
                                     period["pattern"] = patternCB.currentValue;
                                     period["sort_priority"] = sortSB.value
 

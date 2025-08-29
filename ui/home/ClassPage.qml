@@ -11,6 +11,7 @@ Page {
     required property string base;
     required property bool field_based;
     required property string period;
+    required property bool summer_semester;
 
     required property StackView appStackView;
 
@@ -278,6 +279,7 @@ Page {
             field : classPageId.field
             field_based: classPageId.field_based
             period: classPageId.period
+            summer_semester: classPageId.summer_semester;
         }
     }
 

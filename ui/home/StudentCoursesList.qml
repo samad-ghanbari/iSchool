@@ -14,6 +14,7 @@ Page {
     required property string base;
     required property bool field_based;
     required property string period;
+    required property bool summer_semester;
     required property string class_name;
     required property int class_id;
     required property int student_id;
@@ -34,7 +35,7 @@ Page {
     property bool test_flag: lastEvals["test"];
 
     property bool onEditing : false
-    property var sceIds: dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1)
+    property var sceIds: dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1, studentCoursesPageId.summer_semester)
 
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
@@ -418,7 +419,16 @@ Page {
                                 text: "نیمسال اول"
                                 palette.text: (this.checked)? "steelblue" : "gray"
                                 palette.buttonText:  (this.checked)? "steelblue" : "gray"
-                                checked: studentCoursesPageId.semester_1
+                                checked: {
+                                    if(studentCoursesPageId.summer_semester)
+                                        return false;
+                                    else
+                                        if(studentCoursesPageId.semester_1)
+                                            return true;
+                                        else
+                                            return false;
+                                }
+                                visible: !studentCoursesPageId.summer_semester
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
                                 onCheckedChanged: {
@@ -445,7 +455,16 @@ Page {
                                 text: "نیمسال دوم"
                                 palette.text:  (this.checked)? "steelblue" : "gray"
                                 palette.buttonText:  (this.checked)? "steelblue" : "gray"
-                                checked: !sem1RB.checked
+                                checked:  {
+                                    if(studentCoursesPageId.summer_semester)
+                                        return false;
+                                    else
+                                        if(studentCoursesPageId.semester_1)
+                                            return false;
+                                        else
+                                            return true;
+                                }
+                                visible: !studentCoursesPageId.summer_semester
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
                                 onCheckedChanged: {
@@ -458,6 +477,34 @@ Page {
                                     {
                                         dbMan.setLastSemester(1);
                                         studentCoursesPageId.semester_1 = true;
+                                    }
+
+                                    studentCoursesPageId.refreshPage();
+                                }
+                            }
+                            RadioButton{
+                                height: 50
+                                anchors.verticalCenter: parent.verticalCenter
+                                ButtonGroup.group: semesterBG
+                                text: "نیمسال تابستان"
+                                palette.text:  (this.checked)? "steelblue" : "gray"
+                                palette.buttonText:  (this.checked)? "steelblue" : "gray"
+                                checked: studentCoursesPageId.summer_semester
+                                visible: studentCoursesPageId.summer_semester
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                onCheckedChanged: {
+                                    if(checked)
+                                    {
+                                        dbMan.setLastSemester(3);
+                                    }
+                                    else
+                                    {
+                                        if(!studentCoursesPageId.summer_semester)
+                                        {
+                                            dbMan.setLastSemester(1);
+                                            studentCoursesPageId.semester_1 = true;
+                                        }
                                     }
 
                                     studentCoursesPageId.refreshPage();
@@ -809,7 +856,7 @@ Page {
 
                                     color:"floralwhite"
                                     border.width: 1
-                                    border.color: "gray"                                   
+                                    border.color: "gray"
 
                                     Row{
                                         id: contRow
@@ -1069,7 +1116,14 @@ Page {
     {
         id: evalSelectionRefreshDialog
         model : studentCoursesPageId.class_evals
-        selected_semester: studentCoursesPageId.semester_1? 1 : 2;
+        selected_semester: {
+            if(studentCoursesPageId.summer_semester)
+                return 3;
+            else
+            {
+                if(studentCoursesPageId.semester_1) return 1; else return 2;
+            }
+        }
         onEvalSelected: (eval_id)=>{
                             studentCoursesPageId.refreshEval(eval_id);
                             evalSelectionRefreshDialog.close();

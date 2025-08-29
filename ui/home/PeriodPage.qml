@@ -133,6 +133,7 @@ Page {
                             periodPageId.appStackView.push(classComponent, {
                                                              objectName:"classON",
                                                              period: recdel.model.period_name,
+                                                             summer_semester: recdel.model.summer_semester
                                                          });
                         }
                     }

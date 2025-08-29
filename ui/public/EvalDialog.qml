@@ -16,7 +16,9 @@ Dialog
         evalModel.clear();
         let sem;
         for(var obj of evalDialogBox.model){
-            sem = (obj.semester === 1)? "نیمسال اول" : "نیمسال دوم";
+            if(obj.semester === 1) sem = "نیمسال اول";
+            else if(obj.semester === 2) sem = "نیمسال دوم";
+            else if(obj.semester === 3) sem = "نیمسال تابستان";
             if( obj.semester === evalDialogBox.selected_semester )
                 evalModel.append({"text": obj.eval_name + " - " + sem, "value": obj.id });
         }

@@ -149,6 +149,7 @@ Page {
                             Component.onCompleted: {
                                 semModel.append({text:"نیمسال اول", value: 1});
                                 semModel.append({text:"نیمسال دوم", value: 2});
+                                semModel.append({text:"نیمسال تابستان", value: 3});
                                 semesterCB.currentIndex = 0;
                             }
 

@@ -267,6 +267,20 @@ Page {
                     elide: Text.ElideRight
                 }
 
+                Label {
+                    text: "نیمسال تابستان"
+                    visible: periodDelegate.model['summer']
+                    padding: 0
+                    font.family: "Kalameh"
+                    font.pixelSize: 12
+                    font.bold: true
+                    color: "mediumvioletred"
+                    Layout.fillWidth: true
+                    Layout.preferredHeight:  40
+                    horizontalAlignment: Label.AlignHCenter
+                    elide: Text.ElideRight
+                }
+
                 Rectangle{Layout.preferredWidth: parent.width/2; Layout.preferredHeight: 4; color: (periodDelegate.boxHovered)? "darkcyan" : "darkgray"; Layout.alignment: Qt.AlignHCenter; }
 
                 Item{Layout.fillHeight: true; Layout.preferredWidth: 1;}
@@ -320,6 +334,7 @@ Page {
                                                                      city: periodDelegate.model['city'],
                                                                      branch_name: periodDelegate.model['branch_name'],
                                                                      passed: periodDelegate.model['passed'],
+                                                                     summer: periodDelegate.model['summer'],
                                                                      sort_priority: periodDelegate.model['sort_priority']
 
                                                                  });

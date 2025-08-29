@@ -14,6 +14,7 @@ Page {
     required property string base;
     required property bool field_based;
     required property string period;
+    required property bool summer_semester;
     required property string class_name;
     required property int class_id;
 
@@ -434,6 +435,7 @@ Page {
             field : classStudentsPageId.field
             field_based: classStudentsPageId.field_based
             period: classStudentsPageId.period
+            summer_semester: classStudentsPageId.summer_semester
             class_name: classStudentsPageId.class_name
             class_id: classStudentsPageId.class_id
             class_evals : dbMan.getClassEvalsArray(classStudentsPageId.class_id)
@@ -451,6 +453,7 @@ Page {
             field : classStudentsPageId.field
             field_based: classStudentsPageId.field_based
             period: classStudentsPageId.period
+            summer_semester: classStudentsPageId.summer_semester
             class_name: classStudentsPageId.class_name
             class_id: classStudentsPageId.class_id
         }

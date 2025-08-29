@@ -16,6 +16,7 @@ Page {
     required property string city
     required property string branch_name
     required property bool passed
+    required property bool summer
     required property int sort_priority
 
     signal popSignal();
@@ -174,6 +175,18 @@ Page {
                                     palette.text: "black"
                                     palette.highlight: "darkcyan"
                                 }
+                                Switch{
+                                    id: summerSW
+                                    Layout.columnSpan: 2
+                                    Layout.preferredHeight:  50
+                                    text: "نیمسال تابستان"
+                                    checked: updatePage.summer
+                                    Layout.alignment: Qt.AlignLeft
+                                    font.family: "Kalameh"
+                                    font.pixelSize: 16
+                                    palette.text: "black"
+                                    palette.highlight: "darkcyan"
+                                }
 
                                 Text {
                                     text: "اولویت نمایش"
@@ -220,6 +233,7 @@ Page {
                                     period["id"] = updatePage.period_id;
                                     period["period_name"] = periodTF.text;
                                     period["passed"] = enabledSW.checked;
+                                    period["summer"] = summerSW.checked;
                                     period["sort_priority"] = sortSB.value
 
                                     var check = true

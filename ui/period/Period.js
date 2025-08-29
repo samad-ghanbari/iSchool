@@ -16,7 +16,7 @@ function periodsUpdate(step_id)
 {
     periodsModel.clear();
     var jsondata = dbMan.getStepPeriods(step_id, true);
-    // p.id, p.step_id, p.period_name, p.passed, s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
+    // p.id, p.step_id, p.period_name, p.passed, p.summer, s.step_name, s.branch_id, br.city, br.branch_name, s.numeric_graded, s.field_based, p.sort_priority
     for(var obj of jsondata)
     {
         periodsModel.append(obj)
