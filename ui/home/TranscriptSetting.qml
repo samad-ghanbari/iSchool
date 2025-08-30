@@ -530,6 +530,7 @@ Item {
                                         ButtonGroup.group: semesterGB
                                         text: "نیمسال اول"
                                         checked: (settingPage.semester_Number === 1)? true : false;
+                                        visible: (settingPage.semester_Number < 3)? true : false;
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         palette.highlight: "darkmagenta"
@@ -565,6 +566,7 @@ Item {
                                         ButtonGroup.group: semesterGB
                                         text: "نیمسال دوم"
                                         checked: (settingPage.semester_Number === 2)? true : false;
+                                        visible: (settingPage.semester_Number < 3)? true : false;
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         palette.highlight: "darkmagenta"
@@ -602,6 +604,7 @@ Item {
                                         ButtonGroup.group: semesterGB
                                         text: "سال‌تحصیلی"
                                         checked: (settingPage.semester_Number === 0)? true : false;
+                                        visible: (settingPage.semester_Number < 3)? true : false;
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         palette.highlight: "darkmagenta"
@@ -621,6 +624,44 @@ Item {
                                                 settingPage.semester_Number = 0;
                                                 periodTSW.checked = true
                                                 settingPage.period_transcript = true
+                                            }
+
+                                            settingPage.updateEvalsModel();
+                                            settingPage.monthVisibility();
+                                        }
+
+                                    }
+
+                                    // summer semester
+                                    Switch{
+                                        id: summerSemesterRB
+                                        height: 50
+                                        //Layout.preferredHeight:  50
+                                        //Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                        ButtonGroup.group: semesterGB
+                                        text: "نیمسال تابستان"
+                                        checked: (settingPage.semester_Number === 3)? true : false;
+                                        visible: (settingPage.semester_Number === 3)? true : false;
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        palette.highlight: "darkmagenta"
+                                        palette.text: (this.checked)? "darkmagenta" : "gray"
+                                        onCheckedChanged:
+                                        {
+                                            if(!checked)
+                                            {
+                                                if(!semester1RB.checked && !periodRB.checked)
+                                                    semester2RB.checked = true;
+                                            }
+
+                                            settingPage.evals = []
+                                            evalsModel.clear();
+
+                                            if(checked)
+                                            {
+                                                settingPage.semester_Number = 3;
+                                                semesterTSW.checked = true
+                                                settingPage.semester_transcript = true
                                             }
 
                                             settingPage.updateEvalsModel();
