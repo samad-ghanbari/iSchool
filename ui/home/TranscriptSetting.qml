@@ -61,7 +61,7 @@ Item {
         evalsModel.clear();
         let obj;
         // semester : 0 >> formative-final of each semester
-        // semester : 1-2
+        // semester : 1-2-3
         //              per_month : month
         //              midterm   : month-midterm
         //              semester  : formative-final
@@ -80,7 +80,7 @@ Item {
                 }
             }
         }
-        else  // 1-2
+        else  // 1-2-3
         {
             if(per_month_transcript)
             {
@@ -176,6 +176,8 @@ Item {
                                 refModel.append({text: "آزمون " + obj.eval_name +" نیمسال اول ", value: obj.id});
                             else if(obj["semester"] === 2)
                                 refModel.append({text: "آزمون " + obj.eval_name +" نیمسال دوم ", value: obj.id});
+                            else if(obj["semester"] === 3)
+                                refModel.append({text: "آزمون " + obj.eval_name +" نیمسال تابستان ", value: obj.id});
                         }
                     }
                 }
@@ -204,6 +206,8 @@ Item {
                                     refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                 else if(obj["semester"] === 2)
                                     refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                else if(obj["semester"] === 3)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
                             }
 
                         }
@@ -233,6 +237,8 @@ Item {
                                         refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                     else if(obj["semester"] === 2)
                                         refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                    else if(obj["semester"] === 3)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
                                 }
 
                                 if(final_value == -1)
@@ -259,6 +265,8 @@ Item {
                         refModel.append({text: "نیمسال اول", value: -601});
                     else if(SEMESTER === 2)
                         refModel.append({text: "نیمسال دوم", value: -602});
+                    else if(SEMESTER === 3)
+                        refModel.append({text: "نیمسال تابستان", value: -603});
                 }
 
 
@@ -277,6 +285,8 @@ Item {
                                         refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                     else if(obj["semester"] === 2)
                                         refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم " , value: obj.id});
+                                    else if(obj["semester"] === 3)
+                                        refModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان " , value: obj.id});
                                 }
 
 
@@ -302,6 +312,8 @@ Item {
                         testRefModel.append({text: obj.eval_name +" نیمسال اول ", value: obj.id});
                     else if(obj["semester"] === 2)
                         testRefModel.append({text: obj.eval_name +" نیمسال دوم ", value: obj.id});
+                    else if(obj["semester"] === 3)
+                        testRefModel.append({text: obj.eval_name +" نیمسال تابستان ", value: obj.id});
 
                     test_evals.push(id);
                 }
@@ -393,6 +405,24 @@ Item {
             tirSW.visible = false;
             morSW.visible = false;
             shaSW.visible = false;
+
+            mehSW.visible = false;
+            abaSW.visible = false;
+            azaSW.visible = false;
+
+            deySW.visible = false;
+            bahSW.visible = true;
+            esfSW.visible = true;
+        }
+        else if(sem == 3)
+        {
+            farSW.visible = false;
+            ordSW.visible = false;
+            khoSW.visible = false;
+
+            tirSW.visible = true;
+            morSW.visible = true;
+            shaSW.visible = true;
 
             mehSW.visible = false;
             abaSW.visible = false;
@@ -531,6 +561,7 @@ Item {
                                         text: "نیمسال اول"
                                         checked: (settingPage.semester_Number === 1)? true : false;
                                         visible: (settingPage.semester_Number < 3)? true : false;
+                                        enabled: visible
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         palette.highlight: "darkmagenta"
@@ -567,6 +598,7 @@ Item {
                                         text: "نیمسال دوم"
                                         checked: (settingPage.semester_Number === 2)? true : false;
                                         visible: (settingPage.semester_Number < 3)? true : false;
+                                        enabled: visible
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                         palette.highlight: "darkmagenta"
@@ -648,24 +680,9 @@ Item {
                                         palette.text: (this.checked)? "darkmagenta" : "gray"
                                         onCheckedChanged:
                                         {
-                                            if(!checked)
-                                            {
-                                                if(!semester1RB.checked && !periodRB.checked)
-                                                    semester2RB.checked = true;
-                                            }
-
-                                            settingPage.evals = []
-                                            evalsModel.clear();
-
-                                            if(checked)
-                                            {
-                                                settingPage.semester_Number = 3;
-                                                semesterTSW.checked = true
-                                                settingPage.semester_transcript = true
-                                            }
-
-                                            settingPage.updateEvalsModel();
-                                            settingPage.monthVisibility();
+                                            checked = true;
+                                            //settingPage.updateEvalsModel();
+                                            //settingPage.monthVisibility();
                                         }
 
                                     }
@@ -1203,6 +1220,19 @@ Item {
                                         text: "استفاده از میانگین پایه تست ثبت شده"
                                         checked: (settingPage.test_evals.length > 0)? true : false;
                                         visible: (settingPage.test_evals.length > 0)? true : false;
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                    }
+
+                                    Switch{
+                                        id: normalisedSW
+                                        //width: parent.width
+                                        height: 50
+                                        visible: false
+                                        palette.highlight: "steelblue"
+                                        palette.text: (this.checked)? "steelblue" : "gray"
+                                        text: "نرمالایز کردن نمرات"
+                                        checked: true
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
                                     }
@@ -2093,6 +2123,7 @@ Item {
                 "test_compare_ref" : test_compare_ref,
                 "predefined_base_avg": predefined_base_avg,
                 "predefined_test_avg": predefinedTestBaseAvgSW.checked,
+                "normalised_grade" : normalisedSW.checked,
                 "advisor": advisorComment_flag,
                 "comment_month": month,
                 "postscript": {
@@ -2263,6 +2294,7 @@ Item {
                 "test_compare_ref" : test_compare_ref,
                 "predefined_base_avg": predefined_base_avg,
                 "predefined_test_avg": predefinedTestBaseAvgSW.checked,
+                "normalised_grade" : normalisedSW.checked,
                 "advisor": advisorComment_flag,
                 "comment_month": month,
                 "postscript": {

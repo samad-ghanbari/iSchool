@@ -13,6 +13,7 @@ Page {
     required property string base;
     required property bool field_based;
     required property string period;
+    required property bool summer_semester;
     required property string class_name;
     required property int class_id;
     required property int course_id;
@@ -32,7 +33,7 @@ Page {
 
     property string activeEval;
     property bool onEditing : false;
-    property var sceIds: dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id, courseStudentsPageId.semester_1); // { mostamar:[], final:[], test:[]} one-course all-students
+    property var sceIds: dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id, courseStudentsPageId.semester_1, courseStudentsPageId.summer_semester); // { mostamar:[], final:[], test:[]} one-course all-students
 
     function findItemRecursive(parent, propertyName, propertyValue) {
         for (var i = 0; i < parent.children.length; i++) {

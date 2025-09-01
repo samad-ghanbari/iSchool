@@ -429,6 +429,7 @@ Page {
                                             return false;
                                 }
                                 visible: !studentCoursesPageId.summer_semester
+                                enabled: !studentCoursesPageId.summer_semester
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
                                 onCheckedChanged: {
@@ -436,13 +437,13 @@ Page {
                                     {
                                         dbMan.setLastSemester(1);
                                         studentCoursesPageId.semester_1 = true;
-                                        dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1)
+                                        dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1, false)
                                     }
                                     else
                                     {
                                         dbMan.setLastSemester(2);
                                         studentCoursesPageId.semester_1 = false;
-                                        dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1)
+                                        dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1, false)
                                     }
 
                                     studentCoursesPageId.refreshPage();
@@ -465,6 +466,7 @@ Page {
                                             return true;
                                 }
                                 visible: !studentCoursesPageId.summer_semester
+                                enabled: !studentCoursesPageId.summer_semester
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
                                 onCheckedChanged: {
