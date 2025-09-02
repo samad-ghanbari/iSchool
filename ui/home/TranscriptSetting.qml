@@ -1224,17 +1224,34 @@ Item {
                                         font.pixelSize: 16
                                     }
 
+                                    Item{width: parent.width; height: 1; Rectangle{anchors.centerIn: parent; width: parent.width/2; height:1; color:"lightpink"; border.width:0;}}
+
                                     Switch{
                                         id: normalisedSW
                                         //width: parent.width
                                         height: 50
-                                        visible: false
                                         palette.highlight: "steelblue"
                                         palette.text: (this.checked)? "steelblue" : "gray"
                                         text: "نرمالایز کردن نمرات"
                                         checked: true
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
+                                    }
+
+                                    Switch{
+                                        id: totalRowSW
+                                        //width: parent.width
+                                        height: 50
+                                        palette.highlight: "steelblue"
+                                        palette.text: (this.checked)? "steelblue" : "gray"
+                                        text: "نمایش ردیف مجموع کل و میانگین کل"
+                                        checked: true
+                                        font.family: "Kalameh"
+                                        font.pixelSize: 16
+                                        onCheckedChanged: {
+                                            if(checked)
+                                            normalisedSW.checked = true
+                                        }
                                     }
 
                                 }
@@ -2123,7 +2140,8 @@ Item {
                 "test_compare_ref" : test_compare_ref,
                 "predefined_base_avg": predefined_base_avg,
                 "predefined_test_avg": predefinedTestBaseAvgSW.checked,
-                "normalised_grade" : normalisedSW.checked,
+                "normalise_grade" : normalisedSW.checked,
+                "total_row" : totalRowSW.checked,
                 "advisor": advisorComment_flag,
                 "comment_month": month,
                 "postscript": {
@@ -2294,7 +2312,8 @@ Item {
                 "test_compare_ref" : test_compare_ref,
                 "predefined_base_avg": predefined_base_avg,
                 "predefined_test_avg": predefinedTestBaseAvgSW.checked,
-                "normalised_grade" : normalisedSW.checked,
+                "normalise_grade" : normalisedSW.checked,
+                "total_row" : totalRowSW.checked,
                 "advisor": advisorComment_flag,
                 "comment_month": month,
                 "postscript": {
