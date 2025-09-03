@@ -293,6 +293,7 @@ Page {
             field : classPageId.field
             field_based: classPageId.field_based
             period: classPageId.period
+            summer_semester : classPageId.summer_semester
         }
     }
 
