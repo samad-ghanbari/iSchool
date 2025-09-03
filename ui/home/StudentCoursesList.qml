@@ -82,7 +82,7 @@ Page {
         if(dbMan.refreshStudentEval(studentCoursesPageId.class_id, studentCoursesPageId.student_id, eval_id))
         {
             studentCoursesPageId.class_evals = dbMan.getClassEvalsArray(studentCoursesPageId.class_id);
-            studentCoursesPageId.sceIds = dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1)
+            studentCoursesPageId.sceIds = dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1, studentCoursesPageId.summer_semester)
 
 
             infoDialogId.dialogSuccess = true

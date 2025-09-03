@@ -486,6 +486,7 @@ Page {
             field : classStudentsPageId.field
             field_based: classStudentsPageId.field_based
             period: classStudentsPageId.period
+            summer_semester: classStudentsPageId.summer_semester
             class_name: classStudentsPageId.class_name
             class_id: classStudentsPageId.class_id
         }

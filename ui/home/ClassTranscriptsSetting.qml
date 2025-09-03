@@ -14,6 +14,7 @@ Page {
     required property string base;
     required property bool field_based;
     required property string period;
+    required property bool summer_semester;
     required property string class_name;
     required property int class_id;
     required property StackView appStackView;
@@ -105,6 +106,7 @@ Page {
             base: classTranscriptsSettingPage.base
             field_based: classTranscriptsSettingPage.field_based
             period: classTranscriptsSettingPage.period
+            summer_semester: classTranscriptsSettingPage.summer_semester
             class_name: classTranscriptsSettingPage.class_name
             class_id: classTranscriptsSettingPage.class_id
             appStackView: classTranscriptsSettingPage.appStackView

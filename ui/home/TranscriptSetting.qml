@@ -963,9 +963,9 @@ Item {
                                         font.pixelSize: 16
                                         onCheckedChanged: {
                                             if(checked)
-                                                predefinedBaseAvgSW.visible = true
+                                                predefinedBaseAvgSW.enabled = true
                                             else
-                                                predefinedBaseAvgSW.visible = false
+                                                predefinedBaseAvgSW.enabled = false
                                         }
                                     }
 
@@ -1077,6 +1077,12 @@ Item {
                                         checked: true
                                         font.family: "Kalameh"
                                         font.pixelSize: 16
+                                        onCheckedChanged: {
+                                            if(checked)
+                                                predefinedTestBaseAvgSW.enabled = true
+                                            else
+                                                predefinedTestBaseAvgSW.enabled = false
+                                        }
                                     }
 
                                     Switch{
@@ -1203,6 +1209,10 @@ Item {
                                         //width: parent.width
                                         height: 50
                                         palette.highlight: "steelblue"
+                                        onEnabledChanged: {
+                                            palette.text = (enabled)? "steelblue": "gray"
+                                            palette.highlight = (enabled)? "steelblue": "gray"
+                                        }
                                         palette.text: (this.checked)? "steelblue" : "gray"
                                         text: "استفاده از میانگین پایه دروس ثبت شده"
                                         checked: (settingPage.semester_transcript || settingPage.period_transcript )
@@ -1216,6 +1226,10 @@ Item {
                                         //width: parent.width
                                         height: 50
                                         palette.highlight: "steelblue"
+                                        onEnabledChanged: {
+                                            palette.text = (enabled)? "steelblue": "gray"
+                                            palette.highlight = (enabled)? "steelblue": "gray"
+                                        }
                                         palette.text: (this.checked)? "steelblue" : "gray"
                                         text: "استفاده از میانگین پایه تست ثبت شده"
                                         checked: (settingPage.test_evals.length > 0)? true : false;
@@ -1849,8 +1863,52 @@ Item {
 
                         Item{width: parent.width; height: 1; Rectangle{anchors.centerIn: parent; width: parent.width/2; height:1; color:"lightpink"; border.width:0;}}
 
+
+                        // highlights
+                        RowLayout{
+                            width: parent.width
+                            height: 20
+                            CheckBox {
+                                id: highlightChB
+                                Layout.preferredHeight: 20
+                                Layout.preferredWidth:  20
+                                checked: true
+                                indicator: Rectangle {
+                                    width: 20
+                                    height: 20
+                                    radius: 2
+                                    color: "white"
+                                    border.width: 1
+                                    border.color:"gray"
+
+                                    Rectangle{
+                                        width: 10
+                                        height: 10
+                                        anchors.centerIn: parent
+                                        color: highlightChB.checked ? "#ff6363" : "white"
+                                    }
+                                }
+                            }
+                            Label
+                            {
+                                Layout.preferredHeight: 25
+                                verticalAlignment: Label.AlignVCenter
+                                text: "هایلایت نمرات"
+                                font.family: "Kalameh"
+                                font.pixelSize: 14
+                                color:"#ff6363"
+                                MouseArea{
+                                    anchors.fill: parent
+                                    onClicked: highlightChB.toggle();
+                                }
+                            }
+
+                            Item{Layout.fillWidth: true; Layout.preferredHeight: 20}
+                        }
+
                         Row{
                             height: 50
+                            visible: highlightChB.checked
                             Label{
                                 height: 50
                                 horizontalAlignment: Label.AlignLeft
@@ -1871,6 +1929,7 @@ Item {
 
                         Row{
                             height: 50
+                            visible: highlightChB.checked
                             Label{
                                 height: 50
                                 horizontalAlignment: Label.AlignLeft
@@ -1891,6 +1950,7 @@ Item {
 
                         Row{
                             height: 50
+                            visible: highlightChB.checked
                             Label{
                                 height: 50
                                 horizontalAlignment: Label.AlignLeft
@@ -1911,6 +1971,7 @@ Item {
 
                         Row{
                             height: 50
+                            visible: highlightChB.checked
                             Label{
                                 height: 50
                                 horizontalAlignment: Label.AlignLeft
@@ -2141,6 +2202,7 @@ Item {
                 "predefined_base_avg": predefined_base_avg,
                 "predefined_test_avg": predefinedTestBaseAvgSW.checked,
                 "normalise_grade" : normalisedSW.checked,
+                "highlight" : highlightChB.checked,
                 "total_row" : totalRowSW.checked,
                 "advisor": advisorComment_flag,
                 "comment_month": month,
@@ -2313,6 +2375,7 @@ Item {
                 "predefined_base_avg": predefined_base_avg,
                 "predefined_test_avg": predefinedTestBaseAvgSW.checked,
                 "normalise_grade" : normalisedSW.checked,
+                "highlight" : highlightChB.checked,
                 "total_row" : totalRowSW.checked,
                 "advisor": advisorComment_flag,
                 "comment_month": month,
