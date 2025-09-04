@@ -252,7 +252,7 @@ Page {
         Row{
             visible: baseAvgPage.summer_semester
             Layout.preferredHeight: 80
-            Layout.preferredWidth: 950
+            Layout.preferredWidth: 650
             Layout.alignment: Qt.AlignHCenter
             spacing: 0
 
@@ -313,7 +313,7 @@ Page {
             visible: baseAvgPage.summer_semester
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.minimumWidth: 950
+            Layout.minimumWidth: 650
             Layout.topMargin: 0
             color: "transparent"
 
@@ -323,14 +323,14 @@ Page {
                 //contentHeight: lv_summer.contentHeight
                 //contentWidth: lv_summer.contentWidth
                 contentHeight: Math.max(lv_summer.height, flk_summer.height)
-                contentWidth: Math.max(lv_summer.width, flk_sumer.width)
+                contentWidth: Math.max(lv_summer.width, flk_summer.width)
                 clip: true
 
                 ListView
                 {
                     id: lv_summer
                     height: lv_summer.contentHeight
-                    width: 950
+                    width: 650
                     anchors.centerIn: parent
                     model: ListModel{id: lv_summerModel;}
                     clip: true
@@ -1118,7 +1118,7 @@ Page {
         Rectangle{
             id: recdel3;
             height: 80
-            width: lv.width
+            width: lv_summer.width
 
             //id, course_name,course_coefficient, base_id, period_id, base_average
             required property var model;
@@ -1139,7 +1139,7 @@ Page {
                     font.bold: true
                     horizontalAlignment: Qt.AlignLeft
                     verticalAlignment: Qt.AlignVCenter
-                    text: "  " + recdel.model.course_name
+                    text: "  " + recdel3.model.course_name
                     color: "darkmagenta"
                 }
                 Label{
@@ -1151,7 +1151,7 @@ Page {
                     font.bold: true
                     horizontalAlignment: Qt.AlignHCenter
                     verticalAlignment: Qt.AlignVCenter
-                    text: "  " + recdel.model.course_coefficient
+                    text: "  " + recdel3.model.course_coefficient
                     color: "white"
                     background: Rectangle{color:"mediumvioletred"; anchors.fill:parent}
                 }
@@ -1181,7 +1181,7 @@ Page {
                     TextField{
                         id: te3
 
-                        property int seId : 1
+                        property int seId : 3
                         property int coId : recdel3.model.id
                         property bool test : false
                         property bool onEditTF : false
@@ -1198,7 +1198,7 @@ Page {
                                 }
                                 else
                                 {
-                                    avgRec.value = v;
+                                    avgRec3.value = v;
                                 }
                             }
                             else{
@@ -1220,7 +1220,7 @@ Page {
                             if(index < baseAvgPage.coursesId.length)
                             {
                                 let newCoId = baseAvgPage.coursesId[index];
-                                let item = baseAvgPage.findItemRecursive(lv_summer, newCoId, 1, false);
+                                let item = baseAvgPage.findItemRecursive(lv_summer, newCoId, 3, false);
 
                                 if(item)
                                 {
@@ -1333,7 +1333,7 @@ Page {
                     }
 
                 }
-                // test 1
+                // test summer
                 Rectangle{
                     id: testRec3
                     width: 150
@@ -1395,7 +1395,7 @@ Page {
                             if(index < baseAvgPage.coursesId.length)
                             {
                                 let newCoId = baseAvgPage.coursesId[index];
-                                let item = baseAvgPage.findItemRecursive(lv_summer, newCoId, 1, true);
+                                let item = baseAvgPage.findItemRecursive(lv_summer, newCoId, 3, true);
 
                                 if(item)
                                 {
@@ -1403,7 +1403,7 @@ Page {
                                     baseAvgPage.onEditing = true
                                     item.forceActiveFocus();
 
-                                    item = lv.itemAtIndex(recdel3.model.index +1)
+                                    item = lv_summer.itemAtIndex(recdel3.model.index +1)
                                     if(item)
                                         flk_summer.contentY = ((flk_summer.height+flk_summer.contentY-100) <= item.y )? item.y : flk_summer.contentY
                                 }
@@ -1417,8 +1417,8 @@ Page {
                         font.pixelSize: 18
                         font.bold: true
                         color:"darkmagenta"
-                        text:(testRec1.value > -1000)? testRec3.value :"";
-                        visible: tte1.onEditTF
+                        text:(testRec3.value > -1000)? testRec3.value :"";
+                        visible: tte3.onEditTF
                         Rectangle{height:2; width: parent.width; color: "olivedrab"; anchors.bottom:parent.bottom;}
                         validator: RegularExpressionValidator { // Regex pattern to match floating-point numbers
                             regularExpression: /^-?\d*\.?\d+$/
