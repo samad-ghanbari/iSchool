@@ -16,6 +16,7 @@ Page {
     required property string period;
     required property string class_name;
     required property int class_id;
+    required property bool summer_semester;
 
     property string evalType : "per_month" // midterm semester period
     property int semester_number : 1
@@ -78,6 +79,8 @@ Page {
                                     refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                 else if(obj["semester"] === 2)
                                     refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                else if(obj["semester"] === 3)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
                             }
                             else
                             {
@@ -85,6 +88,8 @@ Page {
                                     testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                 else if(obj["semester"] === 2)
                                     testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                else if(obj["semester"] === 3)
+                                    testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
                             }
                         }
 
@@ -262,6 +267,7 @@ Page {
                     base: classReportPage.base
                     field_based: classReportPage.field_based
                     period: classReportPage.period
+                    semester_number: classReportPage.summer_semester
 
                     class_name: classReportPage.class_name
                     class_id: classReportPage.class_id

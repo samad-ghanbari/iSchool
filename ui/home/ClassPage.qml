@@ -306,6 +306,7 @@ Page {
             field : classPageId.field
             field_based: classPageId.field_based
             period: classPageId.period
+            summer_semester: classPageId.summer_semester
 
             onPopSignal: classPageId.appStackView.pop();
         }
@@ -320,6 +321,7 @@ Page {
             field : classPageId.field
             field_based: classPageId.field_based
             period: classPageId.period
+            summer_semester: classPageId.summer_semester
             class_id: 0
             class_name: ""
 

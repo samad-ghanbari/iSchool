@@ -504,6 +504,7 @@ Page {
             period: classStudentsPageId.period
             class_name: classStudentsPageId.class_name
             class_id: classStudentsPageId.class_id
+            summer_semester: classStudentsPageId.summer_semester
 
             onPopSignal: classStudentsPageId.appStackView.pop()
         }

@@ -16,12 +16,23 @@ Column {
     required property string base;
     required property bool field_based;
     required property string period;
+    required property bool summer_semester;
 
     required property string class_name;
     required property int class_id;
 
     property string evalType : "semester" // per_month - midterm semester period
-    property int semester_number : (dbMan.getCurrentSemester() === 1)? 1 : 2;
+    property int semester_number : {
+        if(reportPage.summer_semester)
+            return 3;
+        else
+        {
+            if(dbMan.getCurrentSemester() === 1)
+                return 1;
+            else
+                return 2;
+        }
+    }
 
     property var allEvals: dbMan.getEvals(); // [{eval-1}, {eval-2}]
 
@@ -79,6 +90,8 @@ Column {
                                 refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                             else if(obj["semester"] === 2)
                                 refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                            else if(obj["semester"] === 3)
+                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
                         }
                         else
                         {
@@ -86,6 +99,8 @@ Column {
                                 testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                             else if(obj["semester"] === 2)
                                 testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                            else if(obj["semester"] === 3)
+                                testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
                         }
                     }
 
@@ -111,6 +126,8 @@ Column {
                                     refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                 else if(obj["semester"] === 2)
                                     refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                else if(obj["semester"] === 3)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
 
                                 if(final_value == -1)
                                     if((obj["midterm"] === true))
@@ -122,6 +139,8 @@ Column {
                                     testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                 else if(obj["semester"] === 2)
                                     testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                else if(obj["semester"] === 3)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
                             }
                         }
                     }
@@ -149,6 +168,8 @@ Column {
                                     refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                 else if(obj["semester"] === 2)
                                     refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                else if(obj["semester"] === 3)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
 
                                 if(final_value == -1)
                                     if((obj["final_flag"] === true) && (obj["test_flag"] === false))
@@ -160,6 +181,8 @@ Column {
                                     testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                 else if(obj["semester"] === 2)
                                     testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                else if(obj["semester"] === 3)
+                                    testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
                             }
 
                         }
@@ -193,11 +216,11 @@ Column {
     }
 
     Label{
-                color: "darkmagenta"
-                text: "مقطع زمانی"
-                width: parent.width
-                horizontalAlignment: Label.AlignLeft
-            }
+        color: "darkmagenta"
+        text: "مقطع زمانی"
+        width: parent.width
+        horizontalAlignment: Label.AlignLeft
+    }
     GroupBox{
         width: parent.width
         height: 80
@@ -213,6 +236,7 @@ Column {
                 Layout.preferredHeight:  50
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 ButtonGroup.group: semesterGB
+                visible: !reportPage.summer_semester
                 text: "نیمسال اول"
                 checked: (reportPage.semester_number === 1)? true : false;
                 font.family: "Kalameh"
@@ -243,6 +267,7 @@ Column {
                 Layout.preferredHeight:  50
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 ButtonGroup.group: semesterGB
+                visible: !reportPage.summer_semester
                 text: "نیمسال دوم"
                 checked: (reportPage.semester_number === 2)? true : false;
                 font.family: "Kalameh"
@@ -274,6 +299,7 @@ Column {
                 Layout.preferredHeight:  50
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 ButtonGroup.group: semesterGB
+                visible: !reportPage.summer_semester
                 text: "سال‌تحصیلی"
                 checked: (reportPage.semester_number === 0)? true : false;
                 font.family: "Kalameh"
@@ -297,15 +323,38 @@ Column {
                     reportPage.updateRefModel();
                 }
             }
+
+            // summer
+            Switch{
+                id: summerRB
+                Layout.preferredHeight:  50
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                ButtonGroup.group: semesterGB
+                text: "نیمسال تابستان"
+                visible: reportPage.summer_semester
+                checked: (reportPage.semester_number === 3)? true : false;
+                font.family: "Kalameh"
+                font.pixelSize: 16
+                palette.highlight: "darkmagenta"
+                palette.text: (this.checked)? "darkmagenta" : "gray"
+                onCheckedChanged:
+                {
+                    if(reportPage.semester_number)
+                        checked = true;
+
+                    reportPage.updateRefModel();
+                }
+            }
+
         }
     }
 
     Label{
-                color: "darkcyan"
-                text: "نوع آزمون"
-                width: parent.width
-                horizontalAlignment: Label.AlignLeft
-            }
+        color: "darkcyan"
+        text: "نوع آزمون"
+        width: parent.width
+        horizontalAlignment: Label.AlignLeft
+    }
     GroupBox{
         width: parent.width
         height: 80
@@ -506,6 +555,16 @@ Column {
                 // Regex pattern to match date in yyyy/MM/dd format
             }
         }
+    }
+
+    Switch{
+        id: normaliseSW
+        width: parent.width
+        height: 50
+        text: "نرمالایز کردن نمرات"
+        checked: true
+        font.family: "Kalameh"
+        font.pixelSize: 16
     }
 
     Switch{
@@ -792,7 +851,8 @@ Column {
                 "paperSize": paperSizeCB.currentValue,
                 "fontFamily" : fontCB.currentValue,
                 "contentFontSize": contentFontSizeCB.currentValue,
-                "titrFontSize": titrFontSizeCB.currentValue
+                "titrFontSize": titrFontSizeCB.currentValue,
+                "normalise_grade" : normaliseSW.checked
             }
 
             if(reportPage.class_base_report === "class")

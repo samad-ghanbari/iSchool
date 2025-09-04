@@ -15,12 +15,24 @@ Column {
     required property string base;
     required property bool field_based;
     required property string period;
+    required property bool summer_semester;
 
     required property int class_id;
     required property string class_name;
 
     property string evalType : "semester" // per_month midterm semester period
-    property int semester_number : (dbMan.getCurrentSemester() === 1)? 1 : 2;
+    property int semester_number :
+    {
+        if(summer_semester)
+            return 3;
+        else
+        {
+            if(dbMan.getCurrentSemester() === 1)
+                return 1;
+            else
+                return 2;
+        }
+    }
     property var allEvals: dbMan.getEvals(); // [{eval-1}, {eval-2}]
 
     signal popSignal();
@@ -77,6 +89,8 @@ Column {
                                 refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                             else if(obj["semester"] === 2)
                                 refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                            else if(obj["semester"] === 3)
+                                refModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
                         }
                         else
                         {
@@ -84,6 +98,8 @@ Column {
                                 testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                             else if(obj["semester"] === 2)
                                 testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                            else if(obj["semester"] === 3)
+                                testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
                         }
                     }
 
@@ -109,6 +125,8 @@ Column {
                                     refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                 else if(obj["semester"] === 2)
                                     refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                else if(obj["semester"] === 3)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
 
                                 if(final_value == -1)
                                     if((obj["midterm"] === true))
@@ -120,6 +138,8 @@ Column {
                                     testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                 else if(obj["semester"] === 2)
                                     testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                else if(obj["semester"] === 3)
+                                    testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
                             }
                         }
                     }
@@ -147,6 +167,8 @@ Column {
                                     refModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                 else if(obj["semester"] === 2)
                                     refModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                else if(obj["semester"] === 3)
+                                    refModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
 
                                 if(final_value == -1)
                                     if((obj["final_flag"] === true) && (obj["test_flag"] === false))
@@ -158,6 +180,8 @@ Column {
                                     testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال اول ", value: obj.id});
                                 else if(obj["semester"] === 2)
                                     testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال دوم ", value: obj.id});
+                                else if(obj["semester"] === 3)
+                                    testRefModel.append({text: "آزمون " + obj.eval_name + " نیمسال تابستان ", value: obj.id});
                             }
 
                         }
@@ -260,6 +284,7 @@ Column {
                 ButtonGroup.group: semesterGB
                 text: "نیمسال اول"
                 checked: (crModule.semester_number === 1)? true : false;
+                visible: !crModule.summer_semester
                 font.family: "Kalameh"
                 font.pixelSize: 16
                 palette.highlight: "darkmagenta"
@@ -290,6 +315,7 @@ Column {
                 ButtonGroup.group: semesterGB
                 text: "نیمسال دوم"
                 checked: (crModule.semester_number === 2)? true : false;
+                visible: !crModule.summer_semester
                 font.family: "Kalameh"
                 font.pixelSize: 16
                 palette.highlight: "darkmagenta"
@@ -321,6 +347,7 @@ Column {
                 ButtonGroup.group: semesterGB
                 text: "سال‌تحصیلی"
                 checked: (crModule.semester_number === 0)? true : false;
+                visible: !crModule.summer_semester
                 font.family: "Kalameh"
                 font.pixelSize: 16
                 palette.highlight: "darkmagenta"
@@ -342,6 +369,28 @@ Column {
                     crModule.updateRefModel();
                 }
             }
+
+            // summer
+            Switch{
+                id: summerRB
+                Layout.preferredHeight:  50
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                ButtonGroup.group: semesterGB
+                text: "نیمسال تابستان"
+                checked: crModule.summer_semester
+                visible: crModule.summer_semester
+                font.family: "Kalameh"
+                font.pixelSize: 16
+                palette.highlight: "darkmagenta"
+                palette.text: (checked)? "darkmagenta" : "gray"
+                onCheckedChanged:  {
+                    if(crModule.summer_semester) checked = true;
+                    crModule.evalType = "semester"
+
+                    crModule.updateRefModel();
+                }
+            }
+
         }
     }
 
@@ -366,7 +415,7 @@ Column {
                 Layout.preferredHeight:  50
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 text: "آزمون‌های ماهیانه"
-                checked: true
+                checked: false
                 ButtonGroup.group: typeBG
                 visible: (crModule.semester_number > 0)? true : false
                 font.family: "Kalameh"
@@ -420,7 +469,7 @@ Column {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 ButtonGroup.group: typeBG
                 text: "آزمون‌های نیمسال"
-                checked: false
+                checked: true
                 visible: (crModule.semester_number > 0)? true : false
                 font.family: "Kalameh"
                 font.pixelSize: 16
@@ -587,6 +636,16 @@ Column {
                 // Regex pattern to match date in yyyy/MM/dd format
             }
         }
+    }
+
+    Switch{
+        id: normaliseSW
+        width: parent.width
+        height: 50
+        text: "نرمالایز کردن نمرات"
+        checked: true
+        font.family: "Kalameh"
+        font.pixelSize: 16
     }
 
     Switch{
@@ -897,7 +956,8 @@ Column {
                 "titrFontSize": titrFontSizeCB.currentValue,
                 "per_page": perPageSW.checked,
                 "course_column" : courseColSW.checked,
-                "class_id" : crModule.class_id
+                "class_id" : crModule.class_id,
+                "normalise_grade" : normaliseSW.checked
             }
 
             if(dbMan.generateCourseRankPdf(selectedFile, params))

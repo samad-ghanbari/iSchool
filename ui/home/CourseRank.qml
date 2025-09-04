@@ -14,6 +14,7 @@ Page {
     required property string base;
     required property bool field_based;
     required property string period;
+    required property bool summer_semester;
 
     required property int class_id;
     required property string class_name;
@@ -107,6 +108,7 @@ Page {
                     field: courseRankPage.field
                     field_based: courseRankPage.field_based
                     period: courseRankPage.period
+                    summer_semester : courseRankPage.summer_semester
 
                     class_id: courseRankPage.class_id
                     class_name: courseRankPage.class_name

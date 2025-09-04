@@ -14,6 +14,7 @@ Page {
     required property string base;
     required property bool field_based;
     required property string period;
+    required property bool summer_semester;
 
     signal popSignal();
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
@@ -108,6 +109,7 @@ Page {
                     base: rankPage.base
                     field_based: rankPage.field_based
                     period: rankPage.period
+                    summer_semester: rankPage.summer_semester
 
                     class_name: ""
                     class_id: -1
