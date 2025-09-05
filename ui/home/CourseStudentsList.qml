@@ -445,6 +445,7 @@ Page {
                                 palette.text: (this.checked)? "steelblue" : "gray"
                                 palette.buttonText:  (this.checked)? "steelblue" : "gray"
                                 checked: courseStudentsPageId.semester_1
+                                visible: !courseStudentsPageId.summer_semester
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
                                 onCheckedChanged: {
@@ -473,6 +474,7 @@ Page {
                                 palette.text:  (this.checked)? "steelblue" : "gray"
                                 palette.buttonText:  (this.checked)? "steelblue" : "gray"
                                 checked: !sem1RB.checked
+                                visible: !courseStudentsPageId.summer_semester
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
                                 onCheckedChanged: {
@@ -486,6 +488,26 @@ Page {
                                         dbMan.setLastSemester(1);
                                         courseStudentsPageId.semester_1 = true;
                                     }
+
+                                    courseStudentsPageId.refreshPage();
+                                }
+
+                            }
+
+                            RadioButton{
+                                height: 50
+                                anchors.verticalCenter: parent.verticalCenter
+                                ButtonGroup.group: semesterBG
+                                text: "نیمسال تابستان"
+                                palette.text:  (this.checked)? "steelblue" : "gray"
+                                palette.buttonText:  (this.checked)? "steelblue" : "gray"
+                                checked: courseStudentsPageId.summer_semester
+                                font.family: "Kalameh"
+                                font.pixelSize: 16
+                                onCheckedChanged: {
+
+                                    if(courseStudentsPageId.summer_semester)
+                                        checked = true;
 
                                     courseStudentsPageId.refreshPage();
                                 }

@@ -267,7 +267,7 @@ Page {
                     base: classReportPage.base
                     field_based: classReportPage.field_based
                     period: classReportPage.period
-                    semester_number: classReportPage.summer_semester
+                    summer_semester: classReportPage.summer_semester
 
                     class_name: classReportPage.class_name
                     class_id: classReportPage.class_id

@@ -522,6 +522,7 @@ Page {
             period: classPageId.period
             class_id: classStudentsPageId.class_id
             class_name: classStudentsPageId.class_name
+            summer_semester: classStudentsPageId.summer_semester
 
             onPopSignal: classPageId.appStackView.pop();
         }
