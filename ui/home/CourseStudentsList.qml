@@ -193,6 +193,31 @@ Page {
         courseStudentsPageId.onEditing = false;
     }
 
+    function updateEvalCBox()
+    {
+        let semester_number;
+        if(courseStudentsPageId.summer_semester)
+            semester_number = 3;
+        else if(courseStudentsPageId.semester_1)
+            semester_number = 1;
+        else
+            semester_number = 2;
+
+        var jsondata = dbMan.getEvals(courseStudentsPageId.class_id);
+        // id, eval_name, base_id, period_id, test_flag, final_flag, max_grade, semester, semester_title
+
+        evalCBoxModel.clear();
+        for(var obj of jsondata){
+            var text = obj["eval_name"];
+            var id = obj["id"];
+            var max = obj["max_grade"];
+            var semNum = obj["semester"];
+            var title = obj["semester_title"];
+            if(semNum === semester_number)
+                evalCBoxModel.append({"text": title + " - " +text, "value": id, "max": max});
+        }
+    }
+
     background: Rectangle{anchors.fill: parent; color: "ghostwhite"}
 
     ColumnLayout
@@ -444,7 +469,18 @@ Page {
                                 text: "نیمسال اول"
                                 palette.text: (this.checked)? "steelblue" : "gray"
                                 palette.buttonText:  (this.checked)? "steelblue" : "gray"
-                                checked: courseStudentsPageId.semester_1
+                                checked:
+                                {
+                                    if(courseStudentsPageId.summer_semester)
+                                        return false;
+                                    else
+                                    {
+                                        if(courseStudentsPageId.semester_1)
+                                            return true;
+                                        else
+                                            return false;
+                                    }
+                                }
                                 visible: !courseStudentsPageId.summer_semester
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
@@ -453,17 +489,18 @@ Page {
                                     {
                                         dbMan.setLastSemester(1);
                                         courseStudentsPageId.semester_1 = true;
-                                        courseStudentsPageId.sceIds = dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id, courseStudentsPageId.semester_1);
+                                        courseStudentsPageId.sceIds = dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id, courseStudentsPageId.semester_1, courseStudentsPageId.summer_semester);
                                     }
                                     else
                                     {
                                         dbMan.setLastSemester(2);
                                         courseStudentsPageId.semester_1 = false;
-                                        courseStudentsPageId.sceIds = dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id, courseStudentsPageId.semester_1);
+                                        courseStudentsPageId.sceIds = dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id, courseStudentsPageId.semester_1, courseStudentsPageId.summer_semester);
 
                                     }
 
                                     courseStudentsPageId.refreshPage();
+                                    courseStudentsPageId.updateEvalCBox();
                                 }
                             }
                             RadioButton{
@@ -473,7 +510,18 @@ Page {
                                 text: "نیمسال دوم"
                                 palette.text:  (this.checked)? "steelblue" : "gray"
                                 palette.buttonText:  (this.checked)? "steelblue" : "gray"
-                                checked: !sem1RB.checked
+                                checked:
+                                {
+                                    if(courseStudentsPageId.summer_semester)
+                                        return false;
+                                    else
+                                    {
+                                        if(courseStudentsPageId.semester_1)
+                                            return false;
+                                        else
+                                            return true;
+                                    }
+                                }
                                 visible: !courseStudentsPageId.summer_semester
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
@@ -490,6 +538,7 @@ Page {
                                     }
 
                                     courseStudentsPageId.refreshPage();
+                                    courseStudentsPageId.updateEvalCBox();
                                 }
 
                             }
@@ -502,6 +551,7 @@ Page {
                                 palette.text:  (this.checked)? "steelblue" : "gray"
                                 palette.buttonText:  (this.checked)? "steelblue" : "gray"
                                 checked: courseStudentsPageId.summer_semester
+                                visible: courseStudentsPageId.summer_semester
                                 font.family: "Kalameh"
                                 font.pixelSize: 16
                                 onCheckedChanged: {
@@ -510,6 +560,7 @@ Page {
                                         checked = true;
 
                                     courseStudentsPageId.refreshPage();
+                                    courseStudentsPageId.updateEvalCBox();
                                 }
 
                             }
@@ -1179,16 +1230,7 @@ Page {
                     valueRole: "value"
                     Component.onCompleted:
                     {
-                        var jsondata = dbMan.getEvals(courseStudentsPageId.class_id);
-                        // id, eval_name, base_id, period_id, test_flag, final_flag, max_grade
-                        evalCBoxModel.clear();
-                        for(var obj of jsondata){
-                            var text = obj["eval_name"];
-                            var id = obj["id"]
-                            var max = obj["max_grade"]
-                            evalCBoxModel.append({"text": text, "value": id, "max": max});
-                        }
-
+                        courseStudentsPageId.updateEvalCBox();
                         evalCB.currentIndex = -1
                     }
                     onActivated: setGradeDialog.maxValue = evalCBoxModel.get(evalCB.currentIndex)["max"];
@@ -1293,7 +1335,14 @@ Page {
     {
         id: evalSelectionDialog
         model : courseStudentsPageId.class_evals
-        selected_semester: courseStudentsPageId.semester_1? 1 : 2;
+        selected_semester: {
+            if(courseStudentsPageId.summer_semester)
+                return 3;
+            else if( courseStudentsPageId.semester_1)
+                return 1;
+            else
+                return 2;
+        }
         onEvalSelected: (eval_id)=>{
                             saveFileDialog.eval_id = eval_id;
                             saveFileDialog.open();
@@ -1306,7 +1355,15 @@ Page {
     {
         id: evalSelectionRefreshDialog
         model : courseStudentsPageId.class_evals
-        selected_semester: courseStudentsPageId.semester_1? 1 : 2;
+        selected_semester: {
+            if(courseStudentsPageId.summer_semester)
+                return 3;
+            else if( courseStudentsPageId.semester_1)
+                return 1;
+            else
+                return 2;
+        }
+
         onEvalSelected: (eval_id)=>{
                             courseStudentsPageId.refreshEval(eval_id);
                             evalSelectionRefreshDialog.close();
@@ -1317,7 +1374,7 @@ Page {
     FileDialog {
         id: saveFileDialog
         title: "محل ذخیره فایل اکسل"
-        currentFolder: "file:///home/samad/share/Desktop/"
+        currentFolder: "file:///home/samad/share/Desktop"
         //currentFolder: "C:/Users/YourUsername/Documents"
         nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
         fileMode: FileDialog.SaveFile
@@ -1343,7 +1400,7 @@ Page {
     FileDialog {
         id: openFileDialog
         title: "انتخاب فایل اکسل"
-        currentFolder: "file:///home/samad/share/Desktop/"
+        currentFolder: "file:///home/samad/share/Desktop"
         //currentFolder: "C:/Users/YourUsername/Documents"
         nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
         fileMode: FileDialog.OpenFile
