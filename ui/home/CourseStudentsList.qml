@@ -56,7 +56,7 @@ Page {
         if(dbMan.refreshCourseEvals(courseStudentsPageId.class_id, courseStudentsPageId.course_id))
         {
             courseStudentsPageId.class_evals = dbMan.getClassEvalsArray(courseStudentsPageId.class_id)
-            courseStudentsPageId.sceIds = dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id, courseStudentsPageId.semester_1);
+            courseStudentsPageId.sceIds = dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id, courseStudentsPageId.semester_1, courseStudentsPageId.summer_semester);
 
             infoDialogId.dialogSuccess = true
             infoDialogId.dialogTitle = "عملیات موفق"
@@ -84,7 +84,7 @@ Page {
         if(dbMan.refreshCourseEval(courseStudentsPageId.class_id, courseStudentsPageId.course_id, eval_id))
         {
             courseStudentsPageId.class_evals = dbMan.getClassEvalsArray(courseStudentsPageId.class_id)
-            courseStudentsPageId.sceIds = dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id, courseStudentsPageId.semester_1);
+            courseStudentsPageId.sceIds = dbMan.getCategorisedCourseSCEIds(courseStudentsPageId.class_id, courseStudentsPageId.course_id, courseStudentsPageId.semester_1, courseStudentsPageId.summer_semester);
 
             infoDialogId.dialogSuccess = true
             infoDialogId.dialogTitle = "عملیات موفق"
@@ -745,7 +745,7 @@ Page {
             Layout.fillWidth: true
             Layout.minimumWidth: 600
             Layout.topMargin: 20
-            color: "palevioletred"
+            color: "lightgray"
 
             Flickable{
                 id: flk

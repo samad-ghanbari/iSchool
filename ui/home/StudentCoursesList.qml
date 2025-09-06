@@ -58,7 +58,7 @@ Page {
         if(dbMan.refreshStudentEvals(studentCoursesPageId.class_id, studentCoursesPageId.student_id))
         {
             studentCoursesPageId.class_evals = dbMan.getClassEvalsArray(studentCoursesPageId.class_id);
-            studentCoursesPageId.sceIds = dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1)
+            studentCoursesPageId.sceIds = dbMan.getCategorisedSCEIds(studentCoursesPageId.class_id, studentCoursesPageId.student_id, studentCoursesPageId.semester_1, studentCoursesPageId.summer_semester)
 
 
             infoDialogId.dialogSuccess = true
@@ -691,7 +691,7 @@ Page {
             Layout.fillWidth: true
             Layout.minimumWidth: 600
             Layout.topMargin: 20
-            color: "mediumvioletred"
+            color: "lightgray"
 
             Flickable{
                 id: flk

@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls.Fusion
-import QtQuick.Effects
+//import QtQuick.Effects
 
 Page {
     id: homePageId
@@ -20,25 +20,24 @@ Page {
         anchors.centerIn: parent
         height: parent.height/2
         width: height
-
-        NumberAnimation on scale
-        {
-            duration: 3000
-            from: 10
-            to: 0
-            easing.type: Easing.OutExpo
-            easing.period: 1
+    }
+    ParallelAnimation {
+            id: animation
+            running: true
+            animations: [
+                NumberAnimation { target: logoHomePage; property: "scale";from: 10; to: 1; duration: 2000; easing.type: Easing.InOutQuad;}, // onStopped: logoHomePage.visible=false;
+                NumberAnimation { target: logoHomePage; property: "opacity";from:1; to: 0.1; duration: 2000;}
+            ]
         }
-    }
 
-    MultiEffect {
-        id: blurEffect
-        source: logoHomePage
-        anchors.fill: logoHomePage
-        blurEnabled: true
-        blur: 5
-        blurMax: 10
-    }
+    // MultiEffect {
+    //     id: blurEffect
+    //     source: logoHomePage
+    //     anchors.fill: logoHomePage
+    //     blurEnabled: true
+    //     blur: 5
+    //     blurMax: 10
+    // }
 
 
     ListView{

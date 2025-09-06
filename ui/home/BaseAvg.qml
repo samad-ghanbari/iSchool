@@ -227,7 +227,7 @@ Page {
                     id: lv
                     height: lv.contentHeight
                     width: 950
-                    anchors.centerIn: parent
+                    anchors.horizontalCenter: parent.horizontalCenter
                     model: ListModel{id: lvModel;}
                     clip: true
                     delegate:lvDelegate

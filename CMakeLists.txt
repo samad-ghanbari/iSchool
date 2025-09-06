@@ -276,7 +276,7 @@ qt_add_resources(appiSchool "assets"
         assets/images/filter.png
         assets/images/comment.png
 
-        help/help3.0.6.pdf
+        help/help3.1.0.pdf
 
     #LOGO
     FILES

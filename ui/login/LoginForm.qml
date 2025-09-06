@@ -34,7 +34,7 @@ Page {
 
     Image {
         id: backimageId
-        source: "qrc:/assets/images/background/back1.jpg"
+        source: "qrc:/assets/images/background/back5.jpg"
         anchors.fill: parent
         opacity: 0
     }
@@ -147,7 +147,7 @@ Page {
                     height: 50
                     width : parent.width/2
                     focus: true
-                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "darkcyan"}
+                    Rectangle{width:parent.width; height:4; anchors.bottom: parent.bottom; color: "darkcyan"; radius: 2}
 
                     onClicked:
                     {
@@ -163,7 +163,7 @@ Page {
                     font.pixelSize: 14
                     height: 50
                     width : parent.width/2
-                    Rectangle{width:parent.width; height:2; anchors.bottom: parent.bottom; color: "mediumvioletred"}
+                    Rectangle{width:parent.width; height:4; anchors.bottom: parent.bottom; color: "mediumvioletred"; radius: 2}
 
                     onClicked:
                     {
@@ -205,7 +205,8 @@ Page {
                     NumberAnimation { target: bglogo; property: "opacity";from: 1; to: 0; duration: 2000; easing.type: Easing.InOutQuad },
                     NumberAnimation { target: backimageId; property: "opacity";from:0; to: 1; duration: 2000;},
                     NumberAnimation { target: loginFormRecId; property: "opacity"; from:0; to: 1; duration: 2000;easing.type: Easing.InOutQuad },
-                    NumberAnimation { target: loginFormRecId; property: "width"; from:0; to: 400; duration: 2000;easing.type: Easing.InOutQuad }
+                    NumberAnimation { target: loginFormRecId; property: "width"; from:0; to: 400; duration: 2000;easing.type: Easing.InOutQuad },
+                    NumberAnimation { target: loginFormColumnId; property: "width"; from:0; to: 300; duration: 2000;easing.type: Easing.InOutQuad }
                 ]
             }
     }
