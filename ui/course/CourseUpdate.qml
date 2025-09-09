@@ -467,6 +467,17 @@ Page {
                             course["course_flag"] = courseFlagSW.checked
                             course["test_flag"] = testFlagSW.checked
 
+                            // check if one item equl to id or not
+                            if(updatePage.courseSharedArray.length === 1)
+                            {
+                                let item0 = updatePage.courseSharedArray[0];
+                                if(item0 === updatePage.course_id)
+                                {
+                                    updatePage.courseSharedArray = [];
+                                }
+
+                            }
+
                             course["shared_coefficient"] = {"ids":updatePage.courseSharedArray}
 
                             if(dbMan.courseUpdate(course))
