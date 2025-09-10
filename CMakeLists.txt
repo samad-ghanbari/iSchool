@@ -22,7 +22,7 @@
 # open inno software and give exe and setup folder  and compile it to create setup
 
 # TAG 
-# git tag -a "Version-3.0.3" -m "iSchool Version 3.0.3"
+# git tag -a "Version-3.1.0" -m "iSchool Version 3.1.0"
 
 cmake_minimum_required(VERSION 3.16)
 
