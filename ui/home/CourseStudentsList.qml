@@ -1374,7 +1374,8 @@ Page {
     FileDialog {
         id: saveFileDialog
         title: "محل ذخیره فایل اکسل"
-        currentFolder: "file:///home/samad/share/Desktop"
+        //currentFolder: "file:///home/samad/share/Desktop"
+        currentFolder: "file:///C:";
         //currentFolder: "C:/Users/YourUsername/Documents"
         nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
         fileMode: FileDialog.SaveFile
@@ -1400,7 +1401,8 @@ Page {
     FileDialog {
         id: openFileDialog
         title: "انتخاب فایل اکسل"
-        currentFolder: "file:///home/samad/share/Desktop"
+        //currentFolder: "file:///home/samad/share/Desktop"
+        currentFolder: "file:///C:";
         //currentFolder: "C:/Users/YourUsername/Documents"
         nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
         fileMode: FileDialog.OpenFile

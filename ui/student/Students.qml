@@ -1032,12 +1032,13 @@ Page {
     FileDialog {
         id: saveFileDialog
         title: "محل ذخیره فایل اکسل"
-        currentFolder: "file:///home/samad/share/Desktop/"
-        //currentFolder: "C:/Users/YourUsername/Documents"
+        //currentFolder: "file:///home/samad/share/Desktop"
+        currentFolder: "file:///C:";
         nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
         fileMode: FileDialog.SaveFile
 
         onAccepted:{
+
             if(dbMan.generateStudentsExcel(selectedFile, stepCB.currentValue))
             {
                 successDialogId.width = 500
@@ -1056,7 +1057,8 @@ Page {
     FileDialog {
         id: openFileDialog
         title: "انتخاب فایل اکسل"
-        currentFolder: "file:///home/samad/share/Desktop/"
+        //currentFolder: "file:///home/samad/share/Desktop/"
+        currentFolder: "file:///C:";
         //currentFolder: "C:/Users/YourUsername/Documents"
         nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
         fileMode: FileDialog.OpenFile

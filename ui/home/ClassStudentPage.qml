@@ -532,7 +532,8 @@ Page {
     FileDialog {
         id: saveCommentsFileDialog
         title: "محل ذخیره فایل اکسل"
-        currentFolder: "file:///home/samad/"
+        //currentFolder: "file:///home/samad/"
+        currentFolder: "file:///C:";
         //currentFolder: "C:/Users/YourUsername/Documents"
         nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
         fileMode: FileDialog.SaveFile
@@ -558,7 +559,8 @@ Page {
     FileDialog {
         id: openFileDialog
         title: "انتخاب فایل اکسل"
-        currentFolder: "file:///home/samad/"
+        //currentFolder: "file:///home/samad/"
+        currentFolder: "file:///C:";
         //currentFolder: "C:/Users/YourUsername/Documents"
         nameFilters: ["xlsx Files (*.xlsx)", "All Files (*)"]
         fileMode: FileDialog.OpenFile
